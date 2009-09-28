@@ -1,0 +1,13 @@
+[fileserver]
+        allow *.<%= my_domain %>
+        allow <%= my_local_network %>
+
+[puppetmaster]
+        allow *.<%= my_domain %>
+        allow <%= my_local_network %>
+
+[puppetrunner]
+        allow <%= my_puppet_server %>
+
+[puppetreports.report]
+    allow *

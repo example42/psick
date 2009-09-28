@@ -1,0 +1,7 @@
+[c5-testing]
+name=CentOS-5 Testing 
+baseurl=http://dev.centos.org/centos/$releasever/testing/$basearch/
+enabled=1
+gpgcheck=0
+gpgkey=http://dev.centos.org/centos/RPM-GPG-KEY-CentOS-testing
+

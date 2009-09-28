@@ -1,0 +1,38 @@
+## MANAGED BY PUPPET
+
+rpm -e 
+audit-libs-devel /
+autoconf /
+automake /
+bison /
+cvs /
+cyrus-sasl-devel.@@native@@ /
+elinks /
+expect /
+expect-devel /
+flex /
+gcc /
+gcc-c++ /
+keyutils-libs /
+keyutils-libs-devel /
+libattr-devel /
+libcap-devel /
+libselinux-devel.@@native@@ /
+libsemanage-devel.@@native@@ /
+libsepol-devel.@@native@@ /
+libuser-devel.@@native@@ /
+make /
+openssl-devel.@@native@@ /
+pam-devel.@@native@@ /
+pciutils-devel /
+perl-Digest-HMAC /
+perl-Digest-SHA1 /
+python-devel /
+readline-devel /
+rpm-build /
+strace /
+swig /
+tcl /
+texinfo /
+tk /
+zlib-devel 

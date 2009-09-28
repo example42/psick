@@ -1,0 +1,14 @@
+# default: off
+
+service git
+{
+        disable         = no
+        socket_type     = stream
+        wait            = no
+        user            = nobody
+        server          = /usr/bin/git-daemon
+        server_args     = --base-path=/srv/git --export-all --user-path=public_git --syslog --inetd --verbose
+        log_on_failure  += USERID
+# xinetd doesn't do this by default. bug #195265
+        flags           = IPv6
+}

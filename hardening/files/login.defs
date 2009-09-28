@@ -1,0 +1,23 @@
+#### MANAGED BY PUPPET
+
+## Hardened settings - eal4+ compliant
+
+MAIL_DIR	/var/spool/mail
+
+# EAL4+ Required settings for passwords
+PASS_MAX_DAYS   60
+PASS_MIN_DAYS   1
+PASS_MIN_LEN    5
+PASS_WARN_AGE   7
+
+# Changes below MAY be changed
+UID_MIN                   500
+UID_MAX                 60000
+GID_MIN                   500
+GID_MAX                 60000
+
+#USERDEL_CMD    /usr/sbin/userdel_local
+CREATE_HOME     yes
+UMASK           077
+USERGROUPS_ENAB yes
+MD5_CRYPT_ENAB yes

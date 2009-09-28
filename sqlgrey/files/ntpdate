@@ -1,0 +1,5 @@
+#!/bin/sh
+
+/usr/sbin/ntpdate -s 0.pool.ntp.org
+
+exit 0

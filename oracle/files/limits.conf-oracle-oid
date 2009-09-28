@@ -1,0 +1,6 @@
+# Oracle-AS limits
+dba soft nproc  2047
+dba hard nproc  16384
+dba soft nofile 2048
+dba hard nofile 65536
+

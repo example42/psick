@@ -1,0 +1,9 @@
+user = <%= postfix_mysqluser %>
+password = <%= postfix_mysqlpassword %>
+hosts = <%= postfix_mysqlhost %>
+dbname = <%= postfix_mysqldbname %>
+
+table = mailbox
+select_field = quota
+where_field = username
+#additional_conditions = and active = '1' 

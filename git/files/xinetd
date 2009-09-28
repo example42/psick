@@ -1,0 +1,13 @@
+# Managed by Puppet
+
+service git
+{
+        disable         = no
+        socket_type     = stream
+        wait            = no
+        user            = nobody
+        server          = /usr/bin/git-daemon
+        server_args     = --base-path=/srv/git --export-all --user-path=public_git --syslog --inetd --verbose
+        log_on_failure  += USERID
+}
+

@@ -1,0 +1,103 @@
+# File managed by Puppet
+# Settings for a central syslog server with file and mysql storage
+
+options {
+	sync (0);
+	time_reopen (10);
+	log_fifo_size (1000);
+	long_hostnames (off);
+	use_dns (yes);
+	use_fqdn (no);
+	create_dirs (no);
+	keep_hostname (yes);
+};
+
+## Local Syslog - Emulates Redhat style
+
+source s_sys {
+	file ("/proc/kmsg" log_prefix("kernel: "));
+	unix-stream ("/dev/log");
+	internal();
+	# udp(ip(0.0.0.0) port(514));
+};
+
+destination d_cons { file("/dev/console"); };
+destination d_mesg { file("/var/log/messages"); };
+destination d_auth { file("/var/log/secure"); };
+destination d_mail { file("/var/log/maillog" sync(10)); };
+destination d_spol { file("/var/log/spooler"); };
+destination d_boot { file("/var/log/boot.log"); };
+destination d_cron { file("/var/log/cron"); };
+destination d_kern { file("/var/log/kern"); };
+destination d_mlal { usertty("*"); };
+
+filter f_filter1   { facility(kern); };
+filter f_filter2   { level(info..emerg) and
+                     not (facility(mail)
+                       or facility(authpriv) 
+                       or facility(cron)); };
+filter f_filter3   { facility(authpriv); };
+filter f_filter4   { facility(mail); };
+filter f_filter5   { level(emerg); };
+filter f_filter6   { facility(uucp) or
+                     (facility(news) 
+                       and level(crit..emerg)); };
+filter f_filter7   { facility(local7); };
+filter f_filter8   { facility(cron); };
+
+#log { source(s_sys); filter(f_filter1); destination(d_cons); };
+log { source(s_sys); filter(f_filter1); destination(d_kern); };
+log { source(s_sys); filter(f_filter2); destination(d_mesg); };
+log { source(s_sys); filter(f_filter3); destination(d_auth); };
+log { source(s_sys); filter(f_filter4); destination(d_mail); };
+log { source(s_sys); filter(f_filter5); destination(d_mlal); };
+log { source(s_sys); filter(f_filter6); destination(d_spol); };
+log { source(s_sys); filter(f_filter7); destination(d_boot); };
+log { source(s_sys); filter(f_filter8); destination(d_cron); };
+
+
+
+## Network logs to local daily files - In /var/log/central/
+
+source s_net {
+    udp(ip(0.0.0.0) port(514));
+};
+
+#destination d_net { file("/var/log/central/messages-$YEAR$MONTH$DAY"); };
+
+#log { source(s_net); destination(d_net); };
+#log { source(s_sys); destination(d_net); };
+
+
+## Log to Mysql for Php-syslog-ng
+source s_everything { internal(); pipe("/proc/kmsg"); unix-stream("/dev/log"); udp(); };
+
+destination d_mysql {
+    program("/usr/bin/mysql -usyslogadmin -psyslogadmin syslog"
+    template("INSERT INTO logs (host, facility, priority, level, tag, datetime, program, msg)
+    VALUES ( '$HOST', '$FACILITY', '$PRIORITY', '$LEVEL', '$TAG', '$YEAR-$MONTH-$DAY $HOUR:$MIN:$SEC', '$PROGRAM', '$MSG' );\n")
+    template-escape(yes));
+    };
+
+log {
+    source(s_everything);
+    destination(d_mysql);
+    };
+
+# Log on Mysql for syslog Cacti plugin
+
+destination d_mysql2 {
+    program("/usr/bin/mysql -usyslogadmin -psyslogadmin syslogcacti"
+    template("INSERT INTO syslog (host, facility, priority, date, time, message)
+    VALUES ( '$HOST', '$FACILITY', '$PRIORITY', '$YEAR-$MONTH-$DAY', '$HOUR:$MIN:$SEC', '$MSG' );\n")
+    template-escape(yes));
+    };
+
+# Disabled
+#log {
+#    source(s_everything);
+#    destination(d_mysql2);
+#    };
+
+
+# vim: syntax=syslog-ng

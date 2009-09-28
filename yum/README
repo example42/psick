@@ -1,0 +1,4 @@
+# Lab42 Puppet Infrastructure #
+# PROVIDED 'AS IS'
+
+Module yum cloned from https://git.puppet.immerda.ch

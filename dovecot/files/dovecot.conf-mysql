@@ -1,0 +1,268 @@
+# File managed by Puppet 
+# See docs at: http://wiki.dovecot.org/
+
+#base_dir = /var/run/dovecot/
+protocols = imap imaps pop3 pop3s
+#listen = [::]
+
+disable_plaintext_auth = no
+#shutdown_clients = yes
+
+#log_path = 
+#info_log_path = 
+#log_timestamp = "%b %d %H:%M:%S "
+syslog_facility = mail
+
+#ssl_listen =
+ssl_disable = yes
+#ssl_cert_file = /etc/pki/dovecot/certs/dovecot.pem
+#ssl_key_file = /etc/pki/dovecot/private/dovecot.pem
+#ssl_key_password =
+#ssl_ca_file = 
+#ssl_verify_client_cert = no
+#ssl_parameters_regenerate = 168
+#ssl_cipher_list = ALL:!LOW
+#verbose_ssl = no
+
+#login_dir = /var/run/dovecot/login
+#login_chroot = yes
+#login_user = dovecot
+login_process_size = 64
+#login_process_per_connection = yes
+#login_processes_count = 3
+#login_max_processes_count = 128
+#login_max_connections = 256
+#login_greeting = Dovecot ready.
+#login_log_format_elements = user=<%u> method=%m rip=%r lip=%l %c
+#login_log_format = %$: %s
+
+#   mail_location = maildir:~/Maildir
+#   mail_location = mbox:~/mail:INBOX=/var/mail/%u
+#   mail_location = mbox:/var/mail/%d/%1n/%n:INDEX=/var/indexes/%d/%1n/%n
+#mail_location = 
+
+#namespace private {
+   #separator = 
+   #prefix = 
+   #location =
+   #inbox = yes
+   #hidden = yes
+#}
+
+#mail_extra_groups =
+#mail_full_filesystem_access = no
+#mail_debug = no
+#mail_log_prefix = "%Us(%u): "
+#mail_read_mmaped = no
+#mmap_disable = no
+#mmap_no_write = no
+
+#lock_method = fcntl
+#mail_drop_priv_before_exec = no
+
+#verbose_proctitle = no
+
+first_valid_uid = 89
+#last_valid_uid = 0
+#first_valid_gid = 1
+#last_valid_gid = 0
+
+default_mail_env = maildir:/usr/local/virtual/%d/%n
+
+#max_mail_processes = 1024
+#mail_process_size = 256
+#mail_max_keyword_length = 50
+
+#umask = 0077
+
+#valid_chroot_dirs = 
+#mail_chroot = 
+
+#mail_cache_fields = 
+#mail_never_cache_fields = 
+#mail_cache_min_mail_count = 0
+#mailbox_idle_check_interval = 30
+#mail_save_crlf = no
+
+#maildir_stat_dirs = no
+#maildir_copy_with_hardlinks = no
+
+#mbox_read_locks = fcntl
+#mbox_write_locks = fcntl
+#mbox_lock_timeout = 300
+#mbox_dotlock_change_timeout = 120
+
+#mbox_dirty_syncs = yes
+#mbox_very_dirty_syncs = no
+#mbox_lazy_writes = yes
+#mbox_min_index_size = 0
+
+#dbox_rotate_size = 2048
+#dbox_rotate_min_size = 16
+#dbox_rotate_days = 0
+
+protocol imap {
+  #login_executable = /usr/libexec/dovecot/imap-login
+  #   mail_executable = /usr/libexec/dovecot/rawlog /usr/libexec/dovecot/imap
+  #   mail_executable = /usr/libexec/dovecot/gdbhelper /usr/libexec/dovecot/imap
+  #mail_executable = /usr/libexec/dovecot/imap
+
+  #imap_max_line_length = 65536
+  #mail_plugins = 
+  #mail_plugin_dir = /usr/lib/dovecot/imap
+
+  #login_greeting_capability = no
+  #imap_capability = 
+  #imap_client_workarounds = outlook-idle
+}
+  
+protocol pop3 {
+  #login_executable = /usr/libexec/dovecot/pop3-login
+  #mail_executable = /usr/libexec/dovecot/pop3
+  #pop3_no_flag_updates = no
+  #pop3_enable_last = no
+  #pop3_reuse_xuidl = no
+  #pop3_lock_session = no
+  #pop3_uidl_format = %08Xu%08Xv
+  #pop3_logout_format = top=%t/%p, retr=%r/%b, del=%d/%m, size=%s
+  #mail_plugins = 
+  #mail_plugin_dir = /usr/lib/dovecot/pop3
+  #pop3_client_workarounds = outlook-no-nuls oe-ns-eoh
+}
+
+protocol lda {
+  postmaster_address = postmaster@example.com
+  #hostname = 
+  #mail_plugins = 
+  #mail_plugin_dir = /usr/lib/dovecot/lda
+  #sendmail_path = /usr/lib/sendmail
+  #auth_socket_path = /var/run/dovecot/auth-master
+}
+
+
+#auth_executable = /usr/libexec/dovecot/dovecot-auth
+#auth_process_size = 256
+#auth_cache_size = 0
+#auth_cache_ttl = 3600
+#auth_realms =
+#auth_default_realm = 
+#auth_username_chars = abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890.-_@
+#auth_username_translation =
+#auth_username_format =
+#auth_master_user_separator =
+#auth_anonymous_username = anonymous
+#auth_verbose = no
+#auth_debug = no
+#auth_debug_passwords = no
+#auth_worker_max_count = 30
+#auth_krb5_keytab = 
+
+auth default {
+  mechanisms = plain
+  
+  passdb sql {
+    args = /etc/dovecot-mysql.conf
+  }
+
+  userdb sql {
+    args = /etc/dovecot-mysql.conf
+  }
+
+
+  #passdb passwd-file {
+    # File contains a list of usernames, one per line
+    #args = /etc/dovecot.deny
+    #deny = yes
+  #}
+
+  passdb pam {
+    #args = dovecot
+  }
+
+  #passdb passwd {
+  #}
+
+  #passdb shadow {
+  #}
+
+  #passdb bsdauth {
+    # [cache_key=<key>] - See cache_key in PAM for explanation.
+    #args =
+  #}
+
+  #passdb passwd-file {
+    #args = 
+  #}
+
+  #passdb checkpassword {
+    #args = 
+  #}
+
+  #passdb sql {
+    #args = 
+  #}
+
+  #passdb ldap {
+    #args = 
+  #}
+
+  # http://wiki.dovecot.org/AuthDatabase/VPopMail
+  #passdb vpopmail {
+    # [cache_key=<key>] - See cache_key in PAM for explanation.
+    #args =
+  #}
+
+  userdb passwd {
+  }
+
+  #userdb passwd-file {
+    #args =
+  #}
+
+  #userdb static {
+    #args =
+  #}
+
+  #userdb sql {
+    #args = 
+  #}
+
+  #userdb ldap {
+    #args = 
+  #}
+
+  #userdb vpopmail {
+  #}
+
+  #userdb prefetch {
+  #}
+
+  user = root
+  #chroot = 
+  #count = 1
+  #ssl_require_client_cert = no
+  #ssl_username_from_cert = no
+  #socket listen {
+    #master {
+      #path = /var/run/dovecot/auth-master
+      #mode = 0600
+      #user = 
+      #group = 
+    #}
+    #client {
+      #path = /var/run/dovecot/auth-client
+      #mode = 0660
+    #}
+  #}
+}
+
+dict {
+  #quota = mysql:/etc/dovecot-dict-quota.conf 
+}
+
+plugin {
+  #quota = maildir
+  #acl = vfile:/etc/dovecot-acls
+  #convert_mail = mbox:%h/mail
+  #trash = /etc/dovecot-trash.conf
+}

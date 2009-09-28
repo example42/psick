@@ -1,0 +1,23 @@
+[Server]
+name=RedHat 5 - Server 
+baseurl=http://repo.lab42.it/cobbler/ks_mirror/RedHat5/Server/
+enabled=1
+gpgcheck=0
+
+[Virtualization]
+name=RedHat 5 - Virtualization
+baseurl=http://repo.lab42.it/cobbler/ks_mirror/RedHat5/VT/
+enabled=1
+gpgcheck=0
+
+[Cluster]
+name=RedHat 5 - Cluster
+baseurl=http://repo.lab42.it/cobbler/ks_mirror/RedHat5/Cluster/
+enabled=1
+gpgcheck=0
+
+[ClusterStorage]
+name=RedHat 5 - Cluster Storage
+baseurl=http://repo.lab42.it/cobbler/ks_mirror/RedHat5/ClusterStorage/
+enabled=1
+gpgcheck=0

@@ -1,0 +1,105 @@
+#!/bin/bash
+#
+# syslog-ng_mysqld      This shell script takes care of starting and stopping
+#                       the MySQL Pipe from syslog-ng
+#
+# chkconfig: 235 11 89
+# description:start mysql-syslog-ng connector
+# processname: syslog2mysql.sh
+# Source function library.
+if [ -f /etc/init.d/functions ] ; then
+  . /etc/init.d/functions
+elif [ -f /etc/rc.d/init.d/functions ] ; then
+  . /etc/rc.d/init.d/functions
+else
+  exit 0
+fi
+
+# Avoid using root's TMPDIR
+unset TMPDIR
+
+# Source networking configuration.
+. /etc/sysconfig/network
+#########################
+# Service Name
+#########################
+NAME=syslog2mysql
+###########################
+
+if [ -f /etc/sysconfig/${NAME} ]; then
+   . /etc/sysconfig/${NAME}
+fi
+
+# Check that networking is up.
+[ ${NETWORKING} = "no" ] && exit 0
+
+##################################
+######################
+#GLOBAL VARIABLES
+######################
+prog="/usr/sbin/$NAME.sh"
+progbase="${prog##*/}"
+pidfile="${PIDFILE:-/var/run/$NAME.pid}"
+lockfile="${LOCKFILE:-/var/lock/subsys/$NAME}"
+dbsyslog_pipe="${DBSYSLOG_PIPE:-/var/run/mysql.pipe}"
+######################
+RETVAL=0
+######################
+start () {
+
+        local PROCPID="$(pidofproc ${progbase})"
+        echo -n $"Starting $progbase service: "
+        [ -n "$PROCPID" ] && echo $"$progbase already running: $PROCPID" && exit 2
+        if [ ! -e "$dbsyslog_pipe" ]
+        then
+                /usr/bin/mkfifo -m u+rw,o-rwx,g-rwx "$dbsyslog_pipe" || { echo $"$NAME: ERROR: CANNOT CREATE THE $dbsyslog_pipe PIPE" | /usr/bin/logger -p local7.err -t $NAME ; exit 1 ; }
+        fi
+        nohup ${prog} ${dbsyslog_pipe} &>/dev/null &
+        RETVAL=$?
+        PROCPID="$(pidofproc ${progbase})"
+        echo
+        [ "$RETVAL" -eq 0 -a -n "$PROCPID" ] && { touch ${lockfile} ; echo ${PROCPID} > ${pidfile} ; }
+        [ "$RETVAL" -eq 0 -a -n "$PROCPID" ] &&  success $"$progbase startup" || failure $"$progbase startup"
+        return $RETVAL
+}
+
+stop() {
+        echo -n $"Stopping $progbase: "
+        PROCPID="$(pidofproc ${progbase})"
+        [ -n  "$PROCPID" ] && CHILDPID="$(/bin/ps  --no-headers -o pid --ppid  $PROCPID)"
+        killproc $progbase
+        RETVAL=$?
+        [ -n  "$CHILDPID" ] && {  kill -9 "${CHILDPID}" &>/dev/null || : ; }
+        echo
+        [ $RETVAL = 0 ] && rm -f ${lockfile} ${pidfile}
+}
+
+restart(){
+    stop
+    start
+}
+##########################################
+# Main
+##########################################
+case "$1" in
+    start)
+        $1
+        ;;
+    stop)
+        $1
+        ;;
+    status)
+        status ${progbase}
+        ;;
+    restart)
+        restart
+        ;;
+    condrestart)
+        [ -f ${lockfile} ] && restart || :
+        ;;
+    *)
+        echo $"Usage: $0 {start|stop|status|restart|condrestart}"
+        exit 1
+        ;;
+esac
+exit $RETVAL

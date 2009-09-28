@@ -1,0 +1,9 @@
+user = <%= postfix_mysqluser %>
+password = <%= postfix_mysqlpassword %>
+hosts = <%= postfix_mysqlhost %>
+dbname = <%= postfix_mysqldbname %>
+
+table = domain
+select_field = domain
+where_field = domain
+additional_conditions = and backupmx = '1' 

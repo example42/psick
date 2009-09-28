@@ -1,0 +1,21 @@
+# CentOS-Media.repo
+#
+# This repo is used to mount the default locations for a CDROM / DVD on
+#  CentOS-5.  You can use this repo and yum to install items directly off the
+#  DVD ISO that we release.
+#
+# To use this repo, put in your DVD and use it with the other repos too:
+#  yum --enablerepo=c5-media [command]
+#  
+# or for ONLY the media repo, do this:
+#
+#  yum --disablerepo=\* --enablerepo=c5-media [command]
+ 
+[c5-media]
+name=CentOS-$releasever - Media
+baseurl=file:///media/CentOS/
+        file:///media/cdrom/
+        file:///media/cdrecorder/
+gpgcheck=1
+enabled=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-beta

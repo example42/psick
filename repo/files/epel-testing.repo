@@ -1,0 +1,23 @@
+[epel-testing]
+name=Extra Packages for Enterprise Linux 5 - Testing - $basearch 
+baseurl=http://download.fedora.redhat.com/pub/epel/testing/5/$basearch
+failovermethod=priority
+enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL
+
+[epel-testing-debuginfo]
+name=Extra Packages for Enterprise Linux 5 - Testing - $basearch - Debug
+baseurl=http://download.fedora.redhat.com/pub/epel/testing/5/$basearch/debug
+failovermethod=priority
+enabled=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL
+gpgcheck=1
+
+[epel-testing-source]
+name=Extra Packages for Enterprise Linux 5 - Testing - $basearch - Source
+baseurl=http://download.fedora.redhat.com/pub/epel/testing/5/SRPMS
+failovermethod=priority
+enabled=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL
+gpgcheck=1
