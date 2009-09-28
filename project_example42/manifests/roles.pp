@@ -46,7 +46,7 @@ class general {
 	# Iptables settings.
 	
 	# include iptables
-	include iptables::disable
+#	include iptables::disable
 	
 
 	# Sysctl management. Define "$my_ipforward = yes" for activating IP forwarding
@@ -54,29 +54,29 @@ class general {
 	include sysctl::hardened
 
 	
-	include nrpe
-	include snmpd
-	include ntp
+#	include nrpe
+#	include snmpd
+#	include ntp
 #	include clock
-	include cron
-	include syslog
-	include rootmail
+#	include cron
+#	include syslog
+#	include rootmail
 
 	# (LOCAL) USERS MANAGEMENT. If wanted.
 	# BE WARNED: Here is defined a sample example42 user with password example42 (!)
-	include users::example42
+#	include users::example42
 
 	# Hardening in compliance with EAL4 guidelines
 	# Review and test the changes applied
 	# CHANGE admin user password!
 	# This is cross class that includes other hardening specific sub classes
-	include hardening::eal4
+#	include hardening::eal4
 
 	# SELINUX management. Include selinux::disabled , selinux::permissive or selinux::enforcing
-	include selinux::permissive
+#	include selinux::permissive
 
 	# Some extras 
-	include func
+#	include func
 #	include aide
 #	include psad
 #	include rsync
