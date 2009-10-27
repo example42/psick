@@ -43,7 +43,7 @@ class repo {
 ## EPEL
 
 class repo::epel inherits repo {
-
+        $extrarepo = epel # Preferred repository (used in nrpe module)
 	file {	
              	"/etc/yum.repos.d/epel.repo":
 			mode => 644, owner => root, group => root,
@@ -57,9 +57,9 @@ class repo::epel inherits repo {
 ## RPMFORGE
 
 class repo::rpmforge inherits repo {
-
+        $extrarepo = rpmforge # Preferred repository (used in nrpe module)
 	file {	
-             	"/etc/yum.repos.d/rpmforge.repo":
+             	"etc/yum.repos.d/rpmforge.repo":
 			mode => 644, owner => root, group => root,
 			ensure => present,
 			source => "puppet://$servername/repo/rpmforge.repo",
