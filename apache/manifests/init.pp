@@ -47,6 +47,9 @@ class apache::modsecurity inherits apache {
 }
 
 class apache::php  {
+
+	include apache 
+
         package { php:
                 name => $operatingsystem ? {
                         default => "php",
