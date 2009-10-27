@@ -7,24 +7,27 @@ class syslog {
                         },
         }
 
-        package {
-                "logrotate":
-                ensure => present,
-                name => $operatingsystem ? {
-                        default => "logrotate",
-                        },
-        }
-
         file {
                 "syslog.conf":
                 owner   => "root",
                 group   => "root",
-                mode    => "640",
+                mode    => "644",
                 require   => Package["syslogd"],
                 path    => $operatingsystem ?{
                            default => "/etc/syslog.conf",
                            },
+                content => template("syslog/syslog.conf.erb"),
+	}
 
+        file {
+                "syslog":
+                owner   => "root",
+                group   => "root",
+                mode    => "644",
+                require   => Package["syslogd"],
+                path    => $operatingsystem ?{
+                           default => "/etc/sysconfig/syslog",
+                           },
 	}
 
         service {
@@ -39,5 +42,21 @@ class syslog {
                         },
         }
 
+}
+
+class syslog::server inherits syslog {
+        File["syslog.conf"] {
+                content => template("syslog/server/syslog.conf.erb"),
+        }
+        File["syslog"] {
+                content => template("syslog/server/syslog.erb"),
+        }
+}
+
+class syslog::disable inherits syslog {
+        Service["syslog"] {
+                ensure => "stopped" ,
+                enable => "false",
+        }
 }
 
