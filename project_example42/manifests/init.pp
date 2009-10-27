@@ -1,11 +1,13 @@
-import "modules.pp"
-import "infrastructure.pp"
+import "common"
+import "baselines/*.pp"
+import "modules/*.pp"
+import "infrastructures/*.pp"
+import "roles/*.pp"
 import "nodes.pp"
-import "roles.pp"
 
 Exec { path => "/bin:/sbin:/usr/bin:/usr/sbin" }
 
-Package { provider => "yum" }
+# Package { provider => "yum" }
 
 # Centralized backup filebucket
 filebucket { main: server => puppet }

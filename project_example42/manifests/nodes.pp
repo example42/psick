@@ -1,35 +1,70 @@
 # Define here your nodes
+# (you can split the nodes definitions in different files to be managed by different people)
 # You can override variables defined in the infrastructure tree
-# Each node should inherit and environment node and include a role class
+# Each node should inherit a zone node defined in infrastructure.pp
+# A anode can include single module-classes or a role class
+# Roles are defined in roles.pp
 
-# Sample nodes with sample roles.
+# Same example nodes 
 
-# Management Infrastructure
-node 'kick.example42.com' inherits intranet {
+# Puppet Master
+node 'puppet.example42.com' inherits devel {
+	include foreman
+	include apache
+	include minimal
+	include general
+	include puppet::foreman
+#	include puppet::foreman::externalnodes
+}
+
+## Testing hosts (Used for modules testing)
+
+node 'test.example42.com' inherits devel {
+	include minimal
+	include general
+}
+
+node 'debiantest.example42.com' inherits devel {
+	include minimal
+	include general
+}
+
+node 'opensusetest.example42.com' inherits devel {
+	include minimal
+	include general
+}
+
+
+# Cobbler Server 
+node 'cobbler.example42.com' inherits devel {
 	$my_cobbler_server = "10.42.10.10"
 	$my_tftp_server = "10.42.10.10"
 
 	include general::provisioner
 }
 
-node 'syslog.example42.com' inherits intranet {
-	include general::syslog
+# Central Syslog Server
+node 'syslog.example42.com' inherits devel {
+	include general
+	include general_syslog
 }
 
-node 'monitor.example42.com' inherits intranet {
+# Cacti Monitoring Server
+node 'cacti.example42.com' inherits intranet {
         $my_cacti_mysqluser = "cactiuser"
         $my_cacti_mysqlpassword = "example42"
         $my_cacti_mysqlhost = "localhost"
         $my_cacti_mysqldbname = "cacti"
-        $my_mysql_passwd = "example42
-"
+        $my_mysql_passwd = "example42"
         include general::monitor
 }
 
 
 
-# Services
+# Internet Services
 
+
+# Postfix+Mailscanner+Mailwatch Mail Server
 node 'mail.example42.com' inherits prod {
         $my_postfix_mysqluser = "postfix"
         $my_postfix_mysqlpassword = "example42"
@@ -47,6 +82,7 @@ node 'mail.example42.com' inherits prod {
         include general::mail
 }
 
+
 node 'web01.example42.man' inherits prod {
         $my_apache_namevirtualhost = "10.42.10.12"
         $my_mysql_passwd = "example42"
@@ -55,6 +91,8 @@ node 'web01.example42.man' inherits prod {
 	include general::webhosting
 }
 
+
+# Samba PDC - Ldap backend 
 node 'dc.example42.com' inherits intranet {
         $ldap_master = "127.0.0.1"
         $ldap_slave  = "127.0.0.1"
@@ -63,7 +101,7 @@ node 'dc.example42.com' inherits intranet {
         $ldap_rootpw = "{SSHA}example42tosha"
         $ldap_rootpwclear = "example42"
         $samba_sid        = "S-1-5-21-3645972101-772173552-949487278"
-        $samba_workgroup  = "INTRANET"
+        $samba_workgroup  = "EXAMPLE42"
         $samba_pdc        = "dc.example42.com"
         $mysql_passwd     = "example42"
 
@@ -101,17 +139,12 @@ node 'xen02.example42.com' inherits intranet {
 
 
 # Development 
-node 'test.example42.com' inherits intranet {
-	$my_local_network = "10.42.10.0/24"
-	$my_default_gateway = "10.42.10.0/24"
-	include general::test
-}
 
-node 'devel.example42.com' inherits intranet {
+node 'devel.example42.com' inherits devel {
 	include general::devel
 }
 
-node 'build.example42.com' inherits intranet {
+node 'build.example42.com' inherits devel {
 	include general::build
 }
 
