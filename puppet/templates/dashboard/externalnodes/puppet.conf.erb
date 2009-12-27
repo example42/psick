@@ -1,0 +1,63 @@
+# File managed by Puppet <%= puppetversion %>
+
+[main]
+vardir = /var/lib/puppet
+logdir = /var/log/puppet
+rundir = /var/run/puppet
+ssldir = $vardir/ssl
+
+# Report Translactions to Master (or separated report) server
+report = true
+reportserver=<%= my_puppet_server %>
+
+summarize = true
+# trace = true
+usecacheonfailure = true
+
+[puppet]
+vardir = /var/lib/puppet
+logdir = /var/log/puppet
+rundir = /var/run/puppet
+ssldir = $vardir/ssl
+
+[puppetd]
+pluginsync=true
+pluginsource = puppet://$server/plugins
+plugindest = $vardir/lib/plugins
+factpath = $vardir/lib/puppet/facter
+listen=true
+report=true
+classfile = $vardir/classes.txt
+localconfig = $vardir/localconfig
+runinterval = 1800
+# runinterval = 21600 # Run every 6 hours
+
+server=<%= my_puppet_server %>
+
+[puppetrun]
+# allow <%= my_puppet_server %>
+
+[puppetmasterd]
+modulepath = /etc/puppet/modules/<%= my_project %>:/var/lib/puppet/modules
+# autosign = true
+
+# Storeconfigs activated 
+storeconfigs = true
+dbadapter = sqlite3
+dblocation = /var/lib/puppet/storeconfigs.sqlite
+
+
+# Reporting (Added puppet_dashboard reporting)
+reports=rrdgraph,log,puppet_dashboard
+graph = true
+reportfrom = <%= my_root_email %>
+smtpserver = <%= my_smtp_server %>
+tagmap = $confdir/tagmail.conf
+syslogfacility = user
+rrddir = $vardir/rrd
+rrdinterval = $runinterval
+rrdgraph = true
+
+# Uncomment below and use the right path for node.rb ( external_node.rb on Foreman sources )
+external_nodes = /etc/puppet/node.rb
+node_terminus = exec 
