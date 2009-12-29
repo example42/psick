@@ -22,8 +22,10 @@ class general {
 #       include clock
 #       include cron
 
-# Syslog to central server. Needs:  $my_syslog_server
-       include syslog
+# Syslog Management
+# Needs:  $syslog_server
+       include syslog 
+
        include rootmail
 #       include func
 #       include aide

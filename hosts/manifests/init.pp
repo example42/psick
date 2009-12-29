@@ -2,12 +2,11 @@ class hosts {
 
 	file {	
              	"hosts":
-			mode => 644, owner => root, group => root,
+#			mode => 644, owner => root, group => root,
 			ensure => present,
-			path => $os ?{
+			path => $operatingsystem ?{
                         	default => "/etc/hosts",
                         },
-                        ensure => present,
 	}
 }
 

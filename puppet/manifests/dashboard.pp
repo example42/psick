@@ -1,5 +1,7 @@
 class puppet::dashboard inherits puppet::master {
 
+	include mysql
+
         File["puppet.conf"] {
                         content => template("puppet/dashboard/puppet.conf.erb"),
                         notify  => Service["puppetmaster"],

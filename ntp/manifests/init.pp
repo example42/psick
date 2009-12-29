@@ -9,6 +9,8 @@ class ntp {
 
 	service { ntpd:
 		name => $operatingsystem ? {
+                        suse => "ntp",
+                        debian => "ntp",
                         default => "ntpd",
                         },
 		ensure => running,
@@ -21,7 +23,7 @@ class ntp {
 
 	file {	
              	"ntp.conf":
-			mode => 644, owner => root, group => root,
+#			mode => 644, owner => root, group => root,
 			require => Package[ntp],
 			ensure => present,
 			path => $operatingsystem ?{
@@ -31,10 +33,12 @@ class ntp {
 	
 	file {	
              	"/etc/ntp/keys":
-			mode => 600, owner => root, group => root,
+#			mode => 600, owner => root, group => root,
 			require => Package[ntp],
 			ensure => present,
 			path => $operatingsystem ?{
+                        	suse    => "/etc/ntp.keys",
+                        	debian  => "/etc/ntp.keys",
                         	default => "/etc/ntp/keys",
                         },
 	}

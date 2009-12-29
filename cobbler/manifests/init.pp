@@ -31,8 +31,8 @@ class cobbler {
                         source => "puppet://$servername/cobbler/cobbler-reposync",
         }
         file {
-                "/var/lib/cobbler/settings":
-                        mode => 666, owner => root, group => root,
+                "/etc/cobbler/settings":
+                        mode => 664, owner => root, group => root,
                         require => Package[cobbler],
                         ensure => present,
                         path => $operatingsystem ?{
@@ -77,7 +77,7 @@ class cobbler {
 # Requires $cobbler_server definition
 
 class cobbler::full inherits cobbler {
-        File ["/var/lib/cobbler/settings"] {
+        File ["/etc/cobbler/settings"] {
                         require => [ Package[cobbler], Package[dhcp], Package[tftp-server]],
                         content => template("cobbler/settings-full"),
         }

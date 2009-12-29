@@ -1,16 +1,8 @@
-class syslog-ng inherits syslog {
+class syslog-ng {
+
         package {
                 "syslog-ng":
                         ensure => "present";
-        }
-
-        Service["syslog"]{
-                enable    => "false",
-                ensure    => "stopped",
-        }
-
-        Package["syslogd"]{
-                ensure    => "absent",
         }
 
         service {
@@ -36,7 +28,8 @@ class syslog-ng inherits syslog {
 }
                         
 
-class syslog-ng::central inherits syslog-ng {
+class syslog-ng::server::central inherits syslog-ng {
+
 
 	file {
                 "/var/log/central":
@@ -52,11 +45,8 @@ class syslog-ng::central inherits syslog-ng {
 
 }
 
-class syslog-ng::mysql inherits syslog-ng {
-
+class syslog-ng::server::mysql inherits syslog-ng {
 	File["syslog-ng.conf"]{
 		source  => "puppet://$servername/syslog-ng/syslog-ng.conf-mysql",
 	}
-
 }
-

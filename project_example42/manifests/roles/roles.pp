@@ -38,10 +38,13 @@ class general::provisioner {
 	
 	include general
 
+# Cobbler with some configuration settings. Review before using
 	include cobbler::example42
+# Vanilla Cobbler installation
+#	include cobbler
+
 	include tftp
 ##	include dhcpd::example42
- 	include puppet::master
 
 #	include yumreposerver
 

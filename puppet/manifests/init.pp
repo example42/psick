@@ -5,6 +5,7 @@ class puppet {
 	package {
 		puppet:
 		name => $operatingsystem ? {
+                        solaris => "CSWpuppet",
 			default	=> "puppet",
 			},
 		ensure => present;
@@ -12,6 +13,7 @@ class puppet {
 
 	service { puppet:
 		name => $operatingsystem ? {
+                        solaris => "puppetd",
                         default => "puppet",
                         },
 		ensure => running,

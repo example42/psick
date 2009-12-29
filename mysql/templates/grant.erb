@@ -1,6 +1,6 @@
 # File managed by Puppet <%= puppetversion %> on <%= fqdn %>
 
 CREATE DATABASE IF NOT EXISTS <%= mysql_db %> ;
-GRANT <%= mysql_privileges %> ON <%= mysql_db %>.* TO '<%= mysql_user %>'@'<%= mysql_clienthost %>' IDENTIFIED BY '<%= mysql_password %>';
+GRANT <%= mysql_privileges %> ON <%= mysql_db %>.* TO '<%= mysql_user %>'@'<%= mysql_host %>' IDENTIFIED BY '<%= mysql_password %>';
 FLUSH PRIVILEGES ;
 

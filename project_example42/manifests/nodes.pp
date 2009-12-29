@@ -13,7 +13,8 @@ node 'puppet.example42.com' inherits devel {
 	include apache
 	include minimal
 	include general
-	include puppet::foreman
+	include puppet::dashboard
+#	include puppet::foreman
 #	include puppet::foreman::externalnodes
 }
 
@@ -32,6 +33,11 @@ node 'debiantest.example42.com' inherits devel {
 node 'opensusetest.example42.com' inherits devel {
 	include minimal
 	include general
+}
+
+node 'solaristest.example42.com' inherits devel {
+	include minimal
+#	include general
 }
 
 
