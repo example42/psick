@@ -43,9 +43,16 @@ modulepath = /etc/puppet/modules/<%= my_project %>:/var/lib/puppet/modules
 
 # Storeconfigs activated for Foreman integration
 storeconfigs = true
+
+# Sqlite backend
 dbadapter = sqlite3
 dblocation = /var/lib/puppet/storeconfigs.sqlite
 
+# MySql backend
+# dbadapter=mysql
+# dbserver=localhost
+# dbuser=puppet
+# dbpassword=puppetspasswd
 
 # Reporting (Added foreman reporting)
 reports=rrdgraph,log,foreman

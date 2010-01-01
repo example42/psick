@@ -41,22 +41,22 @@ server=<%= my_puppet_server %>
 modulepath = /etc/puppet/modules/<%= my_project %>:/var/lib/puppet/modules
 # autosign = true
 
-# Storeconfigs activated 
+# Storeconfigs activated
 storeconfigs = true
 
-# Sqlite backend
-dbadapter = sqlite3
-dblocation = /var/lib/puppet/storeconfigs.sqlite
+# Sqllite backend
+# dbadapter = sqlite3
+# dblocation = /var/lib/puppet/storeconfigs.sqlite
 
 # MySql backend
-# dbadapter=mysql
-# dbserver=localhost
-# dbuser=puppet
-# dbpassword=puppetspasswd
+dbadapter=<%= puppet_dbadapter %>
+dbserver=<%= puppet_dbserver %>
+dbuser=<%= puppet_dbuser %>
+dbpassword=<%= puppet_dbpassword %>
 
 
-# Reporting (Added puppet_dashboard reporting)
-reports=rrdgraph,log,puppet_dashboard
+# Reporting
+reports=rrdgraph,log
 graph = true
 reportfrom = <%= my_root_email %>
 smtpserver = <%= my_smtp_server %>
@@ -65,7 +65,3 @@ syslogfacility = user
 rrddir = $vardir/rrd
 rrdinterval = $runinterval
 rrdgraph = true
-
-# Uncomment below and use the right path for node.rb ( external_node.rb on Foreman sources )
-# external_nodes = /etc/puppet/node.rb
-# node_terminus = exec 
