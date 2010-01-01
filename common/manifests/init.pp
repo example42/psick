@@ -1,1 +1,2 @@
-import "*.pp"
+import "classes/*"
+import "defines/*"
