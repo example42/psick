@@ -43,11 +43,13 @@ define line(
 		default : { err ( "unknown ensure value '${ensure}'" ) }
 		present: {
 			exec { "echo '${line}' >> '${file}'":
+				command => "echo '${line}' >> '${file}'",
 				unless => "grep -qFx '${line}' '${file}'"
 			}
 		}
 		absent: {
 			exec { "perl -ni -e 'print if \$_ ne \"${line}\n\";' '${file}'":
+				command => "perl -ni -e 'print if \$_ ne \"${line}\n\";' '${file}'",
 				onlyif => "grep -qFx '${line}' '${file}'"
 			}
 		}

@@ -1,0 +1,19 @@
+puppet module common
+====================
+
+written by David Schmitt
+Copyright (C) 2007 David Schmitt 
+<david@schmitt.edv-bus.at>
+
+adapted by immerda project group
+admin+puppet(at)immerda.ch
+
+custom functions added by Lab42
+info@lab42.it
+
+#################################################
+
+The common module installs various functions that are 
+required by other modules. This module should be 
+installed before any of the other module.
+
