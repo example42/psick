@@ -11,5 +11,14 @@
 [puppetrunner]
         allow <%= my_puppet_server %>
 
-[puppetreports.report]
-    allow *
+[puppetbucket]
+        allow *.<%= my_domain %>
+        allow <%= my_local_network %>
+
+[puppetreports]
+        allow *.<%= my_domain %>
+        allow <%= my_local_network %>
+
+[pelementserver]
+        allow *.<%= my_domain %>
+        allow <%= my_local_network %>

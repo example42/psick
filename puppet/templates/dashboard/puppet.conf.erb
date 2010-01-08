@@ -38,7 +38,6 @@ server=<%= my_puppet_server %>
 # allow <%= my_puppet_server %>
 
 [puppetmasterd]
-modulepath = /etc/puppet/modules/<%= my_project %>:/var/lib/puppet/modules
 # autosign = true
 
 # Storeconfigs activated 
@@ -49,10 +48,10 @@ dbadapter = sqlite3
 dblocation = /var/lib/puppet/storeconfigs.sqlite
 
 # MySql backend
-# dbadapter=mysql
-# dbserver=localhost
-# dbuser=puppet
-# dbpassword=puppetspasswd
+#dbadapter=mysql
+#dbserver=localhost
+#dbuser=puppet
+#dbpassword=puppet
 
 
 # Reporting (Added puppet_dashboard reporting)

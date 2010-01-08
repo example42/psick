@@ -40,7 +40,7 @@ class puppet {
 
         file {
                 "namespaceauth.conf":
-                        mode => 640, owner => root, group => root,
+                        mode => 644, owner => root, group => root,
                         require => Package[puppet],
                         path => $operatingsystem ?{
                                 default => "/etc/puppet/namespaceauth.conf",
