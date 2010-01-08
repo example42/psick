@@ -1,3 +1,5 @@
+import "*.pp"
+
 class ssh {
 
 	package { ssh:
