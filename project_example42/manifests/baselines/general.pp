@@ -33,5 +33,28 @@ class general {
 #       include rsync
 #       include logrotate
 
+
+include ssh::auth
+
+include backup::target
+# Backup /etc (testing)
+	backup {
+                "backup_${fqdn}_etc":
+                frequency  => "daily",
+                path      => "/etc",
+		host      => $fqdn,
+        }
+
+# Backup /var/log (testing)
+	backup {
+                "backup_${fqdn}_var_log":
+                frequency => "hourly",
+                path      => "/var/log",
+		host      => $fqdn,
+        }
+
+# Monitor Host
+include monitor::target
+
 }
 

@@ -24,5 +24,13 @@ node basenode {
         $my_ntp_server = "ntp.example42.com"
 
         $my_update = "no"   # Auto Update packages (yes|no)
+
+# Munin central server
+	$munin_allow = "10.42.42.9"
+
+# Collectd Central server (here we use unicast networking)
+# Define the server IP (not the hostname)
+	$collectd_server = "10.42.42.9"
+
 }
 
