@@ -1,0 +1,91 @@
+#!/bin/bash
+#set -x
+# Simple script for backup via rsync over ssh
+# (C) Lab42 - www.lab42.it
+# Released under the terms of GPLv3
+
+# GENERAL SETTINGS
+my_config=<%= rsyncssh_configfile %>
+if [ -n $2 ] ; then
+	my_schedule=$2
+fi
+my_localbackupdir=<%= rsyncssh_backupdir %>
+my_archivedir=<%= rsyncssh_archivedir %>
+my_snapshotdir=<%= rsyncssh_snapshotdir %>
+my_sshuser=<%= rsyncssh_user %>
+
+if [ $my_localbackupdir = "/" ] ; then
+	echo "Backup dir cannot be /"
+	exit 1
+fi
+
+
+backup () {
+cat $my_config | grep $my_schedule | while read line
+do
+        my_backupnode=`echo $line |awk 'BEGIN { FS=":" } { print $1 }'`
+        my_backupdir=`echo $line |awk 'BEGIN { FS=":" } { print $2 }'`
+	
+	[ -d $my_localbackupdir/$my_backupnode/$my_backupdir ] || mkdir -p $my_localbackupdir/$my_backupnode/$my_backupdir
+
+	echo "Backing up $my_backupnode:$my_backupdir" 
+        rsync -avz  -e "ssh -o StrictHostKeyChecking=no" $my_sshuser@$my_backupnode:$my_backupdir/* $my_localbackupdir/$my_backupnode$my_backupdir
+
+	echo "-----------------------------------------"
+ 
+done
+}
+
+archive () {
+[ -d $my_archivedir ] || mkdir -p $my_archivedir
+cd $my_archivedir
+
+cat $my_config | while read line
+do
+        my_backupnode=`echo $line |awk 'BEGIN { FS=":" } { print $1 }'`
+        my_backupdir=`echo $line |awk 'BEGIN { FS=":" } { print $2 }'`
+        
+	my_archivefile="$my_backupnode-\$my_backupdir.tar.gz"
+	echo "Creating a backup archive: $my_archivedir/$my_archivefile" 
+#	tar -zcvf $my_archivefile $my_localbackupdir/$my_backupnode/$my_backupdir
+	echo "-----------------------------------------"
+ 
+done
+}
+
+snapshot () {
+
+my_daysnapshotdir=$my_snapshotdir/`date +%Y%m%d`
+[ -d $my_daysnapshotdir ] || mkdir -p $my_daysnapshotdir
+
+cat $my_config | while read line
+do
+        my_backupnode=`echo $line |awk 'BEGIN { FS=":" } { print $1 }'`
+        my_backupdir=`echo $line |awk 'BEGIN { FS=":" } { print $2 }'`
+
+	echo "Snapshot of $my_backupnode:$my_backupdir in $my_daysnapshotdir" 
+	[ -d $my_daysnapshotdir/$my_backupnode ] || mkdir -p $my_daysnapshotdir/$my_backupnode
+	rsync -avz  $my_localbackupdir/$my_backupnode/$my_backupdir $my_daysnapshotdir/$my_backupnode
+	echo "-----------------------------------------"
+ 
+done
+}
+
+#### HERE BEGINS THE HARD WORK
+
+case "$1" in
+  backup)
+        backup
+        ;;
+  snapshot)
+        snapshot
+        ;;
+  archive)
+        # archive
+        echo "Not yet implemented"
+        ;;
+  *)
+        echo $"Usage: $prog {backup|snapshot|archive} {schedule}"
+        exit 1
+esac
+
