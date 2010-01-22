@@ -1,0 +1,15 @@
+<%
+	# Downcase all information
+	dom = domain.downcase
+	host = hostname.downcase
+	fhost = name.downcase
+%>
+### This syntax can be extended, it might get better ...
+#+<%= dom %>
+#-<%= host %>=<%= fhost %>:load.load
+[<%= fhost %>] # linux box 
+	address <%= munin_host_real %>
+	port <%= munin_port_real %>
+	use_node_name yes
+    load.load.warning 5
+    load.load.critical 10

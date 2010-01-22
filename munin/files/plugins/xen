@@ -1,0 +1,52 @@
+#!/bin/sh
+#
+# Script to monitor CPU usage of Xen domains
+#
+# Parameters understood:
+#
+#     conifg    (required)
+#     autoconf  (optinal - used by munin-config)
+#
+
+MAXDOMAINS=16
+
+if [ "$1" = "autoconf" ]; then
+        if which xm > /dev/null ; then
+                echo yes
+                exit 0
+        fi
+        echo "no (xm not found)"
+        exit 1
+fi
+
+if [ "$1" = "config" ]; then
+
+        echo 'graph_title Xen Domain Utilerisation'
+        echo 'graph_args --base 1000 -l 0'
+        echo 'graph_scale no'
+        echo 'graph_vlabel mS'
+        echo 'graph_category xen'
+        echo 'graph_info This graph shows of many mS wall time where used by a domain'
+        /usr/sbin/xm list | grep -v "^Name .* Console$" | \
+        while read name domid mem cpu state time console; do
+                name=`echo $name | sed -e"s/-/_/"`
+                echo "$name.label $name"
+                echo "$name.type COUNTER"
+#               if [ "$name" = "Domain_0" ]; then
+#                       echo "$name.draw AREA"
+#               else
+#                       echo "$name.draw STACK"
+#               fi
+                echo "$name.min 0"
+                echo "$name.info Wall clock time spend for $name"
+        done
+        exit 0
+fi
+
+/usr/sbin/xm list | grep -v "^Name" | grep -v "^Name .* Console$" | \
+while read name domid mem cpu state time console; do
+        name=`echo $name | sed -e"s/-/_/"`
+        time=`echo $time | sed -e "s/\.//"`
+        echo "$name.value $time"
+done
+

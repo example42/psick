@@ -1,0 +1,78 @@
+#!/bin/sh
+# Author: mario manno <projects@manno.name>
+# Description: measure traffic for all xen hosts
+# 
+# 16.07.2008: improved the Plugin by Puzzle ITC to
+# enable the traffic monitoring for domains
+# with more than 1 one interface
+# If there is more than one device, the domainname
+# will get the vif name appended.
+#
+#%# family=auto
+#%# capabilities=autoconf
+
+if [ "$1" = "autoconf" ]; then
+    if which xm > /dev/null ; then
+        echo yes
+    else
+        echo "no (xm not found)"
+        exit 1
+    fi
+    if [ -r /proc/net/dev ]; then
+        echo yes
+    else
+        echo "no (/proc/net/dev not found)"
+        exit 1
+    fi
+    exit 0
+fi
+
+if [ "$1" = "config" ]; then
+    echo 'graph_title Xen Traffic'
+    echo 'graph_vlabel bits received (-) / sent (+) per ${graph_period}'
+    echo 'graph_args --base 1024 -l 0'
+    echo 'graph_category xen'
+    DOMAINS=$(xm list | awk '{print $1}' | egrep -v "^(Name|Domain-0)")
+    for dom in $DOMAINS; do
+    	devs=$( xm network-list $dom |\
+        	egrep "^[0-9]+" | sed 's@^.*vif/\([0-9]*\)/\([0-9]*\).*$@vif\1.\2@')
+        real_name=$( echo $dom | sed -e's/-/_/g' )
+        name=$real_name
+    	for dev in $devs; do
+            if [ ${#devs} -gt 1 ]; then
+                name=$real_name"_"`echo $dev | sed 's/\./\_/'`
+            fi
+        
+            echo $name'Down.label received'
+	        echo $name'Down.type COUNTER'
+            echo $name'Down.graph no'
+	        echo "${name}Down.cdef ${name}Down,8,*"
+            echo "${name}Up.label ${name}"
+	        echo $name'Up.type COUNTER'
+            echo "${name}Up.negative ${name}Down"
+	        echo "${name}Up.cdef ${name}Up,8,*"
+	    done
+    done
+    exit 0
+fi
+
+DOMAINS=$(xm list | awk '{print $1}' | egrep -v "^(Name|Domain-0)")
+for dom in $DOMAINS; do
+    devs=$( xm network-list $dom |\
+        egrep "^[0-9]+" | sed 's@^.*vif/\([0-9]*\)/\([0-9]*\).*$@vif\1.\2@')
+    real_name=$( echo $dom | sed -e's/-/_/g' )
+    name=$real_name
+    for dev in $devs; do
+            if [ ${#devs} -gt 1 ]; then
+                name=$real_name"_"`echo $dev | sed 's/\./\_/'`
+            fi
+            awk -v name="$name" -v interface="$dev" \
+                'BEGIN { gsub(/\./, "\\.", interface) } \
+                $1 ~ "^" interface ":" {
+                split($0, a, /: */); $0 = a[2]; \
+                    print name"Down.value " $1 "\n"name"Up.value " $9 \
+                }' \
+            /proc/net/dev
+     done
+done
+

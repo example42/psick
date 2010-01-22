@@ -1,0 +1,172 @@
+#!/usr/bin/perl -T
+
+# tinydns-munin-plugin  +
+# Copyright (C) 2007 admin at immerda.ch
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+
+# with the HELP of
+# tinygraph -- a RRDtool frontend for tinydns statistics
+# Copyright (C) 2005 Ulrich Zehl <ulrich@topfen.net>
+
+#use strict; # to activate ....
+
+
+#use Time::TAI64 qw(tai2unix);
+
+$A = 0;
+$NS = 0;
+$CNAME = 0;
+$SOA = 0;
+$PTR = 0;
+$HINFO = 0;
+$MX = 0;
+$TXT = 0;
+$RP = 0;
+$SIG = 0;
+$KEY = 0;
+$AAAA = 0;
+$A6 = 0;
+$IXFR = 0;
+$AXFR = 0;
+$ANY = 0;
+
+$logfile = $ENV{logdir} || "/var/tinydns/log/main/current";
+
+if ( $ARGV[0] and $ARGV[0] eq "config" )
+{
+    print "host_name $ENV{FQDN}\n";
+    print "graph_title tinydns\n";
+    print "graph_args --base 1000 -l 0\n";
+        print "graph_category DNS\n";
+        print "a.type COUNTER\n";
+        print "mx.type COUNTER\n";
+
+    print "a.label A\n";
+        print "ns.label NS\n";
+        print "cname.label CNAME\n";
+        print "soa.label SOA\n";
+        print "ptr.label PTR\n";
+        print "mx.label MX\n";
+        print "aaaa.label AAAA\n";
+        print "any.label ANY\n";
+        print "hinfo.label HINFO\n";
+        print "txt.label TXT\n";
+        print "rp.label RP\n";
+        print "sig.label SIG\n";
+        print "key.label KEY\n";
+        print "a6.label A6\n";
+        print "ixfr.label IXFR\n";
+        print "axfr.label AXFR\n";
+
+    print "a.type COUNTER\n";
+        print "ns.type COUNTER\n";
+        print "cname.type COUNTER\n";
+        print "soa.type COUNTER\n";
+        print "ptr.type COUNTER\n";
+        print "mx.type COUNTER\n";
+        print "aaaa.type COUNTER\n";
+        print "any.type COUNTER\n";
+        print "hinfo.type COUNTER\n";
+        print "txt.type COUNTER\n";
+        print "rp.type COUNTER\n";
+        print "sig.type COUNTER\n";
+        print "key.type COUNTER\n";
+        print "a6.type COUNTER\n";
+        print "ixfr.type COUNTER\n";
+        print "axfr.type COUNTER\n";
+    exit 0;
+}
+
+my %querytypes = (
+        '0001' => 'A',
+        '0002' => 'NS',
+        '0005' => 'CNAME',
+        '0006' => 'SOA',
+        '000c' => 'PTR',
+        '000d' => 'HINFO',
+        '000f' => 'MX',
+        '0010' => 'TXT',
+        '0011' => 'RP',
+        '0018' => 'SIG',
+        '0019' => 'KEY',
+        '001c' => 'AAAA',
+        '0026' => 'A6',
+        '00fb' => 'IXFR',
+        '00fc' => 'AXFR',
+        '00ff' => 'ANY',
+);
+
+my %sum = (
+        (map {$_ => 0} values %querytypes),
+);
+
+sub process_line($)
+{
+        my $line = shift;
+        if ($line =~ /^(@[a-f0-9]{24}) ([a-f0-9]{8}):[a-f0-9]{4}:[a-f0-9]{4} ([\+\-IC\/]) ([a-f0-9]{4}) (.+)$/)
+        {
+                #my $time    = tai2unix($1);
+                my $ip      = join(".", unpack("C*", pack("H8", $2)));
+                my $rtype   = $3;
+                my $qtype   = $querytypes{$4};
+                                #my $qstring = $5; # currently unused
+
+                if ($rtype eq '+')
+                {
+                                                 if ($qtype eq 'A'){$A++;};
+                                                 if ($qtype eq 'NS'){$NS++;};
+                                                 if ($qtype eq 'CNAME'){$CNAME++;};
+                                                 if ($qtype eq 'SOA'){$SOA++;};
+                                                 if ($qtype eq 'PTR'){$PTR++;};
+                                                 if ($qtype eq 'HINFO'){$HINFO++;};
+                                                 if ($qtype eq 'MX'){$MX++;};
+                                                 if ($qtype eq 'TXT'){$TXT++;};
+                                                 if ($qtype eq 'RP'){$RP++;};
+                                                 if ($qtype eq 'SIG'){$SIG++;};
+                                                 if ($qtype eq 'KEY'){$KEY++;};
+                                                 if ($qtype eq 'AAAA'){$AAAA++;};
+                                                 if ($qtype eq 'A6'){$A6++;};
+                                                 if ($qtype eq 'IXFR'){$IXFR++;};
+                                                 if ($qtype eq 'AXFR'){$AXFR++;};
+                                                 if ($qtype eq 'ANY'){$ANY++;};
+                }
+        }
+}
+
+open(LOG, "<$logfile") or die "Error opening $logfile: $!";
+
+while (<LOG>)
+{
+                        process_line($_);
+}
+
+print "a.value $A\n";
+print "ns.value $NS\n";
+print "cname.value $CNAME\n";
+print "soa.value $SOA\n";
+print "ptr.value $PTR\n";
+print "mx.value $MX\n";
+print "aaaa.value $AAAA\n";
+print "any.value $ANY\n";
+print "hinfo.value $HINFO\n";
+print "txt.value $TXT\n";
+print "rp.value $RP\n";
+print "sig.value $SIG\n";
+print "key.value $KEY\n";
+print "a6.value $A6\n";
+print "ixfr.value $IXFR\n";
+print "axfr.value $AXFR\n";
+

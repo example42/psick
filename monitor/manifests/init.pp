@@ -52,8 +52,8 @@ class monitor::server {
 
 		collectd: {
 			include collectd
-			collectd::plugin { "network":
-			        lines => 'Listen "$collectd_server' ,
+			collectd::network { "network":
+			        listen => $collectd_server ,
 			}
 
 		}
@@ -76,15 +76,9 @@ class monitor::target {
 		
 		collectd: { 
                         include collectd
-                        collectd::conf {
-                                'FQDNLookup':
-                                        value => 'true';
-                                'Server':
-                                        value => [ '"$collectd_server" 25825' ];
-                                'LoadPlugin':
-                                        value => [ 'syslog', 'network', 'cpu' ];
+                        collectd::network { "network":
+                                server => $collectd_server ,
                         }
-			
 		}
 		
 		cacti:  { include monitor::cacti::target }

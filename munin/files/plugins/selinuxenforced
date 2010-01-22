@@ -1,0 +1,30 @@
+#!/bin/sh
+# -*- sh -*-
+#
+# Plugin to monitor the status of selinux
+#
+# Contributed by admin(at)immerda.ch
+
+if [ "$1" = "autoconf" ]; then
+        echo yes
+        exit 0
+fi
+
+if [ "$1" = "config" ]; then
+        echo 'graph_title enforced amount'
+        echo 'graph_args --upper-limit 1 -l 0 '
+        echo 'graph_vlabel Is the system selinux enforced?'
+        echo 'graph_scale no\n';
+        echo 'graph_category selinux'
+                echo 'enforced.label IsEnforced'
+        #echo 'enforced.draw AREA'
+                echo 'enforced.draw LINE2'
+
+        exit 0
+fi
+
+if [ -r /selinux/enforce ]; then
+  echo -n "enforced.value " && cat /selinux/enforce
+else
+  echo "enforced.value 0"
+fi

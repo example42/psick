@@ -1,0 +1,10 @@
+<%
+	# Downcase all information
+	dom = domain.downcase
+	host = hostname.downcase
+	fhost = name.downcase
+%>
+### This syntax can be extended, it might get better ...
+#<%= dom %> snmp -> <%= fhost %>
+[<%= fhost %>] # snmp box 
+	address <%= munin_host_real %>

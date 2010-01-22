@@ -1,0 +1,92 @@
+== Munin ==
+
+Munin is a performance monitoring system which creates nice RRD graphs and has
+a very easy plugin interface. The munin homepage is http://munin.projects.linpro.no/
+
+To use this module, follow these directions:
+
+1. Install the "common" module -- the munin module depends on functions that are
+   defined and installed via the common module, see README.common for how to do this
+
+2. You will need storedconfigs enabled in your puppet setup, to do that you need to
+   add a line to your puppet.conf in your [puppetmasterd] section which says:
+   
+   storeconfigs=true
+
+   You may wish to immediately setup a mysql/pgsql database for your storedconfigs, as
+   the default method uses sqlite, and is not very efficient, to do that you need lines
+   such as the following below the storeconfigs=true line (adjust as needed):
+
+   dbadapter=mysql
+   dbserver=localhost
+   dbuser=puppet
+   dbpassword=puppetspasswd
+
+3. Install the "munin" module:
+
+   a. Your modules directory will need all the files included in this repository placed 
+      under a directory called "munin"
+
+   b. add the following line to your modules.pp:
+   
+      import "munin" 
+
+      (NOTE: if you have followed the directions in README.common then you will have import 
+      "modules.pp" in your site.pp, if you do not have that, then you will need to add the 
+      import line to your site.pp)
+
+   c. you will also need to create the following empty directories:
+
+      mkdir /etc/puppet/modules/munin/files/empty
+      mkdir /etc/puppet/modules/munin/files/modules_dir
+      mkdir -p /etc/puppet/modules/munin/files/nodes/modules_dir
+      mkdir -p /etc/puppet/modules/munin/files/plugins/modules_dir
+
+   d. Add to the top of your site.pp a variable which indicates what IP should be allowed to 
+      connect to your individual munin-nodes (this is typically your main munin host's IP):
+
+      $munin_allow = '192.168.0.1'
+      
+      If you want to define more than one host, you can seperate them by colon:
+
+      $munin_allow = '127.0.0.1:192.168.0.1'
+
+   e. In the node definition in your site.pp for your main munin host, add the following:
+
+      include munin::host
+   
+   f. On each node that will gather munin statistics, add this line to that node's entry 
+      in site.pp (you may want to also add this to your main munin host):
+      
+      include munin::client
+
+   g. If there are particular munin plugins you want to enable or configure, you define them
+      in the node definition, like follows:
+
+      # Enable monitoring of disk stats in bytes
+      munin::plugin { df_abs: }
+
+      # Use a non-standard plugin path to use custom plugins
+      munin::plugin { "spamassassin":
+         ensure => "spamassassin",
+         script_path => "/usr/local/share/munin-plugins",
+      }
+
+      # Use a special config to pass parameters to the plugin
+      munin::plugin {
+         [ "apache_accesses", "apache_processes", "apache_volume" ]:
+            ensure => present,
+            config => "env.url http://127.0.0.1:80/server-status?auto"
+      }
+
+
+   h. If you have Linux-Vservers configured, you will likely have multiple munin-node processes
+      competing for the default port 4949, for those nodes, set an alternate port for munin-node
+      to run on by putting something similar to the following in the node definition:
+
+      $munin_port = 4948
+
+   i. If you'd like to do cgi graphing, please note the following page: http://munin.projects.linpro.no/wiki/CgiHowto
+      For CentOS this is enabled in the default header config
+
+   j. Per default (on CentOS) munin will send warnings and critical messages to root

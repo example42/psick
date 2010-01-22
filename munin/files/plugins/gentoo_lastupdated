@@ -1,0 +1,71 @@
+#!/usr/bin/perl
+# -*- perl -*-
+#
+# (C) 2007 immerda project
+#
+# Plugin to monitor the last update of the gentoo
+#
+# Parameters:
+#
+#       config
+#       autoconf
+#
+# $Id: users.in 1212 2006-10-29 20:11:58Z janl $
+#
+#%# family=auto
+#%# capabilities=autoconf
+
+# update /etc/munin/plugin-conf.d/munin-node with:
+# [gentoo_*]
+# user root
+# env.logfile /var/log/emerge.log
+# env.tail        /usr/bin/tail
+# env.grep        /bin/grep
+
+my $logfile = $ENV{'logfile'} || '/var/log/emerge.log';
+my $grep = $ENV{'grep'} || `which grep`;
+my $date = $ENV{'date'} || `which date`;
+my $tail = $ENV{'tail'} || `which tail`;
+chomp($grep);
+chomp($date);
+chomp($tail);
+
+if ( defined($ARGV[0])) {
+    if ($ARGV[0] eq 'autoconf') {
+        print "yes\n";
+        exit 0;
+    }
+
+    if ( $ARGV[0] eq "config" ) {
+        print "graph_title Gentoo: Last update X days ago\n";
+        #print "graph_args --base 1000 -l 0\n";
+        print "graph_vlabel days\n";
+        print "graph_scale no\n";
+        print "graph_category system\n";
+        #print "graph_printf %.1lf\n";
+        print "lastupdated.label last updated [d ago]\n";
+        print "lastupdated.type GAUGE\n";
+        #print "tty.draw AREASTACK\n";
+        #print "tty.colour 00FF00\n";
+        exit 0;
+    }
+}
+
+$days = 0;
+$last = 0;
+$now = 0;
+
+$l=`$grep "emerge" $logfile  | $grep world | $grep -v fetchonly | tail -1`;
+
+($last,$rest) = split /:/,$l;
+$now = `$date +%s`;
+if($last eq "" or $last == 0 or $now == 0 or $date eq ""){
+        $days = "";
+}else{
+        $days=($now-$last)/60/60/24; # in tagen
+}
+
+print "lastupdated.value $days\n";
+
+# vim:syntax=perl
+
