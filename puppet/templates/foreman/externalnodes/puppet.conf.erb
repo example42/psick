@@ -8,7 +8,7 @@ ssldir = $vardir/ssl
 
 # Report Translactions to Master (or separated report) server
 report = true
-reportserver=<%= my_puppet_server %>
+reportserver=<%= puppet_server %>
 
 summarize = true
 # trace = true
@@ -32,10 +32,10 @@ localconfig = $vardir/localconfig
 runinterval = 1800
 # runinterval = 21600 # Run every 6 hours
 
-server=<%= my_puppet_server %>
+server=<%= puppet_server %>
 
 [puppetrun]
-# allow <%= my_puppet_server %>
+# allow <%= puppet_server %>
 
 [puppetmasterd]
 # autosign = true
@@ -57,8 +57,8 @@ dblocation = /var/lib/puppet/storeconfigs.sqlite
 # Reporting (Added foreman reporting)
 reports=rrdgraph,log,foreman
 graph = true
-reportfrom = <%= my_root_email %>
-smtpserver = <%= my_smtp_server %>
+reportfrom = <%= root_email %>
+smtpserver = <%= smtp_server %>
 tagmap = $confdir/tagmail.conf
 syslogfacility = user
 rrddir = $vardir/rrd

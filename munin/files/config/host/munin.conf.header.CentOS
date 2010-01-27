@@ -56,9 +56,9 @@ contact.me.always_send warning critical
 #
 #   # The graph "load2". Now we want them stacked on top of each other.
 #       load2.graph_title Loads on top of each other
-#       load2.dummy_field.stack fii=fii.foo.com:load.load fay=fay.foo.com:load.load
-#       load2.dummy_field.draw AREA # We want area instead the default LINE2.
-#       load2.dummy_field.label dummy # This is needed. Silly, really.
+#       load2.dumfield.stack fii=fii.foo.com:load.load fay=fay.foo.com:load.load
+#       load2.dumfield.draw AREA # We want area instead the default LINE2.
+#       load2.dumfield.label dummy # This is needed. Silly, really.
 #
 #   # The graph "load3". Now we want them summarised into one field
 #       load3.graph_title Loads summarised

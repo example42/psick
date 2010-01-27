@@ -1,9 +1,9 @@
 class sysctl {
 
 
-	case $my_ipforward {
-		"yes"  : { $my_ipforward = "yes" }
-		default: { $my_ipforward = "no" }
+	case $ipforward {
+		"yes"  : { $ipforward = "yes" }
+		default: { $ipforward = "no" }
 	}
 
 	file {	

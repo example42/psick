@@ -21,7 +21,7 @@ http_port: 80
 kernel_options:
     ksdevice: eth0
     lang: ' '
-    syslog: '<%= my_cobbler_server %>:25150'
+    syslog: '<%= cobbler_server %>:25150'
     text: ~
 ldap_server: "ldap.example42.com"
 ldap_base_dn: "DC=example42,DC=com"
@@ -35,8 +35,8 @@ ldap_search_prefix: 'uid='
 manage_dhcp: 1
 manage_dhcp_mode: isc
 manage_dns: 0
-next_server: '<%= my_tftp_server %>'
-server: '<%= my_cobbler_server %>'
+next_server: '<%= tftp_server %>'
+server: '<%= cobbler_server %>'
 pxe_just_once: 1
 omapi_enabled: 0
 omapi_port: 647

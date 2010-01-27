@@ -10,12 +10,12 @@ allow bootp;
 ignore client-updates;
 set vendorclass = option vendor-class-identifier;
 
-subnet <%= my_network %> netmask <%= my_netmask %> {
-     option routers          <%= my_default_gateway %>;
-     option domain-name-servers     <% my_dns_servers.each do |ns| %><%= ns %><% end %>
-     option domain-name      "<%= my_domain %>";
-     option subnet-mask      <%= my_network %>;
-     range dynamic-bootp     <%= my_dhcp_range %>;
+subnet <%= network %> netmask <%= netmask %> {
+     option routers          <%= default_gateway %>;
+     option domain-name-servers     <% dns_servers.each do |ns| %><%= ns %><% end %>
+     option domain-name      "<%= domain %>";
+     option subnet-mask      <%= network %>;
+     range dynamic-bootp     <%= dhcp_range %>;
      filename                "/pxelinux.0";
      default-lease-time      21600;
      max-lease-time          43200;

@@ -9,6 +9,6 @@ cron.*							/var/log/cron
 uucp,news.crit						/var/log/spooler
 local7.*						/var/log/boot.log
 kern.debug;kern.!info					/var/log/firewall.log
-<% my_syslog_servers.each do |syslog| %>
+<% syslog_servers.each do |syslog| %>
 *.*							@<%= syslog %>
 <% end %>

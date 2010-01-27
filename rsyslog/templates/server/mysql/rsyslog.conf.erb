@@ -2,7 +2,7 @@
 
 # Syslogs to Mysql
 $ModLoad ommysql
-*.*       :ommysql.so:<%= my_rsyslog_host %>,<%= my_rsyslog_db %>,<%= my_rsyslog_user %>,<%= my_rsyslog_password %>
+*.*       :ommysql.so:<%= rsyslog_host %>,<%= rsyslog_db %>,<%= rsyslog_user %>,<%= rsyslog_password %>
 
 #kern.*							/dev/console
 *.info;mail.none;authpriv.none;cron.none		/var/log/messages

@@ -1,6 +1,6 @@
 class puppet {
 # Manages Puppet client
-# Requires: $my_puppet_server
+# Requires: $puppet_server
 
 	package {
 		puppet:
@@ -30,7 +30,7 @@ class puppet {
 			path => $operatingsystem ?{
                         	default => "/etc/puppet/puppet.conf",
                         },
-			content => $my_puppet_server ?{
+			content => $puppet_server ?{
 				$fqdn     => template("puppet/master/puppet.conf.erb"),
 				default   => template("puppet/puppet.conf.erb"),
                         },
@@ -44,7 +44,7 @@ class puppet {
                         path => $operatingsystem ?{
                                 default => "/etc/puppet/namespaceauth.conf",
                         },
-			content => $my_puppet_server ?{
+			content => $puppet_server ?{
 				$fqdn     => template("puppet/master/namespaceauth.conf.erb"),
 				default   => template("puppet/namespaceauth.conf.erb"),
                         },

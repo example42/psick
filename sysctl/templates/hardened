@@ -1,7 +1,7 @@
 # Managed by Puppet
 
 # IP packet forwarding
-<% if my_ipforward == "yes" %>
+<% if ipforward == "yes" %>
 net.ipv4.ip_forward=1
 <% else %>
 net.ipv4.ip_forward=0

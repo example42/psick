@@ -5,31 +5,31 @@
 # Released under the terms of GPLv3
 
 # GENERAL SETTINGS
-my_config=<%= rsyncssh_configfile %>
+config=<%= rsyncssh_configfile %>
 if [ -n $2 ] ; then
-	my_schedule=$2
+	schedule=$2
 fi
-my_localbackupdir=<%= rsyncssh_backupdir %>
-my_archivedir=<%= rsyncssh_archivedir %>
-my_snapshotdir=<%= rsyncssh_snapshotdir %>
-my_sshuser=<%= rsyncssh_user %>
+localbackupdir=<%= rsyncssh_backupdir %>
+archivedir=<%= rsyncssh_archivedir %>
+snapshotdir=<%= rsyncssh_snapshotdir %>
+sshuser=<%= rsyncssh_user %>
 
-if [ $my_localbackupdir = "/" ] ; then
+if [ $localbackupdir = "/" ] ; then
 	echo "Backup dir cannot be /"
 	exit 1
 fi
 
 
 backup () {
-cat $my_config | grep $my_schedule | while read line
+cat $config | grep $schedule | while read line
 do
-        my_backupnode=`echo $line |awk 'BEGIN { FS=":" } { print $1 }'`
-        my_backupdir=`echo $line |awk 'BEGIN { FS=":" } { print $2 }'`
+        backupnode=`echo $line |awk 'BEGIN { FS=":" } { print $1 }'`
+        backupdir=`echo $line |awk 'BEGIN { FS=":" } { print $2 }'`
 	
-	[ -d $my_localbackupdir/$my_backupnode/$my_backupdir ] || mkdir -p $my_localbackupdir/$my_backupnode/$my_backupdir
+	[ -d $localbackupdir/$backupnode/$backupdir ] || mkdir -p $localbackupdir/$backupnode/$backupdir
 
-	echo "Backing up $my_backupnode:$my_backupdir" 
-        rsync -avz  -e "ssh -o StrictHostKeyChecking=no" $my_sshuser@$my_backupnode:$my_backupdir/* $my_localbackupdir/$my_backupnode$my_backupdir
+	echo "Backing up $backupnode:$backupdir" 
+        rsync -avz  -e "ssh -o StrictHostKeyChecking=no" $sshuser@$backupnode:$backupdir/* $localbackupdir/$backupnode$backupdir
 
 	echo "-----------------------------------------"
  
@@ -37,17 +37,17 @@ done
 }
 
 archive () {
-[ -d $my_archivedir ] || mkdir -p $my_archivedir
-cd $my_archivedir
+[ -d $archivedir ] || mkdir -p $archivedir
+cd $archivedir
 
-cat $my_config | while read line
+cat $config | while read line
 do
-        my_backupnode=`echo $line |awk 'BEGIN { FS=":" } { print $1 }'`
-        my_backupdir=`echo $line |awk 'BEGIN { FS=":" } { print $2 }'`
+        backupnode=`echo $line |awk 'BEGIN { FS=":" } { print $1 }'`
+        backupdir=`echo $line |awk 'BEGIN { FS=":" } { print $2 }'`
         
-	my_archivefile="$my_backupnode-\$my_backupdir.tar.gz"
-	echo "Creating a backup archive: $my_archivedir/$my_archivefile" 
-#	tar -zcvf $my_archivefile $my_localbackupdir/$my_backupnode/$my_backupdir
+	archivefile="$backupnode-\$backupdir.tar.gz"
+	echo "Creating a backup archive: $archivedir/$archivefile" 
+#	tar -zcvf $archivefile $localbackupdir/$backupnode/$backupdir
 	echo "-----------------------------------------"
  
 done
@@ -55,17 +55,17 @@ done
 
 snapshot () {
 
-my_daysnapshotdir=$my_snapshotdir/`date +%Y%m%d`
-[ -d $my_daysnapshotdir ] || mkdir -p $my_daysnapshotdir
+daysnapshotdir=$snapshotdir/`date +%Y%m%d`
+[ -d $daysnapshotdir ] || mkdir -p $daysnapshotdir
 
-cat $my_config | while read line
+cat $config | while read line
 do
-        my_backupnode=`echo $line |awk 'BEGIN { FS=":" } { print $1 }'`
-        my_backupdir=`echo $line |awk 'BEGIN { FS=":" } { print $2 }'`
+        backupnode=`echo $line |awk 'BEGIN { FS=":" } { print $1 }'`
+        backupdir=`echo $line |awk 'BEGIN { FS=":" } { print $2 }'`
 
-	echo "Snapshot of $my_backupnode:$my_backupdir in $my_daysnapshotdir" 
-	[ -d $my_daysnapshotdir/$my_backupnode ] || mkdir -p $my_daysnapshotdir/$my_backupnode
-	rsync -avz  $my_localbackupdir/$my_backupnode/$my_backupdir $my_daysnapshotdir/$my_backupnode
+	echo "Snapshot of $backupnode:$backupdir in $daysnapshotdir" 
+	[ -d $daysnapshotdir/$backupnode ] || mkdir -p $daysnapshotdir/$backupnode
+	rsync -avz  $localbackupdir/$backupnode/$backupdir $daysnapshotdir/$backupnode
 	echo "-----------------------------------------"
  
 done
