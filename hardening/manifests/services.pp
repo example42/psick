@@ -3,7 +3,6 @@ class hardening::services {
         case $operatingsystem {
                 centos: {
                         include hardening::services::redhat
-			}
                 }
 
                 redhat: {
