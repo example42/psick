@@ -191,7 +191,7 @@ class general::scan inherits general {
 
         # include nmap
         # include nessus
-        # include metaspoit
+        # include openvas
 }
 
 

@@ -2,29 +2,103 @@
 # (you can split the nodes definitions in different files to be managed by different people)
 # You can override variables defined in the infrastructure tree
 # Each node should inherit a zone node defined in infrastructure.pp
-# A anode can include single module-classes or a role class
+# A node can include single module-classes or a role class (useful when you have many hosts having the same function)
 # Roles are defined in roles.pp
 
 # Same example nodes 
 
-# Puppet Master
+## MANAGEMENT INFRASTRUCTURE HOSTS
+
 node 'puppet.example42.com' inherits devel {
+	include general
+	
 	include foreman
 	include apache
-	include minimal
-	include general
 	include puppet::dashboard
 #	include puppet::foreman
 #	include puppet::foreman::externalnodes
 
 	include ssh::auth::keymaster
-
 }
 
-## Testing hosts (Used for modules testing)
+
+node 'syslog.example42.com' inherits devel {
+        $my_rsyslog_host = "localhost"
+        $my_rsyslog_db = "Syslog"
+        $my_rsyslog_user = "syslog"
+        $my_rsyslog_password = "syslogpw"
+
+	include general
+
+        include rsyslog::server::mysql
+        include mysql
+        include apache::php
+        php::module { mysql: }
+        php::module { gd: }
+        mysql::grant { rsyslog:
+                mysql_db         => $my_rsyslog_db,
+                mysql_user       => $my_rsyslog_user,
+                mysql_password   => $my_rsyslog_password,
+        }
+
+        netinstall { phplogcon:
+                source_path      => "http://download.adiscon.com/phplogcon/",
+                source_filename  => "phplogcon-2.7.2.tar.gz",
+                destination_dir  => "/var/www/html",
+        }
+}
+
+
+node 'monitor.example42.com' inherits devel {
+	include general
+
+	include monitor::server
+}
+
+
+node 'backup.example42.com' inherits devel {
+	include general
+
+	include backup::server
+}
+
+
+node 'cobbler.example42.com' inherits devel {
+        $my_cobbler_server = "10.42.10.10"
+        $my_tftp_server = "10.42.10.10"
+
+        include general
+	
+# Cobbler with some configuration settings. Review before using
+        include cobbler::example42
+
+# Vanilla Cobbler installation
+#       include cobbler
+
+        include tftp
+##      include dhcpd::example42
+#       include yumreposerver
+}
+
+
+# Cacti Monitoring Server
+node 'cacti.example42.com' inherits devel {
+        $my_cacti_mysqluser = "cactiuser"
+        $my_cacti_mysqlpassword = "example42"
+        $my_cacti_mysqlhost = "localhost"
+        $my_cacti_mysqldbname = "cacti"
+        $my_mysql_passwd = "example42"
+
+        include general
+        include cacti
+        include mysql
+}
+
+
+
+## TESTING HOSTS (Used for modules testing)
 
 node 'test.example42.com' inherits devel {
-	include minimal
 	include general
 
 	include backup::server
@@ -32,12 +106,10 @@ node 'test.example42.com' inherits devel {
 }
 
 node 'debiantest.example42.com' inherits devel {
-	include minimal
 	include general
 }
 
 node 'opensusetest.example42.com' inherits devel {
-	include minimal
 	include general
 }
 
@@ -47,32 +119,9 @@ node 'solaristest.example42.com' inherits devel {
 }
 
 
-# Cobbler Server 
-node 'cobbler.example42.com' inherits devel {
-	$my_cobbler_server = "10.42.10.10"
-	$my_tftp_server = "10.42.10.10"
-
-	include general::provisioner
-}
-
-# Central Syslog Server
-node 'syslog.example42.com' inherits devel {
-	include general
-}
-
-# Cacti Monitoring Server
-node 'cacti.example42.com' inherits intranet {
-        $my_cacti_mysqluser = "cactiuser"
-        $my_cacti_mysqlpassword = "example42"
-        $my_cacti_mysqlhost = "localhost"
-        $my_cacti_mysqldbname = "cacti"
-        $my_mysql_passwd = "example42"
-        include general::monitor
-}
 
 
-
-# Internet Services
+## PRODUCTION -  Internet Services
 
 
 # Postfix+Mailscanner+Mailwatch Mail Server
@@ -90,16 +139,23 @@ node 'mail.example42.com' inherits prod {
 
         $my_mysql_passwd = "example42"
 
-        include general::mail
+        include general
+        include mysql::example42
+        include dovecot::example42
+        include clamav::epel
+        include spamassassin
+        # include mailscanner::example42
+        # include mailscanner::postfix::mailwatch
+        include postfix::example42
+        include squirrelmail
+
 }
 
 
+# Generic Httpd server
 node 'web01.example42.man' inherits prod {
-        $my_apache_namevirtualhost = "10.42.10.12"
-        $my_mysql_passwd = "example42"
-        $my_postfix_mynetworks = $my_network/$my_netmask
-        
-	include general::webhosting
+        include general
+	include apache
 }
 
 
@@ -116,23 +172,42 @@ node 'dc.example42.com' inherits intranet {
         $samba_pdc        = "dc.example42.com"
         $mysql_passwd     = "example42"
 
-        include general::file
+        include general
+
+        include samba::ldap
 }
-
-
-
 
 # Security
-node 'pentester.example42.com' inherits intranet {
-	include general::scan
+node 'pentest.example42.com' inherits devel {
+        include general
+
 }
 
-node 'lanfirewall.example42.com' inherits intranet {
-	include general::gateway
+node 'gw.example42.com' inherits devel {
+        $my_role = "gateway"
+#       $my_ipforward = "yes"
+        $my_ntop_password = "CHANGE:Password"
+        augeasconfig { sysctl:
+                file      => "/etc/sysctl.conf",
+                parameter => "net.ipv4.ip_forward",
+                value     => "1",
+                lens      => "@Sysctl",
+        }
+
+        include general
+        include apache
+        include squid::transparent
+        include ntop
+        include sarg
 }
 
 node 'vpn.example42.com' inherits intranet {
-	include general::vpn
+        $my_role = "vpn"
+        $my_ipforward = "yes"
+
+        include general
+        include openvpn::example42
+        include rip::example42
 }
 
 

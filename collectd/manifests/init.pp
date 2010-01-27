@@ -1,12 +1,40 @@
+import "plugin.pp"
+
 class collectd {
+
+$collectd_configdir = $operatingsystem ? { 'Debian' => "/etc/collectd", default => "/etc" }
 
 	package {
 		'collectd':
 			name => $operatingsystem ? {
                                 default => "collectd",
                         },
-			ensure => installed;
+			ensure => present;
 	}
+
+# In some OS (such as RedHat with EPEL) some plugins are provided in different packages
+# For sake of simplicity we install everything. May be tuned.
+
+        case $operatingsystem {
+                redhat,centos: {
+                        package {
+                                'collectd-apache' : ensure => present ;
+                                'collectd-dns' : ensure => present ;
+                                'collectd-email' : ensure => present ;
+                                'collectd-ipmi' : ensure => present ;
+                                'collectd-mysql' : ensure => present ;
+                                'collectd-nginx' : ensure => present ;
+                                'collectd-nut' : ensure => present ;
+                                'collectd-postgresql' : ensure => present ;
+                                'collectd-rrdtool' : ensure => present ;
+                                'collectd-sensors' : ensure => present ;
+                                'collectd-snmp' : ensure => present ;
+                                'collectd-virt' : ensure => present ;
+                        }
+                }
+                default: {  }
+        }
+
 
 	service {
 		'collectd':
@@ -20,33 +48,23 @@ class collectd {
 	file {
 		'collectd.conf':
 			ensure => present,
-			path => $operatingsystem ? {
-				debian  => "/etc/collectd/collectd.conf",
-				default => "/etc/collectd.conf",
-			},
+			path => "$collectd_configdir/collectd.conf",
 #			mode => 0644, owner => root, group => 0,
 			require => Package['collectd'],
-			notify => Service['collectd'];
+			notify => Service['collectd'],
+                        content => template("collectd/collectd.conf"),
 	}
+
+
 
 
 # Brutal force of /etc/collectd.d/ directory for plugins
 # To adapt or accept
 
-        collectd::conf {
-                'Include':
-                        value =>  $operatingsystem ? {
-                                default => "/etc/collectd.d",
-                        };
-                'Hostname':
-                        value =>  $fqdn,
-        }
-
 	file {
 		'collectd.d':
-			path => "/etc/collectd.d",
+			path => "$collectd_configdir/collectd.d",
 			ensure => directory,
 	}
-
 
 }

@@ -3,7 +3,7 @@ define mysql::grant (
 	$mysql_user,
 	$mysql_password,
 	$mysql_privileges = "ALL",
-	$mysql_host = "localhost"
+	$mysql_host = "localhost",
 	$mysql_grant_filepath = "/root"
 	) {
 

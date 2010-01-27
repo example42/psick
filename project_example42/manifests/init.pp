@@ -1,10 +1,10 @@
 import "common"
+import "modules.pp"
 import "baselines/*.pp"
 import "infrastructures/*.pp"
 import "roles/*.pp"
 import "nodes/*.pp"
 
-import "modules.pp"
 import "modules/*.pp"
 
 Exec { path => "/bin:/sbin:/usr/bin:/usr/sbin" }

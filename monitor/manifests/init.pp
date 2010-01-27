@@ -51,11 +51,8 @@ class monitor::server {
 		}
 
 		collectd: {
-			include collectd
-			collectd::network { "network":
-			        listen => $collectd_server ,
-			}
-
+		#	include collectd
+		#	collectd::plugin { "network": }
 		}
 
 		cacti:  { include monitor::cacti::server }
@@ -76,9 +73,8 @@ class monitor::target {
 		
 		collectd: { 
                         include collectd
-                        collectd::network { "network":
-                                server => $collectd_server ,
-                        }
+                        collectd::plugin { "general": }
+                        collectd::plugin { "network": }
 		}
 		
 		cacti:  { include monitor::cacti::target }

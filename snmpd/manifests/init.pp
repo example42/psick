@@ -14,15 +14,16 @@ class snmpd {
                 "net-snmp":
                 ensure => present,
                 name => $operatingsystem ? {
+                        debian => "snmpd",
                         default => "net-snmp",
                         },
         }
 	
 	file {
 		"snmpd.conf":
-		owner  => root,
-		group  => root,
-		mode   => 644,
+# 		owner  => root,
+#		group  => root,
+#		mode   => 644,
 		require   => Package["net-snmp"],
                 path    => $operatingsystem ?{
                            default => "/etc/snmp/snmpd.conf",

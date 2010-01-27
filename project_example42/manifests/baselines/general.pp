@@ -17,7 +17,7 @@ class general {
 # Various packages/settings you may want on a general host
 # TO DO: Complete and standardize modules
 #       include nrpe
-#       include snmpd
+       include snmpd
        include ntp
 #       include clock
 #       include cron
@@ -54,7 +54,13 @@ include backup::target
         }
 
 # Monitor Host
-include monitor::target
+#include monitor::target
+
+	collectd::plugin { "network":
+		collectd_server => "10.42.42.9",
+	}
+	collectd::plugin { "general": }
+
 
 }
 
