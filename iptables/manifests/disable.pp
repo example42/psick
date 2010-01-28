@@ -1,7 +1,8 @@
 # Disables iptables (no boot, no run)
 class iptables::disable {
         case $operatingsystem {
-                /centos|redhat/: { include iptables::redhat::disable }
+                centos: { include iptables::redhat::disable }
+                redhat: { include iptables::redhat::disable }
                 default: { err("No such operatingsystem: $operatingsystem yet defined") }
         }
 }
