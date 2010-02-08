@@ -1,7 +1,7 @@
 class puppet::master inherits puppet {
 
 	# We need rails for storeconfigs
-	require rails
+	include rails
 
 
         package {
@@ -26,7 +26,7 @@ class puppet::master inherits puppet {
                 enable => true,
                 hasrestart => true,
                 hasstatus => true,
-                require => Package[puppet-server],
+                require => [Package[puppet-server],Package[rails]],
         }
 
         File["puppet.conf"] {
