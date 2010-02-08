@@ -1,8 +1,8 @@
 # File managed by Puppet <%= puppetversion %> on <%= fqdn %>
 
 # Syslogs to Mysql
-$ModLoad ommysql
-*.*       :ommysql.so:<%= rsyslog_host %>,<%= rsyslog_db %>,<%= rsyslog_user %>,<%= rsyslog_password %>
+$ModLoad ommysql.so
+*.*       :ommysql:<%= rsyslog_host %>,<%= rsyslog_db %>,<%= rsyslog_user %>,<%= rsyslog_password %>
 
 #kern.*							/dev/console
 *.info;mail.none;authpriv.none;cron.none		/var/log/messages

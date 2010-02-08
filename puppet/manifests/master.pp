@@ -1,5 +1,9 @@
 class puppet::master inherits puppet {
 
+	# We need rails for storeconfigs
+	require rails
+
+
         package {
                 puppet-server:
                 name => $operatingsystem ? {
