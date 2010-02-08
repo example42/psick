@@ -59,6 +59,7 @@ define config (
                 		"Config_$file-$line":
 		                file	=> "$file",
 		                line    => "$line",
+				ensure  => "present",
         		}
 	        }
 

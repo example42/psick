@@ -2,6 +2,7 @@ define netinstall (
 #        $source_url,
         $source_path,
         $source_filename,
+        $extracted_dir,
         $destination_dir,
         $owner = "root",
         $group = "root",
@@ -24,7 +25,8 @@ define netinstall (
         exec {
                 "Extract $source_filename":
                         command => "mkdir -p $destination_dir ; cd $destination_dir ; $extract_command $work_dir/$source_filename",
-#                        creates => "$work_dir/$source_filename",
+                        unless  => "find $destination_dir | grep $extracted_dir",
+#                         creates => "$destination_dir/$extracted_dir",
         }
 
 }
