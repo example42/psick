@@ -11,6 +11,7 @@ class ntp {
 		name => $operatingsystem ? {
                         suse => "ntp",
                         debian => "ntp",
+                        ubuntu => "ntp",
                         default => "ntpd",
                         },
 		ensure => running,
@@ -39,6 +40,7 @@ class ntp {
 			path => $operatingsystem ?{
                         	suse    => "/etc/ntp.keys",
                         	debian  => "/etc/ntp.keys",
+                        	ubuntu  => "/etc/ntp.keys",
                         	default => "/etc/ntp/keys",
                         },
 	}
