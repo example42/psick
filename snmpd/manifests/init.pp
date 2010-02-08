@@ -1,7 +1,7 @@
 class snmpd {
 	service {
 		"snmpd":
-		enable    => "false",
+		enable    => "true",
 		ensure    => "running",
 		require   => File["snmpd.conf"],
 		subscribe => File["snmpd.conf"],
@@ -15,6 +15,7 @@ class snmpd {
                 ensure => present,
                 name => $operatingsystem ? {
                         debian => "snmpd",
+                        ubuntu => "snmpd",
                         default => "net-snmp",
                         },
         }
