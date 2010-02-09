@@ -2,27 +2,32 @@ class cron {
 
 	package { cron:
 		name => $operatingsystem ? {
-			default	=> "vixie-cron",
-			},
-		ensure => present,
-	}
-
-	package { crontabs:
-		name => $operatingsystem ? {
-			default	=> "crontabs",
+			ubuntu	=> "cron",
+			debian	=> "cron",
+			redhat	=> "vixie-cron",
+			centos	=> "vixie-cron",
 			},
 		ensure => present,
 	}
 
         service { crond:
                 name => $operatingsystem ? {
-                        default => "crond",
+                        ubuntu  => "cron",
+                        debian  => "cron",
+                        redhat  => "crond",
+                        centos  => "crond",
                         },
                 ensure => running,
                 enable => true,
-                hasrestart => true,
-                hasstatus => true,
-                require => Package[cron],
+                pattern => cron,
+		require => Package["cron"],
         }
+
+        case $operatingsystem {
+                centos: { include cron::crontabs }
+                redhat: { include cron::crontabs }
+                default: { }
+        }
+
 
 }
