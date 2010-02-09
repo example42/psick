@@ -17,12 +17,12 @@ class rsync {
                         path => $operatingsystem ?{
                                 default => "/etc/xinetd.d/rsync",
                         },
-                	source => "puppet://$server/rsync/rsync.xinetd",
+#                	source => "puppet://$server/rsync/rsync.xinetd",
         }
 
         file {
                 "rsyncd.conf":
-                        mode => 640, owner => root, group => root,
+#                        mode => 640, owner => root, group => root,
                         require => Package["rsync"],
                         ensure => present,
                         path => $operatingsystem ?{
