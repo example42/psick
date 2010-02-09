@@ -2,7 +2,7 @@ class git {
 
 	$git_basedir="/srv/git"
         
-	package { git:
+	package { "git":
                 name => $operatingsystem ? {
                         default => "git",
                         },
