@@ -28,6 +28,7 @@ class puppet {
 			require => Package[puppet],
 			ensure => present,
 			path => $operatingsystem ?{
+                        	freebsd => "/usr/local/etc/puppet/puppet.conf",
                         	default => "/etc/puppet/puppet.conf",
                         },
 			content => $puppet_server ?{
@@ -42,6 +43,7 @@ class puppet {
 #                        mode => 644, owner => root, group => root,
                         require => Package[puppet],
                         path => $operatingsystem ?{
+                                freebsd => "/usr/local/etc/puppet/namespaceauth.conf",
                                 default => "/etc/puppet/namespaceauth.conf",
                         },
 			content => $puppet_server ?{
