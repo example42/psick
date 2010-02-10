@@ -9,6 +9,7 @@ class timezone {
                                 ubuntu  => "/etc/timezone",
                                 redhat  => "/etc/sysconfig/clock",
                                 centos  => "/etc/sysconfig/clock",
+                                suse    => "/etc/sysconfig/clock",
                                 freebsd => "/etc/timezone-puppet",
                         },
 
@@ -25,6 +26,7 @@ class timezone {
                                 ubuntu  => "dpkg-reconfigure -f noninteractive tzdata",
                                 redhat  => "tzdata-update",
                                 centos  => "tzdata-update",
+                                suse    => "FIX ME",
                                 freebsd => "cp /usr/share/zoneinfo/${timezone} /etc/localtime && adjkerntz -a",
                         },
 			require => File["timezone"],

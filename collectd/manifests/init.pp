@@ -7,6 +7,7 @@ case $operatingsystem {
         debian: { $collectd_configdir = "/etc/collectd" }
         centos: { $collectd_configdir = "/etc" }
         redhat: { $collectd_configdir = "/etc" }
+        suse: { $collectd_configdir = "/etc" }
 }
 
 	package {

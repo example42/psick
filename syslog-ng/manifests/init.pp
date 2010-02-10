@@ -11,6 +11,10 @@ class syslog-ng {
                 ensure    => "running",
                 require   => File["syslog-ng.conf"],
                 subscribe => File["syslog-ng.conf"],
+		name	  => $operatingsystem ?{
+                            	suse    => "syslog",
+                            	default => "syslog-ng",
+                	     },
         }
 
         file {
