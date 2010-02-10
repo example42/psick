@@ -1,8 +1,13 @@
-import "plugin.pp"
+import "*.pp"
 
 class collectd {
 
-$collectd_configdir = $operatingsystem ? { 'Debian' => "/etc/collectd", default => "/etc" }
+case $operatingsystem {
+        ubuntu: { $collectd_configdir = "/etc/collectd" }
+        debian: { $collectd_configdir = "/etc/collectd" }
+        centos: { $collectd_configdir = "/etc" }
+        redhat: { $collectd_configdir = "/etc" }
+}
 
 	package {
 		'collectd':

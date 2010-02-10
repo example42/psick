@@ -1,6 +1,11 @@
 define collectd::plugin( $collectd_server='127.0.0.1' , collectd_port='25826' , collectd_forward='false' ) {
 
-	$collectd_configdir = $operatingsystem ? { 'debian' => "/etc/collectd", default => "/etc" }
+case $operatingsystem {
+        ubuntu: { $collectd_configdir = "/etc/collectd" }
+        debian: { $collectd_configdir = "/etc/collectd" }
+        centos: { $collectd_configdir = "/etc" }
+        redhat: { $collectd_configdir = "/etc" }
+}
 
 	include collectd
 
