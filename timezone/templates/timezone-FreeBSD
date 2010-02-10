@@ -1,0 +1,2 @@
+# This file is created by Puppet <%= puppetversion %> on <%= fqdn %>
+# On this system the zimezone is set to <%= timezone %>"

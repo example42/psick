@@ -3,6 +3,7 @@ class syslog::base {
                 "syslogd":
                 ensure => present,
                 name => $operatingsystem ? {
+                        freebsd => "",
                         default => "sysklogd",
                         },
         }
@@ -41,8 +42,9 @@ class syslog::base {
                 require   => File["syslog.conf"],
                 subscribe => File["syslog.conf"],
                 name => $operatingsystem ? {
-                        Debian  => "sysklogd",
-                        Ubuntu  => "sysklogd",
+                        freebsd => "syslogd",
+                        debian  => "sysklogd",
+                        ubuntu  => "sysklogd",
                         default => "syslog",
                         },
         }

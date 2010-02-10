@@ -21,10 +21,12 @@ class xinetd {
 	
 	file {
 		"/etc/xinetd.conf":
-		owner  => root,
-		group  => root,
-		mode   => 644,
-		require   => Package["xinetd"],
+#		owner  => root, group  => root,	mode   => 644,
+		require => Package["xinetd"],
         	ensure => present,
+                path => $operatingsystem ?{
+                        freebsd => "/usr/local/etc/xinetd.conf",
+                        default => "/etc/xinetd.conf",
+                }
 	}
 }

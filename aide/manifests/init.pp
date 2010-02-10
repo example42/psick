@@ -13,6 +13,7 @@ class aide {
 			require => Package["aide"],
 			ensure => present,
 			path => $operatingsystem ?{
+                        	freebsd => "/usr/local/etc/aide.conf",
                         	debian  => "/etc/aide/aide.conf",
 	                        ubuntu  => "/etc/aide/aide.conf",
         	               	default => "/etc/aide.conf",

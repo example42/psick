@@ -8,6 +8,7 @@ class nrpe {
                                 debian  => "nagios-nrpe-server",
                                 centos  => "nrpe", # OK for EPEL, use nagios-nrpe for RPMFORGE
                                 redhat  => "nrpe", # OK for EPEL, use nagios-nrpe for RPMFORGE
+                                freebsd => "nrpe", 
 			},
         }
 	
@@ -19,6 +20,7 @@ class nrpe {
                                 debian  => "nagios-plugins",
                                 centos  => "nagios-plugins-all", # OK for EPEL, use nagios-plugins for RPMFORGE
                                 redhat  => "nagios-plugins-all", # OK for EPEL, use nagios-plugins for RPMFORGE
+                                freebsd => "nagios-plugins",
 			},
         }
 	
@@ -36,6 +38,7 @@ class nrpe {
                                 debian  => "nagios-nrpe-server",
                                 centos  => "nrpe",
                                 redhat  => "nrpe",
+                                freebsd => "nrpe",
                         },
 			pattern   => "nrpe",
         }

@@ -11,10 +11,15 @@ class rsync {
 
         file {
                 "/etc/xinetd.d/rsync":
-                        mode => 640, owner => root, group => root,
+                        mode => 640, owner => root,
+			group => $operatingsystem ?{
+                                freebsd => "wheel",
+                                default => "root",
+                        },
                         require => Package["xinetd"],
                         ensure => present,
                         path => $operatingsystem ?{
+                                freebsd => "/usr/local/etc/xinetd.d/rsync",
                                 default => "/etc/xinetd.d/rsync",
                         },
 #                	source => "puppet://$server/rsync/rsync.xinetd",
@@ -26,16 +31,22 @@ class rsync {
                         require => Package["rsync"],
                         ensure => present,
                         path => $operatingsystem ?{
+                                freebsd => "/usr/local/etc/rsyncd.conf",
                                 default => "/etc/rsyncd.conf",
                         },
         }
 
         file {
                 "rsyncd.secrets":
-                        mode => 600, owner => root, group => root,
+                        mode => 600, owner => root,
+			group => $operatingsystem ?{
+                                freebsd => "wheel",
+                                default => "root",
+                        },
                         require => File["rsyncd.conf"],
                         ensure => present,
                         path => $operatingsystem ?{
+                                freebsd => "/usr/local/etc/rsyncd.secrets",
                                 default => "/etc/rsyncd.secrets",
                         },
         }

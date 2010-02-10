@@ -2,10 +2,7 @@ class logrotate {
 
 	package { logrotate:
 		name => $operatingsystem ? {
-			ubuntu	=> "logrotate",
-			debian	=> "logrotate",
-			redhat	=> "logrotate",
-			centos	=> "logrotate",
+			default	=> "logrotate",
 			},
 		ensure => present,
 	}
