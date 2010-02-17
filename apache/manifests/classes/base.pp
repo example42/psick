@@ -1,3 +1,10 @@
+# Class: apache::base
+#
+# Base apache class. Installs package, runs service, defines main configuration file.
+# Note that it doesn't modify, by default, the main configuration file,
+# in order to do it, add a source|content statement for the relevant File type in this class or in a class that inherits it.
+# This class is included by main apache class, it's not necessary to call it directly
+
 class apache::base  {
 
 	package { apache:
@@ -29,17 +36,16 @@ class apache::base  {
                 subscribe => File["httpd.conf"],
 	}
 
-	file {	
-             	"httpd.conf":
-#			mode => 644, owner => root, group => root,
-			require => Package[apache],
-			ensure => present,
-			path => $operatingsystem ?{
-                        	freebsd => "/usr/local/etc/apache20/httpd.conf",
-                        	ubuntu  => "/etc/apache2/apache2.conf",
-                        	debian  => "/etc/apache2/apache2.conf",
-                        	default => "/etc/httpd/conf/httpd.conf",
-                        },
+	file { "httpd.conf":
+#		mode => 644, owner => root, group => root,
+		require => Package[apache],
+		ensure => present,
+		path => $operatingsystem ?{
+                       	freebsd => "/usr/local/etc/apache20/httpd.conf",
+                  	ubuntu  => "/etc/apache2/apache2.conf",
+                       	debian  => "/etc/apache2/apache2.conf",
+                       	default => "/etc/httpd/conf/httpd.conf",
+                },
 	}
 }
 

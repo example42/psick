@@ -1,3 +1,10 @@
+# Class: apache::modsecurity
+#
+# Installs modsecurity  for apache
+#
+# Usage:
+# include apache::modsecurity
+
 class apache::modsecurity {
 
         include apache
@@ -11,4 +18,3 @@ class apache::modsecurity {
                 ensure => present,
         }
 }
-

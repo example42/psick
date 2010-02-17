@@ -1,3 +1,12 @@
+# Class: apache
+#
+# Manages apache.
+# Include it to install and run apache with default settings
+#
+# Usage:
+# include apache
+
+
 import "defines/*.pp"
 import "classes/*.pp"
 
@@ -10,5 +19,9 @@ class apache {
                 ubuntu: { include apache::debian }
                 default: { }
         }
+
+	if $backup { include apache::backup }
+	if $monitor { include apache::monitor }
+	if $firewall { include apache::firewall }
 
 }
