@@ -1,0 +1,34 @@
+#!/bin/bash
+
+NAME=$(basename $0)
+
+TYPE=${NAME##nagios_perf_}
+
+[ "x$TYPE" = 'xhosts' ] && TYPE_ABBR=HST
+[ "x$TYPE" = 'xsvc' ] && TYPE_ABBR=SVC
+[ -z "$TYPE_ABBR" ] && echo "unknown type $TYPE" >&2 && exit 1
+
+if [ "$1" = "config" ]; then
+	echo "graph_title Nagios $TYPE performance stats"
+	echo "graph_args --base 1000"
+	echo "graph_vlabel seconds"
+	echo "graph_category nagios"
+	echo "graph_info Check performance statistics"
+
+	echo "act_lat_$TYPE_ABBR.label act lat"
+	echo "act_lat_$TYPE_ABBR.type GAUGE"
+	echo "act_lat_$TYPE_ABBR.draw AREA"
+	echo "act_lat_$TYPE_ABBR.cdef act_lat_$TYPE_ABBR,1000,/"
+	echo "act_lat_$TYPE_ABBR.info average latency of active checks over the last 5 minutes"
+
+	echo "act_ext_$TYPE_ABBR.label act ext"
+	echo "act_ext_$TYPE_ABBR.type GAUGE"
+	echo "act_ext_$TYPE_ABBR.draw LINE1"
+	echo "act_ext_$TYPE_ABBR.cdef act_ext_$TYPE_ABBR,1000,/"
+	echo "act_ext_$TYPE_ABBR.info average execution time of active checks over the last 5 minutes"
+
+	exit 0
+fi
+
+echo "act_lat_$TYPE_ABBR.value " $(/usr/local/sbin/nagiostats --mrtg --data AVGACT${TYPE_ABBR}LAT)
+echo "act_ext_$TYPE_ABBR.value " $(/usr/local/sbin/nagiostats --mrtg --data AVGACT${TYPE_ABBR}EXT)

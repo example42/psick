@@ -1,0 +1,33 @@
+#!/bin/bash
+
+if [ "$1" = "config" ]; then
+	echo 'graph_title Nagios service stats'
+	echo 'graph_args --base 1000 -l 0'
+	echo 'graph_vlabel services'
+	echo 'graph_category nagios'
+	echo 'graph_info The number of services checked by nagios'
+	echo 'ok.label ok'
+	echo 'ok.draw AREA'
+	echo 'ok.info number of services OK'
+	echo 'warn.label warn'
+	echo 'warn.draw STACK'
+	echo 'warn.info number of services WARNING'
+	echo 'crit.label crit'
+	echo 'crit.draw STACK'
+	echo 'crit.info number of services CRITICAL'
+	echo 'unkn.label unkn'
+	echo 'unkn.draw STACK'
+	echo 'unkn.info number of services UNKNOWN'
+
+	exit 0
+fi
+
+echo -n 'ok.value '
+/usr/local/sbin/nagiostats --mrtg --data NUMSVCOK
+echo -n 'warn.value '
+/usr/local/sbin/nagiostats --mrtg --data NUMSVCWARN
+echo -n 'crit.value '
+/usr/local/sbin/nagiostats --mrtg --data NUMSVCCRIT
+echo -n 'unkn.value '
+/usr/local/sbin/nagiostats --mrtg --data NUMSVCUNKN
+

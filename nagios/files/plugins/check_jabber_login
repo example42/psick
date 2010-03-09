@@ -1,0 +1,30 @@
+#!/usr/bin/env ruby
+require 'rubygems'
+require 'xmpp4r'
+
+
+def usage
+  puts "#{$0} jabberid password"
+  exit 3
+end
+
+usage unless ARGV.size == 2
+
+begin
+      my_client = Jabber::Client.new(ARGV[0])
+      my_client.connect
+      my_client.auth(ARGV[1])
+rescue Jabber::ClientAuthenticationFailure => detail
+  puts "CRITICAL: Login Error"
+  exit 2
+rescue Errno::ECONNREFUSED => detail
+  puts "CRITICAL: Connection refused"
+  exit 2
+rescue SocketError => detail
+  puts "CRITICAL: Socket Error"
+  exit 2
+#rescue 
+#  puts "CRITICAL: Unknown Error"
+#  exit 2
+end
+puts "OK: Login for #{ARGV[0]} successfull"

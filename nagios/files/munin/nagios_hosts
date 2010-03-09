@@ -1,0 +1,28 @@
+#!/bin/bash
+
+if [ "$1" = "config" ]; then
+	echo 'graph_title Nagios host stats'
+	echo 'graph_args --base 1000 -l 0'
+	echo 'graph_vlabel hosts'
+	echo 'graph_category nagios'
+	echo 'graph_info The number of hosts checked by nagios'
+	echo 'up.label up'
+	echo 'up.draw AREA'
+	echo 'up.info number of hosts UP'
+	echo 'down.label down'
+	echo 'down.draw STACK'
+	echo 'down.info number of hosts DOWN'
+	echo 'unr.label unr'
+	echo 'unr.draw STACK'
+	echo 'unr.info number of hosts UNREACHABLE'
+
+	exit 0
+fi
+
+echo -n 'up.value '
+/usr/local/sbin/nagiostats --mrtg --data NUMHSTUP
+echo -n 'down.value '
+/usr/local/sbin/nagiostats --mrtg --data NUMHSTDOWN
+echo -n 'unr.value '
+/usr/local/sbin/nagiostats --mrtg --data NUMHSTUNR
+
