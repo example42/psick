@@ -1,0 +1,70 @@
+Puppet abstraction module: monitor
+
+# Written by Lab42 #
+# http://www.example42.com
+
+Licence: GPLv3
+
+
+DESCRIPTION:
+This modules abstracts the monitoring definitions for an host or application, in order to add
+and use different monitoring methods, without changes on the single application modules.
+It's a proof of concept that tries to provide:
+- a common interface for different implementations of monitoring logic tools
+- an unified syntax for monitoring resources able to adapt to monitoring modules from different authors
+- a standard way to define what an application or an host needs to be monitored
+
+Everything in this module is under discussion and open to redefinition,
+the goal is to prove that the concept and the implementation work seamlessly and
+to define standards accepted by the Puppet community, that can make things this work:
+
+class apache::monitor {
+        monitor {
+                "$fqdn_apache_port":
+                type    => "port",
+                proto   => "tcp",
+                port    => 80,
+                address => $ipaddress,
+        }
+
+        monitor {
+                "$fqdn_apache_process":
+                type    => "process",
+                name => $operatingsystem ? {
+                        ubuntu  => "apache2",
+                        debian  => "apache2",
+                        default => "httpd",
+                        },
+        }
+}
+
+
+
+
+USAGE:
+
+# On the HOST to be monitored:
+# set the variable: $monitor=yes
+# set the variable: $monitor_<tool>=yes
+include monitor::target
+
+# On the monitoring SERVER:
+# set the variable: $monitor=yes
+# set the variable: $monitor_<tool>=yes
+include monitor::server
+# If you have different monitoring servers: 
+# set the variable: $monitor_nagios=yes
+include monitor::server::nagios
+
+# On the APPLICATIONS module to be monitored:
+include apache::monitor     # Monitor apache  Automatically included if $monitor=yes
+Where you can have something like the class apache::monitor seen before.
+
+
+
+DEPENDENCIES:
+This is a meta-module that needs dependencies according to the modules you use.
+You must have storeconfigs enabled.
+You generally need the "common" module and all the prerequites for the modules related to monitoring
+applications you decide to use.
+
