@@ -8,6 +8,9 @@
 # php::module { mysql: }
 
 define php::module {
+
+	include apache::php
+
         package { "php-${name}":
                 name => $operatingsystem ? {
                         ubuntu  => "php5-${name}",
@@ -20,28 +23,25 @@ define php::module {
 }
 
 
+
 # Define: php::pear
 #
-# Installs the defined php pear package 
-
-# Note:
-# Currently in alpha stage, with installation via rpm
-#
-# ToDo:
-# Real pear managed installation
+# Installs the defined php pear component
 #
 # Usage:
 # php::pear { packagename: }
 # Example:
-# php::module { Crypt-CHAP: }
+# php::pear { Crypt-CHAP: }
 
 define php::pear {
-        package { "php-pear-${name}":
-                name => $operatingsystem ? {
-                        redhat  => "php-pear-${name}",
-                        centos  => "php-pear-${name}",
-                        },
-                ensure => present,
+
+	include apache::php::pear
+
+        exec { "pear-${name}":
+		command => "pear install ${name}",
+		unless  => "pear info ${name}",
+		require => Package["php-pear"],
         }
+
 }
 

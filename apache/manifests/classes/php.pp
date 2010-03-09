@@ -14,6 +14,7 @@ class apache::php  {
                 name => $operatingsystem ? {
                         ubuntu  => "php5",
                         debian  => "php5",
+                        suse    => "php5",
                         default => "php",
                         },
                 ensure => present,
@@ -23,8 +24,32 @@ class apache::php  {
                 name => $operatingsystem ? {
                         ubuntu  => "php5-common",
                         debian  => "php5-common",
+                        suse    => undef,
                         default => "php-common",
                         },
                 ensure => present,
         }
 }
+
+
+
+# Class: apache::php::pear
+#
+# Installs Pear for PHP module
+#
+# Usage:
+# include apache::php::pear
+
+class apache::php::pear  {
+
+        include apache::php
+
+        package { php-pear:
+                name => $operatingsystem ? {
+                        default => "php-pear",
+                        },
+                ensure => present,
+        }
+
+}
+

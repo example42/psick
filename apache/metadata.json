@@ -1,7 +1,7 @@
 {"apache": {
-  "source": "git://www.example42.com/example42puppetinfrastructure",
+  "source": "git://www.example42.com/example42modules",
   "author": "Alessandro Franceschi",
-  "version": "0.1.3",
+  "version": "0.2",
   "license": "GPL3",
   "puppetversion": "0.24",
   "summary": "Standard Apache module",

@@ -22,6 +22,7 @@ define apache::conf ($value) {
                 engine    => "replaceline",
                 notify    => Service["apache"],
                 require   => File["httpd.conf"],
+                source    => "apache::conf",
         }
 
 }

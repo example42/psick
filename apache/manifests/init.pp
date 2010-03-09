@@ -20,8 +20,8 @@ class apache {
                 default: { }
         }
 
-	if $backup { include apache::backup }
-	if $monitor { include apache::monitor }
-	if $firewall { include apache::firewall }
+	if $backup == "yes" { include apache::backup }
+	if $monitor == "yes" { include apache::monitor }
+	if $firewall == "yes" { include apache::firewall }
 
 }

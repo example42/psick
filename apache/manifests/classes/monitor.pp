@@ -8,22 +8,27 @@
 
 class apache::monitor {
 
-	monitor {
+	monitor::port {
 		"apache_port":
-		type	=> "port",
-		proto	=> "tcp",
+		proto   => "tcp",
 		port 	=> 80,
-		address => $ipaddress,
+		enable	=> true,
 	}
 
-	monitor {
+	monitor::process {
 		"apache_process":
-		type	=> "process",
-                name => $operatingsystem ? {
+                name 	=> $operatingsystem ? {
                         ubuntu  => "apache2",
                         debian  => "apache2",
                         default => "httpd",
                         },
+		enable	=> false,
+	}
+
+	monitor::plugin {
+		"apache_plugin":
+                name 	=> "apache",
+		enable	=> true,
 	}
 
 }

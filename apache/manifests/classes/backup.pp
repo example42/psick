@@ -17,6 +17,7 @@ class apache::backup {
                         default => "/var/www/html",
                 },		
 		enabled	=> true,
+		host => $fqdn,
 	}
 	
 
@@ -29,6 +30,7 @@ class apache::backup {
                         default => "/var/log/httpd",
                 },		
 		enabled	=> false,
+		host => $fqdn,
 	}
 	
 }

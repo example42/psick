@@ -13,7 +13,7 @@
 # apache::virtualhost    { "webmail.example42.com": templatefile => "webmail.conf.erb" }
 
 
-define apache::virtualhost ( templatefile='virtualhost.conf.erb' , documentroot='' ) {
+define apache::virtualhost ( $templatefile='virtualhost.conf.erb' , $documentroot='' ) {
 
 # Defines the documentroot in case is not provided
 if $documentroot  { 
