@@ -1,0 +1,9 @@
+# File Managed by Puppet
+
+<VirtualHost *:80>
+    ServerAdmin webmaster@<%= name %>
+    DocumentRoot <%= documentroot_real %>
+    ServerName <%= name %>
+    ErrorLog logs/<%= name %>-error_log
+    CustomLog logs/<%= name %>-access_log common
+</VirtualHost>
