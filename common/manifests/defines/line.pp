@@ -35,6 +35,7 @@
 #  		require => Package[munin-node];
 #  }
 define line(
+	$source = 'Default',
 	$file,
 	$line,
 	$ensure = 'present'
@@ -42,13 +43,13 @@ define line(
 	case $ensure {
 		default : { err ( "unknown ensure value '${ensure}'" ) }
 		present: {
-			exec { "echo '${line}' >> '${file}'":
+			exec { "'${source} echo '${line}' >> '${file}'":
 				command => "echo '${line}' >> '${file}'",
 				unless => "grep -qFx '${line}' '${file}'"
 			}
 		}
 		absent: {
-			exec { "perl -ni -e 'print if \$_ ne \"${line}\n\";' '${file}'":
+			exec { "'${source}' perl -ni -e 'print if \$_ ne \"${line}\n\";' '${file}'":
 				command => "perl -ni -e 'print if \$_ ne \"${line}\n\";' '${file}'",
 				onlyif => "grep -qFx '${line}' '${file}'"
 			}

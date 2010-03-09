@@ -1,4 +1,4 @@
-define collectd::plugin( $collectd_server='127.0.0.1' , collectd_port='25826' , collectd_forward='false' ) {
+define collectd::plugin( $collectd_server='127.0.0.1' , $collectd_port='25826' , $collectd_forward='false' ) {
 
 case $operatingsystem {
         ubuntu: { $collectd_configdir = "/etc/collectd" }

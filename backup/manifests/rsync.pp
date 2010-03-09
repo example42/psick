@@ -4,7 +4,7 @@
 # Backup server crontabs a simple script that fetches data from clients via rsync 
 # On Backup server include "backup::rsync" class (or, better, the "backup::server" wrap class)
 
-class backup::rsync {
+class backup::rsync::server {
 # Tests... work in progress
 
         file {
@@ -19,16 +19,23 @@ class backup::rsync {
 
 }
 
+class backup::rsync::target {
+	include rsync
+}
+
+
+
 define backup_rsync ( $path='', $frequency='' , $host='' ) {
 	
 	include rsync
 
         @@file {
-                "/tmp/rsync_${name}":
+                "backup_rsync_${host}_${name}":
                         owner   => "root",
                         group   => "root",
                         mode    => "644",
 			tag	=> "backup_rsync",
+			path    => "/tmp/backup_rsync_${host}_${name}",
                         content => "/usr/local/bin/rsyncssh.sh $host $path",
         }
 

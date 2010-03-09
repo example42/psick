@@ -29,7 +29,7 @@ class backup::rsyncssh::server  {
         file {
                 [ "$rsyncssh_basedir" , "$rsyncssh_backupdir" , "$rsyncssh_archivedir" , "$rsyncssh_snapshotdir" ] : 
                         owner   => "$rsyncssh_user",
-                        group   => "$rsyncssh_user",
+                        group   => "root",
                         mode    => "750",
 	                ensure  => directory,
         }
@@ -90,7 +90,7 @@ class backup::rsyncssh::target {
         file {
                 "/home/$rsyncssh_user/.ssh":
                         owner   => "$rsyncssh_user",
-                        group   => "$rsyncssh_user",
+                        group   => "root",
                         mode    => "750",
                         ensure  => "directory",
 			require => User["$rsyncssh_user"],
@@ -106,10 +106,11 @@ class backup::rsyncssh::target {
 define backup_rsyncssh ( $path='', $frequency='' , $host='' ) {
         
 	@@line {
-                "${name}":
+                "backup_rsyncssh_${host}_${name}":
                         file    => "${rsyncssh_configfile}",
 			line	=> "${host}:${path}:${frequency}",
 			ensure  => present,
+	                source  => "backup_rsyncssh",
         }
 
 }

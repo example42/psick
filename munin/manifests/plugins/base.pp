@@ -1,10 +1,10 @@
 class munin::plugins::base {
     file {
         [ '/etc/munin/plugins', '/etc/munin/plugin-conf.d' ]:
-            source => "puppet://$server/modules/common/empty",
+#            source => "puppet://$server/modules/common/empty",
             ignore => [ '\.ignore', 'snmp_*' ],
             ensure => directory, checksum => mtime,
-            recurse => true, purge => true, force => true,
+#            recurse => true, purge => true, force => true,
             mode => 0755, owner => root, group => 0,
             notify => Service['munin-node'];
         '/etc/munin/plugin-conf.d/munin-node':

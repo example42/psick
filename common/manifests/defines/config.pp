@@ -30,14 +30,15 @@ define config (
 	$pattern='',
         $parameter='',
 	$value='',
-	$engine=''
+	$engine='',
+	$source='default'
 	) {
 
 	case $engine {
 		
 		augeas: {
 		        augeas {
-                		"Config_$file-$parameter":
+                		"Config_augeas_$file-$parameter":
 		                context =>  "/files$file",
 		                changes =>  "set $parameter $value",
 		#               onlyif  =>  "get $parameter != $value", 
@@ -46,7 +47,7 @@ define config (
 
 		file2augeas: {
 		        file2augeas {
-                		"Config_$file-$parameter":
+                		"Config_file2augeas_$file-$parameter":
 		                file	  => "$file",
 		                parameter => "$parameter",
 		                value     => "$value",
@@ -56,16 +57,17 @@ define config (
 
 		line: {
 		        line {
-                		"Config_$file-$line":
+                		"Config_line_$file-$line":
 		                file	=> "$file",
 		                line    => "$line",
 				ensure  => "present",
+				source  => "$source",
         		}
 	        }
 
 		replaceline: {
 		        replaceline {
-                		"Config_$file-$line":
+                		"Config_replaceline_$file-$line":
 		                file	  => "$file",
 		                pattern   => "$pattern",
 		                replacement => "$line",

@@ -21,8 +21,9 @@ define munin::plugin (
     		file { $plugin: ensure => absent, }
     	}
     	default: {
-            case $kernel {
+            case $operatingsystem {
                 openbsd: { $basic_require = File['/var/run/munin'] }
+                suse: { $basic_require = Package['munin'] }
                 default: { $basic_require = Package['munin-node'] }
             }
             if $require {
