@@ -1,48 +1,25 @@
+# Class: dovecot
+#
+# Manages dovecot.
+# Include it to install and run dovecot with default settings
+#
+# Usage:
+# include dovecot
+
+
+import "defines/*.pp"
+import "classes/*.pp"
+
 class dovecot {
-	package { dovecot:
-		name => $operatingsystem ? {
-			default	=> "dovecot",
-			},
-		ensure => present,
-	}
 
-	service { dovecot:
-		name => $operatingsystem ? {
-                        default => "dovecot",
-                        },
-		ensure => running,
-		enable => true,
-		hasrestart => true,
-		hasstatus => true,
-		require => Package["dovecot"],
-		subscribe => File["dovecot.conf"],
-	}
+	include dovecot::base
 
-	file {	
-             	"dovecot.conf":
-		mode => 644, owner => root, group => root,
-		require => Package["dovecot"],
-		ensure => present,
-		path => $operatingsystem ?{
-                       	default => "/etc/dovecot.conf",
-                	},
-	}
-	
-}
-
-class dovecot::mysql inherits dovecot {
-
-        File["dovecot.conf"] {
-                        source => "puppet://$servername/dovecot/dovecot.conf-mysql"
+        case $operatingsystem {
+                default: { }
         }
 
-        file {
-                "dovecot-mysql.conf":
-                        mode => 644, owner => root, group => root,
-                        require => File["dovecot.conf"],
-                        ensure => present,
-                        path => "/etc/dovecot-mysql.conf",
-                        content => template ("dovecot/dovecot-mysql.conf"),
-        }
+	if $backup == "yes" { include dovecot::backup }
+	if $monitor == "yes" { include dovecot::monitor }
+	if $firewall == "yes" { include dovecot::firewall }
 
 }
