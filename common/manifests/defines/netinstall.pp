@@ -26,8 +26,20 @@ define netinstall (
                 "Extract $source_filename":
                         command => "mkdir -p $destination_dir ; cd $destination_dir ; $extract_command $work_dir/$source_filename",
                         unless  => "find $destination_dir | grep $extracted_dir",
-#                         creates => "$destination_dir/$extracted_dir",
+			require => Exec["Retrieve $source_path/$source_filename"],
         }
+
+if $postextract_command {
+
+        exec {
+                "PostExtract $source_filename":
+                        command => $postextract_command,
+			cwd => "$destination_dir/$extracted_dir",
+			subscribe => Exec["Extract $source_filename"],
+			refreshonly => true,
+        }
+
+}
 
 }
 
