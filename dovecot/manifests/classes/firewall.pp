@@ -16,18 +16,39 @@ class dovecot::firewall {
 		source	    => "any",
 		destination => $ipaddress,
 		protocol    => "tcp",
-		port 	    => 25,
+		port 	    => 110,
 		action      => "allow",
 		direction   => "inbound",
 	}
 
 	firewall {
-		"dovecot_port_":
-#		source	    => "$ipaddress",
-		destination => "any",
+		"dovecot_port":
+		source	    => "any",
+		destination => $ipaddress,
 		protocol    => "tcp",
-		port 	    => 25,
+		port 	    => 143,
 		action      => "allow",
-		direction   => "outbound",
+		direction   => "inbound",
 	}
+
+	firewall {
+		"dovecot_port":
+		source	    => "any",
+		destination => $ipaddress,
+		protocol    => "tcp",
+		port 	    => 993,
+		action      => "allow",
+		direction   => "inbound",
+	}
+
+	firewall {
+		"dovecot_port":
+		source	    => "any",
+		destination => $ipaddress,
+		protocol    => "tcp",
+		port 	    => 995,
+		action      => "allow",
+		direction   => "inbound",
+	}
+
 }
