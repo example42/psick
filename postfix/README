@@ -14,8 +14,9 @@ Decide and customize how you want to define configation files: static files, tem
 
 USAGE:
 # Standard Classes 
-include postfix              # Install and run Apache with standard configurations.
+include postfix              # Install and run postfix with standard configurations.
 include postfix::disable     # Disable postfix service.
+include postfix::disableboot # Disable postfix service at boot time, but don't stop if it's running.
 include postfix::absent      # Remove postfix package.
 
 # Extended Classes (require storeconfings)

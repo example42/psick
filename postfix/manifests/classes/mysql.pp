@@ -17,8 +17,11 @@
 # Postfix (with Mysql support): include postfix::mysql
 # Mysql: include mysql
 # Apache+PHP+PostfixAdmin Web interface with Mysql support: include postfix::postfixadmin
-
-
+#
+# NOTE FOR RHEL5/Centos5
+# For mysql support you must install the CENTOSPLUS version of postfix.
+# See here for info: http://www.linuxmail.info/postfix-mysql-centos-5/
+# (No time and real reason to automate this in Puppet)
 
 class postfix::mysql inherits postfix::base {
 

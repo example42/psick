@@ -1,8 +1,7 @@
 # Define postfix::conf
 #
 # General postfix main configuration file's inline modification define
-# Use with caution, it doesn't fit well with Apache's conf logic based on containers
-# Use just for ALREADY DEFINED general settings in main httpd.conf
+# Use with caution, it's still at experimental stage and may break in untested circumstances
 #
 # Usage:
 # postfix::conf    { "mynetworks":  value => "127.0.0.0/8 10.42.42.0/24" }

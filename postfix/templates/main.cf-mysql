@@ -42,7 +42,8 @@ alias_database = hash:/etc/aliases
 
 #luser_relay = $user@other.host
 
-#header_checks = regexp:/etc/postfix/header_checks
+# Needed for Mailscanner
+header_checks = regexp:/etc/postfix/header_checks
 
 #fast_flush_domains = $relay_domains
 smtpd_banner = $myhostname ESMTP $mail_name
