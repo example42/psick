@@ -1,59 +1,25 @@
+# Class: clamav
+#
+# Manages clamav.
+# Include it to install and run clamav with default settings
+#
+# Usage:
+# include clamav
+
+
+import "defines/*.pp"
+import "classes/*.pp"
+
 class clamav {
 
-}
+	include clamav::base
 
-class clamav::epel inherits clamav {
-
-	package { clamav:
-		name => $operatingsystem ? {
-			default	=> "clamav",
-			},
-		ensure => present,
-		require => File["/etc/yum.repos.d/epel.repo"],
-	}
-
-	package { clamav-data:
-		name => $operatingsystem ? {
-			default	=> "clamav-data",
-			},
-		ensure => present,
-		require => File["/etc/yum.repos.d/epel.repo"],
-	}
-
-	package { clamav-update:
-		name => $operatingsystem ? {
-			default	=> "clamav-update",
-			},
-		ensure => present,
-		require => File["/etc/yum.repos.d/epel.repo"],
-	}
-
-        file {
-                "/etc/sysconfig/freshclam":
-                        mode => 644, owner => root, group => root,
-                        require => Package["clamav-update"],
-                        ensure => present,
-                        path => $operatingsystem ?{
-                                default => "/etc/sysconfig/freshclam",
-                        },
-                        source => "puppet://$server/clamav/freshclam",
+        case $operatingsystem {
+                default: { }
         }
 
-        file {
-                "/etc/freshclam.conf":
-                        mode => 644, owner => root, group => root,
-                        require => Package["clamav-update"],
-                        ensure => present,
-                        path => $operatingsystem ?{
-                                default => "/etc/freshclam.conf",
-                        },
-                        source => "puppet://$server/clamav/freshclam.conf",
-        }
-
-        file {
-                "/usr/local/bin/freshclam":
-                        require => Package["clamav-update"],
-                        ensure => "/usr/bin/freshclam",
-        }
+	if $backup == "yes" { include clamav::backup }
+	if $monitor == "yes" { include clamav::monitor }
+	if $firewall == "yes" { include clamav::firewall }
 
 }

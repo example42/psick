@@ -1,0 +1,9 @@
+#!/bin/bash
+# File Managed by Puppet
+#
+# chkconfig: - 75 25
+# description: The clamd server running for <%= name %>
+
+CLAMD_SERVICE=<%= name %>
+. /usr/share/clamav/clamd-wrapper
+

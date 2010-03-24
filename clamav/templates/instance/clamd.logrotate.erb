@@ -1,0 +1,11 @@
+# File Managed by Puppet
+
+/var/log/clamd.<%= name %> {
+        monthly
+        notifempty
+        missingok
+
+        postrotate
+                killall -HUP clamd.<%= name %> 2>/dev/null || :
+        endscript
+}
