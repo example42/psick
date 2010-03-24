@@ -31,7 +31,8 @@ define config (
         $parameter='',
 	$value='',
 	$engine='',
-	$source='default'
+	$source='default',
+	$lens='IniFile'
 	) {
 
 	case $engine {
@@ -51,7 +52,7 @@ define config (
 		                file	  => "$file",
 		                parameter => "$parameter",
 		                value     => "$value",
-		        #        lens      => "$lens",
+		                lens      => "$lens",
         		}
 	        }
 
@@ -68,6 +69,15 @@ define config (
 		replaceline: {
 		        replaceline {
                 		"Config_replaceline_$file-$line":
+		                file	  => "$file",
+		                pattern   => "$pattern",
+		                replacement => "$line",
+        		}
+	        }
+
+		replacelinepm: {
+		        replacelinepm {
+                		"Config_replacelinepm_$file-$line":
 		                file	  => "$file",
 		                pattern   => "$pattern",
 		                replacement => "$line",

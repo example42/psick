@@ -1,11 +1,11 @@
 # Manages one-line configuration on arbitrary files using Augeas
 # 
 
-define file2-augeas (
+define file2augeas (
         $file,
         $parameter,
         $value,
-	$lens = "@Sysctl",
+	$lens = "IniFile",
 	$basedir = "/root",
 	$comment = "# Modified by Puppet"
         ) {

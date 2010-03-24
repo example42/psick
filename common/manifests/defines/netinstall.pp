@@ -8,11 +8,21 @@ define netinstall (
         $group = "root",
         $work_dir = "/var/tmp",
         $extract_command = "tar -zxvf",
+        $preextract_command = "",
         $postextract_command = ""
         # $postextract_command = "./configure ; make ; make install"
         ) {
 
 #	$source_filename = split($source_url, '[/]')
+
+if $preextract_command {
+        exec {
+                "PreExtract $source_filename":
+                        command => $prextract_command,
+                        before  => Exec["Extract $source_filename"],
+                        refreshonly => true,
+        }
+}
 
         exec {
                 "Retrieve $source_path/$source_filename":
@@ -30,7 +40,6 @@ define netinstall (
         }
 
 if $postextract_command {
-
         exec {
                 "PostExtract $source_filename":
                         command => $postextract_command,
@@ -38,7 +47,6 @@ if $postextract_command {
 			subscribe => Exec["Extract $source_filename"],
 			refreshonly => true,
         }
-
 }
 
 }
