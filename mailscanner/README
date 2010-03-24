@@ -1,4 +1,38 @@
-# Lab42 Puppet Infrastructure #
-# PROVIDED 'AS IS'
+Puppet module: mailscanner
+
+# Written by Lab42 #
+# http://www.example42.com
+
+License: GPLv3
 
 
+DESCRIPTION:
+This module installs and manages mailscanner.
+Standard and extended classes are available.
+Decide and customize how you want to define configation files: static files, templates, infile modifications...
+
+
+USAGE:
+# Standard Classes 
+include mailscanner              # Install and run Apache with standard configurations.
+include mailscanner::disable     # Disable mailscanner service.
+include mailscanner::absent      # Remove mailscanner package.
+
+# Extended Classes (require storeconfings)
+include mailscanner::monitor     # Monitor mailscanner  Automatically included if $monitor=yes
+include mailscanner::backup      # Backup mailscanner data - Automatically included if $backup=yes
+include mailscanner::firewall    # Manages firewall rule for mailscanner service - Automatically included if $firewall=yes
+
+# Extra Classes
+
+# Generic main configuration infile modification Define
+mailscanner::conf { "ParameterName": value="YourValue"} 
+
+# Extra Defines
+
+
+DEPENDENCIES:
+Standard classes generally don't need external modules.
+Extended classes need the relevant external modules (import monitor ; import backup ... ) and the "common" module (import common)
+mailscanner::conf generic infile configuration define needs the "common" module
+Check on individual Extra classes and defines if there are specific requirements (generally only the common module).
