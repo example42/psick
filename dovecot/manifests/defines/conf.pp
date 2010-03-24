@@ -1,7 +1,7 @@
 # Define dovecot::conf
 # TO TEST
 # General dovecot main configuration file's inline modification define
-# Use with caution, it doesn't fit well with Dovecot's conf logic based on sections
+# Use with caution, it's still at experimental stage and may break in untested circumstances
 #
 # Usage:
 # dovecot::conf    { "protocols":  value => "imap imaps pop3 pop3s" }

@@ -14,9 +14,9 @@ disable_plaintext_auth = no
 syslog_facility = mail
 
 #ssl_listen =
-ssl_disable = yes
-#ssl_cert_file = /etc/pki/dovecot/certs/dovecot.pem
-#ssl_key_file = /etc/pki/dovecot/private/dovecot.pem
+ssl_disable = no
+ssl_cert_file = /etc/pki/dovecot/certs/dovecot.pem
+ssl_key_file = /etc/pki/dovecot/private/dovecot.pem
 #ssl_key_password =
 #ssl_ca_file = 
 #ssl_verify_client_cert = no

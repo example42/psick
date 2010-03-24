@@ -14,8 +14,9 @@ Decide and customize how you want to define configation files: static files, tem
 
 USAGE:
 # Standard Classes 
-include dovecot              # Install and run Apache with standard configurations.
+include dovecot              # Install and run dovecot with standard configurations.
 include dovecot::disable     # Disable dovecot service.
+include dovecot::disableboot # Disable dovecot service at boot time, but don't stop if it's running.
 include dovecot::absent      # Remove dovecot package.
 
 # Extended Classes (require storeconfings)
