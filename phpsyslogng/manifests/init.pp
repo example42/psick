@@ -34,7 +34,7 @@ class phpsyslogng::install inherits phpsyslogng {
 
 
 
-class phpsyslogng inherits syslog-ng::mysql {
+class phpsyslogng inherits syslog-ng::server::mysql {
 
 	include apache::php
 	include mysql

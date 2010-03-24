@@ -14,8 +14,9 @@ Decide and customize how you want to define configation files: static files, tem
 
 USAGE:
 # Standard Classes 
-include apache              # Install and run Apache with standard configurations.
+include apache              # Install and run apache with standard configurations.
 include apache::disable     # Disable apache service.
+include apache::disableboot # Disable apache service at boot time, but don't stop if it's running.
 include apache::absent      # Remove apache package.
 
 # Extended Classes (require storeconfings)
