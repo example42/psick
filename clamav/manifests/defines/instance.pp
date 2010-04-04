@@ -14,7 +14,7 @@
 define clamav::instance ($user='') {
 
 case $user {
-	'': { $clamd_user = "clamd-$name" }
+	'': { $clamd_user = "clamd" }
 	default:  { $clamd_user = $user }
 }
 

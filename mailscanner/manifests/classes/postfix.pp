@@ -38,9 +38,11 @@ class mailscanner::postfix inherits mailscanner {
                 require => File["MailScanner.conf"],
                 ensure => directory,
         }
+
+# Note: User clamd is the one we use for clamd service. You may need to change it.
         file {
                 "/var/spool/MailScanner/incoming":
-                mode => 755, owner => postfix, group => postfix,
+                mode => 775, owner => postfix, group => clamd,
                 require => File["MailScanner.conf"],
                 ensure => directory,
         }

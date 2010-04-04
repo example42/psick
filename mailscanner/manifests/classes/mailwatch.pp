@@ -80,6 +80,15 @@ $mailscanner_custom_functions_dir = $operatingsystem ?{
                 mysql_privileges => "ALL",
         }
 
+# The following grant is necessary to load into database the GeoIP data.
+# Note that this is not very secure - Better to comment out if other databases are hosted on your Mysql server
+        mysql::query { mailwatch_filegrant:
+                mysql_db        => $mailscanner_mysqldbname,
+                mysql_query     => "GRANT FILE ON *.* to $mailscanner_mysqluser@$mailscanner_mysqluser ;",
+        }
+
+
+
         exec {
                 "mailwatch_dbsetup":
                         command => "mysql < $mailwatch_destination_dir/$mailwatch_extracted_dir/create.sql",
@@ -150,9 +159,69 @@ $mailscanner_custom_functions_dir = $operatingsystem ?{
 #        mailscanner::conf { "Quarantine Permissions": value => "0660" }
         
 #	mailscanner::conf { "Is Definitely Not Spam": value => "&SQLWhitelist" }
-#	mailscanner::conf { "Is Definitely Spam": value => "&SQLWhitelist" }
+#	mailscanner::conf { "Is Definitely Spam": value => "&SQLBlacklist" }
         
 #	mailscanner::conf { "Spam Actions": value => "store" }
 #       mailscanner::conf { "High Scoring Spam Actions": value => "store" }
+
+# FixUps for Quarantine release. See: http://mailwatch.sourceforge.net/doku.php?id=mailwatch:faq
+#	mailscanner::conf { "Filename Rules": value => "%etc-dir%/filename.rules" }
+#	mailscanner::conf { "Filetype Rules": value => "%etc-dir%/filetype.rules" }
+#	mailscanner::conf { "Dangerous Content Scanning": value => "%rules-dir%/content.scanning.rules" }
+#	mailscanner::conf { "Is Definitely Not Spam": value => "%rules-dir%/spam.whitelist.rules" } # Note that this is already defined with value &SQLWhitelist - Leave it and add 127.0.0.1 to whitelist via the webinterface 
+
+        file {
+                "filetype.rules":
+                mode => 644, owner => root, group => root,
+                require => Netinstall["mailwatch"],
+                content => template("mailscanner/mailwatch/filetype.rules"),
+                notify  => Service["mailscanner"],
+                path    => "/etc/MailScanner/filetype.rules",
+        }
+
+        file {
+                "filename.rules":
+                mode => 644, owner => root, group => root,
+                require => Netinstall["mailwatch"],
+	        content => template("mailscanner/mailwatch/filename.rules"),
+		notify  => Service["mailscanner"],
+		path	=> "/etc/MailScanner/filename.rules",
+        }
+
+        file {
+                "filetype.rules.allowall.conf":
+                mode => 644, owner => root, group => root,
+                require => Netinstall["mailwatch"],
+                content => template("mailscanner/mailwatch/filetype.rules.allowall.conf"),
+                notify  => Service["mailscanner"],
+		path	=> "/etc/MailScanner/filetype.rules.allowall.conf",
+        }
+
+        file {
+                "filename.rules.allowall.conf":
+                mode => 644, owner => root, group => root,
+                require => Netinstall["mailwatch"],
+                content => template("mailscanner/mailwatch/filename.rules.allowall.conf"),
+                notify  => Service["mailscanner"],
+		path	=> "/etc/MailScanner/filename.rules.allowall.conf",
+        }
+
+        file {
+                "content.scanning.rules":
+                mode => 644, owner => root, group => root,
+                require => Netinstall["mailwatch"],
+                content => template("mailscanner/mailwatch/content.scanning.rules"),
+                notify  => Service["mailscanner"],
+		path	=> "/etc/MailScanner/rules/content.scanning.rules",
+        }
+
+        file {
+                "spam.whitelist.rules":
+                mode => 644, owner => root, group => root,
+                require => Netinstall["mailwatch"],
+                content => template("mailscanner/mailwatch/spam.whitelist.rules"),
+                notify  => Service["mailscanner"],
+		path	=> "/etc/MailScanner/rules/spam.whitelist.rules",
+        }
 
 }

@@ -1,3 +1,4 @@
+# File managed by Puppet
 user = <%= postfix_mysqluser %>
 password = <%= postfix_mysqlpassword %>
 hosts = <%= postfix_mysqlhost %>
