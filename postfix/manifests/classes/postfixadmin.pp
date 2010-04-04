@@ -26,8 +26,7 @@ class postfix::postfixadmin {
         php::module  { [ mysql, mbstring, imap ]: }
 
         netinstall { postfixadmin:
-                source_path     => "http://downloads.sourceforge.net/project/postfixadmin/postfixadmin",
-                source_filename => "postfixadmin_2.3.tar.gz",
+                url             => "http://downloads.sourceforge.net/project/postfixadmin/postfixadmin/postfixadmin_2.3.tar.gz",
                 extracted_dir   => "postfixadmin-2.3",
                 postextract_command => "ln -s postfixadmin-2.3 ../postfixadmin",
 		destination_dir => $operatingsystem ?{

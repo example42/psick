@@ -28,8 +28,7 @@ File["MailScanner.conf"] {
 
 # Some variables used in this class
 $mailwatch_extracted_dir = "mailwatch-1.0.5"
-$mailwatch_source_filename = "mailwatch-1.0.5.tar.gz"
-$mailwatch_source_path = "http://downloads.sourceforge.net/project/mailwatch/mailwatch/1.0.5/mailwatch-1.0.5.tar.gz?use_mirror=surfnet"
+$mailwatch_source_url = "http://downloads.sourceforge.net/project/mailwatch/mailwatch/1.0.5/mailwatch-1.0.5.tar.gz?use_mirror=surfnet"
 $mailwatch_destination_dir = $operatingsystem ?{
 	default => "/usr/src/",
 }
@@ -57,8 +56,7 @@ $mailscanner_custom_functions_dir = $operatingsystem ?{
 
 # Download sources from official site
         netinstall { mailwatch:
-                source_path     => $mailwatch_source_path,
-                source_filename => $mailwatch_source_filename,
+                url             => $mailwatch_source_url,
                 extracted_dir   => $mailwatch_extracted_dir,
                 postextract_command => "cp -a mailscanner $mailwatch_webdir",
 		destination_dir => $mailwatch_destination_dir,

@@ -1,7 +1,5 @@
 define netinstall (
-#        $source_url,
-        $source_path,
-        $source_filename,
+        $url,
         $extracted_dir,
         $destination_dir,
         $owner = "root",
@@ -13,7 +11,7 @@ define netinstall (
         # $postextract_command = "./configure ; make ; make install"
         ) {
 
-#	$source_filename = split($source_url, '[/]')
+        $source_filename = urlfilename($url)
 
 if $preextract_command {
         exec {
@@ -25,9 +23,9 @@ if $preextract_command {
 }
 
         exec {
-                "Retrieve $source_path/$source_filename":
+                "Retrieve $url":
                         cwd     => "$work_dir",
-			command => "wget $source_path/$source_filename",
+			command => "wget $url",
                         creates => "$work_dir/$source_filename",
 			timeout => 3600,
         }
@@ -36,7 +34,7 @@ if $preextract_command {
                 "Extract $source_filename":
                         command => "mkdir -p $destination_dir ; cd $destination_dir ; $extract_command $work_dir/$source_filename",
                         unless  => "find $destination_dir | grep $extracted_dir",
-			require => Exec["Retrieve $source_path/$source_filename"],
+			require => Exec["Retrieve $url"],
         }
 
 if $postextract_command {
