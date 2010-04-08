@@ -14,12 +14,13 @@ define mysql::query (
                 path => "$mysql_query_filepath/mysqlquery-$mysql_user-$mysql_db.sql",
                 content => template("mysql/query.erb"),
 		notify => Exec["mysqlquery-$mysql_user-$mysql_db"],
+		require => Service["mysqld"],
         }
 
         exec {
                 "mysqlquery-$mysql_user-$mysql_db":
                         command => "mysql < $mysql_query_filepath/mysqlquery-$mysql_user-$mysql_db.sql",
-                        require => Service["mysqld"],
+                        require => File["mysqlquery-$mysql_user-$mysql_db.sql"],
 			refreshonly => true,
 			subscribe => File["mysqlquery-$mysql_user-$mysql_db.sql"],
 	}

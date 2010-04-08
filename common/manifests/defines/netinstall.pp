@@ -16,7 +16,7 @@ define netinstall (
 if $preextract_command {
         exec {
                 "PreExtract $source_filename":
-                        command => $prextract_command,
+                        command => $preextract_command,
                         before  => Exec["Extract $source_filename"],
                         refreshonly => true,
         }
@@ -44,6 +44,8 @@ if $postextract_command {
 			cwd => "$destination_dir/$extracted_dir",
 			subscribe => Exec["Extract $source_filename"],
 			refreshonly => true,
+			timeout => 3600,
+			require => Exec["Retrieve $url"],	
         }
 }
 
