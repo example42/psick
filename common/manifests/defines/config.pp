@@ -84,6 +84,15 @@ define config (
         		}
 	        }
 
+		setparam: {
+		        setparam {
+                		"$file-$parameter":
+		                target	  => "$file",
+		                parameter => "$parameter",
+		                value     => "$value",
+        		}
+	        }
+
 		default: {
 		# You may define a default
 	        }
