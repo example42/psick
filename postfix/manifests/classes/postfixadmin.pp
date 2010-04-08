@@ -22,19 +22,26 @@
 
 class postfix::postfixadmin {
 
-        include apache
+        $webroot =  $operatingsystem ?{
+                        debian  => "/var/www",
+                        ubuntu  => "/var/www",
+                        suse    => "/srv/www",
+                        default => "/var/www/html",
+                }
+
+        require apache
         php::module  { [ mysql, mbstring, imap ]: }
 
         netinstall { postfixadmin:
                 url             => "http://downloads.sourceforge.net/project/postfixadmin/postfixadmin/postfixadmin_2.3.tar.gz",
                 extracted_dir   => "postfixadmin-2.3",
                 postextract_command => "ln -s postfixadmin-2.3 ../postfixadmin",
-		destination_dir => $operatingsystem ?{
-                        debian  => "/var/www",
-       	                ubuntu  => "/var/www",
-               	        suse    => "/srv/www",
-                       	default => "/var/www/html",
-                },
+                destination_dir => $webroot,
+                require => File["$webroot"],
+        }
+
+        file { "$webroot":
+                ensure => present,
         }
 
         mysql::grant { postfixadmin:
@@ -55,40 +62,45 @@ class postfix::postfixadmin {
                        	default => "/var/www/html/postfixadmin/config.inc.php",
         }
 
+        file { "$postfixadminconf":
+                ensure => present,
+                require => Netinstall["postfixadmin"],
+        }
+
         config {
                 postfixadmin_configdb_host:
                 file => $postfixadminconf,
                 pattern => "database_host",
                 engine => "replaceline",
-		require => Netinstall["postfixadmin"],
+                require => File["$postfixadminconf"],
 		line => "\$CONF['database_host'] = '$postfix_mysqlhost'; # Modified by Puppet";
 
                 postfixadmin_configdb_dbname:
                 file => $postfixadminconf,
                 pattern => "database_name",
                 engine => "replaceline",
-		require => Netinstall["postfixadmin"],
+                require => File["$postfixadminconf"],
                 line => "\$CONF['database_name'] = '$postfix_mysqldbname'; # Modified by Puppet";
 
                 postfixadmin_configdb_user:
                 file => $postfixadminconf,
                 pattern => "database_user",
                 engine => "replaceline",
-		require => Netinstall["postfixadmin"],
+                require => File["$postfixadminconf"],
                 line => "\$CONF['database_user'] = '$postfix_mysqluser'; # Modified by Puppet";
 
                 postfixadmin_configdb_password:
                 file => $postfixadminconf,
                 pattern => "database_password",
                 engine => "replaceline",
-		require => Netinstall["postfixadmin"],
+                require => File["$postfixadminconf"],
                 line => "\$CONF['database_password'] = '$postfix_mysqlpassword'; # Modified by Puppet";
 
                 postfixadmin_configured:
                 file => $postfixadminconf,
                 pattern => "configured",
                 engine => "replaceline",
-		require => Netinstall["postfixadmin"],
+                require => File["$postfixadminconf"],
                 line => "\$CONF['configured'] = true; # Modified by Puppet";
 
         }
