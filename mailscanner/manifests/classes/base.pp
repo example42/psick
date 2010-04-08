@@ -13,7 +13,7 @@ class mailscanner::base  {
 		require => $operatingsystem ? {
 			ubuntu  => Package["mailscanner"],
 			debian  => Package["mailscanner"],
-                        default => Netinstall["mailscanner"],
+                        default => Exec["MailScannerBuildAndInstall"],
                         },
                 ensure => present,
                 path   => "/etc/MailScanner/MailScanner.conf",
@@ -28,7 +28,11 @@ class mailscanner::base  {
 		enable => true,
 		hasrestart => true,
 		hasstatus => true,
-		require => Netinstall["mailscanner"],
+                require => $operatingsystem ? {
+                        ubuntu  => Package["mailscanner"],
+                        debian  => Package["mailscanner"],
+                        default => Exec["MailScannerBuildAndInstall"],
+                        },
 	}
 
 }

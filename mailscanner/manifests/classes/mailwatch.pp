@@ -45,9 +45,9 @@ $mailscanner_custom_functions_dir = $operatingsystem ?{
 
 
 # Some prerequisites
-	include mailscanner::postfix
-        include apache
-        include mysql
+	require mailscanner::postfix
+        require apache
+        require mysql
 
 	# Already included in postfix::postfixadmin.
 	# Uncomment if you don't use postfix::postfixadmin.
@@ -55,11 +55,17 @@ $mailscanner_custom_functions_dir = $operatingsystem ?{
 
 
 # Download sources from official site
-        netinstall { mailwatch:
+
+        netinstall { "mailwatch":
                 url             => $mailwatch_source_url,
                 extracted_dir   => $mailwatch_extracted_dir,
                 postextract_command => "cp -a mailscanner $mailwatch_webdir",
-		destination_dir => $mailwatch_destination_dir,
+                destination_dir => $mailwatch_destination_dir,
+                require => $operatingsystem ? {
+                        ubuntu  => Package["mailscanner"],
+                        debian  => Package["mailscanner"],
+                        default => Exec["MailScannerBuildAndInstall"],
+                        },
         }
 
 
@@ -76,6 +82,7 @@ $mailscanner_custom_functions_dir = $operatingsystem ?{
                 mysql_password	=> $mailscanner_mysqlpassword,
                 mysql_host	=> $mailscanner_mysqlhost,
                 mysql_privileges => "ALL",
+                require         => Service["mysqld"],
         }
 
 # The following grant is necessary to load into database the GeoIP data.
@@ -83,15 +90,15 @@ $mailscanner_custom_functions_dir = $operatingsystem ?{
         mysql::query { mailwatch_filegrant:
                 mysql_db        => $mailscanner_mysqldbname,
                 mysql_query     => "GRANT FILE ON *.* to $mailscanner_mysqluser@$mailscanner_mysqluser ;",
+                require         => Service["mysqld"],
         }
-
 
 
         exec {
                 "mailwatch_dbsetup":
                         command => "mysql < $mailwatch_destination_dir/$mailwatch_extracted_dir/create.sql",
                         require => Service["mysqld"],
-                        onlyif  => "mysql -u <%= mailscanner_mysqluser %> -p <%= mailscanner_mysqlpassword %> dbname = <%= mailscanner_mysqldbname %> < SELECT COUNT() FROM USERS",
+                        onlyif  => "mysql -u $mailscanner_mysqluser -p $mailscanner_mysqlpassword dbname = $mailscanner_mysqldbname < SELECT COUNT() FROM USERS",
         }
 
         mysql::query { mailwatch_admin:
