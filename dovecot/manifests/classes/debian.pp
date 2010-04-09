@@ -4,7 +4,7 @@
 
 class dovecot::debian {
 
-        package { "dovecot":
+        package { "dovecot-ipop3d":
                 name   =>"dovecot-pop3d",
                 ensure => present,
         }
