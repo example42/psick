@@ -90,15 +90,15 @@ $mailscanner_custom_functions_dir = $operatingsystem ?{
         mysql::query { mailwatch_filegrant:
                 mysql_db        => $mailscanner_mysqldbname,
                 mysql_query     => "GRANT FILE ON *.* to $mailscanner_mysqluser@$mailscanner_mysqluser ;",
-                require         => Service["mysqld"],
+		require         => Exec["mailwatch_dbsetup"],
         }
 
 
         exec {
                 "mailwatch_dbsetup":
                         command => "mysql < $mailwatch_destination_dir/$mailwatch_extracted_dir/create.sql",
-                        require => Service["mysqld"],
-                        onlyif  => "mysql -u $mailscanner_mysqluser -p $mailscanner_mysqlpassword dbname = $mailscanner_mysqldbname < SELECT COUNT() FROM USERS",
+                        require => [ Service["mysqld"] , Netinstall["mailwatch"] ],
+                        unless  => "find /var/lib/mysql | grep mailscanner",
         }
 
         mysql::query { mailwatch_admin:

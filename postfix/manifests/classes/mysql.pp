@@ -29,15 +29,13 @@ class postfix::mysql inherits postfix::base {
                 content => template("postfix/main.cf-mysql"),
         }
 
-        package { postfix-mysql:
-                name   => $operatingsystem ? {
-                        default => "postfix-mysql",
-                        },
-                ensure => $operatingsystem ? {
-                        debian  => "present",
-                        ubuntu  => "present",
-                        default => "absent",
-                        },
+
+        case $operatingsystem {
+                debian: { include postfix::mysql::debian }
+                ubuntu: { include postfix::mysql::debian }
+                centos: { include postfix::mysql::centos }
+                redhat: { include postfix::mysql::centos }
+                default: { }
         }
 
         file {

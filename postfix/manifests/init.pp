@@ -12,6 +12,7 @@ import "classes/*.pp"
 
 class postfix {
 
+	require sendmail::disable
 	include postfix::base
 
         case $operatingsystem {

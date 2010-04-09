@@ -34,7 +34,7 @@ case $user {
 
         file { "clamd.conf-$name":
                 mode => 644, owner => root, group => root,
-                require => Package["clamav-daemon"],
+                require => [Package["clamav-daemon"],Package["clamav"]]
                 ensure => present,
                 path => "/etc/clamd.d/$name.conf",
 		content => template("clamav/instance/clamd.conf.erb"),
@@ -42,7 +42,7 @@ case $user {
 
         file { "clamd.log-$name":
                 mode => 664, owner => root, group => $clamd_user,
-                require => Package[clamav-daemon],
+                require => [Package[clamav-daemon],User[$clamd_user]]
                 ensure => present,
                 path => $operatingsystem ?{
                         default => "/var/log/clamd.$name",
