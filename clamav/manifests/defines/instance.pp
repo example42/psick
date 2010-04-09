@@ -7,14 +7,14 @@
 #
 # Usage:
 # clamav::instance    { "mailscanner": }
-# The above creates a clamd.mailscanner user, if you want to define your own user
+# The above creates a clamd_mailscanner user, if you want to define your own user
 # (eventually the one of the application that uses this instance) specify it:
 # clamav::instance    { "mailscanner":  user => "postfix" }
 
 define clamav::instance ($user='') {
 
 case $user {
-	'': { $clamd_user = "clamd" }
+	'': { $clamd_user = "clamd-$name" }
 	default:  { $clamd_user = $user }
 }
 
@@ -27,6 +27,7 @@ case $user {
         user {
                 "$clamd_user":
                         ensure  => "present",
+			before  => Service["clamd.$name"],
 #                        comment => "Clamd user for instance $name",
 #                        shell   => "/sbin/nologin",
         }
