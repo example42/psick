@@ -14,7 +14,7 @@ define mysql::query (
                 path => "$mysql_query_filepath/mysqlquery-$mysql_user-$mysql_db.sql",
                 content => template("mysql/query.erb"),
 		notify => Exec["mysqlquery-$mysql_user-$mysql_db"],
-		require => Service["mysqld"],
+		require => Service["mysql"],
         }
 
         exec {

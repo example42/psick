@@ -82,7 +82,7 @@ $mailscanner_custom_functions_dir = $operatingsystem ?{
                 mysql_password	=> $mailscanner_mysqlpassword,
                 mysql_host	=> $mailscanner_mysqlhost,
                 mysql_privileges => "ALL",
-                require         => Service["mysqld"],
+                require         => Service["mysql"],
         }
 
 # The following grant is necessary to load into database the GeoIP data.
@@ -97,7 +97,7 @@ $mailscanner_custom_functions_dir = $operatingsystem ?{
         exec {
                 "mailwatch_dbsetup":
                         command => "mysql < $mailwatch_destination_dir/$mailwatch_extracted_dir/create.sql",
-                        require => [ Service["mysqld"] , Netinstall["mailwatch"] ],
+                        require => [ Service["mysql"] , Netinstall["mailwatch"] ],
                         unless  => "find /var/lib/mysql | grep mailscanner",
         }
 

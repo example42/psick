@@ -19,7 +19,7 @@ define mysql::grant (
         exec {
                 "mysqlgrant-$mysql_user-$mysql_db":
                         command => "mysql < $mysql_grant_filepath/mysqlgrant-$mysql_user-$mysql_db.sql",
-                        require => Service["mysqld"],
+                        require => Service["mysql"],
                         unless  => "mysql --user=$mysql_user --password=$mysql_password $mysql_db",
 	}
 
