@@ -14,7 +14,7 @@
 define clamav::instance ($user='') {
 
 case $user {
-	'': { $clamd_user = "clamd-$name" }
+	'': { $clamd_user = "clamd" }
 	default:  { $clamd_user = $user }
 }
 
@@ -30,6 +30,11 @@ case $user {
 			before  => Service["clamd.$name"],
 #                        comment => "Clamd user for instance $name",
 #                        shell   => "/sbin/nologin",
+        }
+
+        user {
+                "$clamd_user":
+                        ensure  => "present",
         }
 
         file { "clamd.conf-$name":

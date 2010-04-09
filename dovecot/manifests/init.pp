@@ -12,9 +12,46 @@ import "classes/*.pp"
 
 class dovecot {
 
-	include dovecot::base
+
+        package { "dovecot":
+                name   => $operatingsystem ? {
+                        debian  => "dovecot-imapd",
+                        ubuntu  => "dovecot-imapd",
+                        default => "dovecot",
+                        },
+                ensure => present,
+        }
+
+        service { "dovecot":
+                name => $operatingsystem ? {
+                        default => "dovecot",
+                        },
+                ensure => running,
+                enable => true,
+                pattern => $operatingsystem ? {
+                        default => "/usr/sbin/dovecot",
+                        },
+                hasrestart => true,
+                hasstatus => true,
+                require => Package["dovecot"],
+                subscribe => File["dovecot.conf"],
+        }
+
+        file { "dovecot.conf":
+#               mode => 644, owner => root, group => root,
+                require => Package[dovecot],
+                ensure => present,
+                path => $operatingsystem ?{
+                        debian  => "/etc/dovecot/dovecot.conf",
+                        ubuntu  => "/etc/dovecot/dovecot.conf",
+                        default => "/etc/dovecot.conf",
+                },
+        }
+
 
         case $operatingsystem {
+                debian: { include dovecot::debian }
+                ubuntu: { include dovecot::debian }
                 default: { }
         }
 

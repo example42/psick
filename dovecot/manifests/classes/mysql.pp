@@ -16,7 +16,7 @@
 #
 
 
-class dovecot::mysql inherits dovecot::base {
+class dovecot::mysql inherits dovecot {
 
         File["dovecot.conf"] {
                         source => "puppet://$servername/dovecot/dovecot.conf-mysql"

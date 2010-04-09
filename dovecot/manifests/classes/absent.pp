@@ -5,7 +5,7 @@
 # Usage:
 # include dovecot::absent
 
-class dovecot::absent inherits dovecot::base {
+class dovecot::absent inherits dovecot {
         Package["dovecot"] {
                 ensure => "absent" ,
         }

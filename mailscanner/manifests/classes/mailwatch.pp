@@ -98,7 +98,7 @@ $mailscanner_custom_functions_dir = $operatingsystem ?{
                 "mailwatch_dbsetup":
                         command => "mysql < $mailwatch_destination_dir/$mailwatch_extracted_dir/create.sql",
                         require => [ Service["mysql"] , Netinstall["mailwatch"] ],
-                        unless  => "find /var/lib/mysql | grep mailscanner",
+                        unless  => "find /var/lib/mysql/mailscanner | grep user",
         }
 
         mysql::query { mailwatch_admin:

@@ -5,7 +5,7 @@
 # Usage:
 # include dovecot::disable
 
-class dovecot::disable inherits dovecot::base {
+class dovecot::disable inherits dovecot {
         Service["dovecot"] {
                 ensure => "stopped" ,
                 enable => "false",
