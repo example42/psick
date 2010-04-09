@@ -22,7 +22,6 @@ case $user {
                 "clamd.$name":
                 enable    => "true",
                 ensure    => "running",
-                require => File["clamd.sysconfig-$name"],
         }
 
         user {
@@ -38,6 +37,7 @@ case $user {
                 ensure => present,
                 path => "/etc/clamd.d/$name.conf",
 		content => template("clamav/instance/clamd.conf.erb"),
+		before  => Service["clamd.$name"],
         }
 
         file { "clamd.log-$name":
@@ -47,6 +47,7 @@ case $user {
                 path => $operatingsystem ?{
                         default => "/var/log/clamd.$name",
                 },
+		before  => Service["clamd.$name"],
         }
 
         file { "clamd.logrotate-$name":
@@ -57,6 +58,7 @@ case $user {
                         default => "/etc/logrotate.d/clamd.$name",
                 },
 		content => template("clamav/instance/clamd.logrotate.erb"),
+		before  => Service["clamd.$name"],
         }
 
         file { "clamd.sysconfig-$name":
@@ -67,6 +69,7 @@ case $user {
                         default => "/etc/sysconfig/clamd.$name",
                 },
 		content => template("clamav/instance/clamd.sysconfig.erb"),
+		before  => Service["clamd.$name"],
         }
 
         file { "clamd.init-$name":
@@ -77,17 +80,20 @@ case $user {
                         default => "/etc/init.d/clamd.$name",
                 },
 		content => template("clamav/instance/clamd.init.erb"),
+		before  => Service["clamd.$name"],
         }
 
         file { "clamd.link-$name":
                 ensure => "/usr/sbin/clamd",
                 path  => "/usr/sbin/clamd.$name",
+		before  => Service["clamd.$name"],
         }
 
         file { "clamd.sockdir-$name":
                 ensure => directory,
                 path  => "/var/run/clamd.$name",
                 mode => 775, owner => $clamd_user, group => root,
+		before  => Service["clamd.$name"],
         }
 
 }
