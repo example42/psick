@@ -37,11 +37,7 @@ class postfix::postfixadmin {
                 extracted_dir   => "postfixadmin-2.3",
                 postextract_command => "ln -s postfixadmin-2.3 ../postfixadmin",
                 destination_dir => $webroot,
-                require => File["$webroot"],
-        }
-
-        file { "$webroot":
-                ensure => present,
+                require => Package["apache"],
         }
 
         mysql::grant { postfixadmin:
