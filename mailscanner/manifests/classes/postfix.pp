@@ -28,14 +28,14 @@ class mailscanner::postfix inherits mailscanner {
         file {
                 "/var/spool/MailScanner/spamassassin":
                 mode => 755, owner => postfix, group => postfix,
-                require => File["MailScanner.conf"],
+                require => [ File["MailScanner.conf"] , Package["postfix"] ],
                 ensure => directory,
         }
 
         file {
                 "/var/spool/MailScanner/quarantine":
                 mode => 775, owner => postfix, group => apache,
-                require => File["MailScanner.conf"],
+                require => [ File["MailScanner.conf"] , Package["postfix"] , Package["apache"] ],
                 ensure => directory,
         }
 
@@ -43,7 +43,7 @@ class mailscanner::postfix inherits mailscanner {
         file {
                 "/var/spool/MailScanner/incoming":
                 mode => 775, owner => postfix, group => clamd,
-                require => File["MailScanner.conf"],
+                require => [ File["MailScanner.conf"] , Package["postfix"] , Package["clamav"] ],
                 ensure => directory,
         }
 }

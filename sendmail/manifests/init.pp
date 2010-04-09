@@ -51,3 +51,8 @@ class sendmail::disable inherits sendmail {
         }
 }
 
+class sendmail::absent inherits sendmail {
+        Package["sendmail"] {
+                ensure => "absent" ,
+        }
+}
