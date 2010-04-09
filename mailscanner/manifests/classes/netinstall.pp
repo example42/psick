@@ -18,14 +18,29 @@ $mailscanner_preextract_command = $operatingsystem ?{
         default => undef,
 }
 
+$mailscanner_prerequisites = $operatingsystem ?{
+        redhat => "wget tar gzip rpm-build binutils glibc-devel gcc make perl-DBD-SQLite",
+        centos => "wget tar gzip rpm-build binutils glibc-devel gcc make perl-DBD-SQLite",
+        fedora => "wget tar gzip rpm-build binutils glibc-devel gcc make perl-DBD-SQLite",
+        default => undef,
+}
+
+
+# MailScanner prerequisites is done in a separated resource
+        exec { "MailScannerPrerequisites":
+                command         => "yum install -y $mailscanner_prerequisites",
+                unless          => "rpm -qi $mailscanner_prerequisites",
+                timeout         => 3600,
+        }
 
         netinstall { mailscanner:
                 url             => $mailscanner_source_url,
                 extracted_dir   => $mailscanner_extracted_dir,
-                preextract_command => "$mailscanner_preextract_command",
+#                preextract_command => "$mailscanner_preextract_command",
 #                postextract_command => "$mailscanner_destination_dir/$mailscanner_extracted_dir/install.sh",
                 destination_dir => $mailscanner_destination_dir,
                 before          => Exec["MailScannerBuildAndInstall"],
+                require         => Exec["MailScannerPrerequisites"],
         }
 
 
