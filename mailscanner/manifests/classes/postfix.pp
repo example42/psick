@@ -43,7 +43,7 @@ class mailscanner::postfix inherits mailscanner {
         file {
                 "/var/spool/MailScanner/incoming":
                 mode => 775, owner => postfix, group => clamd,
-                require => [ File["MailScanner.conf"] , Package["postfix"] , Package["clamav"] , Group["clamd"] ],
+                require => [ File["MailScanner.conf"] , Package["postfix"] , Class["clamav"] ],
                 ensure => directory,
         }
 }

@@ -39,10 +39,12 @@ $mailwatch_webdir = $operatingsystem ?{
 	default => "/var/www/html/mailscanner",
 }
 $mailwatchconf = "$mailwatch_webdir/conf.php"
-$mailscanner_custom_functions_dir = $operatingsystem ?{
-	default => "/usr/lib/MailScanner/MailScanner/CustomFunctions",
-}
 
+$mailscanner_custom_functions_dir = $operatingsystem ?{
+        debian  => "/usr/share/MailScanner/MailScanner/CustomFunctions",
+        ubuntu  => "/usr/share/MailScanner/MailScanner/CustomFunctions",
+        default => "/usr/lib/MailScanner/MailScanner/CustomFunctions",
+}
 
 # Some prerequisites
 	require mailscanner::postfix

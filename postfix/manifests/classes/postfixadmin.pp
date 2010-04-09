@@ -27,10 +27,15 @@ class postfix::postfixadmin {
                         ubuntu  => "/var/www",
                         suse    => "/srv/www",
                         default => "/var/www/html",
-                }
+        }
 
         require apache
-        php::module  { [ mysql, mbstring, imap ]: }
+
+        case $operatingsystem {
+                debian: { php::module  { [ mysql, imap ]: } }
+                ubuntu: { php::module  { [ mysql, imap ]: } }
+                default: { php::module  { [ mysql, mbstring, imap ]: } }
+        }
 
         netinstall { postfixadmin:
                 url             => "http://downloads.sourceforge.net/project/postfixadmin/postfixadmin/postfixadmin_2.3.tar.gz",
