@@ -34,7 +34,7 @@ class postfix::mysql inherits postfix::base {
                 debian: { include postfix::mysql::debian }
                 ubuntu: { include postfix::mysql::debian }
                 centos: { include postfix::mysql::centos }
-                redhat: { include postfix::mysql::centos }
+                redhat: { include postfix::mysql::redhat }
                 default: { }
         }
 

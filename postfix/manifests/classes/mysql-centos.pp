@@ -12,7 +12,7 @@ class postfix::mysql::centos {
                         before  => Package["postfix"],
         }
 
-        config { "ExcludePostifxBase":
+        config { "ExcludePostfixBase":
                 file      => "/etc/yum.repos.d/CentOS-Base.repo",
                 parameter => "base/exclude",
                 value     => "postfix",
@@ -20,7 +20,7 @@ class postfix::mysql::centos {
                 before    => Package["postfix"],
         }
 
-        config { "ExcludePostifxUpdate":
+        config { "ExcludePostfixUpdate":
                 file      => "/etc/yum.repos.d/CentOS-Base.repo",
                 parameter => "updates/exclude",
                 value     => "postfix",
@@ -28,7 +28,7 @@ class postfix::mysql::centos {
                 before    => Package["postfix"],
         }
 
-        config { "IncludePostifxCentosPlus":
+        config { "IncludePostfixCentosPlus":
                 file      => "/etc/yum.repos.d/CentOS-Base.repo",
                 parameter => "centosplus/includepkgs",
                 value     => "postfix",
