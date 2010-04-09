@@ -32,7 +32,7 @@ case $user {
 #                        shell   => "/sbin/nologin",
         }
 
-        user {
+        group {
                 "$clamd_user":
                         ensure  => "present",
         }
