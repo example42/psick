@@ -1,5 +1,9 @@
 class mailscanner::params  {
 
+$conf = $operatingsystem ?{
+	default  => "/etc/MailScanner/MailScanner.conf",
+}
+
 $extracted_dir = "MailScanner-4.79.11-1"
 
 $source_url = $operatingsystem ?{

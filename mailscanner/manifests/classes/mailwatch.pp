@@ -54,7 +54,7 @@ File["MailScanner.conf"] {
 
 
         file {
-                "${mailscanner::params::mailwatch_webdir/temp}":
+                "${mailscanner::params::mailwatch_webdir}/temp":
                 mode => 755, owner => apache, group => apache,
                 require => Netinstall["mailwatch"],
                 ensure => directory,

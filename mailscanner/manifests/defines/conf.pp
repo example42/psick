@@ -11,7 +11,7 @@ define mailscanner::conf ($value) {
 	require mailscanner::params
 
         config { "mailscanner_conf_$name":
-                file      => ${mailscanner::params::conf},
+                file      => "${mailscanner::params::conf}",
                 line      => "$name = $value",
                 pattern   => "^$name ",
 #		parameter => "$name",

@@ -10,11 +10,11 @@ include mailscanner::params
         }
 
         netinstall { mailscanner:
-                url             => ${mailscanner::params::source_url},
-                extracted_dir   => ${mailscanner::params::extracted_dir},
+                url             => "${mailscanner::params::source_url}",
+                extracted_dir   => "${mailscanner::params::extracted_dir}",
 #                preextract_command => "${mailscanner::params::preextract_command}",
 #                postextract_command => "${mailscanner::params::destination_dir}/${mailscanner::params::extracted_dir}/install.sh",
-                destination_dir => ${mailscanner::params::destination_dir},
+                destination_dir => "${mailscanner::params::destination_dir}",
                 before          => Exec["MailScannerBuildAndInstall"],
                 require         => Exec["MailScannerPrerequisites"],
         }

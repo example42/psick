@@ -10,7 +10,7 @@ define mailwatch::conf ($value) {
 	require mailscanner::params
 
         config { "mailwatch_conf_${name}":
-                file      => ${mailscanner::params::mailwatchconf},
+                file      => "${mailscanner::params::mailwatchconf}",
                 line      => "define('${name}', '${value}');",
                 pattern   => "define('${name}",
                 engine    => "replaceline",
