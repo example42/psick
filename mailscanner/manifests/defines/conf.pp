@@ -8,10 +8,10 @@
 
 define mailscanner::conf ($value) {
 
+	require mailscanner::params
+
         config { "mailscanner_conf_$name":
-                file      => $operatingsystem ?{
-                                default  => "/etc/MailScanner/MailScanner.conf",
-                             },
+                file      => ${mailscanner::params::conf},
                 line      => "$name = $value",
                 pattern   => "^$name ",
 #		parameter => "$name",

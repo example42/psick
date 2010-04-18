@@ -22,31 +22,13 @@
 
 class mailscanner::mailwatch inherits mailscanner::base {
 
-# MailWatch parameters
-
-$mailwatch_extracted_dir = "mailwatch-1.0.5"
-
-$mailwatch_source_url = "http://downloads.sourceforge.net/project/mailwatch/mailwatch/1.0.5/mailwatch-1.0.5.tar.gz?use_mirror=surfnet"
-
-$mailwatch_destination_dir = $operatingsystem ?{
-        default => "/usr/src/",
-}
-
-$mailwatch_webdir = $operatingsystem ?{
-        debian  => "/var/www/mailscanner",
-        ubuntu  => "/var/www/mailscanner",
-        suse    => "/srv/www/mailscanner",
-        default => "/var/www/html/mailscanner",
-}
-
-$mailwatchconf = "$mailwatch_webdir/conf.php"
-
 File["MailScanner.conf"] {
 	content => template("mailscanner/mailwatch/MailScanner.conf.erb"),
 }
 
 
 # Some prerequisites
+	require mailscanner::params
 	require mailscanner::postfix
         require apache
         require mysql
@@ -59,10 +41,10 @@ File["MailScanner.conf"] {
 # Download sources from official site
 
         netinstall { "mailwatch":
-                url             => $mailwatch_source_url,
-                extracted_dir   => $mailwatch_extracted_dir,
-                postextract_command => "cp -a mailscanner $mailwatch_webdir",
-                destination_dir => $mailwatch_destination_dir,
+                url             => "${mailscanner::params::mailwatch_source_url}",
+                extracted_dir   => "${mailscanner::params::mailwatch_extracted_dir}",
+                postextract_command => "cp -a mailscanner ${mailscanner::params::mailwatch_webdir}",
+                destination_dir => "${mailscanner::params::mailwatch_destination_dir}",
                 require => $operatingsystem ? {
                         ubuntu  => Package["mailscanner"],
                         debian  => Package["mailscanner"],
@@ -72,7 +54,7 @@ File["MailScanner.conf"] {
 
 
         file {
-                "$mailwatch_webdir/temp":
+                "${mailscanner::params::mailwatch_webdir/temp}":
                 mode => 755, owner => apache, group => apache,
                 require => Netinstall["mailwatch"],
                 ensure => directory,
@@ -98,7 +80,7 @@ File["MailScanner.conf"] {
 
         exec {
                 "mailwatch_dbsetup":
-                        command => "mysql < $mailwatch_destination_dir/$mailwatch_extracted_dir/create.sql",
+                        command => "mysql < ${mailscanner::params::mailwatch_destination_dir}/${mailscanner::params::mailwatch_extracted_dir}/create.sql",
                         require => [ Service["mysql"] , Netinstall["mailwatch"] ],
                         unless  => "find /var/lib/mysql/mailscanner | grep user",
         }
@@ -114,25 +96,25 @@ File["MailScanner.conf"] {
 
         exec {
                 "mailwatchpm_copy":
-                        command => "cp -a MailWatch.pm $mailscanner_custom_functions_dir/",
+                        command => "cp -a MailWatch.pm ${mailscanner::params::custom_functions_dir}/",
                         require => Netinstall["mailwatch"],
-                        unless  => "ls $mailscanner_custom_functions_dir/MailWatch.pm", 
-        		cwd	=> "$mailwatch_destination_dir/$mailwatch_extracted_dir",
+                        unless  => "ls ${mailscanner::params::custom_functions_dir}/MailWatch.pm", 
+        		cwd	=> "${mailscanner::params::mailwatch_destination_dir}/${mailscanner::params::mailwatch_extracted_dir}",
 	}
 
         exec {
                 "sqlblackwhitelist_copy":
-                        command => "cp -a SQLBlackWhiteList.pm $mailscanner_custom_functions_dir/",
+                        command => "cp -a SQLBlackWhiteList.pm ${mailscanner::params::custom_functions_dir}/",
                         require => Netinstall["mailwatch"],
-                        unless  => "ls $mailscanner_custom_functions_dir/SQLBlackWhiteList.pm", 
-        		cwd	=> "$mailwatch_destination_dir/$mailwatch_extracted_dir",
+                        unless  => "ls ${mailscanner::params::custom_functions_dir}/SQLBlackWhiteList.pm", 
+        		cwd	=> "${mailscanner::params::mailwatch_destination_dir}/${mailscanner::params::mailwatch_extracted_dir}",
 	}
 
         exec {
                 "mailwatchphpconf_copy":
-                        command => "cp $mailwatch_webdir/conf.php.example $mailwatch_webdir/conf.php",
+                        command => "cp ${mailscanner::params::mailwatch_webdir}/conf.php.example ${mailscanner::params::mailwatch_webdir}/conf.php",
                         require => Netinstall["mailwatch"],
-                        unless  => "ls $mailwatchconf", 
+                        unless  => "ls ${mailscanner::params::mailwatchconf}", 
         }
 
 # Configuration of mailwatch conf.php file
