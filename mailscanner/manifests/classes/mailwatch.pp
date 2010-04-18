@@ -22,11 +22,29 @@
 
 class mailscanner::mailwatch inherits mailscanner::base {
 
+# MailWatch parameters
+
+$mailwatch_extracted_dir = "mailwatch-1.0.5"
+
+$mailwatch_source_url = "http://downloads.sourceforge.net/project/mailwatch/mailwatch/1.0.5/mailwatch-1.0.5.tar.gz?use_mirror=surfnet"
+
+$mailwatch_destination_dir = $operatingsystem ?{
+        default => "/usr/src/",
+}
+
+$mailwatch_webdir = $operatingsystem ?{
+        debian  => "/var/www/mailscanner",
+        ubuntu  => "/var/www/mailscanner",
+        suse    => "/srv/www/mailscanner",
+        default => "/var/www/html/mailscanner",
+}
+
+$mailwatchconf = "$mailwatch_webdir/conf.php"
+
 File["MailScanner.conf"] {
 	content => template("mailscanner/mailwatch/MailScanner.conf.erb"),
 }
 
-	include mailscanner::params
 
 # Some prerequisites
 	require mailscanner::postfix
