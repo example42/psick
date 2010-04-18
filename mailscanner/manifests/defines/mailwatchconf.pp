@@ -7,15 +7,7 @@
 
 define mailwatch::conf ($value) {
 
-# The path of conf.php file
-# This variable is duplicated in mailscanner::mailwatch
-$mailwatch_webdir = $operatingsystem ?{
-        debian  => "/var/www/mailscanner",
-        ubuntu  => "/var/www/mailscanner",
-        suse    => "/srv/www/mailscanner",
-        default => "/var/www/html/mailscanner",
-}
-$mailwatchconf = "${mailwatch_webdir}/conf.php"
+	include mailscanner::params
 
         config { "mailwatch_conf_${name}":
                 file      => $mailwatchconf,

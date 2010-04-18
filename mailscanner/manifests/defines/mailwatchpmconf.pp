@@ -6,10 +6,12 @@
 # Usage:
 # mailwatch::pmconf    { "db_host":  value => "localhost" }
 
-define mailwatch::pmconf ($value , $file="/usr/lib/MailScanner/MailScanner/CustomFunctions/MailWatch.pm") {
+define mailwatch::pmconf ($value) {
+
+	include mailscanner::params
 
         config { "mailwatch_pmconf_${name}":
-                file      => $file,
+                file      => ${mailscanner_custom_functions_dir}/MailWatch.pm,
                 line      => "my(\$${name}) = '${value}'; # Modified by Puppet",
                 pattern   => "my(\$\\${name})",
                 engine    => "replacelinepm",
@@ -20,10 +22,12 @@ define mailwatch::pmconf ($value , $file="/usr/lib/MailScanner/MailScanner/Custo
 }
 
 
-define mailwatch::pmconfsql ($value , $file="/usr/lib/MailScanner/MailScanner/CustomFunctions/SQLBlackWhiteList.pm") {
+define mailwatch::pmconfsql ($value) {
+
+	include mailscanner::params
 
         config { "mailwatch_pmconfsql_${name}":
-                file      => $file,
+                file      => ${mailscanner_custom_functions_dir}/SQLBlackWhiteList.pm,
                 line      => "my(\$${name}) = '${value}'; # Modified by Puppet",
                 pattern   => "my(\$\\${name})",
                 engine    => "replacelinepm",

@@ -26,25 +26,7 @@ File["MailScanner.conf"] {
 	content => template("mailscanner/mailwatch/MailScanner.conf.erb"),
 }
 
-# Some variables used in this class
-$mailwatch_extracted_dir = "mailwatch-1.0.5"
-$mailwatch_source_url = "http://downloads.sourceforge.net/project/mailwatch/mailwatch/1.0.5/mailwatch-1.0.5.tar.gz?use_mirror=surfnet"
-$mailwatch_destination_dir = $operatingsystem ?{
-	default => "/usr/src/",
-}
-$mailwatch_webdir = $operatingsystem ?{
-	debian  => "/var/www/mailscanner",
-	ubuntu  => "/var/www/mailscanner",
-	suse    => "/srv/www/mailscanner",
-	default => "/var/www/html/mailscanner",
-}
-$mailwatchconf = "$mailwatch_webdir/conf.php"
-
-$mailscanner_custom_functions_dir = $operatingsystem ?{
-        debian  => "/usr/share/MailScanner/MailScanner/CustomFunctions",
-        ubuntu  => "/usr/share/MailScanner/MailScanner/CustomFunctions",
-        default => "/usr/lib/MailScanner/MailScanner/CustomFunctions",
-}
+	include mailscanner::params
 
 # Some prerequisites
 	require mailscanner::postfix
