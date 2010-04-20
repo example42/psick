@@ -26,7 +26,7 @@ class postfix::monitor {
 	monitor::plugin {
 		"postfix_plugin":
                 name 	=> "postfix",
-		enable	=> true,
+		enable	=> "false",
 	}
 
 }

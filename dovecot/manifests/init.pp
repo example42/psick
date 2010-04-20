@@ -12,7 +12,6 @@ import "classes/*.pp"
 
 class dovecot {
 
-
         package { "dovecot":
                 name   => $operatingsystem ? {
                         debian  => "dovecot-imapd",
