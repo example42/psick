@@ -6,6 +6,7 @@ mirrorlist=http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo
 #baseurl=http://mirror.centos.org/centos/$releasever/os/$basearch/
 gpgcheck=1
 gpgkey=http://mirror.centos.org/centos/RPM-GPG-KEY-CentOS-5
+exclude=postfix
 
 #released updates 
 [updates]
@@ -14,6 +15,7 @@ mirrorlist=http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo
 #baseurl=http://mirror.centos.org/centos/$releasever/updates/$basearch/
 gpgcheck=1
 gpgkey=http://mirror.centos.org/centos/RPM-GPG-KEY-CentOS-5
+exclude=postfix
 
 #packages used/produced in the build but not released
 [addons]
@@ -39,4 +41,5 @@ mirrorlist=http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo
 gpgcheck=1
 enabled=0
 gpgkey=http://mirror.centos.org/centos/RPM-GPG-KEY-CentOS-5
+includepkgs=postfix
 

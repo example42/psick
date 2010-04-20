@@ -15,11 +15,11 @@ class postfix::mysql::redhat {
         }
 
         file {
-                "/etc/yum.repos.d/CentOSPlus.repo":
+                "/etc/yum.repos.d/CentOS-Plus.repo":
                 mode => 644, owner => root, group => root,
                 before => Exec["RemoveNormalPostfix"],
                 ensure => present,
-                source => "puppet://$servername/postfix/CentOSPlus.repo"
+                source => "puppet://$servername/postfix/CentOS-Plus.repo"
         }
 
 }
