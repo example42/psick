@@ -20,7 +20,7 @@
 # Or use the package type to install a custom package for your OS.
 
 
-class mailscanner::mailwatch inherits mailscanner::base {
+class mailscanner::mailwatch inherits mailscanner {
 
 File["MailScanner.conf"] {
 	content => template("mailscanner/mailwatch/MailScanner.conf.erb"),
