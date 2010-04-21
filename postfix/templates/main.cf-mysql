@@ -103,3 +103,14 @@ smtpd_recipient_restrictions =
   reject_unauth_pipelining,
   reject_invalid_hostname
 
+# TLS
+smtpd_tls_security_level = may
+smtpd_tls_key_file = /etc/pki/tls/private/<%= fqdn %>.key
+smtpd_tls_cert_file = /etc/pki/tls/certs/<%= fqdn %>.cert
+# smtpd_tls_CAfile = /etc/pki/tls/root.crt
+smtpd_tls_loglevel = 1
+smtpd_tls_session_cache_timeout = 3600s
+smtpd_tls_session_cache_database = btree:/var/spool/postfix/smtpd_tls_cache
+tls_random_source = dev:/dev/urandom
+smtpd_tls_auth_only = yes
+
