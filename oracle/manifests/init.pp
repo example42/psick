@@ -1,10 +1,12 @@
+import "classes/*.pp"
+# import "defines/*.pp"
+
 class oracle {
 
-        case $operatingsystem {
-                redhat: { include oracle::redhat }
-                centos: { include oracle::redhat }
-                default: { }
-        }
+	include oracle::packages
+	include oracle::user
+	include oracle::limits
+	include oracle::sysctl
 
 }
 
