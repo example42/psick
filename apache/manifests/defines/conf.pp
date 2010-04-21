@@ -9,14 +9,10 @@
 
 define apache::conf ($value) {
 
+	require apache::params
+
         config { "apache_conf_$name":
-                file      => $operatingsystem ?{
-                                freebsd => "/usr/local/etc/apache20/httpd.conf",
-                                ubuntu  => "/etc/apache2/apache2.conf",
-                                debian  => "/etc/apache2/apache2.conf",
-                                centos  => "/etc/httpd/conf/httpd.conf",
-                                redhat  => "/etc/httpd/conf/httpd.conf",
-                             },
+                file      => "${apache::params::configfile}",
                 line      => "$name $value",
                 pattern   => "$name ",
                 engine    => "replaceline",

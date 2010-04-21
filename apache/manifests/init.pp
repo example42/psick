@@ -11,8 +11,31 @@ import "defines/*.pp"
 import "classes/*.pp"
 
 class apache {
+	
+        require apache::params
 
-	include apache::base
+        package { apache:
+                name   => "${apache::params::packagename}",
+                ensure => present,
+        }
+
+        service { apache:
+                name   => "${apache::params::servicename}",
+                ensure => running,
+                enable => true,
+                pattern => "${apache::params::servicepattern}",
+                hasrestart => true,
+                hasstatus => true,
+                require => Package["apache"],
+                subscribe => File["httpd.conf"],
+        }
+
+        file { "httpd.conf":
+#               mode => 644, owner => root, group => root,
+                require => Package[apache],
+                ensure => present,
+                path => "${apache::params::configfile}",
+        }
 
         case $operatingsystem {
                 debian: { include apache::debian }

@@ -6,7 +6,7 @@
 # Usage:
 # include apache::disableboot
 
-class apache::disableboot inherits apache::base {
+class apache::disableboot inherits apache {
         Service["apache"] {
                 enable => "false",
         }
