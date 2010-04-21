@@ -23,12 +23,13 @@
 # See here for info: http://www.linuxmail.info/postfix-mysql-centos-5/
 # (No time and real reason to automate this in Puppet)
 
-class postfix::mysql inherits postfix::base {
+class postfix::mysql inherits postfix {
+
+	require postfix::params
 
         File["main.cf"] {
                 content => template("postfix/main.cf-mysql"),
         }
-
 
         case $operatingsystem {
                 debian: { include postfix::mysql::debian }
@@ -43,9 +44,7 @@ class postfix::mysql inherits postfix::base {
                 mode => 644, owner => root, group => root,
                 require => File["main.cf"],
                 ensure => present,
-                path => $operatingsystem ?{
-                        default => "/etc/postfix/mysql_virtual_alias_maps.cf",
-                        },
+                path => "${postfix::params::configdir}/mysql_virtual_alias_maps.cf",
                 content => template("postfix/mysql_virtual_alias_maps.cf"),
         }
 
@@ -54,9 +53,7 @@ class postfix::mysql inherits postfix::base {
                 mode => 644, owner => root, group => root,
                 require => File["main.cf"],
                 ensure => present,
-                path => $operatingsystem ?{
-                        default => "/etc/postfix/mysql_virtual_domains_maps.cf",
-                        },
+                path => "${postfix::params::configdir}/mysql_virtual_domains_maps.cf",
                 content => template("postfix/mysql_virtual_domains_maps.cf"),
         }
 
@@ -65,9 +62,7 @@ class postfix::mysql inherits postfix::base {
                 mode => 644, owner => root, group => root,
                 require => File["main.cf"],
                 ensure => present,
-                path => $operatingsystem ?{
-                        default => "/etc/postfix/mysql_virtual_mailbox_maps.cf",
-                        },
+                path => "${postfix::params::configdir}/mysql_virtual_mailbox_maps.cf",
                 content => template("postfix/mysql_virtual_mailbox_maps.cf"),
         }
 
@@ -76,9 +71,7 @@ class postfix::mysql inherits postfix::base {
                 mode => 644, owner => root, group => root,
                 require => File["main.cf"],
                 ensure => present,
-                path => $operatingsystem ?{
-                        default => "/etc/postfix/mysql_virtual_mailbox_limit_maps.cf",
-                        },
+                path => "${postfix::params::configdir}/mysql_virtual_mailbox_limit_maps.cf",
                 content => template("postfix/mysql_virtual_mailbox_limit_maps.cf"),
         }
 
@@ -87,14 +80,12 @@ class postfix::mysql inherits postfix::base {
                 mode => 644, owner => root, group => root,
                 require => File["main.cf"],
                 ensure => present,
-                path => $operatingsystem ?{
-                        default => "/etc/postfix/mysql_virtual_relay_domains_maps.cf",
-                        },
+                path => "${postfix::params::configdir}/ql_virtual_relay_domains_maps.cf",
                 content => template("postfix/mysql_virtual_relay_domains_maps.cf"),
         }
 
         file {
-                "/usr/local/virtual":
+                "/var/spool/vmail":
                 mode => 770, owner => postfix, group => postfix,
                 require => [ Package["postfix"] , File["main.cf"] ],
                 ensure => directory,

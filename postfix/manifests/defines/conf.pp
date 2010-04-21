@@ -8,10 +8,10 @@
 
 define postfix::conf ($value) {
 
+	require postfix::params
+
         config { "postfix_conf_$name":
-                file      => $operatingsystem ?{
-                                default  => "/etc/postfix/main.cf",
-                             },
+                file      => "${configfile}",
                 line      => "$name $value",
                 pattern   => "$name ",
                 engine    => "replaceline",

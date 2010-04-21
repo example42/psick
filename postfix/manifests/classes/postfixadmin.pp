@@ -22,14 +22,9 @@
 
 class postfix::postfixadmin {
 
-        $webroot =  $operatingsystem ?{
-                        debian  => "/var/www",
-                        ubuntu  => "/var/www",
-                        suse    => "/srv/www",
-                        default => "/var/www/html",
-        }
-
         require apache
+        require apache::params
+        require postfix::params
 
         case $operatingsystem {
                 debian: { php::module  { [ mysql, imap ]: } }
@@ -41,7 +36,7 @@ class postfix::postfixadmin {
                 url             => "http://downloads.sourceforge.net/project/postfixadmin/postfixadmin/postfixadmin_2.3.tar.gz",
                 extracted_dir   => "postfixadmin-2.3",
                 postextract_command => "ln -s postfixadmin-2.3 ../postfixadmin",
-                destination_dir => $webroot,
+                destination_dir => "${apache::params::documentroot}",
                 require => Package["apache"],
         }
 
@@ -56,55 +51,18 @@ class postfix::postfixadmin {
 
 # Postfixadmin config file configuration
 
-        $postfixadminconf = $operatingsystem ?{
-                        debian  => "/var/www/postfixadmin/config.inc.php",
-       	                ubuntu  => "/var/www/postfixadmin/config.inc.php",
-               	        suse    => "/srv/www/postfixadmin/config.inc.php",
-                       	default => "/var/www/html/postfixadmin/config.inc.php",
-        }
-
-        file { "$postfixadminconf":
+        file { "postfixadminconf":
                 ensure => present,
                 require => Netinstall["postfixadmin"],
+		path	=> "${postfix::params::postfixadminconf}",
         }
 
-        config {
-                postfixadmin_configdb_host:
-                file => $postfixadminconf,
-                pattern => "database_host",
-                engine => "replaceline",
-                require => File["$postfixadminconf"],
-		line => "\$CONF['database_host'] = '$postfix_mysqlhost'; # Modified by Puppet";
-
-                postfixadmin_configdb_dbname:
-                file => $postfixadminconf,
-                pattern => "database_name",
-                engine => "replaceline",
-                require => File["$postfixadminconf"],
-                line => "\$CONF['database_name'] = '$postfix_mysqldbname'; # Modified by Puppet";
-
-                postfixadmin_configdb_user:
-                file => $postfixadminconf,
-                pattern => "database_user",
-                engine => "replaceline",
-                require => File["$postfixadminconf"],
-                line => "\$CONF['database_user'] = '$postfix_mysqluser'; # Modified by Puppet";
-
-                postfixadmin_configdb_password:
-                file => $postfixadminconf,
-                pattern => "database_password",
-                engine => "replaceline",
-                require => File["$postfixadminconf"],
-                line => "\$CONF['database_password'] = '$postfix_mysqlpassword'; # Modified by Puppet";
-
-                postfixadmin_configured:
-                file => $postfixadminconf,
-                pattern => "configured",
-                engine => "replaceline",
-                require => File["$postfixadminconf"],
-                line => "\$CONF['configured'] = true; # Modified by Puppet";
-
-        }
+        postfixadmin::conf { "database_host": value => "$postfix_mysqlhost" }
+        postfixadmin::conf { "database_name": value => "$postfix_mysqldbname" }
+        postfixadmin::conf { "database_user": value => "$postfix_mysqluser" }
+        postfixadmin::conf { "database_password": value => "$postfix_mysqlpassword" }
+        postfixadmin::conf { "configured": value => "true" , quote => "no" }
+        postfixadmin::conf { "domain_path": value => "YES" }
+        postfixadmin::conf { "domain_in_mailbox": value => "NO" }
 
 }
-

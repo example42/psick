@@ -5,7 +5,7 @@
 # Usage:
 # include postfix::absent
 
-class postfix::absent inherits postfix::base {
+class postfix::absent inherits postfix {
         Package["postfix"] {
                 ensure => "absent" ,
         }

@@ -71,7 +71,7 @@ readme_directory = /usr/share/doc/postfix-2.3.3/README_FILES
 # MySql Virtual domains
 virtual_alias_maps = mysql:/etc/postfix/mysql_virtual_alias_maps.cf
 virtual_gid_maps = static:89
-virtual_mailbox_base = /usr/local/virtual
+virtual_mailbox_base = /var/spool/vmail
 virtual_mailbox_domains = mysql:/etc/postfix/mysql_virtual_domains_maps.cf
 virtual_mailbox_limit = 51200000
 virtual_mailbox_maps = mysql:/etc/postfix/mysql_virtual_mailbox_maps.cf
