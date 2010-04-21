@@ -84,3 +84,22 @@ virtual_create_maildirsize = yes
 virtual_mailbox_extended = yes
 virtual_mailbox_limit_maps = mysql:/etc/postfix/mysql_virtual_mailbox_limit_map
 virtual_mailbox_limit_override = yes
+
+# SMTP AUTH (via Dovecot sasl) and recipient restrictions
+broken_sasl_auth_clients = yes
+smtpd_sasl_auth_enable = yes
+smtpd_sasl_local_domain = $myhostname
+smtpd_sasl_security_options = noanonymous
+smtpd_sasl_type = dovecot
+smtpd_sasl_path = private/auth
+
+smtpd_recipient_restrictions =
+  permit_mynetworks,
+  permit_sasl_authenticated,
+  reject_non_fqdn_hostname,
+  reject_non_fqdn_sender,
+  reject_non_fqdn_recipient,
+  reject_unauth_destination,
+  reject_unauth_pipelining,
+  reject_invalid_hostname
+

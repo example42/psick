@@ -254,6 +254,17 @@ auth default {
       #mode = 0660
     #}
   #}
+
+# Added for Postfix SMTP AUTH
+   socket listen {
+     client {
+       path = /var/spool/postfix/private/auth
+       mode = 0660
+       user = postfix
+       group = postfix
+     }
+   }
+
 }
 
 dict {
