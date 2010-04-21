@@ -67,7 +67,7 @@ first_valid_uid = 89
 #first_valid_gid = 1
 #last_valid_gid = 0
 
-default_mail_env = maildir:/usr/local/virtual/%d/%n
+default_mail_env = maildir:/var/spool/vmail/%d/%n
 
 #max_mail_processes = 1024
 #mail_process_size = 256
