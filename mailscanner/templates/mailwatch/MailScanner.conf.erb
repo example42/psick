@@ -8,8 +8,8 @@
 %rules-dir% = /etc/MailScanner/rules
 %mcp-dir% = /etc/MailScanner/mcp
 Max Children = 5
-Run As User = postfix # Modified for Postfix
-Run As Group = postfix # Modified for Postfix
+Run As User = postfix 
+Run As Group = postfix
 Queue Scan Interval = 6
 Incoming Queue Dir = /var/spool/postfix/hold # Modified for Postfix
 Outgoing Queue Dir = /var/spool/postfix/incoming # Modified for Postfix
@@ -21,10 +21,10 @@ MTA = postfix # Modified for Postfix
 Sendmail = /usr/sbin/sendmail
 Sendmail2 = /usr/sbin/sendmail
 Incoming Work User =
-Incoming Work Group = clamd # Modified for Clamav - This is the user the service clamd runs with
+Incoming Work Group = <%= clamav_user -%> # Modified for Clamav - This is the user the service clamd runs with
 Incoming Work Permissions = 0660 # Modified for Clamav
 Quarantine User = root # Modified for Mailwatch
-Quarantine Group = apache # Modified for Mailwatch
+Quarantine Group = <%= apache_user -%> # Modified for Mailwatch
 Quarantine Permissions = 0660 # Modified for Mailwatch
 Max Unscanned Bytes Per Scan = 100m
 Max Unsafe Bytes Per Scan = 50m
@@ -337,7 +337,7 @@ Sender MCP Report = %report-dir%/sender.mcp.report.txt
 Use Default Rules With Multiple Recipients = no
 Read IP Address From Received Header = no
 Spam Score Number Format = %d
-MailScanner Version Number = 4.79.11
+# MailScanner Version Number = 4.79.11
 SpamAssassin Cache Timings = 1800,300,10800,172800,600
 Debug = no
 Debug SpamAssassin = no
@@ -348,9 +348,9 @@ Deliver In Background = yes
 Delivery Method = batch
 Split Exim Spool = no
 Lockfile Dir = /var/spool/MailScanner/incoming/Locks
-Custom Functions Dir = /usr/lib/MailScanner/MailScanner/CustomFunctions
+Custom Functions Dir = <%= mailscanner_customfunctionsdir -%>
 Lock Type = 
 Syslog Socket Type =
 Automatic Syntax Check = yes
 Minimum Code Status = supported
-include /etc/MailScanner/conf.d/*
+# include /etc/MailScanner/conf.d/*

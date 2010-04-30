@@ -20,6 +20,12 @@ $servicepattern = $operatingsystem ? {
 	default => "/usr/sbin/httpd",
 }
 
+$username = $operatingsystem ? {
+	debian  => "www-data",
+	ubuntu  => "www-data",
+	default => "apache",
+}
+
 $configfile = $operatingsystem ?{
 	freebsd => "/usr/local/etc/apache20/httpd.conf",
 	ubuntu  => "/etc/apache2/apache2.conf",

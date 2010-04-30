@@ -39,6 +39,8 @@ class mailscanner {
 
         service { mailscanner:
                 name => $operatingsystem ? {
+                        debian  => "mailscanner",
+                        ubuntu  => "mailscanner",
                         default => "MailScanner",
                         },
                 ensure => running,

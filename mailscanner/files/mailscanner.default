@@ -1,0 +1,26 @@
+# File managed by Puppet
+#
+# This sets how many days files will remain in the "quarantine" area before
+# being automatically removed.
+#
+q_days=7
+
+#
+# This sets how much the priority of the mailscanner daemon should be
+# reduced by (i.e. "nice -X").  Since it is a batch oriented task,
+# there it can easily give up some CPU cycles to more interactive
+# tasks. On a system with the main-task to scan mails set this to 0.
+#
+run_nice=2
+
+#
+# Uncomment this line once MailScanner has been fully configured.
+#
+run_mailscanner=1
+
+#
+# Lockfile to inform scripts if MailScanner was stopped by hand
+# and should not be started automaticly
+#
+stopped_lockfile=/var/lock/subsys/MailScanner.off
+

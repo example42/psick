@@ -55,4 +55,16 @@ class sendmail::absent inherits sendmail {
         Package["sendmail"] {
                 ensure => "absent" ,
         }
+
+
+        Service["sendmail"] {
+                ensure => undef ,
+                enable => undef ,
+        }
+
+        File["sendmail.mc"] {
+                ensure => undef ,
+        }
+
+
 }

@@ -21,16 +21,22 @@
 #
 class mailscanner::mailwatch inherits mailscanner {
 
+# Some prerequisites
+        require mailscanner::params
+        require mailscanner::postfix
+        require apache
+        require mysql
+        require apache::params
+        require clamav::params
+
+# Quick fix to use these variables in the template
+$apache_user = "${apache::params::username}"
+$clamav_user = "${clamav::params::username}"
+$mailscanner_customfunctionsdir = "${mailscanner::params::custom_functions_dir}"
+
 File["MailScanner.conf"] {
 	content => template("mailscanner/mailwatch/MailScanner.conf.erb"),
 }
-
-
-# Some prerequisites
-	require mailscanner::params
-	require mailscanner::postfix
-        require apache
-        require mysql
 
 	# Already included in postfix::postfixadmin.
 	# Uncomment if you don't use postfix::postfixadmin.
@@ -54,7 +60,7 @@ File["MailScanner.conf"] {
 
         file {
                 "${mailscanner::params::mailwatch_webdir}/temp":
-                mode => 755, owner => apache, group => apache,
+                mode => 755, owner => "${apache::params::username}", group => "${apache::params::username}",
                 require => Netinstall["mailwatch"],
                 ensure => directory,
         }

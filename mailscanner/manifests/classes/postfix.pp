@@ -2,6 +2,8 @@ class mailscanner::postfix inherits mailscanner {
 
 # Postfix class should be included but postfix service startup at boot time has to be disabled
 	include postfix::disableboot
+	include apache::params
+	include clamav::params
 
 # Modifications to Postfix config file to enable integration with mailscanner
 # NOTE: If you manage main.cf with a static file or template, you must add this line directly in the source file to avoid modifications clashes and loops:
@@ -34,7 +36,7 @@ class mailscanner::postfix inherits mailscanner {
 
         file {
                 "/var/spool/MailScanner/quarantine":
-                mode => 775, owner => postfix, group => apache,
+                mode => 775, owner => postfix, group => "${apache::params::username}",
                 require => [ File["MailScanner.conf"] , Package["postfix"] , Package["apache"] ],
                 ensure => directory,
         }
@@ -42,7 +44,7 @@ class mailscanner::postfix inherits mailscanner {
 # Note: User clamd is the one we use for clamd service. You may need to change it.
         file {
                 "/var/spool/MailScanner/incoming":
-                mode => 775, owner => postfix, group => clamd,
+                mode => 775, owner => postfix, group => "${clamav::params::username}",
                 require => [ File["MailScanner.conf"] , Package["postfix"] , Class["clamav"] ],
                 ensure => directory,
         }

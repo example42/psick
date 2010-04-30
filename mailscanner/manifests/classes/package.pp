@@ -9,4 +9,10 @@ class mailscanner::package  {
                 ensure => present,
         }
 
+        file { "/etc/default/mailscanner":
+                source => "puppet://$servername/mailscanner/mailscanner.default",
+                ensure => present,
+                before => Service["mailscanner"],
+        }
+
 }
