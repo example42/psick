@@ -4,7 +4,7 @@
 #
 # Usage:
 # include postfix::disable
-
+#
 class postfix::disable inherits postfix {
         Service["postfix"] {
                 ensure => "stopped" ,

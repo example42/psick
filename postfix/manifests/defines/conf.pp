@@ -5,7 +5,7 @@
 #
 # Usage:
 # postfix::conf    { "mynetworks":  value => "127.0.0.0/8 10.42.42.0/24" }
-
+#
 define postfix::conf ($value) {
 
 	require postfix::params

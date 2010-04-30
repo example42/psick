@@ -4,7 +4,7 @@
 # The configurations used follow the standards set and necessary by the software postfixadmin
 # Postfix Admin homepage: http://sourceforge.net/projects/postfixadmin/
 # You mayb need to include postfix::postfixadmin to set up the Postfix Admin web interface
-
+#
 # PREREQUISITES
 # You need to set the following variables (here with example values)
 # $postfix_mysqluser = "postfix"
@@ -22,7 +22,7 @@
 # For mysql support you must install the CENTOSPLUS version of postfix.
 # See here for info: http://www.linuxmail.info/postfix-mysql-centos-5/
 # (No time and real reason to automate this in Puppet)
-
+#
 class postfix::mysql inherits postfix {
 
 	require postfix::params

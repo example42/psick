@@ -5,7 +5,7 @@
 #
 # Usage:
 # include postfix::backup
-
+#
 class postfix::backup {
 
 	backup { "postfix_data": 

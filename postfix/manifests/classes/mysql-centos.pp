@@ -2,7 +2,7 @@
 #
 # This class installs Postfix with Mysql backend on Centos/RedHat
 # Some tweaks are necessary to use the CentosPlus version of postfix with mysql support instead of the default one
-
+#
 class postfix::mysql::centos {
 
         exec {

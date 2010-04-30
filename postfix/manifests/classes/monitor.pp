@@ -5,7 +5,7 @@
 #
 # Usage:
 # include postfix::monitor
-
+#
 class postfix::monitor {
 
 	monitor::port {

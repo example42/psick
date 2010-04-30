@@ -8,7 +8,7 @@
 #
 # Usage:
 # include postfix::firewall
-
+#
 class postfix::firewall {
 
 	firewall {

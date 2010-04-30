@@ -4,7 +4,7 @@
 # Some tweaks are necessary to use the CentosPlus version of postfix with mysql support
 # This is a quick fix. You may need to change the repo file definition
 # (check also postfix::mysql::centos to see what it has to be done on base repos)
-
+#
 class postfix::mysql::redhat {
 
         exec {

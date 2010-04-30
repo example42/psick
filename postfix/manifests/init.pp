@@ -1,3 +1,7 @@
+# Import all the manifests for this module
+import "defines/*.pp"
+import "classes/*.pp"
+#
 # Class: postfix
 #
 # Manages postfix.
@@ -8,11 +12,7 @@
 #
 # Usage:
 # include postfix
-
-
-import "defines/*.pp"
-import "classes/*.pp"
-
+#
 class postfix {
 
 	# Load the variables used in this module. Check the params.pp file 

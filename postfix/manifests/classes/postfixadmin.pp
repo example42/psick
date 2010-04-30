@@ -2,7 +2,7 @@
 #
 # This class installs and configures Postfix Admin Web Interface to manage postfix with Mysql backend
 # Postfix Admin homepage: http://sourceforge.net/projects/postfixadmin/
-
+#
 # PREREQUISITES
 # You need to set the following variables (here with example values)
 # $postfix_mysqluser = "postfix"
@@ -17,9 +17,7 @@
 # Postfix (with Mysql support): include postfix::mysql
 # Mysql: include mysql
 # Apache+PHP+PostfixAdmin Web interface with Mysql support: include postfix::postfixadmin
-
-
-
+#
 class postfix::postfixadmin {
 
         require apache
