@@ -5,7 +5,7 @@
 #
 # Usage:
 # include dovecot::disableboot
-
+#
 class dovecot::disableboot inherits dovecot {
         Service["dovecot"] {
                 enable => "false",

@@ -5,7 +5,7 @@
 #
 # Usage:
 # include dovecot::monitor
-
+#
 class dovecot::monitor {
 
 	monitor::port {

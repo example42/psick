@@ -3,7 +3,7 @@
 # This class sets up a Dovecot with Mysql backend.
 # The configurations used follow the standards set and necessary by the software postfixadmin
 # Postfix Admin homepage: http://sourceforge.net/projects/postfixadmin/
-
+#
 # PREREQUISITES
 # You need to set the following variables (here with example values)
 # This class is specifically oriented to the setup of a all-in-one box with 
@@ -14,8 +14,6 @@
 # $postfix_mysqldbname = "dovecot"
 # $postfix_mynetworks = $network/$netmask
 #
-
-
 class dovecot::mysql inherits dovecot {
 
         File["dovecot.conf"] {

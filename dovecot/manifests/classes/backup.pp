@@ -5,7 +5,7 @@
 #
 # Usage:
 # include dovecot::backup
-
+#
 class dovecot::backup {
 
 # If you want set the mailbox directory (here /home) and enable it

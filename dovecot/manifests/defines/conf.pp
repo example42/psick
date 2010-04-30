@@ -5,7 +5,7 @@
 #
 # Usage:
 # dovecot::conf    { "protocols":  value => "imap imaps pop3 pop3s" }
-
+#
 define dovecot::conf ($value) {
 
         config { "dovecot_conf_$name":

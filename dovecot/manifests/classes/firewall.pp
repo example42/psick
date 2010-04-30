@@ -8,7 +8,7 @@
 #
 # Usage:
 # include dovecot::firewall
-
+#
 class dovecot::firewall {
 
 	firewall {
