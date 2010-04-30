@@ -4,7 +4,7 @@
 #
 # Usage:
 # include apache::modsecurity
-
+#
 class apache::modsecurity {
 
         include apache

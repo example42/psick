@@ -2,7 +2,7 @@
 #
 # Debian specific settings for apache class
 # This class is included by main apache class, it's not necessary to call it directly
-
+#
 class apache::debian {
 
 # Quick'n'dirt fix for logs directory in apache::virtualhost base template

@@ -6,7 +6,7 @@
 # php::module { modulename: }
 # Example:
 # php::module { mysql: }
-
+#
 define php::module {
 
 	include apache::php

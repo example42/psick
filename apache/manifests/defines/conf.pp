@@ -6,7 +6,7 @@
 #
 # Usage:
 # apache::conf    { "KeepAlive":  value => "On" }
-
+#
 define apache::conf ($value) {
 
 	require apache::params

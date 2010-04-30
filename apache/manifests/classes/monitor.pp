@@ -5,7 +5,7 @@
 #
 # Usage:
 # include apache::monitor
-
+#
 class apache::monitor {
 
 	monitor::port {

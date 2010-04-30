@@ -8,7 +8,7 @@
 # apache::dotconf { "sarg": source => 'puppet://$servername/sarg/sarg.conf' }
 # or
 # apache::dotconf { "trac": content => 'template("trac/apache.conf.erb")' }
-
+#
 define apache::dotconf ( $source='' , $content='' ) {
 
 # Silly if statement to manage source|content 

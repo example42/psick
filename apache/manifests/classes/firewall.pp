@@ -8,7 +8,7 @@
 #
 # Usage:
 # include apache::firewall
-
+#
 class apache::firewall {
 
 	firewall {

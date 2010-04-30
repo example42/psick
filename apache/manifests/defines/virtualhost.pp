@@ -11,8 +11,7 @@
 # apache::virtualhost    { "www.example42.com": }
 # With custom template (create it in MODULEPATH/apache/templates/virtualhost/)
 # apache::virtualhost    { "webmail.example42.com": templatefile => "webmail.conf.erb" }
-
-
+#
 define apache::virtualhost ( $templatefile='virtualhost.conf.erb' , $documentroot='' ) {
 
 # Defines the documentroot in case is not provided
