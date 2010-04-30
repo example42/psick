@@ -5,7 +5,7 @@
 #
 # Usage:
 # mailwatch::pmconf    { "db_host":  value => "localhost" }
-
+#
 define mailwatch::pmconf ($value) {
 
 	include mailscanner::params

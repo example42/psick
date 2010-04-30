@@ -4,7 +4,7 @@
 #
 # Usage:
 # include mailscanner::disable
-
+#
 class mailscanner::disable inherits mailscanner {
         Service["mailscanner"] {
                 ensure => "stopped" ,

@@ -5,7 +5,7 @@
 #
 # Usage:
 # mailscanner::conf    { "MTA":  value => "postfix" }
-
+#
 define mailscanner::conf ($value) {
 
 	require mailscanner::params

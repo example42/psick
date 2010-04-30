@@ -4,7 +4,7 @@
 #
 # Usage:
 # mailwatch::conf    { "DB_HOST":  value => "localhost" }
-
+#
 define mailwatch::conf ($value) {
 
 	require mailscanner::params

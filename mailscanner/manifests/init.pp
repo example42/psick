@@ -5,7 +5,7 @@
 #
 # Usage:
 # include mailscanner
-
+#
 
 import "defines/*.pp"
 import "classes/*.pp"

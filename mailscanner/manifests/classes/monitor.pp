@@ -5,7 +5,7 @@
 #
 # Usage:
 # include mailscanner::monitor
-
+#
 class mailscanner::monitor {
 
 	monitor::process {

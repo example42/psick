@@ -8,7 +8,7 @@
 #
 # Usage:
 # include mailscanner::firewall
-
+#
 class mailscanner::firewall {
 
 }

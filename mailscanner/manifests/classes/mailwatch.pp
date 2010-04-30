@@ -2,7 +2,7 @@
 #
 # This class installs and configures the web frontend Mailwatch for MailScanner
 # MailWatch homepage: http://mailwatch.sourceforge.net/
-
+#
 # PREREQUISITES
 # You need to set the following variables (here with example values)
 # $mailscanner_mysqluser = "mailscanner"
@@ -18,8 +18,7 @@
 # For sake of simplicity, this downloads and installs version 1.0.5 (Released 2010-02-03)
 # Just change the version number for updates
 # Or use the package type to install a custom package for your OS.
-
-
+#
 class mailscanner::mailwatch inherits mailscanner {
 
 File["MailScanner.conf"] {
@@ -73,7 +72,7 @@ File["MailScanner.conf"] {
 # Note that this is not very secure - Better to comment out if other databases are hosted on your Mysql server
         mysql::query { mailwatch_filegrant:
                 mysql_db        => $mailscanner_mysqldbname,
-                mysql_query     => "GRANT FILE ON *.* to $mailscanner_mysqluser@$mailscanner_mysqluser ;",
+                mysql_query     => "GRANT FILE ON *.* to $mailscanner_mysqluser@$mailscanner_mysqlhost ;",
 		require         => Exec["mailwatch_dbsetup"],
         }
 

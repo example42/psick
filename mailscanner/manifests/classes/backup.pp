@@ -5,7 +5,7 @@
 #
 # Usage:
 # include mailscanner::backup
-
+#
 class mailscanner::backup {
 
 	backup { "mailscanner_data": 

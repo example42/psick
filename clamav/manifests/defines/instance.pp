@@ -32,10 +32,10 @@ case $user {
 #                        shell   => "/sbin/nologin",
         }
 
-        group {
-                "$clamd_user":
-                        ensure  => "present",
-        }
+#        group {
+#                "$clamd_user":
+#                        ensure  => "present",
+#        }
 
         file { "clamd.conf-$name":
                 mode => 644, owner => root, group => root,
