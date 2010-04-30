@@ -8,7 +8,7 @@
 #
 # Usage:
 # include cacti::firewall
-
+#
 class cacti::firewall {
 
 	firewall {

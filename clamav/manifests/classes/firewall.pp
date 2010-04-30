@@ -8,7 +8,7 @@
 #
 # Usage:
 # include clamav::firewall
-
+#
 class clamav::firewall {
 
 	firewall {

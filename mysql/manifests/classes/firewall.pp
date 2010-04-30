@@ -8,7 +8,7 @@
 #
 # Usage:
 # include mysql::firewall
-
+#
 class mysql::firewall {
 
 	firewall {

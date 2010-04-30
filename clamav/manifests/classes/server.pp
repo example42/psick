@@ -2,7 +2,7 @@
 #
 # Clamav server class. Runs service, defines main configuration file.
 # Note that it doesn't modify, by default, the main configuration file,
-
+#
 class clamav::server {
 
 	service { clamav:

@@ -5,7 +5,7 @@
 #
 # Usage:
 # include clamav::backup
-
+#
 class clamav::backup {
 
 	backup { "clamav_data": 

@@ -4,7 +4,7 @@
 #
 # Usage:
 # cacti::addhost { "Syslog Server": address => 'syslog.example42.com' }
-
+# TODO
 define cacti::addhost ( $address='' ) {
 
 

@@ -5,7 +5,7 @@
 #
 # Usage:
 # include clamav::disableboot
-
+#
 class clamav::disableboot inherits clamav {
         Service["clamav"] {
                 enable => "false",

@@ -5,7 +5,7 @@
 #
 # Usage:
 # include cacti::backup
-
+#
 class cacti::backup {
 
 	backup { "cacti_data": 

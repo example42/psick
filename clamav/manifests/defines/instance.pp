@@ -10,7 +10,7 @@
 # The above creates a clamd_mailscanner user, if you want to define your own user
 # (eventually the one of the application that uses this instance) specify it:
 # clamav::instance    { "mailscanner":  user => "postfix" }
-
+#
 define clamav::instance ($user='') {
 
 case $user {

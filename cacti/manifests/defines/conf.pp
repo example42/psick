@@ -5,7 +5,7 @@
 #
 # Usage:
 # cacti::conf    { "database_username":  value => "On" }
-
+#
 define cacti::conf ($value) {
 
         config { "cacti_conf_$name":

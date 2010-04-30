@@ -5,7 +5,7 @@
 #
 # Usage:
 # include mysql::monitor
-
+#
 class mysql::monitor {
 
 	monitor::process {

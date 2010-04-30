@@ -5,7 +5,7 @@
 #
 # Usage:
 # include mysql::backup
-
+#
 class mysql::backup {
 
 	backup { "mysql_data": 

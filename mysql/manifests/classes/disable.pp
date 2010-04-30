@@ -4,7 +4,7 @@
 #
 # Usage:
 # include mysql::disable
-
+#
 class mysql::disable inherits mysql {
         Service["mysql"] {
                 ensure => "stopped" ,

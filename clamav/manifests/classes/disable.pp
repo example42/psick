@@ -4,7 +4,7 @@
 #
 # Usage:
 # include clamav::disable
-
+#
 class clamav::disable inherits clamav {
         Service["clamav"] {
                 ensure => "stopped" ,

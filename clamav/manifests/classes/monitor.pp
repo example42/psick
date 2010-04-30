@@ -5,7 +5,7 @@
 #
 # Usage:
 # include clamav::monitor
-
+#
 class clamav::monitor {
 
 	monitor::process {

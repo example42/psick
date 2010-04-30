@@ -5,7 +5,7 @@
 #
 # Usage:
 # include mysql::disableboot
-
+#
 class mysql::disableboot inherits mysql {
         Service["mysql"] {
                 enable => "false",

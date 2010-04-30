@@ -8,7 +8,7 @@
 #
 # Usage:
 # mysql::conf    {"mysql.server/user":  value => "mysql" }
-
+#
 define mysql::conf ($value) {
 
         config { "mysql_conf_$name":

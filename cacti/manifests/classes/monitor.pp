@@ -5,7 +5,7 @@
 #
 # Usage:
 # include cacti::monitor
-
+#
 class cacti::monitor {
 
         monitor::url {

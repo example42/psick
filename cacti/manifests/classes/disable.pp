@@ -4,7 +4,7 @@
 #
 # Usage:
 # include cacti::disable
-
+#
 class cacti::disable inherits cacti::base {
 
 }
