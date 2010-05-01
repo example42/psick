@@ -1,0 +1,21 @@
+#!/bin/sh
+# File Managed by Puppet
+# Installs the packages required for installing Oracle applications
+
+<% if $operatingsystemrelease="8.04" -%>
+# Packages for Ubunut 8.04 LTS
+<% if $architecture="i386" -%>
+apt-get install -y alien cpp-3.3 debhelper g++-3.3 gawk gcc-3.3 gcc-3.3-base gettext html2text intltool-debian ksh lesstif2 libaio-dev libaio1 libbeecrypt6 libdb3 libelf-dev libelf1 libg++2.8.1.3-glibc2.2 libltdl3 libltdl3-dev libmotif3 libodbcinstq1c2 libqt4-core libqt4-gui librpm4.4 libsqlite3-0 libstdc++2.10-glibc2.2 libstdc++5 libstdc++5-3.3-dev lsb lsb-core lsb-cxx lsb-desktop lsb-graphics lsb-qt4 odbcinst1debian1 pax po-debconf rpm sysstat unixodbc unixodbc-dev
+<% else -%>
+apt-get install -y alien cpp-3.3 debhelper g++-3.3 gawk gcc-3.3 gcc-3.3-base gettext html2text intltool-debian ksh lesstif2 libaio-dev libaio1 libbeecrypt6 libdb3 libelf-dev libelf1 libltdl3 libltdl3-dev libmotif3 libodbcinstq1c2 libqt4-core libqt4-gui librpm4.4 libsqlite3-0 libstdc++5 libstdc++5-3.3-dev lsb lsb-core lsb-cxx lsb-desktop lsb-graphics lsb-qt4 odbcinst1debian1 pax po-debconf rpm sysstat unixodbc unixodbc-dev libc6-dev-i386
+<% end -%>
+<% end -%>
+
+<% if $operatingsystemrelease="10.04" -%>
+# Packages for Ubunut 10.04 LTS
+<% if $architecture="i386" -%>
+apt-get install -y alien cpp debhelper g++ gawk gcc gettext html2text intltool-debian ksh lesstif2 libaio-dev libaio1 libbeecrypt7 libdb4.7 libelf-dev libelf1  libltdl7 libltdl-dev libmotif3 libodbcinstq1c2 libqt4-core libqt4-gui libsqlite3-0 libstdc++6 libstdc++6-4.4-dev lsb lsb-core lsb-cxx lsb-desktop lsb-graphics lsb-qt4 odbcinst1debian1 pax po-debconf rpm sysstat unixodbc unixodbc-dev
+<% else -%>
+apt-get install -y alien cpp debhelper g++ gawk gcc gettext html2text intltool-debian ksh lesstif2 libaio-dev libaio1 libbeecrypt7 libdb4.7 libelf-dev libelf1  libltdl7 libltdl-dev libmotif3 libodbcinstq1c2 libqt4-core libqt4-gui libsqlite3-0 libstdc++6 libstdc++6-4.4-dev lsb lsb-core lsb-cxx lsb-desktop lsb-graphics lsb-qt4 odbcinst1debian1 pax po-debconf rpm sysstat unixodbc unixodbc-dev libc6-dev-i386
+<% end -%>
+<% end -%>

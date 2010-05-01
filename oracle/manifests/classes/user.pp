@@ -30,6 +30,7 @@ $sid = "${oracle::params::sid}"
 		group  => "${oracle::params::groups}",
 		path   => "/home/${oracle::params::user}/.bash_profile",
                 content => template("oracle/bash_profile"),
+		require => User["${oracle::params::user}"],
         }
 
         exec { "oracle_base_parents":

@@ -1,4 +1,39 @@
-# Lab42 Puppet Infrastructure #
-# PROVIDED 'AS IS'
+Puppet module: oracle
+
+# Written by Lab42 #
+# http://www.example42.com
+
+Licence: GPLv3
 
 
+DESCRIPTION:
+This module provides the prerequisites for Oracle installation
+
+
+USAGE:
+# Standard Classes 
+include oracle              # Install and run oracle with standard configurations.
+
+# Extended Classes (require storeconfings)
+include oracle::monitor     # Monitor oracle  Automatically included if $monitor=yes
+include oracle::backup      # Backup oracle data - Automatically included if $backup=yes
+include oracle::firewall    # Manages firewall rule for oracle service - Automatically included if $firewall=yes
+
+DEPENDENCIES:
+Standard classes generally don't need external modules.
+Extended classes need the relevant external modules (import monitor ; import backup ... ) and the "common" module (import common)
+oracle::conf generic infile configuration define needs the "common" module
+Check on individual Extra classes and defines if there are specific requirements (generally only the common module).
+
+
+SOURCES OF INFORMATION
+As reference here are some links where we collected informations about Oracle setup on different distros
+
+# Oracle Wiki: Installing Oracle on Enterprise Linux & RHEL
+http://wiki.oracle.com/page/Installing+Oracle+on+Enterprise+Linux+%26+RHEL
+
+# Oracle Wiki: Installing Oracle on Debian / Ubuntu
+http://wiki.oracle.com/page/Installing+Oracle+on+Debian+%2F+Kubuntu+%2F+Ubuntu
+
+# Oracle Wiki: Installing Oracle on Suse
+http://wiki.oracle.com/page/Installing+Oracle+on+SuSE+Linux+Enterprise+Server
