@@ -6,8 +6,8 @@
 # include apache::disable
 
 class apache::disable inherits apache {
-        Service["apache"] {
-                ensure => "stopped" ,
-                enable => "false",
-        }
+    Service["apache"] {
+        ensure => "stopped" ,
+        enable => "false",
+    }
 }

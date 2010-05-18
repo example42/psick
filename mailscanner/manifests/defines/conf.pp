@@ -8,18 +8,18 @@
 #
 define mailscanner::conf ($value) {
 
-	require mailscanner::params
+    require mailscanner::params
 
-        config { "mailscanner_conf_$name":
-                file      => "${mailscanner::params::conf}",
-                line      => "$name = $value",
-                pattern   => "^$name ",
-#		parameter => "$name",
-#		value     => "$value",
-                engine    => "replaceline",
-                notify    => Service["mailscanner"],
-                require   => File["MailScanner.conf"],
-                source    => "mailscanner::conf",
-        }
+    config { "mailscanner_conf_$name":
+        file      => "${mailscanner::params::conf}",
+        line      => "$name = $value",
+        pattern   => "^$name ",
+#        parameter => "$name",
+#        value     => "$value",
+        engine    => "replaceline",
+        notify    => Service["mailscanner"],
+        require   => File["MailScanner.conf"],
+        source    => "mailscanner::conf",
+    }
 
 }

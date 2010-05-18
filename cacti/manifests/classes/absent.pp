@@ -6,7 +6,7 @@
 # include cacti::absent
 #
 class cacti::absent inherits cacti::base {
-        Package["cacti"] {
-                ensure => "absent" ,
-        }
+    Package["cacti"] {
+        ensure => "absent" ,
+    }
 }

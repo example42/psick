@@ -7,20 +7,20 @@
 #
 class cacti::base  {
 
-        include apache::php
-        include mysql
+    include apache::php
+    include mysql
 
-	package { cacti:
-		name   => $operatingsystem ? {
-			default	=> "cacti",
-			},
-		ensure => present,
-	}
+    package { cacti:
+        name   => $operatingsystem ? {
+            default    => "cacti",
+            },
+        ensure => present,
+    }
 
-	cacti::conf { "database_hostname":  value => "$cacti_mysqlhost" }
-	cacti::conf { "database_default":  value => "$cacti_mysqldbname" }
-	cacti::conf { "database_username":  value => "$cacti_mysqluser" }
-	cacti::conf { "database_password":  value => "$cacti_mysqlpassword" }
+    cacti::conf { "database_hostname":  value => "$cacti_mysqlhost" }
+    cacti::conf { "database_default":  value => "$cacti_mysqldbname" }
+    cacti::conf { "database_username":  value => "$cacti_mysqluser" }
+    cacti::conf { "database_password":  value => "$cacti_mysqlpassword" }
 
 }
 

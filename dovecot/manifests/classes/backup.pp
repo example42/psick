@@ -9,13 +9,13 @@
 class dovecot::backup {
 
 # If you want set the mailbox directory (here /home) and enable it
-	backup { "dovecot_data": 
-		frequency => daily,
-		path	=> $operatingsystem ?{
-                        default => "/home",
-                },		
-		enabled	=> false,
-		host => $fqdn,
-	}
+    backup { "dovecot_data": 
+        frequency => daily,
+        path    => $operatingsystem ?{
+            default => "/home",
+        },        
+        enabled    => false,
+        host => $fqdn,
+    }
 
 }

@@ -9,17 +9,17 @@
 #
 define php::module {
 
-	include apache::php
+    include apache::php
 
-        package { "php-${name}":
-                name => $operatingsystem ? {
-                        ubuntu  => "php5-${name}",
-                        debian  => "php5-${name}",
-                        default => "php-${name}",
-                        },
-                ensure => present,
-                notify => Service["apache"],
-        }
+    package { "php-${name}":
+        name => $operatingsystem ? {
+            ubuntu  => "php5-${name}",
+            debian  => "php5-${name}",
+            default => "php-${name}",
+            },
+        ensure => present,
+        notify => Service["apache"],
+    }
 }
 
 
@@ -35,13 +35,13 @@ define php::module {
 
 define php::pear {
 
-	include apache::php::pear
+    include apache::php::pear
 
-        exec { "pear-${name}":
-		command => "pear install ${name}",
-		unless  => "pear info ${name}",
-		require => Package["php-pear"],
-        }
+    exec { "pear-${name}":
+        command => "pear install ${name}",
+        unless  => "pear info ${name}",
+        require => Package["php-pear"],
+    }
 
 }
 

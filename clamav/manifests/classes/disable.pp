@@ -6,8 +6,8 @@
 # include clamav::disable
 #
 class clamav::disable inherits clamav {
-        Service["clamav"] {
-                ensure => "stopped" ,
-                enable => "false",
-        }
+    Service["clamav"] {
+        ensure => "stopped" ,
+        enable => "false",
+    }
 }

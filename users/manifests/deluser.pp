@@ -1,8 +1,8 @@
 define deluser {
 
-        user {
-                "$name":
-                        ensure   => absent,
+    user {
+        "$name":
+            ensure   => absent,
        }
 }
 

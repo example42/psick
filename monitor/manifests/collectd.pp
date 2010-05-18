@@ -4,17 +4,17 @@
 # Here are examples from DavidS, Immerda, Captocamp, RiseUp and others' collectd module version
 
 define monitor::host::collectd (
-	) {	 
-	# Use for Example42 collectd module (and others)
-        include collectd
-        collectd::plugin { "general": }
-        collectd::plugin { "network": collectd_server => "$collectd_server" , }	
+    ) {     
+    # Use for Example42 collectd module (and others)
+    include collectd
+    collectd::plugin { "general": }
+    collectd::plugin { "network": collectd_server => "$collectd_server" , }    
 }
 
 define monitor::plugin::collectd (
-	) {	 
-	# Use for Example42 collectd module (and others)
-	collectd::plugin { "$name": }
+    ) {     
+    # Use for Example42 collectd module (and others)
+    collectd::plugin { "$name": }
 }
 
 
@@ -23,8 +23,8 @@ define monitor::plugin::collectd (
 # Can be adapted to use different, alternative, collectd modules
 
 class monitor::server::collectd {
-	# Use for Example42 collectd module
-        include collectd::collection
+    # Use for Example42 collectd module
+    include collectd::collection
 }
 
 
@@ -33,8 +33,8 @@ class monitor::server::collectd {
 # Can be adapted to use different, alternative, collectd modules
 
 class monitor::target::collectd {
-        # Use for Example42 collectd module
-        include collectd
-        collectd::plugin { "general": }
-        collectd::plugin { "network": collectd_server => "$collectd_server" , }
+    # Use for Example42 collectd module
+    include collectd
+    collectd::plugin { "general": }
+    collectd::plugin { "network": collectd_server => "$collectd_server" , }
 }

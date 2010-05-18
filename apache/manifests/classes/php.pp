@@ -8,27 +8,27 @@
 #
 class apache::php  {
 
-	include apache 
+    include apache 
 
-        package { php:
-                name => $operatingsystem ? {
-                        ubuntu  => "php5",
-                        debian  => "php5",
-                        suse    => "php5",
-                        default => "php",
-                        },
-                ensure => present,
-        }
+    package { php:
+        name => $operatingsystem ? {
+            ubuntu  => "php5",
+            debian  => "php5",
+            suse    => "php5",
+            default => "php",
+            },
+        ensure => present,
+    }
 
-        package { php-common:
-                name => $operatingsystem ? {
-                        ubuntu  => "php5-common",
-                        debian  => "php5-common",
-                        suse    => undef,
-                        default => "php-common",
-                        },
-                ensure => present,
-        }
+    package { php-common:
+        name => $operatingsystem ? {
+            ubuntu  => "php5-common",
+            debian  => "php5-common",
+            suse    => undef,
+            default => "php-common",
+            },
+        ensure => present,
+    }
 }
 
 
@@ -42,14 +42,14 @@ class apache::php  {
 
 class apache::php::pear  {
 
-        include apache::php
+    include apache::php
 
-        package { php-pear:
-                name => $operatingsystem ? {
-                        default => "php-pear",
-                        },
-                ensure => present,
-        }
+    package { php-pear:
+        name => $operatingsystem ? {
+            default => "php-pear",
+            },
+        ensure => present,
+    }
 
 }
 

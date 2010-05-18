@@ -8,13 +8,13 @@
 #
 class mysql::backup {
 
-	backup { "mysql_data": 
-		frequency => daily,
-		path	=> $operatingsystem ?{
-                        default => "/var/lib/mysql",
-                },		
-		enabled	=> true,
-		host => $fqdn,
-	}
-	
+    backup { "mysql_data": 
+        frequency => daily,
+        path    => $operatingsystem ?{
+            default => "/var/lib/mysql",
+        },        
+        enabled    => true,
+        host => $fqdn,
+    }
+    
 }

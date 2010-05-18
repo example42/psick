@@ -11,23 +11,23 @@
 #
 class clamav::firewall {
 
-	firewall {
-		"clamav_port":
-		source	    => "any",
-		destination => $ipaddress,
-		protocol    => "tcp",
-		port 	    => 25,
-		action      => "allow",
-		direction   => "inbound",
-	}
+    firewall {
+        "clamav_port":
+        source        => "any",
+        destination => $ipaddress,
+        protocol    => "tcp",
+        port         => 25,
+        action      => "allow",
+        direction   => "inbound",
+    }
 
-	firewall {
-		"clamav_port_":
-#		source	    => "$ipaddress",
-		destination => "any",
-		protocol    => "tcp",
-		port 	    => 25,
-		action      => "allow",
-		direction   => "outbound",
-	}
+    firewall {
+        "clamav_port_":
+#        source        => "$ipaddress",
+        destination => "any",
+        protocol    => "tcp",
+        port         => 25,
+        action      => "allow",
+        direction   => "outbound",
+    }
 }

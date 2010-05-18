@@ -15,40 +15,40 @@ import "classes/*.pp"
 #
 class postfix {
 
-	# Load the variables used in this module. Check the params.pp file 
-	require postfix::params
+    # Load the variables used in this module. Check the params.pp file 
+    require postfix::params
 
-	# Basic Package - Service - Configuration file management
-        package { postfix:
-                name   => "${postfix::params::packagename}",
-                ensure => present,
-        }
+    # Basic Package - Service - Configuration file management
+    package { postfix:
+        name   => "${postfix::params::packagename}",
+        ensure => present,
+    }
 
-        service { postfix:
-                name => "${postfix::params::servicename}",
-                ensure => running,
-                enable => true,
-                hasrestart => true,
-                hasstatus => true,
-                require => Package["postfix"],
-                subscribe => File["main.cf"],
-        }
+    service { postfix:
+        name => "${postfix::params::servicename}",
+        ensure => running,
+        enable => true,
+        hasrestart => true,
+        hasstatus => true,
+        require => Package["postfix"],
+        subscribe => File["main.cf"],
+    }
 
-        file { "main.cf":
-#               mode => 644, owner => root, group => root,
-                require => Package[postfix],
-                ensure => present,
-                path => "${postfix::params::configfile}",
-        }
+    file { "main.cf":
+#           mode => 644, owner => root, group => root,
+        require => Package[postfix],
+        ensure => present,
+        path => "${postfix::params::configfile}",
+    }
 
-	# Include OS specific subclasses, if necessary
-        case $operatingsystem {
-                default: { }
-        }
+    # Include OS specific subclasses, if necessary
+    case $operatingsystem {
+        default: { }
+    }
 
-	# Include extended classes
-	if $backup == "yes" { include postfix::backup }
-	if $monitor == "yes" { include postfix::monitor }
-	if $firewall == "yes" { include postfix::firewall }
+    # Include extended classes
+    if $backup == "yes" { include postfix::backup }
+    if $monitor == "yes" { include postfix::monitor }
+    if $firewall == "yes" { include postfix::firewall }
 
 }

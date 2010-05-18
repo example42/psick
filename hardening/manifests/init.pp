@@ -8,11 +8,11 @@
 
 class hardening {
 
-	# Soft hardening 
-        include "hardening::services" 
+    # Soft hardening 
+    include "hardening::services" 
 
-	# Harder hardening (EAL4 oriented)
-        include "hardening::eal4" 
+    # Harder hardening (EAL4 oriented)
+    include "hardening::eal4" 
 
 }
 

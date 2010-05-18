@@ -1,20 +1,20 @@
 define monitor::service (
-        $servicename='',
-        $processlimit='',
-        $service='',
-        $enable=''
-        ) {
+    $servicename='',
+    $processlimit='',
+    $service='',
+    $enable=''
+    ) {
 
 if $enable != "false" {
 
-        if $monitor_munin == "yes" {
-        }
+    if $monitor_munin == "yes" {
+    }
 
-        if $monitor_collectd == "yes" {
-        }
+    if $monitor_collectd == "yes" {
+    }
 
-        if $monitor_nagios == "yes" {
-        }
+    if $monitor_nagios == "yes" {
+    }
 
 } # End if $enable
 

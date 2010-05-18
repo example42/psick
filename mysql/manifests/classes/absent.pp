@@ -6,7 +6,7 @@
 # include mysql::absent
 #
 class mysql::absent inherits mysql {
-        Package["mysql"] {
-                ensure => "absent" ,
-        }
+    Package["mysql"] {
+        ensure => "absent" ,
+    }
 }

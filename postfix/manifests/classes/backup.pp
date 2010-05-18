@@ -8,23 +8,23 @@
 #
 class postfix::backup {
 
-	backup { "postfix_data": 
-		frequency => daily,
-		path	=> $operatingsystem ?{
-                        default => "/var/spool/postfix",
-                },		
-		enabled	=> true,
-		host => $fqdn,
-	}
-	
+    backup { "postfix_data": 
+        frequency => daily,
+        path    => $operatingsystem ?{
+            default => "/var/spool/postfix",
+        },        
+        enabled    => true,
+        host => $fqdn,
+    }
+    
 
-	backup { "postfix_logs": 
-		frequency => daily,
-		path	=> $operatingsystem ?{
-                        default => "/var/log/maillog",
-                },		
-		enabled	=> false,
-		host => $fqdn,
-	}
-	
+    backup { "postfix_logs": 
+        frequency => daily,
+        path    => $operatingsystem ?{
+            default => "/var/log/maillog",
+        },        
+        enabled    => false,
+        host => $fqdn,
+    }
+    
 }

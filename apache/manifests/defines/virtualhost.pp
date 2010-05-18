@@ -16,42 +16,42 @@ define apache::virtualhost ( $templatefile='virtualhost.conf.erb' , $documentroo
 
 # Defines the documentroot in case is not provided
 if $documentroot  { 
-	$documentroot_real = $documentroot
+    $documentroot_real = $documentroot
 }
 else {      
-	case $operatingsystem {
-        ubuntu: { $documentroot_real = "/var/www/$name" }
-        debian: { $documentroot_real = "/var/www/$name" }
-        redhat: { $documentroot_real = "/var/www/html/$name" }
-        centos: { $documentroot_real = "/var/www/html/$name" }
-    	}
+    case $operatingsystem {
+    ubuntu: { $documentroot_real = "/var/www/$name" }
+    debian: { $documentroot_real = "/var/www/$name" }
+    redhat: { $documentroot_real = "/var/www/html/$name" }
+    centos: { $documentroot_real = "/var/www/html/$name" }
+        }
 }
 
 # Creates the apache conf file with NameVirtualHost directive
 case $operatingsystem {
-        ubuntu: { }
-        debian: { }
-	redhat: { apache::dotconf { "00-NameVirtualHost": content => template("apache/00-NameVirtualHost.conf.erb") } }
-	centos: { apache::dotconf { "00-NameVirtualHost": content => template("apache/00-NameVirtualHost.conf.erb") } }
+    ubuntu: { }
+    debian: { }
+    redhat: { apache::dotconf { "00-NameVirtualHost": content => template("apache/00-NameVirtualHost.conf.erb") } }
+    centos: { apache::dotconf { "00-NameVirtualHost": content => template("apache/00-NameVirtualHost.conf.erb") } }
 }
 
-        file { "ApacheVirtualHost_$name":
-		mode => 644, owner => root,
-                group => $operatingsystem ?{
-                	freebsd => "wheel",
-                        default => "root",
-                },
-                require => Package["apache"],
-                ensure => present,
-                path => $operatingsystem ?{
-  			freebsd => "/usr/local/etc/apache20/conf.d/$name.conf",
-                        ubuntu  => "/etc/apache2/sites-enabled/$name.conf",
-                        debian  => "/etc/apache2/sites-enabled/$name.conf",
-                        centos  => "/etc/httpd/conf.d/$name.conf",
-                        redhat  => "/etc/httpd/conf.d/$name.conf",
-                },
-               	notify => Service["apache"],
-                content => template("apache/virtualhost/$templatefile"),
-        }
+    file { "ApacheVirtualHost_$name":
+        mode => 644, owner => root,
+        group => $operatingsystem ?{
+            freebsd => "wheel",
+            default => "root",
+        },
+        require => Package["apache"],
+        ensure => present,
+        path => $operatingsystem ?{
+              freebsd => "/usr/local/etc/apache20/conf.d/$name.conf",
+            ubuntu  => "/etc/apache2/sites-enabled/$name.conf",
+            debian  => "/etc/apache2/sites-enabled/$name.conf",
+            centos  => "/etc/httpd/conf.d/$name.conf",
+            redhat  => "/etc/httpd/conf.d/$name.conf",
+        },
+               notify => Service["apache"],
+        content => template("apache/virtualhost/$templatefile"),
+    }
 
 }

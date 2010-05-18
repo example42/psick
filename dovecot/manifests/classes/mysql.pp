@@ -16,18 +16,18 @@
 #
 class dovecot::mysql inherits dovecot {
 
-        File["dovecot.conf"] {
-                        source => "puppet://$servername/dovecot/dovecot.conf-mysql"
-        }
+    File["dovecot.conf"] {
+            source => "puppet://$servername/dovecot/dovecot.conf-mysql"
+    }
 
-        file {
-                "dovecot-mysql.conf":
-                        mode => 644, owner => root, group => root,
-                        require => File["dovecot.conf"],
-                        ensure => present,
-                        path => "/etc/dovecot-mysql.conf",
-                        content => template ("dovecot/dovecot-mysql.conf"),
-        }
+    file {
+        "dovecot-mysql.conf":
+            mode => 644, owner => root, group => root,
+            require => File["dovecot.conf"],
+            ensure => present,
+            path => "/etc/dovecot-mysql.conf",
+            content => template ("dovecot/dovecot-mysql.conf"),
+    }
 
 }
 

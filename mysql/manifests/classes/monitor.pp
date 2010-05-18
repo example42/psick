@@ -8,12 +8,12 @@
 #
 class mysql::monitor {
 
-	monitor::process {
-		"mysql_process":
-                name 	=> $operatingsystem ? {
-                        default => "mysqld",
-                        },
-		enable	=> true,
-	}
+    monitor::process {
+        "mysql_process":
+        name     => $operatingsystem ? {
+            default => "mysqld",
+            },
+        enable    => true,
+    }
 
 }

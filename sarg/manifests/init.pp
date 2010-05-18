@@ -1,12 +1,12 @@
 class sarg {
 
-	include squid 
+    include squid 
 
-	package { sarg:
-		name => $operatingsystem ? {
-			default	=> "sarg",
-			},
-		ensure => present,
-	}
+    package { sarg:
+        name => $operatingsystem ? {
+            default    => "sarg",
+            },
+        ensure => present,
+    }
 
 }

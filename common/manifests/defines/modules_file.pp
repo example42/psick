@@ -6,19 +6,19 @@
 
 # Usage:
 # modules_file { "module/file":
-# 		source => "puppet://..",
-# 		mode   => 644,   # default
-# 		owner  => root,  # default
-#		group  => root,  # default
+#         source => "puppet://..",
+#         mode   => 644,   # default
+#         owner  => root,  # default
+#        group  => root,  # default
 # }
 define modules_file (
-		$source,
-		$mode = 0644, $owner = root, $group = root
-	)
+        $source,
+        $mode = 0644, $owner = root, $group = root
+    )
 {
-	file {
-		"/var/lib/puppet/modules/${name}":
-			source => $source,
-			mode => $mode, owner => $owner, group => $group;
-	}
+    file {
+        "/var/lib/puppet/modules/${name}":
+            source => $source,
+            mode => $mode, owner => $owner, group => $group;
+    }
 }

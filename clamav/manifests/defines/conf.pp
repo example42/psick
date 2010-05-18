@@ -8,16 +8,16 @@
 #
 define clamav::conf ($value) {
 
-        config { "clamav_conf_$name":
-                file      => $operatingsystem ?{
-                                default  => "/etc/clamav/clamav.conf",
-                             },
-                line      => "$name $value",
-                pattern   => "$name ",
-                engine    => "replaceline",
-                notify    => Service["clamav"],
-                require   => File["clamav.conf"],
-                source    => "clamav::conf",
-        }
+    config { "clamav_conf_$name":
+        file      => $operatingsystem ?{
+                default  => "/etc/clamav/clamav.conf",
+                 },
+        line      => "$name $value",
+        pattern   => "$name ",
+        engine    => "replaceline",
+        notify    => Service["clamav"],
+        require   => File["clamav.conf"],
+        source    => "clamav::conf",
+    }
 
 }

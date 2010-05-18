@@ -12,16 +12,16 @@ import "classes/*.pp"
 
 class cacti {
 
-	include cacti::base
+    include cacti::base
 
-        case $operatingsystem {
-                debian: { include cacti::debian }
-                ubuntu: { include cacti::debian }
-                default: { }
-        }
+    case $operatingsystem {
+        debian: { include cacti::debian }
+        ubuntu: { include cacti::debian }
+        default: { }
+    }
 
-	if $backup == "yes" { include cacti::backup }
-	if $monitor == "yes" { include cacti::monitor }
-	if $firewall == "yes" { include cacti::firewall }
+    if $backup == "yes" { include cacti::backup }
+    if $monitor == "yes" { include cacti::monitor }
+    if $firewall == "yes" { include cacti::firewall }
 
 }

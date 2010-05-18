@@ -11,23 +11,23 @@
 #
 class postfix::firewall {
 
-	firewall {
-		"postfix_port":
-		source	    => "any",
-		destination => $ipaddress,
-		protocol    => "tcp",
-		port 	    => 25,
-		action      => "allow",
-		direction   => "inbound",
-	}
+    firewall {
+        "postfix_port":
+        source        => "any",
+        destination => $ipaddress,
+        protocol    => "tcp",
+        port         => 25,
+        action      => "allow",
+        direction   => "inbound",
+    }
 
-	firewall {
-		"postfix_port_":
-#		source	    => "$ipaddress",
-		destination => "any",
-		protocol    => "tcp",
-		port 	    => 25,
-		action      => "allow",
-		direction   => "outbound",
-	}
+    firewall {
+        "postfix_port_":
+#        source        => "$ipaddress",
+        destination => "any",
+        protocol    => "tcp",
+        port         => 25,
+        action      => "allow",
+        direction   => "outbound",
+    }
 }

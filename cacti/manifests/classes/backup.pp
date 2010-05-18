@@ -8,13 +8,13 @@
 #
 class cacti::backup {
 
-	backup { "cacti_data": 
-		frequency => daily,
-		path	=> $operatingsystem ?{
-                        default => "/var/lib/cacti",
-                },		
-		enabled	=> true,
-		host => $fqdn,
-	}
-	
+    backup { "cacti_data": 
+        frequency => daily,
+        path    => $operatingsystem ?{
+            default => "/var/lib/cacti",
+        },        
+        enabled    => true,
+        host => $fqdn,
+    }
+    
 }

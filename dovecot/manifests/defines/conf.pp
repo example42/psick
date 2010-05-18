@@ -8,16 +8,16 @@
 #
 define dovecot::conf ($value) {
 
-        config { "dovecot_conf_$name":
-                file      => $operatingsystem ?{
-                                default  => "/etc/dovecot/main.cf",
-                             },
-                line      => "$name $value",
-                pattern   => "$name ",
-                engine    => "replaceline",
-                notify    => Service["dovecot"],
-                require   => File["main.cf"],
-                source    => "dovecot::conf",
-        }
+    config { "dovecot_conf_$name":
+        file      => $operatingsystem ?{
+                default  => "/etc/dovecot/main.cf",
+                 },
+        line      => "$name $value",
+        pattern   => "$name ",
+        engine    => "replaceline",
+        notify    => Service["dovecot"],
+        require   => File["main.cf"],
+        source    => "dovecot::conf",
+    }
 
 }

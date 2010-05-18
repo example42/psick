@@ -8,12 +8,12 @@
 #
 class clamav::monitor {
 
-	monitor::process {
-		"clamav_process":
-                name 	=> $operatingsystem ? {
-                        default => "clamd",
-                        },
-		enable	=> true,
-	}
+    monitor::process {
+        "clamav_process":
+        name     => $operatingsystem ? {
+            default => "clamd",
+            },
+        enable    => true,
+    }
 
 }

@@ -6,7 +6,7 @@
 # include clamav::absent
 #
 class clamav::absent inherits clamav {
-        Package["clamav"] {
-                ensure => "absent" ,
-        }
+    Package["clamav"] {
+        ensure => "absent" ,
+    }
 }

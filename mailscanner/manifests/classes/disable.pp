@@ -6,8 +6,8 @@
 # include mailscanner::disable
 #
 class mailscanner::disable inherits mailscanner {
-        Service["mailscanner"] {
-                ensure => "stopped" ,
-                enable => "false",
-        }
+    Service["mailscanner"] {
+        ensure => "stopped" ,
+        enable => "false",
+    }
 }

@@ -4,15 +4,15 @@
 #
 class postfix::mysql::debian {
 
-        package { postfix-mysql:
-                name   => $operatingsystem ? {
-                        default => "postfix-mysql",
-                        },
-                ensure => $operatingsystem ? {
-                        debian  => "present",
-                        ubuntu  => "present",
-                        default => "absent",
-                        },
-        }
+    package { postfix-mysql:
+        name   => $operatingsystem ? {
+            default => "postfix-mysql",
+            },
+        ensure => $operatingsystem ? {
+            debian  => "present",
+            ubuntu  => "present",
+            default => "absent",
+            },
+    }
 
 }

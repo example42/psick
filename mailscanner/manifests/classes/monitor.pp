@@ -8,12 +8,12 @@
 #
 class mailscanner::monitor {
 
-	monitor::process {
-		"mailscanner_process":
-                name 	=> $operatingsystem ? {
-                        default => "MailScanner",
-                        },
-		enable	=> true,
-	}
+    monitor::process {
+        "mailscanner_process":
+        name     => $operatingsystem ? {
+            default => "MailScanner",
+            },
+        enable    => true,
+    }
 
 }

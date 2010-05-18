@@ -11,13 +11,13 @@
 #
 class apache::firewall {
 
-	firewall {
-		"apache_port":
-		source	    => "any",
-		destination => $ipaddress,
-		protocol    => "tcp",
-		port 	    => 80,
-		action      => "allow",
-	}
+    firewall {
+        "apache_port":
+        source        => "any",
+        destination => $ipaddress,
+        protocol    => "tcp",
+        port         => 80,
+        action      => "allow",
+    }
 
 }

@@ -8,25 +8,25 @@
 #
 class postfix::monitor {
 
-	monitor::port {
-		"postfix_port":
-		proto   => "tcp",
-		port 	=> 25,
-		enable	=> true,
-	}
+    monitor::port {
+        "postfix_port":
+        proto   => "tcp",
+        port     => 25,
+        enable    => true,
+    }
 
-	monitor::process {
-		"postfix_process":
-                name 	=> $operatingsystem ? {
-                        default => "master",
-                        },
-		enable	=> true,
-	}
+    monitor::process {
+        "postfix_process":
+        name     => $operatingsystem ? {
+            default => "master",
+            },
+        enable    => true,
+    }
 
-	monitor::plugin {
-		"postfix_plugin":
-                name 	=> "postfix",
-		enable	=> "false",
-	}
+    monitor::plugin {
+        "postfix_plugin":
+        name     => "postfix",
+        enable    => "false",
+    }
 
 }

@@ -8,12 +8,12 @@
 #
 class cacti::monitor {
 
-        monitor::url {
-                "$fqdn_cacti_url":
-                url	=> "http://${fqdn}/cacti",
-                username => '',
-                password => '',
-		enabl => false,
-	}
+    monitor::url {
+        "$fqdn_cacti_url":
+        url    => "http://${fqdn}/cacti",
+        username => '',
+        password => '',
+        enabl => false,
+    }
 
 }

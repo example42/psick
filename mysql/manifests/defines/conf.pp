@@ -11,16 +11,16 @@
 #
 define mysql::conf ($value) {
 
-        config { "mysql_conf_$name":
-                file      => $operatingsystem ?{
-                                default  => "/etc/my.cnf",
-                             },
-                parameter => "$name",
-                value     => "$value",
-                engine    => "augeas",
-                notify    => Service["mysql"],
-                require   => File["my.cnf"],
-                source    => "mysql::conf",
-        }
+    config { "mysql_conf_$name":
+        file      => $operatingsystem ?{
+                default  => "/etc/my.cnf",
+                 },
+        parameter => "$name",
+        value     => "$value",
+        engine    => "augeas",
+        notify    => Service["mysql"],
+        require   => File["my.cnf"],
+        source    => "mysql::conf",
+    }
 
 }

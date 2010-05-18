@@ -1,10 +1,10 @@
 class squirrelmail {
 
-	package { squirrelmail:
-		name => $operatingsystem ? {
-			default	=> "squirrelmail",
-			},
-		ensure => present,
-	}
+    package { squirrelmail:
+        name => $operatingsystem ? {
+            default    => "squirrelmail",
+            },
+        ensure => present,
+    }
 
 }

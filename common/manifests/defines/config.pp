@@ -25,78 +25,78 @@
 
 
 define config (
-        $file='',
-	$line='',
-	$pattern='',
-        $parameter='',
-	$value='',
-	$engine='',
-	$source='default',
-	$lens='IniFile'
-	) {
+    $file='',
+    $line='',
+    $pattern='',
+    $parameter='',
+    $value='',
+    $engine='',
+    $source='default',
+    $lens='IniFile'
+    ) {
 
-	case $engine {
-		
-		augeas: {
-		        augeas {
-                		"Config_augeas_$file-$parameter":
-		                context =>  "/files$file",
-		                changes =>  "set $parameter $value",
-		#               onlyif  =>  "get $parameter != $value", 
-        		}
-	        }
+    case $engine {
+        
+        augeas: {
+            augeas {
+                "Config_augeas_$file-$parameter":
+                context =>  "/files$file",
+                changes =>  "set $parameter $value",
+        #           onlyif  =>  "get $parameter != $value", 
+            }
+        }
 
-		file2augeas: {
-		        file2augeas {
-                		"Config_file2augeas_$file-$parameter":
-		                file	  => "$file",
-		                parameter => "$parameter",
-		                value     => "$value",
-		                lens      => "$lens",
-        		}
-	        }
+        file2augeas: {
+            file2augeas {
+                "Config_file2augeas_$file-$parameter":
+                file      => "$file",
+                parameter => "$parameter",
+                value     => "$value",
+                lens      => "$lens",
+            }
+        }
 
-		line: {
-		        line {
-                		"Config_line_$file-$line":
-		                file	=> "$file",
-		                line    => "$line",
-				ensure  => "present",
-				source  => "$source",
-        		}
-	        }
+        line: {
+            line {
+                "Config_line_$file-$line":
+                file    => "$file",
+                line    => "$line",
+                ensure  => "present",
+                source  => "$source",
+            }
+        }
 
-		replaceline: {
-		        replaceline {
-                		"Config_replaceline_$file-$line":
-		                file	  => "$file",
-		                pattern   => "$pattern",
-		                replacement => "$line",
-        		}
-	        }
+        replaceline: {
+            replaceline {
+                "Config_replaceline_$file-$line":
+                file      => "$file",
+                pattern   => "$pattern",
+                replacement => "$line",
+            }
+        }
 
-		replacelinepm: {
-		        replacelinepm {
-                		"Config_replacelinepm_$file-$line":
-		                file	  => "$file",
-		                pattern   => "$pattern",
-		                replacement => "$line",
-        		}
-	        }
+        replacelinepm: {
+            replacelinepm {
+                "Config_replacelinepm_$file-$line":
+                file      => "$file",
+                pattern   => "$pattern",
+                replacement => "$line",
+            }
+        }
 
-		setparam: {
-		        setparam {
-                		"$file-$parameter":
-		                target	  => "$file",
-		                parameter => "$parameter",
-		                value     => "$value",
-        		}
-	        }
+        setparam: {
+            setparam {
+                "$file-$parameter":
+                target      => "$file",
+                parameter => "$parameter",
+                value     => "$value",
+            }
+        }
 
-		default: {
-		# You may define a default
-	        }
+        default: {
+        # You may define a default
+        }
 
-	}
+    }
 
 }

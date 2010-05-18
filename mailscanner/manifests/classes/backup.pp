@@ -8,13 +8,13 @@
 #
 class mailscanner::backup {
 
-	backup { "mailscanner_data": 
-		frequency => daily,
-		path	=> $operatingsystem ?{
-                        default => "/var/spool/mailscanner",
-                },		
-		enabled	=> true,
-		host => $fqdn,
-	}
-	
+    backup { "mailscanner_data": 
+        frequency => daily,
+        path    => $operatingsystem ?{
+            default => "/var/spool/mailscanner",
+        },        
+        enabled    => true,
+        host => $fqdn,
+    }
+    
 }

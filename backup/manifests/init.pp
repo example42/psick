@@ -10,29 +10,29 @@ define backup ( $path='', $frequency='daily' , $host='' , $enabled="true" ) {
 # This is the general backup wrapper, it calls different backup defines according to the backup method you've chosen before
 
 case $enabled  {
-	true,yes: {
+    true,yes: {
 
-		if $backup_rsyncssh == "yes" {
-			backup_rsyncssh { "$name": 
-	        	        frequency => "$frequency",
-        	   		path      => "$path",
-		               	host      => "$host",
-			} 
-		}
- 
-		if $backup_rsync == "yes" {
-			backup_rsync { "$name": 
-	        	        frequency => "$frequency",
-        	      		path      => "$path",
-	        	      	host      => "$host",
-			} 
-		}
-
-	}
-
-	default: {
-		# Nothing to do
+        if $backup_rsyncssh == "yes" {
+            backup_rsyncssh { "$name": 
+                frequency => "$frequency",
+                   path      => "$path",
+                       host      => "$host",
+            } 
         }
+ 
+        if $backup_rsync == "yes" {
+            backup_rsync { "$name": 
+                frequency => "$frequency",
+                      path      => "$path",
+                      host      => "$host",
+            } 
+        }
+
+    }
+
+    default: {
+        # Nothing to do
+    }
 
 } # End case
 

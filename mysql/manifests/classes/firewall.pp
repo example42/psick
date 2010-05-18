@@ -11,14 +11,14 @@
 #
 class mysql::firewall {
 
-	firewall {
-		"mysql_port":
-		source	    => "any",
-		destination => $ipaddress,
-		protocol    => "tcp",
-		port 	    => 3306,
-		action      => "allow",
-		direction   => "inbound",
-	}
+    firewall {
+        "mysql_port":
+        source        => "any",
+        destination => $ipaddress,
+        protocol    => "tcp",
+        port         => 3306,
+        action      => "allow",
+        direction   => "inbound",
+    }
 
 }

@@ -8,19 +8,19 @@
 #
 define postfixadmin::conf ($value,$quote="yes") {
 
-	require postfix::params
-        
-	config { "postfixadmin_conf_$name":
-                file    => "${postfix::params::postfixadminconf}",
-                line	=> $quote ? {
-			no	=> "\$CONF['${name}'] = ${value}; # Modified by Puppet",
-			default => "\$CONF['${name}'] = '${value}'; # Modified by Puppet",
-                	},
-		pattern   => "^\$CONF*${name}",
-		# pattern   => "^\$CONF['${name}",
-                engine    => "replaceline",
-                require   => File["postfixadminconf"],
-                source    => "postfixadmin::conf",
-        }
+    require postfix::params
+    
+    config { "postfixadmin_conf_$name":
+        file    => "${postfix::params::postfixadminconf}",
+        line    => $quote ? {
+            no    => "\$CONF['${name}'] = ${value}; # Modified by Puppet",
+            default => "\$CONF['${name}'] = '${value}'; # Modified by Puppet",
+            },
+        pattern   => "^\$CONF*${name}",
+        # pattern   => "^\$CONF['${name}",
+        engine    => "replaceline",
+        require   => File["postfixadminconf"],
+        source    => "postfixadmin::conf",
+    }
 
 }

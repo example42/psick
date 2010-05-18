@@ -7,19 +7,19 @@
 #
 class postfix::mysql::redhat {
 
-        exec {
-                "RemoveNormalPostfix":
-		command => "rpm -e --nodeps postfix ; true",
-                unless  => "postconf -m | grep mysql",
-                before  => Package["postfix"],
-        }
+    exec {
+        "RemoveNormalPostfix":
+        command => "rpm -e --nodeps postfix ; true",
+        unless  => "postconf -m | grep mysql",
+        before  => Package["postfix"],
+    }
 
-        file {
-                "/etc/yum.repos.d/CentOS-Plus.repo":
-                mode => 644, owner => root, group => root,
-                before => Exec["RemoveNormalPostfix"],
-                ensure => present,
-                source => "puppet://$servername/repo/postfix/CentOS-Plus.repo"
-        }
+    file {
+        "/etc/yum.repos.d/CentOS-Plus.repo":
+        mode => 644, owner => root, group => root,
+        before => Exec["RemoveNormalPostfix"],
+        ensure => present,
+        source => "puppet://$servername/repo/postfix/CentOS-Plus.repo"
+    }
 
 }

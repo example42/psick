@@ -16,20 +16,20 @@
 
 class nagios {
     case $nagios_httpd {
-        'absent': { }
-        'lighttpd': { include lighttpd }
-        'apache': { include apache }
-        default: { include apache }
+    'absent': { }
+    'lighttpd': { include lighttpd }
+    'apache': { include apache }
+    default: { include apache }
     }
     case $operatingsystem {
-        'centos': {
-            $nagios_cfgdir = '/etc/nagios'
-            include nagios::centos
-        }
-        'debian': {
-            $nagios_cfgdir = '/etc/nagios3'
-            include nagios::debian
-        }
-        default: { fail("No such operatingsystem: $operatingsystem yet defined") }
+    'centos': {
+        $nagios_cfgdir = '/etc/nagios'
+        include nagios::centos
+    }
+    'debian': {
+        $nagios_cfgdir = '/etc/nagios3'
+        include nagios::debian
+    }
+    default: { fail("No such operatingsystem: $operatingsystem yet defined") }
     }
 }

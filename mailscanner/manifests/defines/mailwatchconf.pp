@@ -7,15 +7,15 @@
 #
 define mailwatch::conf ($value) {
 
-	require mailscanner::params
+    require mailscanner::params
 
-        config { "mailwatch_conf_${name}":
-                file      => "${mailscanner::params::mailwatchconf}",
-                line      => "define('${name}', '${value}');",
-                pattern   => "define('${name}",
-                engine    => "replaceline",
-                require   => Exec["mailwatchphpconf_copy"],
-                source    => "mailwatch::conf",
-        }
+    config { "mailwatch_conf_${name}":
+        file      => "${mailscanner::params::mailwatchconf}",
+        line      => "define('${name}', '${value}');",
+        pattern   => "define('${name}",
+        engine    => "replaceline",
+        require   => Exec["mailwatchphpconf_copy"],
+        source    => "mailwatch::conf",
+    }
 
 }

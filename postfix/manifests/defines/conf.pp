@@ -8,16 +8,16 @@
 #
 define postfix::conf ($value) {
 
-	require postfix::params
+    require postfix::params
 
-        config { "postfix_conf_$name":
-                file      => "${configfile}",
-                line      => "$name $value",
-                pattern   => "$name ",
-                engine    => "replaceline",
-                notify    => Service["postfix"],
-                require   => File["main.cf"],
-                source    => "postfix::conf",
-        }
+    config { "postfix_conf_$name":
+        file      => "${configfile}",
+        line      => "$name $value",
+        pattern   => "$name ",
+        engine    => "replaceline",
+        notify    => Service["postfix"],
+        require   => File["main.cf"],
+        source    => "postfix::conf",
+    }
 
 }

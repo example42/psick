@@ -17,21 +17,21 @@ $oraclebase = "/u01/app/oracle"
 $workdir = "/var/tmp"
 
 $version = $oracle_version ? {
-	"11"	=> "11.2.0",
-	"10"	=> "10.2.0",
-	"9"	=> "9.2.0",
-	default => "11.2.0",
+    "11"    => "11.2.0",
+    "10"    => "10.2.0",
+    "9"    => "9.2.0",
+    default => "11.2.0",
 }
 
 $sid = $oracle_sid ? {
-	""	=> "ORC1",
-	default => "$oracle_sid",
+    ""    => "ORC1",
+    default => "$oracle_sid",
 }
 
 # Default password for oracle user is "oracle"
 $password = $oracle_password ? {
-	""	=> '$1$KRXrbDA9$bCW48X6Z8lxjbCF9zan8V1', 
-	default => "$oracle_password",
+    ""    => '$1$KRXrbDA9$bCW48X6Z8lxjbCF9zan8V1', 
+    default => "$oracle_password",
 }
 
 }

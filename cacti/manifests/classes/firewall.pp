@@ -11,13 +11,13 @@
 #
 class cacti::firewall {
 
-	firewall {
-		"cacti_port":
-		source	    => "any",
-		destination => $ipaddress,
-		protocol    => "tcp",
-		port 	    => 80,
-		action      => "allow",
-	}
+    firewall {
+        "cacti_port":
+        source        => "any",
+        destination => $ipaddress,
+        protocol    => "tcp",
+        port         => 80,
+        action      => "allow",
+    }
 
 }

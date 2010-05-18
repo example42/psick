@@ -1,8 +1,8 @@
 class users {
 # TO DO alternatives to Users management:
-# 	include users::ldap
-# 	include users::ad
-# 	include users::local
+#     include users::ldap
+#     include users::ad
+#     include users::local
 
 # Local "example42" user. Default password: example42
 #       include users::example42

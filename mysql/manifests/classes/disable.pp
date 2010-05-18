@@ -6,8 +6,8 @@
 # include mysql::disable
 #
 class mysql::disable inherits mysql {
-        Service["mysql"] {
-                ensure => "stopped" ,
-                enable => "false",
-        }
+    Service["mysql"] {
+        ensure => "stopped" ,
+        enable => "false",
+    }
 }

@@ -9,16 +9,16 @@
 #
 define apache::conf ($value) {
 
-	require apache::params
+    require apache::params
 
-        config { "apache_conf_$name":
-                file      => "${apache::params::configfile}",
-                line      => "$name $value",
-                pattern   => "$name ",
-                engine    => "replaceline",
-                notify    => Service["apache"],
-                require   => File["httpd.conf"],
-                source    => "apache::conf",
-        }
+    config { "apache_conf_$name":
+        file      => "${apache::params::configfile}",
+        line      => "$name $value",
+        pattern   => "$name ",
+        engine    => "replaceline",
+        notify    => Service["apache"],
+        require   => File["httpd.conf"],
+        source    => "apache::conf",
+    }
 
 }

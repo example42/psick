@@ -4,35 +4,35 @@
 
 class munin::host inherits munin
 {
-	package {"munin": ensure => installed, }
+    package {"munin": ensure => installed, }
 
-	File <<| tag == 'munin' |>>
+    File <<| tag == 'munin' |>>
 
     file{'/etc/munin/munin.conf.header':
-        source => [ "puppet://$server/modules/site-munin/config/host/${fqdn}/munin.conf.header",
-                    "puppet://$server/modules/site-munin/config/host/munin.conf.header.$operatingsystem",
-                    "puppet://$server/modules/site-munin/config/host/munin.conf.header",
-                    "puppet://$server/modules/munin/config/host/munin.conf.header.$operatingsystem",
-                    "puppet://$server/modules/munin/config/host/munin.conf.header" ],
-        notify => Exec['concat_/etc/munin/munin.conf'],
-        owner => root, group => 0, mode => 0644;
+    source => [ "puppet://$server/modules/site-munin/config/host/${fqdn}/munin.conf.header",
+            "puppet://$server/modules/site-munin/config/host/munin.conf.header.$operatingsystem",
+            "puppet://$server/modules/site-munin/config/host/munin.conf.header",
+            "puppet://$server/modules/munin/config/host/munin.conf.header.$operatingsystem",
+            "puppet://$server/modules/munin/config/host/munin.conf.header" ],
+    notify => Exec['concat_/etc/munin/munin.conf'],
+    owner => root, group => 0, mode => 0644;
     }
 
-	concatenated_file { "/etc/munin/munin.conf":
-		dir => '/var/lib/puppet/modules/munin/nodes',
-		header => "/etc/munin/munin.conf.header",
-	}
-	
+    concatenated_file { "/etc/munin/munin.conf":
+        dir => '/var/lib/puppet/modules/munin/nodes',
+        header => "/etc/munin/munin.conf.header",
+    }
+    
     file { ["/var/log/munin-update.log", "/var/log/munin-limits.log", 
-               "/var/log/munin-graph.log", "/var/log/munin-html.log"]:
-        ensure => present,
-        mode => 640, owner => munin, group => 0;
+           "/var/log/munin-graph.log", "/var/log/munin-html.log"]:
+    ensure => present,
+    mode => 640, owner => munin, group => 0;
     }
 
     include munin::plugins::muninhost
 
     case $operatingsystem {
-        centos: { include munin::host::cgi }
+    centos: { include munin::host::cgi }
     }
 
   # from time to time we cleanup hanging munin-runs

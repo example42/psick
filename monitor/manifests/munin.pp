@@ -3,21 +3,21 @@
 # Here are examples from DavidS, Immerda, Captocamp, RiseUp and others' munin module version
 
 define monitor::host::munin (
-        $address=''
-        ) {
+    $address=''
+    ) {
 
-        # Use for DavidS, Immerda, RiseUp and PuppetManages munin module
-        include munin::client
+    # Use for DavidS, Immerda, RiseUp and PuppetManages munin module
+    include munin::client
 
 }
 
 
 define monitor::plugin::munin (
-        ) {
+    ) {
 
-        # Use for Immerda and DavidS and derivated Nagios modules
-        munin::plugin { "$name":
-        }
+    # Use for Immerda and DavidS and derivated Nagios modules
+    munin::plugin { "$name":
+    }
 
 }
 
@@ -28,9 +28,9 @@ define monitor::plugin::munin (
 
 class monitor::server::munin {
 
-	# Use for Immerda, DavidS and RiseUp munin module
-        include munin::host
-	
+    # Use for Immerda, DavidS and RiseUp munin module
+    include munin::host
+    
 }
 
 
@@ -39,8 +39,8 @@ class monitor::server::munin {
 # Can be adapted to use different, alternative, munin modules
 
 class monitor::target::munin {
-	
-	# Use for DavidS, Immerda and RiseUp munin module
-	include munin::client
+    
+    # Use for DavidS, Immerda and RiseUp munin module
+    include munin::client
 
 }

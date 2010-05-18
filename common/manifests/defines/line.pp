@@ -15,10 +15,10 @@
 #
 # Usage:
 #  line {
-#  	description:
-# 			file => "filename",
-#  		line => "content",
-# 			ensure => {absent,*present*}
+#      description:
+#             file => "filename",
+#          line => "content",
+#             ensure => {absent,*present*}
 #  }
 #
 # Example:
@@ -27,34 +27,34 @@
 # service for a restart
 #
 #  line {
-#  	allow_munin_host:
-#  		file => "/etc/munin/munin-node.conf",
-#  		line => "allow ^$munin_host$",
-#  		ensure => present,
-#  		notify => Service[munin-node],
-#  		require => Package[munin-node];
+#      allow_munin_host:
+#          file => "/etc/munin/munin-node.conf",
+#          line => "allow ^$munin_host$",
+#          ensure => present,
+#          notify => Service[munin-node],
+#          require => Package[munin-node];
 #  }
 define line(
-	$source = 'Default',
-	$file,
-	$line,
-	$ensure = 'present'
+    $source = 'Default',
+    $file,
+    $line,
+    $ensure = 'present'
 ) {
-	case $ensure {
-		default : { err ( "unknown ensure value '${ensure}'" ) }
-		present: {
-			exec { "'${source} echo '${line}' >> '${file}'":
-				command => "echo '${line}' >> '${file}'",
-				unless => "grep -qFx '${line}' '${file}'"
-			}
-		}
-		absent: {
-			exec { "'${source}' perl -ni -e 'print if \$_ ne \"${line}\n\";' '${file}'":
-				command => "perl -ni -e 'print if \$_ ne \"${line}\n\";' '${file}'",
-				onlyif => "grep -qFx '${line}' '${file}'"
-			}
-		}
-	}
+    case $ensure {
+        default : { err ( "unknown ensure value '${ensure}'" ) }
+        present: {
+            exec { "'${source} echo '${line}' >> '${file}'":
+                command => "echo '${line}' >> '${file}'",
+                unless => "grep -qFx '${line}' '${file}'"
+            }
+        }
+        absent: {
+            exec { "'${source}' perl -ni -e 'print if \$_ ne \"${line}\n\";' '${file}'":
+                command => "perl -ni -e 'print if \$_ ne \"${line}\n\";' '${file}'",
+                onlyif => "grep -qFx '${line}' '${file}'"
+            }
+        }
+    }
 }
 
 

@@ -7,7 +7,7 @@
 # include postfix::disableboot
 #
 class postfix::disableboot inherits postfix {
-        Service["postfix"] {
-                enable => "false",
-        }
+    Service["postfix"] {
+        enable => "false",
+    }
 }

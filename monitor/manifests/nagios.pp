@@ -4,68 +4,68 @@
 # To be checked and adapted.
 
 define monitor::host::nagios (
-        $address=''
-        ) {
+    $address=''
+    ) {
 
-        # Use for Immerda and DavidS nagios module
-        # include nagios_target
+    # Use for Immerda and DavidS nagios module
+    # include nagios_target
 
-        # Use for RiseUp nagios module
-        include nagios::target
-        # Or alternatives like:
-        # include nagios::target::fqdn
-        # include nagios::target::nat
+    # Use for RiseUp nagios module
+    include nagios::target
+    # Or alternatives like:
+    # include nagios::target::fqdn
+    # include nagios::target::nat
 
-        # Use for Camptocamp nagios module
-        # nagios::host::local  { "$fqdn": ensure => present, address =>$address, }
+    # Use for Camptocamp nagios module
+    # nagios::host::local  { "$fqdn": ensure => present, address =>$address, }
 
 }
 
 
 define monitor::port::nagios (
-        $address='',
-	$port='',
-	$proto=''
-        ) {
+    $address='',
+    $port='',
+    $proto=''
+    ) {
 
-        # Use for Immerda and DavidS nagios module
-        nagios::service { "$name":
-		ensure      => present,
-		check_command => $proto ? {
-			tcp => "check_tcp!${port}",
-			udp => "chekc_ucp!${port}",
-			}
-	}
+    # Use for Immerda and DavidS nagios module
+    nagios::service { "$name":
+        ensure      => present,
+        check_command => $proto ? {
+            tcp => "check_tcp!${port}",
+            udp => "chekc_ucp!${port}",
+            }
+    }
 
-        # Use for Camptocamp (You can choose alternatives for distributed environent)
-        # nagios::service::distributed { "$name":
-	#	ensure      => present,
-	#	check_command => $proto ? {
-	#		tcp => "check_tcp!${port}",
-	#		udp => "chekc_ucp!${port}",
-	#		}
-	# }
+    # Use for Camptocamp (You can choose alternatives for distributed environent)
+    # nagios::service::distributed { "$name":
+    #    ensure      => present,
+    #    check_command => $proto ? {
+    #        tcp => "check_tcp!${port}",
+    #        udp => "chekc_ucp!${port}",
+    #        }
+    # }
 
 }
 
 
 define monitor::process::nagios (
-        $address='',
-        $processname=''
-        ) {
+    $address='',
+    $processname=''
+    ) {
 
-        # Use for Immerda and DavidS and derivated Nagios modules
-        nagios::service { "$name":
-                ensure      => present,
-                check_command => $processname ? {
-			undef	=> "check_procs!${name}" ,
-			default => "check_procs!${processname}" ,
-		}
+    # Use for Immerda and DavidS and derivated Nagios modules
+    nagios::service { "$name":
+        ensure      => present,
+        check_command => $processname ? {
+            undef    => "check_procs!${name}" ,
+            default => "check_procs!${processname}" ,
         }
+    }
 
-        # Use for Camptocamp (You can choose alternatives for distributed environent)
-        # nagios::service::distributed { "$name":
-        # [...] 
+    # Use for Camptocamp (You can choose alternatives for distributed environent)
+    # nagios::service::distributed { "$name":
+    # [...] 
 
 }
 
@@ -76,17 +76,17 @@ define monitor::process::nagios (
 
 class monitor::server::nagios {
 
-	# Use for Immerda and DavidS nagios module
-        # include nagios
-	
-	# Use for RiseUp nagios module
-	include nagios::apache
-	include nagios::defaults
+    # Use for Immerda and DavidS nagios module
+    # include nagios
+    
+    # Use for RiseUp nagios module
+    include nagios::apache
+    include nagios::defaults
 
-	# Use for Camptocamp nagios module
-	# include nagios::base
-	# include nagios::nsca::daemon
-	# include nagios::webinterface
+    # Use for Camptocamp nagios module
+    # include nagios::base
+    # include nagios::nsca::daemon
+    # include nagios::webinterface
 
 }
 
@@ -95,17 +95,17 @@ class monitor::server::nagios {
 # To be used on hosts monitored by nagios, alternative to monitor::host
 
 class monitor::target::nagios {
-	
-	# Use for Immerda and DavidS nagios module
-	# include nagios_target
+    
+    # Use for Immerda and DavidS nagios module
+    # include nagios_target
 
-	# Use for RiseUp nagios module
-	include nagios::target
-	# Or alternatives like:
-	# include nagios::target::fqdn
-	# include nagios::target::nat
-	
-        # Use for Camptocamp nagios module
-	# nagios::host::local  { "$fqdn": ensure => present, address =>$ipaddress, }
-	
+    # Use for RiseUp nagios module
+    include nagios::target
+    # Or alternatives like:
+    # include nagios::target::fqdn
+    # include nagios::target::nat
+    
+    # Use for Camptocamp nagios module
+    # nagios::host::local  { "$fqdn": ensure => present, address =>$ipaddress, }
+    
 }

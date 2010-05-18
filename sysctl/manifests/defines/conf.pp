@@ -8,17 +8,17 @@
 
 define sysctl::conf ($value) {
 
-	require sysctl
-	require sysctl::params
+    require sysctl
+    require sysctl::params
 
-        config { "sysctl_conf_${name}":
-                file      => "${sysctl::params::configfile}",
-                line      => "${name} = ${value}",
-                pattern   => "${name}",
-#                parameter  => "${name}",
-#                value      => "${value}",
-                engine    => "line",
-                notify    => Exec["sysctl -p"],
-        }
+    config { "sysctl_conf_${name}":
+        file      => "${sysctl::params::configfile}",
+        line      => "${name} = ${value}",
+        pattern   => "${name}",
+#        parameter  => "${name}",
+#        value      => "${value}",
+        engine    => "line",
+        notify    => Exec["sysctl -p"],
+    }
 
 }

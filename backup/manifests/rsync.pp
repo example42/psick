@@ -7,37 +7,37 @@
 class backup::rsync::server {
 # Tests... work in progress
 
-        file {
-                "/tmp/rsync.sh":
-                        owner   => "root",
-                        group   => "root",
-                        mode    => "750",
-	                content => template("backup/rsyncssh/rsyncssh.sh.erb"),
-        }
+    file {
+        "/tmp/rsync.sh":
+            owner   => "root",
+            group   => "root",
+            mode    => "750",
+            content => template("backup/rsyncssh/rsyncssh.sh.erb"),
+    }
 
-        File  <<| tag == 'backup_rsync' |>>
+    File  <<| tag == 'backup_rsync' |>>
 
 }
 
 class backup::rsync::target {
-	include rsync
+    include rsync
 }
 
 
 
 define backup_rsync ( $path='', $frequency='' , $host='' ) {
-	
-	include rsync
+    
+    include rsync
 
-        @@file {
-                "backup_rsync_${host}_${name}":
-                        owner   => "root",
-                        group   => "root",
-                        mode    => "644",
-			tag	=> "backup_rsync",
-			path    => "/tmp/backup_rsync_${host}_${name}",
-                        content => "/usr/local/bin/rsyncssh.sh $host $path",
-        }
+    @@file {
+        "backup_rsync_${host}_${name}":
+            owner   => "root",
+            group   => "root",
+            mode    => "644",
+            tag    => "backup_rsync",
+            path    => "/tmp/backup_rsync_${host}_${name}",
+            content => "/usr/local/bin/rsyncssh.sh $host $path",
+    }
 
 }
 
