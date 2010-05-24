@@ -1,0 +1,20 @@
+Example42 Puppet Modules
+
+A collection of modules for Puppet with the following targets:
+- Multi OS support and easy integration of new OS
+- Sysadmin oriented approach (for easier integration and customization)
+- Support for a growing number of applications
+- Adherence to Puppet modules standards
+- No enforcing of a specific logic for files management.
+
+Some research and sperimentation is done on:
+- Definition and use of enhanced abstraction classes such as backup, monitor, firewall
+- Definition of a standard and pluggable define for inline modifications
+- Setup of Puppet toasters and baselines
+
+NOTE: The whole project is a work in progress.
+
+Released under the terms of GPL 3
+
+Official website:
+http://www.example42.com
