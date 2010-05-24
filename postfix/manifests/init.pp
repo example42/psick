@@ -1,6 +1,3 @@
-# Import all the manifests for this module
-import "defines/*.pp"
-import "classes/*.pp"
 #
 # Class: postfix
 #
@@ -35,10 +32,12 @@ class postfix {
     }
 
     file { "main.cf":
-#           mode => 644, owner => root, group => root,
+        path    => "${postfix::params::configfile}",
+        mode    => "${postfix::params::configfile_mode}",
+        owner   => "${postfix::params::configfile_owner}",
+        group   => "${postfix::params::configfile_group}",
         require => Package[postfix],
-        ensure => present,
-        path => "${postfix::params::configfile}",
+        ensure  => present,
     }
 
     # Include OS specific subclasses, if necessary

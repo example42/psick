@@ -31,18 +31,18 @@ class postfix::postfixadmin {
     }
 
     netinstall { postfixadmin:
-        url         => "http://downloads.sourceforge.net/project/postfixadmin/postfixadmin/postfixadmin_2.3.tar.gz",
-        extracted_dir   => "postfixadmin-2.3",
+        url                 => "http://downloads.sourceforge.net/project/postfixadmin/postfixadmin/postfixadmin_2.3.tar.gz",
+        extracted_dir       => "postfixadmin-2.3",
         postextract_command => "ln -s postfixadmin-2.3 ../postfixadmin",
-        destination_dir => "${apache::params::documentroot}",
-        require => Package["apache"],
+        destination_dir     => "${apache::params::documentroot}",
+        require             => Package["apache"],
     }
 
     mysql::grant { postfixadmin:
-        mysql_db    => $postfix_mysqldbname,
-        mysql_user    => $postfix_mysqluser,
-        mysql_password    => $postfix_mysqlpassword,
-        mysql_host    => $postfix_mysqlhost,
+        mysql_db         => $postfix_mysqldbname,
+        mysql_user       => $postfix_mysqluser,
+        mysql_password   => $postfix_mysqlpassword,
+        mysql_host       => $postfix_mysqlhost,
         mysql_privileges => "ALL",
     }
 
@@ -50,7 +50,7 @@ class postfix::postfixadmin {
 # Postfixadmin config file configuration
 
     file { "postfixadminconf":
-        ensure => present,
+        ensure  => present,
         require => Netinstall["postfixadmin"],
         path    => "${postfix::params::postfixadminconf}",
     }
