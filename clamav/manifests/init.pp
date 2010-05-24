@@ -5,11 +5,7 @@
 #
 # Usage:
 # include clamav
-
-
-import "defines/*.pp"
-import "classes/*.pp"
-
+#
 class clamav {
 
     require clamav::params
