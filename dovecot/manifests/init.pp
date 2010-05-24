@@ -5,46 +5,35 @@
 #
 # Usage:
 # include dovecot
-
-
-import "defines/*.pp"
-import "classes/*.pp"
-
+#
 class dovecot {
 
-    package { "dovecot":
-        name   => $operatingsystem ? {
-            debian  => "dovecot-imapd",
-            ubuntu  => "dovecot-imapd",
-            default => "dovecot",
-            },
+    # Load the variables used in this module. Check the params.pp file
+    require dovecot::params
+
+    # Basic Package - Service - Configuration file management
+    package { postfix:
+        name   => "${dovecot::params::packagename}",
         ensure => present,
     }
 
     service { "dovecot":
-        name => $operatingsystem ? {
-            default => "dovecot",
-            },
-        ensure => running,
-        enable => true,
-        pattern => $operatingsystem ? {
-            default => "/usr/sbin/dovecot",
-            },
+        name       => "${dovecot::params::servicename}",
+        ensure     => running,
+        enable     => true,
         hasrestart => true,
-        hasstatus => true,
-        require => Package["dovecot"],
-        subscribe => File["dovecot.conf"],
+        hasstatus  => true,
+        require    => Package["dovecot"],
+        subscribe  => File["dovecot.conf"],
     }
 
     file { "dovecot.conf":
-#           mode => 644, owner => root, group => root,
+        path    => "${dovecot::params::configfile}",
+        mode    => "${dovecot::params::configfile_mode}",
+        owner   => "${dovecot::params::configfile_owner}",
+        group   => "${dovecot::params::configfile_group}",
         require => Package[dovecot],
-        ensure => present,
-        path => $operatingsystem ?{
-            debian  => "/etc/dovecot/dovecot.conf",
-            ubuntu  => "/etc/dovecot/dovecot.conf",
-            default => "/etc/dovecot.conf",
-        },
+        ensure  => present,
     }
 
 

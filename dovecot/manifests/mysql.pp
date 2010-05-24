@@ -17,7 +17,7 @@
 class dovecot::mysql inherits dovecot {
 
     File["dovecot.conf"] {
-            source => "puppet://$servername/dovecot/dovecot.conf-mysql"
+            source => [ "puppet://$servername/dovecot/dovecot.conf-mysql-$operatingsystem" , "puppet://$servername/dovecot/dovecot.conf-mysql" ],
     }
 
     file {
