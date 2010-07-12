@@ -55,12 +55,12 @@ class postfix::postfixadmin {
         path    => "${postfix::params::postfixadminconf}",
     }
 
-    postfixadmin::conf { "database_host": value => "$postfix_mysqlhost" }
-    postfixadmin::conf { "database_name": value => "$postfix_mysqldbname" }
-    postfixadmin::conf { "database_user": value => "$postfix_mysqluser" }
-    postfixadmin::conf { "database_password": value => "$postfix_mysqlpassword" }
-    postfixadmin::conf { "configured": value => "true" , quote => "no" }
-    postfixadmin::conf { "domain_path": value => "YES" }
-    postfixadmin::conf { "domain_in_mailbox": value => "NO" }
+    postfix::postfixadminconf { "database_host": value => "$postfix_mysqlhost" }
+    postfix::postfixadminconf { "database_name": value => "$postfix_mysqldbname" }
+    postfix::postfixadminconf { "database_user": value => "$postfix_mysqluser" }
+    postfix::postfixadminconf { "database_password": value => "$postfix_mysqlpassword" }
+    postfix::postfixadminconf { "configured": value => "true" , quote => "no" }
+    postfix::postfixadminconf { "domain_path": value => "YES" }
+    postfix::postfixadminconf { "domain_in_mailbox": value => "NO" }
 
 }

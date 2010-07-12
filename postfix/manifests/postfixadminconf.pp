@@ -6,7 +6,7 @@
 # Usage:
 # postfixadmin::conf    { "database_hostmynetworks":  value => "localhost" }
 #
-define postfixadmin::conf ($value,$quote="yes") {
+define postfix::postfixadminconf ($value,$quote="yes") {
 
     require postfix::params
     
