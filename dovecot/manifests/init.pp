@@ -12,7 +12,7 @@ class dovecot {
     require dovecot::params
 
     # Basic Package - Service - Configuration file management
-    package { postfix:
+    package { dovecot:
         name   => "${dovecot::params::packagename}",
         ensure => present,
     }
