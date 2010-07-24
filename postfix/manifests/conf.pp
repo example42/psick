@@ -11,7 +11,7 @@ define postfix::conf ($value) {
     require postfix::params
 
     config { "postfix_conf_$name":
-        file      => "${configfile}",
+        file      => "${postfix::params::configfile}",
         line      => "$name $value",
         pattern   => "$name ",
         engine    => "replaceline",

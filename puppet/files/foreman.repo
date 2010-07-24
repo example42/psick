@@ -1,0 +1,6 @@
+# File Managed by Puppet
+[foreman]
+name=Foreman Repo
+baseurl=http://theforeman.org/repo
+gpgcheck=0
+enabled=1

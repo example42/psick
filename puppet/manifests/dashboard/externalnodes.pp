@@ -1,13 +1,3 @@
-# Class: puppet::dashboard
-#
-# Installs DashBoard and configures Puppet for DashBoard support
-#
-# Usage for DashBoard without external nodes support
-# include puppet::dashboard
-#
-# Usage for DashBoard WITH external nodes support
-# include puppet::dashboard::externalnodes
-#
 class puppet::dashboard inherits puppet::master {
 
 # Puppet Base directory
@@ -46,6 +36,15 @@ $puppet_basedir = $operatingsystem ? {
             command => "rake install",
             cwd => "$puppet_dashboard_basedir/puppet-dashboard",
             creates => "$puppet_dashboard_basedir/puppet-dashboard/config/database.yml",
+    }
+
+}
+
+class puppet::dashboard::externalnodes inherits puppet::dashboard {
+
+    File["puppet.conf"] {
+            content => template("puppet/dashboard/externalnodes/puppet.conf.erb"),
+            notify  => Service["puppetmaster"],
     }
 
 }

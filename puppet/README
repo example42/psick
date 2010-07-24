@@ -1,4 +1,48 @@
-# Lab42 Puppet Infrastructure #
-# PROVIDED 'AS IS'
+Puppet module: puppet
+
+# Written by Lab42 #
+# http://www.example42.com
+
+Licence: GPLv3
 
 
+DESCRIPTION:
+This module installs and manages puppet.
+Standard and extended classes are available.
+Decide and customize how you want to define configation files: static files, templates, infile modifications...
+
+
+USAGE:
+# Standard Classes 
+include puppet              # Install and run puppet puppet with standard configurations.
+include puppet::master      # Install and run puppet server with standard configurations.
+
+include puppet::foreman     # Install and run puppet server with Foreman support.
+include puppet::foreman::externalnodes     # Install and run puppet server with Foreman support
+                                           # Enables ALSO support for external nodes.
+include puppet::dashboard   # Install and run puppet server with Dashboard support.
+include puppet::dashboard::externalnodes   # Install and run puppet server with Dashboard support
+                                           # Enables ALSO support for external nodes.
+
+include puppet::disable     # Disable puppet service.
+include puppet::disableboot # Disable puppet service at boot time, but don't stop if it's running.
+include puppet::absent      # Remove puppet package.
+
+# Extended Classes (require storeconfings)
+include puppet::monitor     # Monitor puppet  Automatically included if $monitor=yes
+include puppet::backup      # Backup puppet data - Automatically included if $backup=yes
+include puppet::firewall    # Manages firewall rule for puppet service - Automatically included if $firewall=yes
+
+# Extra Classes
+
+# Generic main configuration infile modification Define
+puppet::conf { "ParameterName": value="YourValue"} 
+
+# Extra Defines
+
+
+DEPENDENCIES:
+Standard classes generally don't need external modules.
+Extended classes need the relevant external modules (import monitor ; import backup ... ) and the "common" module (import common)
+puppet::conf generic infile configuration define needs the "common" module
+Check on individual Extra classes and defines if there are specific requirements (generally only the common module).
