@@ -1,24 +1,24 @@
-# File managed by Puppet <%= puppetversion %>
+# File managed by Puppet 
 
 [fileserver]
-        allow *.<%= domain %>
-        allow <%= local_network %>
+<% puppet_allow.each do |ns| %>allow <%= ns %>
+<% end %>
 
 [puppetmaster]
-        allow *.<%= domain %>
-        allow <%= local_network %>
+<% puppet_allow.each do |ns| %>allow <%= ns %>
+<% end %>
 
 [puppetrunner]
         allow <%= puppet_server %>
 
 [puppetbucket]
-        allow *.<%= domain %>
-        allow <%= local_network %>
+<% puppet_allow.each do |ns| %>allow <%= ns %>
+<% end %>
 
 [puppetreports]
-        allow *.<%= domain %>
-        allow <%= local_network %>
+<% puppet_allow.each do |ns| %>allow <%= ns %>
+<% end %>
 
 [pelementserver]
-        allow *.<%= domain %>
-        allow <%= local_network %>
+<% puppet_allow.each do |ns| %>allow <%= ns %>
+<% end %>

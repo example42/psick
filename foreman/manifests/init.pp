@@ -34,25 +34,6 @@ class foreman {
     home => $foreman_dir,
   }
   
-  package{"rake": 
-    name => $operatingsystem ? {
-      default => "rake",
-      "CentOs" => "rubygem-rake",
-      "RedHat" => "rubygem-rake",
-    },
-    ensure => installed,
-    before => Exec["db_migrate"],
-  }
-
-  package{"sqlite3-ruby": 
-    name => $operatingsystem ? {
-      default => "libsqlite3-ruby",
-      "CentOs" => "rubygem-sqlite3-ruby",
-      "RedHat" => "rubygem-sqlite3-ruby",
-    },
-    ensure => installed,
-    before => Exec["db_migrate"],
-  }
 # Initial Foreman Install
   exec{"install_foreman":
     command => "wget -q http://theforeman.org/attachments/download/22/foreman-0.1-1.tar.bz2 -O - | tar xjf -",

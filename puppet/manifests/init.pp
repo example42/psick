@@ -14,6 +14,7 @@ class puppet {
 
     # Load the variables used in this module. Check the params.pp file 
     require puppet::params
+    include puppet::ruby
 
     # Basic Package - Service - Configuration file management
     package { puppet:

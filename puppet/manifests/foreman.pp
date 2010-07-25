@@ -35,8 +35,8 @@ class puppet::foreman inherits puppet::master {
     }
 
     File["puppet.conf"] {
-            content => template("puppet/foreman/puppet.conf.erb"),
-            notify  => Service["puppetmaster"],
+        content => template("puppet/foreman/puppet.conf.erb"),
+        notify  => Service["puppetmaster"],
     }
 
 }
