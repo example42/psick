@@ -1,5 +1,5 @@
 class foreman::puppetca {
-  
+
   file{"/etc/puppet/autosign.conf":
     owner => $foreman_user, 
     group => "puppet",

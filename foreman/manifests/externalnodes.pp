@@ -4,5 +4,5 @@ class foreman::externalnodes {
     mode   => 555,
     owner  => "puppet", group => "puppet",
   }
-  
+
 }
