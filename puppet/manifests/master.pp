@@ -18,6 +18,8 @@ class puppet::master inherits puppet {
 
         rrdtool-ruby:
         name => $operatingsystem ? {
+            debian => "librrd-ruby",
+            ubuntu => "librrd-ruby",
             default => "rrdtool-ruby",
             },
         ensure => present;
