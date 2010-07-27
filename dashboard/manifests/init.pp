@@ -39,7 +39,7 @@ class dashboard {
         owner   => "${dashboard::params::configfile_owner}",
         group   => "${dashboard::params::configfile_group}",
         require => $dashboard::params::install ? {
-            source  => Git-clone["puppet-dashboard"],
+            source  => Class["dashboard::source"],
             package => Package["dashboard"],
         },
         ensure  => present,

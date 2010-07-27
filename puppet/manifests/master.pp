@@ -12,6 +12,8 @@ class puppet::master inherits puppet {
     package {
         puppet-server:
         name => $operatingsystem ? {
+            debian  => "puppetmaster",
+            ubuntu  => "puppetmaster",
             default => "puppet-server",
             },
         ensure => present;
