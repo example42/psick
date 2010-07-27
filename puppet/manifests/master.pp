@@ -3,6 +3,11 @@ class puppet::master inherits puppet {
     # We need rails for storeconfigs
     include rails
 
+    case $puppet_nodetool {
+        dashboard: { include dashboard }
+        foreman: { include foreman }
+        default: { }
+    }
 
     package {
         puppet-server:
@@ -30,8 +35,18 @@ class puppet::master inherits puppet {
     }
 
     File["puppet.conf"] {
-            content => template("puppet/master/puppet.conf.erb"),
-            notify  => Service["puppetmaster"],
+            content => $puppet_nodetool ? {
+                dashboard => $puppet_externalnodes ? {
+                    yes     => template("puppet/dashboard/externalnodes/puppet.conf.erb"),
+                    default => template("puppet/dashboard/puppet.conf.erb"),
+                },
+                foreman   => $puppet_externalnodes ? {
+                    yes     => template("puppet/foreman/externalnodes/puppet.conf.erb"),
+                    default => template("puppet/foreman/puppet.conf.erb"),
+                },
+                default   => template("puppet/master/puppet.conf.erb"),
+            },
+            notify  => [ Service["puppet"], Service["puppetmaster"] ] ,
     }
 
     File["namespaceauth.conf"] {

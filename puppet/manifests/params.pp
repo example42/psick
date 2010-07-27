@@ -33,5 +33,11 @@ class puppet::params  {
         default => "/etc/puppet",
     }
 
+    $basedir = $operatingsystem ? {
+        redhat  => "/usr/lib/ruby/site_ruby/1.8/puppet",
+        centos  => "/usr/lib/ruby/site_ruby/1.8/puppet",
+        default => "/usr/lib/ruby/1.8/puppet",
+    }
+
 
 }
