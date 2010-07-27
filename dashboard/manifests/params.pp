@@ -14,7 +14,7 @@ class dashboard::params  {
         default => "package",
     }
 
-# Different syntax same result
+# Different syntax same result (left for reference)
 #    case $dashboard_install {
 #        source: { $install="source" }
 #        package: { $install="package" }
@@ -25,8 +25,8 @@ class dashboard::params  {
 
     $mysql = "yes"
 
-# Sets externalnodes support according to user's variable dashboard_externalnodes (if not set, default is no)
-    $externalnodes = $dashboard_externalnodes ? {
+# Sets externalnodes support according to user's variable puppet_externalnodes (if not set, default is no)
+    $externalnodes = $puppet_externalnodes ? {
         yes  => "yes",
         no   => "no",
         default => "no",
