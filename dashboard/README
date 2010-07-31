@@ -12,6 +12,15 @@ Standard and extended classes are available.
 Decide and customize how you want to define configation files: static files, templates, infile modifications...
 
 
+USER VARIABLES:
+In order to customize the behaviour of the module you can set the following variables:
+$dashboard_install  (default: "package") - Defines how you want to install dashboard, from package or cloning the git source ("package" or "source")
+$dashboard_db  (default: sqlite) - Define DB backend ("sqlite", "postgresql" or "mysql")
+$dashboard_db_server  (default: localhost) - Define DB server host (used if $dashboard_db = "mysql" or "postgresql")
+$dashboard_db_user  (default: root) - Define DB access user (used if $dashboard_db = "mysql" or "postgresql")
+$dashboard_db_password  (default: undefined) - Define DB access password (used if $dashboard_db = "mysql" or "postgresql")
+
+
 USAGE:
 # Standard Classes 
 include dashboard              # Install and run dashboard with standard configurations.
@@ -24,12 +33,9 @@ include dashboard::monitor     # Monitor dashboard  Automatically included if $m
 include dashboard::backup      # Backup dashboard data - Automatically included if $backup=yes
 include dashboard::firewall    # Manages firewall rule for dashboard service - Automatically included if $firewall=yes
 
-# Extra Classes
-
 # Generic main configuration infile modification Define
 dashboard::conf { "ParameterName": value="YourValue"} 
 
-# Extra Defines
 
 
 DEPENDENCIES:
@@ -38,3 +44,4 @@ Extended classes need the relevant external modules (import monitor ; import bac
 dashboard::conf generic infile configuration define needs the "common" module
 Check on individual Extra classes and defines if there are specific requirements (generally only the common module).
 example42-git module is required for source installation.
+This module is intended to be used with the example42-puppet module

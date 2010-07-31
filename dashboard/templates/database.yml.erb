@@ -1,72 +1,98 @@
 # database.yml
 # ============
+# File managed by Puppet
 #
-# The `config/database.yml` file contains your custom settings for connecting
-# the Dashboard to a database. You must create the databases you plan to use
-# and add their connection details here to use the Dashboard.
-#
-# Format
-# ------
-#
-# This file is split into sections describing different environments, each
-# optimized for a different use. If you're only using the Dashboard, you
-# only need to configure the "production" environment.
-#
-# Lines starting with an octothorpe ("#") are comments. Uncommented,
-# unindented lines start a new environment (e.g., "production"). Indented
-# lines below an unindented line are settings related to that environment.
-#
-# Example
-# -------
-#
-#     # Section describing the "production" environment, don't change this line:
-#     production:
-#         # Connect to a database named "dashboard":
-#         database: dashboard
-#         # Connect to this database as the "root" user:
-#         username: root
-#         # Connect to this database using "mypassword" as the password:
-#         password: mypassword
-#         # Use "utf8" as the database character encoding, don't change this line:
-#         encoding: utf8
-#         # Use a MySQL database, don't change this line:
-#         adapter: mysql
-#
-# Environments
-# ------------
-#
-# The "production" environment is optimized for fast performance, like when
-# you deploy the Dashboard for use in your organization. It is used when:
-# * Starting a console with: script/console production
-# * Starting a server with: scipt/server -e production
-# * Running a rake task with: rake RAILS_ENV=production ...
+<% if dashboard_db == "sqlite" -%>
+# Db settings for sqlite
 production:
-  database: dashboard
-  username: root
-  password:
-  encoding: utf8
-  adapter: mysql
+  adapter: sqlite3
+  database: db/production.sqlite3
+  pool: 5
+  timeout: 5000
 
-# The "development" environment is optimized for those developing the
-# Dashboard software and reloads code as it's modified. It is used when:
-# * Starting a console with: script/console
-# * Starting a server with: script/server
-# * Running a rake task with: rake ...
 development:
-  database: dashboard
-  username: root
-  password:
-  encoding: utf8
-  adapter: mysql
+  adapter: sqlite3
+  database: db/development.sqlite3
+  pool: 5
+  timeout: 5000
 
-# The "test" environment is used for running tests. WARNING: The database
-# defined for this will be erased and re-generated from your development
-# database when you run "rake". Do NOT set this db to the same as
-# "development" or "production".
 test:
-  database: dashboard_test
-  username: root
-  password:
-  encoding: utf8
+  adapter: sqlite3
+  database: db/test.sqlite3
+  pool: 5
+  timeout: 5000
+<% end -%>
+
+<% if dashboard_db == "mysql" -%>
+# Db settings for mysql
+production:
   adapter: mysql
+  database: dashboard
+  username: <%= dashboard_db_user %>
+  password: <%= dashboard_db_password %>
+  encoding: utf8
+<% if dashboard_db_server != "localhost" -%>
+  host: <%= dashboard_db_server %>
+  port: 3306
+<% end -%>
+
+development:
+  adapter: mysql
+  database: dashboard
+  # database: dashboard_devel # We leave dashboard as database for devel environment to work with (incomplete?) dahsboard's rpm init scripts
+  username: <%= dashboard_db_user %>
+  password: <%= dashboard_db_password %>
+  encoding: utf8
+<% if dashboard_db_server != "localhost" -%>
+  host: <%= dashboard_db_server %>
+  port: 3306
+<% end -%>
+
+test:
+  adapter: mysql
+  database: dashboard_test
+  username: <%= dashboard_db_user %>
+  password: <%= dashboard_db_password %>
+  encoding: utf8
+<% if dashboard_db_server != "localhost" -%>
+  host: <%= dashboard_db_server %>
+  port: 3306
+<% end -%>
+<% end -%>
+
+<% if dashboard_db == "postgresql" -%>
+# Db settings for postgresql
+production:
+  adapter: postgresql
+  database: dashboard
+  username: <%= dashboard_db_user %>
+  password: <%= dashboard_db_password %>
+  encoding: unicode
+<% if dashboard_db_server != "localhost" -%>
+  host: <%= dashboard_db_server %>
+  port: 3306
+<% end -%>
+
+development:
+  adapter: postgresql
+  database: dashboard_devel
+  username: <%= dashboard_db_user %>
+  password: <%= dashboard_db_password %>
+  encoding: unicode
+<% if dashboard_db_server != "localhost" -%>
+  host: <%= dashboard_db_server %>
+  port: 3306
+<% end -%>
+
+test:
+  adapter: postgresql_test
+  database: dashboard
+  username: <%= dashboard_db_user %>
+  password: <%= dashboard_db_password %>
+  encoding: unicode
+<% if dashboard_db_server != "localhost" -%>
+  host: <%= dashboard_db_server %>
+  port: 3306
+<% end -%>
+<% end -%>
 

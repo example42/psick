@@ -33,6 +33,32 @@ class dashboard::params  {
     }
 
 
+# Define dashboard DB type
+    $db = $dashboard_db ? {
+        sqlite  => "sqlite",
+        mysql   => "mysql",
+        postgresql   => "postgresql",
+        default => "sqlite",
+    }
+
+# Define dashboard DB server ($dashboard_db_server). Default: localhost
+    $db_server = $dashboard_db_server ? {
+        ''      => "localhost",
+        default => "$dashboard_db_server",
+    }
+
+# Define dashboard DB user ($dashboard_db_user). Default: root
+    $db_user = $dashboard_db_user ? {
+        ''      => "root",
+        default => "$dashboard_db_user",
+    }
+
+# Define dashboard DB password ($dashboard_db_password). Default: blank
+    $db_password = $dashboard_db_password ? {
+        ''      => "",
+        default => "$dashboard_db_password",
+    }
+
 
 # Basic settings
     $packagename = $operatingsystem ? {

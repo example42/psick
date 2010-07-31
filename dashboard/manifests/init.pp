@@ -16,6 +16,12 @@ class dashboard {
     require dashboard::params
     require puppet::params
 
+    $dashboard_db = $dashboard::params::db
+    $dashboard_db_server = $dashboard::params::db_server
+    $dashboard_db_user = $dashboard::params::db_user
+    $dashboard_db_password = $dashboard::params::db_password
+
+
     case $dashboard::params::install {
         source: { include dashboard::source }
         package: { include dashboard::package }
