@@ -12,23 +12,30 @@ Standard and extended classes are available.
 Decide and customize how you want to define configation files: static files, templates, infile modifications...
 
 
+USER VARIABLES:
+In order to customize the behaviour of the module you can set the following variables:
+$puppet_server (default: "puppet") - Defines the hostname of the puppet master (needed for puppet and puppet::master)
+$puppet_allow  (default:  "*.$domain" , "127.0.0.0") - Defines the acls on PuppetMaster's fileserver.conf
+$puppet_nodetool  (default: undefined) - Use to include an eternal node tool ("dashboard" or "foreman")
+$puppet_externalnodes  (default: no) - Use the external tool as external node classifier (if "yes" here, $puppet_nodetool must be defined)
+$puppet_passenger  (default: no) - Use Apache's mod ruby (Passenger) instead of default Webrick
+$puppet_storeconfigs  (default: no) - Use storeconfigs, needed for exported resources (as in Example42's extended classes)
+$puppet_db  (default: sqlite) - Define DB backend if you activate storeconfigs ("sqlite" or "mysql")
+$puppet_db_server  (default: localhost) - Define DB server host (used if $puppet_db = "mysql")
+$puppet_db_user  (default: root) - Define DB access user (used if $puppet_db = "mysql")
+$puppet_db_password  (default: undefined) - Define DB access password (used if $puppet_db = "mysql")
+
+
 USAGE:
 # Standard Classes 
-include puppet              # Install and run puppet puppet with standard configurations.
-include puppet::master      # Install and run puppet server with standard configurations.
-
-include puppet::foreman     # Install and run puppet server with Foreman support.
-include puppet::foreman::externalnodes     # Install and run puppet server with Foreman support
-                                           # Enables ALSO support for external nodes.
-include puppet::dashboard   # Install and run puppet server with Dashboard support.
-include puppet::dashboard::externalnodes   # Install and run puppet server with Dashboard support
-                                           # Enables ALSO support for external nodes.
+include puppet              # Install and run puppet 
+include puppet::master      # Install and run puppet server
 
 include puppet::disable     # Disable puppet service.
 include puppet::disableboot # Disable puppet service at boot time, but don't stop if it's running.
 include puppet::absent      # Remove puppet package.
 
-# Extended Classes (require storeconfings)
+# Extended Classes (require storeconfigs)
 include puppet::monitor     # Monitor puppet  Automatically included if $monitor=yes
 include puppet::backup      # Backup puppet data - Automatically included if $backup=yes
 include puppet::firewall    # Manages firewall rule for puppet service - Automatically included if $firewall=yes
@@ -37,8 +44,6 @@ include puppet::firewall    # Manages firewall rule for puppet service - Automat
 
 # Generic main configuration infile modification Define
 puppet::conf { "ParameterName": value="YourValue"} 
-
-# Extra Defines
 
 
 DEPENDENCIES:
