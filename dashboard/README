@@ -37,3 +37,4 @@ Standard classes generally don't need external modules.
 Extended classes need the relevant external modules (import monitor ; import backup ... ) and the "common" module (import common)
 dashboard::conf generic infile configuration define needs the "common" module
 Check on individual Extra classes and defines if there are specific requirements (generally only the common module).
+example42-git module is required for source installation.

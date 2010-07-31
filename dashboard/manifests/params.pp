@@ -23,7 +23,7 @@ class dashboard::params  {
 
     $basedir = "/usr/share"
 
-    $mysql = "yes"
+    $use_mysql = "yes"
 
 # Sets externalnodes support according to user's variable puppet_externalnodes (if not set, default is no)
     $externalnodes = $puppet_externalnodes ? {
@@ -57,6 +57,23 @@ class dashboard::params  {
 
     $configfile_group = $operatingsystem ? {
         default => "root",
+    }
+
+# Sets the correct source for static files
+# In order to provide files from different sources without modifying the module
+# you can override the default source path setting the variable $base_source
+# Ex: $base_source="puppet://ip.of.fileserver" or $base_source="puppet://$servername/myprojectmodule"
+# What follows automatically manages the new source standard (with /modules/) from 0.25 
+
+    case $base_source {
+        '': { $general_base_source="puppet://$servername" }
+        default: { $general_base_source=$base_source }
+    }
+
+    $dashboard_source = $puppetversion ? {
+        /(^0.25)/ => "$general_base_source/modules/dashboard",
+        /(^0.)/   => "$general_base_source/dashboard",
+        default   => "$general_base_source/modules/dashboard",
     }
 
 }

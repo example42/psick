@@ -9,16 +9,16 @@ class dashboard::package {
 
     file { "puppetlabs.repo":
         path    => $operatingsystem ? {
-            /(Debian|Ubuntu|ubuntu)/ => "/etc/apt/sources.list.d/puppetlabs.list",
-            /(Redhat|CentOS)/ => "/etc/yum.repos.d/puppetlabs.repo",
+            /(Debian|debian|Ubuntu|ubuntu)/ => "/etc/apt/sources.list.d/puppetlabs.list",
+            /(Redhat|redhat|CentOS|centos)/ => "/etc/yum.repos.d/puppetlabs.repo",
         },
         mode    => "644",
         owner   => "root",
         group   => "root",
         ensure  => present,
         source  => $operatingsystem ? {
-            /(Debian|Ubuntu|ubuntu)/ => "puppet://$servername/dashboard/puppetlabs.apt",
-            /(Redhat|CentOS)/ => "puppet://$servername/dashboard/puppetlabs.repo",
+            /(Debian|debian|Ubuntu|ubuntu)/ => "${dashboard::params::dashboard_source}/puppetlabs.apt",
+            /(Redhat|redhat|CentOS|centos)/ => "${dashboard::params::dashboard_source}/puppetlabs.repo",
         },
     }
 

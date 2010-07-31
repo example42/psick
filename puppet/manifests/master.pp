@@ -3,6 +3,9 @@ class puppet::master inherits puppet {
     # We need rails for storeconfigs
     include rails
 
+    # On the PuppetMaster is useful the puppet-module-tool
+    include puppet::moduletool
+    
     case $puppet_nodetool {
         dashboard: { include dashboard }
         foreman: { include foreman }
@@ -39,17 +42,7 @@ class puppet::master inherits puppet {
     }
 
     File["puppet.conf"] {
-            content => $puppet_nodetool ? {
-                dashboard => $puppet_externalnodes ? {
-                    yes     => template("puppet/dashboard/externalnodes/puppet.conf.erb"),
-                    default => template("puppet/dashboard/puppet.conf.erb"),
-                },
-                foreman   => $puppet_externalnodes ? {
-                    yes     => template("puppet/foreman/externalnodes/puppet.conf.erb"),
-                    default => template("puppet/foreman/puppet.conf.erb"),
-                },
-                default   => template("puppet/master/puppet.conf.erb"),
-            },
+            content => template("puppet/master/puppet.conf.erb"),
             notify  => [ Service["puppet"], Service["puppetmaster"] ] ,
     }
 

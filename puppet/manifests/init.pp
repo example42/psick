@@ -14,6 +14,20 @@ class puppet {
 
     # Load the variables used in this module. Check the params.pp file 
     require puppet::params
+
+    # Resets variables needed in templates (to get deault values)
+    $puppet_server = $puppet::params::server
+    $puppet_allow = $puppet::params::allow
+    $puppet_nodetool = $puppet::params::nodetool
+    $puppet_externalnodes = $puppet::params::externalnodes
+    $puppet_storeconfigs = $puppet::params::storeconfigs
+    $puppet_db = $puppet::params::db
+    $puppet_db_server = $puppet::params::db_server
+    $puppet_db_user = $puppet::params::db_user
+    $puppet_db_password = $puppet::params::db_password
+    $puppet_version = $puppet::params::version
+
+    # Rubyism for Puppet
     include puppet::ruby
 
     # Basic Package - Service - Configuration file management

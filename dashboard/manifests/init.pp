@@ -6,6 +6,10 @@
 # Usage:
 # include dashboard
 #
+# Variables:
+# $dashboard_install - Defines the installation method.
+#   Can be "source" or "package" (default)
+#
 class dashboard {
 
     # Load the variables used in this module. Check the params.pp file
@@ -17,10 +21,12 @@ class dashboard {
         package: { include dashboard::package }
     }
 
-    case $dashboard::params::mysql {
+    case $dashboard::params::use_mysql {
         yes: {
              require mysql::params
              include mysql
+        }
+        no: {
         }
     }
 
