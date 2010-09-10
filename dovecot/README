@@ -9,7 +9,7 @@ Licence: GPLv3
 DESCRIPTION:
 This module installs and manages dovecot.
 Standard and extended classes are available.
-Decide and customize how you want to define configation files: static files, templates, infile modifications...
+Decide and customize how you want to define configuration files: static files, templates, infile modifications...
 
 
 USAGE:
