@@ -81,7 +81,7 @@ class puppet::params  {
 
 
 
-# Basic settings
+# Module's internal variables
     $packagename = $operatingsystem ? {
         solaris => "CSWpuppet",
         default => "puppet",
@@ -120,6 +120,22 @@ class puppet::params  {
         default => "/usr/lib/ruby/1.8/puppet",
     }
 
+# Sets the correct source for static files
+# In order to provide files from different sources without modifying the module
+# you can override the default source path setting the variable $base_source
+# Ex: $base_source="puppet://ip.of.fileserver" or $base_source="puppet://$servername/myprojectmodule"
+# What follows automatically manages the new source standard (with /modules/) from 0.25 
+
+    case $base_source {
+        '': { $general_base_source="puppet://$servername" }
+        default: { $general_base_source=$base_source }
+    }
+
+    $puppet_source = $puppetversion ? {
+        /(^0.25)/ => "$general_base_source/modules/puppet",
+        /(^0.)/   => "$general_base_source/puppet",
+        default   => "$general_base_source/modules/puppet",
+    }
 
 }
 

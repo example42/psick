@@ -1,7 +1,10 @@
 class puppet::master inherits puppet {
 
     # We need rails for storeconfigs
-    include rails
+    case $puppet_storeconfigs {
+        yes: { include rails }
+        default: { }
+    }
 
     # On the PuppetMaster is useful the puppet-module-tool
     include puppet::moduletool
@@ -38,7 +41,7 @@ class puppet::master inherits puppet {
         enable => true,
         hasrestart => true,
         hasstatus => true,
-        require => [Package[puppet-server],Package[rails]],
+        require => [Package[puppet-server],File["puppet.conf"]],
     }
 
     File["puppet.conf"] {

@@ -1,10 +1,35 @@
+# Class: foreman
+#
+# Manages foreman.
+# Include it to install and run foreman with default settings
+# This class and its subclasses are based and built upon The Foreman puppet module present in the original sources  
+#
+# Usage:
+# include foreman
+#
+# Variables:
+# $foreman_install - Defines the installation method.
+#   Can be "source" or "package" (autoselection is attempted accoring to OS)
+#
 class foreman {
 
-  # default variables 
-  $using_store_configs = true # true or false
-  $using_passenger     = false  # true or false
+    # Load the variables used in this module. Check the params.pp file
+    require foreman::params
+    require puppet::params
 
-  $railspath           = "/usr/share"
+
+    # Variables used inside the module- Their values is obtained from Example42 variables scheme for puppet module
+    $using_store_configs = ${puppet::params::storeconfigs} ? 
+        yes => "true",
+        default => "false",
+    }
+    
+    $using_passenger = ${puppet::params::passenger} ? 
+        yes => "true",
+        default => "false",
+    }
+  
+  $railspath           = ${foreman::params::basedir}
   $foreman_dir         = "${railspath}/foreman"
   $foreman_user        = "foreman"
 
@@ -30,14 +55,15 @@ class foreman {
   include foreman::reports
   include foreman::externalnodes
 
-  # Current package is available for Red Hat 5
-  if $lsbmajdistrelease == "5" {
-    include foreman::package
-    # passenger setup for Red Hat 5
-    include foreman::passenger
-  } else {
-    include foreman::install_from_source
-  }
+    case $foreman::params::install {
+        source: { include foreman::install_from_source }
+        package: { include foreman::package }
+    }
+
+    case $puppet::params::passenger {
+        yes: { include foreman::passenger }
+        default: { }
+    }
 
   file{$foreman_dir: 
     ensure => directory,

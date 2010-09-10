@@ -77,6 +77,7 @@ class puppet {
 
     # Include OS specific subclasses, if necessary
     case $operatingsystem {
+        ubuntu: { include puppet::ubuntu }
         default: { }
     }
 

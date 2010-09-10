@@ -3,7 +3,7 @@ class foreman::import_facts {
   file {"/etc/puppet/push_facts.rb":
     mode => 555,
     owner => puppet, group => puppet,
-    source => "puppet:///foreman/push_facts.rb",
+    source => "${foreman::params::foreman_source}/push_facts.rb",
     ensure => $using_store_configs ? {
       true => "absent",
       false => "present"

@@ -1,27 +1,15 @@
+# Class: foreman::package
+#
+# Installs the Foreman from package
+#
 class foreman::package {
 
-  yumrepo { "foreman":
-    descr => "Foreman Repo",
-    baseurl => "http://theforeman.org/repo",
-    gpgcheck => "0",
-    enabled => "1"
-  }
+    require puppet::params
+    require foreman::params
 
-  package{"foreman":
-    ensure => installed,
-    require => Yumrepo["foreman"],
-    notify => Service["foreman"],
-  }
+    case $operatingsystem {
+        ubuntu,debian: { include foreman::package::debian }
+        centos,redhat: { include foreman::package::redhat }
+    }
 
-  service {"foreman":
-    ensure => $using_passenger ? {
-      true => "stopped",
-      false => "running"
-    },
-    enable => $using_passenger ? {
-      true => "false",
-      false => "true",
-    },
-    hasstatus => true,
-  }
 }
