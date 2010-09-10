@@ -1,4 +1,25 @@
-# Lab42 Puppet Infrastructure #
-# PROVIDED 'AS IS'
+Puppet module: pam 
+
+# Written by Lab42 #
+# http://www.example42.com
+
+Licence: GPLv3
 
 
+DESCRIPTION:
+This module provides pam configuration files.
+Due to the flexible nature of PAM, the different configuration layouts on different OSes and the fact that different applications and custom needs may influence the PAM conf files we have followed a very simple and straightforward approach, with static files provided according to different OS and specific needs (such as ldap authentication).
+For a custom approach you should use the pam::$my_project submodule (autoloaded if $my_project is defined) and place your files in pam/files/$my_module/$operatingsystem/.
+The base pam class defines just the typical apm files according to the relevant OS layout. This class basically does nothing.
+The sub classes inherit that main class and define the source of the static files to provide according to the requested feature. The same should be done for custom subclasses.
+
+USER VARIABLES:
+No user variables are expected for this module.
+
+USAGE:
+This module should be included by other modules, such has the users module for ldap authentication.
+You may define your custom PAMs layout in the pam::$my_project subclass and include that in your nodes.
+include pam::eal4 - For Eal4 compliance setups (only for RedHat/Centos5)
+include pam::ldap - For Pam configuration for ldap authentication and user information (do not include this directly, use the users class)
+
+DEPENDENCIES:

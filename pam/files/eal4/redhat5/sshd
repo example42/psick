@@ -1,0 +1,19 @@
+#%PAM-1.0
+### MANAGED BY PUPPET
+
+auth       include      system-auth
+auth       required     pam_tally2.so deny=5 onerr=fail
+
+account    required     pam_nologin.so
+account    include      system-auth
+account    required     pam_tally2.so
+
+password   include      system-auth
+
+session    required     pam_selinux.so close
+session    include      system-auth
+session    required     pam_loginuid.so require_auditd
+
+# Uncomment for RBAC/LSSP compliance
+# session    required     pam_namespace.so
+

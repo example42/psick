@@ -1,0 +1,13 @@
+#%PAM-1.0
+### MANAGED BY PUPPET
+
+auth		sufficient	pam_rootok.so
+auth		required	pam_wheel.so use_uid
+auth		include		system-auth
+
+account		include		system-auth
+
+password	include		pam_deny.so
+
+session		include		system-auth
+session		optional	pam_xauth.so

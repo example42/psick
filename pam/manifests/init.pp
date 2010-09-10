@@ -1,104 +1,98 @@
+# Class: pam
+#
+# Manages pam configuration files 
+#
 class pam {
 
-    package { pam:
-        name => $operatingsystem ? {
-            default    => "pam",
-            },
-        ensure => present,
+# Load the variables used in this module. Check the params.pp file
+    include pam::params
+
+# PAM FILES WITH VARIABLE NAMING ACCORDING TO OS
+case $users::params::oslayout {
+
+    debian5,ubuntu104: {
+
+        file { "/etc/pam.d/common-account":
+            path    => "${pam::params::configdir}/common-account",
+            mode    => "${pam::params::configfile_mode}",
+            owner   => "${pam::params::configfile_owner}",
+            group   => "${pam::params::configfile_group}",
+            ensure  => present,
+        }
+
+        file { "/etc/pam.d/common-auth":
+            path    => "${pam::params::configdir}/common-auth",
+            mode    => "${pam::params::configfile_mode}",
+            owner   => "${pam::params::configfile_owner}",
+            group   => "${pam::params::configfile_group}",
+            ensure  => present,
+        }
+
+        file { "/etc/pam.d/common-password":
+            path    => "${pam::params::configdir}/common-password",
+            mode    => "${pam::params::configfile_mode}",
+            owner   => "${pam::params::configfile_owner}",
+            group   => "${pam::params::configfile_group}",
+            ensure  => present,
+        }
+
+        file { "/etc/pam.d/common-session":
+            path    => "${pam::params::configdir}/common-session",
+            mode    => "${pam::params::configfile_mode}",
+            owner   => "${pam::params::configfile_owner}",
+            group   => "${pam::params::configfile_group}",
+            ensure  => present,
+        }
+
     }
 
-    file {
-        "/etc/pam.d/other":
-            owner     => root,
-            group     => root,
-            mode      => 644,
-            ensure    => present,
-            path      =>  $operatingsystem ? {
-                default => "/etc/pam.d/other",
-            },
+    redhat5: {
+
+        file { "/etc/pam.d/system-auth-ac":
+            path    => "${pam::params::configdir}/system-auth-ac",
+            mode    => "${pam::params::configfile_mode}",
+            owner   => "${pam::params::configfile_owner}",
+            group   => "${pam::params::configfile_group}",
+            ensure  => present,
+        }
+
     }
 
-    file {
-        "/etc/pam.d/system-auth":
-            owner     => root,
-            group     => root,
-            mode      => 644,
-            ensure    => present,
-            path      =>  $operatingsystem ? {
-                default => "/etc/pam.d/system-auth",
-            },
+} # End case
+
+
+
+# PAM FILES WITH STANDARD NAMING
+    file { "/etc/pam.d/other":
+        path    => "${pam::params::configdir}/other",
+        mode    => "${pam::params::configfile_mode}",
+        owner   => "${pam::params::configfile_owner}",
+        group   => "${pam::params::configfile_group}",
+        ensure  => present,
     }
 
-    file {
-        "/etc/pam.d/login":
-            owner     => root,
-            group     => root,
-            mode      => 644,
-            ensure    => present,
-            path      =>  $operatingsystem ? {
-                default => "/etc/pam.d/login",
-            },
+    file { "/etc/pam.d/login":
+        path    => "${pam::params::configdir}/login",
+        mode    => "${pam::params::configfile_mode}",
+        owner   => "${pam::params::configfile_owner}",
+        group   => "${pam::params::configfile_group}",
+        ensure  => present,
     }
 
-    file {
-        "/etc/pam.d/sshd":
-            owner     => root,
-            group     => root,
-            mode      => 644,
-            ensure    => present,
-            path      =>  $operatingsystem ? {
-                default => "/etc/pam.d/sshd",
-            },
+    file { "/etc/pam.d/sshd":
+        path    => "${pam::params::configdir}/sshd",
+        mode    => "${pam::params::configfile_mode}",
+        owner   => "${pam::params::configfile_owner}",
+        group   => "${pam::params::configfile_group}",
+        ensure  => present,
     }
 
-    file {
-        "/etc/pam.d/su":
-            owner     => root,
-            group     => root,
-            mode      => 644,
-            ensure    => present,
-            path      =>  $operatingsystem ? {
-                default => "/etc/pam.d/su",
-            },
+    file { "/etc/pam.d/su":
+        path    => "${pam::params::configdir}/su",
+        mode    => "${pam::params::configfile_mode}",
+        owner   => "${pam::params::configfile_owner}",
+        group   => "${pam::params::configfile_group}",
+        ensure  => present,
     }
-
-    file {
-        "/etc/pam.d/vsftpd":
-            owner     => root,
-            group     => root,
-            mode      => 644,
-            path      =>  $operatingsystem ? {
-                default => "/etc/pam.d/vsftpd",
-            },
-    }
-
-}
-
-class pam::eal4 inherits pam {
-
-    # Pam settings for EAL4+ on Redhat/Centos 5 
-    File ["/etc/pam.d/other"] {
-            source => "puppet://$servername/pam/eal4/other",
-    }
-
-    File ["/etc/pam.d/system-auth"] {
-            source => "puppet://$servername/pam/eal4/system-auth",
-    }
-
-    File ["/etc/pam.d/login"] {
-            source => "puppet://$servername/pam/eal4/login",
-    }
-
-    File ["/etc/pam.d/sshd"] {
-            source => "puppet://$servername/pam/eal4/sshd",
-    }
-
-    File ["/etc/pam.d/su"] {
-            source => "puppet://$servername/pam/eal4/su",
-    }
-
-#    File ["/etc/pam.d/vfstpd"] {
-#            source => "puppet://$servername/pam/eal4/vsftpd",
-#    }
 
 }

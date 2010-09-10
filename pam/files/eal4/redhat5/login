@@ -1,0 +1,22 @@
+#%PAM-1.0
+### MANAGED BY PUPPET
+
+auth [user_unknown=ignore success=ok ignore=ignore default=bad] pam_securetty.so
+auth       include      system-auth
+auth       required     pam_tally2.so deny=5 onerr=fail
+
+account    required     pam_nologin.so
+account    include      system-auth
+account    required     pam_tally2.so
+
+password   include      system-auth
+
+session    required     pam_selinux.so close
+session    include      system-auth
+session    required     pam_loginuid.so
+session    optional     pam_console.so
+
+session    required     pam_selinux.so open
+# Version Below for LSSP compliance
+# session    required     pam_selinux.so open select_context
+# session    required     pam_namespace.so
