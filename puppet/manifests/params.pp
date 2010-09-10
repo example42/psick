@@ -6,7 +6,7 @@ class puppet::params  {
 # Full hostname of Puppet server
     $server = $puppet_server ? {
         ''      => "puppet",
-        default => "$puppet_server",
+        default => $puppet_server,
     }
 
 # Access lists for Puppetmaster access (can be an array)
@@ -58,19 +58,19 @@ class puppet::params  {
 # Define Puppet DB server ($puppet_db_server). Default: localhost
     $db_server = $puppet_db_server ? {
         ''      => "localhost",
-        default => "$puppet_db_server",
+        default => $puppet_db_server,
     }
 
 # Define Puppet DB user ($puppet_db_user). Default: root
     $db_user = $puppet_db_user ? {
         ''      => "root",
-        default => "$puppet_db_user",
+        default => $puppet_db_user,
     }
 
 # Define Puppet DB password ($puppet_db_password). Default: blank
     $db_password = $puppet_db_password ? {
         ''      => "",
-        default => "$puppet_db_password",
+        default => $puppet_db_password,
     }
 
 # Define Puppet version. Autocalculated: "0.2" for 0.24/0.25 "old" versions, 2.x for new 2.6.x branch.

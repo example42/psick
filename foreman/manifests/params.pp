@@ -47,19 +47,19 @@ class foreman::params  {
 # Define foreman DB server ($foreman_db_server). Default: localhost
     $db_server = $foreman_db_server ? {
         ''      => "localhost",
-        default => "$foreman_db_server",
+        default => $foreman_db_server,
     }
 
 # Define foreman DB user ($foreman_db_user). Default: root
     $db_user = $foreman_db_user ? {
         ''      => "root",
-        default => "$foreman_db_user",
+        default => $foreman_db_user,
     }
 
 # Define foreman DB password ($foreman_db_password). Default: blank
     $db_password = $foreman_db_password ? {
         ''      => "",
-        default => "$foreman_db_password",
+        default => $foreman_db_password,
     }
 
 
