@@ -1,46 +1,27 @@
+# Class: nfs
+#
+# Manages nfs common settings for client and server activities.
+#
+# Usage:
+# include nfs::client - For client usage
+# include nfs::server - For server usage
+#
 class nfs {
 
-    package { nfs-utils:
-        name => $operatingsystem ? {
-            default => "nfs-utils",
-            },
+    # Load the variables used in this module. Check the params.pp file
+    require nfs::params
+
+    # portmapper is need both for client and server usage
+    include portmap
+
+    # Basic Package 
+    package { nfs:
+        name   => "${nfs::params::packagename}",
         ensure => present,
     }
 
-    package { portmap:
-        name => $operatingsystem ? {
-            default => "portmap",
-            },
-        ensure => present,
-    }
-
-    file {
-        "exports":
-            owner   => "root",
-            group   => "root",
-            mode    => "644",
-            ensure  => present,
-            path    => $operatingsystem ?{
-                default => "/etc/exports",
-                },
-
-    }
-
-    service {
-        "nfs":
-        enable    => "true",
-        ensure    => "running",
-        hasstatus => "true",
-        require   => File["exports"],
-        subscribe => File["exports"],
-    }
-
-    service {
-        "portmap":
-        enable    => "true",
-        ensure    => "running",
-        hasstatus => "true",
+    case $operatingsystem {
+        default: { }
     }
 
 }
-
