@@ -1,4 +1,28 @@
-# Lab42 Puppet Infrastructure #
-# PROVIDED 'AS IS'
+Puppet module: users 
+
+# Written by Lab42 #
+# http://www.example42.com
+
+Licence: GPLv3
 
 
+DESCRIPTION:
+This module provides users management on the system.
+It manages both local users (you have obviously to add them according to custom needs) and external authentication sources, such as ldap. It provides automount features.
+
+
+USER VARIABLES:
+In order to customize the behaviour of the module you can set the following variables:
+$users_auth  (default: "local") - Defines the authentication method to be used. Default uses only local authentication, set to "ldap" to ADD ldap authentication.
+$users_ldap_servers  (default: ["ldapm.example42.com","ldaps.example42.com"]) - Defines the ldap backend server(s) you want to use for ldap authentication
+$users_ldap_basedn (default: "dc=example42,dc=com") - Defines the ldap base dn for ldap authentication
+$users_ldap_ssl (default: "no") - Defines if you want to use SSL for ldap authentication 
+$users_automount (default: "no") - Set to "yes" if you want to enable homes automount
+
+
+USAGE:
+# Standard Classes 
+include users # Manages users via Puppet. Set the above variables to manage ldap authentication.
+              # If $my_project is set, it autoloads users::$my_project where you can define custom local users and custom configurations
+
+DEPENDENCIES:

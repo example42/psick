@@ -1,0 +1,9 @@
+# File Managed by Puppet
+HOST <% users_ldap_servers.each do |ldap| -%><%= ldap -%> <% end %>
+URI ldap://<%= users_ldap_servers.first %>
+BASE <%= users_ldap_basedn %>
+<% if users_ldap_ssl == "yes" -%>
+TLS_CACERT <%= users_ldap_cacert %>
+TLS_REQCERT demand
+<% end -%>
+nss_initgroups_ignoreusers Debian-exim,backup,bin,daemon,dhcp,games,gnats,irc,klog,libuuid,list,lp,mail,man,news,ntpd,proxy,root,snmp,sshd,statd,sync,sys,syslog,uucp,www-data

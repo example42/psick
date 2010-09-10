@@ -1,0 +1,11 @@
+# File managed by Puppet
+host <% users_ldap_servers.each do |ldap| %><%= ldap %> <% end %>
+base <%= users_ldap_basedn %>
+pam_password exop
+pam_lookup_policy yes
+
+<% if users_ldap_ssl == "yes" -%>
+ssl start_tls
+tls_cacertfile <%= users_ldap_cacert %>
+tls_checkpeer yes
+<% end -%>
