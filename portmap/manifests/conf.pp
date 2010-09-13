@@ -10,13 +10,14 @@ define portmap::conf ($value) {
 
     include portmap::params
 
-    config { "portmap_conf_$name":
-        file      => ${portmap::params::configfile},
-        line      => "$name $value",
-        pattern   => "^$name ",
-        engine    => "replaceline",
-        notify    => Service["portmap"],
-        require   => File["exports"],
-    }
+# TODO Decide if and what portmap config file manage
+#    config { "portmap_conf_$name":
+#        file      => ${portmap::params::configfile},
+#        line      => "$name $value",
+#        pattern   => "^$name ",
+#        engine    => "replaceline",
+#        notify    => Service["portmap"],
+#        require   => File["exports"],
+#    }
 
 }

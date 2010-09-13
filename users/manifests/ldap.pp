@@ -84,6 +84,7 @@ class users::ldap {
         content => template("users/ldap/openldap-ldap.conf.erb"),
     }
 
+# TODO: Provide a sample cacert.pem file
     case $users_ldap_ssl {
         yes: {
             file { "ldap_cacert":

@@ -11,7 +11,7 @@ define nfs::conf ($value) {
     include nfs::params
 
     config { "nfs_conf_$name":
-        file      => ${nfs::params::configfile},
+        file      => "${nfs::params::configfile}",
         line      => "$name $value",
         pattern   => "^$name ",
         engine    => "replaceline",
