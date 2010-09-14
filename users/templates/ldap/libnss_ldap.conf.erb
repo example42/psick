@@ -9,3 +9,5 @@ ssl start_tls
 tls_cacertfile <%= users_ldap_cacert %>
 tls_checkpeer yes
 <% end -%>
+
+nss_initgroups_ignoreusers Debian-exim,backup,bin,daemon,dhcp,games,gnats,irc,klog,libuuid,list,lp,mail,man,news,ntpd,proxy,root,snmp,sshd,statd,sync,sys,syslog,uucp,www-data

@@ -43,7 +43,7 @@ class users::ldap {
     file { "libnss_ldap.conf":
         path    => $operatingsystem ? {
             debian => "/etc/libnss_ldap.conf",
-            ubuntu => "/etc/libnss_ldap.conf",
+            ubuntu => "/etc/ldap.conf",
             redhat => "/etc/ldap.conf",
             centos => "/etc/ldap.conf",
         },
@@ -54,20 +54,20 @@ class users::ldap {
         content => template("users/ldap/libnss_ldap.conf.erb"),
     }
 
-# Seems like also this file is needed on Ubuntu/Debian. Same as libnss_ldap.conf.erb
-    file { "pam_ldap.conf":
-        path    => $operatingsystem ? {
-            debian => "/etc/pam_ldap.conf",
-            ubuntu => "/etc/pam_ldap.conf",
-            redhat => "/etc/pam_ldap.conf",
-            centos => "/etc/pam_ldap.conf",
-        },
-        mode    => "644",
-        owner   => "root",
-        group   => "root",
-        ensure  => present,
-        content => template("users/ldap/libnss_ldap.conf.erb"),
-    }
+# Seems like also this file is needed on some Ubuntu/Debian. Same as libnss_ldap.conf.erb TODO: Verify
+#    file { "pam_ldap.conf":
+#        path    => $operatingsystem ? {
+#            debian => "/etc/pam_ldap.conf",
+#            ubuntu => "/etc/pam_ldap.conf",
+#            redhat => "/etc/pam_ldap.conf",
+#            centos => "/etc/pam_ldap.conf",
+#        },
+#        mode    => "644",
+#        owner   => "root",
+#        group   => "root",
+#        ensure  => present,
+#        content => template("users/ldap/libnss_ldap.conf.erb"),
+#    }
 
 # Openldap client config
     file { "openldap-ldap.conf":
@@ -82,9 +82,13 @@ class users::ldap {
         group   => "root",
         ensure  => present,
         content => template("users/ldap/openldap-ldap.conf.erb"),
+    # TODO - Breaks on ubuntu804 - Verify
+    #    notify  => $users_automount ? {
+    #        "yes"   => "Service[autofs]",
+    #        default => undef,
+    #    },
     }
 
-# TODO: Provide a sample cacert.pem file
     case $users_ldap_ssl {
         yes: {
             file { "ldap_cacert":

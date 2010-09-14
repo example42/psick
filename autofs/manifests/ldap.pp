@@ -19,7 +19,7 @@ class autofs::ldap {
         mode    => "755",
         owner   => "root",
         group   => "root",
-        ensure  => present,
+        ensure  => directory,
     }
 
 # autofs init.d configuration file . TODO Standardize init.d config files - Test/Fix on RHEL
