@@ -1,0 +1,39 @@
+Puppet module: controltier
+
+# Written by Lab42 #
+# http://www.example42.com
+
+Licence: GPLv3
+
+
+DESCRIPTION:
+This module installs and manages controltier.
+Standard and extended classes are available.
+Decide and customize how you want to define configuration files: static files, templates, infile modifications...
+
+
+USAGE:
+# Standard Classes 
+include controltier              # Install and run controltier with standard configurations.
+include controltier::disable     # Disable controltier service.
+include controltier::disableboot # Disable controltier service at boot time, but don't stop if it's running.
+include controltier::absent      # Remove controltier package.
+
+# Extended Classes (require storeconfings)
+include controltier::monitor     # Monitor controltier  Automatically included if $monitor=yes
+include controltier::backup      # Backup controltier data - Automatically included if $backup=yes
+include controltier::firewall    # Manages firewall rule for controltier service - Automatically included if $firewall=yes
+
+# Extra Classes
+
+# Generic main configuration infile modification Define
+controltier::conf { "ParameterName": value="YourValue"} 
+
+# Extra Defines
+
+
+DEPENDENCIES:
+Standard classes generally don't need external modules.
+Extended classes need the relevant external modules (import monitor ; import backup ... ) and the "common" module (import common)
+controltier::conf generic infile configuration define needs the "common" module
+Check on individual Extra classes and defines if there are specific requirements (generally only the common module).
