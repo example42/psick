@@ -12,7 +12,7 @@
 define apache::dotconf ( $source='' , $content='' ) {
 
 # Silly if statement to manage source|content 
-# To be optimized
+# TODO To be optimized
 
 if $source  { 
 

@@ -25,7 +25,6 @@ include apache::backup      # Backup apache data - Automatically included if $ba
 include apache::firewall    # Manages firewall rule for apache service - Automatically included if $firewall=yes
 
 # Extra Classes
-include apache::php         # Install php module with default settings
 include apache::modsecurity # Install modsecurity with default settings
 
 # Generic main configuration infile modification Define
@@ -38,9 +37,10 @@ apache::dotconf { "trac": content => 'template("trac/apache.conf.erb")' }   # Ad
 
 # apache::virtualhost creates single independend configuration files per VirtualHost based on a standard or custom template 
 apache::virtualhost { "www.example42.com": }  # Adds a .conf with VirtualHost container based on a standard template
-apache::virtualhost { "webmail.example42.com": templatefile => "webmail.conf.erb" } #Adds a .conf with VirtualHost based on custom template
+apache::virtualhost { "webmail.example42.com": templatefile => "webmail.conf.erb" } # Adds a .conf with VirtualHost based on custom template
+apache::virtualhost { "webmail.example42.com": templatefile => "webmail.conf.erb" , enable => false } # Disables a Virtual host previously enabled
 
-# php::module and php::pear manage installation of php and pear modules
+# Related to this module, check the php module:
 php::module { mysql: }     # Installs mysql module for php
 php::pear { Crypt-CHAP: }  # Installs pear component
 

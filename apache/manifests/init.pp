@@ -1,40 +1,39 @@
 # Class: apache
 #
 # Manages apache.
-# Include it to install and run apache with default settings
+# Include it to install and run apache2 with default settings
 #
 # Usage:
 # include apache
 
 
-import "defines/*.pp"
-import "classes/*.pp"
-
 class apache {
     
     require apache::params
 
-    package { apache:
+    package { "apache":
         name   => "${apache::params::packagename}",
         ensure => present,
     }
 
-    service { apache:
-        name   => "${apache::params::servicename}",
-        ensure => running,
-        enable => true,
-        pattern => "${apache::params::servicepattern}",
+    service { "apache":
+        name       => "${apache::params::servicename}",
+        ensure     => running,
+        enable     => true,
+        pattern    => "${apache::params::servicepattern}",
         hasrestart => true,
-        hasstatus => true,
-        require => Package["apache"],
-        subscribe => File["httpd.conf"],
+        hasstatus  => false,
+        require    => Package["apache"],
+        subscribe  => File["httpd.conf"],
     }
 
     file { "httpd.conf":
-#           mode => 644, owner => root, group => root,
-        require => Package[apache],
-        ensure => present,
-        path => "${apache::params::configfile}",
+        path    => "${apache::params::configfile}",
+        mode    => "${apache::params::configfile_mode}",
+        owner   => "${apache::params::configfile_owner}",
+        group   => "${apache::params::configfile_group}",
+        require => Package["apache"],
+        ensure  => present,
     }
 
     case $operatingsystem {
@@ -46,5 +45,9 @@ class apache {
     if $backup == "yes" { include apache::backup }
     if $monitor == "yes" { include apache::monitor }
     if $firewall == "yes" { include apache::firewall }
+
+# Autoloads apache::$my_project if $my_project is defined
+# Place in apache::$my_project your customizatios
+    if $my_project { include "apache::${my_project}" }
 
 }
