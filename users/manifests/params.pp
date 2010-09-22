@@ -51,6 +51,16 @@ class users::params  {
         default  => "/etc/openldap/cacert.pem",
     }
 
+    $configfile_ldap = $operatingsystem ? {
+            debian => $lsbdistid ? {
+                 debian => "/etc/libnss-ldap.conf",
+                 ubuntu => "/etc/ldap.conf",
+            },
+            ubuntu => "/etc/ldap.conf",
+            redhat => "/etc/ldap.conf",
+            centos => "/etc/ldap.conf",
+    }
+
 
 ## FILE SERVING SOURCE
 # Sets the correct source for static files

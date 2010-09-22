@@ -35,39 +35,19 @@ class users::ldap {
         mode    => "644",
         owner   => "root",
         group   => "root",
-        require => [ File["libnss_ldap.conf"] ],
+        require => [ File["ldap.conf"] ],
         ensure  => present,
         content => template("users/ldap/nsswitch.conf.erb"),
     }
 
-    file { "libnss_ldap.conf":
-        path    => $operatingsystem ? {
-            debian => "/etc/libnss_ldap.conf",
-            ubuntu => "/etc/ldap.conf",
-            redhat => "/etc/ldap.conf",
-            centos => "/etc/ldap.conf",
-        },
+    file { "ldap.conf":
+        path    => $users::params::configfile_ldap ,
         mode    => "644",
         owner   => "root",
         group   => "root",
         ensure  => present,
-        content => template("users/ldap/libnss_ldap.conf.erb"),
+        content => template("users/ldap/ldap.conf.erb"),
     }
-
-# Seems like also this file is needed on some Ubuntu/Debian. Same as libnss_ldap.conf.erb TODO: Verify
-#    file { "pam_ldap.conf":
-#        path    => $operatingsystem ? {
-#            debian => "/etc/pam_ldap.conf",
-#            ubuntu => "/etc/pam_ldap.conf",
-#            redhat => "/etc/pam_ldap.conf",
-#            centos => "/etc/pam_ldap.conf",
-#        },
-#        mode    => "644",
-#        owner   => "root",
-#        group   => "root",
-#        ensure  => present,
-#        content => template("users/ldap/libnss_ldap.conf.erb"),
-#    }
 
 # Openldap client config
     file { "openldap-ldap.conf":
@@ -82,7 +62,7 @@ class users::ldap {
         group   => "root",
         ensure  => present,
         content => template("users/ldap/openldap-ldap.conf.erb"),
-    # TODO - Breaks on ubuntu804 - Verify
+    # TOTO - Breaks on ubuntu804 - Verify
     #    notify  => $users_automount ? {
     #        "yes"   => "Service[autofs]",
     #        default => undef,
@@ -109,6 +89,21 @@ class users::ldap {
              package { "libpam-ldap": ensure => present }
              package { "libnss-ldap": ensure => present }
              package { "ldap-utils": ensure => present }
+
+             case $lsbdistcodename {
+                 lenny: {
+                     # Debian 5, by default, uses a separated file for pam ldap settings 
+                     file { "pam_ldap.conf":
+                         path    => "/etc/pam_ldap.conf",
+                         mode    => "644",
+                         owner   => "root",
+                         group   => "root",
+                         ensure  => present,
+                         content => template("users/ldap/ldap.conf.erb"),
+                     }
+                 }
+             }
+
         }
         redhat,centos: {
              package { "nss_ldap": ensure => present }
