@@ -11,7 +11,7 @@ class exim::monitor {
     monitor::process {
         "exim_process":
         name     => $operatingsystem ? {
-            default => "automount",
+            default => "exim",
             },
         enable    => true,
     }
