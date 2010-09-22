@@ -1,12 +1,16 @@
+# Class hosts
+#
+# Manages /etc/hosts
+#
 class hosts {
 
-    file {    
-             "hosts":
-#            mode => 644, owner => root, group => root,
-            ensure => present,
-            path => $operatingsystem ?{
-                default => "/etc/hosts",
-            },
+    file { "hosts":
+        ensure => present,
+        path => "/etc/hosts",
+        content => template("hosts/hosts.erb"),
     }
+
+    if $my_project { include "hosts::${my_project}" }
+
 }
 
