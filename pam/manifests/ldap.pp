@@ -1,7 +1,6 @@
 # Class: pam::ldap
 #
-# Tweaks pam settings to comply to EAL4 guidelines
-# Tested and supported on Redhat/Centos 5
+# Pam settings for ldap authtentication
 #
 # Usage:
 # include pam::ldap
@@ -10,7 +9,7 @@ class pam::ldap inherits pam {
 # Load the variables used in this module. Check the params.pp file
     include pam::params
 
-case $users::params::oslayout {
+case "${pam::params::oslayout}" {
 
     debian5: { 
         File ["/etc/pam.d/common-account"] {

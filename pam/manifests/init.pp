@@ -8,7 +8,7 @@ class pam {
     include pam::params
 
 # PAM FILES WITH VARIABLE NAMING ACCORDING TO OS
-case $users::params::oslayout {
+case "${pam::params::oslayout}" {
 
     debian5,ubuntu104: {
 
