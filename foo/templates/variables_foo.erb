@@ -18,6 +18,8 @@ $initconfigfile = <%= scope.lookupvar('foo::params::initconfigfile') %>
 $pidfile = <%= scope.lookupvar('foo::params::pidfile') %>
 $datadir = <%= scope.lookupvar('foo::params::datadir') %>
 $logdir = <%= scope.lookupvar('foo::params::logdir') %>
+$protocol = <%= scope.lookupvar('foo::params::protocol') %>
+$port = <%= scope.lookupvar('foo::params::port') %>
 
 Variables used by monitor class:
 $monitor_target_real = <%= scope.lookupvar('foo::params::monitor_target_real') %>
@@ -35,3 +37,8 @@ $backup_data_enable = <%= scope.lookupvar('foo::params::backup_data_enable') %>
 $backup_log_enable = <%= scope.lookupvar('foo::params::backup_log_enable') %>
 $general_base_source = <%= scope.lookupvar('foo::params::general_base_source') %>
 
+Variables used by firewall class:
+$firewall_source_real = <%= scope.lookupvar('foo::params::firewall_source_real') %>
+$firewall_destination_real = <%= scope.lookupvar('foo::params::firewall_destination_real') %>
+$firewall_frequency = <%= scope.lookupvar('foo::params::firewall_frequency') %>
+$firewall_data_enable = <%= scope.lookupvar('foo::params::firewall_data_enable') %>

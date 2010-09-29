@@ -3,31 +3,21 @@
 # Manages foo firewalling using custom Firewall wrapper
 # By default it opens foo's default port(s) to anybody
 # It's automatically included if $firewall=yes
-# Note that it uses fact's based $ipaddress as destination IP
-# You may need to change it for natted or multihomed hosts
 #
 # Usage:
-# include foo::firewall
+# Automatically included if $firewall=yes 
 #
 class foo::firewall {
 
-    firewall {
-        "foo_port":
-        source        => "any",
-        destination => $ipaddress,
-        protocol    => "tcp",
-        port         => 8140,
+    include foo::params
+
+    firewall { "foo_${foo::params::protocol}_${foo::params::port}":
+        source      => "${foo::params::firewall_source_real}",
+        destination => "${foo::params::firewall_destination_real}",
+        protocol    => "${foo::params::protocol}",
+        port        => "${foo::params::port}",
         action      => "allow",
-        direction   => "inbound",
+        direction   => "input",
     }
 
-    firewall {
-        "foo_port_":
-#        source        => "$ipaddress",
-        destination => "any",
-        protocol    => "tcp",
-        port         => 8140,
-        action      => "allow",
-        direction   => "outbound",
-    }
 }

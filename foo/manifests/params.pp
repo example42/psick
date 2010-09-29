@@ -79,6 +79,12 @@ class foo::params  {
         default => "/var/log/foo",
     }
 
+    # Used by monitor and firewall class
+    # If you need to define additional ports, call them $protocol1/$port1 and add the relevant
+    # parts in firewall.pp and monitor.pp
+    $protocol = "tcp"
+    $port = "80"
+    
 
 
 ## DEFAULTS FOR MONITOR CLASS
@@ -186,6 +192,28 @@ class foo::params  {
         default => $foo_backup_log,
     }
 
+
+## DEFAULTS FOR FIREWALL CLASS
+# These are settings that influence the (optional) foo::firewall class
+# You can define these variables or leave the defaults
+
+    # Source IPs that can access this service - Use iptables friendly format
+    $firewall_source_real = $foo_firewall_source ? {
+        ''      => $firewall_source ? {
+           ''      => "0.0.0.0/0",
+           default => $firewall_source,
+        },
+        default => "$foo_firewall_source",
+    }
+
+    # Destination IP to use for this host (Default facter's $ipaddress)
+    $firewall_destination_real = $foo_firewall_destination ? {
+        ''      => $firewall_destination ? {
+           ''      => "${ipaddress}",
+           default => $firewall_destination,
+        },
+        default => "$foo_firewall_destination",
+    }
 
 ## FILE SERVING SOURCE
 # Sets the correct source for static files

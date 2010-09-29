@@ -30,9 +30,9 @@ class foo::monitor {
     include foo::params
 
     # Port monitoring
-    monitor::port { "foo_tcp_80": 
-        proto    => "tcp",
-        port     => "80",
+    monitor::port { "foo_${foo::params::protocol}_${foo::params::port}": 
+        protocol => "${foo::params::protocol}",
+        port     => "${foo::params::port}",
         target   => "${foo::params::monitor_target_real}",
         enable   => "${foo::params::monitor_port_enable}",
     }
