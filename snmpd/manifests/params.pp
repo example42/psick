@@ -80,6 +80,12 @@ class snmpd::params  {
         default => "/var/log/messages",
     }
 
+    # Used by monitor and firewall class
+    # If you need to define additional ports, call them $protocol1/$port1 and add the relevant
+    # parts in firewall.pp and monitor.pp
+    $protocol = "udp"
+    $port = "161"
+
 
 
 ## DEFAULTS FOR MONITOR CLASS
@@ -185,6 +191,29 @@ class snmpd::params  {
            default => $backup_log,
         },
         default => $snmpd_backup_log,
+    }
+
+
+## DEFAULTS FOR FIREWALL CLASS
+# These are settings that influence the (optional) snmpd::firewall class
+# You can define these variables or leave the defaults
+
+    # Source IPs that can access this service - Use iptables friendly format
+    $firewall_source_real = $snmpd_firewall_source ? {
+        ''      => $firewall_source ? {
+           ''      => "0.0.0.0/0",
+           default => $firewall_source,
+        },
+        default => "$snmpd_firewall_source",
+    }
+
+    # Destination IP to use for this host (Default facter's $ipaddress)
+    $firewall_destination_real = $snmpd_firewall_destination ? {
+        ''      => $firewall_destination ? {
+           ''      => "${ipaddress}",
+           default => $firewall_destination,
+        },
+        default => "$snmpd_firewall_destination",
     }
 
 

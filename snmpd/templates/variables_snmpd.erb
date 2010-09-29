@@ -18,6 +18,8 @@ $initconfigfile = <%= scope.lookupvar('snmpd::params::initconfigfile') %>
 $pidfile = <%= scope.lookupvar('snmpd::params::pidfile') %>
 $datadir = <%= scope.lookupvar('snmpd::params::datadir') %>
 $logdir = <%= scope.lookupvar('snmpd::params::logdir') %>
+$protocol = <%= scope.lookupvar('snmpd::params::protocol') %>
+$port = <%= scope.lookupvar('snmpd::params::port') %>
 
 Variables used by monitor class:
 $monitor_target_real = <%= scope.lookupvar('snmpd::params::monitor_target_real') %>
@@ -35,3 +37,6 @@ $backup_data_enable = <%= scope.lookupvar('snmpd::params::backup_data_enable') %
 $backup_log_enable = <%= scope.lookupvar('snmpd::params::backup_log_enable') %>
 $general_base_source = <%= scope.lookupvar('snmpd::params::general_base_source') %>
 
+Variables used by firewall class:
+$firewall_source_real = <%= scope.lookupvar('snmpd::params::firewall_source_real') %>
+$firewall_destination_real = <%= scope.lookupvar('snmpd::params::firewall_destination_real') %>

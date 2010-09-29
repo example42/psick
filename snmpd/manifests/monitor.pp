@@ -30,13 +30,13 @@ class snmpd::monitor {
     include snmpd::params
 
     # Port monitoring
-    monitor::port { "snmpd_udp_161": 
-        proto    => "udp",
-        port     => "161",
+    monitor::port { "snmpd_${snmpd::params::protocol}_${snmpd::params::port}": 
+        protocol => "${snmpd::params::protocol}",
+        port     => "${snmpd::params::port}",
         target   => "${snmpd::params::monitor_target_real}",
         enable   => "${snmpd::params::monitor_port_enable}",
     }
-    
+
     # URL monitoring 
     monitor::url { "snmpd_url":
         url      => "${snmpd::params::monitor_baseurl_real}",
