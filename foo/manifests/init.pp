@@ -61,6 +61,10 @@ class foo {
         case $my_project_onmodule {
             yes,true: { include "${my_project}::foo" }
             default: { include "foo::${my_project}" }
+        }
     }
+
+    # Include debug class is debugging is enabled ($debug=yes)
+    if ( $debug == "yes" ) or ( $debug == true ) { include foo::debug }
 
 }
