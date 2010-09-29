@@ -1,0 +1,37 @@
+# File Managed By Puppet
+
+These are the variables used by the module foo
+
+User variables:
+
+General internal variables:
+$packagename = <%= scope.lookupvar('foo::params::packagename') %>
+$servicename = <%= scope.lookupvar('foo::params::servicename') %>
+$processname = <%= scope.lookupvar('foo::params::servicename') %>
+$hasstatus = <%= scope.lookupvar('foo::params::hasstatus') %>
+$configfile = <%= scope.lookupvar('foo::params::configfile') %>
+$configfile_mode = <%= scope.lookupvar('foo::params::configfile_mode') %>
+$configfile_owner = <%= scope.lookupvar('foo::params::configfile_owner') %>
+$configfile_group = <%= scope.lookupvar('foo::params::configfile_group') %>
+$configdir = <%= scope.lookupvar('foo::params::configdir') %>
+$initconfigfile = <%= scope.lookupvar('foo::params::initconfigfile') %>
+$pidfile = <%= scope.lookupvar('foo::params::pidfile') %>
+$datadir = <%= scope.lookupvar('foo::params::datadir') %>
+$logdir = <%= scope.lookupvar('foo::params::logdir') %>
+
+Variables used by monitor class:
+$monitor_target_real = <%= scope.lookupvar('foo::params::monitor_target_real') %>
+$monitor_baseurl_real = <%= scope.lookupvar('foo::params::monitor_baseurl_real') %>
+$monitor_url_pattern = <%= scope.lookupvar('foo::params::monitor_url_pattern') %>
+$monitor_port_enable = <%= scope.lookupvar('foo::params::monitor_port_enable') %>
+$monitor_url_enable = <%= scope.lookupvar('foo::params::monitor_url_enable') %>
+$monitor_process_enable = <%= scope.lookupvar('foo::params::monitor_process_enable') %>
+$monitor_plugin_enable = <%= scope.lookupvar('foo::params::monitor_plugin_enable') %>
+
+Variables used by backup class:
+$backup_target_real = <%= scope.lookupvar('foo::params::backup_target_real') %>
+$backup_frequency = <%= scope.lookupvar('foo::params::backup_frequency') %>
+$backup_data_enable = <%= scope.lookupvar('foo::params::backup_data_enable') %>
+$backup_log_enable = <%= scope.lookupvar('foo::params::backup_log_enable') %>
+$general_base_source = <%= scope.lookupvar('foo::params::general_base_source') %>
+
