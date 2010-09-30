@@ -1,126 +1,70 @@
+#
+# Class: squid
+#
+# Manages squid.
+# Include it to install and run squid
+# It defines package, service, main configuration file.
+#
+# Usage:
+# include squid
+#
 class squid {
 
-    package { squid:
-        name => $operatingsystem ? {
-            default    => "squid",
-            },
+    # Load the variables used in this module. Check the params.pp file 
+    require squid::params
+
+    # Re-sets variables needed in templates (to get default values)
+    $squid_server = $squid::params::server
+
+    # Basic Package - Service - Configuration file management
+    package { "squid":
+        name   => "${squid::params::packagename}",
         ensure => present,
     }
 
-    service { squid:
-        name => $operatingsystem ? {
-            default => "squid",
-            },
-        ensure => running,
-        enable => true,
+    service { "squid":
+        name       => "${squid::params::servicename}",
+        ensure     => running,
+        enable     => true,
         hasrestart => true,
-        hasstatus => true,
-        require => File["squid.conf"],
-        subscribe => File["squid.conf"],
+        hasstatus  => "${squid::params::hasstatus}",
+        pattern    => "${squid::params::processname}",
+        require    => Package["squid"],
+        subscribe  => File["squid.conf"],
     }
 
-    file {    
-             "squid.conf":
-            mode => 640, owner => root, group => root,
-            require => Package["squid"],
-            ensure => present,
-            path => $operatingsystem ?{
-                default => "/etc/squid/squid.conf",
-            },
-            content => template("squid/squid.conf"),
-    }
-}
-
-class squid::transparent inherits squid {
-    File["squid.conf"] { 
-            content => template("squid/squid.conf-transparent"),
-    }
-}
-
-class squid::havp inherits squid {
-
-    package { havp:
-        name => $operatingsystem ? {
-            default    => "havp",
-            },
-        ensure => present,
+    file { "squid.conf":
+        path    => "${squid::params::configfile}",
+        mode    => "${squid::params::configfile_mode}",
+        owner   => "${squid::params::configfile_owner}",
+        group   => "${squid::params::configfile_group}",
+        ensure  => present,
+        require => Package["squid"],
+        notify  => Service["squid"],
+        # content => template("squid/squid.conf.erb"),
     }
 
-    service { havp:
-        name => $operatingsystem ? {
-            default => "havp",
-            },
-        ensure => running,
-        enable => true,
-        hasrestart => true,
-        require => File["havp.config"],
-        subscribe => File["havp.config"],
+    # Include OS specific subclasses, if necessary
+    case $operatingsystem {
+        default: { }
     }
 
-    file {    
-             "/var/log/havp":
-            mode => 755, owner => clamav, group => clamav,
-            require => Package["havp"],
-            ensure => directory,
+    # Include extended classes, if 
+    if $backup == "yes" { include squid::backup }
+    if $monitor == "yes" { include squid::monitor }
+    if $firewall == "yes" { include squid::firewall }
+
+    # Include project specific class if $my_project is set
+    # The extra project class is by default looked in squid module 
+    # If $my_project_onmodule == yes it's looked in your project module
+    if $my_project { 
+        case $my_project_onmodule {
+            yes,true: { include "${my_project}::squid" }
+            default: { include "squid::${my_project}" }
+        }
     }
 
-    file {    
-             "/var/run/havp":
-            mode => 755, owner => clamav, group => clamav,
-            require => Package["havp"],
-            ensure => directory,
-    }
-    
-    file {    
-             "/var/tmp/havp":
-            mode => 755, owner => clamav, group => clamav,
-            require => Package["havp"],
-            ensure => directory,
-    }
+    # Include debug class is debugging is enabled ($debug=yes)
+    if ( $debug == "yes" ) or ( $debug == true ) { include squid::debug }
 
-    mount {
-        "/var/tmp/havp":
-            ensure  => "mounted",
-            fstype  => "ramfs",
-            device  => "/dev/ram0",
-            atboot  => "true",
-            require => [ Package["havp" ] ],
-            dump    => "0",
-            pass    => "0",
-            options => "mand,noatime,async,uid=clamav,gid=clamav"
-    }
-
-    file {    
-             "/usr/local/sbin/havp":
-            mode => 750, owner => clamav, group => root,
-            require => Package["havp"],
-            ensure => "/usr/sbin/havp",
-    }
-
-    file {    
-             "havp.config":
-            mode => 640, owner => root, group => root,
-            require => Package["havp"],
-            path => $operatingsystem ?{
-                default => "/etc/havp/havp.config",
-            },
-            source => "puppet://$servername/squid/havp.config",
-    }
-
-    File["squid.conf"] { 
-            content => template("squid/squid.conf-havp"),
-    }
-}
-
-
-class squid::auth inherits squid {
-    File["squid.conf"] { 
-            content => template("squid/squid.conf-auth"),
-    }
-}
-
-class squid::havp::auth inherits squid::havp {
-    File["squid.conf"] { 
-            content => template("squid/squid.conf-havp-auth"),
-    }
 }

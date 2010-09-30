@@ -3,8 +3,9 @@
 # - Renames manifests and directories
 # - Changes contents
 
-echo "This script changes all the references of "example42" to the string you define (your project)
+echo "This script changes all the references of example42 to the string you define (your project)"
 echo "Run it from the directory of the module you want to change"
+
 
 echo "Enter the name of the original project (example42)"
 read OLDPROJECT
