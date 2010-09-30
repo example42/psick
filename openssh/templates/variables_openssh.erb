@@ -1,0 +1,42 @@
+# File Managed By Puppet
+
+These are the variables used by the module openssh
+
+User variables:
+
+General internal variables:
+$packagename = <%= scope.lookupvar('openssh::params::packagename') %>
+$servicename = <%= scope.lookupvar('openssh::params::servicename') %>
+$processname = <%= scope.lookupvar('openssh::params::servicename') %>
+$hasstatus = <%= scope.lookupvar('openssh::params::hasstatus') %>
+$configfile = <%= scope.lookupvar('openssh::params::configfile') %>
+$configfile_mode = <%= scope.lookupvar('openssh::params::configfile_mode') %>
+$configfile_owner = <%= scope.lookupvar('openssh::params::configfile_owner') %>
+$configfile_group = <%= scope.lookupvar('openssh::params::configfile_group') %>
+$configdir = <%= scope.lookupvar('openssh::params::configdir') %>
+$initconfigfile = <%= scope.lookupvar('openssh::params::initconfigfile') %>
+$pidfile = <%= scope.lookupvar('openssh::params::pidfile') %>
+$datadir = <%= scope.lookupvar('openssh::params::datadir') %>
+$logdir = <%= scope.lookupvar('openssh::params::logdir') %>
+$protocol = <%= scope.lookupvar('openssh::params::protocol') %>
+$port = <%= scope.lookupvar('openssh::params::port') %>
+
+Variables used by monitor class:
+$monitor_target_real = <%= scope.lookupvar('openssh::params::monitor_target_real') %>
+$monitor_baseurl_real = <%= scope.lookupvar('openssh::params::monitor_baseurl_real') %>
+$monitor_url_pattern = <%= scope.lookupvar('openssh::params::monitor_url_pattern') %>
+$monitor_port_enable = <%= scope.lookupvar('openssh::params::monitor_port_enable') %>
+$monitor_url_enable = <%= scope.lookupvar('openssh::params::monitor_url_enable') %>
+$monitor_process_enable = <%= scope.lookupvar('openssh::params::monitor_process_enable') %>
+$monitor_plugin_enable = <%= scope.lookupvar('openssh::params::monitor_plugin_enable') %>
+
+Variables used by backup class:
+$backup_target_real = <%= scope.lookupvar('openssh::params::backup_target_real') %>
+$backup_frequency = <%= scope.lookupvar('openssh::params::backup_frequency') %>
+$backup_data_enable = <%= scope.lookupvar('openssh::params::backup_data_enable') %>
+$backup_log_enable = <%= scope.lookupvar('openssh::params::backup_log_enable') %>
+$general_base_source = <%= scope.lookupvar('openssh::params::general_base_source') %>
+
+Variables used by firewall class:
+$firewall_source_real = <%= scope.lookupvar('openssh::params::firewall_source_real') %>
+$firewall_destination_real = <%= scope.lookupvar('openssh::params::firewall_destination_real') %>
