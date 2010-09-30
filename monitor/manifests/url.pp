@@ -1,11 +1,12 @@
 define monitor::url (
     $url='',
+    $pattern='',
     $username='',
     $password='',
     $enable=''
     ) {
 
-if $enable != "false" {
+if ($enable != "false") and ($enable != "no") and ($enable != false) {
 
     if $monitor_munin == "yes" {
     }

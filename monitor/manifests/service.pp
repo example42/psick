@@ -5,7 +5,7 @@ define monitor::service (
     $enable=''
     ) {
 
-if $enable != "false" {
+if ($enable != "false") and ($enable != "no") and ($enable != false) {
 
     if $monitor_munin == "yes" {
     }

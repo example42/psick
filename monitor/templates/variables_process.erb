@@ -1,0 +1,9 @@
+# File Managed By Puppet
+
+These are the variables passed to the define monitor::process
+
+$name    = <%= scope.lookupvar('name') %>
+$process = <%= scope.lookupvar('process') %>
+$service = <%= scope.lookupvar('service') %>
+$pidfile = <%= scope.lookupvar('pidfile') %>
+$enable  = <%= scope.lookupvar('enable') %>

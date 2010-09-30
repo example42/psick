@@ -1,13 +1,13 @@
 define monitor::port::nagios (
-    $address='',
+    $target='',
     $port='',
-    $proto=''
+    $protocol=''
     ) {
 
     # Use for Immerda and DavidS nagios module
     nagios::service { "$name":
         ensure      => present,
-        check_command => $proto ? {
+        check_command => $protocol ? {
             tcp => "check_tcp!${port}",
             udp => "chekc_ucp!${port}",
             }
@@ -16,7 +16,7 @@ define monitor::port::nagios (
     # Use for Camptocamp (You can choose alternatives for distributed environent)
     # nagios::service::distributed { "$name":
     #    ensure      => present,
-    #    check_command => $proto ? {
+    #    check_command => $protocol ? {
     #        tcp => "check_tcp!${port}",
     #        udp => "chekc_ucp!${port}",
     #        }

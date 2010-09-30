@@ -1,5 +1,4 @@
 define monitor::process::nagios (
-    $address='',
     $processname=''
     ) {
 

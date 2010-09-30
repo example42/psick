@@ -1,11 +1,11 @@
 define monitor::port (
-    $proto='',
-    $address='',
+    $protocol='',
+    $target='',
     $port='',
     $enable=''
     ) {
 
-if $enable != "false" {
+if ($enable != "false") and ($enable != "no") and ($enable != false) {
 
     if $monitor_munin == "yes" {
     }
@@ -15,9 +15,9 @@ if $enable != "false" {
 
     if $monitor_nagios == "yes" {
         monitor::port::nagios { "$name":
-            address => $address,
-            proto   => $proto,
-            port    => $port,
+            target  => $target,
+            protocol => $protocol,
+            port     => $port,
         }
     }
 

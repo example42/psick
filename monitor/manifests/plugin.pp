@@ -1,4 +1,5 @@
 define monitor::plugin (
+    $plugin='',
     $enable=''
     ) {
 
