@@ -33,6 +33,8 @@ class foo::params  {
     }
 
     $hasstatus = $operatingsystem ? {
+        debian  => false,
+        ubuntu  => false,
         default => true,
     }
 
@@ -226,7 +228,7 @@ class foo::params  {
         '': {
             $general_base_source = $puppetversion ? {
                 /(^0.25)/ => "puppet:///modules",
-                /(^0.)/   => "puppet:///",
+                /(^0.)/   => "puppet://$servername",
                 default   => "puppet:///modules",
             }
         }
