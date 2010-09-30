@@ -1,0 +1,42 @@
+# File Managed By Puppet
+
+These are the variables used by the module apache
+
+User variables:
+
+General internal variables:
+$packagename = <%= scope.lookupvar('apache::params::packagename') %>
+$servicename = <%= scope.lookupvar('apache::params::servicename') %>
+$processname = <%= scope.lookupvar('apache::params::servicename') %>
+$hasstatus = <%= scope.lookupvar('apache::params::hasstatus') %>
+$configfile = <%= scope.lookupvar('apache::params::configfile') %>
+$configfile_mode = <%= scope.lookupvar('apache::params::configfile_mode') %>
+$configfile_owner = <%= scope.lookupvar('apache::params::configfile_owner') %>
+$configfile_group = <%= scope.lookupvar('apache::params::configfile_group') %>
+$configdir = <%= scope.lookupvar('apache::params::configdir') %>
+$initconfigfile = <%= scope.lookupvar('apache::params::initconfigfile') %>
+$pidfile = <%= scope.lookupvar('apache::params::pidfile') %>
+$datadir = <%= scope.lookupvar('apache::params::datadir') %>
+$logdir = <%= scope.lookupvar('apache::params::logdir') %>
+$protocol = <%= scope.lookupvar('apache::params::protocol') %>
+$port = <%= scope.lookupvar('apache::params::port') %>
+
+Variables used by monitor class:
+$monitor_target_real = <%= scope.lookupvar('apache::params::monitor_target_real') %>
+$monitor_baseurl_real = <%= scope.lookupvar('apache::params::monitor_baseurl_real') %>
+$monitor_url_pattern = <%= scope.lookupvar('apache::params::monitor_url_pattern') %>
+$monitor_port_enable = <%= scope.lookupvar('apache::params::monitor_port_enable') %>
+$monitor_url_enable = <%= scope.lookupvar('apache::params::monitor_url_enable') %>
+$monitor_process_enable = <%= scope.lookupvar('apache::params::monitor_process_enable') %>
+$monitor_plugin_enable = <%= scope.lookupvar('apache::params::monitor_plugin_enable') %>
+
+Variables used by backup class:
+$backup_target_real = <%= scope.lookupvar('apache::params::backup_target_real') %>
+$backup_frequency = <%= scope.lookupvar('apache::params::backup_frequency') %>
+$backup_data_enable = <%= scope.lookupvar('apache::params::backup_data_enable') %>
+$backup_log_enable = <%= scope.lookupvar('apache::params::backup_log_enable') %>
+$general_base_source = <%= scope.lookupvar('apache::params::general_base_source') %>
+
+Variables used by firewall class:
+$firewall_source_real = <%= scope.lookupvar('apache::params::firewall_source_real') %>
+$firewall_destination_real = <%= scope.lookupvar('apache::params::firewall_destination_real') %>

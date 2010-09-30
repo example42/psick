@@ -12,25 +12,33 @@
 # With custom template (create it in MODULEPATH/apache/templates/virtualhost/)
 # apache::virtualhost    { "webmail.example42.com": templatefile => "webmail.conf.erb" }
 #
-define apache::virtualhost ( $templatefile='virtualhost.conf.erb' , $documentroot='' , $enable=true ) {
+define apache::virtualhost ( $templatefile='virtualhost.conf.erb' , $documentroot='' , $enable=true , $filename='', $aliases='') {
 
     require apache::params
 
     # Defines the documentroot in case is not provided
-    if $documentroot { 
-        $documentroot_real = $documentroot
+    if $filename { 
+        $filename_real = $filename
     }
     else {      
-        $documentroot_real = "${apache::params::documentroot}/${name}"
+        $filename_real = "${name}"
+    }
+
+    # Defines the documentroot in case is not provided
+    if $documentroot {
+        $documentroot_real = $documentroot
+    }
+    else {
+        $documentroot_real = "${name}"
     }
 
     file { "ApacheVirtualHost_$name":
         path    => $operatingsystem ? {
-            freebsd => "/usr/local/etc/apache20/conf.d/$name.conf",
-            ubuntu  => "/etc/apache2/sites-available/$name.conf",
-            debian  => "/etc/apache2/sites-available/$name.conf",
-            centos  => "/etc/httpd/conf.d/$name.conf",
-            redhat  => "/etc/httpd/conf.d/$name.conf",
+            freebsd => "/usr/local/etc/apache20/conf.d/$filename_real.conf",
+            ubuntu  => "/etc/apache2/sites-available/$filename_real",
+            debian  => "/etc/apache2/sites-available/$filename_real",
+            centos  => "/etc/httpd/conf.d/$filename_real.conf",
+            redhat  => "/etc/httpd/conf.d/$filename_real.conf",
         },
         require => Package["apache"],
         ensure  => $operatingsystem ? {
@@ -56,9 +64,9 @@ define apache::virtualhost ( $templatefile='virtualhost.conf.erb' , $documentroo
     case $operatingsystem {
         ubuntu,debian: { 
             file { "ApacheVirtualHostEnabled_$name":
-                path   => "/etc/apache2/sites-enabled/$name.conf",
+                path   => "/etc/apache2/sites-enabled/$filename_real",
                 ensure => $enable ? { 
-                    true  => "/etc/apache2/sites-available/$name.conf",
+                    true  => "/etc/apache2/sites-available/$filename_real",
                     false => absent,
                 },
                 require => Package["apache"],
@@ -68,6 +76,15 @@ define apache::virtualhost ( $templatefile='virtualhost.conf.erb' , $documentroo
             apache::dotconf { "00-NameVirtualHost": content => template("apache/00-NameVirtualHost.conf.erb") } 
         }
         default: { }
+    }
+
+    # This define manage different roles and projects
+    apache::virtualhost::custom { "$name":
+        templatefile => $templatefile,
+        documentroot => $documentroot,
+        enable => $enable,
+        filename => $filename,
+	aliases => $aliases,
     }
 
 }
