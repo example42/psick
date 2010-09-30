@@ -14,6 +14,7 @@ Decide and customize how you want to define configuration files: static files, t
 USER VARIABLES:
 In order to customize the behaviour of the module you can set the following variables:
 $foo_server (default: "foo.example42.com") - Defines the hostname of the foo server
+$foo_server_local (default: "no") - Defines if the local node is a foo server
 
 
 USAGE:

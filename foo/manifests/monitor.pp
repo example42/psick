@@ -46,9 +46,8 @@ class foo::monitor {
 
     # Process monitoring 
     monitor::process { "foo_process":
-        process  => "${foo::params::processname}",
-        service  => "${foo::params::servicename}",
-        pidfile  => "${foo::params::pidfile}",
+        process  => "${foo::params::monitor_processname}",
+        pidfile  => "${foo::params::monitor_pidfile}",
         enable   => "${foo::params::monitor_process_enable}",
     }
 
