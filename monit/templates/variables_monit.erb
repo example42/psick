@@ -1,0 +1,42 @@
+# File Managed By Puppet
+
+These are the variables used by the module monit
+
+User variables:
+
+General internal variables:
+$packagename = <%= scope.lookupvar('monit::params::packagename') %>
+$servicename = <%= scope.lookupvar('monit::params::servicename') %>
+$processname = <%= scope.lookupvar('monit::params::servicename') %>
+$hasstatus = <%= scope.lookupvar('monit::params::hasstatus') %>
+$configfile = <%= scope.lookupvar('monit::params::configfile') %>
+$configfile_mode = <%= scope.lookupvar('monit::params::configfile_mode') %>
+$configfile_owner = <%= scope.lookupvar('monit::params::configfile_owner') %>
+$configfile_group = <%= scope.lookupvar('monit::params::configfile_group') %>
+$configdir = <%= scope.lookupvar('monit::params::configdir') %>
+$initconfigfile = <%= scope.lookupvar('monit::params::initconfigfile') %>
+$pidfile = <%= scope.lookupvar('monit::params::pidfile') %>
+$datadir = <%= scope.lookupvar('monit::params::datadir') %>
+$logdir = <%= scope.lookupvar('monit::params::logdir') %>
+$protocol = <%= scope.lookupvar('monit::params::protocol') %>
+$port = <%= scope.lookupvar('monit::params::port') %>
+
+Variables used by monitor class:
+$monitor_target_real = <%= scope.lookupvar('monit::params::monitor_target_real') %>
+$monitor_baseurl_real = <%= scope.lookupvar('monit::params::monitor_baseurl_real') %>
+$monitor_url_pattern = <%= scope.lookupvar('monit::params::monitor_url_pattern') %>
+$monitor_port_enable = <%= scope.lookupvar('monit::params::monitor_port_enable') %>
+$monitor_url_enable = <%= scope.lookupvar('monit::params::monitor_url_enable') %>
+$monitor_process_enable = <%= scope.lookupvar('monit::params::monitor_process_enable') %>
+$monitor_plugin_enable = <%= scope.lookupvar('monit::params::monitor_plugin_enable') %>
+
+Variables used by backup class:
+$backup_target_real = <%= scope.lookupvar('monit::params::backup_target_real') %>
+$backup_frequency = <%= scope.lookupvar('monit::params::backup_frequency') %>
+$backup_data_enable = <%= scope.lookupvar('monit::params::backup_data_enable') %>
+$backup_log_enable = <%= scope.lookupvar('monit::params::backup_log_enable') %>
+$general_base_source = <%= scope.lookupvar('monit::params::general_base_source') %>
+
+Variables used by firewall class:
+$firewall_source_real = <%= scope.lookupvar('monit::params::firewall_source_real') %>
+$firewall_destination_real = <%= scope.lookupvar('monit::params::firewall_destination_real') %>

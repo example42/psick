@@ -1,0 +1,5 @@
+## This file is managed by puppet, do not modify!
+
+check host <%= name_checkurl %> with address <%= fqdn_checkurl %>
+    if failed url <%= url_checkurl %> <% if (content_checkurl != '') %> and content == '<%= content_checkurl %>' <% end %>
+    then <%= failaction_checkurl %>

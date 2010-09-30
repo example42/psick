@@ -1,0 +1,6 @@
+## This file is managed by puppet, do not modify!
+
+check process <%= name_checkpid %> with pidfile <%= pidfile_checkpid %>
+    start program  "<%= startprogram_checkpid %>"
+    stop program  "<%= stopprogram_checkpid %>"
+    if <%= restarts_checkpid %> restarts within <%= cycles_checkpid %> cycles then <%= failaction_checkpid %>
