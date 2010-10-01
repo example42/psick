@@ -35,6 +35,7 @@ class squid::monitor {
         port     => "${squid::params::port}",
         target   => "${squid::params::monitor_target_real}",
         enable   => "${squid::params::monitor_port_enable}",
+        tool     => "${monitor_tool}",
     }
     
     # URL monitoring 
@@ -42,6 +43,7 @@ class squid::monitor {
         url      => "${squid::params::monitor_baseurl_real}/index.php",
         pattern  => "${squid::params::monitor_url_pattern}",
         enable   => "${squid::params::monitor_url_enable}",
+        tool     => "${monitor_tool}",
     }
 
     # Process monitoring 
@@ -50,12 +52,14 @@ class squid::monitor {
         service  => "${squid::params::servicename}",
         pidfile  => "${squid::params::pidfile}",
         enable   => "${squid::params::monitor_process_enable}",
+        tool     => "${monitor_tool}",
     }
 
     # Use a specific plugin (according to the monitor tool used)
     monitor::plugin { "squid_plugin":
         plugin   => "squid",
         enable   => "${squid::params::monitor_plugin_enable}",
+        tool     => "${monitor_tool}",
     }
 
     # Include project specific monitor class if $my_project is set

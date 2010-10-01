@@ -24,6 +24,8 @@
 #
 # Usage:
 # Automatically included if $monitor=yes
+# Use the variable $monitor_tool (can be an array) to define the monitoring software you want to use.
+# To customize specific and more granular behaviours use the above variables and eventually your custom modulename::monitor::$my_project class
 #
 class apache::monitor {
 
@@ -35,6 +37,7 @@ class apache::monitor {
         port     => "${apache::params::port}",
         target   => "${apache::params::monitor_target_real}",
         enable   => "${apache::params::monitor_port_enable}",
+        tool     => "${monitor_tool}",
     }
 
     # URL monitoring 
@@ -42,6 +45,7 @@ class apache::monitor {
         url      => "${apache::params::monitor_baseurl_real}",
         pattern  => "${apache::params::monitor_url_pattern}",
         enable   => "${apache::params::monitor_url_enable}",
+        tool     => "${monitor_tool}",
     }
 
     # Process monitoring 
@@ -50,12 +54,14 @@ class apache::monitor {
         service  => "${apache::params::servicename}",
         pidfile  => "${apache::params::pidfile}",
         enable   => "${apache::params::monitor_process_enable}",
+        tool     => "${monitor_tool}",
     }
 
     # Use a specific plugin (according to the monitor tool used)
     monitor::plugin { "apache_plugin":
         plugin   => "apache",
         enable   => "${apache::params::monitor_plugin_enable}",
+        tool     => "${monitor_tool}",
     }
 
     # Include project specific monitor class if $my_project is set

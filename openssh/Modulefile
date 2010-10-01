@@ -1,5 +1,5 @@
 name    'lab42-openssh'
-version '0.1.0'
+version '0.1.1'
 
 ## Add dependencies, if any:
 # dependency 'lab42/common', '>= 0.0.1'

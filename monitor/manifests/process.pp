@@ -2,15 +2,26 @@ define monitor::process (
     $process,
     $service,
     $pidfile,
+    $tool,
     $enable
     ) {
 
 if ($enable != "false") and ($enable != "no") and ($enable != false) {
 
-    if $monitor_munin == "yes" {
+    if ( $debug == "yes" ) or ( $debug == true ) {
+        require puppet::params
+        require puppet::debug 
     }
 
-    if $monitor_monit == "yes" {
+    if ($tool =~ /munin/) {
+        if ( $debug == "yes" ) or ( $debug == true ) { file { "${puppet::params::debugdir}/todo/monitor-process-munin-$process": ensure => present } }
+    }
+
+    if ($tool =~ /collectd/) {
+        if ( $debug == "yes" ) or ( $debug == true ) { file { "${puppet::params::debugdir}/todo/monitor-process-collectd-$process": ensure => present } }
+    }
+
+    if ($tool =~ /monit/) {
         monitor::process::monit { "$name":
             pidfile => "$pidfile",
             process => "$process",
@@ -18,10 +29,7 @@ if ($enable != "false") and ($enable != "no") and ($enable != false) {
         }
     }
 
-    if $monitor_collectd == "yes" {
-    }
-
-    if $monitor_nagios == "yes" {
+    if ($tool =~ /nagios/) {
         monitor::process::nagios { "$name":
             process => $process,
         }

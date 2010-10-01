@@ -24,6 +24,8 @@
 #
 # Usage:
 # Automatically included if $monitor=yes
+# Use the variable $monitor_tool (can be an array) to define the monitoring software you want to use.
+# To customize specific and more granular behaviours use the above variables and eventually your custom modulename::monitor::$my_project class
 #
 class snmpd::monitor {
 
@@ -35,6 +37,7 @@ class snmpd::monitor {
         port     => "${snmpd::params::port}",
         target   => "${snmpd::params::monitor_target_real}",
         enable   => "${snmpd::params::monitor_port_enable}",
+        tool     => "${monitor_tool}",
     }
 
     # URL monitoring 
@@ -42,19 +45,23 @@ class snmpd::monitor {
         url      => "${snmpd::params::monitor_baseurl_real}",
         pattern  => "${snmpd::params::monitor_url_pattern}",
         enable   => "${snmpd::params::monitor_url_enable}",
+        tool     => "${monitor_tool}",
     }
 
     # Process monitoring 
     monitor::process { "snmpd_process":
-        process  => "${snmpd::params::monitor_processname}",
-        pidfile  => "${snmpd::params::monitor_pidfile}",
+        process  => "${snmpd::params::processname}",
+        service  => "${snmpd::params::servicename}",
+        pidfile  => "${snmpd::params::pidfile}",
         enable   => "${snmpd::params::monitor_process_enable}",
+        tool     => "${monitor_tool}",
     }
 
     # Use a specific plugin (according to the monitor tool used)
     monitor::plugin { "snmpd_plugin":
         plugin   => "snmpd",
         enable   => "${snmpd::params::monitor_plugin_enable}",
+        tool     => "${monitor_tool}",
     }
 
     # Include project specific monitor class if $my_project is set
