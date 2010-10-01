@@ -10,6 +10,12 @@ class psad::base {
 
     package { mailx:
         ensure => present,
+        name => $operatingsystem ? {
+            ubuntu => "mailutils",
+            debian => "mailutils",
+            default => "mailx",
+            },
+
     }
 
     service {

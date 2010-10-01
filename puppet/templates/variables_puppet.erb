@@ -1,0 +1,83 @@
+# File Managed By Puppet
+
+These are the variables used by the module puppet
+
+General Variables (how they are passed by the user - BEFORE defaults enforcing):
+
+# General variables that might be used in Example42 infrastructures
+$my_project = <%= scope.lookupvar('my_project') %>
+$site = <%= scope.lookupvar('site') %>
+$zone = <%= scope.lookupvar('zone') %>
+$type = <%= scope.lookupvar('type') %>
+$role = <%= scope.lookupvar('role') %>
+
+# General variables that might be set to use Example42 extended modules
+$monitor  = <%= scope.lookupvar('monitor') %>
+$monitor_port    = <%= scope.lookupvar('monitor_port') %>
+$monitor_url     = <%= scope.lookupvar('monitor_url') %>
+$monitor_process = <%= scope.lookupvar('monitor_process') %>
+$monitor_plugin  = <%= scope.lookupvar('monitor_plugin') %>
+$backup   = <%= scope.lookupvar('backup') %>
+$backup_data = <%= scope.lookupvar('backup_data') %>
+$backup_log  = <%= scope.lookupvar('backup_log') %>
+$firewall = <%= scope.lookupvar('firewall') %>
+$firewall_source = <%= scope.lookupvar('firewall_source') %>
+$firewall_destination = <%= scope.lookupvar('firewall_destination') %>
+
+User variables (AFTER defaults enforcing):
+$server = <%= scope.lookupvar('puppet::params::server') %>
+$puppet_master_local = <%= scope.lookupvar('puppet_master_local') %>
+$allow = <%= scope.lookupvar('puppet::params::allow') %>
+$nodetool = <%= scope.lookupvar('puppet::params::nodetool') %>
+$externalnodes = <%= scope.lookupvar('puppet::params::externalnodes') %>
+$passenger = <%= scope.lookupvar('puppet::params::passenger') %>
+$storeconfigs = <%= scope.lookupvar('puppet::params::storeconfigs') %>
+$db = <%= scope.lookupvar('puppet::params::db') %>
+$db_server = <%= scope.lookupvar('puppet::params::db_server') %>
+$db_user = <%= scope.lookupvar('puppet::params::db_user') %>
+#NOTSHOWN# $db_password = <%= scope.lookupvar('puppet::params::db_password-NO') %>
+
+$version = <%= scope.lookupvar('puppet::params::version') %>
+
+General internal variables:
+$packagename = <%= scope.lookupvar('puppet::params::packagename') %>
+$packagename_server = <%= scope.lookupvar('puppet::params::packagename_server') %>
+$servicename = <%= scope.lookupvar('puppet::params::servicename') %>
+$servicename_server = <%= scope.lookupvar('puppet::params::servicename_server') %>
+$processname = <%= scope.lookupvar('puppet::params::processname') %>
+$processname_server = <%= scope.lookupvar('puppet::params::processname_server') %>
+$hasstatus = <%= scope.lookupvar('puppet::params::hasstatus') %>
+$hasstatus_server = <%= scope.lookupvar('puppet::params::hasstatus_server') %>
+$configfile = <%= scope.lookupvar('puppet::params::configfile') %>
+$configfile_mode = <%= scope.lookupvar('puppet::params::configfile_mode') %>
+$configfile_owner = <%= scope.lookupvar('puppet::params::configfile_owner') %>
+$configfile_group = <%= scope.lookupvar('puppet::params::configfile_group') %>
+$configdir = <%= scope.lookupvar('puppet::params::configdir') %>
+$initconfigfile = <%= scope.lookupvar('puppet::params::initconfigfile') %>
+$pidfile = <%= scope.lookupvar('puppet::params::pidfile') %>
+$pidfile_server = <%= scope.lookupvar('puppet::params::pidfile_server') %>
+$datadir = <%= scope.lookupvar('puppet::params::datadir') %>
+$logdir = <%= scope.lookupvar('puppet::params::logdir') %>
+$protocol = <%= scope.lookupvar('puppet::params::protocol') %>
+$port = <%= scope.lookupvar('puppet::params::port') %>
+
+Variables used by monitor class:
+$monitor_target_real = <%= scope.lookupvar('puppet::params::monitor_target_real') %>
+$monitor_baseurl_real = <%= scope.lookupvar('puppet::params::monitor_baseurl_real') %>
+$monitor_url_pattern = <%= scope.lookupvar('puppet::params::monitor_url_pattern') %>
+$monitor_port_enable = <%= scope.lookupvar('puppet::params::monitor_port_enable') %>
+$monitor_url_enable = <%= scope.lookupvar('puppet::params::monitor_url_enable') %>
+$monitor_process_enable = <%= scope.lookupvar('puppet::params::monitor_process_enable') %>
+$monitor_plugin_enable = <%= scope.lookupvar('puppet::params::monitor_plugin_enable') %>
+
+Variables used by backup class:
+$backup_target_real = <%= scope.lookupvar('puppet::params::backup_target_real') %>
+$backup_frequency = <%= scope.lookupvar('puppet::params::backup_frequency') %>
+$backup_data_enable = <%= scope.lookupvar('puppet::params::backup_data_enable') %>
+$backup_log_enable = <%= scope.lookupvar('puppet::params::backup_log_enable') %>
+$general_base_source = <%= scope.lookupvar('puppet::params::general_base_source') %>
+
+Variables used by firewall class:
+$firewall_source_real = <%= scope.lookupvar('puppet::params::firewall_source_real') %>
+$firewall_destination_real = <%= scope.lookupvar('puppet::params::firewall_destination_real') %>
+

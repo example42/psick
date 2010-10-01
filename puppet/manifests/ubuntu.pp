@@ -5,7 +5,7 @@ class puppet::ubuntu {
         path    => "/etc/default/puppet",
         require => Package[puppet],
         ensure  => present,
-        source  => "${puppet::params::puppet_source}/default-puppet",
+        source  => "${puppet::params::general_base_source}/puppet/default-puppet",
         notify  => Service["puppet"],
     }
 
