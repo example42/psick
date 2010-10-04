@@ -9,8 +9,8 @@
 # Standard template is too vanilla, a better usage:
 # monit::checkurl    {
 #     "hostname":
-#     fqdn       => "hostname.pgol.com",
-#     url        => "http://hostname.pgol.com/check/something.php",
+#     fqdn       => "hostname.example42.com",
+#     url        => "http://hostname.example42.com/check/something.php",
 #     content    => "OKK",
 #     failaction => "exec /etc/restart.d/script.sh",
 # }
@@ -30,7 +30,7 @@ define monit::checkurl ( $templatefile="", $fqdn="", $url="", $content="", $fail
 
     # FQDN
     $fqdn_checkurl = $fqdn ? {
-        ''      => "$name.pgol.com",
+        ''      => "$name.example42.com",
         default => $fqdn,
     }
 

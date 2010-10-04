@@ -1,65 +1,67 @@
+#
 # Class: mysql
 #
 # Manages mysql.
-# Include it to install and run mysql with default settings
+# Include it to install and run mysql
+# It defines package, service, main configuration file.
 #
 # Usage:
 # include mysql
-
-
-import "defines/*.pp"
-import "classes/*.pp"
-
+#
 class mysql {
 
-    package { "mysql":
-        name   => $operatingsystem ? {
-            ubuntu  => "mysql-client",
-            debian  => "mysql-client",
-            default => "mysql",
-            },
-        ensure => present,
-    }
+    # Load the variables used in this module. Check the params.pp file 
+    require mysql::params
 
-    package { "mysql-server":
-        name   => $operatingsystem ? {
-            default => "mysql-server",
-            },
+    # Basic Package - Service - Configuration file management
+    package { "mysql":
+        name   => "${mysql::params::packagename}",
         ensure => present,
     }
 
     service { "mysql":
-        name => $operatingsystem ? {
-            redhat  => "mysqld",
-            centos  => "mysqld",
-            default => "mysql",
-            },
-        ensure => running,
-        enable => true,
+        name       => "${mysql::params::servicename}",
+        ensure     => running,
+        enable     => true,
         hasrestart => true,
-        hasstatus => true,
-        require => Package["mysql-server"],
-        subscribe => File["my.cnf"],
+        hasstatus  => "${mysql::params::hasstatus}",
+        pattern    => "${mysql::params::processname}",
+        require    => Package["mysql"],
+        subscribe  => File["mysql.conf"],
     }
 
-    file { "my.cnf":
-#           mode => 644, owner => root, group => root,
-        require => Package["mysql-server"],
-        ensure => present,
-        path => $operatingsystem ?{
-            default => "/etc/my.cnf",
-        },
+    file { "mysql.conf":
+        path    => "${mysql::params::configfile}",
+        mode    => "${mysql::params::configfile_mode}",
+        owner   => "${mysql::params::configfile_owner}",
+        group   => "${mysql::params::configfile_group}",
+        ensure  => present,
+        require => Package["mysql"],
+        notify  => Service["mysql"],
+        # content => template("mysql/mysql.conf.erb"),
     }
 
-
-# Extra settings per Operating system 
+    # Include OS specific subclasses, if necessary
     case $operatingsystem {
         default: { }
     }
 
-# Inclusion of optional extended classes
+    # Include extended classes, if 
     if $backup == "yes" { include mysql::backup }
     if $monitor == "yes" { include mysql::monitor }
     if $firewall == "yes" { include mysql::firewall }
+
+    # Include project specific class if $my_project is set
+    # The extra project class is by default looked in mysql module 
+    # If $my_project_onmodule == yes it's looked in your project module
+    if $my_project { 
+        case $my_project_onmodule {
+            yes,true: { include "${my_project}::mysql" }
+            default: { include "mysql::${my_project}" }
+        }
+    }
+
+    # Include debug class is debugging is enabled ($debug=yes)
+    if ( $debug == "yes" ) or ( $debug == true ) { include mysql::debug }
 
 }

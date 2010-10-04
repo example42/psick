@@ -1,10 +1,9 @@
 Puppet module: mysql
 
 # Written by Lab42 #
-# http://www.example42.com
+# http://www.Example42.com
 
 Licence: GPLv3
-
 
 DESCRIPTION:
 This module installs and manages mysql.
@@ -12,29 +11,46 @@ Standard and extended classes are available.
 Decide and customize how you want to define configuration files: static files, templates, infile modifications...
 
 
+USER VARIABLES:
+
+
 USAGE:
 # Standard Classes 
-include mysql              # Install and run mysql with standard configurations.
+include mysql              # Install and run mysql 
+
 include mysql::disable     # Disable mysql service.
-include mysql::disableboot # Disable mysql service at boot time, but doesn't check if it's running
+include mysql::disableboot # Disable mysql service at boot time, but don't stop if it's running.
 include mysql::absent      # Remove mysql package.
 
-# Extended Classes (require storeconfings)
-include mysql::monitor     # Monitor mysql  Automatically included if $monitor=yes
-include mysql::backup      # Backup mysql data - Automatically included if $backup=yes
-include mysql::firewall    # Manages firewall rule for mysql service - Automatically included if $firewall=yes
+# Extended Classes (generally require storeconfigs)
+include mysql::monitor     # Monitor mysql - Automatically included if $monitor=yes - Requires Example42's monitor module
+include mysql::backup      # Backup mysql data - Automatically included if $backup=yes - Requires Example42's backup module
+include mysql::firewall    # Manages firewall rule for mysql service - Automatically included if $firewall=yes - Requires Example42's firewall module
 
-# Extra Classes
+# Generic define to set parameters in the main configuration file. EXPERIMENTAL.
+mysql::conf { "ParameterName": value="YourValue"} # Generic 
 
-# Generic main configuration infile modification Define
-mysql::conf { "ParameterName": value="YourValue"} 
+# Module specific classes
 
-# Extra Defines
-mysql::query	# Run an arbitrary query
-mysql::grant	# Set grant permissions
+# Module specific defines
+mysql::grant # Grant permissions 
+mysql::query # Runs arbitrary queries
+
+GENERAL VARIABLES:
+Example42 modules collection uses some general variables that can influence the behaviour of this module.
+You can happily live without considering or setting them, but they can be useful to manage different projects maintanining the module's resuability. 
+$my_project - If set, permits you to alter and customize the module behaviour in custom project classes
+$my_project_onmodule - If set to yes your project classes are looked in a dedicated project module:
+  - $my_project_onmodule not set -> Module autoloads mysql::$my_module (MODULEPATH/mysql/manifests/$my_project.pp)
+  - $my_project_onmodule == yes -> Module autoloads $my_module::mysql (MODULEPATH/$my_project/manifests/mysql.pp)
+$base_source - Let you define an alternative source for static files:
+  - $base_source not set -> Files are looked in puppet://$servername/ (the PuppetMaster)
+  - $base_source set -> Files are looked in $base_source ( could be puppet://$servername/$my_module ) 
+  Note that the module automatically manages the different paths for Puppet pre 0.25
+  
 
 DEPENDENCIES:
 Standard classes generally don't need external modules.
 Extended classes need the relevant external modules (import monitor ; import backup ... ) and the "common" module (import common)
 mysql::conf generic infile configuration define needs the "common" module
-Check on individual Extra classes and defines if there are specific requirements (generally only the common module).
+Check on individual module specific classes and defines if there are specific requirements.
