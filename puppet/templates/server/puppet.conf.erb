@@ -19,10 +19,6 @@ usecacheonfailure = true
 <% else -%>
 [user]
 <% end -%>
-vardir = /var/lib/puppet
-logdir = /var/log/puppet
-rundir = /var/run/puppet
-ssldir = $vardir/ssl
 
 <% if puppet_version == "0.2" -%>
 [puppetd]
@@ -30,24 +26,16 @@ ssldir = $vardir/ssl
 [agent]
 <% end -%>
 pluginsync=true
-pluginsource = puppet://$server/plugins
-plugindest = $vardir/lib/plugins
-factpath = $vardir/lib/puppet/facter
-listen=true
+#pluginsource = puppet://$server/plugins
+#plugindest = $vardir/lib/plugins
+#factpath = $vardir/lib/puppet/facter
 report=true
-classfile = $vardir/classes.txt
-localconfig = $vardir/localconfig
+#classfile = $vardir/classes.txt
+#localconfig = $vardir/localconfig
 runinterval = 1800
 # runinterval = 21600 # Run every 6 hours
 
 server=<%= puppet_server %>
-
-<% if puppet_version == "0.2" -%>
-[puppetrun]
-<% else -%>
-[puppetrun]
-<% end -%>
-allow <%= puppet_server %>
 
 <% if puppet_version == "0.2" -%>
 [puppetmasterd]
@@ -80,7 +68,7 @@ reports=rrdgraph,log,foreman
 <% elsif puppet_nodetool == "dashboard" -%>
 reports=rrdgraph,log,puppet_dashboard
 <% else -%>
-reports=rrdgraph,log
+reports=log
 <% end -%>
 graph = true
 reportfrom = <%= root_email %>

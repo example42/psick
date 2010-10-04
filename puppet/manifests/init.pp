@@ -2,10 +2,8 @@
 # Class: puppet
 #
 # Manages puppet.
-# Include it to install and run puppet with default settings
+# Include it to install and run puppet
 # It defines package, service, main configuration file.
-# Note that it doesn't modify, by default, the main configuration file,
-# in order to do it, add a source|content statement for the relevant File type in this class or in a class that inherits it.
 #
 # Usage:
 # include puppet
@@ -27,53 +25,27 @@ class puppet {
     $puppet_db_password = $puppet::params::db_password
     $puppet_version = $puppet::params::version
 
-    # Rubyism for Puppet
-    include puppet::ruby
+    # Autoloads puppet::master if $puppet_server_local is true or $puppet_server is equal to $fqdn
+    if ($puppet_server_local == true) or ($puppet_server == "$fqdn") { include puppet::server }
+    else { include puppet::client }
 
-    # Basic Package - Service - Configuration file management
+
+    # Basic Package - Service - Configuration file management is done on sub classess client and server
     package { puppet:
         name   => "${puppet::params::packagename}",
         ensure => present,
     }
 
     service { puppet:
-        name => "${puppet::params::servicename}",
-        ensure => running,
-        enable => true,
+        name       => "${puppet::params::servicename}",
+        ensure     => running,
+        enable     => true,
         hasrestart => true,
-        hasstatus => true,
-        require => Package["puppet"],
-        subscribe => File["puppet.conf"],
+        pattern    => "${puppet::params::processname}",
+        hasstatus  => "${puppet::params::hasstatus}",
+        require    => Package["puppet"],
+        subscribe  => File["puppet.conf"],
     }
-
-    file { "puppet.conf":
-        path    => "${puppet::params::configfile}",
-        mode    => "${puppet::params::configfile_mode}",
-        owner   => "${puppet::params::configfile_owner}",
-        group   => "${puppet::params::configfile_group}",
-        require => Package[puppet],
-        ensure  => present,
-        content => $puppet_server ?{
-            $fqdn     => template("puppet/master/puppet.conf.erb"),
-            default   => template("puppet/puppet.conf.erb"),
-        },
-    }
-
-    file {
-        "namespaceauth.conf":
-        path    => "${puppet::params::configdir}/namespaceauth.conf",
-        mode    => "${puppet::params::configfile_mode}",
-        owner   => "${puppet::params::configfile_owner}",
-        group   => "${puppet::params::configfile_group}",
-        require => Package[puppet],
-        ensure  => present,
-        content => $puppet_server ?{
-            $fqdn     => template("puppet/master/namespaceauth.conf.erb"),
-            default   => template("puppet/namespaceauth.conf.erb"),
-        },
-#       notify  => Service["puppet"],
-    }
-
 
     # Include OS specific subclasses, if necessary
     case $operatingsystem {
@@ -85,5 +57,18 @@ class puppet {
     if $backup == "yes" { include puppet::backup }
     if $monitor == "yes" { include puppet::monitor }
     if $firewall == "yes" { include puppet::firewall }
+
+    # Include project specific class if $my_project is set
+    # The extra project class is by default looked in puppet module 
+    # If $my_project_onmodule == yes it's looked in your project module
+    if $my_project { 
+        case $my_project_onmodule {
+            yes,true: { include "${my_project}::puppet" }
+            default: { include "puppet::${my_project}" }
+        }
+    }
+
+    # Include debug class is debugging is enabled ($debug=yes)
+    if ( $debug == "yes" ) or ( $debug == true ) { include puppet::debug }
 
 }
