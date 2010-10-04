@@ -1,0 +1,48 @@
+# File Managed By Puppet
+
+These are the variables used by the module dashboard
+
+User variables:
+$install = <%= scope.lookupvar('dashboard::params::install') %>
+$externalnodes = <%= scope.lookupvar('dashboard::params::externalnodes') %>
+$db = <%= scope.lookupvar('dashboard::params::db') %>
+$db_server = <%= scope.lookupvar('dashboard::params::db_server') %>
+$db_user = <%= scope.lookupvar('dashboard::params::db_user') %>
+
+General internal variables:
+$basedir = <%= scope.lookupvar('dashboard::params::basedir') %>
+$packagename = <%= scope.lookupvar('dashboard::params::packagename') %>
+$servicename = <%= scope.lookupvar('dashboard::params::servicename') %>
+$processname = <%= scope.lookupvar('dashboard::params::servicename') %>
+$hasstatus = <%= scope.lookupvar('dashboard::params::hasstatus') %>
+$configfile = <%= scope.lookupvar('dashboard::params::configfile') %>
+$configfile_mode = <%= scope.lookupvar('dashboard::params::configfile_mode') %>
+$configfile_owner = <%= scope.lookupvar('dashboard::params::configfile_owner') %>
+$configfile_group = <%= scope.lookupvar('dashboard::params::configfile_group') %>
+$configdir = <%= scope.lookupvar('dashboard::params::configdir') %>
+$initconfigfile = <%= scope.lookupvar('dashboard::params::initconfigfile') %>
+$pidfile = <%= scope.lookupvar('dashboard::params::pidfile') %>
+$datadir = <%= scope.lookupvar('dashboard::params::datadir') %>
+$logdir = <%= scope.lookupvar('dashboard::params::logdir') %>
+$protocol = <%= scope.lookupvar('dashboard::params::protocol') %>
+$port = <%= scope.lookupvar('dashboard::params::port') %>
+
+Variables used by monitor class:
+$monitor_target_real = <%= scope.lookupvar('dashboard::params::monitor_target_real') %>
+$monitor_baseurl_real = <%= scope.lookupvar('dashboard::params::monitor_baseurl_real') %>
+$monitor_url_pattern = <%= scope.lookupvar('dashboard::params::monitor_url_pattern') %>
+$monitor_port_enable = <%= scope.lookupvar('dashboard::params::monitor_port_enable') %>
+$monitor_url_enable = <%= scope.lookupvar('dashboard::params::monitor_url_enable') %>
+$monitor_process_enable = <%= scope.lookupvar('dashboard::params::monitor_process_enable') %>
+$monitor_plugin_enable = <%= scope.lookupvar('dashboard::params::monitor_plugin_enable') %>
+
+Variables used by backup class:
+$backup_target_real = <%= scope.lookupvar('dashboard::params::backup_target_real') %>
+$backup_frequency = <%= scope.lookupvar('dashboard::params::backup_frequency') %>
+$backup_data_enable = <%= scope.lookupvar('dashboard::params::backup_data_enable') %>
+$backup_log_enable = <%= scope.lookupvar('dashboard::params::backup_log_enable') %>
+$general_base_source = <%= scope.lookupvar('dashboard::params::general_base_source') %>
+
+Variables used by firewall class:
+$firewall_source_real = <%= scope.lookupvar('dashboard::params::firewall_source_real') %>
+$firewall_destination_real = <%= scope.lookupvar('dashboard::params::firewall_destination_real') %>

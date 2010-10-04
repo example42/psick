@@ -40,6 +40,7 @@ $db_user = <%= scope.lookupvar('puppet::params::db_user') %>
 $version = <%= scope.lookupvar('puppet::params::version') %>
 
 General internal variables:
+$basedir = <%= scope.lookupvar('puppet::params::basedir') %>
 $packagename = <%= scope.lookupvar('puppet::params::packagename') %>
 $packagename_server = <%= scope.lookupvar('puppet::params::packagename_server') %>
 $servicename = <%= scope.lookupvar('puppet::params::servicename') %>

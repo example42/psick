@@ -17,8 +17,8 @@ class dashboard::package {
         group   => "root",
         ensure  => present,
         source  => $operatingsystem ? {
-            /(Debian|debian|Ubuntu|ubuntu)/ => "${dashboard::params::dashboard_source}/puppetlabs.apt",
-            /(Redhat|redhat|CentOS|centos)/ => "${dashboard::params::dashboard_source}/puppetlabs.repo",
+            /(Debian|debian|Ubuntu|ubuntu)/ => "${dashboard::params::general_base_source}/dashboard/puppetlabs.apt",
+            /(Redhat|redhat|CentOS|centos)/ => "${dashboard::params::general_base_source}/dashboard/puppetlabs.repo",
         },
     }
 

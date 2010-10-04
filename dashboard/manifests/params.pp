@@ -14,16 +14,7 @@ class dashboard::params  {
         default => "package",
     }
 
-# Different syntax same result (left for reference)
-#    case $dashboard_install {
-#        source: { $install="source" }
-#        package: { $install="package" }
-#        '': { $install="package" }
-#    }
-
     $basedir = "/usr/share"
-
-    $use_mysql = "yes"
 
 # Sets externalnodes support according to user's variable puppet_externalnodes (if not set, default is no)
     $externalnodes = $puppet_externalnodes ? {
@@ -85,6 +76,174 @@ class dashboard::params  {
         default => "root",
     }
 
+    $initconfigfile = $operatingsystem ? {
+        debian  => "/etc/default/dashboardd",
+        ubuntu  => "/etc/default/dashboardd",
+        default => "/etc/sysconfig/dashboardd",
+    }
+    
+    # Used by monitor class
+    $pidfile = $operatingsystem ? {
+        default => "/var/run/puppet-dashboard.pid",
+    }
+
+    $processname = $operatingsystem ? {
+        default => "server",
+    }
+
+    $hasstatus = $operatingsystem ? {
+        debian  => false,
+        ubuntu  => false,
+        default => false,
+    }
+
+    # Used by backup class
+    $datadir = $operatingsystem ? {
+        default => "/var/lib/dashboard",
+    }
+
+    # Used by backup class - Provide the file name, if there's no dedicated dir
+    $logdir = $operatingsystem ? {
+        default => "/var/log/dashboard",
+    }
+
+    # Used by monitor and firewall class
+    # If you need to define additional ports, call them $protocol1/$port1 and add the relevant
+    # parts in firewall.pp and monitor.pp
+    $protocol = "tcp"
+    $port = "3000"
+    
+
+
+## DEFAULTS FOR MONITOR CLASS
+# These are settings that influence the (optional) dashboard::monitor class
+# You can define these variables or leave the defaults
+# The apparently complex variables assignements below follow this logic:
+# - If no user variable is set, a reasonable default is used
+# - If the user has set a host-wide variable (ex: $monitor_target ) that one is set
+# - The host-wide variable can be overriden by a module specific one (ex: $dashboard_monitor_target)
+
+    # How the monitor server refers to the monitor target 
+    $monitor_target_real = $dashboard_monitor_target ? {
+        ''      => $monitor_target ? {
+           ''      => "${fqdn}",
+           default => $monitor_target,
+        },
+        default => "$dashboard_monitor_target",
+    }
+
+    # BaseUrl to access this host
+    $monitor_baseurl_real = $dashboard_monitor_baseurl ? {
+        ''      => $monitor_baseurl ? {
+           ''      => "http://${fqdn}",
+           default => $monitor_baseurl,
+        },
+        default => "${dashboard_monitor_baseurl}",
+    }
+
+    # Pattern to look for in the URL defined in dashboard::monitor class
+    $monitor_url_pattern = $dashboard_monitor_url_pattern ? {
+        ''      => "OK",
+        default => "${dashboard_monitor_url_pattern}",
+    }
+
+    # If dashboard port monitoring is enabled 
+    $monitor_port_enable = $dashboard_monitor_port ? {
+        ''      => $monitor_port ? {
+           ''      => true,
+           default => $monitor_port,
+        },
+        default => $dashboard_monitor_port,
+    }
+
+    # If dashboard url monitoring is enabled 
+    $monitor_url_enable = $dashboard_monitor_url ? {
+        ''      => $monitor_url ? {
+           ''      => true,
+           default => $monitor_url,
+        },
+        default => $dashboard_monitor_url,
+    }
+
+    # If dashboard process monitoring is enabled 
+    $monitor_process_enable = $dashboard_monitor_process ? {
+        ''      => $monitor_process ? {
+           ''      => true,
+           default => $monitor_process,
+        },
+        default => $dashboard_monitor_process,
+    }
+
+    # If dashboard plugin monitoring is enabled 
+    $monitor_plugin_enable = $dashboard_monitor_plugin ? {
+        ''      => $monitor_plugin ? {
+           ''      => false,
+           default => $monitor_plugin,
+        },
+        default => $dashboard_monitor_plugin,
+    }
+
+## DEFAULTS FOR BACKUP CLASS
+# These are settings that influence the (optional) dashboard::backup class
+# You can define these variables or leave the defaults
+
+    # How the backup server refers to the backup target 
+    $backup_target_real = $dashboard_backup_target ? {
+        ''      => $backup_target ? {
+           ''      => "${fqdn}",
+           default => $backup_target,
+        },
+        default => "$dashboard_backup_target",
+    }
+  
+    # Frequency of backups
+    $backup_frequency = $dashboard_backup_frequency ? {
+        ''      => "daily",
+        default => "$dashboard_backup_frequency",
+    }
+
+    # If dashboard data have to be backed up
+    $backup_data_enable = $dashboard_backup_data ? {
+        ''      => $backup_data ? {
+           ''      => true,
+           default => $backup_data,
+        },
+        default => $dashboard_backup_data,
+    }
+
+    # If dashboard logs have to be backed up
+    $backup_log_enable = $dashboard_backup_log ? {
+        ''      => $backup_log ? {
+           ''      => true,
+           default => $backup_log,
+        },
+        default => $dashboard_backup_log,
+    }
+
+
+## DEFAULTS FOR FIREWALL CLASS
+# These are settings that influence the (optional) dashboard::firewall class
+# You can define these variables or leave the defaults
+
+    # Source IPs that can access this service - Use iptables friendly format
+    $firewall_source_real = $dashboard_firewall_source ? {
+        ''      => $firewall_source ? {
+           ''      => "0.0.0.0/0",
+           default => $firewall_source,
+        },
+        default => "$dashboard_firewall_source",
+    }
+
+    # Destination IP to use for this host (Default facter's $ipaddress)
+    $firewall_destination_real = $dashboard_firewall_destination ? {
+        ''      => $firewall_destination ? {
+           ''      => "${ipaddress}",
+           default => $firewall_destination,
+        },
+        default => "$dashboard_firewall_destination",
+    }
+
+## FILE SERVING SOURCE
 # Sets the correct source for static files
 # In order to provide files from different sources without modifying the module
 # you can override the default source path setting the variable $base_source
@@ -92,14 +251,14 @@ class dashboard::params  {
 # What follows automatically manages the new source standard (with /modules/) from 0.25 
 
     case $base_source {
-        '': { $general_base_source="puppet://$servername" }
+        '': {
+            $general_base_source = $puppetversion ? {
+                /(^0.25)/ => "puppet:///modules",
+                /(^0.)/   => "puppet://$servername",
+                default   => "puppet:///modules",
+            }
+        }
         default: { $general_base_source=$base_source }
-    }
-
-    $dashboard_source = $puppetversion ? {
-        /(^0.25)/ => "$general_base_source/modules/dashboard",
-        /(^0.)/   => "$general_base_source/dashboard",
-        default   => "$general_base_source/modules/dashboard",
     }
 
 }

@@ -27,8 +27,8 @@ class dashboard {
         package: { include dashboard::package }
     }
 
-    case $dashboard::params::use_mysql {
-        yes: {
+    case $dashboard::params::db {
+        mysql: {
              require mysql::params
              include mysql
         }
@@ -41,7 +41,8 @@ class dashboard {
         ensure     => running,
         enable     => true,
         hasrestart => true,
-        hasstatus  => false,
+        hasstatus  => "${dashboard::params::hasstatus}",
+        pattern    => "${dashboard::params::processname}",
         require    => Exec["populate-dashboard-db"],
     }
 
@@ -61,7 +62,8 @@ class dashboard {
     # Note: puppet-dashboard report lib is installed directory in $puppet_basedir/reports for 0.24 compliance
     file {
         "puppet-dashboard.rb":
-            ensure => "$dashboard::params::basedir/puppet-dashboard/lib/puppet/puppet_dashboard.rb",
+            ensure => "$dashboard::params::basedir/puppet-dashboard/ext/puppet/puppet_dashboard.rb",
+            # ensure => "$dashboard::params::basedir/puppet-dashboard/lib/puppet/puppet_dashboard.rb",
             path   => "$puppet::params::basedir/reports/puppet_dashboard.rb",
     }
 
@@ -70,7 +72,10 @@ class dashboard {
             command => "rake RAILS_ENV=production db:create",
             cwd => "$dashboard::params::basedir/puppet-dashboard",
             require => File["database.yml"],
-            creates => "$mysql::params::datadir/dashboard",
+            creates => $dashboard::params::db ? {
+                sqlite => "$dashboard::params::basedir/puppet-dashboard/db/production.sqlite3",
+                mysql  => "$mysql::params::datadir/dashboard",
+            },
     }
 
     exec {
@@ -78,7 +83,10 @@ class dashboard {
             command => "rake RAILS_ENV=production db:migrate",
             cwd => "$dashboard::params::basedir/puppet-dashboard",
             require => Exec["create-dashboard-db"],
-            creates => "$mysql::params::datadir/dashboard/nodes.frm",
+            creates => $dashboard::params::db ? {
+                sqlite => "$dashboard::params::basedir/puppet-dashboard/db/production.sqlite3",
+                mysql  => "$mysql::params::datadir/dashboard/nodes.frm",
+            },
     }
 
     case $operatingsystem {
@@ -88,5 +96,18 @@ class dashboard {
     if $backup == "yes" { include dashboard::backup }
     if $monitor == "yes" { include dashboard::monitor }
     if $firewall == "yes" { include dashboard::firewall }
+
+    # Include project specific class if $my_project is set
+    # The extra project class is by default looked in dashboard module 
+    # If $my_project_onmodule == yes it's looked in your project module
+    if $my_project { 
+        case $my_project_onmodule {
+            yes,true: { include "${my_project}::dashboard" }
+            default: { include "dashboard::${my_project}" }
+        }
+    }
+
+    # Include debug class is debugging is enabled ($debug=yes)
+    if ( $debug == "yes" ) or ( $debug == true ) { include dashboard::debug }
 
 }

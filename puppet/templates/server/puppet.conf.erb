@@ -64,9 +64,9 @@ dbpassword=<%= puppet_db_password %>
 
 # Reporting
 <% if puppet_nodetool == "foreman" -%>
-reports=rrdgraph,log,foreman
+reports=log,foreman
 <% elsif puppet_nodetool == "dashboard" -%>
-reports=rrdgraph,log,puppet_dashboard
+reports=log,puppet_dashboard
 <% else -%>
 reports=log
 <% end -%>
