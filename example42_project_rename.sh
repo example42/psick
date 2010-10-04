@@ -6,10 +6,15 @@
 echo "This script changes all the references of example42 to the string you define (your project)"
 echo "Run it from the directory of the module you want to change"
 
+if [ ! -f manifests/init.pp ] ; then
+    echo "I don't find "manifests/init.pp" , run this script from inside a module directory"
+    exit 1
+fi
 
-echo "Enter the name of the original project (example42)"
+echo -n "Enter the name of the original project (example42): "
 read OLDPROJECT
-echo "Enter the name of the new project"
+
+echo -n "Enter the name of the new project: "
 read NEWPROJECT
 
 echo "RENAMING MANIFESTS"
@@ -28,6 +33,6 @@ done
 echo "---------------------------------------------------"
 echo "CHANGING FILE CONTENTS"
 for file in $( grep -R $OLDPROJECT . | cut -d ":" -f 1 | uniq ) ; do 
-	sed -i 's/$OLDPROJECT/$NEWPROJECT/g' $file && echo "Changed $file" # Use under Linux
-	# sed -i "" -e 's/$OLDPROJECT/$NEWPROJECT/g' $file && echo "Changed $file" # Use under MacOS
+	sed -i "s/$OLDPROJECT/$NEWPROJECT/g" $file && echo "Changed $file" # Use under Linux
+	# sed -i "" -e "s/$OLDPROJECT/$NEWPROJECT/g" $file && echo "Changed $file" # Use under MacOS
 done

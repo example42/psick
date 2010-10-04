@@ -24,8 +24,9 @@ times and have different levels of coherency and integration.
 
 MODULES STANDARD STRUCTURE
 Newer modules are based on the standard template defined in the "foo" module.
-Use the script example42_module_clone.sh to clone a new module based on the foo template.
-Use the script example42_project_rename.sh in a module to change all the references to example42 to your custom project
+Use the script "example42_module_clone.sh" to clone a new module based on the foo template.
+Use the script "example42_project_rename.sh" in a module to change all the references
+to example42 to your custom project
 
 This template provides the following files:
 # Documentation and metadata
@@ -54,15 +55,20 @@ foo/templates/variables_foo.erb - Debug template with all the modules parameters
 
 
 # GENERAL VARIABLES
-Example42 modules can be used with whatever nodes infrastructure you may define: you can use nodes definitions in
-Puppet manifests or an external node tool such as the Puppet Dashboard or Foreman.
-To use the modules you just have to include them and provide the eventual variables they need (defaults are set if
-none is provided).
+Example42 modules can be used with whatever nodes infrastructure you may define: you can use
+nodes definitions in Puppet manifests or an external node tool such as the Dashboard or Foreman.
+To use the modules you just have to include them and provide the eventual variables they need
+(defaults are set if none is provided).
 There are some general site-wide variables that can be used to fully use these modules:
-$my_project - Defines the name of your project and cab be used to automatically load custom project related classes
-$debug - If set to "yes" it enables some useful (not resource intensive) stuff for debugging (check in /var/lib/puppet/debug/). 
-$monitor - If set to "yes" you enable autoloading of monitor extended classes. Check Example42 monitor module for more info
-$monitor_tool - An array that defines the monitor tools to use (ie: monit, munin, nagios, collectd...)
-$backup - If set to "yes" you enable autoloading of backup extended classes. Check Example42 backup module for more info
-$firewall - If set to "yes" you enable autoloading of firewall extended classes. Check Example42 firewall module for more info
-Please note that currently the monitor, backup and firewall functions are in experimental and development phase.
+$my_project - Defines the name of your project and cab be used to automatically load custom
+              project related classes
+$debug - If set to "yes" it enables some useful (not resource intensive) stuff for debugging
+         (check in /var/lib/puppet/debug/). 
+$monitor - If set to "yes" you enable autoloading of monitor extended classes.
+           Check Example42 monitor module for more info
+$monitor_tool - An array that defines the monitor tools to use (ie: monit, munin, nagios...)
+$backup - If set to "yes" you enable autoloading of backup extended classes.
+          Check Example42 backup module for more info
+$firewall - If set to "yes" you enable autoloading of firewall extended classes.
+            Check Example42 firewall module for more info
+Please note that currently the monitor, backup and firewall functions are experimental.
