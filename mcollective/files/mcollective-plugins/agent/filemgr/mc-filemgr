@@ -1,0 +1,48 @@
+#!/usr/bin/ruby
+ 
+require 'mcollective'
+  
+include MCollective::RPC
+ 
+options = rpcoptions do |parser, options|
+   parser.define_head "Generic File Manager Client"
+   parser.banner = "Usage: mc-filemgr [--file FILE] [touch|remove|status]"
+
+   parser.on('-f', '--file MSG', 'file to manage') do |v|
+      options[:file] = v
+   end
+end
+
+if ARGV.length == 1
+    command = ARGV.shift
+else
+    command = "touch"
+end
+
+mc = rpcclient("filemgr", :options => options)
+
+if command == "remove"
+    if options[:file]
+        printrpc mc.remove(:file => options[:file])
+    else
+        printrpc mc.remove()
+    end
+
+elsif command == "touch"
+    if options[:file]
+        printrpc mc.touch(:file => options[:file])
+    else
+        printrpc mc.touch()
+    end
+
+elsif command == "status"
+    mc.status(:file => options[:file]).each do |resp|
+       printf("%-40s: %s\n", resp[:sender], resp[:data][:output] || resp[:statusmsg] ) 
+    end
+
+else
+    puts "Valid commands are 'touch', 'status', and 'remove'"
+    exit 1
+end
+
+printrpcstats

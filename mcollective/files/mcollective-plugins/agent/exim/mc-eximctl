@@ -1,0 +1,263 @@
+#!/usr/bin/env ruby
+
+require 'mcollective'
+
+@tools = Array.new
+@tools << ["1", "Show mail queue", "showmailq"]
+@tools << ["2", "Show mail queue summary", "exiqsumm"]
+@tools << ["3", "Show current exim activity", "exiwhat"]
+@tools << ["4", "Test an address", "testaddress"]
+@tools << ["5", "Retry mail delivery", "retrymsg"]
+@tools << ["6", "Add a recipient", "addrecipient"]
+@tools << ["7", "Edit the sender of a message", "editsender"]
+@tools << ["8", "Mark all recipients as delivered", "markalldelivered"]
+@tools << ["9", "Mark a recipient as delivered", "markrecipdelivered"]
+@tools << ["0", "Freeze message", "freezemsg"]
+@tools << ["a", "UnFreeze message", "thawmsg"]
+@tools << ["b", "Give up on a message (with bounce message)", "giveupmsg"]
+@tools << ["c", "Removes a message", "rmmsg"]
+@tools << ["d", "Remove all postmaster originated message", "rmpostmaster"]
+@tools << ["e", "Remove all frozen message", "rmfrozen"]
+@tools << ["f", "Do a normal queue run", "runq"]
+@tools << ["g", "Deliver all messages matching a string", "delivermatching"]
+@tools << ["h", "Re-discover agents", "discover"]
+
+oparser = MCollective::Optionparser.new({:verbose => true}, "filter")
+
+options = oparser.parse{|parser, options| }
+
+options[:filter]["agent"] = "exim"
+
+client = MCollective::Client.new(options[:config])
+client.options = options
+
+MCollective::Util.loadclass("MCollective::Util::EximClient")
+
+@exim = MCollective::Util::EximClient.new(client, true)
+
+# Does a discovery
+def discover(title)
+	@exim.infobox("Doing discovery", title)
+	@exim.reset
+	found = @exim.discover
+	@exim.textbox("Found exim agents on the following hosts:\n\n" + found.join("\n"), "Discovered Hosts")
+end
+
+discover("Discovering agents")
+
+
+# Shows the mailq in a scrollable text area
+def showmailq(title)
+	mailq = "Exim Mail Queue Start\n\n"
+	mailq += @exim.printmailq(@exim.mailq)
+	mailq += "\n\nExim Mail Queue End\n"
+
+	@exim.textbox(mailq, title)
+end
+
+# Shows the output of exiqsum
+def exiqsumm(title)
+	textbox(@exim.summarytext, title)
+end
+
+# Shows the output of exiwhat
+def exiwhat(title)
+	textbox(@exim.printhostresp(@exim.exiwhat_text), title)
+end
+
+# Test an address to see if the server can route it etc
+def testaddress(title)
+	addr = ask("Address to test", title)
+
+	textbox(@exim.printhostresp(@exim.testaddress(addr)), title)
+end
+
+# Tries to deliver a specific message immediately, displays output in real time
+# and in an textbox afterward
+def retrymsg(title)
+	if choice = choosemsg(title)
+		textbox(@exim.printhostresp(@exim.retrymsg(choice)), title)
+	else
+		@dialog.msgbox("The mail queue is empty, nothing to operate on")
+	end
+end
+
+# Adds a recipient to a message
+def addrecipient(title)
+	if choice = choosemsg(title)
+		addr = ask("Recipient to add to the message", title)
+
+		if @exim.validemail?(addr)
+			textbox(@exim.printhostresp(exim.addrecipient(choice, addr)), title)
+		else
+			raise InvalidAddress
+		end
+	else
+		@dialog.msgbox("The mail queue is empty, nothing to operate on")
+	end
+end
+
+# Edits the sender of a message
+def editsender(title)
+	if choice = choosemsg(title)
+		addr = ask("New sender address for the message", title)
+
+		if @exim.validemail?(addr)
+			textbox(@exim.printhostresp(@exim.setsender(choice, addr)), title)
+		else
+			raise InvalidAddress
+		end
+	else
+		@dialog.msgbox("The mail queue is empty, nothing to operate on")
+	end
+end
+
+# Marks all recipients in a message as delivered
+def markalldelivered(title)
+	if choice = choosemsg(title)
+		textbox(@exim.printhostresp(@exim.markmsgdelivered(choice)), title)
+	else
+		@dialog.msgbox("The mail queue is empty, nothing to operate on")
+	end
+end
+
+# Mark a recipients as delivered
+def markrecipdelivered(title)
+	if choice = choosemsg(title)
+		addr = ask("Enter recipient to mark as 'delivered'", title)
+
+		if @exim.validemail?(addr)
+			textbox(@exim.printhostresp(@exim.markrecipdelivered(choice, addr)), title)
+		else
+			raise InvalidAddress
+		end
+	else
+		@dialog.msgbox("The mail queue is empty, nothing to operate on")
+	end
+end
+
+# Freeze a message
+def freezemsg(title)
+	if choice = choosemsg(title)
+		textbox(@exim.printhostresp(@exim.freeze(choice)), title)
+	else
+		@dialog.msgbox("The mail queue is empty, nothing to operate on")
+	end
+end
+
+# UnFreeze a message
+def thawmsg(title)
+	if choice = choosemsg(title)
+		textbox(@exim.printhostresp(@exim.thaw(choice)), title)
+	else
+		@dialog.msgbox("The mail queue is empty, nothing to operate on")
+	end
+end
+
+# Give up on delivering a message, don't mark recipients as delivered first
+def giveupmsg(title)
+	if choice = choosemsg(title)
+		textbox(@exim.printhostresp(@exim.giveup(choice)), title)
+	else
+		@dialog.msgbox("The mail queue is empty, nothing to operate on")
+	end
+end
+
+# Removes a message
+def rmmsg(title)
+	if choice = choosemsg(title)
+		textbox(@exim.printhostresp(@exim.rm(choice)), title)
+	else
+		@dialog.msgbox("The mail queue is empty, nothing to operate on")
+	end
+end
+
+# Returns the description and method name of a tools given its
+# choice alphanum
+def gettool(choice)
+	@tools.each do |t|
+		return [t[1], t[2]] if t[0] == choice
+	end
+
+	return nil
+end
+
+# Deletes messages with a from of <>
+def rmpostmaster(title)
+	textbox(@exim.printhostresp(@exim.rmbounces), title)
+end
+
+# Deletes all frozen messages
+def rmfrozen(title)
+	textbox(@exim.printhostresp(@exim.rmfrozen), title)
+end
+
+# Runs the entire queue, displays output in real time and in an textbox afterward
+def runq(title)
+	textbox(@exim.printhostresp(@exim.runq), title)
+end
+
+# Delivers all mail matching a specific string
+def delivermatching(title)
+	pattern = ask("Enter a pattern for message delivery selection", title)
+	textbox(@exim.printhostresp(@exim.delivermatching(pattern)), title)
+end
+
+# Presents the list of tools in a menu
+def menu
+	items = Array.new
+
+	@tools.each do |t|
+		items << [ t[0], t[1] ]
+	end
+
+	selected = choose(items, "Choose an operation")
+end
+
+# Choose a message from a list of the current mailq, returns the msgid
+def choosemsg(title)
+	mailq = @exim.mailq
+
+	choices = Array.new
+
+	mailq.each do |q|
+		recipients = q[:recipients].join(' ')[0,30]
+		frozen = "*** frozen *** " if q[:frozen]
+		choices << [q[:msgid], "From: #{q[:sender]} To: #{recipients} #{frozen}"]
+	end
+
+	msgid = choose(choices, title)
+end
+
+# wrappers to save typing
+def choose(items, title)
+	@exim.choose(items, title)
+end
+
+def ask(what, title)
+	@exim.ask(what, title)
+end
+
+def textbox(msg, title)
+	@exim.textbox(msg, title)
+end
+
+def infobox(msg, title)
+	@exim.infobox(msg, title)
+end
+
+while (result = menu) do
+	begin
+		tool = gettool(result)
+
+		e = "#{tool[1]}('#{tool[0]}')"
+
+		eval(e)
+	rescue InvalidAddress => e
+		@exim.textbox("Invalid email address entered", "Error")		
+	rescue CancelPressed => e
+		# go back to the menu if cancel is pressed
+	rescue Exception => e
+		@exim.textbox("Unhandled exception: #{e}\n" + e.backtrace.join("\n    "), "Error")
+	end
+end

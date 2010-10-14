@@ -1,0 +1,2 @@
+policy default deny
+allow	uid=500	status enable disable	country=uk	apache

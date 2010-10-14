@@ -1,0 +1,33 @@
+# File managed by Puppet
+
+topicprefix = /topic/mcollective
+libdir = <%= scope.lookupvar('mcollective::params::libdir') %>
+logfile = <%= scope.lookupvar('mcollective::params::logdir') %>
+loglevel = info
+daemonize = 1
+
+# Plugins - PSK active # TODO Manage alternatives
+securityprovider = psk
+plugin.psk = <%= scope.lookupvar('mcollective::params::psk') %>
+
+# Plugins - STOMP active # TODO Manage alternatives
+connector = stomp
+plugin.stomp.host = <%= scope.lookupvar('mcollective::params::stomp_host') %>
+plugin.stomp.port = <%= scope.lookupvar('mcollective::params::stomp_port') %>
+plugin.stomp.user = <%= scope.lookupvar('mcollective::params::stomp_user') %>
+plugin.stomp.password = <%= scope.lookupvar('mcollective::params::stomp_password') %>
+
+# Facts
+factsource = <%= scope.lookupvar('mcollective::params::factsource') %>
+
+classesfile = <%= scope.lookupvar('mcollective::params::puppet_classesfile') %>
+
+# Agent Plugins Configurations
+plugin.nrpe.conf_dir = <%= scope.lookupvar('mcollective::params::nrpe_configdir') %>
+
+<% if has_variable?('mcollective_filemgr_touch_file') -%>
+plugin.filemgr.touch_file = <%= mcollective_filemgr_touch_file %>
+<% end -%>
+
+plugin.service.hasstatus = <%= scope.lookupvar('mcollective::params::service_hasstatus') %>
+plugin.service.hasrestart = true

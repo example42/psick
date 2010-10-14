@@ -1,0 +1,72 @@
+#!/usr/bin/env ruby
+
+# Client program for the mcollective package agent found at http://code.google.com/p/mcollective-plugins/
+#
+# Released under the GPLv2
+
+require 'mcollective'
+
+include MCollective::RPC
+
+options = rpcoptions do |parser, options|
+    options[:timeout] = 180
+
+    parser.define_head "Manage remote packages"
+    parser.banner = "Usage: mc-package [options] action package"
+end
+
+if MCollective::Util.empty_filter?(options[:filter])
+    print("Do you really want to operate on services unfiltered? (y/n): ")
+    STDOUT.flush
+
+    exit unless STDIN.gets.chomp =~ /^y$/
+end
+
+pkg = rpcclient("package", {:options => options})
+
+def summarize(stats, versions)
+    puts("\n---- package agent summary ----")
+    puts("           Nodes: #{stats[:discovered]} / #{stats[:responses]}")
+    print("        Versions: ")
+
+    puts versions.keys.sort.map {|s| "#{versions[s]} * #{s}" }.join(", ")
+
+    printf("    Elapsed Time: %.2f s\n\n", stats[:blocktime])
+end
+
+if ARGV.length == 2
+    action = ARGV.shift
+    package = ARGV.shift
+
+    unless action =~ /^(install|update|uninstall|purge|status)$/
+        puts("Action has to be install, update, uninstall, purge or status")
+        exit 1
+    end
+else
+    puts("Please specify a package and action")
+    exit 1
+end
+
+versions = {}
+
+pkg.send(action, {:package => package}).each do |resp|
+    status = resp[:data][:properties]
+    
+    if resp[:statuscode] == 0
+        if status.include?(:version)
+            version = "#{status[:version]}-#{status[:release]}"
+        elsif status.include?(:ensure)
+            version = status[:ensure].to_s
+        end
+    
+        versions.include?(version) ? versions[version] += 1 : versions[version] = 1
+    
+        printf("%-40s version = %s-%s\n", resp[:sender], status[:name], version)
+    else
+        printf("%-40s error = %s\n", resp[:sender], resp[:statusmsg])
+    end
+end
+
+summarize(pkg.stats, versions)
+
+# vi:tabstop=4:expandtab:ai

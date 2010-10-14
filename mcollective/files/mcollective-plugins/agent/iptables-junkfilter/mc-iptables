@@ -1,0 +1,42 @@
+#!/usr/bin/env ruby
+
+# Client program for the mcollective iptables agent found at http://mcollective-plugins.googlecode.com/
+#
+# Released under the GPLv2
+
+require 'mcollective'
+
+include MCollective::RPC
+
+iptables = rpcclient("iptables")
+
+if ARGV.length == 2
+    action = ARGV.shift
+    ipaddress = ARGV.shift
+
+    unless action =~ /^block|unblock|isblocked$/
+        puts("The action has to be block, unblock or isblocked")
+        exit! 1
+    end
+else
+    puts("Please specify an action and ip address")
+    exit 1
+end
+
+iptables.send(action, {:ipaddr => ipaddress}).each do |node|
+    if iptables.verbose
+        printf("%-40s %s\n", node[:sender], node[:statusmsg])
+        puts "\t\t#{node[:data][:output]}" if node[:data][:output]
+    else
+        case action
+            when /^block|unblock/
+                printf("%-40s %s\n", node[:sender], node[:statusmsg]) unless node[:statuscode] == 0
+            when "isblocked"
+                printf("%-40s %s\n", node[:sender], node[:data][:output])
+        end
+    end
+end
+
+printrpcstats
+
+# vi:tabstop=4:expandtab:ai

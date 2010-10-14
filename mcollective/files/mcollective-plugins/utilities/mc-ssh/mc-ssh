@@ -1,0 +1,75 @@
+#!/usr/bin/env ruby
+
+# Frontend to ssh that uses mcollective discovery to find hosts.
+#
+# It requires the rdialog gem to be available, basic usage is:
+#
+#  mc-ssh --with-class /webserver/ -- -l root
+#
+# This will present you with a list of hosts and run:
+#    
+#    ssh <host> -l root
+#
+# on your chosen host.
+#
+# Released under Apache Licence 2, R.I.Pienaar <rip@devco.net>
+#
+# http://mcollective-plugins.googlecode.com/
+
+require 'mcollective'
+require 'rdialog'
+
+oparser = MCollective::Optionparser.new({}, "filter")
+
+options = oparser.parse{|parser, options|
+    parser.define_head "MCollective discovery enabled ssh"
+    parser.separator ""
+    parser.separator "Usage: mc-ssh [filters and options] -- [ssh options]"
+}
+
+if ARGV.length >= 1
+    sshoptions = ARGV.join(" ")
+end
+
+client = MCollective::Client.new(options[:config])
+client.options = options
+
+@dialog = RDialog.new
+@dialog.backtitle = "Marionette Collective SSH"
+
+class CancelPressed<Exception; end
+
+# Displays some text while you do something in the background
+def infobox(msg, title, height = 5, width = 40)
+    @dialog.title = "\"#{title}\""
+    @dialog.infobox("\n" + msg, height, width)
+end
+
+# Shows a list of options and lets the user choose one
+def choose(choices, title)
+    res = @dialog.menu(title, choices)
+            
+    raise CancelPressed.new unless res
+            
+    res
+end
+
+infobox("Doing discovery", "Marionette Collective SSH")
+
+choices = []
+client.discover(options[:filter], options[:disctimeout]).each_with_index do |host,i|
+    choices << [i, host]
+end
+
+begin
+    hostname = choose(choices, "").to_i
+    hostname = choices[hostname][1]
+
+    puts("Running: ssh #{hostname} #{sshoptions}")
+    exec("ssh #{hostname} #{sshoptions}")
+rescue CancelPressed
+    exit!
+rescue Exception => e
+    puts("Failed to run mc-ssh: #{e}")
+    exit!
+end

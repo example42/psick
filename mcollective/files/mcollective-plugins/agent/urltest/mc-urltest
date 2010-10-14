@@ -1,0 +1,46 @@
+#!/usr/bin/env ruby
+
+# Client program for the mcollective urltest agent found at http://code.google.com/p/mcollective-plugins/wiki/AgentUrltest
+#
+# Released under the GPLv2
+
+require 'mcollective'
+
+include MCollective::RPC
+
+options = rpcoptions do |parser, options|
+    parser.define_head "Performs a test of a url and show stats from all agents"
+    parser.banner = "Usage: mc-urltest [options] url"
+end
+
+if ARGV.length > 0
+    url = ARGV.shift
+else
+    puts("Please specify a url to test")
+    exit 1
+end
+
+begin
+    tester = rpcclient("urltest", :options => options)
+
+    tester.perftest(:url => url).each do |result|
+        res = result[:data]
+
+        puts "Tester Node: #{res[:testerlocation]}"
+        puts "       Lookup Time: #{res[:lookuptime]}"
+        puts "      Connect Time: #{res[:connectime]}"
+        puts "     Pre-Xfer Time: #{res[:prexfertime]}"
+        puts "   Start-Xfer Time: #{res[:startxfer]}"
+        puts "        Total Time: #{res[:totaltime]}"
+        puts "     Bytes Fetched: #{res[:bytesfetched]}"
+        puts ""
+        puts ""
+    end
+rescue Exception => e
+    raise e
+end
+
+printrpcstats
+
+# vi:tabstop=4:expandtab:ai
+

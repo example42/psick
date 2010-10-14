@@ -1,0 +1,92 @@
+#!/usr/bin/env ruby
+
+# Client program for the mcollective service agent found at http://code.google.com/p/mcollective-plugins/
+#
+# Released under the GPLv2
+
+require 'mcollective'
+
+include MCollective::RPC
+
+options = rpcoptions do |parser, options|
+    parser.define_head "Manage remote services"
+    parser.banner = "Usage: mc-service [options] service action"
+end
+
+if MCollective::Util.empty_filter?(options[:filter])
+    print("Do you really want to operate on services unfiltered? (y/n): ")
+    STDOUT.flush
+
+    exit unless STDIN.gets.chomp =~ /^y$/
+end
+
+# change our process name so the service being
+# managed doesnt show up in the ps list, this
+# keeps puppet RAL from stupidly assuming
+# we're the process being managed
+$0 = "mc-service"
+
+svc = rpcclient("service", {:options => options})
+
+def summarize(stats, statuscnt)
+    puts("\n---- service agent summary ----")
+    puts("           Nodes: #{stats[:responses] + stats[:noresponsefrom].size} / #{stats[:responses]}")
+    print("        Statuses: ")
+
+    statuscnt.keys.sort.each do |s|
+        case s
+            when "running"
+                print("started=#{statuscnt[s]} ") 
+
+            when "stopped"
+                print("stopped=#{statuscnt[s]} ") 
+
+            else
+                print("unknown (#{s})=#{statuscnt[s]} ") 
+        end
+    end
+
+    printf("\n    Elapsed Time: %.2f s\n\n", stats[:blocktime])
+end
+
+if ARGV.length == 2
+    service = ARGV.shift
+    action = ARGV.shift
+
+    unless action =~ /^(start|stop|status|restart)$/
+        puts("Action has to be start, stop, status or restart")
+        exit 1
+    end
+else
+    puts("Please specify a service and action")
+    exit 1
+end
+
+statuscnt = {}
+
+svc.send(action, {:service => service}).each do |node|
+    status = node[:data]["status"].to_s
+    statuscnt.include?(status) ? statuscnt[status] += 1 : statuscnt[status] = 1
+
+    # In line with Simple RPC principals, only print things that are out of order
+    if svc.verbose
+        printf("%-40s status=%s\n", node[:sender], status)
+        puts "\t\t#{node[:statusmsg]}" if svc.verbose
+    else
+        case action
+            when /start/
+                printf("%-40s status=%s\n", node[:sender], status) unless status == "running"
+    
+            when "stop"
+                printf("%-40s status=%s\n", node[:sender], status) unless status == "stopped"
+    
+            when "status"
+                printf("%-40s status=%s\n", node[:sender], status)
+        end
+    end
+
+end
+
+summarize(svc.stats, statuscnt)
+
+# vi:tabstop=4:expandtab:ai

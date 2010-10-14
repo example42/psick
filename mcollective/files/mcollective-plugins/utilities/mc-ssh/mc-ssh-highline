@@ -1,0 +1,69 @@
+#!/usr/bin/ruby
+
+# Frontend to ssh that uses mcollective discovery to find hosts.
+#
+# It requires the highline gem to be available, basic usage is:
+#
+#  mc-ssh --with-class /webserver/ -- -l root
+#
+# This will present you with a list of hosts and run:
+#    
+#    ssh <host> -l root
+#
+# on your chosen host.
+#
+# Released under Apache Licence 2, R.I.Pienaar <rip@devco.net>
+#
+# http://mcollective-plugins.googlecode.com/
+
+require 'mcollective'
+require 'highline/import'
+
+HighLine.track_eof = false
+
+oparser = MCollective::Optionparser.new({}, "filter")
+
+options = oparser.parse{|parser, options|
+    parser.define_head "MCollective iscovery enabled ssh"
+    parser.separator ""
+    parser.separator "Usage: mc-ssh [filters and options] -- [ssh options]"
+}
+
+if ARGV.length >= 1
+    sshoptions = ARGV.join(" ")
+end
+
+client = MCollective::Client.new(options[:config])
+client.options = options
+
+# Shows a list of options and lets the user choose one
+def pick(choices, title)
+    return choices[0][1] if choices.size == 1
+
+    choose do |menu|
+        menu.prompt = title
+
+        choices.each do |choice|
+            menu.choice choice[1]
+        end
+
+        menu.choice "Exit" do exit! end
+    end
+end
+
+choices = []
+client.discover(options[:filter], options[:disctimeout]).each_with_index do |host,i|
+    choices << [i, host]
+end
+
+begin
+    hostname = pick(choices, "").to_i
+    hostname = choices[hostname][1]
+
+    puts("Running: ssh #{hostname} #{sshoptions}")
+    exec("ssh #{hostname} #{sshoptions}")
+rescue Exception => e
+    puts("Failed to run mc-ssh: #{e}")
+    puts e.backtrace
+    exit!
+end

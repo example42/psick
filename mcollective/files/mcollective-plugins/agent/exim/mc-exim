@@ -1,0 +1,130 @@
+#!/usr/bin/env ruby
+
+require 'mcollective'
+
+oparser = MCollective::Optionparser.new({:recipient => "", :sender => "", :msgid => "", :queuematch => "", :timeout => 6}, "filter")
+
+options = oparser.parse{|parser, options|
+    parser.define_head "General management tools for remote exim instances"
+    parser.banner = "Usage: mc-exim [command] <optional arguments>"
+    parser.separator ""
+    parser.separator "Command can be one of the following:"
+    parser.separator "  retrymsg           - retries a message, needs a msgid"
+    parser.separator "  addrecipient       - add a recipient to a message, needs a msgid and recipient"
+    parser.separator "  setsender          - set the sender of a message, needs a msgid and sender"
+    parser.separator "  markdelivered      - mark an entire message as delivered, needs a msgid"
+    parser.separator "  markrecipdelivered - set a recipient as delivered, needs a msgid and recipient"
+    parser.separator "  freeze             - freeze a message, needs a msgid"
+    parser.separator "  thaw               - unfreeze a message, needs a msgid"
+    parser.separator "  giveup             - gives up on a message with NDR, needs a msgid"
+    parser.separator "  rm                 - gives up on a message without NDR, needs a msgid"
+    parser.separator "  exiwhat            - gets the output of exiwhat"
+    parser.separator "  rmbounces          - delete all mails with a sender of <>"
+    parser.separator "  rmfrozen           - delete all mails that are frozen"
+    parser.separator "  runq               - does a normal queue run, takes an optional match"
+    parser.separator "                       to only affect matching mails"
+    parser.separator "  testaddress        - shows how mail for a given recipient will be routed"
+    parser.separator "  mailq              - shows the mail queue contents"
+    parser.separator ""
+
+    parser.separator "Message related arguments:"
+    parser.on('-i', '--msgid MSGID', 'Message ID to operate on') do |v|
+        options[:msgid] = v
+    end
+
+    parser.on('-r', '--recipient RECIPIENT', 'Recipient to operate with') do |v|
+        options[:recipient] = v
+    end
+
+    parser.on('-s', '--sender SENDER', 'Sender to operate with') do |v|
+        options[:sender] = v
+    end
+
+    parser.separator ""
+    parser.separator "Queue related arguments:"
+
+    parser.on('-m', '--match MATCH', 'Restrict queue runs to ones matching MATCH') do |v|
+        options[:queuematch] = v
+    end
+}
+
+options[:filter]["agent"] = "exim"
+
+if ARGV.length == 1
+    command = ARGV.shift
+else
+    puts("Please specify a command")
+    exit 1
+end
+
+# prints out a mailq the same way the unix command would
+def printmailq(mailq)
+    mailq.each do |m|
+        m[:frozen] ? frozen = "*** frozen ***" : frozen = ""
+    
+        printf("%3s%6s %s %s %s\n", m[:age], m[:size], m[:msgid], m[:sender], frozen)
+    
+        m[:recipients].each do |r|
+            puts("          #{r}")
+        end
+    
+        puts
+    end
+end
+
+# Prints each nodes output
+def printhostresp(resp)
+    if resp[:body].is_a?(String)
+        puts("#{resp[:senderid]}:")
+        puts "     " + resp[:body].split("\n").join("\n     ")
+        puts
+    elsif resp[:body].is_a?(Array)
+        puts("#{resp[:senderid]}:")
+        puts "     " + resp[:body].join("\n     ")
+        puts
+    else
+        puts("#{resp[:senderid]} responded with a #{resp[:body].class}")
+    end
+end
+
+def callandprint(req, client)
+    client.discovered_req(req, "exim") do |resp|
+        printhostresp(resp)
+    end
+end
+
+begin
+    client = MCollective::Client.new(options[:config])
+    client.options = options
+    
+    req  = {:command => command,
+            :recipient => options[:recipient],
+            :sender => options[:sender], 
+            :msgid => options[:msgid], 
+            :queuematch => options[:queuematch]}
+
+    case command
+        when "mailq"
+            mailq = []
+
+            client.discovered_req(req, "exim") do |resp|
+                mailq.concat [resp[:body]].flatten
+            end
+
+            printmailq(mailq)
+
+        when "exiwhat"
+            req[:command] = "exiwhat_text"
+
+            callandprint(req, client)
+
+        else
+            callandprint(req, client)
+
+    end
+rescue Exception => e
+    raise e
+end
+
+
+# vi:tabstop=4:expandtab:ai
