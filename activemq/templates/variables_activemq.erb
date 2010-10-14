@@ -1,0 +1,44 @@
+# File Managed By Puppet
+
+These are the variables used by the module activemq
+
+User variables:
+$admin_user = <%= scope.lookupvar('activemq::params::admin_user') %>
+$admin_password = # NOT SHOWN
+
+General internal variables:
+$packagename = <%= scope.lookupvar('activemq::params::packagename') %>
+$servicename = <%= scope.lookupvar('activemq::params::servicename') %>
+$processname = <%= scope.lookupvar('activemq::params::servicename') %>
+$hasstatus = <%= scope.lookupvar('activemq::params::hasstatus') %>
+$configfile = <%= scope.lookupvar('activemq::params::configfile') %>
+$configfile_mode = <%= scope.lookupvar('activemq::params::configfile_mode') %>
+$configfile_owner = <%= scope.lookupvar('activemq::params::configfile_owner') %>
+$configfile_group = <%= scope.lookupvar('activemq::params::configfile_group') %>
+$configdir = <%= scope.lookupvar('activemq::params::configdir') %>
+$initconfigfile = <%= scope.lookupvar('activemq::params::initconfigfile') %>
+$pidfile = <%= scope.lookupvar('activemq::params::pidfile') %>
+$datadir = <%= scope.lookupvar('activemq::params::datadir') %>
+$logdir = <%= scope.lookupvar('activemq::params::logdir') %>
+$protocol = <%= scope.lookupvar('activemq::params::protocol') %>
+$port = <%= scope.lookupvar('activemq::params::port') %>
+
+Variables used by monitor class:
+$monitor_target_real = <%= scope.lookupvar('activemq::params::monitor_target_real') %>
+$monitor_baseurl_real = <%= scope.lookupvar('activemq::params::monitor_baseurl_real') %>
+$monitor_url_pattern = <%= scope.lookupvar('activemq::params::monitor_url_pattern') %>
+$monitor_port_enable = <%= scope.lookupvar('activemq::params::monitor_port_enable') %>
+$monitor_url_enable = <%= scope.lookupvar('activemq::params::monitor_url_enable') %>
+$monitor_process_enable = <%= scope.lookupvar('activemq::params::monitor_process_enable') %>
+$monitor_plugin_enable = <%= scope.lookupvar('activemq::params::monitor_plugin_enable') %>
+
+Variables used by backup class:
+$backup_target_real = <%= scope.lookupvar('activemq::params::backup_target_real') %>
+$backup_frequency = <%= scope.lookupvar('activemq::params::backup_frequency') %>
+$backup_data_enable = <%= scope.lookupvar('activemq::params::backup_data_enable') %>
+$backup_log_enable = <%= scope.lookupvar('activemq::params::backup_log_enable') %>
+$general_base_source = <%= scope.lookupvar('activemq::params::general_base_source') %>
+
+Variables used by firewall class:
+$firewall_source_real = <%= scope.lookupvar('activemq::params::firewall_source_real') %>
+$firewall_destination_real = <%= scope.lookupvar('activemq::params::firewall_destination_real') %>

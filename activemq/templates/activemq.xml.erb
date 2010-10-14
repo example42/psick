@@ -1,0 +1,57 @@
+<!-- File Managed by Puppet -->
+<beans
+  xmlns="http://www.springframework.org/schema/beans"
+  xmlns:amq="http://activemq.apache.org/schema/core"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd
+http://activemq.apache.org/camel/schema/spring http://activemq.apache.org/camel/schema/spring/camel-spring.xsd">
+
+    <broker xmlns="http://activemq.apache.org/schema/core" brokerName="localhost" useJmx="true">
+        <managementContext>
+            <managementContext createConnector="false"/>
+        </managementContext>
+
+        <plugins>
+          <statisticsBrokerPlugin/>
+          <simpleAuthenticationPlugin>
+            <users>
+              <authenticationUser username="<%= scope.lookupvar('mcollective::params::stomp_user') %>" password="<%= scope.lookupvar('mcollective::params::stomp_password') %>" groups="<%= scope.lookupvar('mcollective::params::stomp_user') %>,everyone"/>
+              <authenticationUser username="<%= scope.lookupvar('activemq::params::admin_user') %>" password="<%= scope.lookupvar('activemq::params::admin_password') %>" groups="<%= scope.lookupvar('mcollective::params::stomp_user') %>,admins,everyone"/>
+            </users>
+          </simpleAuthenticationPlugin>
+          <authorizationPlugin>
+            <map>
+              <authorizationMap>
+                <authorizationEntries>
+                  <authorizationEntry queue=">" write="admins" read="admins" admin="admins" />
+                  <authorizationEntry topic=">" write="admins" read="admins" admin="admins" />
+                  <authorizationEntry queue="mcollective.>" write="<%= scope.lookupvar('mcollective::params::stomp_user') %>" read="<%= scope.lookupvar('mcollective::params::stomp_user') %>" admin="<%= scope.lookupvar('mcollective::params::stomp_user') %>" />
+                  <authorizationEntry topic="mcollective.>" write="<%= scope.lookupvar('mcollective::params::stomp_user') %>" read="<%= scope.lookupvar('mcollective::params::stomp_user') %>" admin="<%= scope.lookupvar('mcollective::params::stomp_user') %>" />
+                  <authorizationEntry topic="ActiveMQ.Advisory.>" read="everyone" write="everyone" admin="everyone"/>
+                </authorizationEntries>
+              </authorizationMap>
+            </map>
+          </authorizationPlugin>
+        </plugins>
+
+        <systemUsage>
+            <systemUsage>
+                <memoryUsage>
+                    <memoryUsage limit="20 mb"/>
+                </memoryUsage>
+                <storeUsage>
+                    <storeUsage limit="1 gb" name="foo"/>
+                </storeUsage>
+                <tempUsage>
+                    <tempUsage limit="100 mb"/>
+                </tempUsage>
+            </systemUsage>
+        </systemUsage>
+          
+        <transportConnectors>
+            <transportConnector name="openwire" uri="tcp://0.0.0.0:6166"/>
+            <transportConnector name="stomp" uri="stomp://0.0.0.0:<%= scope.lookupvar('mcollective::params::stomp_port') %>"/>
+        </transportConnectors>
+    </broker>
+</beans>

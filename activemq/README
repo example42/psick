@@ -1,0 +1,57 @@
+Puppet module: activemq
+
+# Written by Lab42 #
+# http://www.Example42.com
+
+Licence: GPLv3
+
+DESCRIPTION:
+This module can be used to install ActiveMQ.
+It's mostly oriented to the setup of a mcollective infrastructure so should be heavily customized in order to use it for other purposes.
+The installation implies the use of an "activemq" package (specifically the one provided on the Mcollective site and the relevant dependencies) so you have to make sure you have it in your repos.
+In the activemq::redhat class some dependency packages are installed, check them out if their conflict with existing packages you manage with Puppet (ie the openjdk rpm)
+
+You can find RPMs for RedHat 5 here: http://marionette-collective.org/activemq/
+This module has been tested on Centos 5.
+
+USER VARIABLES:
+$activemq_admin_user (default: admin) - Username of the admin user (member of admins group)
+$activemq_admin_password (default: admin) - Password of the admin user 
+
+The activemq.xml configuration file used in this module uses also various variables set in the Example42 mcollective module.
+Refer to the mcollective README and the activemq.xml.erb template for more info.
+
+
+
+USAGE:
+# Standard Classes 
+include activemq              # Install and run activemq 
+
+include activemq::disable     # Disable activemq service.
+include activemq::disableboot # Disable activemq service at boot time, but don't stop if it's running.
+include activemq::absent      # Remove activemq package.
+
+# Extended Classes (generally require storeconfigs)
+include activemq::monitor     # Monitor activemq - Automatically included if $monitor=yes - Requires Example42's monitor module
+include activemq::backup      # Backup activemq data - Automatically included if $backup=yes - Requires Example42's backup module
+include activemq::firewall    # Manages firewall rule for activemq service - Automatically included if $firewall=yes - Requires Example42's firewall module
+
+
+
+GENERAL VARIABLES:
+Example42 modules collection uses some general variables that can influence the behaviour of this module.
+You can happily live without considering or setting them, but they can be useful to manage different projects maintanining the module's resuability. 
+$my_project - If set, permits you to alter and customize the module behaviour in custom project classes
+$my_project_onmodule - If set to yes your project classes are looked in a dedicated project module:
+  - $my_project_onmodule not set -> Module autoloads activemq::$my_module (MODULEPATH/activemq/manifests/$my_project.pp)
+  - $my_project_onmodule == yes -> Module autoloads $my_module::activemq (MODULEPATH/$my_project/manifests/activemq.pp)
+$base_source - Let you define an alternative source for static files:
+  - $base_source not set -> Files are looked in puppet://$servername/ (the PuppetMaster)
+  - $base_source set -> Files are looked in $base_source ( could be puppet://$servername/$my_module ) 
+  Note that the module automatically manages the different paths for Puppet pre 0.25
+  
+
+DEPENDENCIES:
+The main activemq class relies on Example42 mcollective module to set the proper variables in the configuration file.
+A custom repo with the packages from http://marionette-collective.org/activemq/ is needed for a seamless installation.
+Extended classes, if you use them, need the relevant external modules (monitor ; backup ) and the "common" module.
