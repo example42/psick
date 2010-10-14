@@ -4,6 +4,7 @@ Puppet module: mcollective
 # http://www.Example42.com
 
 Licence: GPLv3
+The included mcollective-plugins ( obtained via http://github.com/ripienaar/mcollective-plugins ) are released under GPLv2 unless stated otherwise in individual plugins.
 
 DESCRIPTION:
 This module installs and manages mcollective (client and server).
@@ -32,7 +33,7 @@ include mcollective::disable     # Disable mcollective service.
 include mcollective::disableboot # Disable mcollective service at boot time, but don't stop if it's running.
 include mcollective::absent      # Remove mcollective package.
 
-# Extended Classes (generally require storeconfigs)
+# Extended Classes (generally require storeconfigs) 
 include mcollective::monitor     # Monitor mcollective - Automatically included if $monitor=yes - Requires Example42's monitor module
 include mcollective::backup      # Backup mcollective data - Automatically included if $backup=yes - Requires Example42's backup module
 include mcollective::firewall    # Manages firewall rule for mcollective service - Automatically included if $firewall=yes - Requires Example42's firewall module
