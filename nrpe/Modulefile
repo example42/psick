@@ -1,0 +1,7 @@
+name    'lab42-nrpe'
+version '0.1.2'
+
+# dependency 'lab42/common', '>= 0.0.1'
+# dependency 'lab42/monitor', '>= 0.0.1'
+# dependency 'lab42/backup', '>= 0.0.1'
+# dependency 'lab42/firewall', '>= 0.0.1'

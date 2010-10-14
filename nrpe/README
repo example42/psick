@@ -1,0 +1,55 @@
+Puppet module: nrpe
+
+# Written by Lab42 #
+# http://www.Example42.com
+
+Licence: GPLv3
+
+DESCRIPTION:
+This module installs, configures and manages nrpe.
+Standard and extended classes are available.
+Decide and customize how you want to define configuration files: static files, templates, infile modifications...
+
+
+USER VARIABLES:
+In order to customize the behaviour of the module you can set the following variables:
+$nrpe_allowed_hosts (default: "127.0.0.1") - The hosts that can connect to nrpe service. Use nrpe's comma separated layout for multiple entries
+$nrpe_port (default: "5666") - The port nrpe listens to.
+$nrpe_dont_blame_nrpe (default: 0) - Sets the dont_blame_nrpe option (Set 1 if you want to allow to pass parameters to nrpe commands)
+$nrpe_use_ssl (default: "yes") - Define if you want to use SSL (set "no" to disable SSL)
+
+USAGE:
+# Standard Classes 
+include nrpe              # Install and run nrpe 
+
+include nrpe::disable     # Disable nrpe service.
+include nrpe::disableboot # Disable nrpe service at boot time, but don't stop if it's running.
+include nrpe::absent      # Remove nrpe package.
+
+# Extended Classes (generally require storeconfigs)
+include nrpe::monitor     # Monitor nrpe - Automatically included if $monitor=yes - Requires Example42's monitor module
+include nrpe::backup      # Backup nrpe data - Automatically included if $backup=yes - Requires Example42's backup module
+include nrpe::firewall    # Manages firewall rule for nrpe service - Automatically included if $firewall=yes - Requires Example42's firewall module
+
+# Generic define to set parameters in the main configuration file. EXPERIMENTAL.
+nrpe::conf { "ParameterName": value="YourValue"} # Generic 
+
+
+GENERAL VARIABLES:
+Example42 modules collection uses some general variables that can influence the behaviour of this module.
+You can happily live without considering or setting them, but they can be useful to manage different projects maintanining the module's resuability. 
+$my_project - If set, permits you to alter and customize the module behaviour in custom project classes
+$my_project_onmodule - If set to yes your project classes are looked in a dedicated project module:
+  - $my_project_onmodule not set -> Module autoloads nrpe::$my_module (MODULEPATH/nrpe/manifests/$my_project.pp)
+  - $my_project_onmodule == yes -> Module autoloads $my_module::nrpe (MODULEPATH/$my_project/manifests/nrpe.pp)
+$base_source - Let you define an alternative source for static files:
+  - $base_source not set -> Files are looked in puppet://$servername/ (the PuppetMaster)
+  - $base_source set -> Files are looked in $base_source ( could be puppet://$servername/$my_module ) 
+  Note that the module automatically manages the different paths for Puppet pre 0.25
+  
+
+DEPENDENCIES:
+Standard classes generally don't need external modules.
+Extended classes need the relevant external modules (import monitor ; import backup ... ) and the "common" module (import common)
+nrpe::conf generic infile configuration define needs the "common" module
+Check on individual module specific classes and defines if there are specific requirements.

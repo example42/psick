@@ -1,0 +1,9 @@
+# File Managed by Puppet
+
+<% if scope.lookupvar('nrpe::params::use_ssl') == "yes" -%>
+#DAEMON_OPTS="--no-ssl"
+<% else -%>
+DAEMON_OPTS="--no-ssl"
+<% end %>
+#NICENESS=5
+#INETD=0

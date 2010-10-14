@@ -1,0 +1,23 @@
+# File managed by Puppet
+log_facility=daemon
+pid_file=<%= scope.lookupvar('nrpe::params::pidfile') %>
+server_port=<%= scope.lookupvar('nrpe::params::port') %>
+#server_address=127.0.0.1
+nrpe_user=<%= scope.lookupvar('nrpe::params::user') %>
+nrpe_group=<%= scope.lookupvar('nrpe::params::user') %>
+allowed_hosts=<%= scope.lookupvar('nrpe::params::allowed_hosts') %>
+dont_blame_nrpe=<%= scope.lookupvar('nrpe::params::dont_blame_nrpe') %>
+# command_prefix=/usr/bin/sudo 
+debug=0
+command_timeout=60
+connection_timeout=300
+#allow_weak_random_seed=1
+include_dir=<%= scope.lookupvar('nrpe::params::configdir') %>/
+
+# COMMAND DEFINITIONS
+command[check_users]=<%= scope.lookupvar('nrpe::params::pluginsdir') %>/check_users -w 5 -c 10
+command[check_load]=<%= scope.lookupvar('nrpe::params::pluginsdir') %>/check_load -w 15,10,5 -c 30,25,20
+command[check_hda1]=<%= scope.lookupvar('nrpe::params::pluginsdir') %>/check_disk -w 20% -c 10% -p /dev/hda1
+command[check_zombie_procs]=<%= scope.lookupvar('nrpe::params::pluginsdir') %>/check_procs -w 5 -c 10 -s Z
+command[check_total_procs]=<%= scope.lookupvar('nrpe::params::pluginsdir') %>/check_procs -w 150 -c 200 
+
