@@ -1,0 +1,8 @@
+# File managed by Puppet
+
+define service {
+    host_name           <%= host_name %>
+    service_description <%= real_service_description %>
+    check_command       <%= real_check_command %>
+    use                 <%= use %>
+}

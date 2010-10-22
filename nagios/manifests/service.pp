@@ -1,69 +1,43 @@
+# Define nagios::service
+#
+# Use this to define Nagios service objects
+# This is an exported resource.
+# It should be included on the nodes to be monitored but has effects on the Nagios server
+#
+# Usage:
+# nagios::service { "$fqdn": }
+#
 define nagios::service (
-    $ensure = present,
     $host_name = $fqdn,
-    $check_command,
-    $check_period = '',
-    $normal_check_interval = '',
-    $retry_check_interval = '',
-    $max_check_attempts = '',
-    $notification_interval = '',
-    $notification_period = '',
-    $notification_options = '',
-    $contact_groups = '',
-    $use = 'absent',
-    $service_description = 'absent' )
-{
+    $check_command  = '',
+    $service_description = '',
+    $use = 'generic-service' ) {
 
-    # TODO: this resource should normally accept all nagios_host parameters
+    require nagios::params
 
-    $real_name = "${hostname}_${name}"
+    # Autoinclude the target host class to pass Nagios internat checks (each service must have a defined host)
+    include nagios::target
 
-    @@nagios_service { "${real_name}":
-    ensure => $ensure,
-    check_command => $check_command,
-    host_name => $host_name,
-    notify => Service[nagios],
+    # Set defaults based on the same define $name
+    $real_check_command = $check_command ? {
+        '' => $name,
+        default => $check_command
     }
 
-    if ($check_period != '') {
-    Nagios_service["${real_name}"] { check_period => $check_period }
+    $real_service_description = $service_description ? {
+        '' => $name,
+        default => $service_description
     }
 
-    if ($normal_check_interval != '') {
-    Nagios_service["${real_name}"] { normal_check_interval => $normal_check_interval }
-    }
-
-    if ($retry_check_interval != '') {
-    Nagios_service["${real_name}"] { retry_check_interval => $retry_check_interval }
-    }
-
-    if ($max_check_attempts != '') {
-    Nagios_service["${real_name}"] { max_check_attempts => $max_check_attempts }
-    }
-
-    if ($notification_interval != '') {
-    Nagios_service["${real_name}"] { notification_interval => $notification_interval }
-    }
-
-    if ($notification_period != '') {
-    Nagios_service["${real_name}"] { notification_period => $notification_period }
-    }
-
-    if ($notification_options != '') {
-    Nagios_service["${real_name}"] { notification_options => $notification_options }
-    }
-
-    if ($use == 'absent') {
-    Nagios_service["${real_name}"] { use => 'generic-service' }
-    } else {
-    Nagios_service["${real_name}"] { use => $use }
-    }
-
-    if ($service_description == 'absent') {
-    Nagios_service["${real_name}"] { service_description => $name }
-    } else {
-    Nagios_service["${real_name}"] { service_description => $service_description }
+    @@file { "${nagios::params::configdir}/services/${nagios_host_name}-${name}.cfg":
+        mode    => "${nagios::params::configfile_mode}",
+        owner   => "${nagios::params::configfile_owner}",
+        group   => "${nagios::params::configfile_group}",
+        ensure  => present,
+        require => Class["nagios::extra"],
+        notify  => Service["nagios"],
+        content => template( "nagios/service.erb" ),
+        tag     => 'nagios',
     }
 
 }
-

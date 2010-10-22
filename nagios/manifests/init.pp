@@ -1,35 +1,73 @@
 #
-# nagios module
-# nagios.pp - everything nagios related
+# Class: nagios
 #
-# Copyright (C) 2007 David Schmitt <david@schmitt.edv-bus.at>
-# Copyright 2008, admin(at)immerda.ch
-# Copyright 2008, Puzzle ITC GmbH
-# Marcel Härry haerry+puppet(at)puzzle.ch
-# Simon Josi josi+puppet(at)puzzle.ch
+# Manages nagios.
+# Include it to install and run nagios
+# It defines package, service, main configuration file.
 #
-# This program is free software; you can redistribute 
-# it and/or modify it under the terms of the GNU 
-# General Public License version 3 as published by 
-# the Free Software Foundation.
+# Usage:
+# include nagios
 #
-
 class nagios {
-    case $nagios_httpd {
-    'absent': { }
-    'lighttpd': { include lighttpd }
-    'apache': { include apache }
-    default: { include apache }
+
+    # Load the variables used in this module. Check the params.pp file 
+    require nagios::params
+
+    # Basic Package - Service - Configuration file management
+    package { "nagios":
+        name   => "${nagios::params::packagename}",
+        ensure => present,
     }
+
+    service { "nagios":
+        name       => "${nagios::params::servicename}",
+        ensure     => running,
+        enable     => true,
+        hasrestart => true,
+        hasstatus  => "${nagios::params::hasstatus}",
+        pattern    => "${nagios::params::processname}",
+        require    => Package["nagios"],
+        subscribe  => File["nagios.conf"],
+    }
+
+    file { "nagios.conf":
+        path    => "${nagios::params::configfile}",
+        mode    => "${nagios::params::configfile_mode}",
+        owner   => "${nagios::params::configfile_owner}",
+        group   => "${nagios::params::configfile_group}",
+        ensure  => present,
+        require => Package["nagios"],
+        notify  => Service["nagios"],
+        content => template("nagios/nagios.cfg.erb"),
+    }
+
+    # Include extra configs for Example42 Nagios implementation
+    include nagios::extra
+
+    # Collects all the stored configs regarding nagios
+    File <<| tag == 'nagios' |>>
+
+    # Include OS specific subclasses, if necessary
     case $operatingsystem {
-    'centos': {
-        $nagios_cfgdir = '/etc/nagios'
-        include nagios::centos
+        default: { }
     }
-    'debian': {
-        $nagios_cfgdir = '/etc/nagios3'
-        include nagios::debian
+
+    # Include extended classes, if 
+    if $backup == "yes" { include nagios::backup }
+    if $monitor == "yes" { include nagios::monitor }
+    if $firewall == "yes" { include nagios::firewall }
+
+    # Include project specific class if $my_project is set
+    # The extra project class is by default looked in nagios module 
+    # If $my_project_onmodule == yes it's looked in your project module
+    if $my_project { 
+        case $my_project_onmodule {
+            yes,true: { include "${my_project}::nagios" }
+            default: { include "nagios::${my_project}" }
+        }
     }
-    default: { fail("No such operatingsystem: $operatingsystem yet defined") }
-    }
+
+    # Include debug class is debugging is enabled ($debug=yes)
+    if ( $debug == "yes" ) or ( $debug == true ) { include nagios::debug }
+
 }

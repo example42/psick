@@ -1,15 +1,14 @@
-# manifests/target.pp
-
+#
+# Class: nagios::target
+#
+# Basic host target class
+# Include it on nodes to be monitored by Nagios
+#
+# Usage:
+# include nagios::target
+#
 class nagios::target {
 
-    @@nagios_host { "${fqdn}":
-    address => $ipaddress,
-    alias => $hostname,
-    use => 'generic-host',
-    }
-
-    if ($nagios_parents != '') {
-    Nagios_host["${fqdn}"] { parents => $nagios_parents }
-    }
+    nagios::host { $fqdn: }
 
 }
