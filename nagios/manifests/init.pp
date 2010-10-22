@@ -38,7 +38,7 @@ class nagios {
         ensure  => present,
         require => Package["nagios"],
         notify  => Service["nagios"],
-        content => template("nagios/nagios.cfg.erb"),
+        # content => template("nagios/nagios.cfg.erb"),
     }
 
     # Include extra configs for Example42 Nagios implementation
