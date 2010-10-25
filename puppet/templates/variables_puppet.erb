@@ -32,10 +32,14 @@ $nodetool = <%= scope.lookupvar('puppet::params::nodetool') %>
 $externalnodes = <%= scope.lookupvar('puppet::params::externalnodes') %>
 $passenger = <%= scope.lookupvar('puppet::params::passenger') %>
 $storeconfigs = <%= scope.lookupvar('puppet::params::storeconfigs') %>
+$storeconfigs_thin = <%= scope.lookupvar('puppet::params::storeconfigs_thin') %>
 $db = <%= scope.lookupvar('puppet::params::db') %>
 $db_server = <%= scope.lookupvar('puppet::params::db_server') %>
 $db_user = <%= scope.lookupvar('puppet::params::db_user') %>
 #NOTSHOWN# $db_password = <%= scope.lookupvar('puppet::params::db_password-NO') %>
+
+
+
 
 $version = <%= scope.lookupvar('puppet::params::version') %>
 

@@ -20,6 +20,7 @@ $puppet_nodetool  (default: undefined) - Use to include an eternal node tool ("d
 $puppet_externalnodes  (default: no) - Use the external tool as external node classifier (if "yes" here, $puppet_nodetool must be defined)
 $puppet_passenger  (default: no) - Use Apache's mod ruby (Passenger) instead of default Webrick
 $puppet_storeconfigs  (default: no) - Use storeconfigs, needed for exported resources (as in Example42's extended classes)
+$puppet_storeconfigs_thin (default: yes) - Use thin storeconfigs
 $puppet_db  (default: sqlite) - Define DB backend if you activate storeconfigs ("sqlite" or "mysql")
 $puppet_db_server  (default: localhost) - Define DB server host (used if $puppet_db = "mysql")
 $puppet_db_user  (default: root) - Define DB access user (used if $puppet_db = "mysql")

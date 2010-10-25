@@ -19,6 +19,7 @@ class puppet::server {
     $puppet_nodetool = $puppet::params::nodetool
     $puppet_externalnodes = $puppet::params::externalnodes
     $puppet_storeconfigs = $puppet::params::storeconfigs
+    $puppet_storeconfigs_thin = $puppet::params::storeconfigs_thin
     $puppet_db = $puppet::params::db
     $puppet_db_server = $puppet::params::db_server
     $puppet_db_user = $puppet::params::db_user
@@ -27,9 +28,12 @@ class puppet::server {
 
     # We need rails for storeconfigs
     case $puppet_storeconfigs {
-        yes: { include rails }
+        yes: { include puppet::rails }
         default: { }
     }
+
+    # Automanagement of Mysql Grants if mysql is used
+    if ( $puppet::params::db == "mysql" ) { include puppet::server::mysql }
 
     # On the PuppetMaster is useful the puppet-module-tool
     # include puppet::moduletool

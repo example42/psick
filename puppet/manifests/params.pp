@@ -42,9 +42,16 @@ class puppet::params  {
 
 # Use storeconfigs, needed for exported resources ($puppet_storeconfigs). Default: no
     $storeconfigs = $puppet_storeconfigs ? {
+        yes     => "yes",
+        no      => "no",
+        default => "no",
+    }
+
+# Use thin storeconfigs, for better performances when using storeconfigs ($puppet_storeconfigs_thin). Default: yes 
+    $storeconfigs_thin = $puppet_storeconfigs_thin ? {
         yes  => "yes",
         no   => "no",
-        default => "no",
+        default => "yes",
     }
 
 # Define Puppet DB backend for storeconfigs, needed only if $puppet_storeconfigs=yes ($puppet_db). Default: sqlite

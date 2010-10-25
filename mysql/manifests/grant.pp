@@ -7,6 +7,8 @@ define mysql::grant (
     $mysql_grant_filepath = "/root"
     ) {
 
+    include mysql
+ 
     file {
         "mysqlgrant-$mysql_user-$mysql_db.sql":
         mode => 600, owner => root, group => root,

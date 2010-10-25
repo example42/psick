@@ -47,6 +47,8 @@ server=<%= puppet_server %>
 <% if puppet_storeconfigs == "yes" -%>
 # Storeconfigs activated
 storeconfigs = true
+<% if puppet_storeconfigs_thin == "yes" -%>
+thin_storeconfigs = true
 <% end -%>
 
 <% if puppet_db == "sqlite" -%>
@@ -60,6 +62,7 @@ dbadapter=mysql
 dbserver=<%= puppet_db_server %>
 dbuser=<%= puppet_db_user %>
 dbpassword=<%= puppet_db_password %>
+<% end -%>
 <% end -%>
 
 # Reporting
