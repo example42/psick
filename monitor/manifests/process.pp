@@ -31,7 +31,9 @@ if ($enable != "false") and ($enable != "no") and ($enable != false) {
 
     if ($tool =~ /nagios/) {
         monitor::process::nagios { "$name":
-            process => $process,
+            pidfile => "$pidfile",
+            process => "$process",
+            service => "$service",
         }
     }
 
@@ -54,4 +56,3 @@ if ($debug != "false") and ($debug != "no") and ($debug != false) {
 } # End if $debug
 
 }
-

@@ -1,27 +1,38 @@
+#
+# Define monitor::port::nagios
+#
+# Nagios connector for monitor::port abstraction layer
+# It's automatically used if "nagios" is present in the $monitor_tool array
+# By default it uses Example42 nagios module, it can be adapted for third party modules
+#
 define monitor::port::nagios (
-    $target='',
-    $port='',
-    $protocol=''
+    $target,
+    $port,
+    $protocol,
+    $enable
     ) {
 
-    # Use for Immerda and DavidS nagios module
+    $ensure = $enable ? {
+        "false"   => "absent",
+        "true"    => "present",
+    }
+
+    # Use for Example42 , Immerda and DavidS derived nagios modules
     nagios::service { "$name":
-        ensure      => present,
+        ensure      => $ensure,
         check_command => $protocol ? {
             tcp => "check_tcp!${port}",
-            udp => "chekc_ucp!${port}",
-            }
-    }
+            udp => "check_udp!${port}",
+        }
+   }
 
     # Use for Camptocamp (You can choose alternatives for distributed environent)
     # nagios::service::distributed { "$name":
-    #    ensure      => present,
+    #    ensure      => $ensure,
     #    check_command => $protocol ? {
     #        tcp => "check_tcp!${port}",
-    #        udp => "chekc_ucp!${port}",
+    #        udp => "check_udp!${port}",
     #        }
     # }
 
 }
-
-

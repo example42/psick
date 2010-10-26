@@ -3,10 +3,8 @@ define monitor::port (
     $protocol,
     $target,
     $tool,
-    $enable
+    $enable='true'
     ) {
-
-if ($enable != "false") and ($enable != "no") and ($enable != false) {
 
     if ( $debug == "yes" ) or ( $debug == true ) {
         require puppet::params
@@ -14,26 +12,41 @@ if ($enable != "false") and ($enable != "no") and ($enable != false) {
     }
 
     if ($tool =~ /munin/) {
-        if ( $debug == "yes" ) or ( $debug == true ) { file { "${puppet::params::debugdir}/todo/monitor-port-munin-$port-$protocol": ensure => present } }
+        if ( $debug == "yes" ) or ( $debug == true ) {
+            file { "${puppet::params::debugdir}/todo/monitor-port-munin_$name":
+                ensure => present,
+                content => "Name: $name \nPort: $port \nProtocol: $protocol \nTarget: $target \nTool: $tool \nEnable: $enable\n"
+            }
+        }
     }
 
     if ($tool =~ /collectd/) {
-        if ( $debug == "yes" ) or ( $debug == true ) { file { "${puppet::params::debugdir}/todo/monitor-port-collectd-$port-$protocol": ensure => present } }
+        if ( $debug == "yes" ) or ( $debug == true ) {
+            file { "${puppet::params::debugdir}/todo/monitor-port-collectd_$name":
+                ensure => present,
+                content => "Name: $name \nPort: $port \nProtocol: $protocol \nTarget: $target \nTool: $tool \nEnable: $enable\n"
+            }
+        }
     }
 
     if ($tool =~ /monit/) {
-        if ( $debug == "yes" ) or ( $debug == true ) { file { "${puppet::params::debugdir}/todo/monitor-port-monit-$port-$protocol": ensure => present } }
+        if ( $debug == "yes" ) or ( $debug == true ) {
+            file { "${puppet::params::debugdir}/todo/monitor-port-monit_$name":
+                ensure => present,
+                content => "Name: $name \nPort: $port \nProtocol: $protocol \nTarget: $target \nTool: $tool \nEnable: $enable\n"
+            }
+            file { "${puppet::params::debugdir}/todo/monitor-port-monit-$port-$protocol": ensure => absent } # TODO Remove after cleanup
+        }
     }
 
     if ($tool =~ /nagios/) {
         monitor::port::nagios { "$name":
-            target  => $target,
+            target   => $target,
             protocol => $protocol,
             port     => $port,
+            enable   => $enable,
         }
     }
-
-} # End if $enable
 
 }
 

@@ -1,19 +1,16 @@
 define monitor::process::nagios (
-    $processname=''
+    $pidfile='',
+    $process='',
+    $service=''
     ) {
 
-    # Use for Immerda and DavidS and derivated Nagios modules
+    # Use for Example42 service checks via nrpe 
     nagios::service { "$name":
         ensure      => present,
-        check_command => $processname ? {
-            undef    => "check_procs!${name}" ,
-            default => "check_procs!${processname}" ,
+        check_command => $process ? {
+            undef    => "check_nrpe!check_process!${name}" ,
+            default => "check_nrpe!check_process!${process}" ,
         }
     }
 
-    # Use for Camptocamp (You can choose alternatives for distributed environent)
-    # nagios::service::distributed { "$name":
-    # [...]
-
 }
-
