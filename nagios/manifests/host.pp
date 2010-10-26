@@ -10,19 +10,22 @@
 define nagios::host (
     $ip = $fqdn,
     $short_alias = $fqdn,
-    $use = 'generic-host' ) {
+    $use = 'generic-host',
+    $nagios_parent = '',
+    $ensure = 'present',
+    $hostgroups = 'all' ) {
 
     require nagios::params
 
-    @@file { "${nagios::params::configdir}/hosts/${name}.cfg":
+    @@file { "${nagios::params::customconfigdir}/hosts/${name}.cfg":
         mode    => "${nagios::params::configfile_mode}",
         owner   => "${nagios::params::configfile_owner}",
         group   => "${nagios::params::configfile_group}",
-        ensure  => present,
+        ensure  => "${ensure}",
         require => Class["nagios::extra"],
         notify  => Service["nagios"],
         content => template( "nagios/host.erb" ),
-        tag     => 'nagios',
+        tag     => 'nagios_host',
     }
 
 }

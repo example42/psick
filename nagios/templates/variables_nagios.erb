@@ -4,6 +4,9 @@ These are the variables used by the module nagios
 
 User variables:
 
+Extra variables:
+$customconfigdir = <%= scope.lookupvar('nagios::params::customconfigdir') %>
+
 General internal variables:
 $packagename = <%= scope.lookupvar('nagios::params::packagename') %>
 $servicename = <%= scope.lookupvar('nagios::params::servicename') %>

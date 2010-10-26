@@ -1,7 +1,7 @@
 # File Managed by Puppet
 
 define host{
-    hostgroups ping-servers
+    hostgroups <%= hostgroups %>
     host_name  <%= name %>
     alias      <%= short_alias %>
     address    <%= ip %>

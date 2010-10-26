@@ -1,26 +1,20 @@
 # File Managed by Puppet
-log_file=/var/log/nagios3/nagios.log
-cfg_file=/etc/nagios3/commands.cfg
-cfg_dir=/etc/nagios-plugins/config
-cfg_dir=/etc/nagios3/conf.d
+log_file=<%= scope.lookupvar('nagios::params::logdir') %>/nagios.log
 
-#cfg_file=/etc/nagios3/objects/commands.cfg
-#cfg_file=/etc/nagios3/objects/contacts.cfg
-#cfg_file=/etc/nagios3/objects/timeperiods.cfg
-#cfg_file=/etc/nagios3/objects/templates.cfg
-#cfg_file=/etc/nagios3/objects/windows.cfg
-#cfg_file=/etc/nagios3/objects/switch.cfg
-#cfg_file=/etc/nagios3/objects/printer.cfg
+# To keep sanity among different OS all configurations are managed by Puppet and placed in the same place
+cfg_file=<%= scope.lookupvar('nagios::params::customconfigdir') %>/commands.cfg
+cfg_file=<%= scope.lookupvar('nagios::params::customconfigdir') %>/contacts.cfg
+cfg_file=<%= scope.lookupvar('nagios::params::customconfigdir') %>/timeperiods.cfg
+cfg_file=<%= scope.lookupvar('nagios::params::customconfigdir') %>/templates.cfg
+cfg_dir=<%= scope.lookupvar('nagios::params::customconfigdir') %>/hostgroups
+cfg_dir=<%= scope.lookupvar('nagios::params::customconfigdir') %>/hosts
+cfg_dir=<%= scope.lookupvar('nagios::params::customconfigdir') %>/services
+cfg_dir=<%= scope.lookupvar('nagios::params::customconfigdir') %>/commands
 
-#cfg_dir=/etc/nagios3/servers
-#cfg_dir=/etc/nagios3/printers
-#cfg_dir=/etc/nagios3/switches
-#cfg_dir=/etc/nagios3/routers
-
-object_cache_file=/var/cache/nagios3/objects.cache
-precached_object_file=/var/lib/nagios3/objects.precache
-resource_file=/etc/nagios3/resource.cfg
-status_file=/var/cache/nagios3/status.dat
+object_cache_file=<%= scope.lookupvar('nagios::params::cachedir') %>/objects.cache
+precached_object_file=<%= scope.lookupvar('nagios::params::libdir') %>/objects.precache
+resource_file=<%= scope.lookupvar('nagios::params::resourcefile') %>
+status_file=<%= scope.lookupvar('nagios::params::statusfile') %>
 status_update_interval=10
 nagios_user=nagios
 nagios_group=nagios
@@ -28,11 +22,11 @@ nagios_group=nagios
 check_external_commands=0
 #command_check_interval=15s
 command_check_interval=-1
-command_file=/var/lib/nagios3/rw/nagios.cmd
+command_file=<%= scope.lookupvar('nagios::params::commandfile') %>
 external_command_buffer_slots=4096
 
-lock_file=/var/run/nagios3/nagios3.pid
-temp_file=/var/cache/nagios3/nagios.tmp
+lock_file=<%= scope.lookupvar('nagios::params::pidfile') %>
+temp_file=<%= scope.lookupvar('nagios::params::cachedir') %>/nagios.tmp
 temp_path=/tmp
 
 event_broker_options=-1
@@ -41,7 +35,7 @@ event_broker_options=-1
 
 # LOGGING OPTIONS
 log_rotation_method=d
-log_archive_path=/var/log/nagios3/archives
+log_archive_path=<%= scope.lookupvar('nagios::params::logdir') %>/archives
 use_syslog=1
 log_notifications=1
 log_service_retries=1
@@ -68,7 +62,7 @@ max_check_result_reaper_time=30
 
 
 # CHECKS AGE MANAGEMENT
-check_result_path=/var/lib/nagios3/spool/checkresults
+check_result_path=<%= scope.lookupvar('nagios::params::resultpath') %>
 max_check_result_file_age=3600
 cached_host_check_horizon=15
 cached_service_check_horizon=15
@@ -95,7 +89,7 @@ perfdata_timeout=5
 
 # RETAIN STATE INFORMATION
 retain_state_information=1
-state_retention_file=/var/lib/nagios3/retention.dat
+state_retention_file=<%= scope.lookupvar('nagios::params::retentionfile') %>
 retention_update_interval=60
 use_retained_program_state=1
 use_retained_scheduling_info=1
@@ -179,7 +173,7 @@ date_format=iso8601
 
 
 # P1.PL FILE LOCATION
-p1_file=/usr/lib/nagios3/p1.pl
+p1_file=<%= scope.lookupvar('nagios::params::p1file') %>
 enable_embedded_perl=1
 use_embedded_perl_implicitly=1
 
@@ -217,5 +211,5 @@ enable_environment_macros=1
 # DEBUG 
 debug_level=0
 debug_verbosity=1
-debug_file=/var/log/nagios3/nagios.debug
+debug_file=<%= scope.lookupvar('nagios::params::logdir') %>/nagios.debug
 max_debug_file_size=1000000

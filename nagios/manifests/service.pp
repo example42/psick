@@ -11,7 +11,8 @@ define nagios::service (
     $host_name = $fqdn,
     $check_command  = '',
     $service_description = '',
-    $use = 'generic-service' ) {
+    $use = 'generic-service',
+    $ensure = 'present' ) {
 
     require nagios::params
 
@@ -29,15 +30,15 @@ define nagios::service (
         default => $service_description
     }
 
-    @@file { "${nagios::params::configdir}/services/${nagios_host_name}-${name}.cfg":
+    @@file { "${nagios::params::customconfigdir}/services/${host_name}-${name}.cfg":
         mode    => "${nagios::params::configfile_mode}",
         owner   => "${nagios::params::configfile_owner}",
         group   => "${nagios::params::configfile_group}",
-        ensure  => present,
+        ensure  => "${ensure}",
         require => Class["nagios::extra"],
         notify  => Service["nagios"],
         content => template( "nagios/service.erb" ),
-        tag     => 'nagios',
+        tag     => 'nagios_service',
     }
 
 }

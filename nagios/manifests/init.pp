@@ -13,6 +13,9 @@ class nagios {
     # Load the variables used in this module. Check the params.pp file 
     require nagios::params
 
+    # No Nagios without webserver
+    include apache
+
     # Basic Package - Service - Configuration file management
     package { "nagios":
         name   => "${nagios::params::packagename}",
@@ -38,14 +41,19 @@ class nagios {
         ensure  => present,
         require => Package["nagios"],
         notify  => Service["nagios"],
-        # content => template("nagios/nagios.cfg.erb"),
+        content => template("nagios/nagios.cfg.erb"),
     }
 
     # Include extra configs for Example42 Nagios implementation
     include nagios::extra
 
+    # Include cleanup class that can be used to clean and purge storeconfigured mess
+    include nagios::cleanup
+
     # Collects all the stored configs regarding nagios
-    File <<| tag == 'nagios' |>>
+    File <<| tag == 'nagios_host' |>>
+    File <<| tag == 'nagios_service' |>>
+    File <<| tag == 'nagios_hostgroup' |>>
 
     # Include OS specific subclasses, if necessary
     case $operatingsystem {

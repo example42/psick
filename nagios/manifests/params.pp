@@ -9,31 +9,93 @@ class nagios::params  {
 # (Here are set the defaults, provide your custom variables externally)
 # (The default used is in the line with '')
 
-# Full hostname of nagios server
-    $server = $nagios_server ? {
-        ''      => "nagios",
-        default => "${nagios_server}",
+    # Hostgroup automatic assignement according to custom logic # TODO: MAKE IT WORK ! 
+    $hostgroups = $nagios_hostgroups ? {
+         ''      => "all",
+#         ''      => "$role",
+         default => $nagios_hostgroups
     }
 
+
+## EXTRA VARIABLES
+# The directory where we place automatic Nagios confingurations MUST be fixed
+# Cannot be operating system dependent
+    $customconfigdir = "/etc/nagios/auto.d"
+
+    # Sets Nagios versions according to default package of different OS. To be updated...
+    $version = $operatingsystem ? {
+        redhat  => "2",
+        centos  => "2",
+        debian  => "2",
+        default => "3",
+    }
+
+    $cachedir = $operatingsystem ? {
+        debian  => "/var/cache/nagios2",
+        ubuntu  => "/var/cache/nagios3",
+        default => "/var/log/nagios",
+    }
+
+    $libdir = $operatingsystem ? {
+        debian  => "/var/lib/nagios2",
+        ubuntu  => "/var/lib/nagios3",
+        default => "/var/lib/nagios",
+    }
+
+    $resourcefile = $operatingsystem ? {
+        debian  => "/etc/nagios2/resource.cfg",
+        ubuntu  => "/etc/nagios3/resource.cfg",
+        default => "/etc/nagios/private/resource.cfg",
+    }
+
+    $statusfile = $operatingsystem ? {
+        debian  => "/var/cache/nagios2/status.dat",
+        ubuntu  => "/var/cache/nagios3/status.dat",
+        default => "/var/log/nagios/status.dat",
+    }
+
+    $commandfile = $operatingsystem ? {
+        debian  => "/var/lib/nagios2/rw/nagios.cmd",
+        ubuntu  => "/var/lib/nagios3/rw/nagios.cmd",
+        default => "/var/spool/nagios/cmd/nagios.cmd",
+    }
+
+    $resultpath = $operatingsystem ? {
+        debian  => "/var/lib/nagios3/spool/checkresults",
+        ubuntu  => "/var/lib/nagios3/spool/checkresults",
+        default => "/var/spool/nagios/checkresults",
+    }
+
+    $retentionfile = $operatingsystem ? {
+        debian  => "/var/lib/nagios2/retention.dat",
+        ubuntu  => "/var/lib/nagios3/retention.dat",
+        default => "/var/log/nagios/retention.dat",
+    }
+
+    $p1file = $operatingsystem ? {
+        debian  => "/usr/lib/nagios2/p1.pl",
+        ubuntu  => "/usr/lib/nagios3/p1.pl",
+        default => "/usr/sbin/p1.pl",
+    }
 
 ## MODULE INTERNAL VARIABLES
 # (Modify to adapt to unsupported OSes)
 
     $packagename = $operatingsystem ? {
         ubuntu  => "nagios3",
-        debian  => "nagios3",
+        debian  => "nagios2",
         default => "nagios",
     }
 
     $servicename = $operatingsystem ? {
         ubuntu  => "nagios3",
-        debian  => "nagios3",
+        debian  => "nagios2",
         default => "nagios",
     }
 
     $processname = $operatingsystem ? {
         ubuntu  => "nagios3",
-        debian  => "nagios3",
+        debian  => "nagios2",
         default => "nagios",
     }
 
@@ -42,8 +104,8 @@ class nagios::params  {
     }
 
     $configfile = $operatingsystem ? {
-        ubuntu  => "/etc/nagios/nagios.cfg",
-        debian  => "/etc/nagios/nagios.cfg",
+        ubuntu  => "/etc/nagios3/nagios.cfg",
+        debian  => "/etc/nagios2/nagios.cfg",
         default => "/etc/nagios/nagios.cfg",
     }
 
@@ -60,34 +122,34 @@ class nagios::params  {
     }
 
     $configdir = $operatingsystem ? {
-        debian  => "/etc/nagios3",
+        debian  => "/etc/nagios2",
         ubuntu  => "/etc/nagios3",
         default => "/etc/nagios",
     }
 
     $initconfigfile = $operatingsystem ? {
-        debian  => "/etc/default/nagios3",
+        debian  => "/etc/default/nagios2",
         ubuntu  => "/etc/default/nagios3",
         default => "/etc/sysconfig/nagios",
     }
     
     # Used by monitor class
     $pidfile = $operatingsystem ? {
-        debian  => "/var/run/nagios3/nagios3.pid",
+        debian  => "/var/run/nagios2/nagios2.pid",
         ubuntu  => "/var/run/nagios3/nagios3.pid",
-        default => "/var/run/nagiosd.pid",
+        default => "/var/run/nagios.pid",
     }
 
     # Used by backup class
     $datadir = $operatingsystem ? {
-        debian  => "/var/lib/nagios3",
+        debian  => "/var/lib/nagios2",
         ubuntu  => "/var/lib/nagios3",
         default => "/var/lib/nagios",
     }
 
     # Used by backup class - Provide the file name, if there's no dedicated dir
     $logdir = $operatingsystem ? {
-        debian  => "/var/log/nagios3",
+        debian  => "/var/log/nagios2",
         ubuntu  => "/var/log/nagios3",
         default => "/var/log/nagios",
     }
@@ -95,8 +157,8 @@ class nagios::params  {
     # Used by monitor and firewall class
     # If you need to define additional ports, call them $protocol1/$port1 and add the relevant
     # parts in firewall.pp and monitor.pp
-    # $protocol = "tcp"
-    # $port = "80"
+    $protocol = "tcp"
+    $port = "801"
     
 
 

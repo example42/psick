@@ -11,4 +11,8 @@ class nagios::target {
 
     nagios::host { $fqdn: }
 
+#    nagios::hostgroup { "${nagios::params::hostgroups}-$fqdn": 
+#        hostgroup => "${nagios::params::hostgroups}",
+#    }
+
 }
