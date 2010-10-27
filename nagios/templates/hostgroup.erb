@@ -1,5 +1,7 @@
 # File Managed by Puppet
 
 define hostgroup{
-    hostgroup_name <%= hostgroup %>
+    hostgroup_name <%= name %>
+    alias          <%= name %>
+    members        <%= members %>
 }

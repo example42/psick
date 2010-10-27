@@ -9,7 +9,7 @@ class nagios::params  {
 # (Here are set the defaults, provide your custom variables externally)
 # (The default used is in the line with '')
 
-    # Hostgroup automatic assignement according to custom logic # TODO: MAKE IT WORK ! 
+    # Hostgroup automatic assignement according to custom logic # TESTING # 
     $hostgroups = $nagios_hostgroups ? {
          ''      => "all",
 #         ''      => "$role",

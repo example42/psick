@@ -61,8 +61,8 @@ class nagios::extra {
     # General Nagios configuration files
     # Customize and adapt ! 
 
-    file { "nagios_commands.cfg":
-        path    => "${nagios::params::customconfigdir}/commands.cfg",
+    file { "nagios_commands_general.cfg":
+        path    => "${nagios::params::customconfigdir}/commands/general.cfg",
         mode    => "644",
         owner   => "${nagios::params::configfile_owner}",
         group   => "${nagios::params::configfile_group}",
@@ -101,15 +101,14 @@ class nagios::extra {
         require => File["nagios_configdir"],
     }
 
-    file { "nagios_hostgroups.cfg":
-        path    => "${nagios::params::customconfigdir}/hostgroups/general.cfg",
+    file { "nagios_hostgroup_all.cfg":
+        path    => "${nagios::params::customconfigdir}/hostgroups/all.cfg",
         mode    => "644",
         owner   => "${nagios::params::configfile_owner}",
         group   => "${nagios::params::configfile_group}",
         ensure  => present,
-        source  => "${nagios::params::general_base_source}/nagios/hostgroups.cfg",
+        source  => "${nagios::params::general_base_source}/nagios/hostgroup_all.cfg",
         require => File["nagios_configdir"],
     }
-
 
 }

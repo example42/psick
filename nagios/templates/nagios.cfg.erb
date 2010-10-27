@@ -2,7 +2,6 @@
 log_file=<%= scope.lookupvar('nagios::params::logdir') %>/nagios.log
 
 # To keep sanity among different OS all configurations are managed by Puppet and placed in the same place
-cfg_file=<%= scope.lookupvar('nagios::params::customconfigdir') %>/commands.cfg
 cfg_file=<%= scope.lookupvar('nagios::params::customconfigdir') %>/contacts.cfg
 cfg_file=<%= scope.lookupvar('nagios::params::customconfigdir') %>/timeperiods.cfg
 cfg_file=<%= scope.lookupvar('nagios::params::customconfigdir') %>/templates.cfg
@@ -234,4 +233,3 @@ debug_verbosity=1
 debug_file=<%= scope.lookupvar('nagios::params::logdir') %>/nagios.debug
 max_debug_file_size=1000000
 <% end -%>
-

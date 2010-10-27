@@ -7,7 +7,9 @@
 # Usage:
 # nagios::hostgroup { "$fqdn": }
 #
-define nagios::hostgroup ( $ensure = 'present' , $hostgroup ) {
+define nagios::hostgroup ( 
+    $ensure = 'present' ,
+    $members = '*' ) {
 
     require nagios::params
 

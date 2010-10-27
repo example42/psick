@@ -53,7 +53,7 @@ class nagios {
     # Collects all the stored configs regarding nagios
     File <<| tag == 'nagios_host' |>>
     File <<| tag == 'nagios_service' |>>
-    File <<| tag == 'nagios_hostgroup' |>>
+#    File <<| tag == 'nagios_hostgroup' |>>
 
     # Include OS specific subclasses, if necessary
     case $operatingsystem {
