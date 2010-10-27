@@ -3,10 +3,8 @@ define monitor::process (
     $service,
     $pidfile,
     $tool,
-    $enable
+    $enable='true'
     ) {
-
-if ($enable != "false") and ($enable != "no") and ($enable != false) {
 
     if ( $debug == "yes" ) or ( $debug == true ) {
         require puppet::params
@@ -14,31 +12,40 @@ if ($enable != "false") and ($enable != "no") and ($enable != false) {
     }
 
     if ($tool =~ /munin/) {
-        if ( $debug == "yes" ) or ( $debug == true ) { file { "${puppet::params::debugdir}/todo/monitor-process-munin-$process": ensure => present } }
+        if ( $debug == "yes" ) or ( $debug == true ) {
+            file { "${puppet::params::debugdir}/todo/monitor-process-munin_$name":
+                ensure => present,
+                content => "Name: $name \nProcess: $process \nService: $service \nPidfile: $pidfile \nTool: $tool \nEnable: $enable\n"
+            }
+        }
     }
 
     if ($tool =~ /collectd/) {
-        if ( $debug == "yes" ) or ( $debug == true ) { file { "${puppet::params::debugdir}/todo/monitor-process-collectd-$process": ensure => present } }
+        if ( $debug == "yes" ) or ( $debug == true ) {
+            file { "${puppet::params::debugdir}/todo/monitor-process-collectd_$name":
+                ensure => present,
+                content => "Name: $name \nProcess: $process \nService: $service \nPidfile: $pidfile \nTool: $tool \nEnable: $enable\n"
+            }
+        }
     }
 
     if ($tool =~ /monit/) {
         monitor::process::monit { "$name":
-            pidfile => "$pidfile",
-            process => "$process",
-            service => "$service",
+            pidfile => $pidfile,
+            process => $process,
+            service => $service,
+            enable  => $enable,
         }
     }
 
     if ($tool =~ /nagios/) {
         monitor::process::nagios { "$name":
-            pidfile => "$pidfile",
-            process => "$process",
-            service => "$service",
+            pidfile => $pidfile,
+            process => $process,
+            service => $service,
+            enable  => $enable,
         }
     }
-
-} # End if $enable
-
 
 if ($debug != "false") and ($debug != "no") and ($debug != false) {
 
@@ -56,3 +63,4 @@ if ($debug != "false") and ($debug != "no") and ($debug != false) {
 } # End if $debug
 
 }
+
