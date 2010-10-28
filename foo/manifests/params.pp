@@ -9,11 +9,11 @@ class foo::params  {
 # (Here are set the defaults, provide your custom variables externally)
 # (The default used is in the line with '')
 
-## Example: Full hostname of foo server
-#    $server = $foo_server ? {
-#        ''      => "foo",
-#        default => "${foo_server}",
-#    }
+# Full hostname of foo server
+    $server = $foo_server ? {
+        ''      => "foo",
+        default => "${foo_server}",
+    }
 
 
 ## MODULE INTERNAL VARIABLES
