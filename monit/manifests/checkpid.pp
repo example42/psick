@@ -6,7 +6,7 @@
 # With standard template:
 # monit::checkpid    { "name": }
 #
-define monit::checkpid ( $templatefile="", $pidfile="", $startprogram="", $stopprogram="", $restarts="", $cycles="", $failaction="" ) {
+define monit::checkpid ( $templatefile="", $pidfile="", $startprogram="", $stopprogram="", $restarts="", $cycles="", $failaction="", $enable="true" ) {
 
     require monit::params
 
@@ -55,6 +55,12 @@ define monit::checkpid ( $templatefile="", $pidfile="", $startprogram="", $stopp
 	default => $failaction,
     }
 
+    # Define if resource is present or absent
+    $ensure = $enable ? {
+        "false"   => "absent",
+        "true"    => "present",
+    }
+
     file { "MonitCheckPid_${name}":
         path    => "${monit::params::pluginsdir}/${name}",
         mode    => "${monit::params::pluginfile_mode}",
@@ -62,7 +68,7 @@ define monit::checkpid ( $templatefile="", $pidfile="", $startprogram="", $stopp
         group   => "${monit::params::pluginfile_group}",
         require => Package["monit"],
 	notify  => Service["monit"],
-        ensure  => present,
+        ensure  => $ensure,
         content => template("monit/plugins/$templatefile_checkpid"),
     }
 

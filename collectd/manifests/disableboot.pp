@@ -7,7 +7,11 @@
 # include collectd::disableboot
 #
 class collectd::disableboot inherits collectd {
+
+    require collectd::params
+
     Service["collectd"] {
         enable => "false",
     }
+
 }

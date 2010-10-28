@@ -9,5 +9,6 @@ class apache::debian {
     file { "Apache_loglink":
         path   => "/etc/apache2/logs",
         ensure => "/var/log/apache2/",
+        require => Package["apache"],
     }
 }
