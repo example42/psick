@@ -9,11 +9,16 @@ class foo::params  {
 # (Here are set the defaults, provide your custom variables externally)
 # (The default used is in the line with '')
 
-# Full hostname of foo server
-    $server = $foo_server ? {
-        ''      => "foo",
-        default => "${foo_server}",
-    }
+## Full hostname of foo server
+#    $server = $foo_server ? {
+#        ''      => "foo",
+#        default => "${foo_server}",
+#    }
+
+
+## EXTRA MODULE INTERNAL VARIABLES
+#(add here module specific internal variables)
+
 
 
 ## MODULE INTERNAL VARIABLES
@@ -29,7 +34,7 @@ class foo::params  {
     }
 
     $processname = $operatingsystem ? {
-        default => "food",
+        default => "foo",
     }
 
     $hasstatus = $operatingsystem ? {
@@ -215,6 +220,15 @@ class foo::params  {
            default => $firewall_destination,
         },
         default => "$foo_firewall_destination",
+    }
+
+    # If firewall filter is enabled
+    $firewall_enable = $foo_firewall_enable ? {
+        ''      => $firewall_enable ? {
+           ''      => true,
+           default => $firewall_enable,
+        },
+        default => $foo_firewall_enable,
     }
 
 ## FILE SERVING SOURCE

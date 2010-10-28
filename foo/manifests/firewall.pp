@@ -18,6 +18,7 @@ class foo::firewall {
         port        => "${foo::params::port}",
         action      => "allow",
         direction   => "input",
+        enable      => "${foo::params::firewall_enable}",
     }
 
 }

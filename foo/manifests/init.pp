@@ -13,9 +13,6 @@ class foo {
     # Load the variables used in this module. Check the params.pp file 
     require foo::params
 
-    # Re-sets variables needed in templates (to get default values)
-    $foo_server = $foo::params::server
-
     # Basic Package - Service - Configuration file management
     package { "foo":
         name   => "${foo::params::packagename}",

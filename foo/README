@@ -7,14 +7,13 @@ Licence: GPLv3
 
 DESCRIPTION:
 This module installs and manages foo.
-Standard and extended classes are available.
+Standard and Example42 extended classes are available.
+Generally you can easily import and use standard classes in your own modules set, without other Example42 modules.
+You can place your customizations in the dedicated "project" files (by default example42.pp, use the example42_project_rename.sh script to rename them).
 Decide and customize how you want to define configuration files: static files, templates, infile modifications...
 
 
 USER VARIABLES:
-In order to customize the behaviour of the module you can set the following variables:
-$foo_server (default: "foo.example42.com") - Defines the hostname of the foo server
-$foo_server_local (default: "no") - Defines if the local node is a foo server
 
 
 USAGE:
@@ -24,6 +23,7 @@ include foo              # Install and run foo
 include foo::disable     # Disable foo service.
 include foo::disableboot # Disable foo service at boot time, but don't stop if it's running.
 include foo::absent      # Remove foo package.
+include foo::debug       # Used for debugging purposes (not resource hungry) - Automatically included if $debug=yes - Requires Example42's puppet module
 
 # Extended Classes (generally require storeconfigs)
 include foo::monitor     # Monitor foo - Automatically included if $monitor=yes - Requires Example42's monitor module
@@ -53,6 +53,6 @@ $base_source - Let you define an alternative source for static files:
 
 DEPENDENCIES:
 Standard classes generally don't need external modules.
-Extended classes need the relevant external modules (import monitor ; import backup ... ) and the "common" module (import common)
+Extended classes need the relevant external modules ( monitor ; backup ... ) and the "common" module.
 foo::conf generic infile configuration define needs the "common" module
 Check on individual module specific classes and defines if there are specific requirements.
