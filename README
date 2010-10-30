@@ -29,7 +29,7 @@ Use the script "example42_project_rename.sh" in a module to change all the refer
 to example42 to your custom project
 
 This template provides the following files:
-# Documentation and metadata
+# Documentation and metadata
 foo/README - The module's general documentation
 foo/Modulefile - Metadata for the Puppet Forge
 # Main classes

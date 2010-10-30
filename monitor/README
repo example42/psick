@@ -5,66 +5,110 @@ Puppet abstraction module: monitor
 
 Licence: GPLv3
 
+Goal of this module:
+A Puppet infrastructure where whenever you add nodes and services these are AUTOMATICALLY checked
+by your preferred monitor tool: Nagios, Cacti, Munin, Collectd...
+Where you can do this seamlessly and without any extra work (Plug & Play)..
+Where you can introduce a new monitor tool, configure its "connectors" in a single place and have automatically
+all the resources you are already monitoring included in your new tool.
 
 DESCRIPTION:
-This modules abstracts the monitoring definitions for an host or application, in order to add
+This module abstracts the monitoring definitions for an host or application, in order to add
 and use different monitoring methods, without changes on the single application modules.
-It's a proof of concept that tries to provide:
-- a common interface for different implementations of monitoring logic tools
+It's used in the Example42 modules by the monitor "extended" classes (autoloaded if $monitor=yes)
+as a way to automatically monitor the resources provided by the module.
+This monitor module is an implementation of a monitoring abstaction layer that provides:
+- a common interface for different monitoring tools (Nagios, Monit, Munin....)
 - an unified syntax for monitoring resources able to adapt to monitoring modules from different authors
 - a standard way to define what an application or an host needs to be monitored
+- reversable actions (you can remove a monitor resource previously defined)
 
-Everything in this module is under discussion and open to redefinition,
-the goal is to prove that the concept and the implementation work seamlessly and
-to define standards accepted by the Puppet community, that can make things this work:
+USAGE
+All the Example42 modules based on the "foo" template (a standardized module layout which can be quickly
+cloned into a new module) have a foo::monitor class. This is good example of how to use this module:
 
-class apache::monitor {
-        monitor {
-                "$fqdn_apache_port":
-                type    => "port",
-                proto   => "tcp",
-                port    => 80,
-                address => $ipaddress,
-        }
+class foo::monitor {
 
-        monitor {
-                "$fqdn_apache_process":
-                type    => "process",
-                name => $operatingsystem ? {
-                        ubuntu  => "apache2",
-                        debian  => "apache2",
-                        default => "httpd",
-                        },
-        }
+    include foo::params
+
+    # Port monitoring
+    monitor::port { "foo_${foo::params::protocol}_${foo::params::port}": 
+        protocol => "${foo::params::protocol}",
+        port     => "${foo::params::port}",
+        target   => "${foo::params::monitor_target_real}",
+        enable   => "${foo::params::monitor_port_enable}",
+        tool     => "${monitor_tool}",
+    }
+    
+    # URL monitoring 
+    monitor::url { "foo_url":
+        url      => "${foo::params::monitor_baseurl_real}/index.php",
+        pattern  => "${foo::params::monitor_url_pattern}",
+        enable   => "${foo::params::monitor_url_enable}",
+        tool     => "${monitor_tool}",
+    }
+
+    # Process monitoring 
+    monitor::process { "foo_process":
+        process  => "${foo::params::processname}",
+        service  => "${foo::params::servicename}",
+        pidfile  => "${foo::params::pidfile}",
+        enable   => "${foo::params::monitor_process_enable}",
+        tool     => "${monitor_tool}",
+    }
+
 }
 
+Some notes:
+- It's not necessary to use qualified variables (such as ${foo::params::processname} ) you  can provide direct values
+- Currently 4 monitor defines are available: process, url, port and plugin (to be used is special cases).
+- You can obviously use the monitor::process, monitor::port, monitor::url wherever you want, in dedicated classes or not.
+- With the variable "monitor_tool" (which can be an array) you define what monitor tools you want to use.
 
-
-
-USAGE:
-
-# On the HOST to be monitored:
-# set the variable: $monitor=yes
-# set the variable: $monitor_<tool>=yes
+On the servers you just have to include the relevant tool module.
+For example, on the central Nagios server just
+include nagios.
+If you want all the monitor servers on the same node, you can just:
+include monitor::server.
+If you want to monitor, generically, a node you can:
 include monitor::target
+Note that this is generally not necessary, since the relevant classes are autoloaded when you use one of their defines.
 
-# On the monitoring SERVER:
-# set the variable: $monitor=yes
-# set the variable: $monitor_<tool>=yes
-include monitor::server
-# If you have different monitoring servers: 
-# set the variable: $monitor_nagios=yes
-include monitor::server::nagios
+MANAGING EXCEPTIONS
+You can fine control what you want to monitor.
+There are some "node-wide" variables you can set:
+# $monitor_port (true|false) : Set if you want to enable port monitoring for the host.
+# $monitor_url (true|false) : Set if you want to enable url checkig.
+# $monitor_process (true|false) : Set if you want to enable process monitoring.
+# $monitor_plugin (true|false) : Set if you want to try to use specific plugins of your monitoring tools 
+# $monitor_target : Set the ip/hostname you want to use on an external monitoring server to monitor the host
+# $monitor_baseurl : Set baseurl to use for eventual URL checks of services provided by this host
+These variables can be overriden on a per-module basis (needed, for example if you want to enable process monitoring for some service but not all):
+# $foo_monitor_port (true|false) : Set if you want to monitor foo's port(s). If any. Default: As defined in $monitor_port
+# $foo_monitor_url (true|false) : Set if you want to monitor foo's url(s). If any. Default: As defined in $monitor_url
+# $foo_monitor_process (true|false) : Set if you want to monitor foo's process. If any. Default: As defined in $monitor_process
+# $foo_monitor_plugin (true|false) : Set if you want to monitor foo using specific monitor tool's plugin  i   s. If any. Default: As defined in $monitor_plugin
+# $foo_monitor_target : Define how to reach (Ip, fqdn...) the host to monitor foo from an external server. Default: As defined in $monitor_target
+# $foo_monitor_url : Define the baseurl (http://$fqdn/...) to use for eventual foo URL checks. Default: As defined in $monitor_url
 
-# On the APPLICATIONS module to be monitored:
-include apache::monitor     # Monitor apache  Automatically included if $monitor=yes
-Where you can have something like the class apache::monitor seen before.
+You can finally define what monitor tool to use on each monitor define using the tool parameter.
 
 
+MONITOR MODULE LAYOUT
+This monitor module is to be considered a (working) implementation, entirely based on Puppet's DSL of a
+(strongly needed) monitor abstraction type.
+It prefers linearity and extendability over performance, so it might be overwhelming in large installations
+(it's currently in production with 3 different monitoring tools on about 80 nodes, which are going to grow to about 300).
+You can try to achieve the same result in pure Ruby language with custom types and providers
+The generic monitor defines are placed in files like:
+monitor/manifests/process.pp, monitor/manifests/port.pp, monitor/manifests/url.pp
+here according to the tool requested are called some specific defines (note that for the ones not yet implemented is just placed a debug file),
+that are configured in places like:
+monitor/manifests/process/nagios.pp, monitor/manifests/process/monit.pp where the actual defines that "do" the work are called.
+Note that here you can choose different implementations of the a specific module, so you are free to change the whole module to be used
+for a specific monitoring toolediting just these few files.  
 
 DEPENDENCIES:
 This is a meta-module that needs dependencies according to the modules you use.
-You must have storeconfigs enabled.
-You generally need the "common" module and all the prerequites for the modules related to monitoring
-applications you decide to use.
-
+You must have storeconfigs enabled to use monitoring tools like Nagios, but they are not necessary for tools
+that can be entirely configured on the same host (such as Monit).
