@@ -1,0 +1,168 @@
+#!/bin/bash
+configfile="<%= scope.lookupvar('puppi::params::basedir') %>/puppi.conf"
+
+# This is the actually command used to run the differnet scripts
+# Use cat for debugging, DONOTHING, purposes
+# runcommand="cat"
+runcommand=""
+
+# Define output verbosity (max, min, none)
+verbosity="max"
+
+# Define action tag
+export tag=$(date +%Y%m%d-%H%M%S)
+
+counter=0
+
+# Load general configurations
+if [ ! -f $configfile ] ; then
+    echo "Config file: $configfile not found"
+    exit 1
+else
+    . $configfile
+    . $scriptsdir/functions
+fi
+
+# Main functions
+check () {
+    for command in $(ls -v1 $projectsdir/$project/check) ; do
+        title="Executing project check: $command"
+        code=$(cat "$projectsdir/$project/check/$command")
+        output=$($runcommand "$projectsdir/$project/check/$command" 2>&1)
+        handle_result
+    done
+
+    for command in $(ls -v1 $checksdir) ; do
+        title="Executing host check: $command"
+        code=$(cat "$checksdir/$command")
+        output=$($runcommand "$checksdir/$command" 2>&1)
+        handle_result
+    done
+}
+
+rollback () {
+    echo "Choose deploy to rollback:"
+    ls -l $archivedir/$project
+    read rollbackversion
+    echo "export rollbackversion=$rollbackversion" >> $workdir/$project/config
+    
+    for command in $(ls -v1 $projectsdir/$project/rollback) ; do
+        title="Executing rollback command: $command"
+        code=$(cat "$projectsdir/$project/rollback/$command")
+        output=$($runcommand "$projectsdir/$project/rollback/$command" 2>&1)
+        handle_result
+    done
+
+    send_reports
+}
+
+deploy () {
+    for command in $(ls -v1 $projectsdir/$project/deploy) ; do
+        title="Executing deploy command: $command"
+        code=$(cat "$projectsdir/$project/deploy/$command")
+        output=$($runcommand "$projectsdir/$project/deploy/$command" 2>&1)
+        handle_result
+        [ "$EXITCRIT" = "1" ] && break
+    done
+
+    send_reports
+}
+
+save_summary () {
+    tagend=$(date +%Y%m%d-%H%M%S)
+
+    result="OK"
+    if [ "$EXITWARN" = "1" ] ; then
+        result="WARNING"
+    fi
+    if [ "$EXITCRIT" = "1" ] ; then
+        result="ERROR"
+    fi
+
+    echo "Report for $action on $project" > $logdir/$project/$tag/summary
+    echo "Job start: $tag" >> $logdir/$project/$tag/summary
+    echo "Job end: $tagend" >> $logdir/$project/$tag/summary
+    echo "Job result: $result" >> $logdir/$project/$tag/summary
+    echo "Actions executed:" >> $logdir/$project/$tag/summary
+    cd $logdir/$project/$tag/
+    for message in $(ls -v1 $logdir/$project/$tag/ | grep -v summary ) ; do
+        msg_title=$(head -1 $message)
+        msg_code=$(head -2 $message | tail -1) 
+        msg_result=$(head -3 $message | tail -1) 
+        echo "[$msg_result] $msg_title : $msg_code" >> $logdir/$project/$tag/summary
+    done
+    
+}
+
+send_reports () {
+    save_summary
+    for command in $(ls -v1 $projectsdir/$project/report) ; do
+        title="Reporting: $command"
+        code=$(cat "$projectsdir/$project/report/$command")
+        output=$($runcommand "$projectsdir/$project/report/$command" 2>&1)
+        handle_result
+    done
+}
+
+
+showhelp () {
+   echo "Usage: puppi command project"
+   echo "Available commands:"
+   echo "check "
+   echo "deploy "
+   echo "rollback "
+   echo " "
+   echo "Available projects:"
+   ls $projectsdir
+}
+
+debug () {
+    echo "basedir   = $basedir"
+    echo "checksdir = $checksdir"
+    echo "workdir = $workdir"
+    echo "RETVAL  = $RETVAL"
+
+    echo_success
+    echo_warning
+    echo_failure
+}
+
+# Check Input
+export action=$1
+if [ $2 ] ; then
+    export project=$2
+else
+    showhelp
+    exit 1
+fi
+
+while getopts ":i" options; do
+  case $options in
+    i ) interactive="yes";;
+  esac
+done
+
+# Create temporary stuff 
+echo $workdir | grep tmp >/dev/null 2>&1 || ( echo "workdir must containt string tmp" ; exit 1 )
+rm -rf $workdir/$project
+mkdir -p $workdir/$project
+touch $workdir/$project/config
+chmod 644 $workdir/$project/config
+storedir=$workdir/$project/store
+mkdir $storedir
+echo "export project=$project" > $workdir/$project/config
+echo "export tag=$tag" >> $workdir/$project/config
+echo "export action=$action" >> $workdir/$project/config
+echo "export storedir=$storedir" >> $workdir/$project/config
+
+
+# Action!
+
+case $action in 
+    check ) check;;
+    rollback) rollback;;
+    clean) clean;;
+    deploy) deploy;;
+esac
+# debug 
+
