@@ -5,3 +5,4 @@ class monitor::server {
     if ($monitor_tool =~ /nagios/) { include monitor::server::nagios }
 
 }
+

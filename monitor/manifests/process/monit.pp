@@ -8,17 +8,18 @@
 define monitor::process::monit (
     $pidfile,
     $process,
+    $argument,
     $service,
     $enable
     ) {
 
     # Use for Example42 monit module
-    monit::checkpid { "${process}":
+    monit::checkpid { "${name}":
         pidfile      => "${pidfile}",
+        process      => "${process}_${argument}",
         startprogram => "/etc/init.d/${service} start",
         stopprogram  => "/etc/init.d/${service} stop",
         enable       => $enable,
     }
 
 }
-

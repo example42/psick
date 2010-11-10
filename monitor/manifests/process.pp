@@ -1,5 +1,6 @@
 define monitor::process (
     $process,
+    $argument="",
     $service,
     $pidfile,
     $tool,
@@ -31,21 +32,36 @@ define monitor::process (
 
     if ($tool =~ /monit/) {
         monitor::process::monit { "$name":
-            pidfile => $pidfile,
-            process => $process,
-            service => $service,
-            enable  => $enable,
+            pidfile  => $pidfile,
+            argument => $argument,
+            process  => $process,
+            service  => $service,
+            enable   => $enable,
         }
     }
 
     if ($tool =~ /nagios/) {
         monitor::process::nagios { "$name":
-            pidfile => $pidfile,
-            process => $process,
-            service => $service,
-            enable  => $enable,
+            pidfile  => $pidfile,
+            argument => $argument,
+            process  => $process,
+            service  => $service,
+            enable   => $enable,
         }
     }
+
+    if ($tool =~ /puppi/) {
+        monitor::process::puppi { "$name":
+            pidfile  => $pidfile,
+            argument => $argument,
+            process  => $process,
+            service  => $service,
+            enable   => $enable,
+        }
+    }
+
+
+
 
 if ($debug != "false") and ($debug != "no") and ($debug != false) {
 

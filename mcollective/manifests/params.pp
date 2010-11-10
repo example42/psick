@@ -99,7 +99,7 @@ class mcollective::params  {
     }
 
     $processname = $operatingsystem ? {
-        default => "mcollective",
+        default => "mcollectived",
     }
 
     $hasstatus = $operatingsystem ? {

@@ -112,3 +112,4 @@ DEPENDENCIES:
 This is a meta-module that needs dependencies according to the modules you use.
 You must have storeconfigs enabled to use monitoring tools like Nagios, but they are not necessary for tools
 that can be entirely configured on the same host (such as Monit).
+

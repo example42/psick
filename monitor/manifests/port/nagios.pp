@@ -13,8 +13,10 @@ define monitor::port::nagios (
     ) {
 
     $ensure = $enable ? {
-        "false"   => "absent",
-        "true"    => "present",
+        "false" => "absent",
+        "no"    => "absent",
+        "true"  => "present",
+        "yes"   => "present",
     }
 
     # Use for Example42 , Immerda and DavidS derived nagios modules
@@ -24,6 +26,13 @@ define monitor::port::nagios (
             tcp => "check_tcp!${port}",
             udp => "check_udp!${port}",
         }
+
+# Alternative via NRPE
+#        check_command => $protocol ? {
+#            tcp => "check_nrpe!check_port_tcp!${target}!${port}",
+#            udp => "check_nrpe!check_port_udp!${target}!${port}",
+#        }
+
    }
 
     # Use for Camptocamp (You can choose alternatives for distributed environent)

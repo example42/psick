@@ -35,7 +35,7 @@ define monitor::port (
                 ensure => present,
                 content => "Name: $name \nPort: $port \nProtocol: $protocol \nTarget: $target \nTool: $tool \nEnable: $enable\n"
             }
-            file { "${puppet::params::debugdir}/todo/monitor-port-monit-$port-$protocol": ensure => absent } # TODO Remove after cleanup
+#            file { "${puppet::params::debugdir}/todo/monitor-port-monit-$port-$protocol": ensure => absent } # TODO Remove after cleanup
         }
     }
 
@@ -47,6 +47,16 @@ define monitor::port (
             enable   => $enable,
         }
     }
+
+    if ($tool =~ /puppi/) {
+        monitor::port::puppi { "$name":
+            target   => $target,
+            protocol => $protocol,
+            port     => $port,
+            enable   => $enable,
+        }
+    }
+
 
 }
 

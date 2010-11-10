@@ -51,7 +51,8 @@ class mcollective::monitor {
 
     # Process monitoring 
     monitor::process { "mcollective_process":
-        process  => "${mcollective::params::processname}",
+        process => "ruby",
+        argument => "${mcollective::params::processname}",
         service  => "${mcollective::params::servicename}",
         pidfile  => "${mcollective::params::pidfile}",
         enable   => "${mcollective::params::monitor_process_enable}",

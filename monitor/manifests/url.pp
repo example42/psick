@@ -3,11 +3,10 @@ define monitor::url (
     $pattern="",
     $username="",
     $password="",
+    $monitorgroup="",
     $tool,
-    $enable
+    $enable=true
     ) {
-
-if ($enable != "false") and ($enable != "no") and ($enable != false) {
 
     if ( $debug == "yes" ) or ( $debug == true ) {
         require puppet::params
@@ -25,18 +24,37 @@ if ($enable != "false") and ($enable != "no") and ($enable != false) {
     }
 
     if ($tool =~ /monit/) {
-        if ( $debug == "yes" ) or ( $debug == true ) { file { "${puppet::params::debugdir}/todo/monitor-url-monit-$urlq": ensure => present } }
-#        monitor::url::monit { "$name":
-#            url      => "$url",
-#            pattern  => "$pattern",
-#        }     
+#            monitor::url::monit { "$name":
+#            url          => $url,
+#            pattern      => $pattern,
+#            username     => $username,
+#            password     => $password,
+#            monitorgroup => $monitorgroup,
+#            enable       => $enable,
+#        }
     }
 
     if ($tool =~ /nagios/) {
-        if ( $debug == "yes" ) or ( $debug == true ) { file { "${puppet::params::debugdir}/todo/monitor-url-munin-$urlq": ensure => present } }
+        monitor::url::nagios { "$name":
+            url          => $url,
+            pattern      => $pattern,
+            username     => $username,
+            password     => $password,
+            monitorgroup => $monitorgroup,
+            enable       => $enable,
+        }
     }
 
-} # End if $enable
+    if ($tool =~ /puppi/) {
+        monitor::url::puppi { "$name":
+            url          => $url,
+            pattern      => $pattern,
+            username     => $username,
+            password     => $password,
+            monitorgroup => $monitorgroup,
+            enable       => $enable,
+        }
+    }
 
 }
 

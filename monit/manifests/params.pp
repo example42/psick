@@ -106,6 +106,8 @@ class monit::params  {
     }
 
     $pluginsdir = $operatingsystem ? {
+        redhat  => "/etc/monit/conf.d/",
+        centos  => "/etc/monit/conf.d/",
         default => "/etc/monit.d",
     }
 

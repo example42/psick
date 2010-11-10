@@ -6,12 +6,12 @@
 # With standard template:
 # monit::checkpid    { "name": }
 #
-define monit::checkpid ( $templatefile="", $pidfile="", $startprogram="", $stopprogram="", $restarts="", $cycles="", $failaction="", $enable="true" ) {
+define monit::checkpid ( $process:"" , $templatefile="", $pidfile="", $startprogram="", $stopprogram="", $restarts="", $cycles="", $failaction="", $enable="true" ) {
 
     require monit::params
 
     # Check name, required
-    $name_checkpid = "$name"
+    $name_checkpid = "$process"
 
     # Template file
     $templatefile_checkpid = $templatefile ? {
@@ -21,19 +21,19 @@ define monit::checkpid ( $templatefile="", $pidfile="", $startprogram="", $stopp
 
     # Pid file path
     $pidfile_checkpid = $pidfile ? {
-        ''      => "/var/run/$name.pid",
+        ''      => "/var/run/$process.pid",
 	default => $pidfile,
     }
 
     # How to start the service
     $startprogram_checkpid = $startprogram ? {
-        ''      => "/etc/init.d/$name start",
+        ''      => "/etc/init.d/$process start",
 	default => $startprogram,
     }
 
     # How to stop the service
     $stopprogram_checkpid = $stopprogram ? {
-        ''      => "/etc/init.d/$name stop",
+        ''      => "/etc/init.d/$process stop",
 	default => $stopprogram,
     }
 
@@ -58,7 +58,11 @@ define monit::checkpid ( $templatefile="", $pidfile="", $startprogram="", $stopp
     # Define if resource is present or absent
     $ensure = $enable ? {
         "false"   => "absent",
+        false     => "absent",
+        "no"      => "absent",
         "true"    => "present",
+        true      => "present",
+        "yes"      => "present",
     }
 
     file { "MonitCheckPid_${name}":
