@@ -56,6 +56,15 @@ class puppi::skel {
         owner   => "${puppi::params::configfile_owner}",
         group   => "${puppi::params::configfile_group}",
         ensure  => directory,
+        require => File["puppi_libdir"],
+    }
+
+    file { "puppi_libdir":
+        path    => "${puppi::params::libdir}",
+        mode    => "755",
+        owner   => "${puppi::params::configfile_owner}",
+        group   => "${puppi::params::configfile_group}",
+        ensure  => directory,
         require => File["puppi_basedir"],
     }
 

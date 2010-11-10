@@ -14,6 +14,7 @@ class puppi::params  {
     $checksdir = "/etc/puppi/checks"
     $projectsdir = "/etc/puppi/projects"
     $workdir = "/tmp/puppi"
+    $libdir = "/var/lib/puppi"
     $archivedir = "/var/lib/puppi/archive"
     $logdir = "/var/log/puppi"
 
