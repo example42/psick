@@ -32,20 +32,25 @@ else
     exit 2 
 fi
 
-if [ $2 = "on" ] ; then
-    action="I"
-elif [ $2 = "off" ] ; then
-    action="D"
+if [ $2 ] ; then
+    if [ $2 = "on" ] ; then
+        action="-I"
+    elif [ $2 = "off" ] ; then
+        action="-D"
+    else 
+        echo "Your second argument must be on or off!"
+        exit 2
+    fi
 else
-    echo "Your second argument must be on or off!"
+    echo "You must provide 2 arguments"
     exit 2
 fi
 
 # Block
-iptables () {
-    iptables -$action -s $ip -j DROP
+run_iptables () {
+    iptables $action INPUT -s $ip -j DROP
 }
 
-iptables
+run_iptables
 
 # Sooner or later this script will have multiOS support

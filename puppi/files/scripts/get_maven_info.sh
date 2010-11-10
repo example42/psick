@@ -44,7 +44,7 @@ fi
 version=$(xml_parse release $storedir/maven-metadata.xml )
 artifact=$(xml_parse artifactId $storedir/maven-metadata.xml )
 warfile=$artifact-$version.war
-if [ $suffix != "" ] ; then
+if [ $suffix ] ; then
     srcfile=$artifact-$version-src-$suffix.tar
     configfile=$artifact-$version-cfg-$suffix.tar
 else

@@ -28,6 +28,7 @@ check () {
     for command in $(ls -v1 $projectsdir/$project/check) ; do
         title="Executing project check: $command"
         code=$(cat "$projectsdir/$project/check/$command")
+        echo -n $title
         output=$($runcommand "$projectsdir/$project/check/$command" 2>&1)
         handle_result
     done
@@ -35,6 +36,7 @@ check () {
     for command in $(ls -v1 $checksdir) ; do
         title="Executing host check: $command"
         code=$(cat "$checksdir/$command")
+        echo -n $title
         output=$($runcommand "$checksdir/$command" 2>&1)
         handle_result
     done
@@ -49,6 +51,7 @@ rollback () {
     for command in $(ls -v1 $projectsdir/$project/rollback) ; do
         title="Executing rollback command: $command"
         code=$(cat "$projectsdir/$project/rollback/$command")
+        echo -n $title
         output=$($runcommand "$projectsdir/$project/rollback/$command" 2>&1)
         handle_result
     done
@@ -60,6 +63,7 @@ deploy () {
     for command in $(ls -v1 $projectsdir/$project/deploy) ; do
         title="Executing deploy command: $command"
         code=$(cat "$projectsdir/$project/deploy/$command")
+        echo -n $title
         output=$($runcommand "$projectsdir/$project/deploy/$command" 2>&1)
         handle_result
         [ "$EXITCRIT" = "1" ] && break
@@ -99,6 +103,7 @@ send_reports () {
     for command in $(ls -v1 $projectsdir/$project/report) ; do
         title="Reporting: $command"
         code=$(cat "$projectsdir/$project/report/$command")
+        echo -n $title
         output=$($runcommand "$projectsdir/$project/report/$command" 2>&1)
         handle_result
     done
@@ -150,10 +155,10 @@ touch $workdir/$project/config
 chmod 644 $workdir/$project/config
 storedir=$workdir/$project/store
 mkdir $storedir
-echo "export project=$project" > $workdir/$project/config
-echo "export tag=$tag" >> $workdir/$project/config
-echo "export action=$action" >> $workdir/$project/config
-echo "export storedir=$storedir" >> $workdir/$project/config
+echo "project=$project" > $workdir/$project/config
+echo "tag=$tag" >> $workdir/$project/config
+echo "action=$action" >> $workdir/$project/config
+echo "storedir=$storedir" >> $workdir/$project/config
 
 
 # Action!

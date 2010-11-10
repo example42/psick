@@ -72,8 +72,9 @@ handle_result () {
         fi
 
         # Output to video
-        echo $title
+#        echo $title
 #        if [ "$verbosity" = max ] ; then
+echo
             echo -e $output
 #        fi
         echo
