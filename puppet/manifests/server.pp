@@ -19,12 +19,12 @@ class puppet::server {
     $puppet_nodetool = $puppet::params::nodetool
     $puppet_externalnodes = $puppet::params::externalnodes
     $puppet_storeconfigs = $puppet::params::storeconfigs
-    $puppet_storeconfigs_thin = $puppet::params::storeconfigs_thin
     $puppet_db = $puppet::params::db
     $puppet_db_server = $puppet::params::db_server
     $puppet_db_user = $puppet::params::db_user
     $puppet_db_password = $puppet::params::db_password
     $puppet_version = $puppet::params::version
+    $puppet_passenger = $puppet::params::passenger
 
     # We need rails for storeconfigs
     case $puppet_storeconfigs {
@@ -32,8 +32,11 @@ class puppet::server {
         default: { }
     }
 
-    # Automanagement of Mysql Grants if mysql is used
+    # Automanagement of Mysql Grants if mysql is used
     if ( $puppet::params::db == "mysql" ) { include puppet::server::mysql }
+
+    # Install Passenger if $puppet_passenger = yes 
+    if ( $puppet::params::passenger == "yes" ) { include puppet::server::passenger }
 
     # On the PuppetMaster is useful the puppet-module-tool
     # include puppet::moduletool
@@ -60,8 +63,14 @@ class puppet::server {
 
     service { "puppetmaster":
         name       => "${puppet::params::servicename_server}",
-        ensure     => running,
-        enable     => true,
+        ensure     => "${puppet::params::passenger}" ? {
+            yes     => undef,
+            default => running,
+        },
+        enable     => "${puppet::params::passenger}" ? {
+            yes     => false,
+            default => true,
+        },
         hasrestart => true,
         hasstatus  => "${puppet::params::hasstatus_server}",
         pattern    => "${puppet::params::processname_server}",
@@ -99,9 +108,8 @@ class puppet::server {
         content => template("puppet/server/tagmail.conf.erb"),
     }
 
-
-    # Include project specific class
-    if $my_project {
+    # Include project specific class for server if $my_project is set
+    if $my_project { 
         case $my_project_onmodule {
             yes,true: { include "${my_project}::puppet::server" }
             default: { include "puppet::server::${my_project}" }

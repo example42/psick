@@ -25,8 +25,7 @@ class puppet {
     $puppet_db_user = $puppet::params::db_user
     $puppet_db_password = $puppet::params::db_password
     $puppet_version = $puppet::params::version
-
-
+    $puppet_passenger = $puppet::params::passenger
 
     # Autoloads puppet::master if $puppet_server_local is true or $puppet_server is equal to $fqdn
     if ($puppet_server_local == true) or ($puppet_server == "$fqdn") { include puppet::server }

@@ -32,19 +32,14 @@ $nodetool = <%= scope.lookupvar('puppet::params::nodetool') %>
 $externalnodes = <%= scope.lookupvar('puppet::params::externalnodes') %>
 $passenger = <%= scope.lookupvar('puppet::params::passenger') %>
 $storeconfigs = <%= scope.lookupvar('puppet::params::storeconfigs') %>
-$storeconfigs_thin = <%= scope.lookupvar('puppet::params::storeconfigs_thin') %>
 $db = <%= scope.lookupvar('puppet::params::db') %>
 $db_server = <%= scope.lookupvar('puppet::params::db_server') %>
 $db_user = <%= scope.lookupvar('puppet::params::db_user') %>
-#NOTSHOWN# $db_password = <%= scope.lookupvar('puppet::params::db_password-NO') %>
-
-
-
+#NOTSHOWN# $db_password = <%= scope.lookupvar('puppet::params::db_password-NO') %>
 
 $version = <%= scope.lookupvar('puppet::params::version') %>
 
 General internal variables:
-$basedir = <%= scope.lookupvar('puppet::params::basedir') %>
 $packagename = <%= scope.lookupvar('puppet::params::packagename') %>
 $packagename_server = <%= scope.lookupvar('puppet::params::packagename_server') %>
 $servicename = <%= scope.lookupvar('puppet::params::servicename') %>
@@ -62,6 +57,7 @@ $initconfigfile = <%= scope.lookupvar('puppet::params::initconfigfile') %>
 $pidfile = <%= scope.lookupvar('puppet::params::pidfile') %>
 $pidfile_server = <%= scope.lookupvar('puppet::params::pidfile_server') %>
 $datadir = <%= scope.lookupvar('puppet::params::datadir') %>
+$classesfile = <%= scope.lookupvar('puppet::params::classesfile') %>
 $logdir = <%= scope.lookupvar('puppet::params::logdir') %>
 $protocol = <%= scope.lookupvar('puppet::params::protocol') %>
 $port = <%= scope.lookupvar('puppet::params::port') %>
@@ -85,4 +81,3 @@ $general_base_source = <%= scope.lookupvar('puppet::params::general_base_source'
 Variables used by firewall class:
 $firewall_source_real = <%= scope.lookupvar('puppet::params::firewall_source_real') %>
 $firewall_destination_real = <%= scope.lookupvar('puppet::params::firewall_destination_real') %>
-

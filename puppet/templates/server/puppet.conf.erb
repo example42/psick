@@ -26,12 +26,13 @@ usecacheonfailure = true
 [agent]
 <% end -%>
 pluginsync=true
-#pluginsource = puppet://$server/plugins
-#plugindest = $vardir/lib/plugins
-#factpath = $vardir/lib/puppet/facter
+pluginsource = puppet://$server/plugins
+plugindest = $vardir/lib/plugins
+factpath = $vardir/lib/puppet/facter
+listen=true
 report=true
-#classfile = $vardir/classes.txt
-#localconfig = $vardir/localconfig
+classfile = $vardir/classes.txt
+localconfig = $vardir/localconfig
 runinterval = 1800
 # runinterval = 21600 # Run every 6 hours
 
@@ -42,6 +43,10 @@ server=<%= puppet_server %>
 <% else -%>
 [master]
 <% end -%>
+<% if puppet_passenger == "yes" -%>
+ssl_client_header = SSL_CLIENT_S_DN
+ssl_client_verify_header = SSL_CLIENT_VERIFY
+<% end -%>
 # autosign = true
 
 <% if puppet_storeconfigs == "yes" -%>
@@ -49,6 +54,7 @@ server=<%= puppet_server %>
 storeconfigs = true
 <% if puppet_storeconfigs_thin == "yes" -%>
 thin_storeconfigs = true
+<% end -%>
 <% end -%>
 
 <% if puppet_db == "sqlite" -%>
@@ -63,19 +69,17 @@ dbserver=<%= puppet_db_server %>
 dbuser=<%= puppet_db_user %>
 dbpassword=<%= puppet_db_password %>
 <% end -%>
-<% end -%>
 
 # Reporting
 <% if puppet_nodetool == "foreman" -%>
-reports=log,foreman
+reports=rrdgraph,log,foreman
 <% elsif puppet_nodetool == "dashboard" -%>
-reports=log,puppet_dashboard
+reports=rrdgraph,log,puppet_dashboard
 <% else -%>
-reports=log
+reports=rrdgraph,log
 <% end -%>
 graph = true
-reportfrom = <%= root_email %>
-smtpserver = <%= smtp_server %>
+reportfrom = root
 tagmap = $confdir/tagmail.conf
 syslogfacility = user
 rrddir = $vardir/rrd

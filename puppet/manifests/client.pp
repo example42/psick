@@ -55,8 +55,8 @@ class puppet::client {
     if $monitor == "yes" { include puppet::monitor }
     if $firewall == "yes" { include puppet::firewall }
 
-    # Include project specific class
-    if $my_project { 
+    # Include project specific class for client if $my_project is set
+    if $my_project {
         case $my_project_onmodule {
             yes,true: { include "${my_project}::puppet::client" }
             default: { include "puppet::client::${my_project}" }

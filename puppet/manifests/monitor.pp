@@ -52,7 +52,14 @@ if ($puppet_server_local == true) or ($puppet_server == "$fqdn") {
 
     # Process monitoring 
     monitor::process { "puppet_process":
-        process  => "${puppet::params::processname}",
+        process  => $operatingsystem ? {
+            debian  => "ruby",
+            default => "${puppet::params::processname}",
+        },
+        argument => $operatingsystem ? {
+            debian  => "${puppet::params::processname}",
+            default => undef,
+        },
         service  => "${puppet::params::servicename}",
         pidfile  => "${puppet::params::pidfile}",
         enable   => "${puppet::params::monitor_process_enable}",
@@ -60,7 +67,7 @@ if ($puppet_server_local == true) or ($puppet_server == "$fqdn") {
     }
 
     # Process monitoring (only Puppetmaster)
-if ($puppet_server_local == true) or ($puppet_server == "$fqdn") {
+if (($puppet_server_local == true) or ($puppet_server == "$fqdn")) and ( "${puppet::params::passenger}" != "yes") {
     monitor::process { "puppetmaster_process":
         process  => "${puppet::params::processname_server}",
         service  => "${puppet::params::servicename_server}",

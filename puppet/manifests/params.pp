@@ -42,8 +42,8 @@ class puppet::params  {
 
 # Use storeconfigs, needed for exported resources ($puppet_storeconfigs). Default: no
     $storeconfigs = $puppet_storeconfigs ? {
-        yes     => "yes",
-        no      => "no",
+        yes  => "yes",
+        no   => "no",
         default => "no",
     }
 
@@ -85,7 +85,6 @@ class puppet::params  {
         /(^0.)/   => "0.2",
         default   => "2.x",
     }
-
 
 
 # Module's internal variables
@@ -157,6 +156,10 @@ class puppet::params  {
         default => "/usr/lib/ruby/1.8/puppet",
     }
 
+    $classesfile = $puppetversion ? {
+        default => "/var/lib/puppet/state/classes.txt",
+    }
+
     $debugdir = $operatingsystem ? {
         default => "/var/lib/puppet/debug",
     }
@@ -182,9 +185,9 @@ class puppet::params  {
         default => "/var/log/messages",
     }
 
-    # Used by monitor and firewall class
-    # If you need to define additional ports, call them $protocol1/$port1 and add the relevant
-    # parts in firewall.pp and monitor.pp
+    # Used by monitor and firewall class
+    # If you need to define additional ports, call them $protocol1/$port1 and add the relevant
+    # parts in firewall.pp and monitor.pp
     $protocol = "tcp"
     $port = "8140"
 
@@ -271,7 +274,7 @@ class puppet::params  {
         default => "$puppet_backup_target",
     }
   
-    # Frequency of backups
+    # Frequency of backups
     $backup_frequency = $puppet_backup_frequency ? {
         ''      => "daily",
         default => "$puppet_backup_frequency",
