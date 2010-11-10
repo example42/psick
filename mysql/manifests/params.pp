@@ -87,7 +87,7 @@ class mysql::params  {
     # If you need to define additional ports, call them $protocol1/$port1 and add the relevant
     # parts in firewall.pp and monitor.pp
     $protocol = "tcp"
-    $port = "5506"
+    $port = "3306"
     
 
 

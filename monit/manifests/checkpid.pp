@@ -6,7 +6,7 @@
 # With standard template:
 # monit::checkpid    { "name": }
 #
-define monit::checkpid ( $process:"" , $templatefile="", $pidfile="", $startprogram="", $stopprogram="", $restarts="", $cycles="", $failaction="", $enable="true" ) {
+define monit::checkpid ( $process="" , $templatefile="", $pidfile="", $startprogram="", $stopprogram="", $restarts="", $cycles="", $failaction="", $enable="true" ) {
 
     require monit::params
 

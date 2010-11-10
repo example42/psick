@@ -9,6 +9,15 @@ class apache::params  {
 # (Here are set the defaults, provide your custom variables externally)
 #
 
+# EXTRA VARIABLES
+    $vdir = $operatingsystem ? {
+        freebsd => "/usr/local/etc/apache20/conf.d",
+        ubuntu  => "/etc/apache2/sites-available",
+        debian  => "/etc/apache2/sites-available",
+        centos  => "/etc/httpd/conf.d",
+        redhat  => "/etc/httpd/conf.d",
+    }
+
 # MODULES INTERNAL VARIABLES
 # (Modify only to adapt to unsupported OSes)
     $packagename = $operatingsystem ? {

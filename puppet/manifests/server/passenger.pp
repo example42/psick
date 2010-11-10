@@ -2,7 +2,7 @@
 # Class puppet::server::passenger 
 # 
 # Installs and confgiures passenger for Pupeptmaster
-# Autoloaded if $puppet_passneger = yes
+# Autoloaded if $puppet_passenger = yes
 #
 class puppet::server::passenger {
     require puppet::params
@@ -30,18 +30,12 @@ class puppet::server::passenger {
         template => 'puppet/puppet-passenger.conf.erb',
     }
 
-    case $operatingsystem {
-        ubuntu,debian: { 
-            package {
-                "libapache2-mod-passenger":
-                ensure => present;
-
-            }       
-        }
-
-        centos,redhat: {
-
-
+    package { "mod_passenger" : 
+        ensure => present ,
+        name   => $operatingsystem ? {
+             debian  => "libapache2-mod-passenger",
+             ubuntu  => "libapache2-mod-passenger",
+             default => "rubygem-passenger",
         }
     }
 
