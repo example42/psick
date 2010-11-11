@@ -24,6 +24,16 @@ else
 fi
 
 # Main functions
+check_host () {
+    for command in $(ls -v1 $checksdir) ; do
+        title="Executing host check: $command"
+        code=$(cat "$checksdir/$command")
+        echo -n $title
+        output=$($runcommand "$checksdir/$command" 2>&1)
+        handle_result
+    done
+}
+
 check () {
     for command in $(ls -v1 $projectsdir/$project/check) ; do
         title="Executing project check: $command"
@@ -33,13 +43,7 @@ check () {
         handle_result
     done
 
-    for command in $(ls -v1 $checksdir) ; do
-        title="Executing host check: $command"
-        code=$(cat "$checksdir/$command")
-        echo -n $title
-        output=$($runcommand "$checksdir/$command" 2>&1)
-        handle_result
-    done
+    check_host
 }
 
 rollback () {
@@ -66,7 +70,7 @@ deploy () {
         echo -n $title
         output=$($runcommand "$projectsdir/$project/deploy/$command" 2>&1)
         handle_result
-        [ "$EXITCRIT" = "1" ] && break
+        [ "$EXITCRIT" = "1" ] && [ "$force" != "yes" ] && break
     done
 
     send_reports
@@ -109,16 +113,50 @@ send_reports () {
     done
 }
 
+create_runtime_conf () {
+    # Clean up and Create runtime configuration file 
+    initerr=0
+
+    title="Initializing runtime config: $workdir/$project/config"
+    code=""
+    echo -n $title
+
+    echo $workdir | grep tmp >/dev/null 2>&1 || ( echo "Workdir must contain string tmp" ; exit 1 )
+    rm -rf $workdir/$prject || initerr=1
+    storedir=$workdir/$project/store || initerr=1
+    mkdir -p $storedir || initerr=1
+    touch $workdir/$project/config || initerr=1
+    chmod 644 $workdir/$project/config || initerr=1
+    save_runtime_config "project=$project" || initerr=1
+    save_runtime_config "tag=$tag" || initerr=1
+    save_runtime_config "action=$action" || initerr=1
+    save_runtime_config "storedir=$storedir" || initerr=1
+    save_runtime_config "force=$force" || initerr=1
+    save_runtime_config "interactive=$interactive" || initerr=1
+    for oopt in $(echo $options) ; do
+        save_runtime_config "$(echo $oopt)" || initerr=1
+    done
+    
+    echo $initerr | grep "0" 2>&1 > /dev/null
+    handle_result
+}
+
 
 showhelp () {
-   echo "Usage: puppi command project"
+   echo "Usage: puppi <command> <project> [options]"
+   echo " "
    echo "Available commands:"
-   echo "check "
-   echo "deploy "
-   echo "rollback "
+   echo "check [project] - Run puppi checks host-wide or for a specific project"
+   echo "deploy <project> - Deploy the specified project"
+   echo "rollback <project> - Rollback the specified project. "
+   echo " "
+   echo "Available options:"
+   echo "-f - Force puppi commands execution flow also on CRITICAL errors"
+   echo "-i - Interactively ask confirmation for every step"
+   echo "-o \"parameter=value parameter2=value2\" - Set manual options to override defaults"
    echo " "
    echo "Available projects:"
-   ls $projectsdir
+   ls -1 $projectsdir
 }
 
 debug () {
@@ -133,41 +171,56 @@ debug () {
 }
 
 # Check Input
-export action=$1
-if [ $2 ] ; then
-    export project=$2
-else
+if [ "$#" = "0" ] ; then
     showhelp
-    exit 1
+    exit
 fi
 
-while getopts ":i" options; do
-  case $options in
-    i ) interactive="yes";;
+
+while [ $# -gt 0 ]; do
+  case "$1" in
+    deploy|rollback)
+      export action=$1
+      if [ ! -z "$2" ] ; then
+        export project=$2
+        shift 2
+      else
+        showhelp
+        exit
+        shift
+      fi
+    ;;
+    check)
+      if [ ! -z "$2" ] ; then
+        export project=$2
+        shift 2
+      else
+        check_host
+        shift
+      fi
+    ;;
+    -i)
+      interactive="yes"
+      shift ;;
+    -f)
+      force="yes"
+      shift ;;
+    -o)
+      options="$2"
+      shift 2;;
+    *)
+      showhelp
+      exit
+      ;;
   esac
 done
 
-# Create temporary stuff 
-echo $workdir | grep tmp >/dev/null 2>&1 || ( echo "workdir must containt string tmp" ; exit 1 )
-rm -rf $workdir/$project
-mkdir -p $workdir/$project
-touch $workdir/$project/config
-chmod 644 $workdir/$project/config
-storedir=$workdir/$project/store
-mkdir $storedir
-echo "project=$project" > $workdir/$project/config
-echo "tag=$tag" >> $workdir/$project/config
-echo "action=$action" >> $workdir/$project/config
-echo "storedir=$storedir" >> $workdir/$project/config
-
-
 # Action!
-
 case $action in 
     check ) check;;
-    rollback) rollback;;
-    clean) clean;;
-    deploy) deploy;;
+    rollback) create_runtime_conf ; rollback;;
+    deploy) create_runtime_conf ; deploy;;
 esac
+
 # debug 
 

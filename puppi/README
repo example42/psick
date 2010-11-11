@@ -14,13 +14,33 @@ The module provides:
 - Puppet defines that make it easy to prepare a puppi set of commands for a project deployment
 
 USAGE OF THE PUPPI COMMAND
+puppi <command> <project_name> [ -options ]
 The puppi command has these possibile actions:
 - puppi deploy <project_name> : Deploys the defined project
 - puppi rollback <project_name> : Rollback to a previous deploy state 
-- puppi check <project_name> : Runs project specific and host wide checks 
+- puppi check [project_name] : Runs project specific and host wide checks 
 For each of these actions puppi runs the commands in /etc/puppi/projects/$project_name/$action,
 logs their status and then runs the commands in /etc/puppi/projects/$project_name/report to
 provide reporting, in whatever, pluggable, way.
+You can also provide some options:
+-f : Force puppi commands execution also on CRITICAL errors
+-i : Interactively ask confirmation for every step
+-o "parameter=value parameter2=value2" : Set manual options to override defaults. The options 
+  must be in parameter=value syntax, separated by spaces and inside double quotes.
+
+Some usage examples:
+puppi check : Run host-wide checks. 
+puppi check myapp : Run project "myapp" specific tests AND host-wide checks
+puppi deploy myapp : Deploys myapp with the standard logic/parameters defined in Puppet
+puppi deploy myapp -f : Deploys mysql and doesn't stop in case of Critical errors
+puppi deploy myapp -i : Deploys mysql in interactive mode. Confirmation is asked for each step
+puppi deploy myapp -i -o "version=1.1 source_url=http://dev.example42.com/code/my_app/" : Deploys
+  mysql in interactive mode and sets some custom options that override the standard Puppet params.
+  Note that these parameters change according to the script you use (and the scripts must honour
+  this override).
+puppi rollback mysql : Rollbacks mysql to a previous archived state. Use is propted to choose which
+  deploy to override
+
 The set of commands needed for a specific kind of deploy is entirely managed with specific
 Puppet "basic defines".
 

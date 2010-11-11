@@ -37,11 +37,15 @@ fi
 # Adds a Maven suffix, if passed as argument
 if [ $2 ] ; then
     suffix=$2
-    echo "export suffix=$suffix" >> $workdir/$project/config
+    save_runtime_config "suffix=$suffix"
 fi
 
-# XML extraction
-version=$(xml_parse release $storedir/maven-metadata.xml )
+# Store release version only if it's not already defined (to permit manual override)
+if [ -z $version ] ; then
+    version=$(xml_parse release $storedir/maven-metadata.xml )
+    save_runtime_config "version=$version"
+fi
+
 artifact=$(xml_parse artifactId $storedir/maven-metadata.xml )
 warfile=$artifact-$version.war
 if [ $suffix ] ; then
@@ -52,12 +56,10 @@ else
     configfile=$artifact-$version-cfg.tar
 fi
 
-# Store release version only if it's not already defined (to permit manual override)
-grep "version" $workdir/$project/config || echo "export version=$version" >> $workdir/$project/config
 # Store artifact id
-echo "export artifact=$artifact" >> $workdir/$project/config
+save_runtime_config "artifact=$artifact"
 # Store filenames
-echo "export warfile=$warfile" >> $workdir/$project/config
-echo "export srcfile=$srcfile" >> $workdir/$project/config
-echo "export configfile=$configfile" >> $workdir/$project/config
+save_runtime_config "warfile=$warfile"
+save_runtime_config "srcfile=$srcfile" 
+save_runtime_config "configfile=$configfile" 
 

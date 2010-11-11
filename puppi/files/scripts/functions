@@ -104,3 +104,18 @@ xml_parse () {
             -e 's/^<.*>\([^<].*\)<.*>$/\1/'
 }
 
+# Stores the passed arguments in Project runtime config file
+# Only if the parameter is not already defined
+save_runtime_config () {
+    parameter=$(echo $1 | cut -d '=' -f1)
+    if [ ! $(grep $parameter $workdir/$project/config ) ] ; then
+        echo "$1" >> $workdir/$project/config
+    fi
+}
+
+# Stores the passed arguments in Project runtime config file
+# Forces parameter overwrite if already defined
+overwrite_runtime_config () {
+    echo "$1" >> $workdir/$project/config
+}
+

@@ -14,31 +14,31 @@ define puppi::project (
     $ensure = $enable ? {
         "false" => "absent",
         "no"    => "absent",
-        "true"  => "present",
-        "yes"   => "present",
+        "true"  => "directory",
+        "yes"   => "directory",
     }
 
     # Create Project subdirs
     file {
         "${puppi::params::projectsdir}/${name}":
         mode => "755", owner => "${nrpe::params::configfile_owner}", group => "${nrpe::params::configfile_group}",
-        ensure => "directory", require => Class["puppi"];
+        ensure => "${ensure}", require => Class["puppi"] , force => true;
         "${puppi::params::projectsdir}/${name}/check":
         mode => "755", owner => "${nrpe::params::configfile_owner}", group => "${nrpe::params::configfile_group}",
-        recurse => true, purge   => true,
-        ensure => "directory", require => File["${puppi::params::projectsdir}/${name}"];
+        recurse => true, purge => true, force => true,
+        ensure => "${ensure}", require => File["${puppi::params::projectsdir}/${name}"];
         "${puppi::params::projectsdir}/${name}/rollback":
         mode => "755", owner => "${nrpe::params::configfile_owner}", group => "${nrpe::params::configfile_group}",
-        recurse => true, purge   => true,
-        ensure => "directory", require => File["${puppi::params::projectsdir}/${name}"];
+        recurse => true, purge => true, force => true,
+        ensure => "${ensure}", require => File["${puppi::params::projectsdir}/${name}"];
         "${puppi::params::projectsdir}/${name}/deploy":
         mode => "755", owner => "${nrpe::params::configfile_owner}", group => "${nrpe::params::configfile_group}",
-        recurse => true, purge   => true,
-        ensure => "directory", require => File["${puppi::params::projectsdir}/${name}"];
+        recurse => true, purge => true, force => true,
+        ensure => "${ensure}", require => File["${puppi::params::projectsdir}/${name}"];
         "${puppi::params::projectsdir}/${name}/report":
         mode => "755", owner => "${nrpe::params::configfile_owner}", group => "${nrpe::params::configfile_group}",
-        recurse => true, purge   => true,
-        ensure => "directory", require => File["${puppi::params::projectsdir}/${name}"];
+        recurse => true, purge => true, force => true,
+        ensure => "${ensure}", require => File["${puppi::params::projectsdir}/${name}"];
     }
 
 }
