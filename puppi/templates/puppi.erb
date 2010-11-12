@@ -29,9 +29,11 @@ check_host () {
         title="Executing host check: $command"
         code=$(cat "$checksdir/$command")
         echo -n $title
+        ask_interactive
         output=$($runcommand "$checksdir/$command" 2>&1)
         handle_result
     done
+    show_report
 }
 
 check () {
@@ -39,6 +41,7 @@ check () {
         title="Executing project check: $command"
         code=$(cat "$projectsdir/$project/check/$command")
         echo -n $title
+        ask_interactive
         output=$($runcommand "$projectsdir/$project/check/$command" 2>&1)
         handle_result
     done
@@ -56,11 +59,13 @@ rollback () {
         title="Executing rollback command: $command"
         code=$(cat "$projectsdir/$project/rollback/$command")
         echo -n $title
+        ask_interactive
         output=$($runcommand "$projectsdir/$project/rollback/$command" 2>&1)
         handle_result
     done
 
     send_reports
+    show_report
 }
 
 deploy () {
@@ -68,12 +73,14 @@ deploy () {
         title="Executing deploy command: $command"
         code=$(cat "$projectsdir/$project/deploy/$command")
         echo -n $title
+        ask_interactive
         output=$($runcommand "$projectsdir/$project/deploy/$command" 2>&1)
         handle_result
         [ "$EXITCRIT" = "1" ] && [ "$force" != "yes" ] && break
     done
 
     send_reports
+    show_report
 }
 
 save_summary () {
@@ -99,7 +106,9 @@ save_summary () {
         msg_result=$(head -3 $message | tail -1) 
         echo "[$msg_result] $msg_title : $msg_code" >> $logdir/$project/$tag/summary
     done
-    
+
+    # Copy runtime config in archive
+    cp $workdir/$project/config $logdir/$project/$tag/
 }
 
 send_reports () {
@@ -113,16 +122,27 @@ send_reports () {
     done
 }
 
+show_report () {
+    echo
+    echo "REPORT FOR PUPPI - STATUS $result"
+    echo "Summary of operations is: $logdir/$project/$tag/summary "
+    echo "Details are in : $logdir/$project/$tag/ "
+    echo "Runtime config file is: $workdir/$project/config (Will be rewritten at the next puppi run)"
+    test "$testmode" = "yes" && echo "This was a TEST RUN! Nothing has been done for real."
+}
+
+
 create_runtime_conf () {
     # Clean up and Create runtime configuration file 
     initerr=0
-
-    title="Initializing runtime config: $workdir/$project/config"
-    code=""
+    command="00-$project-RuntimeConfig-Initialization"
+    title="Puppi environment setup: $command"
+    code="rm -rf $workdir/$project && touch $workdir/$project/config [...]"
+    command="00-$project-RuntimeConfig-Initialization"
     echo -n $title
 
     echo $workdir | grep tmp >/dev/null 2>&1 || ( echo "Workdir must contain string tmp" ; exit 1 )
-    rm -rf $workdir/$prject || initerr=1
+    rm -rf $workdir/$project || initerr=1
     storedir=$workdir/$project/store || initerr=1
     mkdir -p $storedir || initerr=1
     touch $workdir/$project/config || initerr=1
@@ -132,6 +152,7 @@ create_runtime_conf () {
     save_runtime_config "action=$action" || initerr=1
     save_runtime_config "storedir=$storedir" || initerr=1
     save_runtime_config "force=$force" || initerr=1
+    save_runtime_config "testmode=$testmode" || initerr=1
     save_runtime_config "interactive=$interactive" || initerr=1
     for oopt in $(echo $options) ; do
         save_runtime_config "$(echo $oopt)" || initerr=1
@@ -153,6 +174,7 @@ showhelp () {
    echo "Available options:"
    echo "-f - Force puppi commands execution flow also on CRITICAL errors"
    echo "-i - Interactively ask confirmation for every step"
+   echo "-t - Test mode. Just show the commands that should be executed"
    echo "-o \"parameter=value parameter2=value2\" - Set manual options to override defaults"
    echo " "
    echo "Available projects:"
@@ -191,6 +213,7 @@ while [ $# -gt 0 ]; do
       fi
     ;;
     check)
+      export action=$1
       if [ ! -z "$2" ] ; then
         export project=$2
         shift 2
@@ -205,6 +228,10 @@ while [ $# -gt 0 ]; do
     -f)
       force="yes"
       shift ;;
+    -t)
+      testmode="yes"
+      runcommand="cat"
+      shift ;;
     -o)
       options="$2"
       shift 2;;
@@ -217,9 +244,9 @@ done
 
 # Action!
 case $action in 
-    check ) check;;
-    rollback) create_runtime_conf ; rollback;;
-    deploy) create_runtime_conf ; deploy;;
+    check) check ;;
+    rollback) create_runtime_conf ; rollback ;;
+    deploy) create_runtime_conf ; deploy ;;
 esac
 
 # debug 

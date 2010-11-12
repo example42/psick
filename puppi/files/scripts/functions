@@ -119,3 +119,14 @@ overwrite_runtime_config () {
     echo "$1" >> $workdir/$project/config
 }
 
+ask_interactive () {
+   if [ "$interactive" = "yes" ] ; then
+       echo 
+       echo "INTERACTIVE MODE: Press 'x' to exit or just return to go on" 
+       read press
+       case $press in 
+           x) exit 2 ;;
+           *) return
+       esac
+   fi
+}

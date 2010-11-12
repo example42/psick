@@ -24,7 +24,8 @@ logs their status and then runs the commands in /etc/puppi/projects/$project_nam
 provide reporting, in whatever, pluggable, way.
 You can also provide some options:
 -f : Force puppi commands execution also on CRITICAL errors
--i : Interactively ask confirmation for every step
+-i : Interactively ask confirmation for every command
+-t : Test mode. Just show the commands that should be executed without doing anything
 -o "parameter=value parameter2=value2" : Set manual options to override defaults. The options 
   must be in parameter=value syntax, separated by spaces and inside double quotes.
 
@@ -34,6 +35,7 @@ puppi check myapp : Run project "myapp" specific tests AND host-wide checks
 puppi deploy myapp : Deploys myapp with the standard logic/parameters defined in Puppet
 puppi deploy myapp -f : Deploys mysql and doesn't stop in case of Critical errors
 puppi deploy myapp -i : Deploys mysql in interactive mode. Confirmation is asked for each step
+puppi deploy myapp -t : Test mode. Just show the commands that would be executed
 puppi deploy myapp -i -o "version=1.1 source_url=http://dev.example42.com/code/my_app/" : Deploys
   mysql in interactive mode and sets some custom options that override the standard Puppet params.
   Note that these parameters change according to the script you use (and the scripts must honour
