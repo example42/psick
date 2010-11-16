@@ -3,6 +3,8 @@ Puppet module: squid
 # Written by Lab42 #
 # http://www.Example42.com
 
+# Customized by Matteo Cappadonna #
+
 Licence: GPLv3
 
 DESCRIPTION:
@@ -13,6 +15,30 @@ Decide and customize how you want to define configuration files: static files, t
 
 USER VARIABLES:
 In order to customize the behaviour of the module you can set the following variables:
+
+squid_port                  # Define the squid port (default: "3128")
+squid_port_options          # Define options for the squid port (default is nothing)
+squid_icp_port              # Define the squid icp port (default: "3130")
+squid_type_accelerator      # Define if proxy run in accelerator mode (default: false)
+squid_cache_hostname        # Define the visible proxy hostname (default: "localhost")
+squid_default_acls          # Define if config file was populated with default acls (default: true)
+squid_custom_acls           # An array containing the custom acl entry
+squid_default_http_access   # Define if config file was populated with default http_access (default: true)
+squid_custom_http_accesses  # An array containing the custom http_access entry
+squid_cache_dir             # Define where squid store his cache (default: "/var/spool/squid")
+squid_cache_dir_type        # Define the type of squid cache dir (default: "ufs")
+squid_cache_size            # Define how many disk space squid use for cache in MB (default: "100")
+squid_cache_mem             # Define how many ram squid use in MB (default: "8")
+squid_cache_parent          # Define the parent cache peer (if empty, no parent cache peer is setted)
+squid_cache_parent_port     # Define the parent cache port (default: 3128)
+squid_cache_parent_icp_port # Define the parent cache icp port (default: 3130)
+squid_cache_parent_options  # Define the options for cache_peer with type 'parent' (default: "proxy-only default")
+squid_cache_peers           # An array with the sibiling cache_peer for the squid (if empty, no cache peers are setted)
+squid_cache_peers_port      # Define the sibiling cache peers port (default: 3128)
+squid_cache_peers_icp_port  # Define the sibiling cache peers icp port (default: 3130)
+squid_cache_peers_options   # Define the options for cache_peer with type 'sibiling' (default: "proxy-only")
+squid_cache_log_dir         # Define where squid save his log files (default: "/var/log/squid3")
+squid_cache_log_rotate      # Define the number of logfiles rotation (default: "0")
 
 
 USAGE:

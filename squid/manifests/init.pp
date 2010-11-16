@@ -41,7 +41,23 @@ class squid {
         ensure  => present,
         require => Package["squid"],
         notify  => Service["squid"],
-        # content => template("squid/squid.conf.erb"),
+        content => template("squid/squid.conf.erb"),
+    }
+
+    file { "cache_dir":
+        path   => "${squid::params::cache_dir}",
+        mode   => "755",
+        owner  => "${squid::params::processuser}",
+        group  => "${squid::params::configfile_group}",
+        ensure => directory,
+    }
+
+    file { "cache_log_dir":
+        path   => "${squid::params::cache_log_dir}",
+        mode   => "640",
+        owner  => "${squid::params::processuser}",
+        group  => "${squid::params::processuser}",
+        ensure => directory,
     }
 
     # Include OS specific subclasses, if necessary

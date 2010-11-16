@@ -15,20 +15,138 @@ class squid::params  {
         default => "${squid_port}",
     }
 
+    $http_port_options = $squid_port_options ? {
+        default => "${squid_port_options}"
+    }
+
+    $icp_port = $squid_icp_port ? {
+        ''      => "3130",
+        default => "${squid_icp_port}",
+    }
+
+    $type_accelerator = $squid_type_accelerator ? {
+        ''      => "on",
+        false   => "on",
+        true    => "off",
+    }
+
+    $cache_hostname = $squid_cache_hostname ? {
+        ''      => "localhost",
+        default => "${squid_cache_hostname}",
+    }
+
+    $default_acls = $squid_default_acls ? {
+        ''      => true,
+        default => "${squid_default_acls}",
+    }
+
+    $custom_acls = $squid_custom_acls ? {
+        default => $squid_custom_acls
+    }
+
+    $default_http_access = $squid_default_http_access ? {
+        ''      => true,
+        default => "${squid_default_http_access}",
+    }
+
+    $custom_http_accesses = $squid_custom_http_accesses ? {
+        default => $squid_custom_http_accesses,
+    }
+
+    $cache_dir = $squid_cache_dir ? {
+        ''      => "/var/spool/squid",
+        default => "${squid_cache_dir}",
+    }
+
+    $cache_dir_type = $squid_cache_dir_type ? {
+        ''      => "ufs",
+        default => "${squid_cache_dir_type}",
+    }
+
+    $cache_size = $squid_cache_size ? {
+        ''      => "100",
+        default => "${squid_cache_size}",
+    }
+
+    $cache_mem = $squid_cache_mem ? {
+        ''      => "8",
+        default => "${squid_cache_mem}",
+    }
+
+    $cache_parent = $squid_cache_parent ? {
+        default => "${squid_cache_parent}",
+    }
+
+    $cache_parent_port = $squid_cache_parent_port ? {
+        ''      => "3128",
+        default => "${squid_cache_parent_port}"
+    }
+
+    $cache_parent_icp_port = $squid_cache_parent_icp_port ? {
+        ''      => "3130",
+        default => "${squid_cache_parent_icp_port}",
+    }
+
+    $cache_parent_options = $squid_cache_parent_options ? {
+        ''      => "proxy-only default",
+        default => "${squid_cache_parent_options}",
+    }
+
+    $cache_peers = $squid_cache_peers ? {
+        default => $squid_cache_peers
+    }
+
+    $cache_peers_port = $squid_cache_peers_port ? {
+        ''      => "3128",
+        default => "${squid_cache_peers_port}",
+    }
+
+    $cache_peers_icp_port = $squid_cache_peers_icp_port ? {
+        ''      => "3130",
+        default => "${squid_cache_peers_icp_port}",
+    }
+
+    $cache_peers_options = $squid_cache_peers_options ? {
+        ''      => "proxy-only",
+        default => "${squid_cache_peers_options}",
+    }
+
+    $cache_log_dir = $squid_cache_log_dir ? {
+        ''      => "/var/log/squid3",
+        default => "${squid_cache_log_dir}",
+    }
+
+    $cache_log_rotate = $squid_cache_log_rotate ? {
+        ''      => "0",
+        default => "${squid_cache_log_rotate}",
+    }
+
 
 ## MODULE INTERNAL VARIABLES
 # (Modify to adapt to unsupported OSes)
 
     $packagename = $operatingsystem ? {
         solaris => "CSWsquid",
+        debian  => "squid3",
+        ubuntu  => "squid3",
         default => "squid",
     }
 
     $servicename = $operatingsystem ? {
+        debian  => "squid3",
+        ubuntu  => "squid3",
         default => "squid",
     }
 
     $processname = $operatingsystem ? {
+        debian  => "squid3",
+        ubuntu  => "squid3",
+        default => "squid",
+    }
+
+    $processuser = $operatingsystem ? {
+        debian  => "proxy",
+        ubuntu  => "proxy",
         default => "squid",
     }
 
@@ -40,6 +158,8 @@ class squid::params  {
 
     $configfile = $operatingsystem ? {
         freebsd => "/usr/local/etc/squid/squid.conf",
+        debian  => "/etc/squid3/squid.conf",
+        ubuntu  => "/etc/squid3/squid.conf",
         default => "/etc/squid/squid.conf",
     }
 
