@@ -1,32 +1,67 @@
+#
+# Class: vsftpd
+#
+# Manages vsftpd.
+# Include it to install and run vsftpd
+# It defines package, service, main configuration file.
+#
+# Usage:
+# include vsftpd
+#
 class vsftpd {
 
-    package { vsftpd:
-        name   => $operatingsystem ? {
-            default    => "vsftpd",
-            },
+    # Load the variables used in this module. Check the params.pp file 
+    require vsftpd::params
+
+    # Basic Package - Service - Configuration file management
+    package { "vsftpd":
+        name   => "${vsftpd::params::packagename}",
         ensure => present,
     }
 
-    service { vsftpd:
-        name => $operatingsystem ? {
-            default => "vsftpd",
-            },
-        ensure => running,
-        enable => true,
+    service { "vsftpd":
+        name       => "${vsftpd::params::servicename}",
+        ensure     => running,
+        enable     => true,
         hasrestart => true,
-        hasstatus => true,
+        hasstatus  => "${vsftpd::params::hasstatus}",
+        pattern    => "${vsftpd::params::processname}",
+        require    => Package["vsftpd"],
+        subscribe  => File["vsftpd.conf"],
+    }
+
+    file { "vsftpd.conf":
+        path    => "${vsftpd::params::configfile}",
+        mode    => "${vsftpd::params::configfile_mode}",
+        owner   => "${vsftpd::params::configfile_owner}",
+        group   => "${vsftpd::params::configfile_group}",
+        ensure  => present,
         require => Package["vsftpd"],
-        subscribe => File["vsftpd.conf"],
+        notify  => Service["vsftpd"],
+        content => template("vsftpd/vsftpd.conf.erb"),
     }
 
-    file {    
-             "vsftpd.conf":
-            mode => 644, owner => root, group => root,
-            require => Package[vsftpd],
-            ensure => present,
-            path => $operatingsystem ?{
-                default => "/etc/vsftpd/vsftpd.conf",
-            },
+    # Include OS specific subclasses, if necessary
+    case $operatingsystem {
+        default: { }
     }
+
+    # Include extended classes, if 
+    if $backup == "yes" { include vsftpd::backup }
+    if $monitor == "yes" { include vsftpd::monitor }
+    if $firewall == "yes" { include vsftpd::firewall }
+
+    # Include project specific class if $my_project is set
+    # The extra project class is by default looked in vsftpd module 
+    # If $my_project_onmodule == yes it's looked in your project module
+    if $my_project { 
+        case $my_project_onmodule {
+            yes,true: { include "${my_project}::vsftpd" }
+            default: { include "vsftpd::${my_project}" }
+        }
+    }
+
+    # Include debug class is debugging is enabled ($debug=yes)
+    if ( $debug == "yes" ) or ( $debug == true ) { include vsftpd::debug }
+
 }
-
