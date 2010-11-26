@@ -21,6 +21,7 @@ class puppi::skel {
         group   => "${puppi::params::configfile_group}",
         ensure  => directory,
         require => File["puppi_basedir"],
+        recurse => true, purge => true, force => true,
     }
 
     file { "puppi_projectsdir":
@@ -30,16 +31,8 @@ class puppi::skel {
         group   => "${puppi::params::configfile_group}",
         ensure  => directory,
         require => File["puppi_basedir"],
+        recurse => true, purge => true, force => true,
     }
-
-#    file { "puppi_scriptsdir":
-#        path    => "${puppi::params::scriptsdir}",
-#        mode    => "755",
-#        owner   => "${puppi::params::configfile_owner}",
-#        group   => "${puppi::params::configfile_group}",
-#        ensure  => directory,
-#        require => File["puppi_basedir"],
-#    }
 
     file { "puppi_workdir":
         path    => "${puppi::params::workdir}",

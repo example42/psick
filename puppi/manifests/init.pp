@@ -25,7 +25,7 @@ class puppi {
     }
 
     # puppi scripts
-    file { "puppi.scritps":
+    file { "puppi.scripts":
         path    => "${puppi::params::scriptsdir}/",
         mode    => "755",
         owner   => "${puppi::params::configfile_owner}",
@@ -40,5 +40,8 @@ class puppi {
 
     include puppi::skel
 
+    # Some extra stuff we use in Puppi scrips
+    include puppi::extra
 
+    
 }
