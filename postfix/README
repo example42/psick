@@ -12,12 +12,17 @@ Generally you can easily import and use standard classes in your own modules set
 You can place your customizations in the dedicated "project" files (by default example42.pp, use the example42_project_rename.sh script to rename them).
 Decide and customize how you want to define configuration files: static files, templates, infile modifications...
 
-
 USER VARIABLES:
 $postfix_mydestination - Postfix mydestination. Added to <%= fqdn =>, localhost.<%= domain => , localhost
 $postfix_relayhost - Postfix relayhost. Default blank
 $postfix_mynetworks - Postfix mynetworks. Added to 127.0.0.0/8
 $postfix_inet_interfaces - Postfix inet_interfaces. Default "localhost"
+$postfix_mysqluser - Mysql User for Postfix with Mysql support. Used also in other modules.
+$postfix_mysqlpassword - Mysql Password for Postfix with Mysql support. Used also in other modules.
+$postfix_mysqlhost - Mysql Server for Postfix with Mysql support. Used also in other modules.
+$postfix_mysqldbname - Mysql database name for Postfix with Mysql support. Used also in other modules.
+$postfix_postfixadmin_url - Download Url for PostFixAdmin 
+$postfix_postfixadmin_dirname - Name of the extracted directory
 
 USAGE:
 # Standard Classes 

@@ -1,8 +1,8 @@
 # File managed by Puppet
-user = <%= postfix_mysqluser %>
-password = <%= postfix_mysqlpassword %>
-hosts = <%= postfix_mysqlhost %>
-dbname = <%= postfix_mysqldbname %>
+user = <%= scope.lookupvar('postfix::params::mysqluser') %>
+password = <%= scope.lookupvar('postfix::params::mysqlpassword') %>
+hosts = <%= scope.lookupvar('postfix::params::mysqlhost') %>
+dbname = <%= scope.lookupvar('postfix::params::mysqldbname') %>
 
 table = mailbox
 select_field = maildir

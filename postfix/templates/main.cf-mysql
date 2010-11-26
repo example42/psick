@@ -9,20 +9,20 @@ myhostname = <%= hostname %>
 mydomain = <%= fqdn %>
 myorigin = $mydomain
 
-inet_interfaces = all
+inet_interfaces = <%= scope.lookupvar('postfix::params::inet_interfaces') %>
 #proxy_interfaces = 1.2.3.4
 
-mydestination = $myhostname, localhost.$mydomain, localhost
+mydestination = <%= fqdn %>, localhost.<%= domain %> , localhost, <%= scope.lookupvar('postfix::params::mydestination') %>
 
 #local_recipient_maps = unix:passwd.byname $alias_maps
 unknown_local_recipient_reject_code = 550
 
 #mynetworks_style = subnet
-mynetworks = <%= postfix_mynetworks %>, 127.0.0.0/8
+mynetworks = 127.0.0.0/8 <%= scope.lookupvar('postfix::params::mynetworks') %> 
 
 relay_domains = $mydestination
 
-#relayhost = [mailserver.isp.tld]
+relayhost = <%= scope.lookupvar('postfix::params::relayhost') %>
 
 #relay_recipient_maps = hash:/etc/postfix/relay_recipients
 #in_flow_delay = 1s

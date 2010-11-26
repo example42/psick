@@ -7,6 +7,12 @@ $mydestination = <%= scope.lookupvar('postfix::params::mydestination') %>
 $relayhost = <%= scope.lookupvar('postfix::params::relayhost') %>
 $mynetworks = <%= scope.lookupvar('postfix::params::mynetworks') %>
 $inet_interfaces = <%= scope.lookupvar('postfix::params::inet_interfaces') %>
+$mysqluser = <%= scope.lookupvar('postfix::params::mysqluser') %>
+$mysqlpassword = <%= scope.lookupvar('postfix::params::mysqlpassword') %>
+$mysqlhost = <%= scope.lookupvar('postfix::params::mysqlhost') %>
+$mysqldbname = <%= scope.lookupvar('postfix::params::mysqldbname') %>
+$postfixadmin_url = <%= scope.lookupvar('postfix::params::postfixadmin_url') %>
+$postfixadmin_dirname = <%= scope.lookupvar('postfix::params::postfixadmin_dirname') %>
 
 General internal variables:
 $packagename = <%= scope.lookupvar('postfix::params::packagename') %>

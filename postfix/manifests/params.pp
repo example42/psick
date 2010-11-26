@@ -33,11 +33,52 @@ class postfix::params  {
         default => "${postfix_inet_interfaces}",
     }
 
+## Mysql User for Postfix with Mysql support. Used also in other modules.
+    $mysqluser = $postfix_mysqluser ? {
+        ''      => "postfix",
+        default => "${postfix_mysqluser}",
+    }
+
+## Mysql Password for Postfix with Mysql support. Used also in other modules.
+    $mysqlpassword = $postfix_mysqlpassword ? {
+        ''      => "postfixpw!",
+        default => "${postfix_mysqlpassword}",
+    }
+
+## Mysql Server for Postfix with Mysql support. Used also in other modules.
+    $mysqlhost = $postfix_mysqlhost ? {
+        ''      => "localhost",
+        default => "${postfix_mysqlhost}",
+    }
+
+## Mysql database name for Postfix with Mysql support. Used also in other modules.
+    $mysqldbname = $postfix_mysqldbname ? {
+        ''      => "postfix",
+        default => "${postfix_mysqldbname}",
+    }
+
+# Postfix Admin Download URL (Default: The official one)
+    $postfixadmin_url = $postfix_postfixadmin_url ? {
+        ""      => "http://downloads.sourceforge.net/project/postfixadmin/postfixadmin/postfixadmin-2.3.2/postfixadmin-2.3.2.tar.gz",
+        default => $postfix_postfixadmin_url ,
+    }
+
+# Postfix Admin Version
+    $postfixadmin_dirname = $postfix_postfixadmin_dirname ? {
+        ""      => "postfixadmin-2.3.2",
+        default => $postfix_postfixadmin_dirname ,
+    }
 
 ## EXTRA MODULE INTERNAL VARIABLES
 #(add here module specific internal variables)
 
-
+# Location of postfix admin configuration file. Used in postfix::postfixadmin
+    $postfixadminconf = $operatingsystem ? {
+        debian  => "/var/www/postfixadmin/config.inc.php",
+        ubuntu  => "/var/www/postfixadmin/config.inc.php",
+        suse    => "/srv/www/postfixadmin/config.inc.php",
+        default => "/var/www/html/postfixadmin/config.inc.php",
+    }
 
 ## MODULE INTERNAL VARIABLES
 # (Modify to adapt to unsupported OSes)

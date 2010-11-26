@@ -31,18 +31,18 @@ class postfix::postfixadmin {
     }
 
     netinstall { postfixadmin:
-        url                 => "http://downloads.sourceforge.net/project/postfixadmin/postfixadmin/postfixadmin_2.3.tar.gz",
-        extracted_dir       => "postfixadmin-2.3",
-        postextract_command => "ln -s postfixadmin-2.3 ../postfixadmin",
+        url                 => "{postfix::params::postfixadmin_url}"",
+        extracted_dir       => "${postfix::params::postfixadmin_dirname}",
+        postextract_command => "ln -s ${postfix::params::postfixadmin_dirname} ../postfixadmin",
         destination_dir     => "${apache::params::documentroot}",
         require             => Package["apache"],
     }
 
     mysql::grant { postfixadmin:
-        mysql_db         => $postfix_mysqldbname,
-        mysql_user       => $postfix_mysqluser,
-        mysql_password   => $postfix_mysqlpassword,
-        mysql_host       => $postfix_mysqlhost,
+        mysql_db         => "${postfix::params::mysqldbname}",
+        mysql_user       => "${postfix::params::mysqluser}",
+        mysql_password   => "${postfix::params::mysqlpassword}",
+        mysql_host       => "${postfix::params::mysqlhost}",
         mysql_privileges => "ALL",
     }
 
@@ -55,10 +55,10 @@ class postfix::postfixadmin {
         path    => "${postfix::params::postfixadminconf}",
     }
 
-    postfix::postfixadminconf { "database_host": value => "$postfix_mysqlhost" }
-    postfix::postfixadminconf { "database_name": value => "$postfix_mysqldbname" }
-    postfix::postfixadminconf { "database_user": value => "$postfix_mysqluser" }
-    postfix::postfixadminconf { "database_password": value => "$postfix_mysqlpassword" }
+    postfix::postfixadminconf { "database_host": value => "${postfix::params::mysqlhost}" }
+    postfix::postfixadminconf { "database_name": value => "${postfix::params::mysqldbname}" }
+    postfix::postfixadminconf { "database_user": value => "${postfix::params::mysqluser}" }
+    postfix::postfixadminconf { "database_password": value => "${postfix::params::mysqlpassword}" }
     postfix::postfixadminconf { "configured": value => "true" , quote => "no" }
     postfix::postfixadminconf { "domain_path": value => "YES" }
     postfix::postfixadminconf { "domain_in_mailbox": value => "NO" }
