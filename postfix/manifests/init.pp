@@ -2,10 +2,8 @@
 # Class: postfix
 #
 # Manages postfix.
-# Include it to install and run postfix with default settings
+# Include it to install and run postfix
 # It defines package, service, main configuration file.
-# Note that it doesn't modify, by default, the main configuration file,
-# in order to do it, add a source|content statement for the relevant File type in this class or in a class that inherits it.
 #
 # Usage:
 # include postfix
@@ -16,19 +14,20 @@ class postfix {
     require postfix::params
 
     # Basic Package - Service - Configuration file management
-    package { postfix:
+    package { "postfix":
         name   => "${postfix::params::packagename}",
         ensure => present,
     }
 
-    service { postfix:
-        name => "${postfix::params::servicename}",
-        ensure => running,
-        enable => true,
+    service { "postfix":
+        name       => "${postfix::params::servicename}",
+        ensure     => running,
+        enable     => true,
         hasrestart => true,
-        hasstatus => true,
-        require => Package["postfix"],
-        subscribe => File["main.cf"],
+        hasstatus  => "${postfix::params::hasstatus}",
+        pattern    => "${postfix::params::processname}",
+        require    => Package["postfix"],
+        subscribe  => File["main.cf"],
     }
 
     file { "main.cf":
@@ -36,8 +35,10 @@ class postfix {
         mode    => "${postfix::params::configfile_mode}",
         owner   => "${postfix::params::configfile_owner}",
         group   => "${postfix::params::configfile_group}",
-        require => Package[postfix],
         ensure  => present,
+        require => Package["postfix"],
+        notify  => Service["postfix"],
+        # content => template("postfix/postfix.conf.erb"),
     }
 
     # Include OS specific subclasses, if necessary
@@ -45,9 +46,22 @@ class postfix {
         default: { }
     }
 
-    # Include extended classes
+    # Include extended classes, if 
     if $backup == "yes" { include postfix::backup }
     if $monitor == "yes" { include postfix::monitor }
     if $firewall == "yes" { include postfix::firewall }
+
+    # Include project specific class if $my_project is set
+    # The extra project class is by default looked in postfix module 
+    # If $my_project_onmodule == yes it's looked in your project module
+    if $my_project { 
+        case $my_project_onmodule {
+            yes,true: { include "${my_project}::postfix" }
+            default: { include "postfix::${my_project}" }
+        }
+    }
+
+    # Include debug class is debugging is enabled ($debug=yes)
+    if ( $debug == "yes" ) or ( $debug == true ) { include postfix::debug }
 
 }

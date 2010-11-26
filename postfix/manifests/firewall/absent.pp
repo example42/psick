@@ -1,13 +1,8 @@
-# Class: postfix::firewall
+# Class: postfix::firewall::absent
 #
-# Manages postfix firewalling using custom Firewall wrapper
-# By default it opens postfix's default port(s) to anybody
-# It's automatically included if $firewall=yes
+# Remove postfix firewall elements
 #
-# Usage:
-# Automatically included if $firewall=yes 
-#
-class postfix::firewall {
+class postfix::firewall::absent {
 
     include postfix::params
 
@@ -18,7 +13,7 @@ class postfix::firewall {
         port        => "${postfix::params::port}",
         action      => "allow",
         direction   => "input",
-        enable      => "${postfix::params::firewall_enable}",
+        enable      => "false",
     }
 
 }
