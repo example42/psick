@@ -1,0 +1,19 @@
+# File Managed by Puppet
+
+dbdir	/var/lib/munin
+htmldir	<%= scope.lookupvar('munin::params::webdir') %>
+logdir	/var/log/munin
+rundir  /var/run/munin
+tmpldir	/etc/munin/templates
+
+includedir <%= scope.lookupvar('munin::params::includedir') %> 
+
+graph_period minute
+#munin_cgi_graph_jobs 6
+max_graph_jobs 15
+
+#contact.someuser.command mail -s "Munin notification" somejuser@fnord.comm
+#contact.anotheruser.command mail -s "Munin notification" anotheruser@blibb.comm
+#contact.nagios.command /usr/bin/send_nsca nagios.host.comm -c /etc/nsca.conf
+
+
