@@ -1,0 +1,43 @@
+# File Managed By Puppet
+
+These are the variables used by the module rsyslog
+
+User variables:
+$server = <%= scope.lookupvar('rsyslog::params::server') %>
+
+General internal variables:
+$packagename = <%= scope.lookupvar('rsyslog::params::packagename') %>
+$servicename = <%= scope.lookupvar('rsyslog::params::servicename') %>
+$processname = <%= scope.lookupvar('rsyslog::params::servicename') %>
+$hasstatus = <%= scope.lookupvar('rsyslog::params::hasstatus') %>
+$configfile = <%= scope.lookupvar('rsyslog::params::configfile') %>
+$configfile_mode = <%= scope.lookupvar('rsyslog::params::configfile_mode') %>
+$configfile_owner = <%= scope.lookupvar('rsyslog::params::configfile_owner') %>
+$configfile_group = <%= scope.lookupvar('rsyslog::params::configfile_group') %>
+$configdir = <%= scope.lookupvar('rsyslog::params::configdir') %>
+$initconfigfile = <%= scope.lookupvar('rsyslog::params::initconfigfile') %>
+$pidfile = <%= scope.lookupvar('rsyslog::params::pidfile') %>
+$datadir = <%= scope.lookupvar('rsyslog::params::datadir') %>
+$logdir = <%= scope.lookupvar('rsyslog::params::logdir') %>
+$protocol = <%= scope.lookupvar('rsyslog::params::protocol') %>
+$port = <%= scope.lookupvar('rsyslog::params::port') %>
+
+Variables used by monitor class:
+$monitor_target_real = <%= scope.lookupvar('rsyslog::params::monitor_target_real') %>
+$monitor_baseurl_real = <%= scope.lookupvar('rsyslog::params::monitor_baseurl_real') %>
+$monitor_url_pattern = <%= scope.lookupvar('rsyslog::params::monitor_url_pattern') %>
+$monitor_port_enable = <%= scope.lookupvar('rsyslog::params::monitor_port_enable') %>
+$monitor_url_enable = <%= scope.lookupvar('rsyslog::params::monitor_url_enable') %>
+$monitor_process_enable = <%= scope.lookupvar('rsyslog::params::monitor_process_enable') %>
+$monitor_plugin_enable = <%= scope.lookupvar('rsyslog::params::monitor_plugin_enable') %>
+
+Variables used by backup class:
+$backup_target_real = <%= scope.lookupvar('rsyslog::params::backup_target_real') %>
+$backup_frequency = <%= scope.lookupvar('rsyslog::params::backup_frequency') %>
+$backup_data_enable = <%= scope.lookupvar('rsyslog::params::backup_data_enable') %>
+$backup_log_enable = <%= scope.lookupvar('rsyslog::params::backup_log_enable') %>
+$general_base_source = <%= scope.lookupvar('rsyslog::params::general_base_source') %>
+
+Variables used by firewall class:
+$firewall_source_real = <%= scope.lookupvar('rsyslog::params::firewall_source_real') %>
+$firewall_destination_real = <%= scope.lookupvar('rsyslog::params::firewall_destination_real') %>

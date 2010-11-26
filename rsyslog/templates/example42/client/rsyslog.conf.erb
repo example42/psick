@@ -1,0 +1,81 @@
+# File managed by Puppet
+#  /etc/rsyslog.conf	Configuration file for rsyslog v3.
+
+#### MODULES ####
+
+$ModLoad imuxsock # provides support for local system logging
+$ModLoad imklog   # provides kernel logging support (previously done by rklogd) 
+#$ModLoad immark  # provides --MARK-- message capability
+
+# provides UDP syslog reception
+#$ModLoad imudp
+#$UDPServerRun 514
+
+# provides TCP syslog reception
+#$ModLoad imtcp
+#$InputTCPServerRun 514
+
+
+#### GLOBAL DIRECTIVES ####
+
+# Use traditional timestamp format.
+$ActionFileDefaultTemplate RSYSLOG_TraditionalFileFormat
+
+# Set the default permissions for all log files.
+$FileOwner root
+$FileGroup adm
+$FileCreateMode 0640
+$DirCreateMode 0755
+
+$IncludeConfig /etc/rsyslog.d/*.conf
+
+# Setup local queue for storage
+$WorkDirectory /rsyslog       # default location for work (spool) files
+$ActionQueueType LinkedList   # use asynchronous processing
+$ActionQueueFileName srvrfwd  # set file name, also enables disk mode
+$ActionResumeRetryCount -1    # infinite retries on insert failure
+$ActionQueueSaveOnShutdown on # save in-memory data if rsyslog shuts down
+
+
+#### RULES ####
+
+auth,authpriv.*			@@(o)<%= scope.lookupvar('rsyslog::params::server') %>
+<% if hostname == "puppetmaster" -%>
+# Puppetmaster logs too many warnings (The 'require' function is only compatible with clients at 0.25 and above; including class but not adding dependency )
+*.warn;!user.=warn		@@(o)<%= scope.lookupvar('rsyslog::params::server') %>
+<% else -%>
+*.warn 				@@(o)<%= scope.lookupvar('rsyslog::params::server') %>
+<% end -%>
+
+#auth,authpriv.*			/var/log/auth.log
+*.*;auth,authpriv.none		-/var/log/syslog
+#cron.*				/var/log/cron.log
+daemon.*			-/var/log/daemon.log
+kern.*				-/var/log/kern.log
+lpr.*				-/var/log/lpr.log
+mail.*				-/var/log/mail.log
+user.*				-/var/log/user.log
+
+mail.info			-/var/log/mail.info
+mail.warn			-/var/log/mail.warn
+mail.err			/var/log/mail.err
+
+news.crit			/var/log/news/news.crit
+news.err			/var/log/news/news.err
+news.notice			-/var/log/news/news.notice
+
+*.=debug;\
+	auth,authpriv.none;\
+	news.none;mail.none	-/var/log/debug
+*.=info;*.=notice;*.=warn;\
+	auth,authpriv.none;\
+	cron,daemon.none;\
+	mail,news.none		-/var/log/messages
+
+*.emerg				*
+
+daemon.*;mail.*;\
+	news.err;\
+	*.=debug;*.=info;\
+	*.=notice;*.=warn	|/dev/xconsole
+

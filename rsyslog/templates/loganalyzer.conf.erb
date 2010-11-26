@@ -1,0 +1,25 @@
+# File Managed by Puppet
+
+Listen <%= port %>
+
+<VirtualHost *:<%= port %>>
+        ServerName <%= name %>
+<% if serveraliases  -%>
+        ServerAlias <%= serveraliases %> 
+<% end -%>
+        DocumentRoot <%= docroot %>
+        <Directory <%= docroot %>>
+                Options None
+                AllowOverride None
+                Order allow,deny
+                allow from all
+        </Directory>
+       
+        ErrorLog /var/log/<%= scope.lookupvar('apache::params::servicename') %>/<%= name %>_error.log
+        LogLevel warn
+        CustomLog /var/log/<%= scope.lookupvar('apache::params::servicename') %>/<%= name %>_access.log combined
+        ServerSignature On
+
+</VirtualHost>
+
+
