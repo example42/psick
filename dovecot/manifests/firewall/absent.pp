@@ -1,13 +1,8 @@
-# Class: dovecot::firewall
+# Class: dovecot::firewall::absent
 #
-# Manages dovecot firewalling using custom Firewall wrapper
-# By default it opens dovecot's default port(s) to anybody
-# It's automatically included if $firewall=yes
+# Remove dovecot firewall elements
 #
-# Usage:
-# Automatically included if $firewall=yes 
-#
-class dovecot::firewall {
+class dovecot::firewall::absent {
 
     include dovecot::params
 
@@ -18,7 +13,7 @@ class dovecot::firewall {
         port        => "${dovecot::params::port}",
         action      => "allow",
         direction   => "input",
-        enable      => "${dovecot::params::firewall_enable}",
+        enable      => "false",
     }
 
 }
