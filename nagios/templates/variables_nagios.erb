@@ -3,9 +3,23 @@
 These are the variables used by the module nagios
 
 User variables:
+$nagios_check_external_commands = <%= scope.lookupvar('nagios::params::check_external_commands') %>
 
 Extra variables:
 $customconfigdir = <%= scope.lookupvar('nagios::params::customconfigdir') %>
+$version = <%= scope.lookupvar('nagios::params::version') %>
+$username = <%= scope.lookupvar('nagios::params::username') %>
+$cachedir = <%= scope.lookupvar('nagios::params::cachedir') %>
+$libdir = <%= scope.lookupvar('nagios::params::libdir') %>
+$resourcefile = <%= scope.lookupvar('nagios::params::resourcefile') %>
+$statusfile = <%= scope.lookupvar('nagios::params::statusfile') %>
+$commanddir = <%= scope.lookupvar('nagios::params::commanddir') %>
+$commandfile = <%= scope.lookupvar('nagios::params::commandfile') %>
+$resultpath = <%= scope.lookupvar('nagios::params::resultpath') %>
+$retentionfile = <%= scope.lookupvar('nagios::params::retentionfile') %>
+$p1file = <%= scope.lookupvar('nagios::params::p1file') %>
+$packagenameplugins = <%= scope.lookupvar('nagios::params::packagenameplugins') %>
+$packagenamenrpeplugin = <%= scope.lookupvar('nagios::params::packagenamenrpeplugin') %>
 
 General internal variables:
 $packagename = <%= scope.lookupvar('nagios::params::packagename') %>

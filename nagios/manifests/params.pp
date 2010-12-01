@@ -16,6 +16,14 @@ class nagios::params  {
          default => $nagios_hostgroups
     }
 
+    # Configure Nagios for External commands support (needed if you want to issue WebCGI commands)
+    $check_external_commands = $nagios_check_external_commands ? {
+         'yes'   => "yes",
+         true    => "yes",
+         'true'  => "yes",
+         '1'     => "yes",
+         default => "no"
+    }
 
 ## EXTRA VARIABLES
 # The directory where we place automatic Nagios confingurations MUST be fixed
@@ -29,6 +37,10 @@ class nagios::params  {
         debian  => "2",
         default => "3",
     }
+    
+    $username = $operatingsystem ? {
+        default => "nagios",
+    } 
 
     $cachedir = $operatingsystem ? {
         debian  => "/var/cache/nagios2",
@@ -54,11 +66,13 @@ class nagios::params  {
         default => "/var/log/nagios/status.dat",
     }
 
-    $commandfile = $operatingsystem ? {
-        debian  => "/var/lib/nagios2/rw/nagios.cmd",
-        ubuntu  => "/var/lib/nagios3/rw/nagios.cmd",
-        default => "/var/spool/nagios/cmd/nagios.cmd",
+    $commanddir = $operatingsystem ? {
+        debian  => "/var/lib/nagios2/rw",
+        ubuntu  => "/var/lib/nagios3/rw",
+        default => "/var/spool/nagios/cmd",
     }
+
+    $commandfile = "${commanddir}/nagios.cmd"
 
     $resultpath = $operatingsystem ? {
         debian  => "/var/lib/nagios3/spool/checkresults",
@@ -77,6 +91,17 @@ class nagios::params  {
         ubuntu  => "/usr/lib/nagios3/p1.pl",
         default => "/usr/sbin/p1.pl",
     }
+
+    $packagenameplugins = $operatingsystem ? {
+        default => "nagios-plugins",
+    }
+
+    $packagenamenrpeplugin = $operatingsystem ? {
+        ubuntu  => "nagios-nrpe-plugin",
+        debian  => "nagios-nrpe-plugin",
+        default => "nagios-plugins-nrpe",
+    }
+
 
 ## MODULE INTERNAL VARIABLES
 # (Modify to adapt to unsupported OSes)

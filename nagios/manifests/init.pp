@@ -12,6 +12,7 @@ class nagios {
 
     # Load the variables used in this module. Check the params.pp file 
     require nagios::params
+    include apache::params
 
     # No Nagios without webserver
     include apache
@@ -49,6 +50,29 @@ class nagios {
 
     # Include cleanup class that can be used to clean and purge storeconfigured mess
     include nagios::cleanup
+
+    # Manage permissions on external command file, is used (needed for CGI commands)
+    if "${nagios::params::check_external_commands}" == "yes" {
+
+        file { "nagios.cmd_dir":
+            path    => "${nagios::params::commanddir}",
+            mode    => "750",
+            owner   => "${nagios::params::username}",
+            group   => "${apache::params::username}",
+            ensure  => present,
+            require => Package["nagios"],
+        }
+
+        file { "nagios.cmd":
+            path    => "${nagios::params::commandfile}",
+            mode    => "660",
+            owner   => "${nagios::params::username}",
+            group   => "${apache::params::username}",
+            ensure  => present,
+            require => Package["nagios"],
+            notify  => Service["nagios"],
+        }
+    }
 
     # Collects all the stored configs regarding nagios
     File <<| tag == 'nagios_host' |>>

@@ -20,9 +20,13 @@ status_update_interval=10
 nagios_user=nagios
 nagios_group=nagios
 
+<% if scope.lookupvar('nagios::params::check_external_commands') == "yes" -%>
+check_external_commands=1
+<% else -%>
 check_external_commands=0
-#command_check_interval=15s
-command_check_interval=-1
+<% end -%>
+
+command_check_interval=15s
 command_file=<%= scope.lookupvar('nagios::params::commandfile') %>
 external_command_buffer_slots=4096
 
