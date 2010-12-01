@@ -8,6 +8,8 @@
 #
 define monitor::url::nagios (
     $url,
+    $target='127.0.0.1',
+    $port='80',
     $pattern,
     $username,
     $password,
@@ -26,9 +28,9 @@ define monitor::url::nagios (
     nagios::service { "$name":
         ensure      => $ensure,
         check_command => $username ? {
-            undef   => "check_nrpe!check_url!127.0.0.1!${url}!${pattern}" ,
-            ""      => "check_nrpe!check_url!127.0.0.1!${url}!${pattern}" ,
-            default => "check_nrpe!check_url_auth!127.0.0.1!${url}!${pattern}!${username}:${password}" ,
+            undef   => "check_nrpe!check_url!${target}!${port}!${url}!${pattern}" ,
+            ""      => "check_nrpe!check_url!${target}!${port}!${url}!${pattern}" ,
+            default => "check_nrpe!check_url_auth!${target}!${port}!${url}!${pattern}!${username}:${password}" ,
         }
     }
 

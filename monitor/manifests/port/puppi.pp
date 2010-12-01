@@ -9,6 +9,7 @@ define monitor::port::puppi (
     $target,
     $port,
     $protocol,
+    $checksource,
     $enable
     ) {
 
@@ -17,8 +18,14 @@ define monitor::port::puppi (
         enable   => $enable,
         hostwide => "yes",
         command  => $protocol ? {
-            tcp => "check_tcp -H ${target} -p ${port}" ,
-            udp => "check_udp -H ${target} -p ${port}" ,
+            tcp => $checksource ? {
+                local   => "check_tcp -H localhost -p ${port}" ,
+                default => "check_tcp -H ${target} -p ${port}" ,
+            },
+            udp => $checksource ? {
+                local   => "check_udp -H localhost -p ${port}" ,
+                default => "check_udp -H ${target} -p ${port}" ,
+            },
         }
     }
 

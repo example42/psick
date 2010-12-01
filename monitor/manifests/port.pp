@@ -3,6 +3,7 @@ define monitor::port (
     $protocol,
     $target,
     $tool,
+    $checksource='remote',
     $enable='true'
     ) {
 
@@ -41,19 +42,21 @@ define monitor::port (
 
     if ($tool =~ /nagios/) {
         monitor::port::nagios { "$name":
-            target   => $target,
-            protocol => $protocol,
-            port     => $port,
-            enable   => $enable,
+            target      => $target,
+            protocol    => $protocol,
+            port        => $port,
+            checksource => $checksource,
+            enable      => $enable,
         }
     }
 
     if ($tool =~ /puppi/) {
         monitor::port::puppi { "$name":
-            target   => $target,
-            protocol => $protocol,
-            port     => $port,
-            enable   => $enable,
+            target      => $target,
+            protocol    => $protocol,
+            port        => $port,
+            checksource => $checksource,
+            enable      => $enable,
         }
     }
 

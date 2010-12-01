@@ -7,6 +7,8 @@
 #
 define monitor::url::puppi (
     $url,
+    $target='127.0.0.1',
+    $port='80',
     $pattern,
     $username,
     $password,
@@ -24,9 +26,9 @@ define monitor::url::puppi (
         },
         project  => $monitorgroup ,
         command  => $username ? {
-            undef   => "check_http -I '127.0.0.1' -u '${url}' -s '${pattern}'" ,
-            ""      => "check_http -I '127.0.0.1' -u '${url}' -s '${pattern}'" ,
-            default => "check_http -I '127.0.0.1' -u '${url}' -s '${pattern}' -a ${username}:${password}" ,
+            undef   => "check_http -I '${target}' -p '${port}' -u '${url}' -s '${pattern}'" ,
+            ""      => "check_http -I '${target}' -p '${port}' -u '${url}' -s '${pattern}'" ,
+            default => "check_http -I '${target}' -p '${port}' -u '${url}' -s '${pattern}' -a ${username}:${password}" ,
         }
     }
 
