@@ -54,6 +54,18 @@ class munin {
         content => template("munin/munin-node.conf.erb"),
     }
 
+    # For better automation we want plugin autoconfiguration every day
+    file { "munin-autoconfigure":
+        path    => "/etc/cron.daily/munin-autoconfigure",
+        mode    => "755",
+        owner   => "root",
+        group   => "root",
+        ensure  => present,
+        require => Package["munin-node"],
+        content => template("munin/munin-autoconfigure.erb"),
+    }
+
+
     @@file { "${munin::params::includedir}/${fqdn}.conf":
         mode    => "${munin::params::configfile_mode}",
         owner   => "${munin::params::configfile_owner}",
@@ -62,6 +74,8 @@ class munin {
         require => Package["munin"],
         content => template( "munin/host.erb" ),
         tag     => 'munin_host',
+        # uncomment below and customize with relevant variables for using different Munin Collectors
+        # tag     => 'munin_host_$env', 
     }
 
     # Include OS specific subclasses, if necessary
