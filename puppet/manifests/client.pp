@@ -59,7 +59,7 @@ class puppet::client {
     if $my_project {
         case $my_project_onmodule {
             yes,true: { include "${my_project}::puppet::client" }
-            default: { include "puppet::client::${my_project}" }
+            default: { include "puppet::${my_project}::client" }
         }
     }
 

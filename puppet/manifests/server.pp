@@ -99,6 +99,17 @@ class puppet::server {
         notify  => [ Service["puppet"], Service["puppetmaster"] ] ,
     }  
 
+    file { "fileserver.conf":
+        path    => "${puppet::params::configdir}/fileserver.conf",
+        mode    => "${puppet::params::configfile_mode}",
+        owner   => "${puppet::params::configfile_owner}",
+        group   => "${puppet::params::configfile_group}",
+        require => Package["puppet-server"],
+        ensure  => present,
+        content => template("puppet/server/fileserver.conf.erb"),
+        notify  => [ Service["puppet"], Service["puppetmaster"] ] ,
+    }
+
     file { "tagmail.conf":
         path    => "${puppet::params::configdir}/tagmail.conf",
         mode    => "${puppet::params::configfile_mode}",
@@ -112,7 +123,7 @@ class puppet::server {
     if $my_project { 
         case $my_project_onmodule {
             yes,true: { include "${my_project}::puppet::server" }
-            default: { include "puppet::server::${my_project}" }
+            default: { include "puppet::${my_project}::server" }
         }
     }
 

@@ -9,7 +9,7 @@ class puppet::server::mysql {
 
     case $puppet::params::db_server {
         "localhost","127.0.0.1": {
-#            require mysql
+            require mysql
             mysql::grant { "puppet_server_grants_${fqdn}":
                 mysql_db         => "puppet",
                 mysql_user       => "${puppet::params::db_user}",
@@ -31,5 +31,22 @@ class puppet::server::mysql {
             }
         }
     }
+
+    case $operatingsystem {
+        ubuntu,debian: {
+            package {
+                "libmysql-ruby":
+                ensure => present;
+
+            }
+        }
+
+        centos,redhat: {
+
+
+        }
+    }
+
+
 
 }

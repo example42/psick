@@ -12,16 +12,7 @@ class puppet::rails {
         name => $operatingsystem ? {
             default => "rails",
         },
-        ensure => $operatingsystem ? {
-            centos  => "2.3.5",
-            redhat  => "2.3.5",
-            default => "installed",
-        },
-        provider => $operatingsystem ? {
-            debian  => "apt",
-            ubuntu  => "apt",
-            default => "gem",
-        },
+        ensure => installed,
     }
 
 }
