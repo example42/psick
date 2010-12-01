@@ -38,6 +38,7 @@ class mysql::monitor {
         port     => "${mysql::params::port}",
         target   => "${mysql::params::monitor_target_real}",
         enable   => "${mysql::params::monitor_port_enable}",
+        checksource => "local", # When MySql binds to localhost
         tool     => "${monitor_tool}",
     }
     
