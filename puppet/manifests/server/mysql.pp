@@ -9,14 +9,14 @@ class puppet::server::mysql {
 
     case $puppet::params::db_server {
         "localhost","127.0.0.1": {
-            require mysql
+            include mysql
             mysql::grant { "puppet_server_grants_${fqdn}":
                 mysql_db         => "puppet",
                 mysql_user       => "${puppet::params::db_user}",
                 mysql_password   => "${puppet::params::db_password}",
                 mysql_privileges => "ALL",
                 mysql_host       => "${puppet::params::db_server}",
-                notify           => Service["puppetmaster"],
+                # notify           => Service["puppetmaster"],
             }
         }
         default: {

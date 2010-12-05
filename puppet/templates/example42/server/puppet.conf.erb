@@ -6,9 +6,6 @@ logdir = /var/log/puppet
 rundir = /var/run/puppet
 ssldir = $vardir/ssl
 
-environment = production
-environments = production,testing
-
 # Report Translactions to Master (or separated report) server
 report = true
 reportserver = <%= puppet_server %>
@@ -78,16 +75,12 @@ dbpassword=<%= puppet_db_password %>
 reports=log,foreman
 # reports=rrdgraph,log,foreman
 <% elsif puppet_nodetool == "dashboard" -%>
-reports=rrdgraph,log,puppet_dashboard
+reports=log,puppet_dashboard
 <% else -%>
-reports=foreman,puppet_dashboard
+reports=log
 <% end -%>
-graph = true
 tagmap = $confdir/tagmail.conf
 syslogfacility = user
-rrddir = $vardir/rrd
-rrdinterval = $runinterval
-rrdgraph = true
 
 <% if puppet_externalnodes == "yes" -%>
 # Activate external node classifier 
@@ -95,12 +88,4 @@ external_nodes = /etc/puppet/node.rb
 node_terminus = exec
 <% end -%>
 
-
-[testing]
-modulepath = /etc/puppet-testing/modules
-manifest = /etc/puppet-testing/manifests/site.pp
-
-[production]
-modulepath = /etc/puppet/modules
-manifest = /etc/puppet/manifests/site.pp
 

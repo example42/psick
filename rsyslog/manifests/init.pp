@@ -47,6 +47,8 @@ class rsyslog {
 
     # Include OS specific subclasses, if necessary
     case $operatingsystem {
+        centos: { include syslog::disable }
+        redhat: { include syslog::disable }
         default: { }
     }
 

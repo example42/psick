@@ -40,8 +40,10 @@ class puppet::server::passenger {
         }
 
         centos,redhat: {
-
-
+            package {
+                "mod_passenger":
+                ensure => present;
+            }
         }
     }
 

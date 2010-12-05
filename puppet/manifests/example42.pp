@@ -4,8 +4,8 @@
 class puppet::example42 {
 
     # gemrc with proxy settings for seamleass gem usage
-    file { "gemrc":
-        path => "/etc/gemrc",
-        content => template("puppet/example42/gemrc.erb"),
-    }
+#    file { "gemrc":
+#        path => "/etc/gemrc",
+#        content => template("puppet/example42/gemrc.erb"),
+#    }
 }

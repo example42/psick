@@ -25,7 +25,7 @@ class rsyslog::server::mysql {
 
     case $rsyslog::params::db_server {
         "localhost","127.0.0.1": {
-            require mysql
+            include mysql
             mysql::grant { "rsyslog_server_grants_${fqdn}":
                 mysql_db         => "${rsyslog::params::db_name}",
                 mysql_user       => "${rsyslog::params::db_user}",
