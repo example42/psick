@@ -22,6 +22,9 @@ class nrpe {
         ensure => present,
     }
 
+    # NRPE is useless without Nagios plugins
+    include nagios::plugins
+
     service { "nrpe":
         name       => "${nrpe::params::servicename}",
         ensure     => running,
