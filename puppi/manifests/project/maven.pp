@@ -35,8 +35,8 @@ define puppi::project::maven (
         "${name}-Get_Maven_Info":
              priority => "20" , command => "get_maven_info.sh" , arguments => "$source_url $suffix" ,
              user => "root" , project => "$name" , enable => $enable;
-        "${name}-Get_Maven_Files":
-             priority => "25" , command => "get_maven_files.sh" , arguments => "$source_url" ,
+        "${name}-Get_Maven_Files_WAR":
+             priority => "25" , command => "get_maven_files.sh" , arguments => "$source_url warfile" ,
              user => "root" , project => "$name" , enable => $enable ;
         "${name}-Backup_existing_WAR":
              priority => "30" , command => "archive.sh" , arguments => "$deploy_root war" ,
@@ -70,34 +70,40 @@ define puppi::project::maven (
 # Config tar is managed only if $config_root is set
 if ($config_root != "") {
     puppi::deploy {
+        "${name}-Get_Maven_Files_Config":
+             priority => "26" , command => "get_maven_files.sh" , arguments => "$source_url configfile" ,
+             user => "root" , project => "$name" , enable => $enable ;
         "${name}-Backup_existing_ConfigDir":
              priority => "37" , command => "archive.sh" , arguments => "$config_root config" ,
              user => "root" , project => "$name" , enable => $enable;
-       "${name}-Deploy_Maven_ConfigDir":
+        "${name}-Deploy_Maven_ConfigDir":
              priority => "47" , command => "deploy_tar.sh" , arguments => "$config_root configfile" ,
-             user => "$user" , project => "$name" , enable => $enable;
+             user => "root" , project => "$name" , enable => $enable;
     }
     puppi::rollback {
         "${name}-Recover_ConfigDir":
              priority => "37" , command => "recover.sh" , arguments => "$config_root config" ,
-             user => "$user" , project => "$name" , enable => $enable;
+             user => "root" , project => "$name" , enable => $enable;
     }
 }
 
 # Docroot tar is managed only if $document_root is set
 if ($document_root != "") {
     puppi::deploy {
+        "${name}-Get_Maven_Files_SRC":
+             priority => "27" , command => "get_maven_files.sh" , arguments => "$source_url srcfile" ,
+             user => "root" , project => "$name" , enable => $enable ;
         "${name}-Backup_existing_DocumentRoot":
              priority => "35" , command => "archive.sh" , arguments => "$document_root docroot" ,
              user => "root" , project => "$name" , enable => $enable;
         "${name}-Deploy_Maven_DocumentRoot":
              priority => "45" , command => "deploy_tar.sh" , arguments => "$document_root srcfile" ,
-             user => "$user" , project => "$name" , enable => $enable;
+             user => "root" , project => "$name" , enable => $enable;
     }
     puppi::rollback {
         "${name}-Recover_DocumentRoot":
              priority => "35" , command => "recover.sh" , arguments => "$document_root docroot" ,
-             user => "$user" , project => "$name" , enable => $enable;
+             user => "root" , project => "$name" , enable => $enable;
     }
 }
 

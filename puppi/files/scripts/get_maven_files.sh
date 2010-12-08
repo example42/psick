@@ -25,28 +25,24 @@ else
     . $projectconfigfile
 fi
 
+# Obtain the value of the variable with name passed as second argument
+# If no one is given, we take all the files in storedir
+if [ $2 ] ; then
+    deployfilevar=$2
+    deployfile="$(eval "echo \${$(echo ${deployfilevar})}")"
+else
+    deployfile="*"
+fi
+
 
 # Get the stuff
 cd $storedir
 
-curl $1/$version/$warfile -O
+curl $1/$version/$deployfile -O
 if [ $? = "0" ] ; then
-    exit 0
+    exit 0 
 else
     exit 2
 fi
 
-curl $1/$version/$srcfile -O
-if [ $? = "0" ] ; then
-    exit 0
-else
-    exit 2
-fi
-
-curl $1/$version/$configfile -O
-if [ $? = "0" ] ; then
-    exit 0
-else
-    exit 1  # We dont want to block puppi execution run when a $configfile is missing
-fi
 

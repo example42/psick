@@ -54,10 +54,4 @@ case $hostwide {
     }
 }
 
-# Decommission OLD FILES. TODO Delete after November 3 2010
-    file { "${puppi::params::checksdir}/${name}.sh":
-        ensure  => "absent",
-    }
-
 }
-
