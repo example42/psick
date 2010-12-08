@@ -47,8 +47,8 @@ class rsyslog {
 
     # Include OS specific subclasses, if necessary
     case $operatingsystem {
-        centos: { include sysklogd::absent }
-        redhat: { include sysklogd::absent }
+        centos: { require sysklogd::absent }
+        redhat: { require sysklogd::absent }
         default: { }
     }
 
