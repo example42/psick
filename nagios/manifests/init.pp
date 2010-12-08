@@ -85,6 +85,7 @@ class nagios {
     }
 
     # Include extended classes, if 
+    if $link == "yes" { include nagios::link }
     if $backup == "yes" { include nagios::backup }
     if $monitor == "yes" { include nagios::monitor }
     if $firewall == "yes" { include nagios::firewall }
