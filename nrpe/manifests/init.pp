@@ -55,6 +55,9 @@ class nrpe {
         ensure  => directory,
     }
 
+    # Include extra configs for Example42 Nagios/Nrpe implementation
+    include nrpe::extra
+
     # Include OS specific subclasses, if necessary
     case $operatingsystem {
         debian,ubuntu: { include nrpe::debian }

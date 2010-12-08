@@ -22,6 +22,7 @@ USER VARIABLES:
 In order to customize the behaviour of the module you can set the following variables:
 $nagios_check_external_commands (default "no") - Set to "yes" if you want to enable Nagios external commands 
                                                  (Needed to issue commands from the Web UI)
+$nagios_use_ssl (default "yes") - Set to no if you need to disable SSL in Nagios-NRPE communication
 
 
 USAGE:

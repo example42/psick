@@ -71,6 +71,16 @@ class nagios::extra {
         require => File["nagios_configdir"],
     }
 
+    file { "nagios_commands_extra.cfg":
+        path    => "${nagios::params::customconfigdir}/commands/extra.cfg",
+        mode    => "644",
+        owner   => "${nagios::params::configfile_owner}",
+        group   => "${nagios::params::configfile_group}",
+        ensure  => present,
+        content => template("nagios/commands-extra.cfg.erb"),
+        require => File["nagios_configdir"],
+    }
+
     file { "nagios_contacts.cfg":
         path    => "${nagios::params::customconfigdir}/contacts.cfg",
         mode    => "644",

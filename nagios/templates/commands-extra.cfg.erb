@@ -1,0 +1,22 @@
+# File Managed by Puppet
+
+# EXAMPLE42 modifications / additions 
+
+# 'check_nrpe' command definition
+define command {
+	command_name	check_nrpe
+        # Nrpe Commands are sent NOT encrypted. # TODO Fix this quick & dirty crap
+        command_line    $USER1$/check_nrpe <% if scope.lookupvar("nagios::params::use_ssl") == "no" -%>-n<% end -%> -H $HOSTADDRESS$ -c $ARG1$ -a $ARG2$ $ARG3$ $ARG4$ $ARG5$
+	# command_line	$USER1$/check_nrpe -H $HOSTADDRESS$ -c $ARG1$ -a $ARG2$ $ARG3$
+}
+
+define command {
+        command_name    check_url
+        command_line    $USER1$/check_http -I $ARG1$ -p $ARG2$ -u "$ARG3$" -s $ARG4$
+}
+
+define command {
+        command_name    check_url_auth
+        command_line    $USER1$/check_http -I $ARG1$ -p $ARG2$ -u "$ARG3$" -s $ARG4$ -a $ARG5$
+}
+

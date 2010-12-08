@@ -25,6 +25,15 @@ class nagios::params  {
          default => "no"
     }
 
+    # Configure Nagios for using SSL for NRPE Checks
+    $use_ssl = $nagios_use_ssl ? {
+         'no'    => "no",
+         false   => "no",
+         'false' => "no",
+         default => "yes"
+    }
+
+
 ## EXTRA VARIABLES
 # The directory where we place automatic Nagios confingurations MUST be fixed
 # Cannot be operating system dependent
@@ -93,6 +102,8 @@ class nagios::params  {
     }
 
     $packagenameplugins = $operatingsystem ? {
+        redhat  => "nagios-plugins-all",
+        centos  => "nagios-plugins-all",
         default => "nagios-plugins",
     }
 
