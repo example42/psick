@@ -27,4 +27,6 @@ class rsyslog::server::loganalyzer {
         template      => 'rsyslog/loganalyzer.conf.erb',
     }
 
+    if $link == "yes" { include rsyslog::server::link }
+
 }
