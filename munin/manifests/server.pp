@@ -50,6 +50,7 @@ class munin::server {
     }
 
     # Include extended classes, if 
+    if $link == "yes" { include munin::link }
     if $backup == "yes" { include munin::backup }
     if $monitor == "yes" { include munin::monitor }
     if $firewall == "yes" { include munin::firewall }
