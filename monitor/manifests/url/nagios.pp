@@ -14,6 +14,7 @@ define monitor::url::nagios (
     $username,
     $password,
     $monitorgroup,
+    $checksource,
     $enable
     ) {
 
@@ -24,14 +25,22 @@ define monitor::url::nagios (
         "yes"   => "present",
     }
 
-    # Use for Example42 service checks via nrpe 
+    # Use for Example42 service checks (note: are used custom Nagios and nrpe commands)  
     nagios::service { "$name":
         ensure      => $ensure,
-        check_command => $username ? {
-            undef   => "check_nrpe!check_url!${target}!${port}!${url}!${pattern}" ,
-            ""      => "check_nrpe!check_url!${target}!${port}!${url}!${pattern}" ,
-            default => "check_nrpe!check_url_auth!${target}!${port}!${url}!${pattern}!${username}:${password}" ,
-        }
+        check_command => $checksource ? {
+            local   => $username ? { # CHECK VIA NRPE STILL DOESN'T WORK WITH & and ? in URLS!
+                undef   => "check_nrpe!check_url!${target}!${port}!${url}!${pattern}" ,
+                ""      => "check_nrpe!check_url!${target}!${port}!${url}!${pattern}" ,
+                default => "check_nrpe!check_url_auth!${target}!${port}!${url}!${pattern}!${username}:${password}" ,
+            }, 
+            default => $username ? { 
+                undef   => "check_url!${target}!${port}!${url}!${pattern}" ,
+                ""      => "check_url!${target}!${port}!${url}!${pattern}" ,
+                default => "check_url_auth!${target}!${port}!${url}!${pattern}!${username}:${password}" ,
+            },
+        },
+
     }
 
 }

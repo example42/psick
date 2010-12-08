@@ -7,6 +7,7 @@ define monitor::url (
     $password="",
     $monitorgroup="",
     $tool,
+    $checksource='remote',
     $enable=true
     ) {
 
@@ -59,6 +60,7 @@ define monitor::url (
             username     => $username,
             password     => $password,
             monitorgroup => $monitorgroup,
+            checksource  => $checksource,
             enable       => $enable,
         }
     }
@@ -72,6 +74,7 @@ define monitor::url (
             username     => $username,
             password     => $password,
             monitorgroup => $monitorgroup,
+            checksource  => $checksource,
             enable       => $enable,
         }
     }

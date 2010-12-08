@@ -13,6 +13,7 @@ define monitor::url::puppi (
     $username,
     $password,
     $monitorgroup,
+    $checksource,
     $enable
     ) {
 
