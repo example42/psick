@@ -23,12 +23,12 @@
 #    docroot => '/path/to/docroot',
 #  }
 #
-define apache::vhost( $port, $docroot, $ssl=true, $template='apache/virtualhosts/virtualhost.conf.erb', $priority, $serveraliases = '' , enable=true) {
+define apache::vhost( $port, $docroot, $ssl=true, $template='apache/virtualhosts/virtualhost.conf.erb', $priority, $serveraliases = '' , $enable=true) {
 
     include apache
     include apache::params
 
-    file {"${apache::params::vdir}/${priority}-${name}":
+    file {"${apache::params::vdir}/${priority}-${name}.conf":
         content => template($template),
         mode    => "${apache::params::configfile_mode}",
         owner   => "${apache::params::configfile_owner}",
