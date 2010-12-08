@@ -39,12 +39,11 @@ $ActionQueueSaveOnShutdown on # save in-memory data if rsyslog shuts down
 
 #### RULES ####
 
-auth,authpriv.*			@@(o)<%= scope.lookupvar('rsyslog::params::server') %>
 <% if hostname == "puppetmaster" -%>
 # Puppetmaster logs too many warnings (The 'require' function is only compatible with clients at 0.25 and above; including class but not adding dependency )
-*.warn;!user.=warn		@@(o)<%= scope.lookupvar('rsyslog::params::server') %>
+*.*;!user.=warn		@@(o)<%= scope.lookupvar('rsyslog::params::server') %>
 <% else -%>
-*.warn 				@@(o)<%= scope.lookupvar('rsyslog::params::server') %>
+*.*			@@(o)<%= scope.lookupvar('rsyslog::params::server') %>
 <% end -%>
 
 #auth,authpriv.*			/var/log/auth.log
