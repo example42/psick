@@ -34,12 +34,12 @@ class mysql::monitor {
 
     # Port monitoring
     monitor::port { "mysql_${mysql::params::protocol}_${mysql::params::port}": 
-        protocol => "${mysql::params::protocol}",
-        port     => "${mysql::params::port}",
-        target   => "${mysql::params::monitor_target_real}",
-        enable   => "${mysql::params::monitor_port_enable}",
+        protocol    => "${mysql::params::protocol}",
+        port        => "${mysql::params::port}",
+        target      => "${mysql::params::monitor_target_real}",
+        enable      => "${mysql::params::monitor_port_enable}",
         checksource => "local", # When MySql binds to localhost
-        tool     => "${monitor_tool}",
+        tool        => "${monitor_tool}",
     }
     
     # URL monitoring 

@@ -8,7 +8,7 @@ define mysql::grant (
     ) {
 
     include mysql
- 
+
     file {
         "mysqlgrant-$mysql_user-$mysql_db.sql":
         mode => 600, owner => root, group => root,
