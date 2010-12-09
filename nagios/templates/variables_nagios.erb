@@ -5,6 +5,8 @@ These are the variables used by the module nagios
 User variables:
 $nagios_check_external_commands = <%= scope.lookupvar('nagios::params::check_external_commands') %>
 $nagios_use_ssl = <%= scope.lookupvar('nagios::params::use_ssl') %>
+$nagios_grouplogic = <%= scope.lookupvar('nagios::params::nagios_grouplogic') %>
+$grouptag = <%= scope.lookupvar('nagios::params::grouptag') %>
 
 Extra variables:
 $customconfigdir = <%= scope.lookupvar('nagios::params::customconfigdir') %>

@@ -38,7 +38,10 @@ define nagios::service (
         require => Class["nagios::extra"],
         notify  => Service["nagios"],
         content => template( "nagios/service.erb" ),
-        tag     => 'nagios_service',
+        tag     => "${nagios::params::grouptag}" ? {
+            ''       => "nagios_service",
+            default  => "nagios_service_$nagios::params::grouptag",
+        },
     }
 
 }

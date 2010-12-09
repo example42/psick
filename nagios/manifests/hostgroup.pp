@@ -21,7 +21,10 @@ define nagios::hostgroup (
         require => Class["nagios::extra"],
         notify  => Service["nagios"],
         content => template( "nagios/hostgroup.erb" ),
-        tag     => 'nagios_hostgroup',
+        tag     => "${nagios::params::grouptag}" ? {
+            ''       => "nagios_hostgroup",
+            default  => "nagios_hostgroup_$nagios::params::grouptag",
+        },
     }
 
 }

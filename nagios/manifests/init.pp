@@ -74,11 +74,21 @@ class nagios {
         }
     }
 
-    # Collects all the stored configs regarding nagios
-    File <<| tag == 'nagios_host' |>>
-    File <<| tag == 'nagios_service' |>>
-#    File <<| tag == 'nagios_hostgroup' |>>
-
+    # Collects all the stored configs regarding nagios 
+    # If nagios_grouplogic is defined different Nagios server collect the relevant data
+    case $nagios::params::grouptag {
+        "": {
+        File <<| tag == "nagios_host" |>>
+        File <<| tag == "nagios_service" |>>
+#       File <<| tag == "nagios_hostgroup" |>>
+        }
+        default: {
+        File <<| tag == "nagios_host_$nagios::params::grouptag" |>>
+        File <<| tag == "nagios_service_$nagios::params::grouptag" |>>
+#       File <<| tag == "nagios_hostgroup_$nagios::params::grouptag" |>>
+        }
+    }
+    
     # Include OS specific subclasses, if necessary
     case $operatingsystem {
         default: { }

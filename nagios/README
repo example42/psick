@@ -23,6 +23,13 @@ In order to customize the behaviour of the module you can set the following vari
 $nagios_check_external_commands (default "no") - Set to "yes" if you want to enable Nagios external commands 
                                                  (Needed to issue commands from the Web UI)
 $nagios_use_ssl (default "yes") - Set to no if you need to disable SSL in Nagios-NRPE communication
+$nagios_grouplogic (default undef) - Set here the name of a variable you want to use as discriminator for Nagios server monitoring.
+                                     For example you may want to have different Nagios servers for prod/test/devel nodes.
+                                     If this status is defined by a variable called "$env", set $nagios_grouplogic=env to have 
+                                     3 different (automatically configured) Nagios servers for prod/test/devel nodes.
+                                     By default all the checks got to the same server (managed by the same PuppetMaster).
+                                     Check in nagios/manifests/params.pp if this "grouplogic" variable is already proposed in the
+                                     selector for $nagios_grouptag if not, you just have to add it there.
 
 
 USAGE:

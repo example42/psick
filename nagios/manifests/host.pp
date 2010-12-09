@@ -25,7 +25,10 @@ define nagios::host (
         require => Class["nagios::extra"],
         notify  => Service["nagios"],
         content => template( "nagios/host.erb" ),
-        tag     => 'nagios_host',
+        tag     => "${nagios::params::grouptag}" ? {
+            ''       => "nagios_host",
+            default  => "nagios_host_$nagios::params::grouptag",
+        },
     }
 
 }

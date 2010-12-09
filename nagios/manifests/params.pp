@@ -16,6 +16,21 @@ class nagios::params  {
          default => $nagios_hostgroups
     }
 
+    # Define according to what criteria you want to organize what nodes your Nagios servers monitor
+    # For example you may want to have different Nagios servers according custom variables as zones, environments, datacenters etc.
+    # By default all the checks go to the same server (managed by the same PuppetMaster) if you define in $nagios_grouplogic the name of the variable
+    # you want to use as discrimitator, you will have different Nagios servers monitoring the group of nodes having the same value for that variable
+    # Note that you need to add in the list below your own variable name, if is not already provided.
+    $grouptag = $nagios_grouplogic ? {
+         ''            => "",
+         'type'        => $type,
+         'env'         => $env,
+         'environment' => $environment,
+         'zone'        => $zone,
+         'site'        => $site,
+         'role'        => $role,
+    }
+
     # Configure Nagios for External commands support (needed if you want to issue WebCGI commands)
     $check_external_commands = $nagios_check_external_commands ? {
          'yes'   => "yes",

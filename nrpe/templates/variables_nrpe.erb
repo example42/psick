@@ -7,6 +7,8 @@ $allowed_hosts = <%= scope.lookupvar('nrpe::params::allowed_hosts') %>
 $port = <%= scope.lookupvar('nrpe::params::port') %>
 $dont_blame_nrpe = <%= scope.lookupvar('nrpe::params::dont_blame_nrpe') %>
 $use_ssl = <%= scope.lookupvar('nrpe::params::use_ssl') %>
+$nagios_grouplogic = <%= scope.lookupvar('nagios::params::nagios_grouplogic') %>
+$grouptag = <%= scope.lookupvar('nagios::params::grouptag') %>
 
 Extra variables:
 $pluginsdir = <%= scope.lookupvar('nrpe::params::pluginsdir') %>
