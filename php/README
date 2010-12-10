@@ -7,25 +7,20 @@ Licence: GPLv3
 
 
 DESCRIPTION:
-This module installs and manages php.
-Standard and extended classes are available.
-Decide and customize how you want to define configuration files: static files, templates, infile modifications...
-
+This module installs php and provides custom defines to manage php modules, pear components and pecl extensions
 
 USAGE:
-# Standard Classes 
-include php              # Install and run php with standard configurations.
+include php        # Installs php
+include php::pear  # Installs pear support
+include php::dev   # Installs php-dev
 #TODO include php::absent      # Remove php package.
 
-# Generic main configuration infile modification Define
-#TODO php::conf { "ParameterName": value="YourValue"} 
+php::module { mysql: }     # Installs specific module for php
 
-php::module { mysql: }     # Installs mysql module for php
-php::pear { Crypt-CHAP: }  # Installs pear component
+php::pear::module { Crypt-CHAP: }  # Installs pear component using OS package
+php::pear::module { "XML_Serializer": use_package => "no", preferred_state => "beta" }  # Installs pear component with pear command
+php::pear::config { "http_proxy": value => "$proxy_server" } # Configures pear environment
 
-
-DEPENDENCIES:
-Standard classes generally don't need external modules.
-Extended classes need the relevant external modules (import monitor ; import backup ... ) and the "common" module (import common)
-php::conf generic infile configuration define needs the "common" module
-Check on individual Extra classes and defines if there are specific requirements (generally only the common module).
+php::pecl::module { "xslcache": }  # Installs pecl module using OS package
+php::pecl::module { "xslcache": use_package => "no", preferred_state => "beta" } # Installs pecl module with pecl command
+php::pecl::config { "http_proxy": value => "$proxy_server" } # Configures pecl environment
