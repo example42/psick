@@ -32,7 +32,7 @@ class activemq::params  {
     }
 
     $processname = $operatingsystem ? {
-        default => "activemqd",
+        default => "activemq",
     }
 
     $hasstatus = $operatingsystem ? {

@@ -51,7 +51,8 @@ class activemq::monitor {
 
     # Process monitoring 
     monitor::process { "activemq_process":
-        process  => "${activemq::params::processname}",
+        process  => "java",
+        argument => "${activemq::params::processname}",
         service  => "${activemq::params::servicename}",
         pidfile  => "${activemq::params::pidfile}",
         enable   => "${activemq::params::monitor_process_enable}",
