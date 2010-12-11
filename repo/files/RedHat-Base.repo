@@ -1,3 +1,5 @@
+# File Managed by Puppet
+
 [Server]
 name=RedHat 5 - Server 
 baseurl=http://repo.lab42.it/cobbler/ks_mirror/RedHat5/Server/
