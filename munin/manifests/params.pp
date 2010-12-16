@@ -15,6 +15,26 @@ class munin::params  {
         default => "${munin_server}",
     }
 
+## Is the node a munin gatherer?
+    $server_local = $munin_server_local ? {
+        yes     => "yes",
+        true    => "yes",
+        "true"  => "yes",
+        default => "no",
+    }
+
+# Define according to what criteria you want to organize what nodes your Munin servers monitor
+# Note that you need to add in the list below your own variable name, if is not already provided.
+    $grouptag = $munin_grouplogic ? {
+         ''            => "",
+         'type'        => $type,
+         'env'         => $env,
+         'environment' => $environment,
+         'zone'        => $zone,
+         'site'        => $site,
+         'role'        => $role,
+    }
+
 
 ## EXTRA MODULE INTERNAL VARIABLES
 #(add here module specific internal variables)

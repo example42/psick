@@ -39,9 +39,14 @@ class munin::server {
     }
 
     # Collects all the stored configs regarding munin
-    File <<| tag == 'munin_host' |>>
-    # uncomment below and customize with relevant variables for using different Munin Collectors
-    # File <<| tag == 'munin_host_$env' |>>
+    case $munin::params::grouptag {
+        "": {
+        File <<| tag == "munin_host" |>>
+        }
+        default: {
+        File <<| tag == "munin_host_$munin::params::grouptag" |>>
+        }
+    }
 
 
     # Include OS specific subclasses, if necessary

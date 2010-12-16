@@ -16,6 +16,13 @@ Decide and customize how you want to define configuration files: static files, t
 USER VARIABLES:
 $munin_server : IP address (NOT fqdn) of the Munin grapher/gatherer. Can be an array of different IPs
 $munin_server_local : (Default undef) - Set to true to have the grapher/gatherer on the local machine
+$munin_grouplogic (default undef) - Set here the name of a variable you want to use as discriminator for Munin monitoring.
+                                    For example you may want to have different Munin servers for prod/test/devel nodes.
+                                    If this status is defined by a variable called "$env", set $munin_grouplogic=env to have 
+                                    3 different (automatically configured) Munin servers for prod/test/devel nodes.
+                                    By default all the checks got to the same server (managed by the same PuppetMaster).
+                                    Check in munin/manifests/params.pp if this grouping variable is already proposed in the
+                                    selector for $munin_grouplogic if not, you just have to add it there.
 
 USAGE:
 # Standard Classes 

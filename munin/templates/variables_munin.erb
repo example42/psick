@@ -2,9 +2,16 @@
 
 These are the variables used by the module munin
 
-User variables:
-$munin_server = <%= munin_server %>
+User variables (unfiltered):
+$munin_server = <%= scope.lookupvar('munin_server') %>
 $munin_server_local = <%= scope.lookupvar('munin_server_local') %>
+$munin_grouplogic = <%= scope.lookupvar('munin_grouplogic') %>
+
+User variables (after params.pp filter):
+$server = <%= scope.lookupvar('munin::params::server') %>
+$server_local = <%= scope.lookupvar('munin::params::server_local') %>
+$grouptag = <%= scope.lookupvar('munin::params::grouptag') %>
+
 
 General internal variables:
 $packagename = <%= scope.lookupvar('munin::params::packagename') %>

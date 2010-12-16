@@ -14,7 +14,7 @@ class munin {
     require munin::params
 
     # Autoloads munin::server (The Munin grapher/gatherer) if $munin_server_local is true or $munin_server is equal to $fqdn
-    if ($munin_server_local == true) or ($munin_server == "$ipaddress") { include munin::server }
+    if ($munin::params::server_local == "yes") or ($munin::params::server == "$ipaddress") { include munin::server }
 
 
     # We assume that we want munin-node on all the nodes (server included)
@@ -73,9 +73,10 @@ class munin {
         ensure  => present,
         require => Package["munin"],
         content => template( "munin/host.erb" ),
-        tag     => 'munin_host',
-        # uncomment below and customize with relevant variables for using different Munin Collectors
-        # tag     => 'munin_host_$env', 
+        tag     => "${munin::params::grouptag}" ? {
+            ''       => "munin_host",
+            default  => "munin_host_$munin::params::grouptag",
+        },
     }
 
     # Include OS specific subclasses, if necessary
