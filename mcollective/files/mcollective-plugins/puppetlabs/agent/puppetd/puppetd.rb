@@ -23,6 +23,7 @@ module MCollective
                 @splaytime = @config.pluginconf["puppetd.splaytime"].to_i || 0
                 @lockfile = @config.pluginconf["puppetd.lockfile"] || "/var/lib/puppet/state/puppetdlock"
                 @statefile = @config.pluginconf["puppetd.statefile"] || "/var/lib/puppet/state/state.yaml"
+                @pidfile = @config.pluginconf["puppet.pidfile"] || "/var/run/puppet/agent.pid"
                 @puppetd = @config.pluginconf["puppetd.puppetd"] || "/usr/sbin/puppetd"
             end
 
@@ -67,7 +68,7 @@ module MCollective
 
             def runonce
                 if File.exists?(@lockfile)
-                    reply.fail "Lock file exists"
+                    reply.fail "Lock file exists, puppetd is already running or it's disabled"
                 else
                     if request[:forcerun]
                         reply[:output] = %x[#{@puppetd} --onetime]

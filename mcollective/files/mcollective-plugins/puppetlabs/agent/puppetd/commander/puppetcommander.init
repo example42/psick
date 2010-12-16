@@ -9,9 +9,9 @@
 #
 #
 ### BEGIN INIT INFO
-# Provides:		scriptname
-# Required-Start:	$remote_fs $syslog
-# Required-Stop:	$remote_fs Â$syslog
+# Provides:		puppetcommanderd
+# Required-Start:	$remote_fs
+# Required-Stop:	$remote_fs
 # Default-Start:	2 3 4 5
 # Default-Stop:		0 1 6
 # Short-Description:	Starts daemon at boot time
@@ -40,7 +40,7 @@ if [ -f /etc/sysconfig/puppetcommanderd ]; then
 fi
 
 # Check if binary exists
-if ! [ -f $puppetcommanderd ] 
+if ! [ -f $puppetcommanderd ]
 then
 	echo "PuppetCommander binary not found."
 	exit 0
@@ -48,7 +48,7 @@ fi
 
 # See how we were called
 case "$1" in
-	start) 
+	start)
 		echo -n "Starting PuppetCommander"
 		if [ -f $lock ]; then
 			if [ -s $pidfile ]; then
@@ -57,21 +57,21 @@ case "$1" in
 			rm -f ${pidfile}
 			rm -f ${lock}
 		fi
-		
+
 		rm -f ${pidfile}
-		
+
 		${puppetcommanderd} -d
 		if [ $? = 0 ]; then
 			log_success_msg
 			touch $lock
-			exit 0 
+			exit 0
 		else
 			log_failure_msg
 			exit 1
 		fi
 	;;
-	
-	stop)	
+
+	stop)
 		echo -n "Shutting down PuppetCommander"
 
 		if [ -s $pidfile ]; then
@@ -83,7 +83,7 @@ case "$1" in
 
 		rm -f ${lock}
 	;;
-	
+
 	restart)
 		$0 stop
 		sleep 2
@@ -108,7 +108,7 @@ case "$1" in
 					exit 1
 				fi
 			fi
-	
+
 		else
 			echo "PuppetCommander service has not been started."
 			exit 1
@@ -119,11 +119,11 @@ case "$1" in
 		echo "Not implemented"
 	;;
 	*)
-		echo "Usage puppetcommanderd {start|stop|restart|condrestart|status}" 
+		echo "Usage puppetcommanderd {start|stop|restart|condrestart|status}"
 		exit 1
 	;;
 
 esac
 exit 0
 
-	
+

@@ -9,6 +9,23 @@ class mcollective::params  {
 # (Here are set the defaults, provide your custom variables externally)
 # (The default used is in the line with '')
 
+    $client = $mcollective_client ? {
+        ''      => "no",
+        default => "${mcollective_client}",
+    }
+
+    $server = $mcollective_server ? {
+        ''      => "yes",
+        default => "${mcollective_server}",
+    }
+
+    $plugins = $mcollective_plugins ? {
+        ''      => "yes",
+        default => "${mcollective_plugins}",
+    }
+
+
+
 # Pre Shared Key (SET a Different ONE!)
     $psk = $mcollective_psk ? {
         ''      => "mcollective",

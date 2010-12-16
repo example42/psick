@@ -20,7 +20,7 @@ module MCollective
                         :url         => "http://mcollective-plugins.googlecode.com/",
                         :timeout     => 60
 
-            action perftest do
+            action "perftest" do
                 validate :url, :shellsafe
 
                 begin

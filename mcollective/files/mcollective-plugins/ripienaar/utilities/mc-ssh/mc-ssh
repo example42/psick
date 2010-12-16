@@ -7,7 +7,7 @@
 #  mc-ssh --with-class /webserver/ -- -l root
 #
 # This will present you with a list of hosts and run:
-#    
+#
 #    ssh <host> -l root
 #
 # on your chosen host.
@@ -19,20 +19,19 @@
 require 'mcollective'
 require 'rdialog'
 
-oparser = MCollective::Optionparser.new({}, "filter")
+include MCollective::RPC
 
-options = oparser.parse{|parser, options|
+options = rpcoptions do |parser, options|
     parser.define_head "MCollective discovery enabled ssh"
     parser.separator ""
     parser.separator "Usage: mc-ssh [filters and options] -- [ssh options]"
-}
+end
 
 if ARGV.length >= 1
     sshoptions = ARGV.join(" ")
 end
 
-client = MCollective::Client.new(options[:config])
-client.options = options
+client = rpcclient("discovery", :options => options)
 
 @dialog = RDialog.new
 @dialog.backtitle = "Marionette Collective SSH"
@@ -48,16 +47,16 @@ end
 # Shows a list of options and lets the user choose one
 def choose(choices, title)
     res = @dialog.menu(title, choices)
-            
+
     raise CancelPressed.new unless res
-            
+
     res
 end
 
 infobox("Doing discovery", "Marionette Collective SSH")
 
 choices = []
-client.discover(options[:filter], options[:disctimeout]).each_with_index do |host,i|
+client.discover.each_with_index do |host,i|
     choices << [i, host]
 end
 

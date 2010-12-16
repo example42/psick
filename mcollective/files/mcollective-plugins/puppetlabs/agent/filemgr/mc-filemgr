@@ -1,15 +1,21 @@
 #!/usr/bin/ruby
- 
+
 require 'mcollective'
-  
+
 include MCollective::RPC
- 
+
+args = {}
+
 options = rpcoptions do |parser, options|
    parser.define_head "Generic File Manager Client"
    parser.banner = "Usage: mc-filemgr [--file FILE] [touch|remove|status]"
 
    parser.on('-f', '--file MSG', 'file to manage') do |v|
-      options[:file] = v
+      args[:file] = v
+   end
+
+   parser.on('-d', '--details', 'show full file details') do
+      options[:details] = true
    end
 end
 
@@ -22,22 +28,18 @@ end
 mc = rpcclient("filemgr", :options => options)
 
 if command == "remove"
-    if options[:file]
-        printrpc mc.remove(:file => options[:file])
-    else
-        printrpc mc.remove()
-    end
+    printrpc mc.remove(args)
 
 elsif command == "touch"
-    if options[:file]
-        printrpc mc.touch(:file => options[:file])
-    else
-        printrpc mc.touch()
-    end
+    printrpc mc.touch(args)
 
 elsif command == "status"
-    mc.status(:file => options[:file]).each do |resp|
-       printf("%-40s: %s\n", resp[:sender], resp[:data][:output] || resp[:statusmsg] ) 
+    if options[:details]
+        printrpc mc.status(args)
+    else
+        mc.status(args).each do |resp|
+            printf("%-40s: %s\n", resp[:sender], resp[:data][:output] || resp[:statusmsg] )
+        end
     end
 
 else

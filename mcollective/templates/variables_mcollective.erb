@@ -13,6 +13,12 @@ User variables (unfiltered)
 $mcollective_client  : <%= scope.lookupvar('mcollective_client') %> 
 $mcollective_server  : <%= scope.lookupvar('mcollective_server') %>
 $mcollective_plugins : <%= scope.lookupvar('mcollective_plugins') %>
+User variables (filtered)
+$mcollective_client  : <%= scope.lookupvar('mcollective::params::client') %> 
+$mcollective_server  : <%= scope.lookupvar('mcollective::params::server') %>
+$mcollective_plugins : <%= scope.lookupvar('mcollective::params::plugins') %>
+
+
 
 General internal variables:
 $packagename = <%= scope.lookupvar('mcollective::params::packagename') %>

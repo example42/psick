@@ -15,12 +15,12 @@ class mcollective {
 
     # Autoloads server class. This is done by default.
     # To install a mcollective client without the server components 
-    # Set $mcollective_client to "yes" and $mcollective_server to "no"
-    if ( $mcollective_server != "no") { include mcollective::server }
+    # Set $mcollective_client to "yes" and $mcollective_server to "no"
+    if ( $mcollective::params::server != "no") { include mcollective::server }
 
     # Include debug class is debugging is enabled ($debug=yes)
     # Autoloads client class if $mcollective_client is "yes"
-    if ( $mcollective_client == "yes") { include mcollective::client }
+    if ( $mcollective::params::client == "yes") { include mcollective::client }
 
     # Include debug class is debugging is enabled ($debug=yes)
     if ( $debug == "yes" ) or ( $debug == true ) { include mcollective::debug }

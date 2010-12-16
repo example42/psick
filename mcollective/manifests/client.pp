@@ -29,7 +29,7 @@ class mcollective::client {
     }
 
     # Include Plugins
-    if ( $mcollective_plugins != "no") { include mcollective::plugins }
+    if ( $mcollective::params::plugins != "no") { include mcollective::plugins }
 
     # Include OS specific subclasses, if necessary
     case $operatingsystem {

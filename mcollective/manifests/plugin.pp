@@ -1,4 +1,4 @@
-define mcollective::plugin ( $source , $type="plugin" ) {
+define mcollective::plugin ( $source , $type="plugin" , $repo="puppetlabs" ) {
 
    include mcollective::params
 
@@ -16,7 +16,7 @@ define mcollective::plugin ( $source , $type="plugin" ) {
         },
         require => Package["mcollective"],
         notify  => Service["mcollective"],
-        source  => "${mcollective::params::general_base_source}/mcollective/mcollective-plugins/${source}",
+        source  => "${mcollective::params::general_base_source}/mcollective/mcollective-plugins/$repo/${source}",
    }
 
 }

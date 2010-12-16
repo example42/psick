@@ -1,0 +1,82 @@
+#!/usr/bin/env ruby
+
+# Client program for the mcollective puppi agent 
+#
+# Released under the GPLv2
+
+require 'mcollective'
+
+include MCollective::RPC
+
+options = rpcoptions do |parser, options|
+    options[:timeout] = 180
+
+    parser.define_head "Execute Puppi commands"
+    parser.banner = "Usage: mc-puppi [options] command project [options]"
+end
+
+if MCollective::Util.empty_filter?(options[:filter])
+    print("Do you really want to operate on services unfiltered? (y/n): ")
+    STDOUT.flush
+
+    exit unless STDIN.gets.chomp =~ /^y$/
+end
+
+puppi = rpcclient("puppi", {:options => options})
+
+if ARGV.length > 1
+    command = ARGV.shift
+    project = ARGV.shift
+#    puppioptions = ARGV.shift
+
+    unless command =~ /^(check|deploy|rollback|batch)$/
+        puts("Command has to be check|deploy|rollback|batch")
+        exit 1
+    end
+else
+    puts("Please specify a command and project")
+    exit 1
+end
+
+stats = [0, 0, 0, 0]
+statuscodes = [0]
+
+puppi_results = puppi.runcommand(:command => command, :project => project )
+
+puts
+
+puppi_results.each do |result|
+    exitcode = result[:data][:exitcode].to_i
+    statuscodes << exitcode
+    stats[exitcode] += 1
+
+    if puppi.verbose
+        printf("%-40s status=%s\n", result[:sender], result[:statusmsg]) 
+        printf("    %-40s\n\n", result[:data][:output])
+    else 
+        if [1,2,3].include?(exitcode)
+            printf("%-40s status=%s\n", result[:sender], result[:statusmsg])
+            printf("    %-40s\n\n", result[:data][:output]) if result[:data][:output]
+        end
+    end
+end
+
+puts
+
+# Nodes that don't respond are UNKNOWNs
+if puppi.stats[:noresponsefrom].size > 0
+    stats[3] += puppi.stats[:noresponsefrom].size
+    statuscodes << 3
+end
+
+printrpcstats :caption => "#{command} PUPPI results"
+
+printf("\nPuppi Statusses:\n") if puppi.verbose
+printf("              OK: %d\n", stats[0])
+printf("         WARNING: %d\n", stats[1])
+printf("        CRITICAL: %d\n", stats[2])
+printf("         UNKNOWN: %d\n", stats[3])
+
+exit statuscodes.max
+
+# vi:tabstop=4:expandtab:ai
