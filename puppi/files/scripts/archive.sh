@@ -1,8 +1,5 @@
 #!/bin/bash
 # archive.sh - Made for Puppi
-# This script archives the content of the directory passed as $1 into the puppi archive dir
-# If $2 is given, that is used as a tagsubdir, where the backup is actually stored 
-
 configfile="/etc/puppi/puppi.conf"
 
 # Load general configurations
@@ -23,26 +20,97 @@ else
     . $projectconfigfile
 fi
 
-if [ $1 ] ; then
-    backuproot=$1
-else
-    echo "You must provide a directory name!"
-    exit 2 
+# Show help
+showhelp () {
+    echo "This script is used to backup or restore contents to/from puppi archivedir"
+    echo "It has the following options:"
+    echo "-b <backup_source> - Backups the provided directory filename"
+    echo "-r <recovery_destination> - Recovers file to the provided destination"
+    echo "-c <none|zip|tar|tar.gz> - Specifies the compression method to use"
+    echo "-s <copy|move> - Specifies the backup strategy (move or copy files)"
+    echo "-t <tag> - Specifies a tag to be used for the backup"
+    echo 
+    echo "Examples:"
+    echo "archive.sh -b /var/www/html/my_app -t html -c zip"
+}
+
+# Arguments check
+if [ "$#" = "0" ] ; then
+    showhelp
+    exit
 fi
 
-backuptag=""
-if [ $2 ] ; then
-    backuptag=$2
-fi
+compression=none
+backuptag=all
+strategy=copy
 
-# Copy file
+while [ $# -gt 0 ]; do
+  case "$1" in
+    -b)
+      backuproot=$2
+      action=backup
+      shift 2 ;;
+    -r)
+      backuproot=$2
+      action=recovery
+      shift 2 ;;
+    -t)
+      backuptag=$2
+      shift 2 ;;
+    -s)
+      case "$2" in
+        mv) strategy="move" ;;
+        move) strategy="move" ;;
+        *) strategy="copy" ;;
+      esac
+      shift 2 ;;
+    -c)
+      case "$2" in
+        zip) compression="zip" ;;
+        tar.gz) compression="tar.gz" ;;
+        tar) compression="tar" ;;
+        *) compression="none" ;;
+      esac
+      shift 2  ;;
+    *)
+      showhelp
+      exit
+      ;;
+  esac
+done
+
+
+# Backup and Restore functions
 backup () {
     mkdir -p $archivedir/$project/$tag/$backuptag
     if [ $archivedir/$project/latest ] ; then
         rm -f $archivedir/$project/latest
     fi
     ln -sf $archivedir/$project/$tag $archivedir/$project/latest
-    rsync -a $backuproot/* $archivedir/$project/$tag/$backuptag/
+    if [ "$strategy" = "move" ] ; then 
+        mv $backuproot $archivedir/$project/$tag/$backuptag/
+    else
+        rsync -a $backuproot $archivedir/$project/$tag/$backuptag/
+    fi
 }
 
-backup
+recovery () {
+    if [ ! $rollbackversion ] ; then
+        echo "Variable rollbackversion must exist!"
+        exit 2 
+    fi
+
+    if [ -d $archivedir/$project ] ; then
+        cd $archivedir/$project
+    else 
+        echo "Can't find archivedir for this project"
+        exit 2
+    fi
+    rsync -a $rollbackversion/$backuptag/* $documentroot
+}
+
+# Action!
+case "$action" in
+    backup) backup ;;
+    recovery) recovery ;;
+esac

@@ -14,7 +14,8 @@ define puppi::project::maven (
     $report_email,
     $init_script='',
     $suffix='',
-    $loadbalancer_ip='',
+    $firewall_src_ip="",
+    $firewall_dst_port="0",
     $service='restart',
     $enable = 'true' ) {
 
@@ -39,10 +40,10 @@ define puppi::project::maven (
              priority => "25" , command => "get_maven_files.sh" , arguments => "$source_url warfile" ,
              user => "root" , project => "$name" , enable => $enable ;
         "${name}-Backup_existing_WAR":
-             priority => "30" , command => "archive.sh" , arguments => "$deploy_root war" ,
+             priority => "30" , command => "archive.sh" , arguments => "-b $deploy_root -t war" ,
              user => "root" , project => "$name" , enable => $enable;
         "${name}-Deploy_Maven_WAR":
-             priority => "40" , command => "deploy_file.sh" , arguments => "$deploy_root warfile" ,
+             priority => "40" , command => "deploy_files.sh" , arguments => "$deploy_root warfile" ,
              user => "$user" , project => "$name" , enable => $enable;
         "${name}-Run_POST-Checks":
              priority => "80" , command => "check_project.sh" , arguments => "$name" ,
@@ -52,7 +53,7 @@ define puppi::project::maven (
 
     puppi::rollback {
         "${name}-Recover_WAR":
-             priority => "30" , command => "recover.sh" , arguments => "$deploy_root war" ,
+             priority => "30" , command => "archive.sh" , arguments => "-r $deploy_root -t war" ,
              user => "$user" , project => "$name" , enable => $enable;
         "${name}-Run_POST-Checks":
              priority => "50" , command => "check_project.sh" , arguments => "$name" ,
@@ -74,7 +75,7 @@ if ($config_root != "") {
              priority => "26" , command => "get_maven_files.sh" , arguments => "$source_url configfile" ,
              user => "root" , project => "$name" , enable => $enable ;
         "${name}-Backup_existing_ConfigDir":
-             priority => "37" , command => "archive.sh" , arguments => "$config_root config" ,
+             priority => "37" , command => "archive.sh" , arguments => "-b $config_root -t config" ,
              user => "root" , project => "$name" , enable => $enable;
         "${name}-Deploy_Maven_ConfigDir":
              priority => "47" , command => "deploy_tar.sh" , arguments => "$config_root configfile" ,
@@ -82,7 +83,7 @@ if ($config_root != "") {
     }
     puppi::rollback {
         "${name}-Recover_ConfigDir":
-             priority => "37" , command => "recover.sh" , arguments => "$config_root config" ,
+             priority => "37" , command => "archive.sh" , arguments => "-r $config_root -t config" ,
              user => "root" , project => "$name" , enable => $enable;
     }
 }
@@ -94,7 +95,7 @@ if ($document_root != "") {
              priority => "27" , command => "get_maven_files.sh" , arguments => "$source_url srcfile" ,
              user => "root" , project => "$name" , enable => $enable ;
         "${name}-Backup_existing_DocumentRoot":
-             priority => "35" , command => "archive.sh" , arguments => "$document_root docroot" ,
+             priority => "35" , command => "archive.sh" , arguments => "-b $document_root -t docroot" ,
              user => "root" , project => "$name" , enable => $enable;
         "${name}-Deploy_Maven_DocumentRoot":
              priority => "45" , command => "deploy_tar.sh" , arguments => "$document_root srcfile" ,
@@ -102,28 +103,28 @@ if ($document_root != "") {
     }
     puppi::rollback {
         "${name}-Recover_DocumentRoot":
-             priority => "35" , command => "recover.sh" , arguments => "$document_root docroot" ,
+             priority => "35" , command => "archive.sh" , arguments => "-r $document_root -t docroot" ,
              user => "root" , project => "$name" , enable => $enable;
     }
 }
 
 
-# Exclusion from Load Balancer is managed only if $loadbalancer_ip is set
-if ($loadbalancer_ip != "") {
+# Exclusion from Load Balancer is managed only if $firewall_src_ip is set
+if ($firewall_src_ip != "") {
     puppi::deploy {
         "${name}-Load_Balancer_Block":
-             priority => "54" , command => "firewall.sh" , arguments => "$loadbalancer_ip on" ,
+             priority => "29" , command => "firewall.sh" , arguments => "$firewall_src_ip $firewall_dst_port on" ,
              user => "root" , project => "$name" , enable => $enable;
         "${name}-Load_Balancer_Unblock":
-             priority => "56" , command => "firewall.sh" , arguments => "$loadbalancer_ip off" ,
+             priority => "55" , command => "firewall.sh" , arguments => "$firewall_src_ip $firewall_dst_port off" ,
              user => "root" , project => "$name" , enable => $enable;
     }
     puppi::rollback {
         "${name}-Load_Balancer_Block":
-             priority => "54" , command => "firewall.sh" , arguments => "$loadbalancer_ip on" ,
+             priority => "29" , command => "firewall.sh" , arguments => "$firewall_src_ip $firewall_dst_port on" ,
              user => "root" , project => "$name" , enable => $enable;
         "${name}-Load_Balancer_Unblock":
-             priority => "56" , command => "firewall.sh" , arguments => "$loadbalancer_ip off" , 
+             priority => "55" , command => "firewall.sh" , arguments => "$firewall_src_ip $firewall_dst_port off" ,
              user => "root" , project => "$name" , enable => $enable;
     }
 }

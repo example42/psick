@@ -26,7 +26,7 @@ fi
 # Main functions
 check_host () {
     for command in $(ls -v1 $checksdir) ; do
-        title="Executing host check: $command"
+        title="Host check: $command"
         code=$(cat "$checksdir/$command")
         echo -n $title
         ask_interactive
@@ -38,7 +38,7 @@ check_host () {
 
 check () {
     for command in $(ls -v1 $projectsdir/$project/check) ; do
-        title="Executing project check: $command"
+        title="Project check: $command"
         code=$(cat "$projectsdir/$project/check/$command")
         echo -n $title
         ask_interactive
@@ -56,7 +56,7 @@ rollback () {
     echo "export rollbackversion=$rollbackversion" >> $workdir/$project/config
     
     for command in $(ls -v1 $projectsdir/$project/rollback) ; do
-        title="Executing rollback command: $command"
+        title="Rollback: $command"
         code=$(cat "$projectsdir/$project/rollback/$command")
         echo -n $title
         ask_interactive
@@ -70,7 +70,7 @@ rollback () {
 
 deploy () {
     for command in $(ls -v1 $projectsdir/$project/deploy) ; do
-        title="Executing deploy command: $command"
+        title="Deploy: $command"
         code=$(cat "$projectsdir/$project/deploy/$command")
         echo -n $title
         ask_interactive

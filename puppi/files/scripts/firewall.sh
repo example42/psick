@@ -1,7 +1,8 @@
 #!/bin/bash
 # firewall.sh - Made for Puppi
 # This script places a temporary firewall (iptables) rule to block access from the IP defined as $1
-# Use $2 to insert or remove the blocking rule (on|off) 
+# Use $2 to define the port to block (Use 0 for all ports)
+# Use $3 to insert or remove the blocking rule (on|off) 
 # Use this script to temporary remove your server from a load balancer pool during the deploy procedure
 
 configfile="/etc/puppi/puppi.conf"
@@ -32,23 +33,27 @@ else
     exit 2 
 fi
 
-if [ $2 ] ; then
-    if [ $2 = "on" ] ; then
+if [ $3 ] ; then
+    if [ $3 = "on" ] ; then
         action="-I"
-    elif [ $2 = "off" ] ; then
+    elif [ $3 = "off" ] ; then
         action="-D"
     else 
-        echo "Your second argument must be on or off!"
+        echo "Your third argument must be on or off!"
         exit 2
     fi
 else
-    echo "You must provide 2 arguments"
+    echo "You must provide 3 arguments"
     exit 2
 fi
 
 # Block
 run_iptables () {
-    iptables $action INPUT -s $ip -j DROP
+    if [ $2 = "0" ] ; then
+        iptables $action INPUT -s $ip -j DROP
+    else
+        iptables $action INPUT -s $ip -p tcp --dport $2 -j DROP
+    fi
 }
 
 run_iptables

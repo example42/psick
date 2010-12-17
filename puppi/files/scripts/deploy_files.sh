@@ -1,6 +1,6 @@
 #!/bin/bash
 # deploy_file.sh - Made for Puppi
-# This script deploys a (war) file from the download dir (storedir) to the deployroot (given as $1)
+# This script deploys one or more files from the download dir (storedir) to the deployroot (given as $1)
 # To refer to the name of the file to deploy it uses the value of the variable named in $2 
 # The name of the variable is generally found in the project runtime configuration files.
 

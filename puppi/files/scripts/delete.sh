@@ -1,14 +1,13 @@
 #!/bin/bash
-# get_curl.sh - Made for Puppi
-# This script retrieves via curl the files that have to be deployed
-# The $1 argument (url of the file to retrieve) has to be in curl friendly format
+# delete.sh - Made for Puppi
+# This script moves is passed as $1 to a temp dir (volatile)
 
 configfile="/etc/puppi/puppi.conf"
 
 # Load general configurations
 if [ ! -f $configfile ] ; then
     echo "Config file: $configfile not found"
-    exit 1
+    exit 2
 else
     . $configfile
     . $scriptsdir/functions
@@ -18,17 +17,28 @@ fi
 projectconfigfile="$workdir/$project/config"
 if [ ! -f $projectconfigfile ] ; then
     echo "Project runtime config file: $projectconfigfile not found"
-    exit 1
+    exit 2
 else
     . $projectconfigfile
 fi
 
-
-cd $storedir
-curl $1 -O
-# Manage curl's exit codes
-if [ $? = "0" ] ; then
-    exit 0
+# Manage script variables
+if [ $1 ] ; then
+    tobedeleted=$1
 else
+    echo "You must provide a file or directory to delete!"
+    exit 2 
+fi
+
+if [ "$tobedeleted" = "/" ] ; then
+    echo "Be Serious!"
     exit 2
 fi
+
+# Move file
+move () {
+    mkdir /tmp/puppi/$project/deleted
+    mv $tobedeleted /tmp/puppi/$project/deleted
+}
+
+move
