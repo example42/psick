@@ -16,6 +16,22 @@ action "runcommand", :description => "Run a PUPPI command" do
           :optional    => false,
           :maxlength   => 50
 
+    input :project,
+          :prompt      => "Project",
+          :description => "PUPPI project",
+          :type        => :string,
+          :validation  => '^[a-zA-Z0-9_-]+$',
+          :optional    => true,
+          :maxlength   => 50
+
+    input :puppioptions,
+          :prompt      => "Puppi options",
+          :description => "PUPPI options",
+          :type        => :string,
+          :validation  => '^[a-zA-Z0-9_-]+$',
+          :optional    => true,
+          :maxlength   => 50
+
     output :output,
 	  :description => "Output from the Puppi run",
           :display_as  => "Output"

@@ -12,7 +12,7 @@ options = rpcoptions do |parser, options|
     options[:timeout] = 180
 
     parser.define_head "Execute Puppi commands"
-    parser.banner = "Usage: mc-puppi [options] command project [options]"
+    parser.banner = "Usage: mc-puppi [options] command project [puppioptions]"
 end
 
 if MCollective::Util.empty_filter?(options[:filter])
@@ -48,7 +48,7 @@ puts
 puppi_results.each do |result|
     exitcode = result[:data][:exitcode].to_i
     statuscodes << exitcode
-    stats[exitcode] += 1
+#    stats[exitcode] += 1
 
     if puppi.verbose
         printf("%-40s status=%s\n", result[:sender], result[:statusmsg]) 

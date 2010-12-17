@@ -12,19 +12,11 @@ module MCollective
             action "runcommand" do
                 validate :command, :shellsafe
 
-                command = plugin_for_command(request[:command])
-
-                if command == nil
-                    reply[:output] = "No such action: #{request[:command]}" if command == nil
-                    reply[:exitcode] = 3
-
-                    reply.fail "UNKNOWN"
-
-                    return
+                case command
+                    when "check"
+                    reply[:output] = %x[puppi check].chomp
+                    reply[:exitcode] = $?.exitstatus
                 end
-
-                reply[:output] = %x[#{command[:cmd]}].chomp
-                reply[:exitcode] = $?.exitstatus
 
                 case reply[:exitcode]
                     when 0
@@ -49,14 +41,6 @@ module MCollective
                 end
             end
 
-            private
-            def plugin_for_command(req)
-                ret = nil
-
-                ret = {:cmd => puppi $1}
-
-                ret
-            end
         end
     end
 end

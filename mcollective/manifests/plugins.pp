@@ -62,11 +62,11 @@ class mcollective::plugins {
     mcollective::plugin { "agent/nettest.ddl": source => "agent/nettest/nettest.ddl" , type => "ddl" , repo => "ripienaar" }
 
     # nrpe plugin
-    mcollective::plugin { "agent/nrpe.rb": source => "agent/nrpe/nrpe.rb" , repo => "ripienaar" }
-    mcollective::plugin { "agent/nrpe.ddl": source => "agent/nrpe/nrpe.ddl" , type => "ddl" , repo => "ripienaar" }
-    if ( $mcollective_client == "yes" ) {
-        mcollective::plugin { "mc-nrpe": source => "agent/nrpe/mc-nrpe" , type => "client" , repo => "ripienaar" }
-    }
+    # mcollective::plugin { "agent/nrpe.rb": source => "agent/nrpe/nrpe.rb" , repo => "ripienaar" }
+    # mcollective::plugin { "agent/nrpe.ddl": source => "agent/nrpe/nrpe.ddl" , type => "ddl" , repo => "ripienaar" }
+    # if ( $mcollective_client == "yes" ) {
+    #     mcollective::plugin { "mc-nrpe": source => "agent/nrpe/mc-nrpe" , type => "client" , repo => "ripienaar" }
+    # }
 
     # process plugin
     mcollective::plugin { "agent/process.rb": source => "agent/process/process.rb" , repo => "ripienaar" }
@@ -97,5 +97,10 @@ class mcollective::plugins {
         mcollective::plugin { "mc-puppi": source => "agent/puppi/mc-puppi" , type => "client" , repo => "example42" }
     }
 
+    mcollective::plugin { "agent/nrpe.rb": source => "agent/nrpe/nrpe.rb" , repo => "example42" }
+    mcollective::plugin { "agent/nrpe.ddl": source => "agent/nrpe/nrpe.ddl" , type => "ddl" , repo => "example42" }
+    if ( $mcollective_client == "yes" ) {
+        mcollective::plugin { "mc-nrpe": source => "agent/nrpe/mc-nrpe" , type => "client" , repo => "example42" }
+    }
     
 }

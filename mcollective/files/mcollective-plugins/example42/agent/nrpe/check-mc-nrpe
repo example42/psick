@@ -1,0 +1,65 @@
+#!/usr/bin/env ruby
+
+# Nagios check for the mcollective nrpe agent found at http://code.google.com/p/mcollective-plugins/
+#
+# Returns std Nagios exit codes and performance data.  Lists of hosts in the given status is printed
+# on subsequent lines of output, Nagios 3 will read these and display them up to 4KB
+
+require 'mcollective'
+
+include MCollective::RPC
+
+nrpe = rpcclient("nrpe")
+nrpe.progress = false
+
+if ARGV.length > 0
+    command = ARGV.shift
+else
+    puts("UNKNOWN: NRPE command not specified")
+    exit 3
+end
+
+
+labels = ["OK", "WARNING", "CRITICAL", "UNKNOWN"]
+stats = [[], [], [], []]
+statuscodes = [0]
+
+nrpe_results = nrpe.runcommand(:command => command)
+
+nrpe_results.each do |result|
+    exitcode = result[:data][:exitcode].to_i
+    statuscodes << exitcode
+    stats[exitcode] << result[:sender]
+end
+
+# Nodes that don't respond are UNKNOWNs
+if nrpe.stats[:noresponsefrom].size > 0
+    stats[3] << nrpe.stats[:noresponsefrom]
+    statuscodes << 3
+
+    stats[3].flatten!
+end
+
+# If we didn't discover any then thats an unknown
+statuscodes << 3 if nrpe.discover.size == 0
+
+puts("#{command}: OK: %d WARNING: %d CRITICAL: %d UNKNOWN: %d|total=%d ok=%d warn=%d crit=%d unknown=%d checktime=%f" % [stats[0].size, stats[1].size, stats[2].size, stats[3].size, nrpe_results.size, stats[0].size, stats[1].size, stats[2].size, stats[3].size, nrpe.stats.blocktime])
+
+[2,1,3].each do |e|
+    if stats[e].size > 0
+        puts "#{labels[e]}:"
+        puts "   " + stats[e].join(" ")
+    end
+end
+
+# if there's any critical checks, exit critical
+# else just take the highest.  UNKNOWN is 3 while
+# critical is 2, just exiting with max would hide
+# the fact that there are criticals.
+if statuscodes.include?(2) 
+    exit 2
+else
+    exit statuscodes.max
+end
+
+# vi:tabstop=4:expandtab:ai

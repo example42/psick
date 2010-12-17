@@ -1,0 +1,62 @@
+#!/usr/bin/env ruby
+
+# Client program for the mcollective nrpe agent found at http://code.google.com/p/mcollective-plugins/
+#
+# Released under the GPLv2
+
+require 'mcollective'
+
+include MCollective::RPC
+
+nrpe = rpcclient("nrpe")
+
+if ARGV.length > 0
+    command = ARGV.shift
+else
+    puts("UNKNOWN: NRPE command not specified")
+    exit 3
+end
+
+
+stats = [0, 0, 0, 0]
+statuscodes = [0]
+
+nrpe_results = nrpe.runcommand(:command => command)
+
+puts
+
+nrpe_results.each do |result|
+    exitcode = result[:data][:exitcode].to_i
+    statuscodes << exitcode
+    stats[exitcode] += 1
+
+    if nrpe.verbose
+        printf("%-40s status=%s\n", result[:sender], result[:statusmsg]) 
+        printf("    %-40s\n\n", result[:data][:output])
+    else 
+        if [1,2,3].include?(exitcode)
+            printf("%-40s status=%s\n", result[:sender], result[:statusmsg])
+            printf("    %-40s\n\n", result[:data][:output]) if result[:data][:output]
+        end
+    end
+end
+
+puts
+
+# Nodes that don't respond are UNKNOWNs
+if nrpe.stats[:noresponsefrom].size > 0
+    stats[3] += nrpe.stats[:noresponsefrom].size
+    statuscodes << 3
+end
+
+printrpcstats :caption => "#{command} NRPE results"
+
+printf("\nNagios Statusses:\n") if nrpe.verbose
+printf("              OK: %d\n", stats[0])
+printf("         WARNING: %d\n", stats[1])
+printf("        CRITICAL: %d\n", stats[2])
+printf("         UNKNOWN: %d\n", stats[3])
+
+exit statuscodes.max
+
+# vi:tabstop=4:expandtab:ai
