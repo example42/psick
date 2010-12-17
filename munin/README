@@ -23,11 +23,13 @@ $munin_grouplogic (default undef) - Set here the name of a variable you want to 
                                     By default all the checks got to the same server (managed by the same PuppetMaster).
                                     Check in munin/manifests/params.pp if this grouping variable is already proposed in the
                                     selector for $munin_grouplogic if not, you just have to add it there.
+$munin_plugins (default no) : Include extra custom munin plugins
+
 
 USAGE:
 # Standard Classes 
 include munin              # Install and run munin 
-# if ($munin_server_local == true) or ($munin_server == "$ipaddress") Munin grapher/gatherer is automatically installed
+# if ($munin_server_local == "yes") or ($munin_server == "$ipaddress") Munin grapher/gatherer is automatically installed
 
 include munin::disable     # Disable munin service.
 include munin::disableboot # Disable munin service at boot time, but don't stop if it's running.
@@ -43,8 +45,31 @@ include munin::firewall    # Manages firewall rule for munin service - Automatic
 munin::conf { "ParameterName": value="YourValue"} # Generic 
 
 # Module specific classes
+include munin::server - Setup of the Munin Grapher/Collector - Autoloaded if $munin_server_local = "yes"
+include munin::plugins - Installation of extra custom Munin plugins - Autoloaded if $munin_plugins = "yes"
 
 # Module specific defines
+munin::plugin - Adds a custom Munin plugin
+
+
+EXAMPLES:
+
+node munin.example42.com {
+    $munin_server = ["10.42.42.12","10.42.40.12"] # The IP of the Munin server(s). Can be an array or a variable.
+    $munin_grouplogic = "env" # Optional. You have different munin servers, one for each value of custom variable $env 
+    $munin_plugins = "yes" # Optional. Add custom plugins
+    $munin_server_local = "yes" # Necessary on server. Use this on the Munin server (Grapher/Collector)
+
+    include munin
+}
+
+node any.example42.com {
+    $munin_server = ["10.42.42.12","10.42.40.12"] # Can be an array or a variable
+    $munin_grouplogic = "env" # Optional. You have different munin servers, one for each value of custom variable $env
+    $munin_plugins = "yes" # Optional. Add custom plugins
+
+    include munin
+}
 
 
 GENERAL VARIABLES:

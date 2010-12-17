@@ -79,6 +79,9 @@ class munin {
         },
     }
 
+    # Include Extra custom Plugins
+    if ( $munin::params::plugins != "no") { include munin::plugins }
+
     # Include OS specific subclasses, if necessary
     case $operatingsystem {
         default: { }

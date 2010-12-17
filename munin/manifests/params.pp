@@ -35,6 +35,11 @@ class munin::params  {
          'role'        => $role,
     }
 
+# Define if you want to include extra plugins
+    $plugins = $munin_plugins ? {
+        '' => "no",
+        default => "${munin_plugins}",
+    }
 
 ## EXTRA MODULE INTERNAL VARIABLES
 #(add here module specific internal variables)
@@ -55,6 +60,9 @@ class munin::params  {
         default => "/var/www/html/munin",
     }
 
+    $pluginsdir = $operatingsystem ? {
+        default => "/usr/share/munin/plugins",
+    }
 
 ## MODULE INTERNAL VARIABLES
 # (Modify to adapt to unsupported OSes)

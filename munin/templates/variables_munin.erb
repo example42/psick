@@ -6,11 +6,13 @@ User variables (unfiltered):
 $munin_server = <%= scope.lookupvar('munin_server') %>
 $munin_server_local = <%= scope.lookupvar('munin_server_local') %>
 $munin_grouplogic = <%= scope.lookupvar('munin_grouplogic') %>
+$munin_plugins = <%= scope.lookupvar('munin_plugins') %>
 
 User variables (after params.pp filter):
 $server = <%= scope.lookupvar('munin::params::server') %>
 $server_local = <%= scope.lookupvar('munin::params::server_local') %>
 $grouptag = <%= scope.lookupvar('munin::params::grouptag') %>
+$plugins = <%= scope.lookupvar('munin::params::plugins') %>
 
 
 General internal variables:
