@@ -1,26 +1,9 @@
 #!/bin/bash
 # checkwardir.sh - Made for Puppi
-# This script checks if a WAR file is successfully expanded in the omonimous directory
 
-configfile="/etc/puppi/puppi.conf"
+# Sources common header for Puppi scripts
+. $(dirname $0)/header || exit 10
 
-# Load general configurations
-if [ ! -f $configfile ] ; then
-    echo "Config file: $configfile not found"
-    exit 2
-else
-    . $configfile
-    . $scriptsdir/functions
-fi
-
-# Load project runtime configuration
-projectconfigfile="$workdir/$project/config"
-if [ ! -f $projectconfigfile ] ; then
-    echo "Project runtime config file: $projectconfigfile not found"
-    exit 2
-else
-    . $projectconfigfile
-fi
 # Show help
 showhelp () {
     echo "This script is used to check if a webapp directory is successfully created or removed"

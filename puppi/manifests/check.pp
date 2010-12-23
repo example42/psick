@@ -23,8 +23,10 @@ define puppi::check (
     include puppi
 
     $ensure = $enable ? {
+        false   => "absent",
         "false" => "absent",
         "no"    => "absent",
+        true    => "present",
         "true"  => "present",
         "yes"   => "present",
     }

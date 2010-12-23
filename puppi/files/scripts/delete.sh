@@ -1,26 +1,8 @@
 #!/bin/bash
 # delete.sh - Made for Puppi
-# This script moves is passed as $1 to a temp dir (volatile)
 
-configfile="/etc/puppi/puppi.conf"
-
-# Load general configurations
-if [ ! -f $configfile ] ; then
-    echo "Config file: $configfile not found"
-    exit 2
-else
-    . $configfile
-    . $scriptsdir/functions
-fi
-
-# Load project runtime configuration
-projectconfigfile="$workdir/$project/config"
-if [ ! -f $projectconfigfile ] ; then
-    echo "Project runtime config file: $projectconfigfile not found"
-    exit 2
-else
-    . $projectconfigfile
-fi
+# Sources common header for Puppi scripts
+. $(dirname $0)/header || exit 10
 
 # Manage script variables
 if [ $1 ] ; then

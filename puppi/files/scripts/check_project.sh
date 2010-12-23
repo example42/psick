@@ -3,16 +3,8 @@
 # This script runs the checks defined in $projectsdir/$project/check and then in $checksdir
 # It can be used to automatically run tests during the deploy procedure
 
-configfile="/etc/puppi/puppi.conf"
-
-# Load general configurations
-if [ ! -f $configfile ] ; then
-    echo "Config file: $configfile not found"
-    exit 1
-else
-    . $configfile
-    . $scriptsdir/functions
-fi
+# Sources common header for Puppi scripts
+. $(dirname $0)/header || exit 10
 
 # Main functions
 handle_check () {
@@ -45,7 +37,7 @@ check
 
 # Manage general return code
 if [ "$EXITCRIT" = "1" ] ; then
-    exit 2
+    exit 1
 fi
 
 if [ "$EXITWARN" = "1" ] ; then

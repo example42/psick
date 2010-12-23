@@ -33,8 +33,11 @@ define puppi::project::maven (
         "${name}-Run_PRE-Checks":
              priority => "10" , command => "check_project.sh" , arguments => "$name" ,
              user => "root" , project => "$name" , enable => $enable;
-        "${name}-Get_Maven_Info":
-             priority => "20" , command => "get_maven_info.sh" , arguments => "$source_url $suffix" ,
+        "${name}-Get_Maven_Metadata_File":
+             priority => "20" , command => "get_file.sh" , arguments => "$source_url/maven-metadata.xml maven-metadata" ,
+             user => "root" , project => "$name" , enable => $enable;
+        "${name}-Extract_Maven_Metadata":
+             priority => "22" , command => "get_metadata.sh" , arguments => "$suffix" ,
              user => "root" , project => "$name" , enable => $enable;
         "${name}-Get_Maven_Files_WAR":
              priority => "25" , command => "get_maven_files.sh" , arguments => "$source_url warfile" ,
@@ -43,7 +46,7 @@ define puppi::project::maven (
              priority => "30" , command => "archive.sh" , arguments => "-b $deploy_root -t war" ,
              user => "root" , project => "$name" , enable => $enable;
         "${name}-Deploy_Maven_WAR":
-             priority => "40" , command => "deploy_files.sh" , arguments => "$deploy_root warfile" ,
+             priority => "40" , command => "deploy.sh" , arguments => "$deploy_root" ,
              user => "$user" , project => "$name" , enable => $enable;
         "${name}-Run_POST-Checks":
              priority => "80" , command => "check_project.sh" , arguments => "$name" ,

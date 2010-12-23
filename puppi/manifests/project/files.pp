@@ -62,7 +62,7 @@ define puppi::project::files (
              priority => "30" , command => "archive.sh" , arguments => "-b $deploy_root" ,
              user => "root" , project => "$name" , enable => $enable;
         "${name}-Deploy_Files":
-             priority => "40" , command => "deploy_files.sh" , arguments => "$deploy_root" ,
+             priority => "40" , command => "deploy.sh" , arguments => "$deploy_root" ,
              user => "$user" , project => "$name" , enable => $enable;
         "${name}-Run_POST-Checks":
              priority => "80" , command => "check_project.sh" , arguments => "$name" ,

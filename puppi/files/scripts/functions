@@ -71,12 +71,9 @@ handle_result () {
             result="CRITICAL"
         fi
 
-        # Output to video
-#        echo $title
-#        if [ "$verbosity" = max ] ; then
-echo
-            echo -e $output
-#        fi
+        echo
+        echo -e "$output"
+        # echo -e $output
         echo
 
         # Output to file
@@ -108,8 +105,9 @@ xml_parse () {
 # Only if the parameter is not already defined
 save_runtime_config () {
     parameter=$(echo $1 | cut -d '=' -f1)
+    value=$(echo $1 | cut -d '=' -f2)
     if [ ! $(grep $parameter $workdir/$project/config ) ] ; then
-        echo "$1" >> $workdir/$project/config
+        echo "$parameter=\"$value\"" >> $workdir/$project/config
     fi
 }
 

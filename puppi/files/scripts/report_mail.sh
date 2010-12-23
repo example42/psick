@@ -3,26 +3,10 @@
 # This script sends a summary mail to the recipients defined in $1
 # Use a comma separated list for multiple emails
 
-configfile="/etc/puppi/puppi.conf"
+# Sources common header for Puppi scripts
+. $(dirname $0)/header || exit 10
 
-# Load general configurations
-if [ ! -f $configfile ] ; then
-    echo "Config file: $configfile not found"
-    exit 1
-else
-    . $configfile
-    . $scriptsdir/functions
-fi
-
-# Load project runtime configuration
-projectconfigfile="$workdir/$project/config"
-if [ ! -f $projectconfigfile ] ; then
-    echo "Project runtime config file: $projectconfigfile not found"
-    exit 1
-else
-    . $projectconfigfile
-fi
-
+# Check arguments
 recipients=$1
 
 # Main functions

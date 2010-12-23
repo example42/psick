@@ -49,10 +49,10 @@ define puppi::project::war (
              priority => "20" , command => "get_file.sh" , arguments => "$source_url" ,
              user => "root" , project => "$name" , enable => $enable ;
         "${name}-Move_existing_WAR":
-             priority => "30" , command => "archive.sh" , arguments => "-b $deploy_root/$war_file -t war -s move" ,
+             priority => "30" , command => "archive.sh" , arguments => "-b $deploy_root -t war -s move" ,
              user => "root" , project => "$name" , enable => $enable;
-        "${name}-Deploy_new_WAR":
-             priority => "40" , command => "deploy_files.sh" , arguments => "$deploy_root" ,
+        "${name}-Deploy_WAR":
+             priority => "40" , command => "deploy.sh" , arguments => "$deploy_root" ,
              user => "$user" , project => "$name" , enable => $enable;
         "${name}-Run_POST-Checks":
              priority => "50" , command => "check_project.sh" , arguments => "$name" ,

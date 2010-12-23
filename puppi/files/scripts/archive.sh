@@ -1,30 +1,14 @@
 #!/bin/bash
 # archive.sh - Made for Puppi
-configfile="/etc/puppi/puppi.conf"
 
-# Load general configurations
-if [ ! -f $configfile ] ; then
-    echo "Config file: $configfile not found"
-    exit 2
-else
-    . $configfile
-    . $scriptsdir/functions
-fi
-
-# Load project runtime configuration
-projectconfigfile="$workdir/$project/config"
-if [ ! -f $projectconfigfile ] ; then
-    echo "Project runtime config file: $projectconfigfile not found"
-    exit 2
-else
-    . $projectconfigfile
-fi
+# Sources common header for Puppi scripts
+. $(dirname $0)/header || exit 10
 
 # Show help
 showhelp () {
     echo "This script is used to backup or restore contents to/from puppi archivedir"
     echo "It has the following options:"
-    echo "-b <backup_source> - Backups the provided directory filename"
+    echo "-b <backup_source> - Backups the files to be changed in the defined directory"
     echo "-r <recovery_destination> - Recovers file to the provided destination"
     echo "-c <none|zip|tar|tar.gz> - Specifies the compression method to use"
     echo "-s <copy|move> - Specifies the backup strategy (move or copy files)"
@@ -87,11 +71,17 @@ backup () {
         rm -f $archivedir/$project/latest
     fi
     ln -sf $archivedir/$project/$tag $archivedir/$project/latest
+
     if [ "$strategy" = "move" ] ; then 
-        mv $backuproot $archivedir/$project/$tag/$backuptag/
+        command="mv"
     else
-        rsync -a $backuproot $archivedir/$project/$tag/$backuptag/
+        command="rsync -a"
     fi
+
+    for file in $(ls -v1 $predeploydir) ; do
+        $command $backuproot/$file $archivedir/$project/$tag/$backuptag/
+    done
+
 }
 
 recovery () {
@@ -106,7 +96,7 @@ recovery () {
         echo "Can't find archivedir for this project"
         exit 2
     fi
-    rsync -a $rollbackversion/$backuptag/* $documentroot
+    rsync -a $rollbackversion/$backuptag/* $backuproot
 }
 
 # Action!

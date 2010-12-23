@@ -1,25 +1,8 @@
 #!/bin/bash
 # clean_filelist.sh - Made for Puppi
 
-configfile="/etc/puppi/puppi.conf"
-
-# Load general configurations
-if [ ! -f $configfile ] ; then
-    echo "Config file: $configfile not found"
-    exit 1
-else
-    . $configfile
-    . $scriptsdir/functions
-fi
-
-# Load project runtime configuration
-projectconfigfile="$workdir/$project/config"
-if [ ! -f $projectconfigfile ] ; then
-    echo "Project runtime config file: $projectconfigfile not found"
-    exit 1
-else
-    . $projectconfigfile
-fi
+# Sources common header for Puppi scripts
+. $(dirname $0)/header || exit 10
 
 # Show help
 showhelp () {

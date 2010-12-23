@@ -33,7 +33,6 @@ check_host () {
         output=$($runcommand "$checksdir/$command" 2>&1)
         handle_result
     done
-    show_report
 }
 
 check () {
@@ -47,13 +46,14 @@ check () {
     done
 
     check_host
+    # show_report
 }
 
 rollback () {
     echo "Choose deploy to rollback:"
     ls -l $archivedir/$project
     read rollbackversion
-    echo "export rollbackversion=$rollbackversion" >> $workdir/$project/config
+    save_runtime_config "rollbackversion=$rollbackversion" || initerr=1 
     
     for command in $(ls -v1 $projectsdir/$project/rollback) ; do
         title="Rollback: $command"
@@ -126,8 +126,10 @@ show_report () {
     echo
     echo "REPORT FOR PUPPI - STATUS $result"
     echo "Summary of operations is: $logdir/$project/$tag/summary "
-    echo "Details are in : $logdir/$project/$tag/ "
-    echo "Runtime config file is: $workdir/$project/config (Will be rewritten at the next puppi run)"
+    echo "Details are in: $logdir/$project/$tag/"
+    echo "Temporary workdir has been: $workdir/$project/ (Will be rewritten at the next puppi run)"
+    echo "Runtime config file is: $workdir/$project/config"
+    echo "Files have been archived in: $archivedir/$project/$tag"
     test "$testmode" = "yes" && echo "This was a TEST RUN! Nothing has been done for real."
 }
 
@@ -143,17 +145,29 @@ create_runtime_conf () {
 
     echo $workdir | grep tmp >/dev/null 2>&1 || ( echo "Workdir must contain string tmp" ; exit 1 )
     rm -rf $workdir/$project || initerr=1
-    storedir=$workdir/$project/store || initerr=1
-    mkdir -p $storedir || initerr=1
+
+    mkdir -p $workdir/$project || initerr=1
+
     touch $workdir/$project/config || initerr=1
     chmod 644 $workdir/$project/config || initerr=1
+
     save_runtime_config "project=$project" || initerr=1
     save_runtime_config "tag=$tag" || initerr=1
     save_runtime_config "action=$action" || initerr=1
+
+    storedir=$workdir/$project/store || initerr=1
+    mkdir -p $storedir || initerr=1
     save_runtime_config "storedir=$storedir" || initerr=1
+
+    predeploydir=$workdir/$project/deploy || initerr=1
+    mkdir -p $predeploydir || initerr=1
+    save_runtime_config "predeploydir=$predeploydir" || initerr=1
+
     save_runtime_config "force=$force" || initerr=1
     save_runtime_config "testmode=$testmode" || initerr=1
     save_runtime_config "interactive=$interactive" || initerr=1
+    save_runtime_config "debug=$debug" || initerr=1
+
     for oopt in $(echo $options) ; do
         save_runtime_config "$(echo $oopt)" || initerr=1
     done
@@ -175,21 +189,11 @@ showhelp () {
    echo "-f - Force puppi commands execution flow also on CRITICAL errors"
    echo "-i - Interactively ask confirmation for every step"
    echo "-t - Test mode. Just show the commands that should be executed"
+   echo "-d <yes|full> - Debug mode. Show debug of what is done."
    echo "-o \"parameter=value parameter2=value2\" - Set manual options to override defaults"
    echo " "
    echo "Available projects:"
    ls -1 $projectsdir
-}
-
-debug () {
-    echo "basedir   = $basedir"
-    echo "checksdir = $checksdir"
-    echo "workdir = $workdir"
-    echo "RETVAL  = $RETVAL"
-
-    echo_success
-    echo_warning
-    echo_failure
 }
 
 # Check Input
@@ -213,9 +217,10 @@ while [ $# -gt 0 ]; do
       fi
     ;;
     check)
-      export action=$1
+      export action="checkhost"
       if [ ! -z "$2" ] ; then
         export project=$2
+        export action="check"
         shift 2
       else
         shift
@@ -234,6 +239,9 @@ while [ $# -gt 0 ]; do
     -o)
       options="$2"
       shift 2;;
+    -d)
+      debug="$2"
+      shift 2;;
     *)
       showhelp
       exit
@@ -244,9 +252,7 @@ done
 # Action!
 case $action in 
     check) check ;;
+    checkhost) check_host ;;
     rollback) create_runtime_conf ; rollback ;;
     deploy) create_runtime_conf ; deploy ;;
 esac
-
-# debug 
-

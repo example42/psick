@@ -1,25 +1,8 @@
 #!/bin/bash
 # get_file.sh - Made for Puppi
 
-configfile="/etc/puppi/puppi.conf"
-
-# Load general configurations
-if [ ! -f $configfile ] ; then
-    echo "Config file: $configfile not found"
-    exit 1
-else
-    . $configfile
-    . $scriptsdir/functions
-fi
-
-# Load project runtime configuration
-projectconfigfile="$workdir/$project/config"
-if [ ! -f $projectconfigfile ] ; then
-    echo "Project runtime config file: $projectconfigfile not found"
-    exit 1
-else
-    . $projectconfigfile
-fi
+# Sources common header for Puppi scripts
+. $(dirname $0)/header || exit 10
 
 # Show help
 showhelp () {
@@ -33,22 +16,39 @@ showhelp () {
     echo
     echo "It has 1 required and 1 optional argument:"
     echo "First argument (\$1 - required) is the path of the file to retrieve"
-    echo "Second argument (\$2 - optional) if present and is \"list\" it considers the downloaded" 
-    echo "  file as a list of files to be downloaded by other scripts"
+    echo "Second argument (\$2 - optional) if present describes the kind of file to download"
+    echo "  Currently can be 'list' , 'tarball' or 'maven-metadata' "
 }
 
 if [ $1 ] ; then
     type=$(echo $1 | cut -d':' -f1)
     downloadfilename=$(basename $1)
-    downloaddir=$storedir
+    downloaddir=$predeploydir
 else
     showhelp
     exit 2 
 fi
 
-if [ $2 = "list" ] ; then
-    downloaddir=$workdir/$project
-fi
+case $2 in
+# This logic is applied:
+# In $predeploydir go ($workdir/$project/deploy) go file that have to be deployed
+# In $storedir go ($workdir/$project/store) go support files as tarballs or lists
+    list)
+    downloaddir=$storedir
+    save_runtime_config "listfile=$downloaddir/$downloadfilename"
+    save_runtime_config "metadatasource=list"
+    ;;
+    tarball)
+    downloaddir=$storedir
+    save_runtime_config "tarfile=$downloaddir/$downloadfilename"
+    save_runtime_config "metadatasource=tarball"
+    ;;
+    maven-metadata)
+    downloaddir=$storedir
+    save_runtime_config "mavenfile=$downloaddir/$downloadfilename"
+    save_runtime_config "metadatasource=maven"
+    ;;
+esac
 
 # Define what to use for downloads
 cd $downloaddir
@@ -68,7 +68,7 @@ case $type in
         fi
     ;;
     http|https|file)
-        curl $1 -O
+        curl -f $1 -O
         # Manage curl's exit codes
         if [ $? = "0" ] ; then
             save_runtime_config "downloadedfile=$downloaddir/$downloadfilename"
@@ -84,7 +84,7 @@ case $type in
         svnserver=$(echo $svnuri | cut -d'@' -f2 | cut -d'/' -f1)
         svnpath=/$(echo $svnuri | cut -d'@' -f2 | cut -d'/' -f2-)
         svn --export --username=$svnusername --password=$svnpassword $svnserver $svnpath 
-        if [ $? = "0" ] ; then
+        if [ "$?" = "0" ] ; then
             save_runtime_config "downloadedfile=$downloaddir/$downloadfilename"
             exit 0
         else

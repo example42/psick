@@ -1,58 +1,51 @@
 #!/bin/bash
 # firewall.sh - Made for Puppi
-# This script places a temporary firewall (iptables) rule to block access from the IP defined as $1
-# Use $2 to define the port to block (Use 0 for all ports)
-# Use $3 to insert or remove the blocking rule (on|off) 
-# Use this script to temporary remove your server from a load balancer pool during the deploy procedure
 
-configfile="/etc/puppi/puppi.conf"
+# Sources common header for Puppi scripts
+. $(dirname $0)/header || exit 10
 
-# Load general configurations
-if [ ! -f $configfile ] ; then
-    echo "Config file: $configfile not found"
-    exit 2
-else
-    . $configfile
-    . $scriptsdir/functions
-fi
-
-# Load project runtime configuration
-projectconfigfile="$workdir/$project/config"
-if [ ! -f $projectconfigfile ] ; then
-    echo "Project runtime config file: $projectconfigfile not found"
-    exit 2
-else
-    . $projectconfigfile
-fi
+# Show help
+showhelp () {
+    echo "This script places a temporary firewall (iptables) rule to block access from the IP defined"
+    echo "It has the following options:"
+    echo "\$1 (Required) - Remote Ip address to block (Generally a load balancer"
+    echo "\$2 (Required) - Local port to block (0 for all ports"
+    echo "\$3 (Required) - Set on or off to insert or remove the blocking rule"
+    echo 
+    echo "Examples:"
+    echo "firewall.sh 10.42.0.1 0 on"
+    echo "firewall.sh 10.42.0.1 0 off"
+}
 
 # Check arguments
-if [ $1 ] ; then
+if [ $2 ] ; then
     ip=$1
+    port=$2
 else
-    echo "You must provide at least an IP!"
+    showhelp
     exit 2 
 fi
 
 if [ $3 ] ; then
-    if [ $3 = "on" ] ; then
+    if [ "$3" = "on" ] ; then
         action="-I"
-    elif [ $3 = "off" ] ; then
+    elif [ "$3" = "off" ] ; then
         action="-D"
     else 
-        echo "Your third argument must be on or off!"
+        showhelp
         exit 2
     fi
 else
-    echo "You must provide 3 arguments"
+    showhelp
     exit 2
 fi
 
 # Block
 run_iptables () {
-    if [ $2 = "0" ] ; then
+    if [ "$port" = "0" ] ; then
         iptables $action INPUT -s $ip -j DROP
     else
-        iptables $action INPUT -s $ip -p tcp --dport $2 -j DROP
+        iptables $action INPUT -s $ip -p tcp --dport $port -j DROP
     fi
 }
 

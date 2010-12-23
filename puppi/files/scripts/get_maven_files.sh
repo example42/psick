@@ -5,25 +5,8 @@
 # It uses curl to retrieve files so the $1 argument (base url of the maven repository) 
 # has to be in curl friendly format
 
-configfile="/etc/puppi/puppi.conf"
-
-# Load general configurations
-if [ ! -f $configfile ] ; then
-    echo "Config file: $configfile not found"
-    exit 1
-else
-    . $configfile
-    . $scriptsdir/functions
-fi
-
-# Load project runtime configuration
-projectconfigfile="$workdir/$project/config"
-if [ ! -f $projectconfigfile ] ; then
-    echo "Project runtime config file: $projectconfigfile not found"
-    exit 1
-else
-    . $projectconfigfile
-fi
+# Sources common header for Puppi scripts
+. $(dirname $0)/header || exit 10
 
 # Obtain the value of the variable with name passed as second argument
 # If no one is given, we take all the files in storedir
@@ -36,7 +19,7 @@ fi
 
 
 # Get the stuff
-cd $storedir
+cd $predeploydir
 
 curl $1/$version/$deployfile -O
 if [ $? = "0" ] ; then
