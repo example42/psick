@@ -1,0 +1,10 @@
+Here you find some scripts useful for Example42 modules
+
+Example42 modules creation and management scripts:
+module_clone.sh - Create a new module with defulat structure based on the foo template
+project_rename.sh - Rename all the references to example42 to your own $my_project name 
+
+Other scripts:
+get_webmin_params.sh - Gather OS related infos about a module (package) from the 
+                       WebMin source configuration files
+
