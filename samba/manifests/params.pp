@@ -26,26 +26,30 @@ class samba::params  {
 
     $packagename = $operatingsystem ? {
         solaris => "CSWsamba",
+        debian  => "samba",
+        ubuntu  => "samba",
         default => "samba",
     }
 
     $servicename = $operatingsystem ? {
-        default => "smbd",
+        debian  => "samba",
+        ubuntu  => "samba",
+        default => "samba",
     }
 
     $processname = $operatingsystem ? {
-        default => "smbd",
+        default => "samba",
     }
 
     $hasstatus = $operatingsystem ? {
         debian  => false,
-        ubuntu  => true,
+        ubuntu  => false,
         default => true,
     }
 
     $configfile = $operatingsystem ? {
         freebsd => "/usr/local/etc/samba/samba.conf",
-        default => "/etc/samba/smb.conf",
+        default => "/etc/samba/samba.conf",
     }
 
     $configfile_mode = $operatingsystem ? {
@@ -89,7 +93,7 @@ class samba::params  {
     # If you need to define additional ports, call them $protocol1/$port1 and add the relevant
     # parts in firewall.pp and monitor.pp
     $protocol = "tcp"
-    $port = "445"
+    $port = "80"
     
 
 

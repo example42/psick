@@ -2,7 +2,11 @@
 
 These are the variables used by the module samba
 
-User variables:
+User variables (unfiltered):
+# $samba_server = <%= scope.lookupvar('samba_server') %>
+
+User variables (after params.pp filter):
+# $server = <%= scope.lookupvar('samba::params::server') %>
 
 General internal variables:
 $packagename = <%= scope.lookupvar('samba::params::packagename') %>
@@ -22,21 +26,24 @@ $protocol = <%= scope.lookupvar('samba::params::protocol') %>
 $port = <%= scope.lookupvar('samba::params::port') %>
 
 Variables used by monitor class:
-$monitor_target_real = <%= scope.lookupvar('samba::params::monitor_target_real') %>
-$monitor_baseurl_real = <%= scope.lookupvar('samba::params::monitor_baseurl_real') %>
-$monitor_url_pattern = <%= scope.lookupvar('samba::params::monitor_url_pattern') %>
-$monitor_port_enable = <%= scope.lookupvar('samba::params::monitor_port_enable') %>
-$monitor_url_enable = <%= scope.lookupvar('samba::params::monitor_url_enable') %>
-$monitor_process_enable = <%= scope.lookupvar('samba::params::monitor_process_enable') %>
-$monitor_plugin_enable = <%= scope.lookupvar('samba::params::monitor_plugin_enable') %>
+$monitor_target_real = <%= scope.lookupvar('samba::params::monitor_target_real') %> ( Set with $samba_monitor_target )
+$monitor_baseurl_real = <%= scope.lookupvar('samba::params::monitor_baseurl_real') %> ( Set with $samba_monitor_baseurl )
+$monitor_url_pattern = <%= scope.lookupvar('samba::params::monitor_url_pattern') %> ( Set with $samba_monitor_url_pattern )
+$monitor_port_enable = <%= scope.lookupvar('samba::params::monitor_port_enable') %> ( Set with $samba_monitor_port )
+$monitor_url_enable = <%= scope.lookupvar('samba::params::monitor_url_enable') %> ( Set with $samba_monitor_url )
+$monitor_process_enable = <%= scope.lookupvar('samba::params::monitor_process_enable') %> ( Set with $samba_monitor_process )
+$monitor_plugin_enable = <%= scope.lookupvar('samba::params::monitor_plugin_enable') %> ( Set with $samba_monitor_plugin )
 
 Variables used by backup class:
-$backup_target_real = <%= scope.lookupvar('samba::params::backup_target_real') %>
-$backup_frequency = <%= scope.lookupvar('samba::params::backup_frequency') %>
-$backup_data_enable = <%= scope.lookupvar('samba::params::backup_data_enable') %>
-$backup_log_enable = <%= scope.lookupvar('samba::params::backup_log_enable') %>
-$general_base_source = <%= scope.lookupvar('samba::params::general_base_source') %>
+$backup_target_real = <%= scope.lookupvar('samba::params::backup_target_real') %> ( Set with $samba_backup_target )
+$backup_frequency = <%= scope.lookupvar('samba::params::backup_frequency') %> ( Set with $samba_backup_frequency )
+$backup_data_enable = <%= scope.lookupvar('samba::params::backup_data_enable') %> ( Set with $samba_backup_data )
+$backup_log_enable = <%= scope.lookupvar('samba::params::backup_log_enable') %> ( Set with $samba_backup_log )
 
 Variables used by firewall class:
-$firewall_source_real = <%= scope.lookupvar('samba::params::firewall_source_real') %>
-$firewall_destination_real = <%= scope.lookupvar('samba::params::firewall_destination_real') %>
+$firewall_source_real = <%= scope.lookupvar('samba::params::firewall_source_real') %> ( Set with $samba_firewall_source )
+$firewall_destination_real = <%= scope.lookupvar('samba::params::firewall_destination_real') %> ( Set with $samba_firewall_destination )
+$firewall_enable = <%= scope.lookupvar('samba::params::firewall_destination_real') %> ( Set with $samba_firewall_enable )
+
+Module base source for static files:
+$general_base_source = <%= scope.lookupvar('samba::params::general_base_source') %> ( Set with $base_source )

@@ -42,7 +42,7 @@ class samba::backup {
     if $my_project { 
         case $my_project_onmodule {
             yes,true: { include "${my_project}::samba::backup" }
-            default: { include "samba::backup::${my_project}" }
+            default: { include "samba::${my_project}::backup" }
         }
     }
 

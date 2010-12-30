@@ -1,5 +1,5 @@
 name    'lab42-samba'
-version '0.1.4'
+version '0.1.5'
 
 # dependency 'lab42/common', '>= 0.1.0'
 # dependency 'lab42/monitor', '>= 0.1.0'
