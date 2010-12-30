@@ -29,10 +29,10 @@ if ARGV.length > 1
     project = ARGV.shift
 #    puppioptions = ARGV.shift
 
-    unless command =~ /^(check|deploy|rollback|batch)$/
-        puts("Command has to be check|deploy|rollback|batch")
-        exit 1
-    end
+#    unless command =~ /^(check|deploy|rollback|batch)$/
+#        puts("Command has to be check|deploy|rollback|batch")
+#        exit 1
+#    end
 else
     puts("Please specify a command and project")
     exit 1
@@ -46,6 +46,7 @@ puppi_results = puppi.runcommand(:command => command, :project => project )
 puts
 
 puppi_results.each do |result|
+    output = result[:data][:output].to_s
     exitcode = result[:data][:exitcode].to_i
     statuscodes << exitcode
 #    stats[exitcode] += 1

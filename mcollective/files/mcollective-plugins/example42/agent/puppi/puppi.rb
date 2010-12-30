@@ -11,6 +11,7 @@ module MCollective
 
             action "runcommand" do
                 validate :command, :shellsafe
+                command = request[:command]
 
                 case command
                     when "check"
@@ -33,12 +34,12 @@ module MCollective
 
                 end
 
-                if reply[:output] =~ /^(.+)\|(.+)$/
-                    reply[:output] = $1
-                    reply[:perfdata] = $2
-                else
-                    reply[:perfdata] = ""
-                end
+#                if reply[:output] =~ /^(.+)\|(.+)$/
+#                    reply[:output] = $1
+#                    reply[:perfdata] = $2
+#                else
+#                    reply[:perfdata] = ""
+#                end
             end
 
         end
