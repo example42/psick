@@ -1,0 +1,58 @@
+Puppet module: samba
+
+# Written by Lab42 #
+# http://www.Example42.com
+
+Licence: GPLv3
+
+DESCRIPTION:
+This module installs and manages samba.
+Standard and Example42 extended classes are available.
+Generally you can easily import and use standard classes in your own modules set, without other Example42 modules.
+You can place your customizations in the dedicated "project" files (by default example42.pp, use the example42_project_rename.sh script to rename them).
+Decide and customize how you want to define configuration files: static files, templates, infile modifications...
+
+
+USER VARIABLES:
+
+
+USAGE:
+# Standard Classes 
+include samba              # Install and run samba 
+
+include samba::disable     # Disable samba service.
+include samba::disableboot # Disable samba service at boot time, but don't stop if it's running.
+include samba::absent      # Remove samba package.
+include samba::debug       # Used for debugging purposes (not resource hungry) - Automatically included if $debug=yes - Requires Example42's puppet module
+
+# Extended Classes (generally require storeconfigs)
+include samba::monitor     # Monitor samba - Automatically included if $monitor=yes - Requires Example42's monitor module
+include samba::backup      # Backup samba data - Automatically included if $backup=yes - Requires Example42's backup module
+include samba::firewall    # Manages firewall rule for samba service - Automatically included if $firewall=yes - Requires Example42's firewall module
+
+# Generic define to set parameters in the main configuration file. EXPERIMENTAL.
+samba::conf { "ParameterName": value="YourValue"} # Generic 
+
+# Module specific classes
+
+# Module specific defines
+
+
+GENERAL VARIABLES:
+Example42 modules collection uses some general variables that can influence the behaviour of this module.
+You can happily live without considering or setting them, but they can be useful to manage different projects maintanining the module's resuability. 
+$my_project - If set, permits you to alter and customize the module behaviour in custom project classes
+$my_project_onmodule - If set to yes your project classes are looked in a dedicated project module:
+  - $my_project_onmodule not set -> Module autoloads samba::$my_module (MODULEPATH/samba/manifests/$my_project.pp)
+  - $my_project_onmodule == yes -> Module autoloads $my_module::samba (MODULEPATH/$my_project/manifests/samba.pp)
+$base_source - Let you define an alternative source for static files:
+  - $base_source not set -> Files are looked in puppet://$servername/ (the PuppetMaster)
+  - $base_source set -> Files are looked in $base_source ( could be puppet://$servername/$my_module ) 
+  Note that the module automatically manages the different paths for Puppet pre 0.25
+  
+
+DEPENDENCIES:
+Standard classes generally don't need external modules.
+Extended classes need the relevant external modules ( monitor ; backup ... ) and the "common" module.
+samba::conf generic infile configuration define needs the "common" module
+Check on individual module specific classes and defines if there are specific requirements.

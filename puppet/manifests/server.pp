@@ -32,7 +32,7 @@ class puppet::server {
         default: { }
     }
 
-    # Automanagement of Mysql Grants if mysql is used
+    # Automanagement of Mysql Grants if mysql is used
     if ( $puppet::params::db == "mysql" ) { include puppet::server::mysql }
 
     # Install Passenger if $puppet_passenger = yes 

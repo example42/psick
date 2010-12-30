@@ -168,7 +168,7 @@ class apache::params  {
     # If apache url monitoring is enabled 
     $monitor_url_enable = $apache_monitor_url ? {
         ''      => $monitor_url ? {
-           ''      => true,
+           ''      => false,
            default => $monitor_url,
         },
         default => $apache_monitor_url,
