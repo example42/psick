@@ -1,7 +1,7 @@
 # Class: foo::params
 #
 # Sets internal variables and defaults for foo module
-# This class is automatically loaded in all the classes that use the values set here 
+# This class is loaded in all the classes that use the values set here 
 #
 class foo::params  {
 
@@ -9,7 +9,7 @@ class foo::params  {
 # (Here are set the defaults, provide your custom variables externally)
 # (The default used is in the line with '')
 
-## Full hostname of foo server
+## Example: Full hostname of foo server
 #    $server = $foo_server ? {
 #        ''      => "foo",
 #        default => "${foo_server}",
@@ -26,10 +26,14 @@ class foo::params  {
 
     $packagename = $operatingsystem ? {
         solaris => "CSWfoo",
+        debian  => "foo",
+        ubuntu  => "foo",
         default => "foo",
     }
 
     $servicename = $operatingsystem ? {
+        debian  => "foo",
+        ubuntu  => "foo",
         default => "foo",
     }
 
@@ -61,14 +65,13 @@ class foo::params  {
     }
 
     $configdir = $operatingsystem ? {
-        freebsd => "/usr/local/etc/foo/",
         default => "/etc/foo",
     }
 
     $initconfigfile = $operatingsystem ? {
-        debian  => "/etc/default/food",
-        ubuntu  => "/etc/default/food",
-        default => "/etc/sysconfig/food",
+        debian  => "/etc/default/foo",
+        ubuntu  => "/etc/default/foo",
+        default => "/etc/sysconfig/foo",
     }
     
     # Used by monitor class
@@ -111,7 +114,7 @@ class foo::params  {
         default => "$foo_monitor_target",
     }
 
-    # BaseUrl to access this host
+    # BaseUrl to access this service
     $monitor_baseurl_real = $foo_monitor_baseurl ? {
         ''      => $monitor_baseurl ? {
            ''      => "http://${fqdn}",
@@ -138,7 +141,7 @@ class foo::params  {
     # If foo url monitoring is enabled 
     $monitor_url_enable = $foo_monitor_url ? {
         ''      => $monitor_url ? {
-           ''      => true,
+           ''      => false,
            default => $monitor_url,
         },
         default => $foo_monitor_url,
@@ -156,7 +159,7 @@ class foo::params  {
     # If foo plugin monitoring is enabled 
     $monitor_plugin_enable = $foo_monitor_plugin ? {
         ''      => $monitor_plugin ? {
-           ''      => true,
+           ''      => false,
            default => $monitor_plugin,
         },
         default => $foo_monitor_plugin,

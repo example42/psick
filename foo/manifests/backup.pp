@@ -42,7 +42,7 @@ class foo::backup {
     if $my_project { 
         case $my_project_onmodule {
             yes,true: { include "${my_project}::foo::backup" }
-            default: { include "foo::backup::${my_project}" }
+            default: { include "foo::${my_project}::backup" }
         }
     }
 

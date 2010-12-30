@@ -22,5 +22,4 @@ class foo::absent {
     # Include debug class is debugging is enabled ($debug=yes)
     if ( $debug == "yes" ) or ( $debug == true ) { include foo::debug }
 
-
 }
