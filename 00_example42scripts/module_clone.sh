@@ -1,6 +1,7 @@
 #!/bin/bash
 
-echo "This script creates a skeleton for a new module based on the Example42 foo module template"
+echo "This script creates a skeleton for a new module based on the"
+echo "Example42 foo module template"
 echo "Run it from the directory that contains the foo module (moduledir)"
 echo
 
