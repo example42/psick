@@ -32,13 +32,11 @@ class samba::params  {
     }
 
     $servicename = $operatingsystem ? {
-        debian  => "samba",
-        ubuntu  => "samba",
-        default => "samba",
+        default => "smbd",
     }
 
     $processname = $operatingsystem ? {
-        default => "samba",
+        default => "smbd",
     }
 
     $hasstatus = $operatingsystem ? {
@@ -48,8 +46,8 @@ class samba::params  {
     }
 
     $configfile = $operatingsystem ? {
-        freebsd => "/usr/local/etc/samba/samba.conf",
-        default => "/etc/samba/samba.conf",
+        freebsd => "/usr/local/etc/samba/smb.conf",
+        default => "/etc/samba/smb.conf",
     }
 
     $configfile_mode = $operatingsystem ? {
@@ -76,7 +74,7 @@ class samba::params  {
     
     # Used by monitor class
     $pidfile = $operatingsystem ? {
-        default => "/var/run/sambad.pid",
+        default => "/var/run/smbd.pid",
     }
 
     # Used by backup class
@@ -93,7 +91,7 @@ class samba::params  {
     # If you need to define additional ports, call them $protocol1/$port1 and add the relevant
     # parts in firewall.pp and monitor.pp
     $protocol = "tcp"
-    $port = "80"
+    $port = "445"
     
 
 
