@@ -26,5 +26,17 @@ class php  {
             },
         ensure => present,
     }
+
+    package { php-cli:
+        name => $operatingsystem ? {
+            ubuntu  => "php5-cli",
+            debian  => "php5-cli",
+            suse    => undef,
+            default => "php-cli",
+            },
+        ensure => present,
+    }
+
+
 }
 
