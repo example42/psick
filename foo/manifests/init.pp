@@ -46,7 +46,7 @@ class foo {
         default: { }
     }
 
-    # Include extended classes, if 
+    # Include extended classes, if relevant variables are defined 
     if $backup == "yes" { include foo::backup }
     if $monitor == "yes" { include foo::monitor }
     if $firewall == "yes" { include foo::firewall }

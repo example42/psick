@@ -11,7 +11,7 @@ User variables (after params.pp filter):
 General internal variables:
 $packagename = <%= scope.lookupvar('foo::params::packagename') %>
 $servicename = <%= scope.lookupvar('foo::params::servicename') %>
-$processname = <%= scope.lookupvar('foo::params::servicename') %>
+$processname = <%= scope.lookupvar('samba::params::processname') %>
 $hasstatus = <%= scope.lookupvar('foo::params::hasstatus') %>
 $configfile = <%= scope.lookupvar('foo::params::configfile') %>
 $configfile_mode = <%= scope.lookupvar('foo::params::configfile_mode') %>
