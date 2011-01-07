@@ -1,0 +1,118 @@
+Puppet module: openldap
+
+# Written by Lab42 #
+# http://www.Example42.com
+
+Licence: GPLv3
+
+DESCRIPTION:
+This module installs and manages openldap.
+It's based on Example42's module structure and features standard and
+extended classes for automatic monitoring, backup and firewalling.
+
+All the variables used in this module are defined in the openldap::params class
+(File: $MODULEPATH/openldap/manifests/params.pp). Here you can:
+- Set default settings and filtering module's specific Users variables
+- Add selectors for internal variables to adapt the module to different OSes
+- Review and eventually change default settings for variables that affect the
+  Example42 extended classes.
+
+Customizations for different projects and logic on how to populate configuration
+files should be placed in the $my_project classes.
+
+Note that just by including the openldap class the slapd.conf is modified, according
+to the variables provided (in other Example42 modules the main config file is not 
+modified by default).
+Note also that this modules uses (and enforces on distros like Ubuntu10.04) the usage
+of the "old" slapd.conf instead of the newer ldap based configuration (cn=config) 
+available since OpenLdap > 2.3.
+Up to now (v. 2.4.23) slapd.conf is still supported by OpenLdap.
+
+
+MODULE'S SPECIFIC USER VARIABLES:
+$openldap_base_dn # The Base dn to use for your OpenLdap database (not that the default
+                  # configuration file provided with this module implies the usage of a single
+                  # database. Default: "dc=example42,dc=com"
+$openldap_root_dn # The OpenLdap root_dn. Default: "cn=Manager,${base_dn}"
+$openldap_rootpw  # The root_dn password, in slapd.conf format.
+                  # Default: "{SSHA}6cOchl1ZhL+N/iuN+MoZ6vFyLcCtw2Ug" (example42)
+$openldap_use_ssl # Set to "yes" if you want to activate SSL support. Default: "no"
+$openldap_support_solaris_clients # Set to "yes" if you want to add the schemas needed for
+                                  # authentication of Solaris client. Default: "no"
+$openldap_support_samba # Set to "yes" if you want to add the schemas needed when using
+                        # (open)ldap as users backend in Samba. Default: "no"
+
+
+USAGE:
+# Standard Classes 
+include openldap              # Install and run openldap 
+
+include openldap::disable     # Disable openldap service.
+include openldap::disableboot # Disable openldap service at boot time, but don't stop if is running.
+include openldap::absent      # Remove openldap package.
+include openldap::debug       # Used for debugging purposes (not resource hungry)
+                              # Automatically included if $debug=yes
+                              # Requires Example42's puppet::params and puppet::debug
+
+# Extended Classes (generally require storeconfigs)
+include openldap::monitor     # Monitor openldap
+                              # Automatically included if $monitor=yes
+                              # Requires Example42's monitor module
+include openldap::backup      # Backup openldap data
+                              # Automatically included if $backup=yes
+                              # Requires Example42's backup module
+include openldap::firewall    # Manages firewall rules for openldap service
+                              # Automatically included if $firewall=yes
+                              # Requires Example42's firewall module
+
+# Generic define to set parameters in the main configuration file. EXPERIMENTAL.
+openldap::conf { "ParameterName": value="YourValue"} # Generic 
+
+# Module specific classes
+
+# Module specific defines
+
+
+EXAMPLE42 GENERAL VARIABLES:
+Example42 modules collection uses some general variables that can influence the
+behaviour of this module. You can happily live without considering or setting them,
+but they can be useful to get many useful features out of the box.
+$my_project - If set, permits you to alter and customize the module behaviour
+  and files's deploy logic in custom project classes
+$my_project_onmodule - If set to yes your project classes are looked in a
+  dedicated project module:
+  - $my_project_onmodule not set -> Module autoloads openldap::$my_module
+                                    (MODULEPATH/openldap/manifests/$my_project.pp)
+  - $my_project_onmodule == yes  -> Module autoloads $my_module::openldap
+                                    (MODULEPATH/$my_project/manifests/openldap.pp)
+$base_source - Lets you define an alternative source for static files:
+  - $base_source not set -> Files are looked in puppet://$servername/ (the PuppetMaster)
+  - $base_source set -> Files are in $base_source ( Ex: puppet://$servername/$my_module ) 
+  Note that the module automatically manages the different paths for Puppet pre 0.25
+$debug - If set to yes writes in /var/lib/puppet/debug/ useful debugging info
+
+VARIABLES FOR EXTENDED MODULES:
+$monitor - Set to "yes" to enable auto monitoring classes 
+$monitor_tool - Defines the monitor tools to activate (At leat one, can be an array)
+Check openldap/manifests/monitor.pp for more info on openldap monitoring related variables.
+
+$backup - Set to "yes" to enable auto backuping classes 
+$backup_tool - Defines the backup tools to activate (At leat one, can be an array)
+Check openldap/manifests/backup.pp for more info on openldap backuping related variables.
+
+
+DEPENDENCIES:
+Standard classes generally don't need external modules.
+Extended classes need the relevant external modules and the Example42 "common" module.
+openldap::conf generic infile configuration define needs the Example42 "common" module
+
+
+OPERATING SYSTEMS SUPPORT (Planned, Development, Testing, Production):
+RedHat/Centos 5 : Testing
+RedHat/Centos 6 : Testing
+Debian 5        : Testing
+Debian 6        : Planned
+Ubuntu 8.04     : Testing
+Ubuntu 10.04    : Testing
+SLES 10         : Planned
+SLES 11         : Planned
