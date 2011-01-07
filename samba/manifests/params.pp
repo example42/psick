@@ -32,6 +32,8 @@ class samba::params  {
     }
 
     $servicename = $operatingsystem ? {
+        centos  => "smb",
+        redhat  => "smb",
         default => "smbd",
     }
 
