@@ -12,20 +12,24 @@
 #
 # Example:
 # drupal::module { "google_analitics": }
-# drupal::module { "google_analitics": preferred_state => "beta" }
+# drupal::module { "google_analitics": release_state => "dev" }
 # drupal::module { "google_analitics": site => "acme" }
 # drupal::module { "google_analitics": status => "disable" }
 
-define drupal::module ( preferred_state="stable" , site="all" , status="enable") {
+define drupal::module ( release_state="stable" , site="all" , status="enable") {
 
     exec { "drush-${name}":
-        cwd     => "${drupal::params::basedir}/sites/$site/modules",
+        cwd     => "${drupal::params::sitesdir}/$site/modules",
         command => $status ? {
-            enable  => "${drupal::params::drush_path} dl ${name}",
-            disable => "${drupal::params::drush_path} dl ${name}",
+            enable  => $release_state ? {
+                "dev"   => "${drupal::params::drush_path} dl ${name} --dev",
+                "beta"  => "${drupal::params::drush_path} dl ${name} --dev",
+                default => "${drupal::params::drush_path} dl ${name}",
+            },
+            disable => "${drupal::params::drush_path} dis ${name}",
             absent  => "rm -rf ${name}",
         },
-        creates => "${drupal::params::basedir}/sites/$site/modules/$name",
+        creates => "${drupal::params::sitesdir}/$site/modules/$name",
         require => Class["drupal::drush"],
     }
 

@@ -12,9 +12,8 @@ class drupal::install {
     require drupal::params
 
     exec { "drupal-install":
-        cwd     => "/var/www",
-        command => "${drupal::params::drush_path} dl drupal-${drupal::params::version}.x --drupal-project-rename --yes",
-        creates => "/var/www/drupal/index.php",
+        command => "${drupal::params::drush_path} dl drupal-${drupal::params::version}.x --destination ${drupal::params::basedir} --yes",
+        creates => "${drupal::params::basedir}/index.php",
         require => Class["drupal::drush"],
     }
 

@@ -21,17 +21,13 @@ class drupal::params  {
         '5'     => "5",
         '6'     => "6",
         '7'     => "7",
-        default => "6",
+        default => "7",
     }
 
     $drush_url  = $drupal_drush_url ? {
-        ''      => "http://ftp.drupal.org/files/projects/drush-6.x-4.0-rc8.tar.gz",
+        ''      => "http://ftp.drupal.org/files/projects/drush-7.x-4.0.tar.gz",
         default => "${drupal_drush_url}",
     }
-
-
-## EXTRA MODULE INTERNAL VARIABLES
-#(add here module specific internal variables)
 
     $basedir = $use_package ? {
         yes  => $operatingsystem ? {
@@ -40,7 +36,10 @@ class drupal::params  {
             redhat  => "/usr/share/drupal",
             centos  => "/usr/share/drupal",
         },
-        no   => "/var/www/drupal",
+        no   =>  $drupal_basedir ? {
+            ''      => "/var/www/drupal",
+            default => "${drupal_basedir}",
+        },
     }
 
     # The directory where sites dir is placed.
@@ -52,8 +51,22 @@ class drupal::params  {
             redhat  => "/etc/drupal",
             centos  => "/etc/drupal",
         },
-        no   => "/var/www/drupal/sites",
+        no   =>  $drupal_sitesdir ? {
+            ''      => "$basedir/sites",
+            default => "${drupal_sitesdir}",
+        },
     }
+
+    $extra  = $drupal_extra ? {
+        true   => "yes",
+        "true" => "yes",
+        "yes"   => "yes",
+        default => "no",
+    }
+
+
+## EXTRA MODULE INTERNAL VARIABLES
+#(add here module specific internal variables)
 
     $drush_path = "$sitesdir/all/modules/drush/drush"
 

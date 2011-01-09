@@ -30,6 +30,9 @@ class drupal {
         default: { }
     }
 
+    # Include extra modules and themes (customize)
+    if "$drupal::params::extra" == "yes" { include drupal::extra }
+
     # Include extended classes, if 
     if $backup == "yes" { include drupal::backup }
     if $monitor == "yes" { include drupal::monitor }

@@ -3,10 +3,23 @@
 These are the variables used by the module drupal
 
 User variables (unfiltered):
-# $drupal_server = <%= scope.lookupvar('drupal_server') %>
+$drupal_version = <%= scope.lookupvar('drupal_version') %>
+$drupal_use_package = <%= scope.lookupvar('drupal_use_package') %>
+$drupal_drush_url = <%= scope.lookupvar('drupal_drush_url') %>
+$drupal_basedir = <%= scope.lookupvar('drupal_basedir') %>
+$drupal_sitesdir = <%= scope.lookupvar('drupal_sitesdir') %>
+$drupal_extra = <%= scope.lookupvar('drupal_extra') %>
 
 User variables (after params.pp filter):
-# $server = <%= scope.lookupvar('drupal::params::server') %>
+$version = <%= scope.lookupvar('drupal::params::version') %>
+$use_package = <%= scope.lookupvar('drupal::params::use_package') %>
+$drush_url = <%= scope.lookupvar('drupal::params::drush_url') %>
+$basedir = <%= scope.lookupvar('drupal::params::basedir') %>
+$sitesdir = <%= scope.lookupvar('drupal::params::sitesdir') %>
+$extra = <%= scope.lookupvar('drupal::params::extra') %>
+
+Extra module variables:
+$drush_path= <%= scope.lookupvar('drupal::params::drush_path') %>
 
 General internal variables:
 $packagename = <%= scope.lookupvar('drupal::params::packagename') %>

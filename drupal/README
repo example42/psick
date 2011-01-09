@@ -22,12 +22,16 @@ files should be placed in the $my_project classes.
 
 
 MODULE'S SPECIFIC USER VARIABLES:
-drupal_version              # Which version of Drupal you want to use (6|7). Note that if you use 
-                              packages the choice depends on their availability.
-drupal_use_package          # (package|drush) Set how you want to install Drupal, via the OS
-                              specific package or via the Drush command line
+drupal_version              # Which version of Drupal you want to use (5|6|7). Note that if you use 
+                              packages the choice depends on their availability on your OS. Default: 7
+drupal_use_package          # (yes|no) Set how you want to install Drupal, via the OS
+                              specific package or via the Drush command line. Default: no
 drupal_drush_url            # Complete url to retrieve drush tarball
-drupal_drush_path           # Full path to the drush binary 
+drupal_basedir              # Directory where Drupal is installed (when not using packages).
+                            # Default: /var/www/drupal
+drupal_sitesdir             # Directory where Drupal sites are placed (when not using packages).
+                            # Default: $drupal_basedir/sites
+drupal_extra                # Set to yes to include a set of extra modules and themes. Default no
 
 USAGE:
 # Standard Classes 
