@@ -51,6 +51,21 @@ class openldap::params  {
         default => "no",
     }
 
+# Activate N-WAY multimaster replication
+# Requires one or more $openldap_multimaster_masters entries for each server
+    $multimaster = $openldap_multimaster ? {
+        true    => "yes",
+        "true"  => "yes",
+        "yes"   => "yes",
+        default => "no",
+    }
+
+    $multimaster_masters = $openldap_multimaster_masters ? {
+        ""      => "",
+        default => $openldap_multimaster_masters ,
+    }
+
+
 ## EXTRA MODULE INTERNAL VARIABLES
 #(add here module specific internal variables)
 
@@ -78,10 +93,15 @@ class openldap::params  {
     }
 
     $certsdir = $operatingsystem ? {
-        debian  => "/etc/ldap",
-        ubuntu  => "/etc/ldap",
+        debian  => "/etc/ldap/certs",
+        ubuntu  => "/etc/ldap/certs",
         redhat  => "/etc/pki/tls/certs",
         centos  => "/etc/pki/tls/certs",
+    }
+
+    # Openldap user
+    $username = $operatingsystem ? {
+        default => "openldap",
     }
 
 ## MODULE INTERNAL VARIABLES

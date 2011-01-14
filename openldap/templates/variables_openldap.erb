@@ -3,12 +3,14 @@
 These are the variables used by the module openldap
 
 User variables (unfiltered):
-$base_dn = <%= scope.lookupvar('openldap_base_dn') %>
-$root_dn = <%= scope.lookupvar('openldap_root_dn') %>
-$rootpw = NOT SHOWN
-$use_ssl = <%= scope.lookupvar('openldap_use_ssl') %>
-$support_solaris_clients = <%= scope.lookupvar('openldap_support_solaris_clients') %>
-$support_samba = <%= scope.lookupvar('openldap_support_samba') %>
+$openldap_base_dn = <%= scope.lookupvar('openldap_base_dn') %>
+$openldap_root_dn = <%= scope.lookupvar('openldap_root_dn') %>
+$openldap_rootpw = NOT SHOWN
+$openldap_use_ssl = <%= scope.lookupvar('openldap_use_ssl') %>
+$openldap_support_solaris_clients = <%= scope.lookupvar('openldap_support_solaris_clients') %>
+$openldap_support_samba = <%= scope.lookupvar('openldap_support_samba') %>
+$openldap_multimaster = <%= scope.lookupvar('openldap_multimaster') %>
+$openldap_multimaster_masters = <%= scope.lookupvar('openldap_multimaster_masters') %>
 
 User variables (after params.pp filter):
 $base_dn = <%= scope.lookupvar('openldap::params::base_dn') %>
@@ -17,11 +19,14 @@ $rootpw = NOT SHOWN
 $use_ssl = <%= scope.lookupvar('openldap::params::use_ssl') %>
 $support_solaris_clients = <%= scope.lookupvar('openldap::params::support_solaris_clients') %>
 $support_samba = <%= scope.lookupvar('openldap::params::support_samba') %>
+$multimaster = <%= scope.lookupvar('openldap::params::multimaster') %>
+$multimaster_masters = <%= scope.lookupvar('openldap::params::multimaster_masters') %>
 
 Extra module's variables:
 $db_backend = <%= scope.lookupvar('openldap::params::db_backend') %>
 $argsfile = <%= scope.lookupvar('openldap::params::argsfile') %>
 $modulepath = <%= scope.lookupvar('openldap::params::modulepath') %>
+$certsdir = <%= scope.lookupvar('openldap::params::certsdir') %>
 $certsdir = <%= scope.lookupvar('openldap::params::certsdir') %>
 
 General internal variables:

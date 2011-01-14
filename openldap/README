@@ -41,7 +41,15 @@ $openldap_support_solaris_clients # Set to "yes" if you want to add the schemas 
                                   # authentication of Solaris client. Default: "no"
 $openldap_support_samba # Set to "yes" if you want to add the schemas needed when using
                         # (open)ldap as users backend in Samba. Default: "no"
-
+$openldap_multimaster # Set to "yes" if you want to enable N Way Multimaster mode
+                      # Note that for each server you must define at least one entry 
+                      # in $openldap_multimaster_masters
+$openldap_multimaster_masters # One or more servers (defined in an array) to be considered 
+                              # masters (providers) for the current server.
+                              # If you want a 2 server multimaster layout just specify here
+                              # the name of the "other" server. If you want a multimaster mesh
+                              # with N servers, specify here an array containing all the "other"
+                              # servers.
 
 USAGE:
 # Standard Classes 
