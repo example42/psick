@@ -1,0 +1,96 @@
+# File Managed by Puppet
+
+options {
+	directory "<%= scope.lookupvar('bind::params::basedir') %>";
+
+<% if scope.lookupvar('bind::params::forwarders') != "" -%>
+        forwarders { <%= scope.lookupvar('bind::params::forwarders').join("; ") %> };
+        forward only;
+<% end -%>
+
+	auth-nxdomain no;    # conform to RFC1035
+	// listen-on-v6 { any; };
+
+	dump-file 		"data/cache_dump.db";
+        statistics-file 	"data/named_stats.txt";
+        memstatistics-file 	"data/named_mem_stats.txt";
+
+
+};
+
+logging
+{
+<% if scope.lookupvar('bind::params::log') == "syslog" -%>
+        // Logging via Syslog
+	category "default" { "default_syslog"; "default_debug";};
+<% else -%>
+        // Logging to dedicated file
+	channel "bind_log" {
+//	        severity debug;
+        	file "<%= scope.lookupvar('bind::params::logdir') %>/bind.log" versions 5 size 2m;
+        	print-time yes;
+        	print-category yes;
+        	print-severity yes;
+	};
+	category "default" { "bind_log";};
+	category "general" { "bind_log";};
+	category "database" { "bind_log";};
+	category "security" { "bind_log";};
+	category "config" { "bind_log";};
+	category "resolver" { "bind_log";};
+	category "xfer-in" { "bind_log";};
+	category "xfer-out" { "bind_log";};
+	category "notify" { "bind_log";};
+	category "client" { "bind_log";};
+	category "network" { "bind_log";};
+	category "update" { "bind_log";};
+	category "lame-servers" { "null"; };
+	category "queries" { "null";};
+	// category "queries" { "bind_log";};
+<% end -%>
+};
+
+
+# Default Zones (file names based on RedHat OS)
+
+zone "." IN {
+	type hint;
+	file "named.root";
+};
+
+zone "localdomain" IN {
+	type master;
+	file "localdomain.zone";
+	allow-update { none; };
+};
+
+zone "localhost" IN {
+	type master;
+	file "localhost.zone";
+	allow-update { none; };
+};
+
+zone "0.0.127.in-addr.arpa" IN {
+	type master;
+	file "named.local";
+	allow-update { none; };
+};
+
+zone "0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa" IN {
+        type master;
+	file "named.ip6.local";
+	allow-update { none; };
+};
+
+zone "255.in-addr.arpa" IN {
+	type master;
+	file "named.broadcast";
+	allow-update { none; };
+};
+
+zone "0.in-addr.arpa" IN {
+	type master;
+	file "named.zero";
+	allow-update { none; };
+};
+
