@@ -1,0 +1,28 @@
+KNOWN ISSUES:
+- In 0.24.8 you will see inintended notifies, if you build a file
+  in a run, the next run will also see it as changed.  This is due
+  to how 0.24.8 does the purging of unhandled files, this is improved
+  in 0.25.x and we cannot work around it in our code.
+
+CHANGELOG:
+- 2010/02/19 - initial release
+- 2010/03/12 - add support for 0.24.8 and newer
+             - make the location of sort configurable
+             - add the ability to add shell comment based warnings to
+               top of files
+             - add the ablity to create empty files
+- 2010/04/05 - fix parsing of WARN and change code style to match rest
+               of the code
+             - Better and safer boolean handling for warn and force
+             - Don't use hard coded paths in the shell script, set PATH
+               top of the script
+             - Use file{} to copy the result and make all fragments owned
+               by root.  This means we can chnage the ownership/group of the
+               resulting file at any time.
+             - You can specify ensure => "/some/other/file" in concat::fragment
+               to include the contents of a symlink into the final file.
+- 2010/04/16 - Add more cleaning of the fragment name - removing / from the $name
+- 2010/05/22 - Improve documentation and show the use of ensure =>
+- 2010/07/14 - Add support for setting the filebucket behavior of files
+- 2010/10/04 - Make the warning message configurable
+- 2010/12/03 - Add flags to make concat work better on Solaris - thanks Jonathan Boyett
