@@ -12,10 +12,21 @@ define puppi::project (
     include puppi
 
     $ensure = $enable ? {
+        false   => "absent",
         "false" => "absent",
         "no"    => "absent",
+        true    => "directory",
         "true"  => "directory",
         "yes"   => "directory",
+    }
+
+    $ensurefile = $enable ? {
+        false   => "absent",
+        "false" => "absent",
+        "no"    => "absent",
+        true    => "present",
+        "true"  => "present",
+        "yes"   => "present",
     }
 
     # Create Project subdirs
@@ -35,10 +46,22 @@ define puppi::project (
         mode => "755", owner => "${nrpe::params::configfile_owner}", group => "${nrpe::params::configfile_group}",
         recurse => true, purge => true, force => true,
         ensure => "${ensure}", require => File["${puppi::params::projectsdir}/${name}"];
+        "${puppi::params::projectsdir}/${name}/initialize":
+        mode => "755", owner => "${nrpe::params::configfile_owner}", group => "${nrpe::params::configfile_group}",
+        recurse => true, purge => true, force => true,
+        ensure => "${ensure}", require => File["${puppi::params::projectsdir}/${name}"];
         "${puppi::params::projectsdir}/${name}/report":
         mode => "755", owner => "${nrpe::params::configfile_owner}", group => "${nrpe::params::configfile_group}",
         recurse => true, purge => true, force => true,
         ensure => "${ensure}", require => File["${puppi::params::projectsdir}/${name}"];
+    }
+
+    # Create Project configuration file
+    file {
+        "${puppi::params::projectsdir}/${name}/config":
+        mode => "644", owner => "${nrpe::params::configfile_owner}", group => "${nrpe::params::configfile_group}",
+        ensure => "${ensurefile}", require => File["${puppi::params::projectsdir}/${name}"] , 
+        content => template("puppi/project/config.erb"),
     }
 
 }

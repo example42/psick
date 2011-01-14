@@ -59,7 +59,7 @@ case $type in
         scpuri=$(echo $1 | cut -d'/' -f3-)
         scpconn=$(echo $scpuri | cut -d'/' -f1)
         scppath=/$(echo $scpuri | cut -d'/' -f2-)
-        scp $scpconn:$scppath .
+        rsync -a -e ssh $scpconn:$scppath .
         if [ $? = "0" ] ; then
             save_runtime_config "downloadedfile=$downloaddir/$downloadfilename"
             exit 0

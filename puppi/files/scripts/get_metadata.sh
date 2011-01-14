@@ -29,6 +29,7 @@ case $metadatasource in
     if [ -z $suffix ] ; then
         suffix="####"
     fi
+    # TODO Make this more secure, for God's sake!
     for param in $(cat $downloadedfile | grep "^$suffix" ) ; do
         save_runtime_config $param
     done

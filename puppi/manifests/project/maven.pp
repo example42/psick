@@ -6,7 +6,7 @@
 # If you need to customize it, either change the template defined here or build up yourn custom ones.
 #
 define puppi::project::maven (
-    $source_url,
+    $source,
     $user,
     $deploy_root,
     $document_root='',
@@ -34,13 +34,17 @@ define puppi::project::maven (
              priority => "10" , command => "check_project.sh" , arguments => "$name" ,
              user => "root" , project => "$name" , enable => $enable;
         "${name}-Get_Maven_Metadata_File":
-             priority => "20" , command => "get_file.sh" , arguments => "$source_url/maven-metadata.xml maven-metadata" ,
+             priority => "20" , command => "get_file.sh" , arguments => "$source/maven-metadata.xml maven-metadata" ,
              user => "root" , project => "$name" , enable => $enable;
         "${name}-Extract_Maven_Metadata":
-             priority => "22" , command => "get_metadata.sh" , arguments => "$suffix" ,
+             priority => "22" , command => "get_metadata.sh" ,
+             arguments => $suffix ? {
+                 ''      => "",
+                 default => "-m $suffix" ,
+             },
              user => "root" , project => "$name" , enable => $enable;
         "${name}-Get_Maven_Files_WAR":
-             priority => "25" , command => "get_maven_files.sh" , arguments => "$source_url warfile" ,
+             priority => "25" , command => "get_maven_files.sh" , arguments => "$source warfile" ,
              user => "root" , project => "$name" , enable => $enable ;
         "${name}-Backup_existing_WAR":
              priority => "30" , command => "archive.sh" , arguments => "-b $deploy_root -t war" ,
@@ -75,7 +79,7 @@ define puppi::project::maven (
 if ($config_root != "") {
     puppi::deploy {
         "${name}-Get_Maven_Files_Config":
-             priority => "26" , command => "get_maven_files.sh" , arguments => "$source_url configfile" ,
+             priority => "26" , command => "get_maven_files.sh" , arguments => "$source configfile" ,
              user => "root" , project => "$name" , enable => $enable ;
         "${name}-Backup_existing_ConfigDir":
              priority => "37" , command => "archive.sh" , arguments => "-b $config_root -t config" ,
@@ -95,7 +99,7 @@ if ($config_root != "") {
 if ($document_root != "") {
     puppi::deploy {
         "${name}-Get_Maven_Files_SRC":
-             priority => "27" , command => "get_maven_files.sh" , arguments => "$source_url srcfile" ,
+             priority => "27" , command => "get_maven_files.sh" , arguments => "$source srcfile" ,
              user => "root" , project => "$name" , enable => $enable ;
         "${name}-Backup_existing_DocumentRoot":
              priority => "35" , command => "archive.sh" , arguments => "-b $document_root -t docroot" ,
@@ -136,12 +140,12 @@ if ($firewall_src_ip != "") {
 if ($init_script != "") {
     puppi::deploy {
         "${name}-Service_restart":
-             priority => "55" , command => "service.sh" , arguments => "$init_script $service" ,
+             priority => "55" , command => "service.sh" , arguments => "$service $init_script" ,
              user => "$user" , project => "$name" , enable => $enable;
     }
     puppi::rollback {
         "${name}-Service_restart":
-             priority => "55" , command => "service.sh" , arguments => "$init_script $service" ,
+             priority => "55" , command => "service.sh" , arguments => "$service $init_script" ,
              user => "$user" , project => "$name" , enable => $enable;
     }
 }

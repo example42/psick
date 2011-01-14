@@ -5,9 +5,8 @@
 #
 class puppi::extra {
 
-    package { curl:
-        ensure => present,
-    }
+    package { curl: ensure => present, }
+    package { rsync: ensure => present, }
 
 }
 

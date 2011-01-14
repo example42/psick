@@ -6,12 +6,22 @@
 # If you need to customize it, either change the template defined here or build up your own custom ones.
 #
 # Variables:
-# $source_url - The full URL to be used to retrive the WAR file. Should be in URI format
+# $source - The full URL to be used to retrive the WAR file. Should be in URI format
 #               Accepted uris are: http(s):// ssh:// file:// svn://  
-# $war_file - The name of the WAR file (even if it's already defined ath the end of $source_url)
-# $user - The usen to be used for deploy operations 
+# $init_source (Optional) - The full URL to be used to retrieve, for the first time, the project files.
+#                           They are copied to the $deploy_root
+#                           Format should be in URI standard (http:// file:// ssh:// svn://)
 # $deploy_root - The destination directory where the WAR has to be deployed
-# $init_script (Optional) - The full path (ex: /etc/init.d/tomcat) of the init script of your AS
+# $user (Optional) - The user to be used for deploy operations 
+# $predeploy_customcommand (Optional) -  Full path with arguments of an eventual custom command to execute before the deploy.
+#                             The command/script is executed as root, if you need to launch commands as a separated user
+#                             manage that inside your custom script
+# $predeploy_user (Optional) - The user to be used to execute the $predeploy_customcommand. By default is the same of $user
+# $postdeploy_customcommand (Optional) - Full path with arguments of an eventual custom command to execute after the deploy.
+#                             The command/script is executed as root, if you need to launch commands as a separated user
+#                             manage that inside your custom script
+# $postdeploy_user (Optional) - The user to be used to execute the $postdeploy_customcommand. By default is the same of $user
+# $init_script (Optional) - The name (ex: tomcat) of the init script of your AS
 #                           If you define it, the AS is stopped and then started during deploy
 # $disable_services (Optional) - The names (space separated) of the services you might want to stop
 #                                during deploy. By default is blank. Example: "puppet monit"
@@ -20,10 +30,14 @@
 # $report_email (Optional) - The (space separated) email(s) to notify of deploy/rollback operations
 #
 define puppi::project::war (
-    $source_url,
-    $war_file,
-    $user,
+    $source,
+    $init_source='',
     $deploy_root,
+    $user="root",
+    $predeploy_customcommand="",
+    $predeploy_user="",
+    $postdeploy_customcommand="",
+    $postdeploy_user="",
     $init_script="",
     $disable_services="",
     $firewall_src_ip="",
@@ -36,26 +50,55 @@ define puppi::project::war (
     # Autoinclude the puppi class
     include puppi
 
+    # Set user values
+    $predeploy_real_user = $predeploy_user ? {
+        ''      => $user,
+	default => $predeploy_user,
+    }
+
+    $postdeploy_real_user = $postdeploy_user ? {
+        ''      => $user,
+	default => $postdeploy_user,
+    }
+
+    # Unless explicitely defined, we assume that the WAR file to use for initialization is the same to use for deploys
+    $init_real_source = $init_source ? {
+        ''      => $source,
+        default => $init_source,
+    }
+
+    # We need the war filename
+    $war_file = urlfilename($source)
+
     # Create Project
     puppi::project { $name: enable => $enable }
+
+    # Populate Project scripts for initialize
+    puppi::initialize {
+        "${name}-Retrieve_Files":
+             priority => "25" , command => "get_file.sh" , arguments => "$init_real_source" ,
+             user => "root" , project => "$name" , enable => $enable ;
+        "${name}-Deploy_Files":
+             priority => "40" , command => "deploy.sh" , arguments => "$deploy_root" ,
+             user => "$user" , project => "$name" , enable => $enable;
+    }
  
     # Populate Project scripts for deploy
-
     puppi::deploy {
         "${name}-Run_PRE-Checks":
              priority => "10" , command => "check_project.sh" , arguments => "$name" ,
              user => "root" , project => "$name" , enable => $enable;
         "${name}-Retrieve_WAR":
-             priority => "20" , command => "get_file.sh" , arguments => "$source_url" ,
+             priority => "20" , command => "get_file.sh" , arguments => "$source" ,
              user => "root" , project => "$name" , enable => $enable ;
-        "${name}-Move_existing_WAR":
+        "${name}-Backup_existing_WAR":
              priority => "30" , command => "archive.sh" , arguments => "-b $deploy_root -t war -s move" ,
              user => "root" , project => "$name" , enable => $enable;
         "${name}-Deploy_WAR":
              priority => "40" , command => "deploy.sh" , arguments => "$deploy_root" ,
              user => "$user" , project => "$name" , enable => $enable;
         "${name}-Run_POST-Checks":
-             priority => "50" , command => "check_project.sh" , arguments => "$name" ,
+             priority => "80" , command => "check_project.sh" , arguments => "$name" ,
              user => "root" , project => "$name" , enable => $enable ;
     }
 
@@ -67,38 +110,66 @@ define puppi::project::war (
              priority => "40" , command => "archive.sh" , arguments => "-r $deploy_root -t war" ,
              user => "$user" , project => "$name" , enable => $enable;
         "${name}-Run_POST-Checks":
-             priority => "50" , command => "check_project.sh" , arguments => "$name" ,
+             priority => "80" , command => "check_project.sh" , arguments => "$name" ,
              user => "root" , project => "$name" , enable => $enable ;
     }
+
+# Run predeploy custom script, if defined
+if ($predeploy_customcommand != "") {
+    puppi::deploy {
+        "${name}-Run_Custom_PreDeploy_Script":
+             priority => "39" , command => "execute.sh" , arguments => "$predeploy_customcommand" ,
+             user => "root" , project => "$name" , enable => $enable;
+    }
+    puppi::rollback {
+        "${name}-Run_Custom_PreDeploy_Script":
+             priority => "39" , command => "execute.sh" , arguments => "$predeploy_customcommand" ,
+             user => "root" , project => "$name" , enable => $enable;
+    }
+}
+
+# Run postdeploy custom script, if defined
+if ($postdeploy_customcommand != "") {
+    puppi::deploy {
+        "${name}-Run_Custom_PostDeploy_Script":
+             priority => "41" , command => "execute.sh" , arguments => "$postdeploy_customcommand" ,
+             user => "root" , project => "$name" , enable => $enable;
+    }
+    puppi::rollback {
+        "${name}-Run_Custom_PostDeploy_Script":
+             priority => "41" , command => "execute.sh" , arguments => "$postdeploy_customcommand" ,
+             user => "root" , project => "$name" , enable => $enable;
+    }
+}
 
 # Application service restart only if $init_script is provided
 if ($init_script != "") {
     puppi::deploy {
         "${name}-Check_undeploy":
-             priority => "33" , command => "checkwardir.sh" , arguments => "$deploy_root/$war_file absent" ,
+             priority => "37" , command => "checkwardir.sh" , arguments => "$deploy_root/$war_file absent" ,
              user => "$user" , project => "$name" , enable => $enable;
         "${name}-Service_stop":
-             priority => "35" , command => "service.sh" , arguments => "$init_script stop" ,
+             priority => "38" , command => "service.sh" , arguments => "stop $init_script" ,
              user => "root" , project => "$name" , enable => $enable;
         "${name}-Service_start":
-             priority => "43" , command => "service.sh" , arguments => "$init_script start" ,
+             priority => "42" , command => "service.sh" , arguments => "start $init_script" ,
              user => "root" , project => "$name" , enable => $enable;
         "${name}-Check_deploy":
-             priority => "45" , command => "checkwardir.sh" , arguments => "$deploy_root/$war_file present" ,
+             priority => "43" , command => "checkwardir.sh" , arguments => "$deploy_root/$war_file present" ,
              user => "$user" , project => "$name" , enable => $enable;
     }
     puppi::rollback {
         "${name}-Check_undeploy":
-             priority => "33" , command => "checkwardir.sh" , arguments => "$deploy_root/$war_file absent" ,
+             priority => "37" , command => "checkwardir.sh" , arguments => "$deploy_root/$war_file absent" ,
              user => "$user" , project => "$name" , enable => $enable;
         "${name}-Service_stop":
-             priority => "35" , command => "service.sh" , arguments => "$init_script stop" ,
+             priority => "38" , command => "service.sh" , arguments => "stop $init_script" ,
              user => "root" , project => "$name" , enable => $enable;
         "${name}-Service_start":
-             priority => "43" , command => "service.sh" , arguments => "$init_script start" ,
+             priority => "42" , command => "service.sh" , arguments => "start $init_script" ,
              user => "root" , project => "$name" , enable => $enable;
         "${name}-Check_deploy":
-             priority => "45" , command => "checkwardir.sh" , arguments => "$deploy_root/$war_file present" ,
+             priority => "43" , command => "checkwardir.sh" , arguments => "$deploy_root/$war_file present" ,
              user => "$user" , project => "$name" , enable => $enable;
     }
 }
@@ -107,28 +178,27 @@ if ($init_script != "") {
 if ($disable_services != "") {
     puppi::deploy {
         "${name}-Disable_extra_services":
-             priority => "34" , command => "service_extra.sh" , arguments => "stop $disable_services" ,
+             priority => "36" , command => "service.sh" , arguments => "stop $disable_services" ,
              user => "root" , project => "$name" , enable => $enable;
         "${name}-Enable_extra_services":
-             priority => "46" , command => "service_extra.sh" , arguments => "start $disable_services" ,
+             priority => "44" , command => "service.sh" , arguments => "start $disable_services" ,
              user => "root" , project => "$name" , enable => $enable;
     }
     puppi::rollback {
         "${name}-Disable_extra_services":
-             priority => "34" , command => "service_extra.sh" , arguments => "stop $disable_services" ,
+             priority => "36" , command => "service.sh" , arguments => "stop $disable_services" ,
              user => "root" , project => "$name" , enable => $enable;
         "${name}-Enable_extra_services":
-             priority => "46" , command => "service_extra.sh" , arguments => "start $disable_services" ,
+             priority => "44" , command => "service.sh" , arguments => "start $disable_services" ,
              user => "root" , project => "$name" , enable => $enable;
     }
 }
-
 
 # Exclusion from Load Balancer is managed only if $firewall_src_ip is set
 if ($firewall_src_ip != "") {
     puppi::deploy {
         "${name}-Load_Balancer_Block":
-             priority => "25" , command => "firewall.sh" , arguments => "$firewall_src_ip $firewall_dst_port on" ,
+             priority => "35" , command => "firewall.sh" , arguments => "$firewall_src_ip $firewall_dst_port on" ,
              user => "root" , project => "$name" , enable => $enable;
         "${name}-Load_Balancer_Unblock":
              priority => "45" , command => "firewall.sh" , arguments => "$firewall_src_ip $firewall_dst_port off" ,
@@ -136,14 +206,13 @@ if ($firewall_src_ip != "") {
     }
     puppi::rollback {
         "${name}-Load_Balancer_Block":
-             priority => "25" , command => "firewall.sh" , arguments => "$firewall_src_ip $firewall_dst_port on" ,
+             priority => "35" , command => "firewall.sh" , arguments => "$firewall_src_ip $firewall_dst_port on" ,
              user => "root" , project => "$name" , enable => $enable;
         "${name}-Load_Balancer_Unblock":
              priority => "45" , command => "firewall.sh" , arguments => "$firewall_src_ip $firewall_dst_port off" ,
              user => "root" , project => "$name" , enable => $enable;
     }
 }
-
 
 # Reporting
 if ($report_email != "") {
