@@ -20,7 +20,11 @@ include		<%= scope.lookupvar('openldap::params::configdir') %>/schema/samba.sche
 pidfile         <%= scope.lookupvar('openldap::params::pidfile') %>
 argsfile        <%= scope.lookupvar('openldap::params::argsfile') %>
 
+<% if scope.lookupvar('openldap::params::multimaster') == "yes" -%>
+loglevel        16384
+<% else -%>
 loglevel        none
+<% end -%>
 
 # Where the dynamically loaded modules are stored
 modulepath	<%= scope.lookupvar('openldap::params::modulepath') %>
@@ -104,7 +108,7 @@ syncrepl        rid=<%= (i+1).to_s %>
                 provider=ldap://<%= master %>
 		binddn="<%= scope.lookupvar('openldap::params::root_dn') %>"
                 bindmethod=simple
-                credentials=example42
+                credentials=<%= scope.lookupvar('openldap::params::rootpw_clear') %>
                 searchbase="<%= scope.lookupvar('openldap::params::base_dn') %>"
                 scope=sub
                 schemachecking=off

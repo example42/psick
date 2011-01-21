@@ -50,6 +50,10 @@ $openldap_multimaster_masters # One or more servers (defined in an array) to be
                               # the name of the "other" server. If you want a multimaster mesh
                               # with N servers, specify here an array containing all the "other"
                               # servers.
+$openldap_extra      # Include extra scripts to manage ldap users (Default: "yes")
+$openldap_extra_user # The user that can run the ldap users management scripts (Default: "root")
+$openldap_extra_dir  # The directory where the exta ldap scripts are placed (Default: "/root/ldap")
+
 
 USAGE:
 # Standard Classes 

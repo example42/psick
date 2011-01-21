@@ -50,6 +50,10 @@ class openldap {
     # SSL (Public certs)
     if "${openldap::params::use_ssl}" == "yes" { include openldap::ssl }
 
+    # Include optional extra tools for users management
+    if "${openldap::params::extra}" == "yes" { include openldap::extra }
+
+
     # Include OS specific subclasses, if necessary
     case $operatingsystem {
         ubuntu: { include openldap::ubuntu }

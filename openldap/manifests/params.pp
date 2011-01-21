@@ -27,6 +27,14 @@ class openldap::params  {
         default => "${openldap_rootpw}",
     }
 
+## Admin password (in cleartext! We'll try to remove this param, currently used in multimaster
+# configuration and extra user creation scripts
+    $rootpw_clear = $openldap_rootpw_clear ? {
+        ''      => 'example42', # Default password is "example42"
+        default => "${openldap_rootpw_clear}",
+    }
+
+
 # Use SSL
     $use_ssl = $openldap_use_ssl ? {
         true    => "yes",
@@ -64,6 +72,27 @@ class openldap::params  {
         ""      => "",
         default => $openldap_multimaster_masters ,
     }
+
+# Add extra scripts and tools for users management
+    $extra = $openldap_extra ? {
+        false   => "no",
+        "false" => "no",
+        "no"    => "no",
+        default => "yes",
+    }
+
+# User who can manage ldap users via the above tools
+    $extra_user = $openldap_extra_user ? {
+        ''      => "root",
+        default => "$openldap_extra_user",
+    }
+
+# Directory where extra scripts are placed
+    $extra_dir = $openldap_extra_dir ? {
+        ''      => "/root/ldap",
+        default => "$openldap_extra_dir",
+    }
+
 
 
 ## EXTRA MODULE INTERNAL VARIABLES
@@ -182,7 +211,7 @@ class openldap::params  {
 
     # Used by backup class - Provide the file name, if there's no dedicated dir
     $logdir = $operatingsystem ? {
-        default => "/var/log/openldap",
+        default => "/var/log/openldap.log",
     }
 
     # Used by monitor and firewall class

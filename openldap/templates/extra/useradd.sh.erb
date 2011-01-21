@@ -1,0 +1,60 @@
+#!/bin/bash
+# Script managed by Puppet
+
+configfile="<%= scope.lookupvar('openldap::params::extra_dir') %>/ldap_params"
+
+# Load general configurations
+if [ ! -f $configfile ] ; then
+    echo "Config file: $configfile not found"
+    exit 1
+else
+    . $configfile
+fi
+
+if [ $# -ne 3 ] 
+then
+	echo "Usage: useradd.sh <login> <first name> <last name>" 
+	exit 1
+fi
+
+if [ `id | grep -c $RUNUSER` -eq 0 ]
+then
+        echo "Only user $RUNUSER can run this script"
+        exit 1
+fi
+
+uid=`ldapsearch -x -LLL -h $SERVER -D "$ROOTDN" -w $ROOTPW  | awk '/uidNumber: / {print $2}' | sort -n | tail -n 1`
+this=`expr $uid + 1`
+
+(
+echo "dn: uid=$1, ou=People, $BASEDN"
+echo "givenName: $2"
+echo "sn: $3"
+echo "loginShell: /bin/bash"
+echo "uidNumber: $this"
+echo "gidNumber: $DEFGID"
+echo "objectClass: top"
+echo "objectClass: person"
+echo "objectClass: organizationalPerson"
+echo "objectClass: inetorgperson"
+echo "objectClass: posixAccount"
+echo "objectClass: shadowAccount"
+echo "uid: $1"
+echo "cn: $2 $3"
+echo "homeDirectory: $BASEHOME/$1"
+echo "shadowLastChange: 0"
+echo "shadowMin: -1"
+echo "shadowMax: 45"
+echo "shadowWarning: 7"
+echo "shadowInactive: 7"
+echo "shadowExpire: -1"
+echo "shadowFlag: 0"
+echo "gecos: $2 $3 (LDAP)"
+echo "userPassword: {CRYPT}U8bo2twhJ9Kkg"
+) | ldapadd -c -x -h $SERVER -D "$ROOTDN" -w $ROOTPW
+
+./chpass.sh $1
+
+mkdir $BASEHOME/$1
+chown $1 $BASEHOME/$1
+
