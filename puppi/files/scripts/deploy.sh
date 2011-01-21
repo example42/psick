@@ -25,10 +25,13 @@ else
 fi
 
 # Obtain the value of the variable with name passed as second argument
-# If no one is given, we take all the files in storedir
+# If no one is given, we take all the files in $predeploydir
 if [ $2 ] ; then
     deployfilevar=$2
     deploy_sourcedir="$(eval "echo \${$(echo ${deployfilevar})}")"
+    if [ "$deploy_sourcedir" = "" ] ; then
+        exit 0
+    fi
 else
     deploy_sourcedir="$predeploydir"
 fi
@@ -37,13 +40,13 @@ fi
 deploy () {
     case "$debug" in
         yes)
-            rsync -av $deploy_sourcedir/ $deploy_destdir/
+            rsync -rlptDv $deploy_sourcedir/ $deploy_destdir/
         ;;
         full)
-            rsync -av $deploy_sourcedir/ $deploy_destdir/
+            rsync -rlptDv $deploy_sourcedir/ $deploy_destdir/
         ;;
         *)
-            rsync -a $deploy_sourcedir/ $deploy_destdir/
+            rsync -rlptD $deploy_sourcedir/ $deploy_destdir/
         ;;
     esac
 }

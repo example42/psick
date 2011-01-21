@@ -1,24 +1,18 @@
-# Define puppi::project::maven
+# Define puppi::project::dir
 #
-# This is a shortcut define to build a puppi project for the deploy of war and tar files generated via Maven and
-# published on Sonar.
+# This is a shortcut define to build a puppi project for a deploy based on the syncronization of a 
+# directory.
 # It uses different existing "core" defines (puppi::project, puppi:deploy (many) , puppi::rollback (many) 
 # to build a full featured template project for automatic deployments.
 # If you need to customize it, either change the template defined here or build up your own custom ones.
 #
 # Variables:
-# $source - The full URL to the maven-metadata.xml file. Format should be in URI standard (http:// file:// ssh:// svn://)  
-# $deploy_root - The destination directory where the war files have to be deployed
-# $user (Optional) - The user to be used for deploy operations  (owner of the files in $deploy_root)
-# $suffix (Optional) - The suffix that might be appended to the src/cfg filenames 
-# $document_root (Optional) - The destination directory where the src tar in unpacked
-# $document_init_source (Optional) - The full URL to be used to retrieve, for the first time, the project files present in the src tar.
-#                           They are copied to the $document_root. Format should be in URI standard (http:// file:// ssh:// svn://)
-# $document_user (Optional) - The user to be used for deploy operations of src tar (owner of the files in $document_root)
-# $config_root (Optional) - The destination directory where the cfg tar in unpacked
-# $config_init_source (Optional) - The full URL to be used to retrieve, for the first time, the project files present in the cfg tar.
-#                           They are copied to the $document_root. Format should be in URI standard (http:// file:// ssh:// svn://)
-# $config_user (Optional) - The user to be used for deploy operations of cfg tar (owner of the files in $config_root)
+# $source - The full URL of the source dir. Format should be in URI standard (rsync:// file:// ssh:// svn://)  
+# $init_source (Optional) - The full URL to be used to retrieve, for the first time, the project files.
+#                           They are copied to the $deploy_root
+#                           Format should be in URI standard (http:// file:// ssh:// svn://)
+# $deploy_root - The destination directory where the files have to be deployed
+# $user (Optional) - The user to be used for deploy operations 
 # $predeploy_customcommand (Optional) -  Full path with arguments of an eventual custom command to execute before the deploy.
 #                             The command/script is executed as root, if you need to launch commands as a separated user
 #                             manage that inside your custom script
@@ -42,17 +36,11 @@
 #                                    directories that you don't want to archive.
 #                                    IE: "--exclude .snapshot --exclude cache --exclude www/cache"
 #
-define puppi::project::maven (
+define puppi::project::dir (
     $source,
+    $init_source='',
     $deploy_root,
-    $user="",
-    $suffix="",
-    $document_root="",
-    $document_init_source="",
-    $document_user="",
-    $config_root="",
-    $config_init_source="",
-    $config_user="",
+    $user="root",
     $predeploy_customcommand="",
     $predeploy_user="",
     $predeploy_priority="39",
@@ -65,7 +53,7 @@ define puppi::project::maven (
     $firewall_dst_port="0",
     $report_email="",
     $backup_rsync_options="--exclude .snapshot",
-    $enable = "true" ) {
+    $enable = 'true' ) {
 
     require puppi::params
 
@@ -83,62 +71,33 @@ define puppi::project::maven (
 	default => $postdeploy_user,
     }
 
-    $config_real_user = $config_user ? {
-        ''      => $user,
-        default => $config_user,
-    }
-
-    $document_real_user = $document_user ? {
-        ''      => $user,
-        default => $document_user,
-    }
-
     # Create Project
     puppi::project { $name: enable => $enable }
 
-
-if ($document_init_source != "") {
+if ($init_source != "") {
+    # Populate Project scripts for initialize
     puppi::initialize {
         "${name}-Retrieve_Files":
-             priority => "25" , command => "get_file.sh" , arguments => "$document_init_source" ,
+             priority => "25" , command => "get_file.sh" , arguments => "$init_source" ,
              user => "root" , project => "$name" , enable => $enable ;
         "${name}-Deploy_Files":
-             priority => "40" , command => "deploy.sh" , arguments => "$document_root" ,
-             user => "$document_real_user" , project => "$name" , enable => $enable;
+             priority => "40" , command => "deploy.sh" , arguments => "$deploy_root" ,
+             user => "$user" , project => "$name" , enable => $enable;
     }
 }
-
-if ($config_init_source != "") {
-    puppi::initialize {
-        "${name}-Retrieve_Src_Files":
-             priority => "25" , command => "get_file.sh" , arguments => "$config_init_source" ,
-             user => "root" , project => "$name" , enable => $enable ;
-        "${name}-Deploy_Src_Files":
-             priority => "40" , command => "deploy.sh" , arguments => "$config_root" ,
-             user => "$config_real_user" , project => "$name" , enable => $enable;
-    }
-}
-
-
+ 
     # Populate Project scripts for deploy
     puppi::deploy {
         "${name}-Run_PRE-Checks":
              priority => "10" , command => "check_project.sh" , arguments => "$name" ,
              user => "root" , project => "$name" , enable => $enable;
-        "${name}-Get_Maven_Metadata_File":
-             priority => "20" , command => "get_file.sh" , arguments => "$source/maven-metadata.xml maven-metadata" ,
-             user => "root" , project => "$name" , enable => $enable;
-        "${name}-Extract_Maven_Metadata":
-             priority => "22" , command => "get_metadata.sh" ,
-             arguments => $suffix ? { '' => "", default => "-m $suffix" , },
-             user => "root" , project => "$name" , enable => $enable;
-        "${name}-Get_Maven_Files_WAR":
-             priority => "25" , command => "get_maven_files.sh" , arguments => "$source warfile" ,
+        "${name}-Sync_Files":
+             priority => "20" , command => "get_file.sh" , arguments => "$source dir" ,
              user => "root" , project => "$name" , enable => $enable ;
-        "${name}-Backup_existing_WAR":
-             priority => "30" , command => "archive.sh" , arguments => "-b $deploy_root -t war -o '$backup_rsync_options'" ,
+        "${name}-Backup_existing_Files":
+             priority => "30" , command => "archive.sh" , arguments => "-b $deploy_root -o '$backup_rsync_options'" ,
              user => "root" , project => "$name" , enable => $enable;
-        "${name}-Deploy_Maven_WAR":
+        "${name}-Deploy":
              priority => "40" , command => "deploy.sh" , arguments => "$deploy_root" ,
              user => "$user" , project => "$name" , enable => $enable;
         "${name}-Run_POST-Checks":
@@ -146,59 +105,14 @@ if ($config_init_source != "") {
              user => "root" , project => "$name" , enable => $enable ;
     }
 
-
     puppi::rollback {
-        "${name}-Recover_WAR":
-             priority => "30" , command => "archive.sh" , arguments => "-r $deploy_root -t war -o '$backup_rsync_options'" ,
+        "${name}-Recover_Files_To_Deploy":
+             priority => "40" , command => "archive.sh" , arguments => "-r $deploy_root -o '$backup_rsync_options'" ,
              user => "$user" , project => "$name" , enable => $enable;
         "${name}-Run_POST-Checks":
-             priority => "50" , command => "check_project.sh" , arguments => "$name" ,
+             priority => "80" , command => "check_project.sh" , arguments => "$name" ,
              user => "root" , project => "$name" , enable => $enable ;
     }
-
-
-# Config tar is managed only if $config_root is set
-if ($config_root != "") {
-    puppi::deploy {
-        "${name}-Get_Maven_Files_Config":
-             priority => "26" , command => "get_maven_files.sh" , arguments => "$source configfile" ,
-             user => "root" , project => "$name" , enable => $enable ;
-        "${name}-Backup_existing_ConfigDir":
-             priority => "37" , command => "archive.sh" , arguments => "-b $config_root -t config -d predeploydir_configfile -o '$backup_rsync_options'" ,
-             user => "root" , project => "$name" , enable => $enable;
-        "${name}-Deploy_Maven_ConfigDir":
-             priority => "40" , command => "deploy.sh" , arguments => "$config_root predeploydir_configfile" ,
-             user => "$config_real_user" , project => "$name" , enable => $enable;
-    }
-    puppi::rollback {
-        "${name}-Recover_ConfigDir":
-             priority => "37" , command => "archive.sh" , arguments => "-r $config_root -t config -o '$backup_rsync_options'" ,
-             user => "$config_real_user" , project => "$name" , enable => $enable;
-    }
-}
-
-# Docroot tar is managed only if $document_root is set
-if ($document_root != "") {
-    puppi::deploy {
-        "${name}-Get_Maven_Files_SRC":
-             priority => "27" , command => "get_maven_files.sh" , arguments => "$source srcfile" ,
-             user => "root" , project => "$name" , enable => $enable ;
-        "${name}-Backup_existing_DocumentRoot":
-             priority => "35" , command => "archive.sh" , arguments => "-b $document_root -t docroot -d predeploydir_srcfile -o '$backup_rsync_options'" ,
-             user => "root" , project => "$name" , enable => $enable;
-        "${name}-Deploy_Maven_DocumentRoot":
-             priority => "40" , command => "deploy.sh" , arguments => "$document_root predeploydir_srcfile" ,
-             user => "$document_real_user" , project => "$name" , enable => $enable;
-    }
-    puppi::rollback {
-        "${name}-Recover_DocumentRoot":
-             priority => "35" , command => "archive.sh" , arguments => "-r $document_root -t docroot -o '$backup_rsync_options'" ,
-             user => "$document_real_user" , project => "$name" , enable => $enable;
-    }
-}
-
-
-
 
 # Run predeploy custom script, if defined
 if ($predeploy_customcommand != "") {
@@ -298,6 +212,5 @@ if ($report_email != "") {
              user => "root" , project => "$name" , enable => $enable ;
     }
 }
-
 
 }

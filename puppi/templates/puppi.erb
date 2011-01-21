@@ -153,7 +153,7 @@ create_runtime_conf () {
     # Clean up and Create runtime configuration file 
     initerr=0
     command="00-$project-RuntimeConfig-Initialization"
-    title="Puppi environment setup: $command"
+    title="Puppi setup: $command"
     code="rm -rf $workdir/$project && touch $workdir/$project/config [...]"
     command="00-$project-RuntimeConfig-Initialization"
     echo -n $title

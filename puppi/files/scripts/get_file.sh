@@ -48,6 +48,10 @@ case $2 in
     save_runtime_config "mavenfile=$downloaddir/$downloadfilename"
     save_runtime_config "metadatasource=maven"
     ;;
+    dir)
+    downloaddir=$predeploydir
+    save_runtime_config "dirfile=$downloaddir/$downloadfilename"
+    save_runtime_config "metadatasource=dir"
 esac
 
 # Define what to use for downloads
@@ -59,7 +63,7 @@ case $type in
         scpuri=$(echo $1 | cut -d'/' -f3-)
         scpconn=$(echo $scpuri | cut -d'/' -f1)
         scppath=/$(echo $scpuri | cut -d'/' -f2-)
-        rsync -a -e ssh $scpconn:$scppath .
+        rsync -rlptD -e ssh $scpconn:$scppath .
         if [ $? = "0" ] ; then
             save_runtime_config "downloadedfile=$downloaddir/$downloadfilename"
             exit 0
@@ -67,7 +71,7 @@ case $type in
             exit 2
         fi
     ;;
-    http|https|file)
+    http|https)
         curl -f $1 -O
         # Manage curl's exit codes
         if [ $? = "0" ] ; then
@@ -90,5 +94,11 @@ case $type in
         else
             exit 2
         fi
+    ;;
+    file)
+        # file:///file/path
+        filesrc=$(echo $1 | cut -d '/' -f3-)
+        rsync -rlptD $filesrc .
+        save_runtime_config "downloadedfile=$downloaddir/$downloadfilename"
     ;;
 esac
