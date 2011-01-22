@@ -106,9 +106,18 @@ xml_parse () {
 save_runtime_config () {
     parameter=$(echo $1 | cut -d '=' -f1)
     value=$(echo $1 | cut -d '=' -f2)
+
     if [ ! $(grep $parameter $workdir/$project/config ) ] ; then
+        echo  >> $workdir/$project/config
+        echo "# Added by $0" >> $workdir/$project/config
+        echo "$parameter=\"$value\"" >> $workdir/$project/config
+    else
+#        sed -i "/^$parameter=/d" $workdir/$project/config # No real need to remove lines with old configs
+        echo  >> $workdir/$project/config
+        echo "# CHANGED by $0" >> $workdir/$project/config
         echo "$parameter=\"$value\"" >> $workdir/$project/config
     fi
+    
 }
 
 # Stores the passed arguments in Project runtime config file

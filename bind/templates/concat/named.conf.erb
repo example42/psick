@@ -1,0 +1,60 @@
+# File Managed by Puppet
+
+options {
+	directory "<%= scope.lookupvar('bind::params::basedir') %>";
+
+<% if scope.lookupvar('bind::params::forwarders') != "" -%>
+        forwarders { <% scope.lookupvar('bind::params::forwarders').each do |item| %><%= item %>; <% end -%>};
+        forward only;
+<% end -%>
+<% if scope.lookupvar('bind::params::also_notify') != "" -%>
+        also-notify { <% scope.lookupvar('bind::params::also_notify').each do |item| %><%= item %>; <% end -%> };
+        notify yes;
+<% end -%>
+
+	allow-recursion { any; };
+     	allow-query { any; };
+     	allow-query-cache { any; };
+
+	auth-nxdomain no;    # conform to RFC1035
+	// listen-on-v6 { any; };
+
+	dump-file 		"data/cache_dump.db";
+        statistics-file 	"data/named_stats.txt";
+        memstatistics-file 	"data/named_mem_stats.txt";
+
+
+};
+
+logging
+{
+<% if scope.lookupvar('bind::params::log') == "syslog" -%>
+        // Logging via Syslog
+	category "default" { "default_syslog"; "default_debug";};
+<% else -%>
+        // Logging to dedicated file
+	channel "bind_log" {
+//	        severity debug;
+        	file "<%= scope.lookupvar('bind::params::logdir') %>/bind.log" versions 5 size 2m;
+        	print-time yes;
+        	print-category yes;
+        	print-severity yes;
+	};
+	category "default" { "bind_log";};
+	category "general" { "bind_log";};
+	category "database" { "bind_log";};
+	category "security" { "bind_log";};
+	category "config" { "bind_log";};
+	category "resolver" { "bind_log";};
+	category "xfer-in" { "bind_log";};
+	category "xfer-out" { "bind_log";};
+	category "notify" { "bind_log";};
+	category "client" { "bind_log";};
+	category "network" { "bind_log";};
+	category "update" { "bind_log";};
+	category "lame-servers" { "null"; };
+	category "queries" { "null";};
+	// category "queries" { "bind_log";};
+<% end -%>
+};
+

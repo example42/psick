@@ -13,6 +13,7 @@ showhelp () {
     echo "-c <none|zip|tar|tar.gz> - Specifies the compression method to use"
     echo "-s <copy|move> - Specifies the backup strategy (move or copy files)"
     echo "-t <tag> - Specifies a tag to be used for the backup"
+    echo "-d <variable> - Specifies the runtime variable that defines the predeploy dir"
     echo 
     echo "Examples:"
     echo "archive.sh -b /var/www/html/my_app -t html -c zip"
@@ -56,6 +57,12 @@ while [ $# -gt 0 ]; do
         *) compression="none" ;;
       esac
       shift 2  ;;
+    -d)
+      predeploydir="$(eval "echo \${$(echo $2)}")"
+      shift 2 ;;
+    -o) 
+      rsyncoptions=$2
+      shift 2 ;;
     *)
       showhelp
       exit
@@ -75,7 +82,7 @@ backup () {
     if [ "$strategy" = "move" ] ; then 
         command="mv"
     else
-        command="rsync -a"
+        command="rsync -a $rsyncoptions"
     fi
 
     for file in $(ls -v1 $predeploydir) ; do
@@ -96,7 +103,7 @@ recovery () {
         echo "Can't find archivedir for this project"
         exit 2
     fi
-    rsync -a $rollbackversion/$backuptag/* $backuproot
+    rsync -a $rsyncoptions $rollbackversion/$backuptag/* $backuproot
 }
 
 # Action!

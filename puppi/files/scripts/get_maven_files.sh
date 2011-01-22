@@ -10,22 +10,38 @@
 
 # Obtain the value of the variable with name passed as second argument
 # If no one is given, we take all the files in storedir
-if [ $2 ] ; then
-    deployfilevar=$2
-    deployfile="$(eval "echo \${$(echo ${deployfilevar})}")"
+
+#echo "Download and deploy $2 ? (Y/n)" 
+#read press
+#case $press in 
+#    Y|y) true ;;
+#    N|n) save_runtime_config "predeploydir_$2=" ; exit 0
+#esac
+
+if [ $debug ] ; then
+    tarcommand="tar -xvf"
 else
-    deployfile="*"
+    tarcommand="tar -xf"
 fi
 
-
-# Get the stuff
-cd $predeploydir
-
-curl $1/$version/$deployfile -O
-if [ $? = "0" ] ; then
-    exit 0 
-else
-    exit 2
-fi
-
-
+cd $storedir
+case $2 in
+    warfile)
+        curl $1/$version/$warfile -O
+        cp -a $warfile $predeploydir/$artifact.war
+    ;;
+    configfile)
+        curl $1/$version/$configfile -O
+        mkdir /tmp/puppi/$project/deploy_configfile
+        cd /tmp/puppi/$project/deploy_configfile
+        $tarcommand $storedir/$configfile
+        save_runtime_config "predeploydir_configfile=/tmp/puppi/$project/deploy_configfile"
+    ;;
+    srcfile)
+        curl $1/$version/$srcfile -O
+        mkdir /tmp/puppi/$project/deploy_srcfile
+        cd /tmp/puppi/$project/deploy_srcfile
+        $tarcommand $storedir/$srcfile
+        save_runtime_config "predeploydir_srcfile=/tmp/puppi/$project/deploy_srcfile"
+    ;;
+esac

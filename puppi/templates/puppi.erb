@@ -83,6 +83,21 @@ deploy () {
     show_report
 }
 
+initialize () {
+    for command in $(ls -v1 $projectsdir/$project/initialize) ; do
+        title="Init: $command"
+        code=$(cat "$projectsdir/$project/initialize/$command")
+        echo -n $title
+        ask_interactive
+        output=$($runcommand "$projectsdir/$project/initialize/$command" 2>&1)
+        handle_result
+        [ "$EXITCRIT" = "1" ] && [ "$force" != "yes" ] && break
+    done
+
+    send_reports
+    show_report
+}
+
 save_summary () {
     tagend=$(date +%Y%m%d-%H%M%S)
 
@@ -138,7 +153,7 @@ create_runtime_conf () {
     # Clean up and Create runtime configuration file 
     initerr=0
     command="00-$project-RuntimeConfig-Initialization"
-    title="Puppi environment setup: $command"
+    title="Puppi setup: $command"
     code="rm -rf $workdir/$project && touch $workdir/$project/config [...]"
     command="00-$project-RuntimeConfig-Initialization"
     echo -n $title
@@ -148,10 +163,10 @@ create_runtime_conf () {
 
     mkdir -p $workdir/$project || initerr=1
 
-    touch $workdir/$project/config || initerr=1
+    cp $projectsdir/$project/config $workdir/$project/ || initerr=1
     chmod 644 $workdir/$project/config || initerr=1
 
-    save_runtime_config "project=$project" || initerr=1
+#    save_runtime_config "project=$project" || initerr=1
     save_runtime_config "tag=$tag" || initerr=1
     save_runtime_config "action=$action" || initerr=1
 
@@ -182,6 +197,7 @@ showhelp () {
    echo " "
    echo "Available commands:"
    echo "check [project] - Run puppi checks host-wide or for a specific project"
+   echo "init <project> - First time project initilization and setup"
    echo "deploy <project> - Deploy the specified project"
    echo "rollback <project> - Rollback the specified project. "
    echo " "
@@ -205,7 +221,7 @@ fi
 
 while [ $# -gt 0 ]; do
   case "$1" in
-    deploy|rollback)
+    deploy|rollback|init)
       export action=$1
       if [ ! -z "$2" ] ; then
         export project=$2
@@ -255,4 +271,5 @@ case $action in
     checkhost) check_host ;;
     rollback) create_runtime_conf ; rollback ;;
     deploy) create_runtime_conf ; deploy ;;
+    init) create_runtime_conf ; initialize ;;
 esac

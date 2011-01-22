@@ -1,0 +1,64 @@
+# File Managed By Puppet
+
+These are the variables used by the module bind
+
+User variables (unfiltered):
+$bind_config = <%= scope.lookupvar('bind_config') %>
+$bind_servertype = <%= scope.lookupvar('bind_servertype') %>
+$bind_chroot = <%= scope.lookupvar('bind_chroot') %>
+$bind_log = <%= scope.lookupvar('bind_log') %>
+$bind_forwarders = <%= scope.lookupvar('bind_forwarders') %>
+$bind_also_notify = <%= scope.lookupvar('bind_also_notify') %>
+
+User variables (after params.pp filter):
+$config = <%= scope.lookupvar('bind::params::config') %>
+$servertype = <%= scope.lookupvar('bind::params::servertype') %>
+$chroot = <%= scope.lookupvar('bind::params::chroot') %>
+$log = <%= scope.lookupvar('bind::params::log') %>
+$forwarders = <%= scope.lookupvar('bind::params::forwarders') %>
+$also_notify = <%= scope.lookupvar('bind::params::also_notify') %>
+
+Extra module variables:
+$chroot_dir = <%= scope.lookupvar('bind::params::chroot_dir') %>
+$basedir = <%= scope.lookupvar('bind::params::basedir') %>
+$user = <%= scope.lookupvar('bind::params::user') %>
+
+General internal variables:
+$packagename = <%= scope.lookupvar('bind::params::packagename') %>
+$servicename = <%= scope.lookupvar('bind::params::servicename') %>
+$processname = <%= scope.lookupvar('bind::params::processname') %>
+$hasstatus = <%= scope.lookupvar('bind::params::hasstatus') %>
+$configfile = <%= scope.lookupvar('bind::params::configfile') %>
+$configfile_mode = <%= scope.lookupvar('bind::params::configfile_mode') %>
+$configfile_owner = <%= scope.lookupvar('bind::params::configfile_owner') %>
+$configfile_group = <%= scope.lookupvar('bind::params::configfile_group') %>
+$configdir = <%= scope.lookupvar('bind::params::configdir') %>
+$initconfigfile = <%= scope.lookupvar('bind::params::initconfigfile') %>
+$pidfile = <%= scope.lookupvar('bind::params::pidfile') %>
+$datadir = <%= scope.lookupvar('bind::params::datadir') %>
+$logdir = <%= scope.lookupvar('bind::params::logdir') %>
+$protocol = <%= scope.lookupvar('bind::params::protocol') %>
+$port = <%= scope.lookupvar('bind::params::port') %>
+
+Variables used by monitor class:
+$monitor_target_real = <%= scope.lookupvar('bind::params::monitor_target_real') %> ( Set with $bind_monitor_target )
+$monitor_baseurl_real = <%= scope.lookupvar('bind::params::monitor_baseurl_real') %> ( Set with $bind_monitor_baseurl )
+$monitor_url_pattern = <%= scope.lookupvar('bind::params::monitor_url_pattern') %> ( Set with $bind_monitor_url_pattern )
+$monitor_port_enable = <%= scope.lookupvar('bind::params::monitor_port_enable') %> ( Set with $bind_monitor_port )
+$monitor_url_enable = <%= scope.lookupvar('bind::params::monitor_url_enable') %> ( Set with $bind_monitor_url )
+$monitor_process_enable = <%= scope.lookupvar('bind::params::monitor_process_enable') %> ( Set with $bind_monitor_process )
+$monitor_plugin_enable = <%= scope.lookupvar('bind::params::monitor_plugin_enable') %> ( Set with $bind_monitor_plugin )
+
+Variables used by backup class:
+$backup_target_real = <%= scope.lookupvar('bind::params::backup_target_real') %> ( Set with $bind_backup_target )
+$backup_frequency = <%= scope.lookupvar('bind::params::backup_frequency') %> ( Set with $bind_backup_frequency )
+$backup_data_enable = <%= scope.lookupvar('bind::params::backup_data_enable') %> ( Set with $bind_backup_data )
+$backup_log_enable = <%= scope.lookupvar('bind::params::backup_log_enable') %> ( Set with $bind_backup_log )
+
+Variables used by firewall class:
+$firewall_source_real = <%= scope.lookupvar('bind::params::firewall_source_real') %> ( Set with $bind_firewall_source )
+$firewall_destination_real = <%= scope.lookupvar('bind::params::firewall_destination_real') %> ( Set with $bind_firewall_destination )
+$firewall_enable = <%= scope.lookupvar('bind::params::firewall_destination_real') %> ( Set with $bind_firewall_enable )
+
+Module base source for static files:
+$general_base_source = <%= scope.lookupvar('bind::params::general_base_source') %> ( Set with $base_source )

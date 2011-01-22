@@ -22,4 +22,11 @@
 #
 class openldap::example42 {
 
+    package { "phpldapadmin":
+        ensure => present,
+    }
+
+    apache::dotconf { "phpldapadmin":
+        source => "puppet:///openldap/example42/phpldapadmin.conf",
+    }
 }

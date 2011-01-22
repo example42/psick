@@ -3,63 +3,74 @@
 These are the variables used by the module openldap
 
 User variables (unfiltered):
-$base_dn = <%= scope.lookupvar('openldap_base_dn') %>
-$root_dn = <%= scope.lookupvar('openldap_root_dn') %>
-$rootpw = NOT SHOWN
-$use_ssl = <%= scope.lookupvar('openldap_use_ssl') %>
-$support_solaris_clients = <%= scope.lookupvar('openldap_support_solaris_clients') %>
-$support_samba = <%= scope.lookupvar('openldap_support_samba') %>
+$openldap_base_dn = <%= scope.lookupvar('openldap_base_dn') %>
+$openldap_root_dn = <%= scope.lookupvar('openldap_root_dn') %>
+$openldap_rootpw = NOT SHOWN
+$openldap_use_ssl = <%= scope.lookupvar('openldap_use_ssl') %>
+$openldap_support_solaris_clients = <%= scope.lookupvar('openldap_support_solaris_clients') %>
+$openldap_support_samba = <%= scope.lookupvar('openldap_support_samba') %>
+$openldap_multimaster = <%= scope.lookupvar('openldap_multimaster') %>
+$openldap_multimaster_masters = <%= scope.lookupvar('openldap_multimaster_masters') %>
+$openldap_extra = <%= scope.lookupvar('openldap_extra') %>
+$openldap_extra_user = <%= scope.lookupvar('openldap_extra_user') %>
+$openldap_extra_dir = <%= scope.lookupvar('openldap_extra_dir') %>
 
 User variables (after params.pp filter):
-$base_dn = <%= scope.lookupvar('openldap::params::base_dn') %>
-$root_dn = <%= scope.lookupvar('openldap::params::root_dn') %>
-$rootpw = NOT SHOWN
-$use_ssl = <%= scope.lookupvar('openldap::params::use_ssl') %>
-$support_solaris_clients = <%= scope.lookupvar('openldap::params::support_solaris_clients') %>
-$support_samba = <%= scope.lookupvar('openldap::params::support_samba') %>
+$openldap::params::base_dn = <%= scope.lookupvar('openldap::params::base_dn') %>
+$openldap::params::root_dn = <%= scope.lookupvar('openldap::params::root_dn') %>
+$openldap::params::rootpw = NOT SHOWN
+$openldap::params::use_ssl = <%= scope.lookupvar('openldap::params::use_ssl') %>
+$openldap::params::support_solaris_clients = <%= scope.lookupvar('openldap::params::support_solaris_clients') %>
+$openldap::params::support_samba = <%= scope.lookupvar('openldap::params::support_samba') %>
+$openldap::params::multimaster = <%= scope.lookupvar('openldap::params::multimaster') %>
+$openldap::params::multimaster_masters = <%= scope.lookupvar('openldap::params::multimaster_masters') %>
+$openldap::params::extra = <%= scope.lookupvar('openldap::params::extra') %>
+$openldap::params::extra_user = <%= scope.lookupvar('openldap::params::extra_user') %>
+$openldap::params::extra_dir = <%= scope.lookupvar('openldap::params::extra_dir') %>
 
 Extra module's variables:
-$db_backend = <%= scope.lookupvar('openldap::params::db_backend') %>
-$argsfile = <%= scope.lookupvar('openldap::params::argsfile') %>
-$modulepath = <%= scope.lookupvar('openldap::params::modulepath') %>
-$certsdir = <%= scope.lookupvar('openldap::params::certsdir') %>
+$openldap::params::db_backend = <%= scope.lookupvar('openldap::params::db_backend') %>
+$openldap::params::argsfile = <%= scope.lookupvar('openldap::params::argsfile') %>
+$openldap::params::modulepath = <%= scope.lookupvar('openldap::params::modulepath') %>
+$openldap::params::certsdir = <%= scope.lookupvar('openldap::params::certsdir') %>
+$openldap::params::certsdir = <%= scope.lookupvar('openldap::params::certsdir') %>
 
 General internal variables:
-$packagename = <%= scope.lookupvar('openldap::params::packagename') %>
-$servicename = <%= scope.lookupvar('openldap::params::servicename') %>
-$processname = <%= scope.lookupvar('openldap::params::processname') %>
-$hasstatus = <%= scope.lookupvar('openldap::params::hasstatus') %>
-$configfile = <%= scope.lookupvar('openldap::params::configfile') %>
-$configfile_mode = <%= scope.lookupvar('openldap::params::configfile_mode') %>
-$configfile_owner = <%= scope.lookupvar('openldap::params::configfile_owner') %>
-$configfile_group = <%= scope.lookupvar('openldap::params::configfile_group') %>
-$configdir = <%= scope.lookupvar('openldap::params::configdir') %>
-$initconfigfile = <%= scope.lookupvar('openldap::params::initconfigfile') %>
-$pidfile = <%= scope.lookupvar('openldap::params::pidfile') %>
-$datadir = <%= scope.lookupvar('openldap::params::datadir') %>
-$logdir = <%= scope.lookupvar('openldap::params::logdir') %>
-$protocol = <%= scope.lookupvar('openldap::params::protocol') %>
-$port = <%= scope.lookupvar('openldap::params::port') %>
+$openldap::params::packagename = <%= scope.lookupvar('openldap::params::packagename') %>
+$openldap::params::servicename = <%= scope.lookupvar('openldap::params::servicename') %>
+$openldap::params::processname = <%= scope.lookupvar('openldap::params::processname') %>
+$openldap::params::hasstatus = <%= scope.lookupvar('openldap::params::hasstatus') %>
+$openldap::params::configfile = <%= scope.lookupvar('openldap::params::configfile') %>
+$openldap::params::configfile_mode = <%= scope.lookupvar('openldap::params::configfile_mode') %>
+$openldap::params::configfile_owner = <%= scope.lookupvar('openldap::params::configfile_owner') %>
+$openldap::params::configfile_group = <%= scope.lookupvar('openldap::params::configfile_group') %>
+$openldap::params::configdir = <%= scope.lookupvar('openldap::params::configdir') %>
+$openldap::params::initconfigfile = <%= scope.lookupvar('openldap::params::initconfigfile') %>
+$openldap::params::pidfile = <%= scope.lookupvar('openldap::params::pidfile') %>
+$openldap::params::datadir = <%= scope.lookupvar('openldap::params::datadir') %>
+$openldap::params::logdir = <%= scope.lookupvar('openldap::params::logdir') %>
+$openldap::params::protocol = <%= scope.lookupvar('openldap::params::protocol') %>
+$openldap::params::port = <%= scope.lookupvar('openldap::params::port') %>
 
 Variables used by monitor class:
-$monitor_target_real = <%= scope.lookupvar('openldap::params::monitor_target_real') %> ( Set with $openldap_monitor_target )
-$monitor_baseurl_real = <%= scope.lookupvar('openldap::params::monitor_baseurl_real') %> ( Set with $openldap_monitor_baseurl )
-$monitor_url_pattern = <%= scope.lookupvar('openldap::params::monitor_url_pattern') %> ( Set with $openldap_monitor_url_pattern )
-$monitor_port_enable = <%= scope.lookupvar('openldap::params::monitor_port_enable') %> ( Set with $openldap_monitor_port )
-$monitor_url_enable = <%= scope.lookupvar('openldap::params::monitor_url_enable') %> ( Set with $openldap_monitor_url )
-$monitor_process_enable = <%= scope.lookupvar('openldap::params::monitor_process_enable') %> ( Set with $openldap_monitor_process )
-$monitor_plugin_enable = <%= scope.lookupvar('openldap::params::monitor_plugin_enable') %> ( Set with $openldap_monitor_plugin )
+$openldap::params::monitor_target_real = <%= scope.lookupvar('openldap::params::monitor_target_real') %> ( Set with $openldap::params::openldap_monitor_target )
+$openldap::params::monitor_baseurl_real = <%= scope.lookupvar('openldap::params::monitor_baseurl_real') %> ( Set with $openldap::params::openldap_monitor_baseurl )
+$openldap::params::monitor_url_pattern = <%= scope.lookupvar('openldap::params::monitor_url_pattern') %> ( Set with $openldap::params::openldap_monitor_url_pattern )
+$openldap::params::monitor_port_enable = <%= scope.lookupvar('openldap::params::monitor_port_enable') %> ( Set with $openldap::params::openldap_monitor_port )
+$openldap::params::monitor_url_enable = <%= scope.lookupvar('openldap::params::monitor_url_enable') %> ( Set with $openldap::params::openldap_monitor_url )
+$openldap::params::monitor_process_enable = <%= scope.lookupvar('openldap::params::monitor_process_enable') %> ( Set with $openldap::params::openldap_monitor_process )
+$openldap::params::monitor_plugin_enable = <%= scope.lookupvar('openldap::params::monitor_plugin_enable') %> ( Set with $openldap::params::openldap_monitor_plugin )
 
 Variables used by backup class:
-$backup_target_real = <%= scope.lookupvar('openldap::params::backup_target_real') %> ( Set with $openldap_backup_target )
-$backup_frequency = <%= scope.lookupvar('openldap::params::backup_frequency') %> ( Set with $openldap_backup_frequency )
-$backup_data_enable = <%= scope.lookupvar('openldap::params::backup_data_enable') %> ( Set with $openldap_backup_data )
-$backup_log_enable = <%= scope.lookupvar('openldap::params::backup_log_enable') %> ( Set with $openldap_backup_log )
+$openldap::params::backup_target_real = <%= scope.lookupvar('openldap::params::backup_target_real') %> ( Set with $openldap::params::openldap_backup_target )
+$openldap::params::backup_frequency = <%= scope.lookupvar('openldap::params::backup_frequency') %> ( Set with $openldap::params::openldap_backup_frequency )
+$openldap::params::backup_data_enable = <%= scope.lookupvar('openldap::params::backup_data_enable') %> ( Set with $openldap::params::openldap_backup_data )
+$openldap::params::backup_log_enable = <%= scope.lookupvar('openldap::params::backup_log_enable') %> ( Set with $openldap::params::openldap_backup_log )
 
 Variables used by firewall class:
-$firewall_source_real = <%= scope.lookupvar('openldap::params::firewall_source_real') %> ( Set with $openldap_firewall_source )
-$firewall_destination_real = <%= scope.lookupvar('openldap::params::firewall_destination_real') %> ( Set with $openldap_firewall_destination )
-$firewall_enable = <%= scope.lookupvar('openldap::params::firewall_destination_real') %> ( Set with $openldap_firewall_enable )
+$openldap::params::firewall_source_real = <%= scope.lookupvar('openldap::params::firewall_source_real') %> ( Set with $openldap::params::openldap_firewall_source )
+$openldap::params::firewall_destination_real = <%= scope.lookupvar('openldap::params::firewall_destination_real') %> ( Set with $openldap::params::openldap_firewall_destination )
+$openldap::params::firewall_enable = <%= scope.lookupvar('openldap::params::firewall_destination_real') %> ( Set with $openldap::params::openldap_firewall_enable )
 
 Module base source for static files:
-$general_base_source = <%= scope.lookupvar('openldap::params::general_base_source') %> ( Set with $base_source )
+$openldap::params::general_base_source = <%= scope.lookupvar('openldap::params::general_base_source') %> ( Set with $openldap::params::base_source )

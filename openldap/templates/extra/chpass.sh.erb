@@ -1,0 +1,39 @@
+#!/bin/bash
+# Script managed by Puppet
+
+configfile="<%= scope.lookupvar('openldap::params::extra_dir') %>/ldap_params"
+
+# Load general configurations
+if [ ! -f $configfile ] ; then
+    echo "Config file: $configfile not found"
+    exit 1
+else
+    . $configfile
+fi
+
+# Check arguments
+if [ "$1" = "" ]
+then
+	echo "Usage: $0 <uid>"
+	exit 1
+fi
+
+# Check User
+if [ `id | grep -c $RUNUSER` -eq 0 ]
+then
+        echo "Only user $RUNUSER can run this script"
+        exit 1
+fi
+
+# Change pw
+echo "Changing password for user $1"
+ldappasswd -x -h $SERVER -D "$ROOTDN" -w $ROOTPW -S "uid=$1,ou=People,$BASEDN"
+
+echo "Resetting shadowLastChange counter"
+(
+echo "dn: uid=$1,ou=People,$BASEDN"
+echo "changetype: modify"
+echo "replace: shadowLastChange"
+echo "shadowLastChange: 0"
+) | ldapmodify -x -h $SERVER -D "$ROOTDN" -w $ROOTPW
+

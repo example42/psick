@@ -1,0 +1,30 @@
+#!/bin/bash
+# Script managed by Puppet
+
+configfile="<%= scope.lookupvar('openldap::params::extra_dir') %>/ldap_params"
+
+ldapservers="<%= fqdn %><% scope.lookupvar('openldap::params::multimaster_masters').each do |master| -%> <%= master -%><% end -%>"
+
+
+# Load general configurations
+if [ ! -f $configfile ] ; then
+    echo "Config file: $configfile not found"
+    exit 1
+else
+    . $configfile
+fi
+
+# Check arguments
+if [ "$1" = "" ]
+then
+	echo "Usage: $0 <uid>"
+	exit 1
+fi
+
+for server in $ldapservers ; do
+    echo "-------------------------------------------"
+    echo "Ldap server: $server"
+    echo "-------------------------------------------"
+    ldapsearch -x -LLL -D "$ROOTDN" -w $ROOTPW -h $server "uid=$1"
+done
+

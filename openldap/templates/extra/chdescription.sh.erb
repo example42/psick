@@ -1,0 +1,29 @@
+#!/bin/bash
+# Script managed by Puppet
+
+configfile="<%= scope.lookupvar('openldap::params::extra_dir') %>/ldap_params"
+
+# Load general configurations
+if [ ! -f $configfile ] ; then
+    echo "Config file: $configfile not found"
+    exit 1
+else
+    . $configfile
+fi
+
+# Check arguments
+if [ "$2" = "" ]
+then
+	echo "Usage: $0 <uid> <description>"
+	exit 1
+fi
+
+echo "Changing description for user $1"
+
+(
+echo "dn: uid=$1,ou=People,$BASEDN"
+echo "changetype: modify"
+echo "replace: description"
+echo "description: $2"
+) | ldapmodify -x -h $SERVER -D "$ROOTDN" -w $ROOTPW
+

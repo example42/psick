@@ -1,0 +1,109 @@
+Puppet module: bind
+
+# Written by Lab42 #
+# http://www.Example42.com
+
+Licence: GPLv3
+
+DESCRIPTION:
+This module installs and manages bind.
+It's based on Example42's module structure and features standard and
+extended classes for automatic monitoring, backup and firewalling.
+
+All the variables used in this module are defined in the bind::params class
+(File: $MODULEPATH/bind/manifests/params.pp). Here you can:
+- Set default settings and filtering module's specific Users variables
+- Add selectors for internal variables to adapt the module to different OSes
+- Review and eventually change default settings for variables that affect the
+  Example42 extended classes.
+
+Customizations for different projects and logic on how to populate configuration
+files should be placed in the $my_project classes.
+
+
+MODULE'S SPECIFIC USER VARIABLES:
+$bind_config # Define how you want to manage named.conf:
+             # "file" - To provide named.conf as a normal template
+             # "concat" - To build up named.conf using different fragments (default)
+$bind_servertype # Define what kind of server installation you want
+                 # "master" - Master server. Authoritative for at least a zone.
+                 # "slave" - Slave server. Authoritative for at least a zone.
+                 # "cache" - Chaching only nameserver. Not autoritative
+$bind_chroot # Define if you want to install bind-chroot packages (only on RedHat/Centos)
+$bind_log # Define if you want to log on syslog or custom file ($logdir/bind.log)
+$bind_forwarders # Define global forwarders (Can be an array)
+$bind_also_notify # # Define global slaves to notify (option also-notify) 
+
+USAGE:
+# Standard Classes 
+include bind              # Install and run bind 
+
+include bind::disable     # Disable bind service.
+include bind::disableboot # Disable bind service at boot time, but don't stop if is running.
+include bind::absent      # Remove bind package.
+include bind::debug       # Used for debugging purposes (not resource hungry)
+                         # Automatically included if $debug=yes
+                         # Requires Example42's puppet::params and puppet::debug
+
+# Extended Classes (generally require storeconfigs)
+include bind::monitor     # Monitor bind
+                         # Automatically included if $monitor=yes
+                         # Requires Example42's monitor module
+include bind::backup      # Backup bind data
+                         # Automatically included if $backup=yes
+                         # Requires Example42's backup module
+include bind::firewall    # Manages firewall rules for bind service
+                         # Automatically included if $firewall=yes
+                         # Requires Example42's firewall module
+
+# Generic define to set parameters in the main configuration file. EXPERIMENTAL.
+bind::conf { "ParameterName": value="YourValue"} # Generic 
+
+# Module specific classes
+
+# Module specific defines
+bind::zone # Adds a custom bind zone, as concat fragment, to named.conf 
+
+EXAMPLE42 GENERAL VARIABLES:
+Example42 modules collection uses some general variables that can influence the
+behaviour of this module. You can happily live without considering or setting them,
+but they can be useful to get many useful features out of the box.
+$my_project - If set, permits you to alter and customize the module behaviour
+  and files's deploy logic in custom project classes
+$my_project_onmodule - If set to yes your project classes are looked in a
+  dedicated project module:
+  - $my_project_onmodule not set -> Module autoloads bind::$my_module
+                                    (MODULEPATH/bind/manifests/$my_project.pp)
+  - $my_project_onmodule == yes  -> Module autoloads $my_module::bind
+                                    (MODULEPATH/$my_project/manifests/bind.pp)
+$base_source - Lets you define an alternative source for static files:
+  - $base_source not set -> Files are looked in puppet://$servername/ (the PuppetMaster)
+  - $base_source set -> Files are in $base_source ( Ex: puppet://$servername/$my_module ) 
+  Note that the module automatically manages the different paths for Puppet pre 0.25
+$debug - If set to yes writes in /var/lib/puppet/debug/ useful debugging info
+
+VARIABLES FOR EXTENDED MODULES:
+$monitor - Set to "yes" to enable auto monitoring classes 
+$monitor_tool - Defines the monitor tools to activate (At leat one, can be an array)
+Check bind/manifests/monitor.pp for more info on bind monitoring related variables.
+
+$backup - Set to "yes" to enable auto backuping classes 
+$backup_tool - Defines the backup tools to activate (At leat one, can be an array)
+Check bind/manifests/backup.pp for more info on bind backuping related variables.
+
+
+DEPENDENCIES:
+Standard classes generally don't need external modules.
+Extended classes need the relevant external modules and the Example42 "common" module.
+bind::conf generic infile configuration define needs the Example42 "common" module
+
+
+OPERATING SYSTEMS SUPPORT (Planned, Development, Testing, Production):
+RedHat/Centos 5 : Testing
+RedHat/Centos 6 : Testing
+Debian 5        : Testing
+Debian 6        : Planned
+Ubuntu 8.04     : Testing
+Ubuntu 10.04    : Testing
+SLES 10         : Planned
+SLES 11         : Planned

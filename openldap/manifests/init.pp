@@ -47,6 +47,13 @@ class openldap {
     # Support for Samba (Use OpenLdap as Samba backend)
     if "${openldap::params::support_samba}" == "yes" { include openldap::samba }
 
+    # SSL (Public certs)
+    if "${openldap::params::use_ssl}" == "yes" { include openldap::ssl }
+
+    # Include optional extra tools for users management
+    if "${openldap::params::extra}" == "yes" { include openldap::extra }
+
+
     # Include OS specific subclasses, if necessary
     case $operatingsystem {
         ubuntu: { include openldap::ubuntu }

@@ -1,29 +1,42 @@
 #!/bin/bash
 # service.sh - Made for Puppi
-# This script is a very basic generic wrapper to restart/reload services after a deploy
-# It just runs $1 followed by $2 (!)
 
 # Sources common header for Puppi scripts
 . $(dirname $0)/header || exit 10
 
+# Show help
+showhelp () {
+    echo "This script is used to manage one or more services"
+    echo "It requires AT LEAST 2 arguments:"
+    echo "First argument (\$1 - required) is the script command (stop|start|restart|reload)"
+    echo "Second argument and following (\$2 - required) is the space separated list of sevices to manage"
+    echo
+    echo "Examples:"
+    echo "service.sh stop monit puppet"
+}
+
 # Check arguments
 if [ $1 ] ; then
-    servicescript=$1
+    servicecommand=$1
 else
-    echo "You must provide at least a service script name!"
+    showhelp
     exit 2
 fi
 
-if [ $2 ] ; then
-    servicecommand=$2
+
+if [ $# -ge 2 ] ; then
+    shift
+    services=$@
 else
-    servicecommand="restart"
+    showhelp
+    exit 2
 fi
 
 # Manage service
 service () {
-    $servicescript $servicecommand
+    for serv in $services ; do
+        /etc/init.d/$serv $servicecommand
+    done
 }
 
 service
-
