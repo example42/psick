@@ -1,0 +1,70 @@
+# File managed by Puppet
+
+# Load Average
+define service {
+    host_name           <%= host_name %>
+    service_description Load_Average
+    check_command       check_nrpe!check_load!noarg
+    use                 <%= use %>
+}
+
+# Swap Usage
+define service {
+    host_name           <%= host_name %>
+    service_description Swap_Usage
+    check_command       check_nrpe!check_swap!noarg
+    use                 <%= use %>
+}
+
+# Disk Usage
+define service {
+    host_name           <%= host_name %>
+    service_description All_Disks_Usage
+    check_command       check_nrpe!check_all_disks!noarg
+    use                 <%= use %>
+}
+
+# Zombie Processes
+define service {
+    host_name           <%= host_name %>
+    service_description Zombie_Processes
+    check_command       check_nrpe!check_zombie_procs!noarg
+    use                 <%= use %>
+}
+
+# Connected Users
+define service {
+    host_name           <%= host_name %>
+    service_description Connected_Users
+    check_command       check_nrpe!check_users!noarg
+    use                 <%= use %>
+}
+
+# Mail Queues
+#define service {
+#    host_name           <%= host_name %>
+#    service_description Mail_Queue
+#    check_command       check_nrpe!check_mailq!noarg
+#    use                 <%= use %>
+#}
+
+<% if scope.lookupvar("ntp_server") != "" -%>
+# NTP Sync
+define service {
+    host_name           <%= host_name %>
+    service_description NTP_Sync
+    check_command       check_nrpe!check_ntp!noarg
+    use                 <%= use %>
+}
+<% end -%>
+
+<% if operatingsystem == "Debian" || operatingsystem == "Ubuntu" -%>
+# APT Updates
+define service {
+    host_name           <%= host_name %>
+    service_description APT_Updates
+    check_command       check_nrpe!check_apt!noarg
+    use                 <%= use %>
+}
+<% end -%>
+
