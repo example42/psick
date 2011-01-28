@@ -1,0 +1,15 @@
+Puppet module: mailx
+
+# Written by Matteo Cappadonna #
+
+Licence: GPLv3
+
+DESCRIPTION:
+This module manages installation of mailx on different OS
+
+
+USER VARIABLES:
+
+USAGE:
+# Standard Classes 
+include maix              # Install mailx package
