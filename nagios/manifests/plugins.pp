@@ -23,4 +23,9 @@ class nagios::plugins {
         ensure => present,
     }
 
+    # Include Extra custom Plugins (Provided via Puppet)
+    if ( $nagios::params::plugins != "no") { 
+        nagios::plugin { "check_mount": } 
+    }
+
 }

@@ -49,7 +49,7 @@ downloadfiles () {
                 fi
             ;;
             http|https|file)
-                curl $baseurl/$filepath -o $filepath
+                curl -s $baseurl/$filepath -o $filepath
                 if [ $? = "0" ] ; then
                     true
                 else
@@ -62,7 +62,7 @@ downloadfiles () {
                 svnpassword=$(echo $svnuri | cut -d':' -f2 | cut -d'@' -f1)
                 svnserver=$(echo $svnuri | cut -d'@' -f2 | cut -d'/' -f1)
                 svnpath=/$(echo $svnuri | cut -d'@' -f2 | cut -d'/' -f2-)
-                svn --export --username=$svnusername --password=$svnpassword $svnserver $svnpath 
+                svn export --username=$svnusername --password=$svnpassword $svnserver $svnpath 
                 if [ $? = "0" ] ; then
                     true
                 else

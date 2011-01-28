@@ -74,7 +74,7 @@ class nagios {
         }
     }
 
-    # Collects all the stored configs regarding nagios 
+    # Collects all the stored configs regarding nagios 
     # If nagios_grouplogic is defined different Nagios server collect the relevant data
     case $nagios::params::grouptag {
         "": {
@@ -88,7 +88,8 @@ class nagios {
 #       File <<| tag == "nagios_hostgroup_$nagios::params::grouptag" |>>
         }
     }
-    
+
+
     # Include OS specific subclasses, if necessary
     case $operatingsystem {
         default: { }

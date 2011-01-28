@@ -40,14 +40,19 @@ class nagios::params  {
          default => "no"
     }
 
-    # Configure Nagios for using SSL for NRPE Checks
+# Define if you want to include extra plugins
+    $plugins = $nagios_plugins ? {
+        ''      => "yes",
+        default => "${nagios_plugins}",
+    }
+
+# Configure Nagios for using SSL for NRPE Checks
     $use_ssl = $nagios_use_ssl ? {
          'no'    => "no",
          false   => "no",
          'false' => "no",
          default => "yes"
     }
-
 
 ## EXTRA VARIABLES
 # The directory where we place automatic Nagios confingurations MUST be fixed

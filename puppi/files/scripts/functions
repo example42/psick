@@ -120,6 +120,14 @@ save_runtime_config () {
     
 }
 
+# Adds a runtime comment to Project runtime config file
+save_runtime_comment () {
+    echo  >> $workdir/$project/config
+    echo "# Added by $0" >> $workdir/$project/config
+    echo "  ## $1" >> $workdir/$project/config
+}
+
+
 # Stores the passed arguments in Project runtime config file
 # Forces parameter overwrite if already defined
 overwrite_runtime_config () {

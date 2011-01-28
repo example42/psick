@@ -85,11 +85,8 @@ define puppi::project::war (
 
     # Populate Project scripts for initialize
     puppi::initialize {
-        "${name}-Retrieve_Files":
-             priority => "25" , command => "get_file.sh" , arguments => "$init_real_source" ,
-             user => "root" , project => "$name" , enable => $enable ;
         "${name}-Deploy_Files":
-             priority => "40" , command => "deploy.sh" , arguments => "$deploy_root" ,
+             priority => "40" , command => "get_file.sh" , arguments => "-s $init_real_source -d $deploy_root" ,
              user => "$user" , project => "$name" , enable => $enable;
     }
  
@@ -99,7 +96,7 @@ define puppi::project::war (
              priority => "10" , command => "check_project.sh" , arguments => "$name" ,
              user => "root" , project => "$name" , enable => $enable;
         "${name}-Retrieve_WAR":
-             priority => "20" , command => "get_file.sh" , arguments => "$source" ,
+             priority => "20" , command => "get_file.sh" , arguments => "-s $source" ,
              user => "root" , project => "$name" , enable => $enable ;
         "${name}-Backup_existing_WAR":
              priority => "30" , command => "archive.sh" , arguments => "-b $deploy_root -t war -s move -o '$backup_rsync_options'" ,

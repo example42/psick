@@ -2,11 +2,17 @@
 
 These are the variables used by the module nagios
 
-User variables:
-$nagios_check_external_commands = <%= scope.lookupvar('nagios::params::check_external_commands') %>
-$nagios_use_ssl = <%= scope.lookupvar('nagios::params::use_ssl') %>
-$nagios_grouplogic = <%= scope.lookupvar('nagios::params::nagios_grouplogic') %>
+User variables (unfiltered):
+$nagios_check_external_commands = <%= scope.lookupvar('nagios_check_external_commands') %>
+$nagios_grouplogic = <%= scope.lookupvar('nagios_grouplogic') %>
+$nagios_plugins = <%= scope.lookupvar('nagios_plugins') %>
+$nagios_use_ssl = <%= scope.lookupvar('nagios_use_ssl') %>
+
+User variables (after params.pp filter):
+$check_external_commands = <%= scope.lookupvar('nagios::params::check_external_commands') %>
 $grouptag = <%= scope.lookupvar('nagios::params::grouptag') %>
+$plugins = <%= scope.lookupvar('nagios::params::plugins') %>
+$use_ssl = <%= scope.lookupvar('nagios::params::use_ssl') %>
 
 Extra variables:
 $customconfigdir = <%= scope.lookupvar('nagios::params::customconfigdir') %>

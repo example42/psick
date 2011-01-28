@@ -76,12 +76,9 @@ define puppi::project::tar (
 if ($init_source != "") {
     # Populate Project scripts for initialize
     puppi::initialize {
-        "${name}-Retrieve_Files":
-             priority => "25" , command => "get_file.sh" , arguments => "$init_source" ,
-             user => "root" , project => "$name" , enable => $enable ;
         "${name}-Deploy_Files":
-             priority => "40" , command => "deploy.sh" , arguments => "$deploy_root" ,
-             user => "$user" , project => "$name" , enable => $enable;
+             priority => "40" , command => "get_file.sh" , arguments => "-s $init_source -d $deploy_root" ,
+             user => "$user" , project => "$name" , enable => $enable ;
     }
 }
  
@@ -91,7 +88,7 @@ if ($init_source != "") {
              priority => "10" , command => "check_project.sh" , arguments => "$name" ,
              user => "root" , project => "$name" , enable => $enable;
         "${name}-Retrieve_TarBall":
-             priority => "20" , command => "get_file.sh" , arguments => "$source tarball" ,
+             priority => "20" , command => "get_file.sh" , arguments => "-s $source -t tarball" ,
              user => "root" , project => "$name" , enable => $enable ;
         "${name}-PreDeploy_Tar":
              priority => "25" , command => "predeploy_tar.sh" , arguments => "tarfile" ,

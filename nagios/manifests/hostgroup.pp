@@ -23,7 +23,7 @@ define nagios::hostgroup (
         content => template( "nagios/hostgroup.erb" ),
         tag     => "${nagios::params::grouptag}" ? {
             ''       => "nagios_hostgroup",
-            default  => "nagios_hostgroup_$nagios::params::grouptag",
+            default  => "nagios_hostgroup_${nagios::params::grouptag}",
         },
     }
 
