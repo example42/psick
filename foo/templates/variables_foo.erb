@@ -6,44 +6,44 @@ User variables (unfiltered):
 # $foo_server = <%= scope.lookupvar('foo_server') %>
 
 User variables (after params.pp filter):
-# $server = <%= scope.lookupvar('foo::params::server') %>
+# $foo::params::server = <%= scope.lookupvar('foo::params::server') %>
 
 General internal variables:
-$packagename = <%= scope.lookupvar('foo::params::packagename') %>
-$servicename = <%= scope.lookupvar('foo::params::servicename') %>
-$processname = <%= scope.lookupvar('samba::params::processname') %>
-$hasstatus = <%= scope.lookupvar('foo::params::hasstatus') %>
-$configfile = <%= scope.lookupvar('foo::params::configfile') %>
-$configfile_mode = <%= scope.lookupvar('foo::params::configfile_mode') %>
-$configfile_owner = <%= scope.lookupvar('foo::params::configfile_owner') %>
-$configfile_group = <%= scope.lookupvar('foo::params::configfile_group') %>
-$configdir = <%= scope.lookupvar('foo::params::configdir') %>
-$initconfigfile = <%= scope.lookupvar('foo::params::initconfigfile') %>
-$pidfile = <%= scope.lookupvar('foo::params::pidfile') %>
-$datadir = <%= scope.lookupvar('foo::params::datadir') %>
-$logdir = <%= scope.lookupvar('foo::params::logdir') %>
-$protocol = <%= scope.lookupvar('foo::params::protocol') %>
-$port = <%= scope.lookupvar('foo::params::port') %>
+$foo::params::packagename = <%= scope.lookupvar('foo::params::packagename') %>
+$foo::params::servicename = <%= scope.lookupvar('foo::params::servicename') %>
+$foo::params::processname = <%= scope.lookupvar('foo::params::processname') %>
+$foo::params::hasstatus = <%= scope.lookupvar('foo::params::hasstatus') %>
+$foo::params::configfile = <%= scope.lookupvar('foo::params::configfile') %>
+$foo::params::configfile_mode = <%= scope.lookupvar('foo::params::configfile_mode') %>
+$foo::params::configfile_owner = <%= scope.lookupvar('foo::params::configfile_owner') %>
+$foo::params::configfile_group = <%= scope.lookupvar('foo::params::configfile_group') %>
+$foo::params::configdir = <%= scope.lookupvar('foo::params::configdir') %>
+$foo::params::initconfigfile = <%= scope.lookupvar('foo::params::initconfigfile') %>
+$foo::params::pidfile = <%= scope.lookupvar('foo::params::pidfile') %>
+$foo::params::datadir = <%= scope.lookupvar('foo::params::datadir') %>
+$foo::params::logdir = <%= scope.lookupvar('foo::params::logdir') %>
+$foo::params::protocol = <%= scope.lookupvar('foo::params::protocol') %>
+$foo::params::port = <%= scope.lookupvar('foo::params::port') %>
 
 Variables used by monitor class:
-$monitor_target_real = <%= scope.lookupvar('foo::params::monitor_target_real') %> ( Set with $foo_monitor_target )
-$monitor_baseurl_real = <%= scope.lookupvar('foo::params::monitor_baseurl_real') %> ( Set with $foo_monitor_baseurl )
-$monitor_url_pattern = <%= scope.lookupvar('foo::params::monitor_url_pattern') %> ( Set with $foo_monitor_url_pattern )
-$monitor_port_enable = <%= scope.lookupvar('foo::params::monitor_port_enable') %> ( Set with $foo_monitor_port )
-$monitor_url_enable = <%= scope.lookupvar('foo::params::monitor_url_enable') %> ( Set with $foo_monitor_url )
-$monitor_process_enable = <%= scope.lookupvar('foo::params::monitor_process_enable') %> ( Set with $foo_monitor_process )
-$monitor_plugin_enable = <%= scope.lookupvar('foo::params::monitor_plugin_enable') %> ( Set with $foo_monitor_plugin )
+$foo::params::monitor_target_real = <%= scope.lookupvar('foo::params::monitor_target_real') %> ( Set with $foo_monitor_target )
+$foo::params::monitor_baseurl_real = <%= scope.lookupvar('foo::params::monitor_baseurl_real') %> ( Set with $foo_monitor_baseurl )
+$foo::params::monitor_url_pattern = <%= scope.lookupvar('foo::params::monitor_url_pattern') %> ( Set with $foo_monitor_url_pattern )
+$foo::params::monitor_port_enable = <%= scope.lookupvar('foo::params::monitor_port_enable') %> ( Set with $foo_monitor_port )
+$foo::params::monitor_url_enable = <%= scope.lookupvar('foo::params::monitor_url_enable') %> ( Set with $foo_monitor_url )
+$foo::params::monitor_process_enable = <%= scope.lookupvar('foo::params::monitor_process_enable') %> ( Set with $foo_monitor_process )
+$foo::params::monitor_plugin_enable = <%= scope.lookupvar('foo::params::monitor_plugin_enable') %> ( Set with $foo_monitor_plugin )
 
 Variables used by backup class:
-$backup_target_real = <%= scope.lookupvar('foo::params::backup_target_real') %> ( Set with $foo_backup_target )
-$backup_frequency = <%= scope.lookupvar('foo::params::backup_frequency') %> ( Set with $foo_backup_frequency )
-$backup_data_enable = <%= scope.lookupvar('foo::params::backup_data_enable') %> ( Set with $foo_backup_data )
-$backup_log_enable = <%= scope.lookupvar('foo::params::backup_log_enable') %> ( Set with $foo_backup_log )
+$foo::params::backup_target_real = <%= scope.lookupvar('foo::params::backup_target_real') %> ( Set with $foo_backup_target )
+$foo::params::backup_frequency = <%= scope.lookupvar('foo::params::backup_frequency') %> ( Set with $foo_backup_frequency )
+$foo::params::backup_data_enable = <%= scope.lookupvar('foo::params::backup_data_enable') %> ( Set with $foo_backup_data )
+$foo::params::backup_log_enable = <%= scope.lookupvar('foo::params::backup_log_enable') %> ( Set with $foo_backup_log )
 
 Variables used by firewall class:
-$firewall_source_real = <%= scope.lookupvar('foo::params::firewall_source_real') %> ( Set with $foo_firewall_source )
-$firewall_destination_real = <%= scope.lookupvar('foo::params::firewall_destination_real') %> ( Set with $foo_firewall_destination )
-$firewall_enable = <%= scope.lookupvar('foo::params::firewall_destination_real') %> ( Set with $foo_firewall_enable )
+$foo::params::firewall_source_real = <%= scope.lookupvar('foo::params::firewall_source_real') %> ( Set with $foo_firewall_source )
+$foo::params::firewall_destination_real = <%= scope.lookupvar('foo::params::firewall_destination_real') %> ( Set with $foo_firewall_destination )
+$foo::params::firewall_enable = <%= scope.lookupvar('foo::params::firewall_destination_real') %> ( Set with $foo_firewall_enable )
 
 Module base source for static files:
-$general_base_source = <%= scope.lookupvar('foo::params::general_base_source') %> ( Set with $base_source )
+$foo::params::general_base_source = <%= scope.lookupvar('foo::params::general_base_source') %> ( Set with $base_source )
