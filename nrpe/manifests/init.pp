@@ -16,14 +16,14 @@ class nrpe {
     # Re-sets variables needed in templates (to get default values)
     $nrpe_server = $nrpe::params::server
 
+    # NRPE is useless without Nagios plugins
+    include nagios::plugins
+
     # Basic Package - Service - Configuration file management
     package { "nrpe":
         name   => "${nrpe::params::packagename}",
         ensure => present,
     }
-
-    # NRPE is useless without Nagios plugins
-    include nagios::plugins
 
     service { "nrpe":
         name       => "${nrpe::params::servicename}",
