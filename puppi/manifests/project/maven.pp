@@ -99,22 +99,16 @@ define puppi::project::maven (
 
 if ($document_init_source != "") {
     puppi::initialize {
-        "${name}-Retrieve_Files":
-             priority => "25" , command => "get_file.sh" , arguments => "$document_init_source" ,
-             user => "root" , project => "$name" , enable => $enable ;
         "${name}-Deploy_Files":
-             priority => "40" , command => "deploy.sh" , arguments => "$document_root" ,
+             priority => "40" , command => "get_file.sh" , arguments => "-s $document_init_source -d $document_root" ,
              user => "$document_real_user" , project => "$name" , enable => $enable;
     }
 }
 
 if ($config_init_source != "") {
     puppi::initialize {
-        "${name}-Retrieve_Src_Files":
-             priority => "25" , command => "get_file.sh" , arguments => "$config_init_source" ,
-             user => "root" , project => "$name" , enable => $enable ;
         "${name}-Deploy_Src_Files":
-             priority => "40" , command => "deploy.sh" , arguments => "$config_root" ,
+             priority => "40" , command => "get_file.sh" , arguments => "-s $config_init_source -d $config_root" ,
              user => "$config_real_user" , project => "$name" , enable => $enable;
     }
 }
@@ -126,7 +120,7 @@ if ($config_init_source != "") {
              priority => "10" , command => "check_project.sh" , arguments => "$name" ,
              user => "root" , project => "$name" , enable => $enable;
         "${name}-Get_Maven_Metadata_File":
-             priority => "20" , command => "get_file.sh" , arguments => "$source/maven-metadata.xml maven-metadata" ,
+             priority => "20" , command => "get_file.sh" , arguments => "-s $source/maven-metadata.xml -t maven-metadata" ,
              user => "root" , project => "$name" , enable => $enable;
         "${name}-Extract_Maven_Metadata":
              priority => "22" , command => "get_metadata.sh" ,

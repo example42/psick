@@ -10,13 +10,17 @@ showhelp () {
     echo "It has the following options:"
     echo "-b <backup_source> - Backups the files to be changed in the defined directory"
     echo "-r <recovery_destination> - Recovers file to the provided destination"
-    echo "-c <none|zip|tar|tar.gz> - Specifies the compression method to use"
     echo "-s <copy|move> - Specifies the backup strategy (move or copy files)"
     echo "-t <tag> - Specifies a tag to be used for the backup"
     echo "-d <variable> - Specifies the runtime variable that defines the predeploy dir"
+    echo "-c <yes|no> - Specifies if you want compressed (tar.gz) archives"
+    echo "-o 'options' - Specifies the rsync options to use during backup. Use it to specify custom "
+    echo "               exclude patterns of files you don't want to archive, for example"
+    echo "-m <full|diff> - Specifies the backup type: 'full' backups all the files in backup_source,"
+    echo "                 'diff' backups only the files deployed"
     echo 
     echo "Examples:"
-    echo "archive.sh -b /var/www/html/my_app -t html -c zip"
+    echo "archive.sh -b /var/www/html/my_app -t html -c yes"
 }
 
 # Arguments check
@@ -25,9 +29,11 @@ if [ "$#" = "0" ] ; then
     exit
 fi
 
-compression=none
+# Default settings
+compression=yes
 backuptag=all
 strategy=copy
+backupmethod=full
 
 while [ $# -gt 0 ]; do
   case "$1" in
@@ -49,11 +55,16 @@ while [ $# -gt 0 ]; do
         *) strategy="copy" ;;
       esac
       shift 2 ;;
+    -m)
+      case "$2" in
+        diff) backupmethod="diff" ;;
+        *) backupmethod="full" ;;
+      esac
+      shift 2 ;;
     -c)
       case "$2" in
-        zip) compression="zip" ;;
-        tar.gz) compression="tar.gz" ;;
-        tar) compression="tar" ;;
+        yes) compression="yes" ;;
+        y) compression="yes" ;;
         *) compression="none" ;;
       esac
       shift 2  ;;
@@ -61,7 +72,7 @@ while [ $# -gt 0 ]; do
       predeploydir="$(eval "echo \${$(echo $2)}")"
       shift 2 ;;
     -o) 
-      rsyncoptions=$2
+      rsync_options=$2
       shift 2 ;;
     *)
       showhelp
@@ -79,16 +90,31 @@ backup () {
     fi
     ln -sf $archivedir/$project/$tag $archivedir/$project/latest
 
+    filelist=$storedir/filelist
+    cd $predeploydir
+    find . > $filelist
+
     if [ "$strategy" = "move" ] ; then 
-        command="mv"
+        for file in $(cat $filelist) ; do
+            mv $backuproot/$file $archivedir/$project/$tag/$backuptag/
+        done
+        if [ "$backupmethod" = "full" ] ; then
+            rsync -a $rsync_options $backuproot/ $archivedir/$project/$tag/$backuptag/
+        fi
     else
-        command="rsync -a $rsyncoptions"
+        if [ "$backupmethod" = "full" ] ; then
+            rsync -a $rsync_options $backuproot/ $archivedir/$project/$tag/$backuptag/
+        else
+            rsync -a $rsync_options --files-from=$filelist $backuproot/ $archivedir/$project/$tag/$backuptag/
+        fi
     fi
 
-    for file in $(ls -v1 $predeploydir) ; do
-        $command $backuproot/$file $archivedir/$project/$tag/$backuptag/
-    done
-
+    if [ "$compression" = "yes" ] ; then
+        cd $archivedir/$project/$tag/$backuptag/
+        tar -czf ../$backuptag.tar.gz .
+        cd $archivedir/$project/$tag/
+        rm -rf $archivedir/$project/$tag/$backuptag/
+    fi
 }
 
 recovery () {
@@ -103,7 +129,14 @@ recovery () {
         echo "Can't find archivedir for this project"
         exit 2
     fi
-    rsync -a $rsyncoptions $rollbackversion/$backuptag/* $backuproot
+
+    if [ "$compression" = "yes" ] ; then
+        cd $backuproot/
+        tar -xzf $archivedir/$project/$rollbackversion/$backuptag.tar.gz .
+    else 
+        rsync -a $rsync_options $rollbackversion/$backuptag/* $backuproot
+    fi
+
 }
 
 # Action!

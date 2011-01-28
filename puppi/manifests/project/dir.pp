@@ -77,11 +77,8 @@ define puppi::project::dir (
 if ($init_source != "") {
     # Populate Project scripts for initialize
     puppi::initialize {
-        "${name}-Retrieve_Files":
-             priority => "25" , command => "get_file.sh" , arguments => "$init_source" ,
-             user => "root" , project => "$name" , enable => $enable ;
         "${name}-Deploy_Files":
-             priority => "40" , command => "deploy.sh" , arguments => "$deploy_root" ,
+             priority => "40" , command => "get_file.sh" , arguments => "-s $init_source -d $deploy_root" ,
              user => "$user" , project => "$name" , enable => $enable;
     }
 }
@@ -92,7 +89,7 @@ if ($init_source != "") {
              priority => "10" , command => "check_project.sh" , arguments => "$name" ,
              user => "root" , project => "$name" , enable => $enable;
         "${name}-Sync_Files":
-             priority => "20" , command => "get_file.sh" , arguments => "$source dir" ,
+             priority => "20" , command => "get_file.sh" , arguments => "-s $source -t dir" ,
              user => "root" , project => "$name" , enable => $enable ;
         "${name}-Backup_existing_Files":
              priority => "30" , command => "archive.sh" , arguments => "-b $deploy_root -o '$backup_rsync_options'" ,

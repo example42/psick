@@ -124,6 +124,12 @@ save_summary () {
 
     # Copy runtime config in archive
     cp $workdir/$project/config $logdir/$project/$tag/
+
+    # Write runtime config on Summary
+    echo >> $logdir/$project/$tag/summary
+    echo "RUNTIME CONFIGURATION" >> $logdir/$project/$tag/summary
+    cat $workdir/$project/config | grep -vE "^#|^$"  >> $logdir/$project/$tag/summary
+
 }
 
 send_reports () {

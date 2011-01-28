@@ -31,7 +31,7 @@ case $metadatasource in
     fi
     # TODO Make this more secure, for God's sake!
     for param in $(cat $downloadedfile | grep "^$suffix" ) ; do
-        save_runtime_config $param
+        save_runtime_comment $param
     done
     ;;
     tarball)
