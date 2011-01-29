@@ -11,6 +11,7 @@
 #
 define apache::dotconf ( $source='' , $content='' ) {
 
+    include apache
 # Silly if statement to manage source|content 
 # TODO To be optimized
 

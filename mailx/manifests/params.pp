@@ -10,7 +10,6 @@ class mailx::params  {
 # (Modify only to adapt to unsupported OSes)
 
     $packagename = $operatingsystem ? {
-        debian  => "bsd-mailx",
         ubuntu  => "bsd-mailx",
         default => "mailx",
     }

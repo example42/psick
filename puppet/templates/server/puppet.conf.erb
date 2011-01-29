@@ -8,16 +8,16 @@ ssldir = $vardir/ssl
 
 # Report Translactions to Master (or separated report) server
 report = true
-reportserver=<%= puppet_server %>
+reportserver = <%= puppet_server %>
 
 summarize = true
 # trace = true
-usecacheonfailure = true
+usecacheonfailure = false
 
 <% if puppet_version == "0.2" -%>
-[puppet]
+# [puppet]
 <% else -%>
-[user]
+# [user]
 <% end -%>
 
 <% if puppet_version == "0.2" -%>
@@ -25,18 +25,18 @@ usecacheonfailure = true
 <% else -%>
 [agent]
 <% end -%>
-pluginsync=true
-pluginsource = puppet://$server/plugins
-plugindest = $vardir/lib/plugins
-factpath = $vardir/lib/puppet/facter
-listen=true
-report=true
+pluginsync = true
+# pluginsource = puppet://$server/plugins
+# plugindest = $vardir/lib/plugins
+# factpath = $vardir/lib/puppet/facter
+listen = true
+report = true
 classfile = $vardir/classes.txt
 localconfig = $vardir/localconfig
 runinterval = 1800
 # runinterval = 21600 # Run every 6 hours
 
-server=<%= puppet_server %>
+server = <%= puppet_server %>
 
 <% if puppet_version == "0.2" -%>
 [puppetmasterd]
@@ -64,19 +64,19 @@ dblocation = /var/lib/puppet/storeconfigs.sqlite
 <% end -%>
 <% if puppet_db == "mysql" -%>
 # Sets MySQL database backend
-dbadapter=mysql
-dbserver=<%= puppet_db_server %>
-dbuser=<%= puppet_db_user %>
-dbpassword=<%= puppet_db_password %>
+dbadapter = mysql
+dbserver = <%= puppet_db_server %>
+dbuser = <%= puppet_db_user %>
+dbpassword = <%= puppet_db_password %>
 <% end -%>
 
 # Reporting
 <% if puppet_nodetool == "foreman" -%>
-reports=rrdgraph,log,foreman
+reports = rrdgraph,log,foreman
 <% elsif puppet_nodetool == "dashboard" -%>
-reports=rrdgraph,log,puppet_dashboard
+reports = rrdgraph,log,puppet_dashboard
 <% else -%>
-reports=rrdgraph,log
+reports = rrdgraph,log
 <% end -%>
 graph = true
 reportfrom = root

@@ -7,7 +7,7 @@ rundir = /var/run/puppet
 ssldir = $vardir/ssl
 # Report Translactions to Master (or separated report) server
 report = true
-reportserver=<%= puppet_server %>
+reportserver = <%= puppet_server %>
 summarize = true
 # trace = true
 usecacheonfailure = true
@@ -19,13 +19,13 @@ rundir = /var/run/puppet
 ssldir = $vardir/ssl
 
 [puppetd]
-pluginsync=true
+pluginsync = true
 #pluginsource = puppet://$server/plugins
 #plugindest = $vardir/lib/plugins
 #factpath = $vardir/lib/puppet/facter
-# listen=true
+# listen = true
 
 runinterval = 1800
 # runinterval = 21600 # Run every 6 hours
 
-server=<%= puppet_server %>
+server = <%= puppet_server %>

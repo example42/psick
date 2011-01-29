@@ -6,12 +6,13 @@
 # that is:  MODULEPATH/example42/manifests/puppet/server.pp
 #
 class puppet::example42::server inherits puppet::server {
-    File["puppet.conf"] {
-        content => template("puppet/example42/server/puppet.conf.erb"),
-    }
 
-    File["namespaceauth.conf"] {
-        content => template("puppet/example42/server/namespaceauth.conf.erb"),
-    }
+#    File["puppet.conf"] {
+#        content => template("puppet/example42/server/puppet.conf.erb"),
+#    }
+
+#    File["namespaceauth.conf"] {
+#        content => template("puppet/example42/server/namespaceauth.conf.erb"),
+#    }
 
 }

@@ -7,13 +7,6 @@
 #
 #
 class puppet::example42::client inherits puppet::client {
-    File["puppet.conf"] {
-        content => template("puppet/example42/client/puppet.conf.erb"),
-    }
-
-    File["namespaceauth.conf"] {
-        content => template("puppet/example42/client/namespaceauth.conf.erb"),
-    }
 
 }
 
