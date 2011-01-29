@@ -1,42 +1,67 @@
+#
+# Class: lighttpd
+#
+# Manages lighttpd.
+# Include it to install and run lighttpd
+# It defines package, service, main configuration file.
+#
+# Usage:
+# include lighttpd
+#
 class lighttpd {
 
-    package { lighttpd:
-        name => $operatingsystem ? {
-            default    => "lighttpd",
-            },
+    # Load the variables used in this module. Check the params.pp file 
+    require lighttpd::params
+
+    # Basic Package - Service - Configuration file management
+    package { "lighttpd":
+        name   => "${lighttpd::params::packagename}",
         ensure => present,
     }
 
-    service { lighttpd:
-        name => $operatingsystem ? {
-            default => "lighttpd",
-            },
-    #    ensure => running,
-    #    enable => true,
+    service { "lighttpd":
+        name       => "${lighttpd::params::servicename}",
+        ensure     => running,
+        enable     => true,
         hasrestart => true,
-        hasstatus => true,
+        hasstatus  => "${lighttpd::params::hasstatus}",
+        pattern    => "${lighttpd::params::processname}",
+        require    => Package["lighttpd"],
+        subscribe  => File["lighttpd.conf"],
+    }
+
+    file { "lighttpd.conf":
+        path    => "${lighttpd::params::configfile}",
+        mode    => "${lighttpd::params::configfile_mode}",
+        owner   => "${lighttpd::params::configfile_owner}",
+        group   => "${lighttpd::params::configfile_group}",
+        ensure  => present,
         require => Package["lighttpd"],
-        subscribe => File["lighttpd.conf"],
+        notify  => Service["lighttpd"],
+        # content => template("lighttpd/lighttpd.conf.erb"),
     }
 
-    file {
-        "lighttpd.conf":
-            mode => 640, owner => root, group => root,
-            require => Package["lighttpd"],
-            ensure => present,
-            path => $operatingsystem ?{
-                default => "/etc/lighttpd/lighttpd.conf",
-            },
+    # Include OS specific subclasses, if necessary
+    case $operatingsystem {
+        default: { }
     }
 
-}
+    # Include extended classes, if relevant variables are defined
+    if $backup == "yes" { include lighttpd::backup }
+    if $monitor == "yes" { include lighttpd::monitor }
+    if $firewall == "yes" { include lighttpd::firewall }
 
-
-class lighttpd::fastcgi inherits lighttpd {
-    package { lighttpd-fastcgi:
-        name => $operatingsystem ? {
-            default => "lighttpd-fastcgi",
-            },
-        ensure => present,
+    # Include project specific class if $my_project is set
+    # The extra project class is by default looked in lighttpd module 
+    # If $my_project_onmodule == yes it's looked in your project module
+    if $my_project { 
+        case $my_project_onmodule {
+            yes,true: { include "${my_project}::lighttpd" }
+            default: { include "lighttpd::${my_project}" }
+        }
     }
+
+    # Include debug class is debugging is enabled ($debug=yes)
+    if ( $debug == "yes" ) or ( $debug == true ) { include lighttpd::debug }
+
 }
