@@ -119,6 +119,9 @@ class puppet::server {
         content => template("puppet/server/tagmail.conf.erb"),
     }
 
+    # Automatic firewalling for Puppetmaster
+    if $firewall == "yes" { include puppet::firewall }
+
     # Include project specific class for server if $my_project is set
     if $my_project { 
         case $my_project_onmodule {

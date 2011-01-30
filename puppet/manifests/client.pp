@@ -50,11 +50,6 @@ class puppet::client {
         default: { }
     }
 
-    # Include extended classes
-    if $backup == "yes" { include puppet::backup }
-    if $monitor == "yes" { include puppet::monitor }
-    if $firewall == "yes" { include puppet::firewall }
-
     # Include project specific class for client if $my_project is set
     if $my_project {
         case $my_project_onmodule {

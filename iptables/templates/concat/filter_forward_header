@@ -1,0 +1,5 @@
+<% if scope.lookupvar('iptables::params::log') == "all" -%>
+-A FORWARD -j LOG --log-level <%= scope.lookupvar('iptables::params::log_level') %> --log-prefix "FORWARD PACKETS: "
+<% end -%>
+-A FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT 
+-A FORWARD -p icmp <%= scope.lookupvar('iptables::params::icmp_policy') %>

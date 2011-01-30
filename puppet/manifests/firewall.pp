@@ -3,31 +3,22 @@
 # Manages puppet firewalling using custom Firewall wrapper
 # By default it opens puppet's default port(s) to anybody
 # It's automatically included if $firewall=yes
-# Note that it uses fact's based $ipaddress as destination IP
-# You may need to change it for natted or multihomed hosts
 #
 # Usage:
-# include puppet::firewall
+# Automatically included if $firewall=yes 
 #
 class puppet::firewall {
 
-    firewall {
-        "puppet_port":
-        source        => "any",
-        destination => $ipaddress,
-        protocol    => "tcp",
-        port         => 8140,
+    include puppet::params
+
+    firewall { "puppet_${puppet::params::protocol}_${puppet::params::port}":
+        source      => "${puppet::params::firewall_source_real}",
+        destination => "${puppet::params::firewall_destination_real}",
+        protocol    => "${puppet::params::protocol}",
+        port        => "${puppet::params::port}",
         action      => "allow",
-        direction   => "inbound",
+        direction   => "input",
+        enable      => "${puppet::params::firewall_enable}",
     }
 
-    firewall {
-        "puppet_port_":
-#        source        => "$ipaddress",
-        destination => "any",
-        protocol    => "tcp",
-        port         => 8140,
-        action      => "allow",
-        direction   => "outbound",
-    }
 }

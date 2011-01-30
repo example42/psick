@@ -1,0 +1,10 @@
+<% if scope.lookupvar('iptables::params::log') == "all" -%>
+-A OUTPUT -j LOG --log-level <%= scope.lookupvar('iptables::params::log_level') %> --log-prefix "OUTPUT PACKETS: "
+<% end -%>
+<% if scope.lookupvar('iptables::params::output_policy') == "accept" -%>
+-A OUTPUT -j ACCEPT 
+<% else -%>
+-A OUTPUT -m state --state RELATED,ESTABLISHED -j ACCEPT 
+-A OUTPUT -o lo -j ACCEPT 
+-A OUTPUT -p icmp -j ACCEPT 
+<% end -%>

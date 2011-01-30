@@ -321,6 +321,15 @@ class puppet::params  {
         default => "$puppet_firewall_destination",
     }
 
+    # If firewall filter is enabled
+    $firewall_enable = $puppet_firewall_enable ? {
+        ''      => $firewall_enable ? {
+           ''      => true,
+           default => $firewall_enable,
+        },
+        default => $puppet_firewall_enable,
+    }
+
 
 ## FILE SERVING SOURCE
 # Sets the correct source for static files

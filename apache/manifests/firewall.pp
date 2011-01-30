@@ -3,21 +3,23 @@
 # Manages apache firewalling using custom Firewall wrapper
 # By default it opens apache's default port(s) to anybody
 # It's automatically included if $firewall=yes
-# Note that it uses fact's based $ipaddress as destination IP
-# You may need to change it for natted or multihomed hosts
 #
 # Usage:
-# include apache::firewall
+# Automatically included if $firewall=yes 
 #
 class apache::firewall {
 
-    firewall {
-        "apache_port":
-        source        => "any",
-        destination => $ipaddress,
-        protocol    => "tcp",
-        port         => 80,
+    include apache::params
+
+    firewall { "apache_${apache::params::protocol}_${apache::params::port}":
+        source      => "${apache::params::firewall_source_real}",
+        destination => "${apache::params::firewall_destination_real}",
+        protocol    => "${apache::params::protocol}",
+        port        => "${apache::params::port}",
         action      => "allow",
+        direction   => "input",
+        enable      => "${apache::params::firewall_enable}",
     }
 
 }
+

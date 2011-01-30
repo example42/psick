@@ -1,0 +1,4 @@
+<% if scope.lookupvar('iptables::params::log') == "drop" -%>
+-A INPUT -j LOG --log-level <%= scope.lookupvar('iptables::params::log_level') %> --log-prefix "INPUT DROP: "
+<% end -%>
+-A INPUT -j <%= scope.lookupvar('iptables::params::block_policy') %>

@@ -1,0 +1,4 @@
+<% if scope.lookupvar('iptables::params::log') == "drop" -%>
+-A FORWARD -j LOG --log-level <%= scope.lookupvar('iptables::params::log_level') %> --log-prefix "FORWARD DROP: "
+<% end -%>
+-A FORWARD -j <%= scope.lookupvar('iptables::params::block_policy') %>

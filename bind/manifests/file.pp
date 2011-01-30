@@ -5,6 +5,9 @@
 # It's used if $bind_config = "file"
 #
 class bind::file {
+
+    include bind::params 
+
     file { "named.conf":
         path    => "${bind::params::configfile}",
         mode    => "${bind::params::configfile_mode}",

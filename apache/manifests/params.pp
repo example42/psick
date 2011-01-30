@@ -252,6 +252,15 @@ class apache::params  {
         default => "$apache_firewall_destination",
     }
 
+    # If firewall filter is enabled
+    $firewall_enable = $apache_firewall_enable ? {
+        ''      => $firewall_enable ? {
+           ''      => true,
+           default => $firewall_enable,
+        },
+        default => $apache_firewall_enable,
+    }
+
 
 ## FILE SERVING SOURCE
 # Sets the correct source for static files

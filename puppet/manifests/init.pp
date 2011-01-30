@@ -58,7 +58,6 @@ class puppet {
     # Include extended classes
     if $backup == "yes" { include puppet::backup }
     if $monitor == "yes" { include puppet::monitor }
-    if $firewall == "yes" { include puppet::firewall }
 
     # Include project specific class if $my_project is set
     # The extra project class is by default looked in puppet module 
