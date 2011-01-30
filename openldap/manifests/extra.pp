@@ -109,6 +109,15 @@ class openldap::extra {
         content => template("openldap/extra/usersynccheck.sh.erb"),
     }
 
+    file { "openldap_initldap.sh":
+        path    => "${openldap::params::extra_dir}/initldap.sh",
+        mode    => "755",
+        owner   => "root",
+        group   => "${openldap::params::extra_user}",
+        ensure  => present,
+        require => File["openldap_scriptsdir"],
+        content => template("openldap/extra/initldap.sh.erb"),
+    }
 
 
     # Include project specific class if $my_project is set

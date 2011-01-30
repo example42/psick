@@ -2,22 +2,18 @@
 #  /etc/rsyslog.conf	Configuration file for rsyslog v3.
 
 #### MODULES ####
-
 $ModLoad imuxsock # provides support for local system logging
 $ModLoad imklog   # provides kernel logging support (previously done by rklogd) 
 #$ModLoad immark  # provides --MARK-- message capability
 
-# provides UDP syslog reception
-#$ModLoad imudp
+#$ModLoad imudp   # provides UDP syslog reception
 #$UDPServerRun 514
 
-# provides TCP syslog reception
-#$ModLoad imtcp
+#$ModLoad imtcp   # provides TCP syslog reception
 #$InputTCPServerRun 514
 
 
 #### GLOBAL DIRECTIVES ####
-
 # Use traditional timestamp format.
 $ActionFileDefaultTemplate RSYSLOG_TraditionalFileFormat
 
@@ -29,24 +25,13 @@ $DirCreateMode 0755
 
 $IncludeConfig /etc/rsyslog.d/*.conf
 
-# Setup local queue for storage
-$WorkDirectory /rsyslog       # default location for work (spool) files
-$ActionQueueType LinkedList   # use asynchronous processing
-$ActionQueueFileName srvrfwd  # set file name, also enables disk mode
-$ActionResumeRetryCount -1    # infinite retries on insert failure
-$ActionQueueSaveOnShutdown on # save in-memory data if rsyslog shuts down
-
-
 #### RULES ####
-
-<% if hostname == "puppetmaster" -%>
-# Puppetmaster logs too many warnings (The 'require' function is only compatible with clients at 0.25 and above; including class but not adding dependency )
-*.*;!user.=warn		@@(o)<%= scope.lookupvar('rsyslog::params::server') %>
-<% else -%>
+<% if scope.lookupvar('rsyslog::params::server') != "" -%>
+# Everything to Central Syslog
 *.*			@@(o)<%= scope.lookupvar('rsyslog::params::server') %>
 <% end -%>
 
-#auth,authpriv.*			/var/log/auth.log
+<% if operatingsystem == "Ubuntu" || operatingsystem == "Debian" -%>
 *.*;auth,authpriv.none		-/var/log/syslog
 #cron.*				/var/log/cron.log
 daemon.*			-/var/log/daemon.log
@@ -54,15 +39,12 @@ kern.*				-/var/log/kern.log
 lpr.*				-/var/log/lpr.log
 mail.*				-/var/log/mail.log
 user.*				-/var/log/user.log
-
 mail.info			-/var/log/mail.info
 mail.warn			-/var/log/mail.warn
 mail.err			/var/log/mail.err
-
 news.crit			/var/log/news/news.crit
 news.err			/var/log/news/news.err
 news.notice			-/var/log/news/news.notice
-
 *.=debug;\
 	auth,authpriv.none;\
 	news.none;mail.none	-/var/log/debug
@@ -70,11 +52,18 @@ news.notice			-/var/log/news/news.notice
 	auth,authpriv.none;\
 	cron,daemon.none;\
 	mail,news.none		-/var/log/messages
-
 *.emerg				*
-
 daemon.*;mail.*;\
 	news.err;\
 	*.=debug;*.=info;\
 	*.=notice;*.=warn	|/dev/xconsole
-
+<% end -%>
+<% if operatingsystem == "CentOS" || operatingsystem == "RedHat" -%>
+*.info;mail.none;authpriv.none;cron.none                /var/log/messages
+authpriv.*                                              /var/log/secure
+mail.*                                                  -/var/log/maillog
+cron.*                                                  /var/log/cron
+*.emerg                                                 *
+uucp,news.crit                                          /var/log/spooler
+local7.*                                                /var/log/boot.log
+<% end -%>

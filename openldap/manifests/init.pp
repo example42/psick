@@ -53,6 +53,8 @@ class openldap {
     # Include optional extra tools for users management
     if "${openldap::params::extra}" == "yes" { include openldap::extra }
 
+    # Include ldap utils
+    include openldap::client
 
     # Include OS specific subclasses, if necessary
     case $operatingsystem {

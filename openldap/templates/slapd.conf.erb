@@ -30,11 +30,10 @@ loglevel        none
 modulepath	<%= scope.lookupvar('openldap::params::modulepath') %>
 <% if operatingsystem == "Debian" || operatingsystem == "Ubuntu" -%>
 moduleload	back_<%= scope.lookupvar('openldap::params::db_backend') %>
-<% end -%>
 <% if scope.lookupvar('openldap::params::multimaster') == "yes" -%>
 moduleload	syncprov
 <% end -%>
-
+<% end -%>
 
 # The maximum number of entries that is returned for a search operation
 sizelimit 500

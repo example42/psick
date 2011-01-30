@@ -32,6 +32,9 @@ class rsyslog::server inherits rsyslog {
         }
     }
 
+    File["rsyslog.conf"] {
+        content => template("rsyslog/server/rsyslog.conf.erb"),
+    }
 
     # Include project specific class for server if $my_project is set
     if $my_project { 

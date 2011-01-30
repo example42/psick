@@ -20,7 +20,13 @@ ROOTDN=<%= scope.lookupvar('openldap::params::root_dn') %>
 ROOTPW=<%= scope.lookupvar('openldap::params::rootpw_clear') %>
 
 # Basedir for Home Directories 
-BASEHOME=/home/
+BASEHOME=/home
 
 # LDAP HOST
 SERVER=localhost
+
+# BASE DOMAIN
+DOMAIN=<%= fqdn %>
+
+# ORGANIZATION NAME
+ORGANIZATION=example42

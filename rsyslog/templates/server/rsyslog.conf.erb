@@ -2,7 +2,6 @@
 #  /etc/rsyslog.conf	Configuration file for rsyslog v3.
 
 #### MODULES ####
-
 $ModLoad imuxsock # provides support for local system logging
 $ModLoad imklog   # provides kernel logging support (previously done by rklogd) 
 #$ModLoad immark  # provides --MARK-- message capability
@@ -27,9 +26,7 @@ $InputTCPServerStreamDriverMode 0 # no TLS mode
 #$InputTCPServerStreamDriverMode 1 # TLS-only mode
 $InputTCPServerStreamDriverAuthMode anon # Client is NOT authenticated
 
-
 #### GLOBAL DIRECTIVES ####
-
 # Use traditional timestamp format.
 $ActionFileDefaultTemplate RSYSLOG_TraditionalFileFormat
 
@@ -42,7 +39,7 @@ $DirCreateMode 0755
 $IncludeConfig /etc/rsyslog.d/*.conf
 
 #### RULES ####
-
+<% if operatingsystem == "Ubuntu" || operatingsystem == "Debian" -%>
 *.*;auth,authpriv.none		-/var/log/syslog
 #cron.*				/var/log/cron.log
 daemon.*			-/var/log/daemon.log
@@ -50,15 +47,12 @@ kern.*				-/var/log/kern.log
 lpr.*				-/var/log/lpr.log
 mail.*				-/var/log/mail.log
 user.*				-/var/log/user.log
-
 mail.info			-/var/log/mail.info
 mail.warn			-/var/log/mail.warn
 mail.err			/var/log/mail.err
-
 news.crit			/var/log/news/news.crit
 news.err			/var/log/news/news.err
 news.notice			-/var/log/news/news.notice
-
 *.=debug;\
 	auth,authpriv.none;\
 	news.none;mail.none	-/var/log/debug
@@ -66,11 +60,19 @@ news.notice			-/var/log/news/news.notice
 	auth,authpriv.none;\
 	cron,daemon.none;\
 	mail,news.none		-/var/log/messages
-
 *.emerg				*
-
 daemon.*;mail.*;\
 	news.err;\
 	*.=debug;*.=info;\
 	*.=notice;*.=warn	|/dev/xconsole
+<% end -%>
+<% if operatingsystem == "CentOS" || operatingsystem == "RedHat" -%>
+*.info;mail.none;authpriv.none;cron.none                /var/log/messages
+authpriv.*                                              /var/log/secure
+mail.*                                                  -/var/log/maillog
+cron.*                                                  /var/log/cron
+*.emerg                                                 *
+uucp,news.crit                                          /var/log/spooler
+local7.*                                                /var/log/boot.log
+<% end -%>
 

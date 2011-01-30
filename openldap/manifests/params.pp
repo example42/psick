@@ -133,6 +133,13 @@ class openldap::params  {
         default => "openldap",
     }
 
+    $packagenameclient = $operatingsystem ? {
+        debian  => "ldap-utils",
+        ubuntu  => "ldap-utils", 
+        redhat  => "openldap-clients",
+        centos  => "openldap-clients",
+    }
+
 ## MODULE INTERNAL VARIABLES
 # (Modify to adapt to unsupported OSes)
 
