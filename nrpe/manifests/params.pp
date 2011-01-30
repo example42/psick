@@ -31,6 +31,13 @@ class nrpe::params  {
     }
 
 
+## VARIABLES FOR SPECIAL CHECKS
+    $ntp = $ntp_server ? {
+        ''      => "0.pool.ntp.org",
+        default => "${ntp_server}",
+    }
+
+
 ## MODULE EXTRA VARIABLES
     $pluginsdir = $operatingsystem ? {
         /(centos|redhat)/ => $architecture ? {
