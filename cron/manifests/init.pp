@@ -15,4 +15,7 @@ class cron {
         freebsd: { }
     }
 
+    # Monitoring?
+    if $monitor == "yes" { include cron::monitor }
+
 }

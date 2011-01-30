@@ -1,10 +1,7 @@
 class cron::crontabs {
 
     package { crontabs:
-        name => $operatingsystem ? {
-            redhat  => "crontabs",
-            centos  => "crontabs",
-            },
+        name => "crontabs",
         ensure => present,
     }
 

@@ -1,24 +1,16 @@
 class cron::base {
 
+    include cron::params 
+
     package { cron:
-        name => $operatingsystem ? {
-            ubuntu    => "cron",
-            debian    => "cron",
-            redhat    => "vixie-cron",
-            centos    => "vixie-cron",
-            },
+        name   => "${cron::params::packagename}" ,
         ensure => present,
     }
 
     service { crond:
-        name => $operatingsystem ? {
-            ubuntu  => "cron",
-            debian  => "cron",
-            redhat  => "crond",
-            centos  => "crond",
-            },
-        ensure => running,
-        enable => true,
+        name    => "${cron::params::servicename}" ,
+        ensure  => running,
+        enable  => true,
         pattern => cron,
         require => Package["cron"],
     }
