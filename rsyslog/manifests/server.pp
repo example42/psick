@@ -36,6 +36,9 @@ class rsyslog::server inherits rsyslog {
         content => template("rsyslog/server/rsyslog.conf.erb"),
     }
 
+    # Autofirewalling for syslog server
+    if $firewall == "yes" { include rsyslog::firewall }
+
     # Include project specific class for server if $my_project is set
     if $my_project { 
         case $my_project_onmodule {

@@ -6,4 +6,10 @@
 <% end -%>
 -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT 
 -A INPUT -i lo -j ACCEPT 
--A INPUT -p icmp <%= scope.lookupvar('iptables::params::icmp_policy') %> 
+-A INPUT -p icmp <%= scope.lookupvar('iptables::params::icmp_policy') %>
+<% if scope.lookupvar('iptables::params::broadcast_policy') == "accept" -%>
+-A INPUT -m pkttype --pkt-type broadcast -j ACCEPT 
+<% end -%>
+<% if scope.lookupvar('iptables::params::multicast_policy') == "accept" -%>
+-A INPUT -m pkttype --pkt-type multicast -j ACCEPT 
+<% end -%>

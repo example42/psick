@@ -13,7 +13,7 @@ class dashboard::firewall {
 
     firewall {
         "dashboard_port":
-        source        => "any",
+        source        => "0/0",
         destination => $ipaddress,
         protocol    => "tcp",
         port         => 3000,

@@ -26,7 +26,6 @@ class iptables::base {
         hasrestart => false,
         restart    => inline_template("iptables-restore < <%= scope.lookupvar('iptables::params::configfile') %>"),
         hasstatus  => "${iptables::params::hasstatus}",
-        pattern    => "${iptables::params::processname}",
         require    => Package["iptables"],
     }
 

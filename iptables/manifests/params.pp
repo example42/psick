@@ -70,6 +70,21 @@ class iptables::params  {
         default => "yes",
     }
 
+# Define what to do with INPUT broadcast packets 
+    $broadcast_policy = $iptables_broadcast_policy ? {
+        "drop"    => "drop",
+        "DROP"    => "drop",
+        default   => "accept",
+    }
+
+# Define what to do with INPUT multicast packets
+    $multicast_policy = $iptables_multicast_policy ? {
+        "drop"    => "drop",
+        "DROP"    => "drop",
+        default   => "accept",
+    }
+
+
 ## EXTRA MODULE INTERNAL VARIABLES
 #(add here module specific internal variables)
 

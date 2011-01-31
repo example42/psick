@@ -21,4 +21,15 @@ class rsyslog::firewall {
         enable      => "${rsyslog::params::firewall_enable}",
     }
 
+    firewall { "rsyslog_${rsyslog::params::protocol2}_${rsyslog::params::port2}":
+        source      => "${rsyslog::params::firewall_source_real}",
+        destination => "${rsyslog::params::firewall_destination_real}",
+        protocol    => "${rsyslog::params::protocol2}",
+        port        => "${rsyslog::params::port2}",
+        action      => "allow",
+        direction   => "input",
+        enable      => "${rsyslog::params::firewall_enable}",
+    }
+
+
 }

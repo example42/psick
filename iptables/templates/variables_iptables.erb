@@ -9,6 +9,8 @@ $iptables_icmp_policy = <%= scope.lookupvar('iptables_icmp_policy') %>
 $iptables_log = <%= scope.lookupvar('iptables_log') %>
 $iptables_log_level = <%= scope.lookupvar('iptables_log_level') %>
 $iptables_safe_ssh = <%= scope.lookupvar('iptables_safe_ssh') %>
+$iptables_broadcast_policy = <%= scope.lookupvar('iptables_broadcast_policy') %>
+$iptables_multicast_policy = <%= scope.lookupvar('iptables_multicast_policy') %>
 
 User variables (after params.pp filter):
 $iptables::params::config = <%= scope.lookupvar('iptables::params::config') %>
@@ -17,6 +19,8 @@ $iptables::params::icmp_policy = <%= scope.lookupvar('iptables::params::icmp_pol
 $iptables::params::log = <%= scope.lookupvar('iptables::params::log') %>
 $iptables::params::log_level = <%= scope.lookupvar('iptables::params::log_level') %>
 $iptables::params::safe_ssh = <%= scope.lookupvar('iptables::params::safe_ssh') %>
+$iptables::params::broadcast_policy = <%= scope.lookupvar('iptables::params::broadcast_policy') %>
+$iptables::params::multicast_policy = <%= scope.lookupvar('iptables::params::multicast_policy') %>
 
 
 General internal variables:

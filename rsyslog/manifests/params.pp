@@ -72,10 +72,12 @@ class rsyslog::params  {
 ## EXTRA MODULE INTERNAL VARIABLES
 #(add here module specific internal variables)
 
+    # Extra syslog port
+    $protocol2 = "udp"
+    $port2 = "514"
 
 
-## MODULE INTERNAL VARIABLES
-# (Modify to adapt to unsupported OSes)
+## MODULE INTERNAL VARIABLEo
 
     $packagename = $operatingsystem ? {
         default => "rsyslog",

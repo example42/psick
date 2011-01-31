@@ -55,7 +55,6 @@ class rsyslog {
     # Include extended classes, if 
     if $backup == "yes" { include rsyslog::backup }
     if $monitor == "yes" { include rsyslog::monitor }
-    if $firewall == "yes" { include rsyslog::firewall }
 
     # Include project specific class if $my_project is set
     # The extra project class is by default looked in rsyslog module 

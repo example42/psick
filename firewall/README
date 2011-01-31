@@ -1,0 +1,74 @@
+Puppet abstraction module: firewall
+
+# Written by Lab42 #
+# http://www.example42.com
+
+Licence: GPLv3
+
+DESCRIPTION:
+This module abstracts the firewalling definitions for an host or application, in order to add
+and use different firewalling methods, without changes on the single application modules.
+It's used in the Example42 modules by the firewall "extended" classes (autoloaded if $firewall=yes)
+as a way to automatically firewall the resources provided by the module.
+This firewall module is an implementation of a firewalling abstaction layer that provides:
+- a common interface for different firewalling tools (currently only local host based iptables)
+- an unified syntax for firewalling resources able to adapt to firewalling modules from different authors
+- a standard way to define what an application or an host needs to be firewalled
+- reversable actions (you can remove a firewall resource previously defined)
+
+USAGE
+All the Example42 modules based on the "foo" template (a standardized module layout which can be quickly
+cloned into a new module) have a foo::firewall class. This is good example of how to use this module:
+
+class foo::firewall {
+
+    include foo::params
+
+    firewall { "foo_${foo::params::protocol}_${foo::params::port}":
+        source      => "${foo::params::firewall_source_real}",
+        destination => "${foo::params::firewall_destination_real}",
+        protocol    => "${foo::params::protocol}",
+        port        => "${foo::params::port}",
+        action      => "allow",
+        direction   => "input",
+        enable      => "${foo::params::firewall_enable}",
+        tool        => $firewall_tool,
+    }
+
+}
+
+Some notes:
+- It's not necessary to use qualified variables (such as ${foo::params::port} ) you  can provide direct values
+- You can obviously use the firewall type wherever you want, in dedicated classes or not.
+- With the variable "firewall_tool" (which can be an array) you define what firewall tools you want to use.
+- Currently on the "iptables" tool is supported and it manages local host based iptables.
+  It doesn't need stored configs but it requires Example42's iptables module
+
+MANAGING EXCEPTIONS
+You can fine control what you want to firewall.
+There are some "node-wide" variables you can set:
+# $firewall_source : Set the source address to use by default ( Default 0.0.0.0/0 ).
+# $firewall_destination : Set the destination addess to use by default  ( Default $ipaddress ).
+# $firewall_enable : Set if you want to enable firewalling ( Default true, note that you still need to set the global variable
+  $firewall to "yes"  to activate the firewall classes
+The above variables that apply to a whole host, can be overriden on a per-module basis:
+# $foo_firewall_source : Define the source address to use for access to the foo's port
+# $foo_firewall_destination : Define the destination address to use to access to the foo's port 
+# $foo_firewall_enable : Set if you want to manage firewall for foo's process. Note that generally the firewall
+  classes OPEN a port for the relevant application, so if you enable firewalling but disable firewall for foo 
+  you actually risk to block foo access since it's not explicitely permitted.
+
+
+DEPENDENCIES:
+This is a meta-module that needs Example42's iptables module to work.
+
+EXAMPLES:
+Here are some examples of variables to set and usage:
+$firewall = "yes"            # Enable Example42 firewall classes
+$firewall_tool = "iptables"  # Use Example42 iptables host based firewalling method
+$firewall_destination = "0/0" # When you open the firewall do it on all interfaces / local addresses instead of fact's $ipaddress
+
+$openssh_firewall_source = "10.0.42.0/24" # Permit ssh access only from the specified network
+$munin_firewall_source = 10.0.42.10 # Permit munin access only from the specified host
+include iptables             # Include Example42's module with default access
+include *                    # Include whatever Example42 module to automatically manage its firewalling

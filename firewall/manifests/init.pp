@@ -1,3 +1,8 @@
+# Experimental firewall define to abstract firewalling rules from the actual 
+# firewalling tool to use.
+# Currently only the "iptables# tool is supported, which makes use of Example42's
+# iptables module for host based local firewalling
+#
 define firewall (
     $source="",
     $destination="",
