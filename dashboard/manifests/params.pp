@@ -107,9 +107,9 @@ class dashboard::params  {
         default => "/var/log/dashboard",
     }
 
-    # Used by monitor and firewall class
-    # If you need to define additional ports, call them $protocol1/$port1 and add the relevant
-    # parts in firewall.pp and monitor.pp
+    # Used by monitor and firewall class
+    # If you need to define additional ports, call them $protocol1/$port1 and add the relevant
+    # parts in firewall.pp and monitor.pp
     $protocol = "tcp"
     $port = "3000"
     
@@ -196,7 +196,7 @@ class dashboard::params  {
         default => "$dashboard_backup_target",
     }
   
-    # Frequency of backups
+    # Frequency of backups
     $backup_frequency = $dashboard_backup_frequency ? {
         ''      => "daily",
         default => "$dashboard_backup_frequency",

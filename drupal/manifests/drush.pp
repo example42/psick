@@ -1,7 +1,7 @@
 # Class drupal::drush
 # 
 # Installs drush for Drupal
-# Autoloaded if $drupal_use_drush = yes 
+# Autoloaded if $drupal_use_drush = yes 
 #
 class drupal::drush {
 

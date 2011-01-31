@@ -38,7 +38,7 @@ class postfix {
         ensure  => present,
         require => Package["postfix"],
         notify  => Service["postfix"],
-        # content => template("postfix/postfix.conf.erb"),
+        # content => template("postfix/postfix.conf.erb"),
     }
 
     # Include OS specific subclasses, if necessary
@@ -53,7 +53,7 @@ class postfix {
 
     # Include project specific class if $my_project is set
     # The extra project class is by default looked in postfix module 
-    # If $my_project_onmodule == yes it's looked in your project module
+    # If $my_project_onmodule == yes it's looked in your project module
     if $my_project { 
         case $my_project_onmodule {
             yes,true: { include "${my_project}::postfix" }

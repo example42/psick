@@ -83,9 +83,9 @@ class mysql::params  {
         default => "/var/log/mysql",
     }
 
-    # Used by monitor and firewall class
-    # If you need to define additional ports, call them $protocol1/$port1 and add the relevant
-    # parts in firewall.pp and monitor.pp
+    # Used by monitor and firewall class
+    # If you need to define additional ports, call them $protocol1/$port1 and add the relevant
+    # parts in firewall.pp and monitor.pp
     $protocol = "tcp"
     $port = "3306"
     
@@ -172,7 +172,7 @@ class mysql::params  {
         default => "$mysql_backup_target",
     }
   
-    # Frequency of backups
+    # Frequency of backups
     $backup_frequency = $mysql_backup_frequency ? {
         ''      => "daily",
         default => "$mysql_backup_frequency",

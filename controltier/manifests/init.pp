@@ -8,7 +8,7 @@
 #
 class controltier {
 
-# Fix for not autoload
+# Fix for not autoload
 #    import "client/*.pp"
 #    import "server/*.pp"
 

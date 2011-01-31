@@ -2,7 +2,7 @@
 # Class rsyslog::server::mysql 
 # 
 # Manages Mysql on Rsyslog server 
-# Autoloaded if $rsyslog_db = mysql 
+# Autoloaded if $rsyslog_db = mysql 
 #
 class rsyslog::server::mysql {
     require rsyslog::params

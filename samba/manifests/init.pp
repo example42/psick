@@ -38,7 +38,7 @@ class samba {
         ensure  => present,
         require => Package["samba"],
         notify  => Service["samba"],
-        # content => template("samba/samba.conf.erb"),
+        # content => template("samba/samba.conf.erb"),
     }
 
     # Include OS specific subclasses, if necessary
@@ -53,7 +53,7 @@ class samba {
 
     # Include project specific class if $my_project is set
     # The extra project class is by default looked in samba module 
-    # If $my_project_onmodule == yes it's looked in your project module
+    # If $my_project_onmodule == yes it's looked in your project module
     if $my_project { 
         case $my_project_onmodule {
             yes,true: { include "${my_project}::samba" }

@@ -33,8 +33,8 @@ mysql::conf { "ParameterName": value="YourValue"} # Generic
 # Module specific classes
 
 # Module specific defines
-mysql::grant # Grant permissions 
-mysql::query # Runs arbitrary queries
+mysql::grant # Grant permissions 
+mysql::query # Runs arbitrary queries
 
 GENERAL VARIABLES:
 Example42 modules collection uses some general variables that can influence the behaviour of this module.

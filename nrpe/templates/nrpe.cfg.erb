@@ -15,7 +15,7 @@ connection_timeout=300
 include_dir=<%= scope.lookupvar('nrpe::params::configdir') %>/
 
 # COMMAND DEFINITIONS
-# These checks are used in Example42 monitor module 
+# These checks are used in Example42 monitor module 
 command[check_mount]=<%= scope.lookupvar('nrpe::params::pluginsdir') %>/check_mount -m "$ARG1$" -t "$ARG2$"
 command[check_process]=<%= scope.lookupvar('nrpe::params::pluginsdir') %>/check_procs -c 1: -C "$ARG1$"
 command[check_processwitharg]=<%= scope.lookupvar('nrpe::params::pluginsdir') %>/check_procs -c 1: -C "$ARG1$" -a "$ARG2$"

@@ -33,7 +33,7 @@ MODULE'S SPECIFIC USER VARIABLES:
 $openldap_base_dn # The Base dn to use for your OpenLdap database (not that the default
                   # configuration file provided with this module implies the usage of a single
                   # database. Default: "dc=example42,dc=com"
-$openldap_root_dn # The OpenLdap root_dn. Default: "cn=Manager,${base_dn}"
+$openldap_root_dn # The OpenLdap root_dn. Default: "cn=Manager,${base_dn}"
 $openldap_rootpw  # The root_dn password, in slapd.conf format.
                   # Default: "{SSHA}6cOchl1ZhL+N/iuN+MoZ6vFyLcCtw2Ug" (example42)
 $openldap_use_ssl # Set to "yes" if you want to activate SSL support. Default: "no"
@@ -44,15 +44,15 @@ $openldap_support_samba # Set to "yes" if you want to add the schemas needed whe
 $openldap_multimaster # Set to "yes" if you want to enable N Way Multimaster mode
                       # Note that for each server you must define at least one entry 
                       # in $openldap_multimaster_masters
-$openldap_multimaster_masters # One or more servers (defined in an array) to be considered 
+$openldap_multimaster_masters # One or more servers (defined in an array) to be considered 
                               # masters (providers) for the current server.
                               # If you want a 2 server multimaster layout just specify here
                               # the name of the "other" server. If you want a multimaster mesh
                               # with N servers, specify here an array containing all the "other"
-                              # servers.
-$openldap_extra      # Include extra scripts to manage ldap users (Default: "yes")
-$openldap_extra_user # The user that can run the ldap users management scripts (Default: "root")
-$openldap_extra_dir  # The directory where the exta ldap scripts are placed (Default: "/root/ldap")
+                              # servers.
+$openldap_extra      # Include extra scripts to manage ldap users (Default: "yes")
+$openldap_extra_user # The user that can run the ldap users management scripts (Default: "root")
+$openldap_extra_dir  # The directory where the exta ldap scripts are placed (Default: "/root/ldap")
 
 
 USAGE:

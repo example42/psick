@@ -19,8 +19,8 @@ php::module { mysql: }     # Installs specific module for php
 
 php::pear::module { Crypt-CHAP: }  # Installs pear component using OS package
 php::pear::module { "XML_Serializer": use_package => "no", preferred_state => "beta" }  # Installs pear component with pear command
-php::pear::config { "http_proxy": value => "$proxy_server" } # Configures pear environment
+php::pear::config { "http_proxy": value => "$proxy_server" } # Configures pear environment
 
 php::pecl::module { "xslcache": }  # Installs pecl module using OS package
 php::pecl::module { "xslcache": use_package => "no", preferred_state => "beta" } # Installs pecl module with pecl command
-php::pecl::config { "http_proxy": value => "$proxy_server" } # Configures pecl environment
+php::pecl::config { "http_proxy": value => "$proxy_server" } # Configures pecl environment

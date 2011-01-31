@@ -38,7 +38,7 @@ class mysql {
         ensure  => present,
         require => Package["mysql"],
         notify  => Service["mysql"],
-        # content => template("mysql/mysql.conf.erb"),
+        # content => template("mysql/mysql.conf.erb"),
     }
 
     # Include OS specific subclasses, if necessary
@@ -53,7 +53,7 @@ class mysql {
 
     # Include project specific class if $my_project is set
     # The extra project class is by default looked in mysql module 
-    # If $my_project_onmodule == yes it's looked in your project module
+    # If $my_project_onmodule == yes it's looked in your project module
     if $my_project { 
         case $my_project_onmodule {
             yes,true: { include "${my_project}::mysql" }

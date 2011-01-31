@@ -57,8 +57,8 @@ EXAMPLES:
 node munin.example42.com {
     $munin_server = ["10.42.42.12","10.42.40.12"] # The IP of the Munin server(s). Can be an array or a variable.
     $munin_grouplogic = "env" # Optional. You have different munin servers, one for each value of custom variable $env 
-    $munin_plugins = "yes" # Optional. Add custom plugins
-    $munin_server_local = "yes" # Necessary on server. Use this on the Munin server (Grapher/Collector)
+    $munin_plugins = "yes" # Optional. Add custom plugins
+    $munin_server_local = "yes" # Necessary on server. Use this on the Munin server (Grapher/Collector)
 
     include munin
 }
@@ -66,7 +66,7 @@ node munin.example42.com {
 node any.example42.com {
     $munin_server = ["10.42.42.12","10.42.40.12"] # Can be an array or a variable
     $munin_grouplogic = "env" # Optional. You have different munin servers, one for each value of custom variable $env
-    $munin_plugins = "yes" # Optional. Add custom plugins
+    $munin_plugins = "yes" # Optional. Add custom plugins
 
     include munin
 }

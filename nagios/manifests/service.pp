@@ -16,7 +16,7 @@ define nagios::service (
 
     require nagios::params
 
-    # Autoinclude the target host class to pass Nagios internat checks (each service must have a defined host)
+    # Autoinclude the target host class to pass Nagios internat checks (each service must have a defined host)
     include nagios::target
 
     # Set defaults based on the same define $name

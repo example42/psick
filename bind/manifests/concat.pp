@@ -6,7 +6,7 @@
 # - First path contains general options and logging info
 # - Second part contains the default zones and root hints
 #   (The default distro config file is used)
-# - Third part contains the custom zones. These can be all placed
+# - Third part contains the custom zones. These can be all placed
 #   in the bind/named.conf_custom.erb template AND/OR populated
 #   with the bind::zone define
 #

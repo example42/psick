@@ -10,7 +10,7 @@
 # There are basically TWO different ways to "instance" this class:
 # class openssh::example42 { } - Without inheritance. Use this method if the class just adds resources ot the ones managed in the main openssh class
 # class openssh::example42 inherits openssh { } - WITH inheritance. Use this method if you need to override parameters of resources already defined in the main openssh class.
-# The latter method is useful, for example, to provide configuration files according to custom logic.
+# The latter method is useful, for example, to provide configuration files according to custom logic.
 #
 class openssh::example42 inherits openssh {
 

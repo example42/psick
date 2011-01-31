@@ -80,9 +80,9 @@ class snmpd::params  {
         default => "/var/log/messages",
     }
 
-    # Used by monitor and firewall class
-    # If you need to define additional ports, call them $protocol1/$port1 and add the relevant
-    # parts in firewall.pp and monitor.pp
+    # Used by monitor and firewall class
+    # If you need to define additional ports, call them $protocol1/$port1 and add the relevant
+    # parts in firewall.pp and monitor.pp
     $protocol = "udp"
     $port = "161"
 
@@ -169,7 +169,7 @@ class snmpd::params  {
         default => "$snmpd_backup_target",
     }
   
-    # Frequency of backups
+    # Frequency of backups
     $backup_frequency = $snmpd_backup_frequency ? {
         ''      => "daily",
         default => "$snmpd_backup_frequency",

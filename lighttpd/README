@@ -52,7 +52,7 @@ lighttpd::conf { "ParameterName": value="YourValue"} # Generic
 # Module specific classes
 
 # Module specific defines
-lighttpd::dotconf # Define to add custom .conf files to lighttpd conf.d dir
+lighttpd::dotconf # Define to add custom .conf files to lighttpd conf.d dir
 
 EXAMPLE42 GENERAL VARIABLES:
 Example42 modules collection uses some general variables that can influence the

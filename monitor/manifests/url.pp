@@ -18,9 +18,9 @@ define monitor::url (
 
 
 # Temp workaround
-# $computed_target = "$fqdn" # WORKS :-I
+# $computed_target = "$fqdn" # WORKS :-I
 # $computed_target = urlhostname("http://127.0.0.1") # WORKS
-# $computed_target = urlhostname("$url")
+# $computed_target = urlhostname("$url")
 
     # If target is not provided we get it from the Url
     $computed_target = $target ? {

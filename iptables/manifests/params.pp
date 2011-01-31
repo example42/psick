@@ -10,8 +10,8 @@ class iptables::params  {
 # (The default used is in the line with '')
 
 # Define how you want to manage iptables configuration:
-# "file" - To provide iptables rules as a normal file
-# "concat" - To build them up using different fragments
+# "file" - To provide iptables rules as a normal file
+# "concat" - To build them up using different fragments
 #          - This option, set as default, permits the use of the iptables::rule define
 #          - and many other funny things
     $config = $iptables_config ? {

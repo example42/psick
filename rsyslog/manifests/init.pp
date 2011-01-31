@@ -42,7 +42,7 @@ class rsyslog {
         ensure  => present,
         require => Package["rsyslog"],
         notify  => Service["rsyslog"],
-        # content => template("rsyslog/rsyslog.conf.erb"),
+        # content => template("rsyslog/rsyslog.conf.erb"),
     }
 
     # Include OS specific subclasses, if necessary
@@ -58,7 +58,7 @@ class rsyslog {
 
     # Include project specific class if $my_project is set
     # The extra project class is by default looked in rsyslog module 
-    # If $my_project_onmodule == yes it's looked in your project module
+    # If $my_project_onmodule == yes it's looked in your project module
     if $my_project { 
         case $my_project_onmodule {
             yes,true: { include "${my_project}::rsyslog" }

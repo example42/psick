@@ -38,7 +38,7 @@ class munin::server {
         require => Package["munin"],
     }
 
-    # Collects all the stored configs regarding munin
+    # Collects all the stored configs regarding munin
     case $munin::params::grouptag {
         "": {
         File <<| tag == "munin_host" |>>
@@ -62,7 +62,7 @@ class munin::server {
 
     # Include project specific class if $my_project is set
     # The extra project class is by default looked in munin module 
-    # If $my_project_onmodule == yes it's looked in your project module
+    # If $my_project_onmodule == yes it's looked in your project module
     if $my_project { 
         case $my_project_onmodule {
             yes,true: { include "${my_project}::munin::server" }

@@ -1,7 +1,7 @@
 # Class: controltier::client::key
 #
 # Installs controltier server key on client nodes for remote management
-# At the moment this is done sourcing a static key filei (quick & dirty)
+# At the moment this is done sourcing a static key filei (quick & dirty)
 # TODO: Manage keys with ssh::auth or another smart way
 #
 # Usage:

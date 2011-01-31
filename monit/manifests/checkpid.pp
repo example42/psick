@@ -55,7 +55,7 @@ define monit::checkpid ( $process="" , $templatefile="", $pidfile="", $startprog
 	default => $failaction,
     }
 
-    # Define if resource is present or absent
+    # Define if resource is present or absent
     $ensure = $enable ? {
         "false"   => "absent",
         false     => "absent",

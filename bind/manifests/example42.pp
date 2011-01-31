@@ -23,7 +23,7 @@
 class bind::example42 {
 
     # On the DNS master node we manage all the zones 
-    # Modify the zone files in MODULES/bind/files/example42/ 
+    # Modify the zone files in MODULES/bind/files/example42/ 
 
     if ( "$bind::params::servertype" == "master" ) {     
         file { "custom_zones":

@@ -111,9 +111,9 @@ class drupal::params  {
         default => "/var/log/drupal",
     }
 
-    # Used by monitor and firewall class
-    # If you need to define additional ports, call them $protocol1/$port1 and add the relevant
-    # parts in firewall.pp and monitor.pp
+    # Used by monitor and firewall class
+    # If you need to define additional ports, call them $protocol1/$port1 and add the relevant
+    # parts in firewall.pp and monitor.pp
     $protocol = "tcp"
     $port = "80"
     
@@ -147,7 +147,7 @@ class drupal::params  {
 
     # Pattern to look for in the URL defined in drupal::monitor class
     $monitor_url_pattern = $drupal_monitor_url_pattern ? {
-        ''      => "a", # Sane default. TO CUSTOMIZE
+        ''      => "a", # Sane default. TO CUSTOMIZE
         default => "${drupal_monitor_url_pattern}",
     }
 
@@ -200,7 +200,7 @@ class drupal::params  {
         default => "$drupal_backup_target",
     }
   
-    # Frequency of backups
+    # Frequency of backups
     $backup_frequency = $drupal_backup_frequency ? {
         ''      => "daily",
         default => "$drupal_backup_frequency",

@@ -98,7 +98,7 @@ class openldap::params  {
 ## EXTRA MODULE INTERNAL VARIABLES
 #(add here module specific internal variables)
 
-    # Database backend (only hdb and bdb supported out of the box)
+    # Database backend (only hdb and bdb supported out of the box)
     $db_backend = "hdb"
 
     $argsfile = $operatingsystem ? {
@@ -221,9 +221,9 @@ class openldap::params  {
         default => "/var/log/openldap.log",
     }
 
-    # Used by monitor and firewall class
-    # If you need to define additional ports, call them $protocol1/$port1 and add the relevant
-    # parts in firewall.pp and monitor.pp
+    # Used by monitor and firewall class
+    # If you need to define additional ports, call them $protocol1/$port1 and add the relevant
+    # parts in firewall.pp and monitor.pp
     $protocol = "tcp"
     $port = "389"
     
@@ -310,7 +310,7 @@ class openldap::params  {
         default => "$openldap_backup_target",
     }
   
-    # Frequency of backups
+    # Frequency of backups
     $backup_frequency = $openldap_backup_frequency ? {
         ''      => "daily",
         default => "$openldap_backup_frequency",

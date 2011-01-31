@@ -2,7 +2,7 @@
 # Class rsyslog::server::loganalyzer
 # 
 # Installs LogAnaalyzer for Rsyslog
-# Autoloaded if $rsyslog_use_loganalyzer = yes 
+# Autoloaded if $rsyslog_use_loganalyzer = yes 
 #
 class rsyslog::server::loganalyzer {
     require rsyslog::params

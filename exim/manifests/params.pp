@@ -23,7 +23,7 @@ class exim::params  {
     }
 
     # For semplicity and lack of time to deploy a sensibke configuration we cosndier as exim config file on Ubuntu/Debian
-    # the debconf file, which is evaluated when the service is started. This file has not the format and the syntax of the official exim file.
+    # the debconf file, which is evaluated when the service is started. This file has not the format and the syntax of the official exim file.
     $configfile = $operatingsystem ? {
         debian  => "/etc/exim4/update-exim4.conf.conf",
         ubuntu  => "/etc/exim4/update-exim4.conf.conf",

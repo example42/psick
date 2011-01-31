@@ -116,9 +116,9 @@ class apache::params  {
         default => "/var/log/httpd",
     }
 
-    # Used by monitor and firewall class
-    # If you need to define additional ports, call them $protocol1/$port1 and add the relevant
-    # parts in firewall.pp and monitor.pp
+    # Used by monitor and firewall class
+    # If you need to define additional ports, call them $protocol1/$port1 and add the relevant
+    # parts in firewall.pp and monitor.pp
     $protocol = "tcp"
     $port = "80"
 
@@ -205,7 +205,7 @@ class apache::params  {
         default => "$apache_backup_target",
     }
   
-    # Frequency of backups
+    # Frequency of backups
     $backup_frequency = $apache_backup_frequency ? {
         ''      => "daily",
         default => "$apache_backup_frequency",

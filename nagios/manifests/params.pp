@@ -9,7 +9,7 @@ class nagios::params  {
 # (Here are set the defaults, provide your custom variables externally)
 # (The default used is in the line with '')
 
-    # Hostgroup automatic assignement according to custom logic # TESTING # 
+    # Hostgroup automatic assignement according to custom logic # TESTING # 
     $hostgroups = $nagios_hostgroups ? {
          ''      => "all",
 #         ''      => "$role",
@@ -56,7 +56,7 @@ class nagios::params  {
 
 ## EXTRA VARIABLES
 # The directory where we place automatic Nagios confingurations MUST be fixed
-# Cannot be operating system dependent
+# Cannot be operating system dependent
     $customconfigdir = "/etc/nagios/auto.d"
 
     # Sets Nagios versions according to default package of different OS. To be updated...
@@ -210,9 +210,9 @@ class nagios::params  {
         default => "/var/log/nagios",
     }
 
-    # Used by monitor and firewall class
-    # If you need to define additional ports, call them $protocol1/$port1 and add the relevant
-    # parts in firewall.pp and monitor.pp
+    # Used by monitor and firewall class
+    # If you need to define additional ports, call them $protocol1/$port1 and add the relevant
+    # parts in firewall.pp and monitor.pp
     $protocol = "tcp"
     $port = "801"
     
@@ -299,7 +299,7 @@ class nagios::params  {
         default => "$nagios_backup_target",
     }
   
-    # Frequency of backups
+    # Frequency of backups
     $backup_frequency = $nagios_backup_frequency ? {
         ''      => "daily",
         default => "$nagios_backup_frequency",

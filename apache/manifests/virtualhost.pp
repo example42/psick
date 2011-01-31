@@ -58,8 +58,8 @@ define apache::virtualhost ( $templatefile='virtualhost.conf.erb' , $documentroo
 
 
     # Some OS specific settings:
-    # On Debian/Ubuntu manages sites-enabled 
-    # On RedHat/Centos Creates the apache conf file with NameVirtualHost directive
+    # On Debian/Ubuntu manages sites-enabled 
+    # On RedHat/Centos Creates the apache conf file with NameVirtualHost directive
 
     case $operatingsystem {
         ubuntu,debian: { 

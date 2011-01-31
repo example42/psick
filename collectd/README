@@ -39,7 +39,7 @@ collectd::conf { "ParameterName": value="YourValue"} # Generic
 # Module specific classes
 
 # Module specific defines
-collectd::plugin { "pluginname":  } # Loads the specified plugin. Note that a omonimous template must exist
+collectd::plugin { "pluginname":  } # Loads the specified plugin. Note that a omonimous template must exist
                                     # A set of standard plugins is autoloaded by (automatic) collectd::plugins class 
 
 GENERAL VARIABLES:

@@ -23,7 +23,7 @@ class iptables::concat {
     # The File Header. With Puppet comment
     concat::fragment{ "iptables_header":
         target  => "${iptables::params::configfile}",
-        content => "# File Managed by Puppet\n",
+        content => "# File Managed by Puppet\n",
         order   => 01,
         notify  => Service["iptables"],
     }

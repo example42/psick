@@ -89,9 +89,9 @@ class samba::params  {
         default => "/var/log/samba",
     }
 
-    # Used by monitor and firewall class
-    # If you need to define additional ports, call them $protocol1/$port1 and add the relevant
-    # parts in firewall.pp and monitor.pp
+    # Used by monitor and firewall class
+    # If you need to define additional ports, call them $protocol1/$port1 and add the relevant
+    # parts in firewall.pp and monitor.pp
     $protocol = "tcp"
     $port = "445"
     
@@ -178,7 +178,7 @@ class samba::params  {
         default => "$samba_backup_target",
     }
   
-    # Frequency of backups
+    # Frequency of backups
     $backup_frequency = $samba_backup_frequency ? {
         ''      => "daily",
         default => "$samba_backup_frequency",

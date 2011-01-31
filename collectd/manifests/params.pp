@@ -114,9 +114,9 @@ class collectd::params  {
         default => "/var/log/collectd",
     }
 
-    # Used by monitor and firewall class
-    # If you need to define additional ports, call them $protocol1/$port1 and add the relevant
-    # parts in firewall.pp and monitor.pp
+    # Used by monitor and firewall class
+    # If you need to define additional ports, call them $protocol1/$port1 and add the relevant
+    # parts in firewall.pp and monitor.pp
     $protocol = "tcp"
     # $port is user configurable. Defined before    
 
@@ -202,7 +202,7 @@ class collectd::params  {
         default => "$collectd_backup_target",
     }
   
-    # Frequency of backups
+    # Frequency of backups
     $backup_frequency = $collectd_backup_frequency ? {
         ''      => "daily",
         default => "$collectd_backup_frequency",

@@ -2,7 +2,7 @@
 # Class puppet::server::mysql 
 # 
 # Manages Mysql on Puppet Master.
-# Autoloaded if $puppet_db = mysql 
+# Autoloaded if $puppet_db = mysql 
 #
 class puppet::server::mysql {
     require puppet::params

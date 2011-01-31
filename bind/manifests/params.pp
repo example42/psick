@@ -10,8 +10,8 @@ class bind::params  {
 # (The default used is in the line with '')
 
 # Define how you want to manage named.conf:
-# "file" - To provide named.conf as a normal template
-# "concat" - To build up named.conf using different fragments
+# "file" - To provide named.conf as a normal template
+# "concat" - To build up named.conf using different fragments
 #          - This option, set as default, permits the use of the bind::zone define
     $config = $bind_config ? {
         "file"  => "file",
@@ -19,9 +19,9 @@ class bind::params  {
     }
 
 # Define what kind of server installation you want
-# "master" - Master server. Authoritative for at least a zone.
-# "slave" - Slave server. Authoritative for at least a zone.
-# "cache" - iChaching only nameserver. Not autoritative
+# "master" - Master server. Authoritative for at least a zone.
+# "slave" - Slave server. Authoritative for at least a zone.
+# "cache" - iChaching only nameserver. Not autoritative
     $servertype = $bind_servertype ? {
         "master"    => "master",
         "master-dr" => "master-dr",
@@ -152,9 +152,9 @@ class bind::params  {
         default => "$chroot_dir/var/log/named",
     }
 
-    # Used by monitor and firewall class
-    # If you need to define additional ports, call them $protocol1/$port1 and add the relevant
-    # parts in firewall.pp and monitor.pp
+    # Used by monitor and firewall class
+    # If you need to define additional ports, call them $protocol1/$port1 and add the relevant
+    # parts in firewall.pp and monitor.pp
     $protocol = "tcp"
     $port = "53"
     
@@ -241,7 +241,7 @@ class bind::params  {
         default => "$bind_backup_target",
     }
   
-    # Frequency of backups
+    # Frequency of backups
     $backup_frequency = $bind_backup_frequency ? {
         ''      => "daily",
         default => "$bind_backup_frequency",

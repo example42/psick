@@ -48,7 +48,7 @@ class apache {
 
     # Include project specific class if $my_project is set
     # The extra project class is by default looked in apache module 
-    # If $my_project_onmodule == yes it's looked in your project module
+    # If $my_project_onmodule == yes it's looked in your project module
     if $my_project { 
         case $my_project_onmodule {
             yes,true: { include "${my_project}::apache" }

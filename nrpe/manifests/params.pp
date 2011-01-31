@@ -31,7 +31,7 @@ class nrpe::params  {
     }
 
 
-## VARIABLES FOR SPECIAL CHECKS
+## VARIABLES FOR SPECIAL CHECKS
     $ntp = $ntp_server ? {
         ''      => "0.pool.ntp.org",
         default => "${ntp_server}",
@@ -122,9 +122,9 @@ class nrpe::params  {
         default => "/var/log/messages",
     }
 
-    # Used by monitor and firewall class
-    # If you need to define additional ports, call them $protocol1/$port1 and add the relevant
-    # parts in firewall.pp and monitor.pp
+    # Used by monitor and firewall class
+    # If you need to define additional ports, call them $protocol1/$port1 and add the relevant
+    # parts in firewall.pp and monitor.pp
     $protocol = "tcp"
     # DEFINED BEFORE UNDER USER VARIABLES # $port = "5666"
     
@@ -211,7 +211,7 @@ class nrpe::params  {
         default => "$nrpe_backup_target",
     }
   
-    # Frequency of backups
+    # Frequency of backups
     $backup_frequency = $nrpe_backup_frequency ? {
         ''      => "daily",
         default => "$nrpe_backup_frequency",

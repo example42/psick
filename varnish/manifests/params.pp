@@ -109,9 +109,9 @@ class varnish::params  {
         default => "/var/log/varnish",
     }
 
-    # Used by monitor and firewall class
-    # If you need to define additional ports, call them $protocol1/$port1 and add the relevant
-    # parts in firewall.pp and monitor.pp
+    # Used by monitor and firewall class
+    # If you need to define additional ports, call them $protocol1/$port1 and add the relevant
+    # parts in firewall.pp and monitor.pp
     $protocol = "tcp"
     
 
@@ -197,7 +197,7 @@ class varnish::params  {
         default => "$varnish_backup_target",
     }
   
-    # Frequency of backups
+    # Frequency of backups
     $backup_frequency = $varnish_backup_frequency ? {
         ''      => "daily",
         default => "$varnish_backup_frequency",

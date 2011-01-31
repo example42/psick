@@ -1,14 +1,14 @@
 # Define puppi::project::dir
 #
 # This is a shortcut define to build a puppi project for a deploy based on the syncronization of a 
-# directory.
+# directory.
 # It uses different existing "core" defines (puppi::project, puppi:deploy (many) , puppi::rollback (many) 
 # to build a full featured template project for automatic deployments.
 # If you need to customize it, either change the template defined here or build up your own custom ones.
 #
 # Variables:
 # $source - The full URL of the source dir. Format should be in URI standard (rsync:// file:// ssh:// svn://)  
-# $init_source (Optional) - The full URL to be used to retrieve, for the first time, the project files.
+# $init_source (Optional) - The full URL to be used to retrieve, for the first time, the project files.
 #                           They are copied to the $deploy_root
 #                           Format should be in URI standard (http:// file:// ssh:// svn://)
 # $deploy_root - The destination directory where the files have to be deployed
@@ -57,7 +57,7 @@ define puppi::project::dir (
 
     require puppi::params
 
-    # Autoinclude the puppi class
+    # Autoinclude the puppi class
     include puppi
 
     # Set default values

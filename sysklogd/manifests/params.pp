@@ -19,7 +19,7 @@ class sysklogd::params  {
 ## EXTRA MODULE INTERNAL VARIABLES
 #(add here module specific internal variables)
 
-    # Extra syslog port
+    # Extra syslog port
     $protocol2 = "udp"
     $port2 = "514"
 
@@ -90,9 +90,9 @@ class sysklogd::params  {
         default => "/var/log/sysklogd",
     }
 
-    # Used by monitor and firewall class
-    # If you need to define additional ports, call them $protocol1/$port1 and add the relevant
-    # parts in firewall.pp and monitor.pp
+    # Used by monitor and firewall class
+    # If you need to define additional ports, call them $protocol1/$port1 and add the relevant
+    # parts in firewall.pp and monitor.pp
     $protocol = "tcp"
     $port = "80"
     
@@ -179,7 +179,7 @@ class sysklogd::params  {
         default => "$sysklogd_backup_target",
     }
   
-    # Frequency of backups
+    # Frequency of backups
     $backup_frequency = $sysklogd_backup_frequency ? {
         ''      => "daily",
         default => "$sysklogd_backup_frequency",

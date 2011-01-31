@@ -2,7 +2,7 @@
 # Class puppet::server::passenger 
 # 
 # Installs and confgiures passenger for Pupeptmaster
-# Autoloaded if $puppet_passneger = yes
+# Autoloaded if $puppet_passneger = yes
 #
 class puppet::server::passenger {
     require puppet::params

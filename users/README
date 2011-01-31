@@ -23,6 +23,6 @@ $users_automount (default: "no") - Set to "yes" if you want to enable homes auto
 USAGE:
 # Standard Classes 
 include users # Manages users via Puppet. Set the above variables to manage ldap authentication.
-              # If $my_project is set, it autoloads users::$my_project where you can define custom local users and custom configurations
+              # If $my_project is set, it autoloads users::$my_project where you can define custom local users and custom configurations
 
 DEPENDENCIES:

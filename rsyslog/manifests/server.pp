@@ -11,7 +11,7 @@ class rsyslog::server inherits rsyslog {
     # Load the variables used in this module. Check the params.pp file 
     require rsyslog::params
 
-    # Configure mysql support, if requested
+    # Configure mysql support, if requested
     if ( $rsyslog::params::db == "mysql" ) { include rsyslog::server::mysql }
 
     # Add LogAnalyzer
@@ -36,7 +36,7 @@ class rsyslog::server inherits rsyslog {
         content => template("rsyslog/server/rsyslog.conf.erb"),
     }
 
-    # Autofirewalling for syslog server
+    # Autofirewalling for syslog server
     if $firewall == "yes" { include rsyslog::firewall }
 
     # Include project specific class for server if $my_project is set

@@ -89,9 +89,9 @@ class foo::params  {
         default => "/var/log/foo",
     }
 
-    # Used by monitor and firewall class
-    # If you need to define additional ports, call them $protocol1/$port1 and add the relevant
-    # parts in firewall.pp and monitor.pp
+    # Used by monitor and firewall class
+    # If you need to define additional ports, call them $protocol1/$port1 and add the relevant
+    # parts in firewall.pp and monitor.pp
     $protocol = "tcp"
     $port = "80"
     
@@ -178,7 +178,7 @@ class foo::params  {
         default => "$foo_backup_target",
     }
   
-    # Frequency of backups
+    # Frequency of backups
     $backup_frequency = $foo_backup_frequency ? {
         ''      => "daily",
         default => "$foo_backup_frequency",

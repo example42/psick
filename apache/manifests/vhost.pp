@@ -38,8 +38,8 @@ define apache::vhost( $port, $docroot, $ssl=true, $template='apache/virtualhosts
     }
 
     # Some OS specific settings:
-    # On Debian/Ubuntu manages sites-enabled 
-    # On RedHat/Centos Creates the apache conf file with NameVirtualHost directive
+    # On Debian/Ubuntu manages sites-enabled 
+    # On RedHat/Centos Creates the apache conf file with NameVirtualHost directive
     case $operatingsystem {
         ubuntu,debian: {
             file { "ApacheVHostEnabled_$name":

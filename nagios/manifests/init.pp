@@ -14,7 +14,7 @@ class nagios {
     require nagios::params
     include apache::params
 
-    # No Nagios without webserver
+    # No Nagios without webserver
     include apache
 
     # Basic Package - Service - Configuration file management
@@ -74,7 +74,7 @@ class nagios {
         }
     }
 
-    # Collects all the stored configs regarding nagios 
+    # Collects all the stored configs regarding nagios 
     # If nagios_grouplogic is defined different Nagios server collect the relevant data
     case $nagios::params::grouptag {
         "": {
@@ -103,7 +103,7 @@ class nagios {
 
     # Include project specific class if $my_project is set
     # The extra project class is by default looked in nagios module 
-    # If $my_project_onmodule == yes it's looked in your project module
+    # If $my_project_onmodule == yes it's looked in your project module
     if $my_project { 
         case $my_project_onmodule {
             yes,true: { include "${my_project}::nagios" }

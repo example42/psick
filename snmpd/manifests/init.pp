@@ -38,7 +38,7 @@ class snmpd {
         ensure  => present,
         require => Package["snmpd"],
         notify  => Service["snmpd"],
-        # content => template("snmpd/snmpd.conf.erb"),
+        # content => template("snmpd/snmpd.conf.erb"),
     }
 
     # Include OS specific subclasses, if necessary
@@ -53,7 +53,7 @@ class snmpd {
 
     # Include project specific class if $my_project is set
     # The extra project class is by default looked in snmpd module 
-    # If $my_project_onmodule == yes it's looked in your project module
+    # If $my_project_onmodule == yes it's looked in your project module
     if $my_project { 
         case $my_project_onmodule {
             yes,true: { include "${my_project}::snmpd" }

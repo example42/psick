@@ -38,7 +38,7 @@ class dovecot {
         ensure  => present,
         require => Package["dovecot"],
         notify  => Service["dovecot"],
-        # content => template("dovecot/dovecot.conf.erb"),
+        # content => template("dovecot/dovecot.conf.erb"),
     }
 
     # Include OS specific subclasses, if necessary
@@ -55,7 +55,7 @@ class dovecot {
 
     # Include project specific class if $my_project is set
     # The extra project class is by default looked in dovecot module 
-    # If $my_project_onmodule == yes it's looked in your project module
+    # If $my_project_onmodule == yes it's looked in your project module
     if $my_project { 
         case $my_project_onmodule {
             yes,true: { include "${my_project}::dovecot" }

@@ -31,8 +31,8 @@ while [ $# -gt 0 ]; do
     -t)
       case $2 in
       # This logic is applied:
-      # In $predeploydir go ($workdir/$project/deploy) go file that have to be deployed
-      # In $storedir go ($workdir/$project/store) go support files as tarballs or lists
+      # In $predeploydir go ($workdir/$project/deploy) go file that have to be deployed
+      # In $storedir go ($workdir/$project/store) go support files as tarballs or lists
           list)
           downloaddir=$storedir
           save_runtime_config "listfile=$downloaddir/$downloadfilename"

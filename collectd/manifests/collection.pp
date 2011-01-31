@@ -25,7 +25,7 @@ class collectd::collection {
         content => template("collectd/collection.conf.erb"),
     }
 
-# Quick and dirty dependencies setup
+# Quick and dirty dependencies setup
     package {
         'rrdtool-perl':
             name => $operatingsystem ? {

@@ -29,7 +29,7 @@ echo "---------------------------------------------------"
 echo "CHANGING FILE CONTENTS"
 for file in $( grep -R $OLDMODULE $NEWMODULE | cut -d ":" -f 1 | uniq ) ; do 
 	sed -i "s/$OLDMODULE/$NEWMODULE/g" $file && echo "Changed $file" # Use under Linux
-	# sed -i "" -e "s/$OLDMODULE/$NEWMODULE/g" $file && echo "Changed $file" # Use under MacOS
+	# sed -i "" -e "s/$OLDMODULE/$NEWMODULE/g" $file && echo "Changed $file" # Use under MacOS
 done
 
 echo "Module $NEWMODULE created"

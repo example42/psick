@@ -30,8 +30,8 @@ class bind {
     }
 
     # Bind is a weird beast to manage with Puppet: there can be
-    # different approaches to build up named.conf and we don't 
-    # want to enforce any.
+    # different approaches to build up named.conf and we don't 
+    # want to enforce any.
     # With this module you can manage named.conf in 2 ways:
     # - As a normal configuration file (set $bind_config="file")
     # - As a concatenated file, dynamically built by different parts:
@@ -42,7 +42,7 @@ class bind {
         "concat": { include bind::concat }
     }
 
-    # The log file and dir for Bind
+    # The log file and dir for Bind
     file { "bind.logdir":
         path    => "${bind::params::logdir}",
         mode    => "755",
@@ -60,7 +60,7 @@ class bind {
         require => File["bind.logdir"],
     }
 
-    # The directory where Bind places slave zone files 
+    # The directory where Bind places slave zone files 
     file { "bind.slave.dir":
         path    => "${bind::params::datadir}/slaves",
         mode    => "755",
@@ -69,7 +69,7 @@ class bind {
         ensure  => directory,
     }
 
-    # The directory where Bind puts stats data 
+    # The directory where Bind puts stats data 
     file { "bind.data.dir":
         path    => "${bind::params::datadir}/data",
         mode    => "755",
@@ -93,7 +93,7 @@ class bind {
 
     # Include project specific class if $my_project is set
     # The extra project class is by default looked in bind module 
-    # If $my_project_onmodule == yes it's looked in your project module
+    # If $my_project_onmodule == yes it's looked in your project module
     if $my_project { 
         case $my_project_onmodule {
             yes,true: { include "${my_project}::bind" }
