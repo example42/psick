@@ -19,6 +19,8 @@ showhelp () {
 # Check arguments
 if [ $1 ] ; then
     deploy_destdir=$1
+# This breaks on projects::maven when using more than one deploy destinations
+#    [ $deploy_root ] && deploy_destdir=$deploy_root
 else
     showhelp
     exit 2 
@@ -41,12 +43,15 @@ deploy () {
     case "$debug" in
         yes)
             rsync -rlptDv $deploy_sourcedir/ $deploy_destdir/
+            check_retcode
         ;;
         full)
             rsync -rlptDv $deploy_sourcedir/ $deploy_destdir/
+            check_retcode
         ;;
         *)
             rsync -rlptD $deploy_sourcedir/ $deploy_destdir/
+            check_retcode
         ;;
     esac
 }

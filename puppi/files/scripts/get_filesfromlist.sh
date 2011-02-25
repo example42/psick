@@ -9,7 +9,7 @@ showhelp () {
     echo "This script is used to retrieve the files present in a text file list."
     echo "It has 1 required argument:"
     echo "First argument (\$1 - required) is the base url (in URI format) from where to retrieve the files defined in the list"
-    echo "The list file is defined as $listfile , these variables are gathered from the Puppi runtime"
+    echo "The list file is defined as \$downloadedfile , these variables are gathered from the Puppi runtime"
     echo "  config file."
     echo 
     echo "Examples: "
@@ -34,27 +34,20 @@ downloadfiles () {
 
     cd $predeploydir
 
-    for file in $(cat $listfile | grep -v "^#" | grep -v "^$" ) ; do
+    for file in $(cat $downloadedfile | grep -v "^#" | grep -v "^$" ) ; do
         filepath=$file
         filedir=$(dirname $filepath)
         mkdir -p $filedir
+        check_retcode
         
         case $type in 
             ssh|scp) 
                 scp $baseurl:$filepath $filepath
-                if [ $? = "0" ] ; then
-                    true
-                else
-                    exit 2
-                fi
+                check_retcode
             ;;
             http|https|file)
-                curl -s $baseurl/$filepath -o $filepath
-                if [ $? = "0" ] ; then
-                    true
-                else
-                    exit 2
-                fi
+                curl -s -f $baseurl/$filepath -o $filepath
+                check_retcode
             ;;
             svn)
                 svnuri=$(echo $baseurl/$filepath | cut -d'/' -f3-)
@@ -62,12 +55,9 @@ downloadfiles () {
                 svnpassword=$(echo $svnuri | cut -d':' -f2 | cut -d'@' -f1)
                 svnserver=$(echo $svnuri | cut -d'@' -f2 | cut -d'/' -f1)
                 svnpath=/$(echo $svnuri | cut -d'@' -f2 | cut -d'/' -f2-)
-                svn export --username=$svnusername --password=$svnpassword $svnserver $svnpath 
-                if [ $? = "0" ] ; then
-                    true
-                else
-                    exit 2
-                fi
+                mkdir -p $(dirname $svnpath)
+                svn export --force --username="$svnusername" --password="$svnpassword" http://$svnserver/$svnpath $(dirname $svnpath)
+                check_retcode
             ;;
         esac
 

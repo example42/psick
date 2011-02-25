@@ -8,7 +8,7 @@
 # Variables:
 # $source - The full URL to be used to retrive the WAR file. Should be in URI format
 #               Accepted uris are: http(s):// ssh:// file:// svn://  
-# $init_source (Optional) - The full URL to be used to retrieve, for the first time, the project files.
+# $init_source (Optional) - The full URL to be used to retrieve, for the first time, the project files.
 #                           They are copied to the $deploy_root
 #                           Format should be in URI standard (http:// file:// ssh:// svn://)
 # $deploy_root - The destination directory where the WAR has to be deployed

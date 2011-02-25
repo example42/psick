@@ -21,7 +21,7 @@ define puppi::rollback (
 
     require puppi::params
 
-    # Autoinclude the puppi class
+    # Autoinclude the puppi class
     include puppi
 
     $ensure = $enable ? {

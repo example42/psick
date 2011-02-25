@@ -7,7 +7,7 @@
 #
 # Variables:
 # $source - The full URL to be used to retrieve the tarball. Format should be in URI standard (http:// file:// ssh:// svn://)  
-# $init_source (Optional) - The full URL to be used to retrieve, for the first time, the project files.
+# $init_source (Optional) - The full URL to be used to retrieve, for the first time, the project files.
 #                           They are copied to the $deploy_root
 #                           Format should be in URI standard (http:// file:// ssh:// svn://)
 # $deploy_root - The destination directory where the files have to be deployed
@@ -56,7 +56,7 @@ define puppi::project::tar (
 
     require puppi::params
 
-    # Autoinclude the puppi class
+    # Autoinclude the puppi class
     include puppi
 
     # Set default values
@@ -91,7 +91,7 @@ if ($init_source != "") {
              priority => "20" , command => "get_file.sh" , arguments => "-s $source -t tarball" ,
              user => "root" , project => "$name" , enable => $enable ;
         "${name}-PreDeploy_Tar":
-             priority => "25" , command => "predeploy_tar.sh" , arguments => "tarfile" ,
+             priority => "25" , command => "predeploy_tar.sh" , arguments => "downloadedfile" ,
              user => "$root" , project => "$name" , enable => $enable;
         "${name}-Backup_existing_Files":
              priority => "30" , command => "archive.sh" , arguments => "-b $deploy_root -o '$backup_rsync_options'" ,

@@ -31,27 +31,32 @@ while [ $# -gt 0 ]; do
     -t)
       case $2 in
       # This logic is applied:
-      # In $predeploydir go ($workdir/$project/deploy) go file that have to be deployed
-      # In $storedir go ($workdir/$project/store) go support files as tarballs or lists
+      # In $predeploydir go ($workdir/$project/deploy) go file that have to be deployed
+      # In $storedir go ($workdir/$project/store) go support files as tarballs or lists
           list)
           downloaddir=$storedir
-          save_runtime_config "listfile=$downloaddir/$downloadfilename"
-          save_runtime_config "metadatasource=list"
+          save_runtime_config "source_type=list"
           ;;
           tarball)
           downloaddir=$storedir
-          save_runtime_config "tarfile=$downloaddir/$downloadfilename"
-          save_runtime_config "metadatasource=tarball"
+          save_runtime_config "source_type=tarball"
+          ;;
+          zip)
+          downloaddir=$storedir
+          save_runtime_config "source_type=zip"
           ;;
           maven-metadata)
           downloaddir=$storedir
-          save_runtime_config "mavenfile=$downloaddir/$downloadfilename"
-          save_runtime_config "metadatasource=maven"
+          save_runtime_config "source_type=maven"
           ;;
           dir)
           downloaddir=$predeploydir
-          save_runtime_config "dirfile=$downloaddir/$downloadfilename"
-          save_runtime_config "metadatasource=dir"
+          save_runtime_config "source_type=dir"
+          ;;
+          war)
+          downloaddir=$predeploydir
+          save_runtime_config "source_type=war"
+          ;;
       esac
       shift 2 ;;
     -d)
@@ -75,22 +80,13 @@ case $type in
         scpconn=$(echo $scpuri | cut -d'/' -f1)
         scppath=/$(echo $scpuri | cut -d'/' -f2-)
         rsync -rlptD -e ssh $scpconn:$scppath .
-        if [ $? = "0" ] ; then
-            save_runtime_config "downloadedfile=$downloaddir/$downloadfilename"
-            exit 0
-        else
-            exit 2
-        fi
+        check_retcode
+        save_runtime_config "downloadedfile=$downloaddir/$downloadfilename"
     ;;
     http|https)
         curl -s -f $url -O
-        # Manage curl's exit codes
-        if [ $? = "0" ] ; then
-            save_runtime_config "downloadedfile=$downloaddir/$downloadfilename"
-            exit 0
-        else
-            exit 2
-        fi
+        check_retcode
+        save_runtime_config "downloadedfile=$downloaddir/$downloadfilename"
     ;;
     svn)
         svnuri=$(echo $url | cut -d'/' -f3-)
@@ -98,18 +94,21 @@ case $type in
         svnpassword=$(echo $svnuri | cut -d':' -f2 | cut -d'@' -f1)
         svnserver=$(echo $svnuri | cut -d'@' -f2 | cut -d'/' -f1)
         svnpath=/$(echo $svnuri | cut -d'@' -f2 | cut -d'/' -f2-)
-        svn export --username=$svnusername --password=$svnpassword $svnserver $svnpath 
-        if [ "$?" = "0" ] ; then
-            save_runtime_config "downloadedfile=$downloaddir/$downloadfilename"
-            exit 0
-        else
-            exit 2
-        fi
+        mkdir -p $(dirname $svnpath)
+        svn export --force --username="$svnusername" --password="$svnpassword" http://$svnserver/$svnpath $(dirname $svnpath)
+        check_retcode
+        save_runtime_config "downloadedfile=$downloaddir/$downloadfilename"
     ;;
     file)
         # file:///file/path
         filesrc=$(echo $url | cut -d '/' -f3-)
         rsync -rlptD $filesrc .
+        check_retcode
+        save_runtime_config "downloadedfile=$downloaddir/$downloadfilename"
+    ;;
+    rsync)
+        rsync -rlptD $url .
+        check_retcode
         save_runtime_config "downloadedfile=$downloaddir/$downloadfilename"
     ;;
 esac

@@ -27,21 +27,26 @@ fi
 cd $storedir
 case $2 in
     warfile)
-        curl $1/$version/$warfile -O
+        curl -f $1/$version/$warfile -O
+        check_retcode
         cp -a $warfile $predeploydir/$artifact.war
     ;;
     configfile)
-        curl $1/$version/$configfile -O
+        curl -f $1/$version/$configfile -O
+        check_retcode
         mkdir /tmp/puppi/$project/deploy_configfile
         cd /tmp/puppi/$project/deploy_configfile
         $tarcommand $storedir/$configfile
+        check_retcode
         save_runtime_config "predeploydir_configfile=/tmp/puppi/$project/deploy_configfile"
     ;;
     srcfile)
-        curl $1/$version/$srcfile -O
+        curl -f $1/$version/$srcfile -O
+        check_retcode
         mkdir /tmp/puppi/$project/deploy_srcfile
         cd /tmp/puppi/$project/deploy_srcfile
         $tarcommand $storedir/$srcfile
+        check_retcode
         save_runtime_config "predeploydir_srcfile=/tmp/puppi/$project/deploy_srcfile"
     ;;
 esac

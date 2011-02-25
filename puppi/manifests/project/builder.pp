@@ -1,26 +1,18 @@
-# Define puppi::project::files
+# Define puppi::project::builder
 #
-# This is a sample define to build a puppi project for the deploy of one or more files based on a provided list
-# containing, one per line, the full path of the files to deploy.
-# The place (url) from where to get the files is defined by the $source_baseurl variable.
-# You can strip out some beginning chars from each line with the (optional) $files_prefix variable.
-# Files are then copied to the $deploy_root you define.
-#
-# Many different variables are optional in order to adapt the define to different cases and needs, if you still
-# need to customize it, you can clone this puppi::project into another file and change the define name
+# This is a shortcut define to build a puppi project for the deploy of we applications
+# based on different sources: a war file, a tar file, a source dir, a list of files or a nexus maven repository
+# It uses different existing "core" defines (puppi::project, puppi:deploy (many) , puppi::rollback (many) 
+# to build a full featured template project for automatic deployments.
+# If you need to customize it, either change the template defined here or build up your own custom ones.
 #
 # Variables:
-# $source - The full URL to be used to retrieve the files list. Format should be in URI standard (http:// file:// ssh:// svn://)  
+# $source - The full URL of the main file to retrieve. Format should be in URI standard (http:// file:// ssh:// svn:// rsync://)
+# $source_type - The type of file that is retrived. Accepted values: tarball, list, war, dir, maven-metadata  
+# $deploy_root - The destination directory where the retrieve file(s) have to be deployed
 # $init_source (Optional) - The full URL to be used to retrieve, for the first time, the project files.
 #                           They are copied to the $deploy_root
 #                           Format should be in URI standard (http:// file:// ssh:// svn://)
-# $files_prefix - The prefix to remove form the list entries in order to determine the files path on the deploy_root
-#                 We suggest to place in the files list just the deploy_root relative paths of the files, and in this 
-#                 case the $files_prefix is null
-# $source_baseurl - The full URL, in URI standard format, to prepend to the entries in the files list in order to 
-#                   retrieve the relative files.
-# $deploy_root - The destination directory where the files have to be deployed
-# $prefix (Optional) - The prefix that might be present in the filelist to define custom  metadata 
 # $user (Optional) - The user to be used for deploy operations 
 # $predeploy_customcommand (Optional) -  Full path with arguments of an eventual custom command to execute before the deploy.
 #                             The command/script is executed as root, if you need to launch commands as a separated user
@@ -34,24 +26,26 @@
 # $postdeploy_user (Optional) - The user to be used to execute the $postdeploy_customcommand. By default is the same of $user
 # $postdeploy_priority (Optional) - The priority (execution sequence number) that defines the execution order ot the postdeploy command.
 #                                  Default: 41 (immediately after the copy of files on the deploy root)
-# $init_script (Optional) - The name ( ex: apache2) of the init script of the web/appserver
-#                           If you define it, the webserver is stopped and then started during deploy
 # $disable_services (Optional) - The names (space separated) of the services you might want to stop
-#                                during deploy. By default is blank. Example: "puppet monit"
+#                                during deploy. By default is blank. Example: "apache puppet monit"
 # $firewall_src_ip (Optional) - The IP address of a loadbalancer you might want to block during deploy
 # $firewall_dst_port (Optional) - The local port to block from the loadbalancer during deploy (Default all)
 # $report_email (Optional) - The (space separated) email(s) to notify of deploy/rollback operations
+# $backup (Optional) - If and how backups of files are made. Default: "full". Possible values:
+#                      "full" - Make full backup of the deploy_root before making the deploy
+#                      "diff" - Backup only the files that are going to be deployed. Note that in order to make reliable rollbacks of versions
+#                               older that the latest you've to individually rollback every intermediate deploy
+#                      "false" - Don not make backups. This disables the option to make rollbacks
 # $backup_rsync_options (Optional) - The extra options to pass to rsync for backup operations. Use this, for example, to exclude 
 #                                    directories that you don't want to archive.
 #                                    IE: "--exclude .snapshot --exclude cache --exclude www/cache"
+# $run_checks (Optional) - If you want to run local puppi checks before and after the deploy procedure. Default: "true"
 #
-define puppi::project::files (
+define puppi::project::builder (
     $source,
-    $init_source='',
-    $files_prefix="",
-    $source_baseurl,
+    $source_type,
     $deploy_root,
-    $prefix='',
+    $init_source="",
     $user="root",
     $predeploy_customcommand="",
     $predeploy_user="",
@@ -59,12 +53,13 @@ define puppi::project::files (
     $postdeploy_customcommand="",
     $postdeploy_user="",
     $postdeploy_priority="41",
-    $init_script="",
     $disable_services="",
     $firewall_src_ip="",
     $firewall_dst_port="0",
     $report_email="",
+    $backup="full",
     $backup_rsync_options="--exclude .snapshot",
+    $run_checks="true",
     $enable = 'true' ) {
 
     require puppi::params
@@ -72,7 +67,7 @@ define puppi::project::files (
     # Autoinclude the puppi class
     include puppi
 
-    # Set default values for the user running the pre/post commands
+    # Set default values
     $predeploy_real_user = $predeploy_user ? {
         ''      => $user,
 	default => $predeploy_user,
@@ -83,26 +78,52 @@ define puppi::project::files (
 	default => $postdeploy_user,
     }
 
-    # Create Project
+    $real_source_type = $source_type ? {
+        "dir"            => "dir",
+        "tarball"        => "tarball",
+        "maven-metadata" => "maven-metadata",
+        "maven"          => "maven-metadata",
+        "war"            => "war",
+        "list"           => "list",
+    }
+
+    $source_filename = urlfilename($source)
+
+# Create Project
     puppi::project { $name: enable => $enable }
 
+
+# Populate Project scripts for initialize
 if ($init_source != "") {
-    # Populate Project scripts for initialize
     puppi::initialize {
         "${name}-Deploy_Files":
              priority => "40" , command => "get_file.sh" , arguments => "-s $init_source -d $deploy_root" ,
+             user => "$user" , project => "$name" , enable => $enable ;
+    }
+}
+ 
+# Common Defines
+    puppi::deploy {
+        "${name}-Retrieve_SourceFile":
+             priority => "20" , command => "get_file.sh" , arguments => "-s $source -t $real_source_type" ,
+             user => "root" , project => "$name" , enable => $enable ;
+        "${name}-Deploy":
+             priority => "40" , command => "deploy.sh" , arguments => "$deploy_root" ,
              user => "$user" , project => "$name" , enable => $enable;
+    }
+
+
+# MANAGE Custom predeploy operations according to $source_type
+if ($real_source_type == "tarball") {
+    puppi::deploy {
+        "${name}-PreDeploy_Tar":
+             priority => "25" , command => "predeploy_tar.sh" , arguments => "downloadedfile" ,
+             user => "$root" , project => "$name" , enable => $enable;
     }
 }
 
-    # Populate Project scripts for deploy
+if ($real_source_type == "list") {
     puppi::deploy {
-        "${name}-Run_PRE-Checks":
-             priority => "10" , command => "check_project.sh" , arguments => "$name" ,
-             user => "root" , project => "$name" , enable => $enable;
-        "${name}-Retrieve_File_List":
-             priority => "20" , command => "get_file.sh" , arguments => "-s $source -t list" ,
-             user => "root" , project => "$name" , enable => $enable ;
         "${name}-Extract_File_Metadata":
              priority => "22" , command => "get_metadata.sh" ,
              arguments => $prefix ? { '' => "", default => "-m $prefix" , },
@@ -113,25 +134,72 @@ if ($init_source != "") {
         "${name}-Retrieve_Files":
              priority => "25" , command => "get_filesfromlist.sh" , arguments => "$source_baseurl" ,
              user => "root" , project => "$name" , enable => $enable ;
-        "${name}-Backup_existing_Files":
-             priority => "30" , command => "archive.sh" , arguments => "-b $deploy_root -o '$backup_rsync_options'" ,
+    }
+}
+
+if ($real_source_type == "dir") {
+}
+
+if ($real_source_type == "war") {
+    puppi::deploy {
+        "${name}-Remove_existing_WAR":
+             priority => "35" , command => "delete.sh" , arguments => "$deploy_root/$source_filename" ,
              user => "root" , project => "$name" , enable => $enable;
-        "${name}-Deploy_Files":
-             priority => "40" , command => "deploy.sh" , arguments => "$deploy_root" ,
+        "${name}-Check_undeploy":
+             priority => "37" , command => "checkwardir.sh" , arguments => "$deploy_root/$source_filename absent" ,
              user => "$user" , project => "$name" , enable => $enable;
-        "${name}-Run_POST-Checks":
-             priority => "80" , command => "check_project.sh" , arguments => "$name" ,
-             user => "root" , project => "$name" , enable => $enable ;
+        "${name}-Check_deploy":
+             priority => "43" , command => "checkwardir.sh" , arguments => "$deploy_root/$source_filename present" ,
+             user => "$user" , project => "$name" , enable => $enable;
+    }
+
+    puppi::rollback {
+        "${name}-Remove_existing_WAR":
+             priority => "30" , command => "delete.sh" , arguments => "$deploy_root/$source_filename" ,
+             user => "root" , project => "$name" , enable => $enable;
+        "${name}-Check_undeploy":
+             priority => "37" , command => "checkwardir.sh" , arguments => "$deploy_root/$source_filename absent" ,
+             user => "$user" , project => "$name" , enable => $enable;
+        "${name}-Check_deploy":
+             priority => "43" , command => "checkwardir.sh" , arguments => "$deploy_root/$source_filename present" ,
+             user => "$user" , project => "$name" , enable => $enable;
+    }
+}
+
+
+# Make backups before deploying files
+if ($backup == "full") or ($backup == "diff") {
+    puppi::deploy {
+        "${name}-Backup_existing_Files":
+             priority => "30" , command => "archive.sh" , arguments => "-b $deploy_root -m $backup -o '$backup_rsync_options'" ,
+             user => "root" , project => "$name" , enable => $enable;
     }
 
     puppi::rollback {
         "${name}-Recover_Files_To_Deploy":
-             priority => "40" , command => "archive.sh" , arguments => "-r $deploy_root -o '$backup_rsync_options'" ,
+             priority => "40" , command => "archive.sh" , arguments => "-r $deploy_root -m $backup -o '$backup_rsync_options'" ,
              user => "$user" , project => "$name" , enable => $enable;
+    }
+}
+
+
+# Run PRE and POST automatic checks
+if ($run_checks == "true") {
+    puppi::deploy {
+        "${name}-Run_PRE-Checks":
+             priority => "10" , command => "check_project.sh" , arguments => "$name" ,
+             user => "root" , project => "$name" , enable => $enable;
         "${name}-Run_POST-Checks":
              priority => "80" , command => "check_project.sh" , arguments => "$name" ,
              user => "root" , project => "$name" , enable => $enable ;
     }
+    puppi::rollback {
+        "${name}-Run_POST-Checks":
+             priority => "80" , command => "check_project.sh" , arguments => "$name" ,
+             user => "root" , project => "$name" , enable => $enable ;
+    }
+}
+
 
 # Run predeploy custom script, if defined
 if ($predeploy_customcommand != "") {
@@ -147,6 +215,7 @@ if ($predeploy_customcommand != "") {
     }
 }
 
+
 # Run postdeploy custom script, if defined
 if ($postdeploy_customcommand != "") {
     puppi::deploy {
@@ -161,27 +230,8 @@ if ($postdeploy_customcommand != "") {
     }
 }
 
-# Application service restart only if $init_script is provided
-if ($init_script != "") {
-    puppi::deploy {
-        "${name}-Service_stop":
-             priority => "38" , command => "service.sh" , arguments => "stop $init_script" ,
-             user => "root" , project => "$name" , enable => $enable;
-        "${name}-Service_start":
-             priority => "42" , command => "service.sh" , arguments => "start $init_script" ,
-             user => "root" , project => "$name" , enable => $enable;
-    }
-    puppi::rollback {
-        "${name}-Service_stop":
-             priority => "38" , command => "service.sh" , arguments => "stop $init_script" ,
-             user => "root" , project => "$name" , enable => $enable;
-        "${name}-Service_start":
-             priority => "42" , command => "service.sh" , arguments => "start $init_script" ,
-             user => "root" , project => "$name" , enable => $enable;
-    }
-}
 
-# Disable services that might start the AS during deploy
+# Disable services during deploy
 if ($disable_services != "") {
     puppi::deploy {
         "${name}-Disable_extra_services":

@@ -6,8 +6,9 @@
 # Sources common header for Puppi scripts
 . $(dirname $0)/header || exit 10
 
-# Check arguments
+# Check arguments & eventually apply runtimeconfig overwrite
 recipients=$1
+[ $report_email ] && recipients=$report_email
 
 # Main functions
 mail_send () {

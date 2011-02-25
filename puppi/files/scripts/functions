@@ -53,6 +53,13 @@ echo_warning() {
   return 1
 }
 
+check_retcode () {
+    if [ $? = "0" ] ; then
+        true
+    else
+        exit 2
+    fi
+}
 
 handle_result () {
         RETVAL=$?

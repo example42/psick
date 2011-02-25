@@ -7,7 +7,7 @@
 # Show help
 showhelp () {
     echo "This script retrieves some metadata from the downwloaded files "
-    echo "The metadatasource is automatically detected from the \$metadatasource runtime config"
+    echo "The metadatasource is automatically detected from the \$source_type runtime config"
     echo
     echo "It has some, not required, options:"
     echo "-m <magicstring> - The string to use as prefix in custom metadata info provided "
@@ -24,7 +24,7 @@ while [ $# -gt 0 ]; do
 done
 
 
-case $metadatasource in
+case $source_type in
     list)
     if [ -z $suffix ] ; then
         suffix="####"

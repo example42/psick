@@ -8,15 +8,15 @@
 #
 # Variables:
 # $source - The full URL to the maven-metadata.xml file. Format should be in URI standard (http:// file:// ssh:// svn://)  
-# $deploy_root - The destination directory where the war files have to be deployed
+# $deploy_root (Optional) - The destination directory where the war files have to be deployed
 # $user (Optional) - The user to be used for deploy operations  (owner of the files in $deploy_root)
 # $suffix (Optional) - The suffix that might be appended to the src/cfg filenames 
 # $document_root (Optional) - The destination directory where the src tar in unpacked
-# $document_init_source (Optional) - The full URL to be used to retrieve, for the first time, the project files present in the src tar.
+# $document_init_source (Optional) - The full URL to be used to retrieve, for the first time, the project files present in the src tar.
 #                           They are copied to the $document_root. Format should be in URI standard (http:// file:// ssh:// svn://)
 # $document_user (Optional) - The user to be used for deploy operations of src tar (owner of the files in $document_root)
 # $config_root (Optional) - The destination directory where the cfg tar in unpacked
-# $config_init_source (Optional) - The full URL to be used to retrieve, for the first time, the project files present in the cfg tar.
+# $config_init_source (Optional) - The full URL to be used to retrieve, for the first time, the project files present in the cfg tar.
 #                           They are copied to the $document_root. Format should be in URI standard (http:// file:// ssh:// svn://)
 # $config_user (Optional) - The user to be used for deploy operations of cfg tar (owner of the files in $config_root)
 # $predeploy_customcommand (Optional) -  Full path with arguments of an eventual custom command to execute before the deploy.
@@ -44,7 +44,7 @@
 #
 define puppi::project::maven (
     $source,
-    $deploy_root,
+    $deploy_root="",
     $user="",
     $suffix="",
     $document_root="",
@@ -69,7 +69,7 @@ define puppi::project::maven (
 
     require puppi::params
 
-    # Autoinclude the puppi class
+    # Autoinclude the puppi class
     include puppi
 
     # Set default values
@@ -126,6 +126,22 @@ if ($config_init_source != "") {
              priority => "22" , command => "get_metadata.sh" ,
              arguments => $suffix ? { '' => "", default => "-m $suffix" , },
              user => "root" , project => "$name" , enable => $enable;
+        "${name}-Run_POST-Checks":
+             priority => "80" , command => "check_project.sh" , arguments => "$name" ,
+             user => "root" , project => "$name" , enable => $enable ;
+    }
+
+
+    puppi::rollback {
+        "${name}-Run_POST-Checks":
+             priority => "50" , command => "check_project.sh" , arguments => "$name" ,
+             user => "root" , project => "$name" , enable => $enable ;
+    }
+
+
+# WAR deployment is done only if deploy_root is defined
+if ($deploy_root != "") {
+    puppi::deploy {
         "${name}-Get_Maven_Files_WAR":
              priority => "25" , command => "get_maven_files.sh" , arguments => "$source warfile" ,
              user => "root" , project => "$name" , enable => $enable ;
@@ -135,20 +151,13 @@ if ($config_init_source != "") {
         "${name}-Deploy_Maven_WAR":
              priority => "40" , command => "deploy.sh" , arguments => "$deploy_root" ,
              user => "$user" , project => "$name" , enable => $enable;
-        "${name}-Run_POST-Checks":
-             priority => "80" , command => "check_project.sh" , arguments => "$name" ,
-             user => "root" , project => "$name" , enable => $enable ;
     }
-
-
     puppi::rollback {
         "${name}-Recover_WAR":
              priority => "30" , command => "archive.sh" , arguments => "-r $deploy_root -t war -o '$backup_rsync_options'" ,
              user => "$user" , project => "$name" , enable => $enable;
-        "${name}-Run_POST-Checks":
-             priority => "50" , command => "check_project.sh" , arguments => "$name" ,
-             user => "root" , project => "$name" , enable => $enable ;
     }
+}
 
 
 # Config tar is managed only if $config_root is set
