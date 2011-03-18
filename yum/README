@@ -1,4 +1,21 @@
-# Lab42 Puppet Infrastructure #
-# PROVIDED 'AS IS'
+Puppet module: yum
 
-Module yum cloned from https://git.puppet.immerda.ch
+# Written by Lab42 #
+# http://www.example42.com
+
+Licence: GPLv3
+
+
+DESCRIPTION:
+This module installs and manages yum and yum repositories on RedHat and Centos nodes.
+It's inspired by the Yum Immerda module: https://git.puppet.immerda.ch  
+
+USER VARIABLES:
+In order to customize the behaviour of the module you can set the following variables:
+$yum_update (default: off) - Define if and how to manage automatic updates. Possible values: cron, updatesd
+$yum_extrarepo (default: null) - Define what extra repositories you might want to add. It can be an array. 
+               Possible values: centos-testing, epel, rpmforge, karan, jpackage, remi
+               Note that not all the extra repositories might adapt to your RedHat/Centos version.
+
+USAGE:
+include yum
