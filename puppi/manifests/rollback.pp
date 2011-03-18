@@ -33,8 +33,8 @@ define puppi::rollback (
 
     file { "${puppi::params::projectsdir}/$project/rollback/${priority}-${name}":
         mode    => "750",
-        owner   => "${nrpe::params::configfile_owner}",
-        group   => "${nrpe::params::configfile_group}",
+        owner   => "${puppi::params::configfile_owner}",
+        group   => "${puppi::params::configfile_group}",
         ensure  => "${ensure}",
         require => Class["puppi"],
         content => "su - ${user} -c \"export project=${project} && ${puppi::params::scriptsdir}/${command} ${arguments}\"\n",

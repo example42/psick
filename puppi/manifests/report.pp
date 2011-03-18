@@ -33,8 +33,8 @@ define puppi::report (
 
     file { "${puppi::params::projectsdir}/$project/report/${priority}-${name}":
         mode    => "755",
-        owner   => "${nrpe::params::configfile_owner}",
-        group   => "${nrpe::params::configfile_group}",
+        owner   => "${puppi::params::configfile_owner}",
+        group   => "${puppi::params::configfile_group}",
         ensure  => "${ensure}",
         require => Class["puppi"],
         content => "su - ${user} -c \"export project=${project} && ${puppi::params::scriptsdir}/${command} ${arguments}\"\n",

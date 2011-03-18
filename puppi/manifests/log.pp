@@ -1,22 +1,19 @@
-# Define puppi::check
+# Define puppi::log
 #
-# This define creates a file with a check command that can be used locally.
-# It ususes Nagios plugins for all checks
-# It creates a file with the relevant check that can be used by automatic checking scripts
+# This define creates a file containing a log path to be used by the puppi log command.
 #
 # Usage:
-# puppi::check { "checkname":
-#     command => "check_tcp -H localhost -p 80"
+# puppi::log { "messages":
+#     path => "/var/log/messages"
 # }
 #
-define puppi::check (
-    $command,
+define puppi::log (
+    $logpath,
     $hostwide="no",
     $priority="50",
     $project="default",
     $enable = "true" ) {
 
-    require puppi::params
     require puppi::params
 
     # Autoinclude the puppi class
@@ -33,25 +30,25 @@ define puppi::check (
 
 case $hostwide {
     no: {
-        file { "${puppi::params::projectsdir}/$project/check/${priority}-${name}":
-            mode    => "755",
+        file { "${puppi::params::projectsdir}/$project/log/${priority}-${name}":
+            mode    => "644",
             owner   => "${puppi::params::configfile_owner}",
             group   => "${puppi::params::configfile_group}",
             ensure  => "${ensure}",
             require => Class["puppi"],
-            content => "${puppi::params::nrpepluginsdir}/${command}\n",
-            tag     => 'puppi_check',
+            content => "${logpath}\n",
+            tag     => 'puppi_log',
         }
     }
     default: {
-        file { "${puppi::params::checksdir}/${priority}-${name}":
-            mode    => "755",
+        file { "${puppi::params::logsdir}/${priority}-${name}":
+            mode    => "644",
             owner   => "${puppi::params::configfile_owner}",
             group   => "${puppi::params::configfile_group}",
             ensure  => "${ensure}",
             require => Class["puppi"],
-            content => "${puppi::params::nrpepluginsdir}/${command}\n",
-            tag     => 'puppi_check',
+            content => "${logpath}\n",
+            tag     => 'puppi_log',
         }
     }
 }

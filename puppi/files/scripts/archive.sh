@@ -34,6 +34,7 @@ compression=yes
 backuptag=all
 strategy=copy
 backupmethod=full
+bakret=5
 
 while [ $# -gt 0 ]; do
   case "$1" in
@@ -92,6 +93,10 @@ backup () {
         rm -f $archivedir/$project/latest
     fi
     ln -sf $archivedir/$project/$tag $archivedir/$project/latest
+
+    baknum=$(find $archivedir/$project  -maxdepth 1 -type d | wc -l)
+    bakold=$(expr $baknum - $bakret - 1 )
+
 
     filelist=$storedir/filelist
     cd $predeploydir

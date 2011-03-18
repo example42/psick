@@ -24,7 +24,7 @@ class puppi {
         require => File["puppi_basedir"],
     }
 
-    # puppi scripts
+    # puppi common scripts
     file { "puppi.scripts":
         path    => "${puppi::params::scriptsdir}/",
         mode    => "755",
@@ -38,10 +38,14 @@ class puppi {
         require => File["puppi_basedir"],
     }
 
+    # Create Puppi workdirs
     include puppi::skel
 
     # Some extra stuff we use in Puppi scrips
     include puppi::extra
+
+    # Define standard systemwide log paths for puppi log
+    include puppi::logs
 
     
 }

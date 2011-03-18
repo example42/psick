@@ -13,7 +13,7 @@
 #
 define puppi::deploy (
     $command,
-    $arguments,
+    $arguments="",
     $priority="50",
     $user="root",
     $project,
@@ -33,8 +33,8 @@ define puppi::deploy (
 
     file { "${puppi::params::projectsdir}/$project/deploy/${priority}-${name}":
         mode    => "750",
-        owner   => "${nrpe::params::configfile_owner}",
-        group   => "${nrpe::params::configfile_group}",
+        owner   => "${puppi::params::configfile_owner}",
+        group   => "${puppi::params::configfile_group}",
         ensure  => "${ensure}",
         require => Class["puppi"],
         content => "su - ${user} -c \"export project=${project} && ${puppi::params::scriptsdir}/${command} ${arguments}\"\n",

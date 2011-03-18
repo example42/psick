@@ -8,11 +8,13 @@
 #
 # Variables:
 # $source - The full URL of the main file to retrieve. Format should be in URI standard (http:// file:// ssh:// svn:// rsync://)
-# $source_type - The type of file that is retrived. Accepted values: tarball, list, war, dir, maven-metadata  
+# $source_type - The type of file that is retrived. Accepted values: tarball, zip, list, war, dir, maven-metadata  
 # $deploy_root - The destination directory where the retrieve file(s) have to be deployed
 # $init_source (Optional) - The full URL to be used to retrieve, for the first time, the project files.
 #                           They are copied to the $deploy_root
 #                           Format should be in URI standard (http:// file:// ssh:// svn://)
+# $magicfix (Optional) - A string that is used as prefix or suffix according to the context and the scripts used in the
+#                        deploy procedure
 # $user (Optional) - The user to be used for deploy operations 
 # $predeploy_customcommand (Optional) -  Full path with arguments of an eventual custom command to execute before the deploy.
 #                             The command/script is executed as root, if you need to launch commands as a separated user
@@ -47,6 +49,7 @@ define puppi::project::builder (
     $deploy_root,
     $init_source="",
     $user="root",
+    $magicfix="",
     $predeploy_customcommand="",
     $predeploy_user="",
     $predeploy_priority="39",
@@ -81,6 +84,7 @@ define puppi::project::builder (
     $real_source_type = $source_type ? {
         "dir"            => "dir",
         "tarball"        => "tarball",
+        "zip"            => "zip",
         "maven-metadata" => "maven-metadata",
         "maven"          => "maven-metadata",
         "war"            => "war",
@@ -117,7 +121,17 @@ if ($init_source != "") {
 if ($real_source_type == "tarball") {
     puppi::deploy {
         "${name}-PreDeploy_Tar":
-             priority => "25" , command => "predeploy_tar.sh" , arguments => "downloadedfile" ,
+             priority => "25" , command => "predeploy.sh" , 
+             arguments => $magicfix ? { '' => "", default => "-m $magicfix" , },
+             user => "$root" , project => "$name" , enable => $enable;
+    }
+}
+
+if ($real_source_type == "zip") {
+    puppi::deploy {
+        "${name}-PreDeploy_Zip":
+             priority => "25" , command => "predeploy.sh" , 
+             arguments => $magicfix ? { '' => "", default => "-m $magicfix" , },
              user => "$root" , project => "$name" , enable => $enable;
     }
 }
@@ -126,10 +140,11 @@ if ($real_source_type == "list") {
     puppi::deploy {
         "${name}-Extract_File_Metadata":
              priority => "22" , command => "get_metadata.sh" ,
-             arguments => $prefix ? { '' => "", default => "-m $prefix" , },
+             arguments => $magicfix ? { '' => "", default => "-m $magicfix" , },
              user => "root" , project => "$name" , enable => $enable;
         "${name}-Clean_File_List":
-             priority => "24" , command => "clean_filelist.sh" , arguments => "$files_prefix" ,
+             priority => "24" , command => "clean_filelist.sh" ,
+             arguments => $magicfix ? { '' => "", default => "$magicfix" , },
              user => "root" , project => "$name" , enable => $enable ;
         "${name}-Retrieve_Files":
              priority => "25" , command => "get_filesfromlist.sh" , arguments => "$source_baseurl" ,

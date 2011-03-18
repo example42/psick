@@ -49,6 +49,44 @@ check () {
     # show_report
 }
 
+log () {
+
+    tailcommand="tail"
+    which colortail >/dev/null && tailcommand="colortail"
+
+    for log in $(ls -v1 $logsdir) ; do
+        if [ "$interactive" = "yes" ] ; then
+            echo "View $(cat $logsdir/$log) ? (*,n)"
+            read press
+            case $press in
+                n) true ;;
+                *) alllog="$alllog $(cat $logsdir/$log)"
+            esac
+        else
+            alllog="$alllog $(cat $logsdir/$log)"
+        fi
+    done
+
+  if [ -n $project ] ; then
+    for log in $(ls -v1 $projectsdir/$project/log) ; do
+        if [ "$interactive" = "yes" ] ; then
+            echo "View $(cat $projectsdir/$project/log/$log) ? (*,n)" 
+            read press
+            case $press in
+                n) true ;;
+                *) alllog="$alllog $(cat $projectsdir/$project/log/$log)"
+            esac
+        else
+            alllog="$alllog $(cat $projectsdir/$project/log/$log)"
+        fi
+    done
+  fi
+
+    $tailcommand -f $alllog    
+
+}
+
+
 rollback () {
     echo "Choose deploy to rollback:"
     ls -l $archivedir/$project
@@ -156,6 +194,11 @@ show_report () {
 
 
 create_runtime_conf () {
+    if [ ! -e $projectsdir/$project ] ; then
+        showhelp
+        exit 1
+    fi
+
     # Clean up and Create runtime configuration file 
     initerr=0
     command="00-$project-RuntimeConfig-Initialization"
@@ -203,6 +246,7 @@ showhelp () {
    echo " "
    echo "Available commands:"
    echo "check [project] - Run puppi checks host-wide or for a specific project"
+   echo "log [project] - Show system and project related logs"
    echo "init <project> - First time project initilization and setup"
    echo "deploy <project> - Deploy the specified project"
    echo "rollback <project> - Rollback the specified project. "
@@ -248,6 +292,20 @@ while [ $# -gt 0 ]; do
         shift
       fi
     ;;
+    log)
+      export action="log"
+      if [ -n "$2" ] ; then
+        echo "$2" | egrep -q "^-.$"
+        if [ "$?" != "0" ] ; then
+          export project=$2
+          shift 2
+        else 
+          shift
+        fi
+      else
+        shift
+      fi
+    ;;
     -i)
       interactive="yes"
       shift ;;
@@ -275,6 +333,7 @@ done
 case $action in 
     check) check ;;
     checkhost) check_host ;;
+    log) log ;;
     rollback) create_runtime_conf ; rollback ;;
     deploy) create_runtime_conf ; deploy ;;
     init) create_runtime_conf ; initialize ;;

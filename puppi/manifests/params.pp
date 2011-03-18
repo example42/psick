@@ -12,6 +12,7 @@ class puppi::params  {
     $basedir = "/etc/puppi"
     $scriptsdir = "/etc/puppi/scripts"
     $checksdir = "/etc/puppi/checks"
+    $logsdir = "/etc/puppi/logs"
     $projectsdir = "/etc/puppi/projects"
     $workdir = "/tmp/puppi"
     $libdir = "/var/lib/puppi"
@@ -28,6 +29,14 @@ class puppi::params  {
 
     $configfile_group = $operatingsystem ? {
         default => "root",
+    }
+
+    $nrpepluginsdir = $operatingsystem ? {
+        /(centos|redhat)/ => $architecture ? {
+            x86_64  => "/usr/lib64/nagios/plugins",
+            default => "/usr/lib/nagios/plugins",
+        },
+        default => "/usr/lib/nagios/plugins",
     }
 
 ## FILE SERVING SOURCE
