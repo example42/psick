@@ -54,7 +54,7 @@ class openldap {
     if "${openldap::params::extra}" == "yes" { include openldap::extra }
 
     # Include ldap utils
-    include openldap::client
+    # include openldap::client
 
     # Include OS specific subclasses, if necessary
     case $operatingsystem {

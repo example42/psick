@@ -2,6 +2,8 @@ class psick {
 
     require psick::params
 
+    include apache
+
     # Main configuration file
     file { "psick.conf":
         path    => "${psick::params::confdir}/psick.conf",

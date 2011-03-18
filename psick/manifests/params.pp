@@ -13,7 +13,7 @@ class psick::params  {
 
     $workdir = "/var/tmp/psick"
     $confdir = "/etc/psick"
-    $user = "www-data"
+    $user = "${apache::params::username}"
     $outputdir = $operatingsystem ? {
         debian  => "/var/www/psick",
         ubuntu  => "/var/www/psick",
