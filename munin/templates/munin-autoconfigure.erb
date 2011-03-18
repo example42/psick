@@ -1,4 +1,5 @@
 # File Managed by Puppet
 
-rm -f /etc/munin/plugins/* ; munin-node-configure --shell 2> /dev/null | sh 
-/etc/init.d/<%= scope.lookupvar('munin::params::servicename') %> restart 2>&1>/dev/null
+/bin/rm -f /etc/munin/plugins/* ; /usr/sbin/munin-node-configure --shell 2> /dev/null | /bin/sh 
+/etc/init.d/<%= scope.lookupvar('munin::params::servicename') %> restart >/dev/null 2>&1
+
