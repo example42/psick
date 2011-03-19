@@ -18,7 +18,7 @@ class yum::updatesd {
     file {"yum-updatesd.conf":
         path   => "/etc/yum/yum-updatesd.conf",
         ensure => present,
-        source  => "${yum::params::general_base_source}/yum-updatesd.conf",
+        source  => "${yum::params::general_base_source}/yum/yum-updatesd.conf",
         require => Package['yum-updatesd'],
     }
 

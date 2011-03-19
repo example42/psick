@@ -31,6 +31,8 @@ case $operatingsystem {
         if $yum::params::extrarepo =~ /karan/ { include yum::repo::karan }
         if $yum::params::extrarepo =~ /jpackage/ { include yum::repo::jpackage }
         if $yum::params::extrarepo =~ /remi/ { include yum::repo::remi }
+        if $yum::params::extrarepo =~ /tmz/ { include yum::repo::tmz }
+        if $yum::params::extrarepo =~ /puppetlabs/ { include yum::repo::puppetlabs }
 
         if $my_project { 
             case $my_project_onmodule {
@@ -48,6 +50,8 @@ case $operatingsystem {
         if $yum::params::extrarepo =~ /rpmforge/ { include yum::repo::rpmforge }
         if $yum::params::extrarepo =~ /jpackage/ { include yum::repo::jpackage }
         if $yum::params::extrarepo =~ /remi/ { include yum::repo::remi }
+        if $yum::params::extrarepo =~ /tmz/ { include yum::repo::tmz }
+        if $yum::params::extrarepo =~ /puppetlabs/ { include yum::repo::puppetlabs }
 
         if $my_project {
             case $my_project_onmodule {

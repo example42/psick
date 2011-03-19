@@ -1,0 +1,3 @@
+class yum::example42 {
+
+}

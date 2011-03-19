@@ -1,10 +1,15 @@
 class yum::prerequisites {
-    package{yum-priorities:
+
+    package { "yum-priorities":
+        name => $lsbmajdistrelease ? {
+            5 => "yum-priorities",
+            6 => "yum-plugin-priorities",
+        },
         ensure => present,
     }
 
     # ensure there are no other repos
-    file{yum_repos_d:
+    file { "yum_repos_d":
         path => '/etc/yum.repos.d/',
         source => "puppet:///modules/common/empty",
         ensure => directory,
@@ -12,11 +17,11 @@ class yum::prerequisites {
         purge => true,
         force => true,
         ignore  => ".svn",
-        require =>  Package[yum-priorities],
         mode => 0755, owner => root, group => 0;
     }
+
     #gpg key
-    file {rpm_gpg:
+    file { "rpm_gpg":
         path => '/etc/pki/rpm-gpg/',
         source => [ "puppet:///modules/yum/${operatingsystem}.${lsbmajdistrelease}/rpm-gpg/",
                     "puppet:///modules/yum/CentOS.5/rpm-gpg/" ],
