@@ -54,11 +54,9 @@ class users::params  {
     $configfile_ldap = $operatingsystem ? {
             debian => $lsbdistid ? {
                  debian => "/etc/libnss-ldap.conf",
-                 ubuntu => "/etc/ldap.conf",
+                 default => "/etc/ldap.conf",
             },
-            ubuntu => "/etc/ldap.conf",
-            redhat => "/etc/ldap.conf",
-            centos => "/etc/ldap.conf",
+            default => "/etc/ldap.conf",
     }
 
 

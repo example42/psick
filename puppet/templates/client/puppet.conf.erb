@@ -1,4 +1,4 @@
-# File managed by Puppet <%= puppetversion %>
+# File managed by Puppet
 
 [main]
 vardir = /var/lib/puppet
@@ -12,13 +12,11 @@ summarize = true
 # trace = true
 usecacheonfailure = true
 
-[puppet]
-vardir = /var/lib/puppet
-logdir = /var/log/puppet
-rundir = /var/run/puppet
-ssldir = $vardir/ssl
-
+<% if puppet_version == "0.2" -%>
 [puppetd]
+<% else -%>
+[agent]
+<% end -%>
 pluginsync = true
 #pluginsource = puppet://$server/plugins
 #plugindest = $vardir/lib/plugins

@@ -2,7 +2,7 @@
 ## Description:		Information about your timezone and time
 ## Type:		string(-u,--utc,--localtime)
 ## ServiceRestart:	boot.clock
-# File managed by Puppet <%= puppetversion %> on <%= fqdn %>
+# File managed by Puppet
 
 #
 # Set to "-u" if your system clock is set to UTC, and to "--localtime"

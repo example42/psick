@@ -1,4 +1,4 @@
-# File managed by Puppet <%= puppetversion %> on <%= fqdn %>
+# File managed by Puppet
 
 ZONE="<%= timezone %>"
 UTC=false
