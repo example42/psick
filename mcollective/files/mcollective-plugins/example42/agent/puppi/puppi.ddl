@@ -4,17 +4,11 @@ metadata    :name        => "SimpleRPC Agent For PUPPI Commands",
             :license     => "Apache License 2.0",
             :version     => "1.2",
             :url         => "http://www.example42.com/",
-            :timeout     => 5
+            :timeout     => 600
 
 
-action "runcommand", :description => "Run a PUPPI command" do
-    input :command, 
-          :prompt      => "Command",
-          :description => "PUPPI command to run",
-          :type        => :string,
-          :validation  => '^[a-zA-Z0-9_-]+$',
-          :optional    => false,
-          :maxlength   => 50
+action "check", :description => "Run puppi check" do
+    display :always
 
     input :project,
           :prompt      => "Project",
@@ -39,9 +33,89 @@ action "runcommand", :description => "Run a PUPPI command" do
     output :exitcode,
           :description  => "Exit Code from the Puppi run",
           :display_as => "Exit Code"
+end
 
-    output :perfdata,
-          :description  => "Performance Data from the Puppi run",
-          :display_as => "Performance Data"
+action "deploy", :description => "Run puppi deploy" do
+    display :always
+
+    input :project,
+          :prompt      => "Project",
+          :description => "PUPPI project",
+          :type        => :string,
+          :validation  => '^[a-zA-Z0-9_-]+$',
+          :optional    => false,
+          :maxlength   => 50
+
+    input :puppioptions,
+          :prompt      => "Puppi options",
+          :description => "PUPPI options",
+          :type        => :string,
+          :validation  => '^[a-zA-Z0-9_-]+$',
+          :optional    => true,
+          :maxlength   => 50
+
+    output :output,
+          :description => "Output from the Puppi run",
+          :display_as  => "Output"
+
+    output :exitcode,
+          :description  => "Exit Code from the Puppi run",
+          :display_as => "Exit Code"
+end
+
+action "init", :description => "Run puppi init" do
+    display :always
+
+    input :project,
+          :prompt      => "Project",
+          :description => "PUPPI project",
+          :type        => :string,
+          :validation  => '^[a-zA-Z0-9_-]+$',
+          :optional    => false,
+          :maxlength   => 50
+
+    input :puppioptions,
+          :prompt      => "Puppi options",
+          :description => "PUPPI options",
+          :type        => :string,
+          :validation  => '^[a-zA-Z0-9_-]+$',
+          :optional    => true,
+          :maxlength   => 50
+
+    output :output,
+          :description => "Output from the Puppi run",
+          :display_as  => "Output"
+
+    output :exitcode,
+          :description  => "Exit Code from the Puppi run",
+          :display_as => "Exit Code"
+end
+
+action "rollback", :description => "Run puppi rollback" do
+    display :always
+
+    input :project,
+          :prompt      => "Project",
+          :description => "PUPPI project",
+          :type        => :string,
+          :validation  => '^[a-zA-Z0-9_-]+$',
+          :optional    => false,
+          :maxlength   => 50
+
+    input :puppioptions,
+          :prompt      => "Puppi options",
+          :description => "PUPPI options",
+          :type        => :string,
+          :validation  => '^[a-zA-Z0-9_-]+$',
+          :optional    => false,
+          :maxlength   => 50
+
+    output :output,
+          :description => "Output from the Puppi run",
+          :display_as  => "Output"
+
+    output :exitcode,
+          :description  => "Exit Code from the Puppi run",
+          :display_as => "Exit Code"
 end
 
