@@ -57,6 +57,11 @@ while [ $# -gt 0 ]; do
           downloaddir=$predeploydir
           save_runtime_config "source_type=war"
           ;;
+          mysql)
+          downloaddir=$storedir
+          save_runtime_config "source_type=mysql"
+          ;;
+
       esac
       shift 2 ;;
     -d)
@@ -111,4 +116,5 @@ case $type in
         check_retcode
         save_runtime_config "downloadedfile=$downloaddir/$downloadfilename"
     ;;
+
 esac
