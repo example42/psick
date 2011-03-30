@@ -50,9 +50,8 @@ check () {
 }
 
 log () {
-
     tailcommand="tail"
-    which colortail >/dev/null && tailcommand="colortail"
+    which colortail >/dev/null 2>&1  && tailcommand="colortail"
 
     for log in $(ls -v1 $logsdir) ; do
         if [ "$interactive" = "yes" ] ; then
@@ -83,9 +82,42 @@ log () {
   fi
 
     $tailcommand -f $alllog    
-
 }
 
+show_infoline () {
+    # Quick and easy show
+    title=$(basename $1)
+    description=$(head -1 $1)
+    echo
+    echo "#############################################"
+    echo "# $title - $description"
+    sh -x $1
+}
+
+info () {
+
+  if [ $project ] ; then
+    if [ $infodir/$project ] ; then
+        show_infoline $infodir/$project 
+    else
+        echo "WARNING: $infodir/$project does not exist!"
+        exit 1
+    fi
+  else
+    for info in $(ls -v1 $infodir) ; do
+        if [ "$interactive" = "yes" ] ; then
+            echo "View $info ? (*,n)"
+            read press
+            case $press in
+                n) true ;;
+                *) show_infoline $infodir/$info ;;
+            esac
+        else
+            show_infoline $infodir/$info
+        fi
+    done
+  fi
+}
 
 rollback () {
     echo "Choose deploy to rollback:"
@@ -247,6 +279,7 @@ showhelp () {
    echo "Available commands:"
    echo "check [project] - Run puppi checks host-wide or for a specific project"
    echo "log [project] - Show system and project related logs"
+   echo "info [topic] - Show informations about the system"
    echo "init <project> - First time project initilization and setup"
    echo "deploy <project> - Deploy the specified project"
    echo "rollback <project> - Rollback the specified project. "
@@ -260,6 +293,10 @@ showhelp () {
    echo " "
    echo "Available projects:"
    ls -1 $projectsdir
+   echo 
+   echo "Available info topics:"
+   ls -1 $infodir 
+   
 }
 
 # Check Input
@@ -306,6 +343,20 @@ while [ $# -gt 0 ]; do
         shift
       fi
     ;;
+    info)
+      export action="info"
+      if [ -n "$2" ] ; then
+        echo "$2" | egrep -q "^-.$"
+        if [ "$?" != "0" ] ; then
+          export project=$2
+          shift 2
+        else
+          shift
+        fi
+      else
+        shift
+      fi
+    ;;
     -i)
       interactive="yes"
       shift ;;
@@ -334,6 +385,7 @@ case $action in
     check) check ;;
     checkhost) check_host ;;
     log) log ;;
+    info) info ;;
     rollback) create_runtime_conf ; rollback ;;
     deploy) create_runtime_conf ; deploy ;;
     init) create_runtime_conf ; initialize ;;

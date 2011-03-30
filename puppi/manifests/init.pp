@@ -47,5 +47,7 @@ class puppi {
     # Define standard systemwide log paths for puppi log
     include puppi::logs
 
+    # Define standard systemwide information sources
+    include puppi::infos
     
 }

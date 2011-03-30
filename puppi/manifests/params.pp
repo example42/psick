@@ -13,6 +13,7 @@ class puppi::params  {
     $scriptsdir = "/etc/puppi/scripts"
     $checksdir = "/etc/puppi/checks"
     $logsdir = "/etc/puppi/logs"
+    $infodir = "/etc/puppi/info"
     $projectsdir = "/etc/puppi/projects"
     $workdir = "/tmp/puppi"
     $libdir = "/var/lib/puppi"
