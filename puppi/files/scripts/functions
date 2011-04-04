@@ -8,6 +8,8 @@ SETCOLOR_SUCCESS="echo -en \\033[0;32m"
 SETCOLOR_FAILURE="echo -en \\033[0;31m"
 SETCOLOR_WARNING="echo -en \\033[0;33m"
 SETCOLOR_NORMAL="echo -en \\033[0;39m"
+SETCOLOR_TITLE="echo -en \\033[0;35m"
+SETCOLOR_BOLD="echo -en \\033[0;1m"
 
 echo_success() {
   [ "$BOOTUP" = "color" ] && $MOVE_TO_COL
@@ -51,6 +53,14 @@ echo_warning() {
   echo -n "]"
   echo -ne "\r"
   return 1
+}
+
+echo_title () {
+  echo
+  echo
+  $SETCOLOR_TITLE
+  echo "$1"
+  $SETCOLOR_NORMAL
 }
 
 check_retcode () {
@@ -151,4 +161,11 @@ ask_interactive () {
            *) return
        esac
    fi
+}
+
+# Shows or executes a command
+show_command () {
+   echo
+   $SETCOLOR_BOLD ; echo "$*" ; $SETCOLOR_NORMAL
+   bash -c "$*"
 }

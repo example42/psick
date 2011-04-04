@@ -33,12 +33,32 @@ class puppi::params  {
     }
 
     $nrpepluginsdir = $operatingsystem ? {
-        /(centos|redhat)/ => $architecture ? {
+        /(CentOS|RedHat)/ => $architecture ? {
             x86_64  => "/usr/lib64/nagios/plugins",
             default => "/usr/lib/nagios/plugins",
         },
         default => "/usr/lib/nagios/plugins",
     }
+
+# Commands used in puppi info templates
+
+    $info_package_query = $operatingsystem ? {
+        /(CentOS|RedHat)/ => "rpm -qi",
+        /(Ubuntu|Debian)/ => "dpkg -s",
+        default => "echo",
+    }
+
+    $info_package_list = $operatingsystem ? {
+        /(CentOS|RedHat)/ => "rpm -ql",
+        /(Ubuntu|Debian)/ => "dpkg -L",
+        default => "echo",
+    }
+
+    $info_service_check = $operatingsystem ? {
+        default => "/etc/init.d/",
+    }
+
+
 
 ## FILE SERVING SOURCE
 # Sets the correct source for static files

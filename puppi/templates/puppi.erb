@@ -84,39 +84,37 @@ log () {
     $tailcommand -f $alllog    
 }
 
-show_infoline () {
-    # Quick and easy show
-    title=$(basename $1)
-    description=$(head -1 $1)
-    echo
-    echo "#############################################"
-    echo "# $title - $description"
-    sh -x $1
-}
-
 info () {
 
-  if [ $project ] ; then
-    if [ $infodir/$project ] ; then
-        show_infoline $infodir/$project 
-    else
-        echo "WARNING: $infodir/$project does not exist!"
-        exit 1
-    fi
-  else
-    for info in $(ls -v1 $infodir) ; do
-        if [ "$interactive" = "yes" ] ; then
-            echo "View $info ? (*,n)"
-            read press
-            case $press in
-                n) true ;;
-                *) show_infoline $infodir/$info ;;
-            esac
+    if [ "x$project" != "xdefault" ] ; then
+        if [ $infodir/$project ] ; then
+            sh $infodir/$project 
         else
-            show_infoline $infodir/$info
+            echo "WARNING: $infodir/$project does not exist!"
+            exit 1
         fi
-    done
-  fi
+    else
+        if [ "$interactive" = "yes" ] ; then
+            echo "Choose one or more topics to show. Select the last number (done) to end selection"
+            PS3="Type one number to add an info topic to the show list."
+            all_choices=""
+            select choice in $( ls $infodir ) done
+            do
+                echo "You selected $choice [$REPLY]"
+                [[ $choice == "done" ]] && break
+                all_choices="$all_choices $choice"
+                echo "Your choices: $all_choices"
+            done
+            for info in $all_choices ; do
+                sh $infodir/$info
+            done
+        else
+            for info in $(ls $infodir) ; do
+                sh $infodir/$info
+            done
+        fi
+    fi
+
 }
 
 rollback () {
@@ -226,13 +224,17 @@ show_report () {
 
 
 create_runtime_conf () {
-    if [ ! -e $projectsdir/$project ] ; then
+    if [[ ( ! -e $projectsdir/$project ) && ( ! -e $infodir/$project ) ]] ; then
         showhelp
         exit 1
     fi
 
-    # Clean up and Create runtime configuration file 
     initerr=0
+
+    # When project is unset we set it to default
+    [ ! -z "$project" ] || export project="default"
+
+    # Clean up and Create runtime configuration file 
     command="00-$project-RuntimeConfig-Initialization"
     title="Puppi setup: $command"
     code="rm -rf $workdir/$project && touch $workdir/$project/config [...]"
@@ -243,8 +245,9 @@ create_runtime_conf () {
     rm -rf $workdir/$project || initerr=1
 
     mkdir -p $workdir/$project || initerr=1
+    touch $workdir/$project/config || initerr=1
 
-    cp $projectsdir/$project/config $workdir/$project/ || initerr=1
+    test -r "$projectsdir/$project/config" && cp $projectsdir/$project/config $workdir/$project/
     chmod 644 $workdir/$project/config || initerr=1
 
 #    save_runtime_config "project=$project" || initerr=1
@@ -274,7 +277,7 @@ create_runtime_conf () {
 
 
 showhelp () {
-   echo "Usage: puppi <command> <project> [options]"
+   echo "Usage: puppi <command> [project|topic] [options]"
    echo " "
    echo "Available commands:"
    echo "check [project] - Run puppi checks host-wide or for a specific project"
@@ -295,7 +298,7 @@ showhelp () {
    ls -1 $projectsdir
    echo 
    echo "Available info topics:"
-   ls -1 $infodir 
+   ls $infodir 
    
 }
 
@@ -304,7 +307,6 @@ if [ "$#" = "0" ] ; then
     showhelp
     exit
 fi
-
 
 while [ $# -gt 0 ]; do
   case "$1" in
@@ -385,7 +387,7 @@ case $action in
     check) check ;;
     checkhost) check_host ;;
     log) log ;;
-    info) info ;;
+    info) create_runtime_conf  ; info ;;
     rollback) create_runtime_conf ; rollback ;;
     deploy) create_runtime_conf ; deploy ;;
     init) create_runtime_conf ; initialize ;;
