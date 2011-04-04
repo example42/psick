@@ -42,6 +42,7 @@ class apache {
         default: { }
     }
 
+    if $puppi == "yes" { include apache::puppi }
     if $backup == "yes" { include apache::backup }
     if $monitor == "yes" { include apache::monitor }
     if $firewall == "yes" { include apache::firewall }
