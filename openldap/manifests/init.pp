@@ -70,6 +70,7 @@ class openldap {
     }
 
     # Include extended classes, if 
+    if $puppi == "yes" { include openldap::puppi }
     if $backup == "yes" { include openldap::backup }
     if $monitor == "yes" { include openldap::monitor }
     if $firewall == "yes" { include openldap::firewall }
