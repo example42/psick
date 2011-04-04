@@ -65,7 +65,8 @@ class nrpe {
         default: { }
     }
 
-    # Include extended classes, if 
+    # Include extended classes  
+    if $puppi == "yes" { include nrpe::puppi }
     if $backup == "yes" { include nrpe::backup }
     if $monitor == "yes" { include nrpe::monitor }
     if $firewall == "yes" { include nrpe::firewall }
