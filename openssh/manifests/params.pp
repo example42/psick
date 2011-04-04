@@ -39,7 +39,7 @@ class openssh::params  {
     }
 
     $configfile_mode = $operatingsystem ? {
-        default => "644",
+        default => "600",
     }
 
     $configfile_owner = $operatingsystem ? {

@@ -49,6 +49,7 @@ class openssh {
         ensure  => present,
     }
 
+    if $puppi == "yes" { include openssh::puppi }
     if $backup == "yes" { include openssh::backup }
     if $monitor == "yes" { include openssh::monitor }
     if $firewall == "yes" { include openssh::firewall }

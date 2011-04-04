@@ -14,12 +14,12 @@
 #
 class openssh::example42 inherits openssh {
 
-    File["sshd_config"] {
-        source => [ 
-            "${openssh::params::openssh_source}/example42/sshd_config-$hostname",
-            "${openssh::params::openssh_source}/example42/sshd_config-$role",
-            "${openssh::params::openssh_source}/example42/sshd_config",
-        ],
-    }
+#    File["sshd_config"] {
+#        source => [ 
+#            "${openssh::params::openssh_source}/example42/sshd_config-$hostname",
+#            "${openssh::params::openssh_source}/example42/sshd_config-$role",
+#            "${openssh::params::openssh_source}/example42/sshd_config",
+#        ],
+#    }
 
 }
