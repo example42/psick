@@ -35,7 +35,9 @@ include foo::debug       # Used for debugging purposes (not resource hungry)
                          # Automatically included if $debug=yes
                          # Requires Example42's puppet::params and puppet::debug
 
-# Extended Classes (generally require storeconfigs)
+# Extended Classes
+include foo::puppi       # Puppi extensions for the foo module
+                         # Requires Example42's puppi module
 include foo::monitor     # Monitor foo
                          # Automatically included if $monitor=yes
                          # Requires Example42's monitor module
@@ -60,12 +62,9 @@ behaviour of this module. You can happily live without considering or setting th
 but they can be useful to get many useful features out of the box.
 $my_project - If set, permits you to alter and customize the module behaviour
   and files's deploy logic in custom project classes
-$my_project_onmodule - If set to yes your project classes are looked in a
-  dedicated project module:
-  - $my_project_onmodule not set -> Module autoloads foo::$my_module
-                                    (MODULEPATH/foo/manifests/$my_project.pp)
-  - $my_project_onmodule == yes  -> Module autoloads $my_module::foo
-                                    (MODULEPATH/$my_project/manifests/foo.pp)
+  The custom class foo::$my_module autoloads from MODULEPATH/foo/manifests/$my_project.pp
+  but you can place it in a separated module by explicitely importing it:
+  "import $my_project" to have something like MODULEPATH/$my_project/manifests/foo.pp
 $base_source - Lets you define an alternative source for static files:
   - $base_source not set -> Files are looked in puppet://$servername/ (the PuppetMaster)
   - $base_source set -> Files are in $base_source ( Ex: puppet://$servername/$my_module ) 
@@ -73,6 +72,9 @@ $base_source - Lets you define an alternative source for static files:
 $debug - If set to yes writes in /var/lib/puppet/debug/ useful debugging info
 
 VARIABLES FOR EXTENDED MODULES:
+$puppi - Set to "yes" to enable foo plugins for puppi
+Check foo/manifests/puppi.pp for more info.
+
 $monitor - Set to "yes" to enable auto monitoring classes 
 $monitor_tool - Defines the monitor tools to activate (At leat one, can be an array)
 Check foo/manifests/monitor.pp for more info on foo monitoring related variables.
@@ -81,10 +83,14 @@ $backup - Set to "yes" to enable auto backuping classes
 $backup_tool - Defines the backup tools to activate (At leat one, can be an array)
 Check foo/manifests/backup.pp for more info on foo backuping related variables.
 
+$firewall - Set to "yes" to enable auto firewalling classes
+$firewall_tool - Defines the firewall tools to activate
+Check foo/manifests/firewall.pp for more info on foo firewalling related variables.
+
 
 DEPENDENCIES:
 Standard classes generally don't need external modules.
-Extended classes need the relevant external modules and the Example42 "common" module.
+Extended classes need the relevant external modules.
 foo::conf generic infile configuration define needs the Example42 "common" module
 
 
@@ -96,4 +102,4 @@ Debian 6        : Planned
 Ubuntu 8.04     : Testing
 Ubuntu 10.04    : Testing
 SLES 10         : Planned
-SLES 11         : Planned
+SLES 11         : Testing
