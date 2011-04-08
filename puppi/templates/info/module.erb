@@ -43,8 +43,6 @@ show_command "df <%= item %>"
 <% end %>
 <% end %>
 
-# $pidfile = <%= scope.lookupvar('apache::params::pidfile') %>
-
 <% if run != "" %>
 echo_title "Extra info"
 <% run.split("###").each do |cmd| %>show_command "<%= cmd %>"
