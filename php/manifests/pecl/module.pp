@@ -7,15 +7,14 @@
 #                                If set to "no" it installs the module via pecl command
 # $preferred_state (default="stable") - Define which preferred state to use when installing Pear modules via pecl
 #                                command line (when use_package=no)
-# $auto_answer (default="\\n") - The answer(s) to give to pecl prompts for unattended installs. Note that special chars must be \ escaped.
+# $auto_answer (default="\n") - The answer(s) to give to pecl prompts for unattended installs
 #
 # Usage:
 # php::pecl::module { packagename: }
-#
 # Example:
-# php::pecl::module { "xslcache": use_package => "no", preferred_state => "beta" }
-
-define php::pecl::module (use_package="yes", preferred_state="stable", auto_answer="\\n" ) {
+# php::pecl::module { Crypt-CHAP: }
+#
+define php::pecl::module ($use_package="yes", $preferred_state="stable", $auto_answer="\\n" ) {
 
     include php::pecl
 
@@ -38,7 +37,7 @@ case $use_package {
             require => Package["php-pear"],
         }
     }
-} # End Case
+} # End Case
 
 }
 

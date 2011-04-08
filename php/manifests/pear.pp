@@ -4,7 +4,7 @@
 #
 # Usage:
 # include php::pear
-
+#
 class php::pear  {
 
     include php

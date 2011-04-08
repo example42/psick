@@ -4,8 +4,8 @@
 #
 # Usage:
 # php::pecl::config { http_proxy: value => "myproxy:8080" }
-
-define php::pecl::config (value) {
+#
+define php::pecl::config ($value) {
 
     include php::pecl
 

@@ -24,3 +24,4 @@ php::pear::config { "http_proxy": value => "$proxy_server" } # Configures pear e
 php::pecl::module { "xslcache": }  # Installs pecl module using OS package
 php::pecl::module { "xslcache": use_package => "no", preferred_state => "beta" } # Installs pecl module with pecl command
 php::pecl::config { "http_proxy": value => "$proxy_server" } # Configures pecl environment
+
