@@ -3,46 +3,47 @@ module MCollective
         class Puppi<RPC::Agent
             metadata    :name        => "SimpleRPC Agent For PUPPI Commands",
                         :description => "Agent to execute PUPPI actions via MCollective",
-                        :author      => "Al @ Lab42 - Cloned from R.I.Pienaar nrpe agent",
+                        :author      => "Al @ Lab42",
                         :license     => "Apache License 2.0",
-                        :version     => "0.2",
+                        :version     => "0.3",
                         :url         => "http://www.example42.com/",
                         :timeout     => 600
 
-            action "runcommand" do
-                validate :command, :shellsafe
+            def check_action
+                    # validate :command, :shellsafe
+                    reply.data = %x[puppi check].chomp
+#                    reply.exitcode = $?.exitstatus
+            end
 
-                case command
-                    when "check"
-                    reply[:output] = %x[puppi check].chomp
-                    reply[:exitcode] = $?.exitstatus
-                    when "deploy"
-                    reply[:output] = %x[puppi deploy].chomp
-                    reply[:exitcode] = $?.exitstatus
+            def info_action
+                    reply.data = %x[puppi info].chomp
+#                    reply.exitcode = $?.exitstatus
+            end
 
-                end
+            def log_action
+                    reply.data = %x[puppi log -20].chomp
+#                    reply.exitcode = $?.exitstatus
+            end
 
-                case reply[:exitcode]
-                    when 0
-                        reply.statusmsg = "OK"
+            def deploy_action
+                    validate :project, :shellsafe
+                    project = request[:project]
+                    reply.data = %x[puppi deploy #{project}].chomp
+#                    reply.exitcode = $?.exitstatus
+            end
 
-                    when 1
-                        reply.fail "WARNING"
+            def rollback_action
+                    validate :project, :shellsafe
+                    project = request[:project]
+                    reply.data = %x[puppi rollback #{project} latest].chomp
+#                    reply.exitcode = $?.exitstatus
+            end
 
-                    when 2
-                        reply.fail "CRITICAL"
-
-                    else
-                        reply.fail "UNKNOWN"
-
-                end
-
-                if reply[:output] =~ /^(.+)\|(.+)$/
-                    reply[:output] = $1
-                    reply[:perfdata] = $2
-                else
-                    reply[:perfdata] = ""
-                end
+            def init_action
+                    validate :project, :shellsafe
+                    project = request[:project]
+                    reply.data = %x[puppi init #{project}].chomp
+#                    reply.exitcode = $?.exitstatus
             end
 
         end
