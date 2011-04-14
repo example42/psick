@@ -24,7 +24,7 @@ metadata    :name        => "SimpleRPC Agent For PUPPI Commands",
               :optional    => true,
               :maxlength   => 50
 
-        output :output,
+        output :data,
               :description => "Output from the Puppi run",
               :display_as  => "Output"
 
@@ -52,7 +52,7 @@ end
               :optional    => true,
               :maxlength   => 50
 
-        output :output,
+        output :data,
               :description => "Output from the Puppi run",
               :display_as  => "Output"
 

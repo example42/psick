@@ -21,7 +21,7 @@ module MCollective
             end
 
             def log_action
-                    reply.data = %x[puppi log -20].chomp
+                    reply.data = %x[puppi log -c 10].chomp
 #                    reply.exitcode = $?.exitstatus
             end
 

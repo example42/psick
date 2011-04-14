@@ -48,9 +48,9 @@ mc = rpcclient("puppi", :options => options)
 mc.progress = true
 mc.send(command, {:project => project}) do |resp|
     begin
-      #  printf("%-1s %s\n", resp[:sender], resp[:body][:data])
-	puts resp[:body][:data]
-        exitcode = resp[:body][:exitcode].to_i
+#        puts resp[:serverid]
+        puts resp[:body][:data]
+#        puts resp[:body][:exitcode]
 
     rescue RPCError => er
         puts "RPC Agent error: #{er}"
