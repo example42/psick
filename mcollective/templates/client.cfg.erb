@@ -1,6 +1,8 @@
 # File managed by Puppet
 
-topicprefix = /topic/mcollective
+topicprefix = /topic/
+main_collective = mcollective
+collectives = mcollective
 libdir = <%= scope.lookupvar('mcollective::params::libdir') %>
 logfile = <%= scope.lookupvar('mcollective::params::logdir') %>
 loglevel = info

@@ -28,7 +28,7 @@ class mcollective::server {
         name       => "${mcollective::params::servicename}",
         ensure     => running,
         enable     => true,
-        hasrestart => true,
+        hasrestart => false,
         hasstatus  => "${mcollective::params::hasstatus}",
         pattern    => "${mcollective::params::processname}",
         require    => Package["mcollective"],
