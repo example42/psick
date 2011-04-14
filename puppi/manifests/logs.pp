@@ -6,11 +6,14 @@ class puppi::logs {
 
     case $operatingsystem {
         Debian,Ubuntu: { 
-            puppi::log { "messages": hostwide => "yes" , logpath => "/var/log/messages" }
-            puppi::log { "syslog": hostwide => "yes" , logpath => "/var/log/syslog" }
+            puppi::log { "system": description => "General System Messages" , log => "/var/log/messages###/var/log/syslog" }
+            puppi::log { "auth": description => "Users and authentication" , log => "/var/log/user.log###/var/log/auth.log" }
+            puppi::log { "mail": description => "Mail messages" , log => "/var/log/mail.log" }
         }
         RedHat,CentOS: { 
-            puppi::log { "messages": hostwide => "yes" , logpath => "/var/log/messages" }
+            puppi::log { "system": description => "General System Messages" , log => "/var/log/messages" }
+            puppi::log { "auth": description => "Users and authentication" , log => "/var/log/secure" }
+            puppi::log { "mail": description => "Mail messages" , log => "/var/log/maillog" }
         }
         default: { }
     }

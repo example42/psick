@@ -1,56 +1,33 @@
 # Define puppi::log
 #
-# This define creates a file containing a log path to be used by the puppi log command.
+# This define creates a basic log file that simply contains the list of logs to show
+# when issuing the puppi log command.
+#
+# Note: A quick and dirty fix to manage an array of logs to use for the "log" argument
+#       requires the usage of "###" to separate each command
 #
 # Usage:
-# puppi::log { "messages":
-#     path => "/var/log/messages"
+# puppi::log { "system":
+#     description => "General System Logs" ,
+#     log    => "/var/log/syslog ###/var/log/messages",
 # }
 #
 define puppi::log (
-    $logpath,
-    $hostwide="no",
-    $priority="50",
-    $project="default",
-    $enable = "true" ) {
+    $description="",
+    $log ) {
 
     require puppi::params
 
     # Autoinclude the puppi class
     include puppi
 
-    $ensure = $enable ? {
-        false   => "absent",
-        "false" => "absent",
-        "no"    => "absent",
-        true    => "present",
-        "true"  => "present",
-        "yes"   => "present",
+    file { "${puppi::params::logsdir}/${name}":
+        mode    => "644",
+        owner   => "${puppi::params::configfile_owner}",
+        group   => "${puppi::params::configfile_group}",
+        ensure  => "present",
+        require => Class["puppi"],
+        content => template("puppi/log.erb"),
+        tag     => 'puppi_log',
     }
-
-case $hostwide {
-    no: {
-        file { "${puppi::params::projectsdir}/$project/log/${priority}-${name}":
-            mode    => "644",
-            owner   => "${puppi::params::configfile_owner}",
-            group   => "${puppi::params::configfile_group}",
-            ensure  => "${ensure}",
-            require => Class["puppi"],
-            content => "${logpath}\n",
-            tag     => 'puppi_log',
-        }
-    }
-    default: {
-        file { "${puppi::params::logsdir}/${priority}-${name}":
-            mode    => "644",
-            owner   => "${puppi::params::configfile_owner}",
-            group   => "${puppi::params::configfile_group}",
-            ensure  => "${ensure}",
-            require => Class["puppi"],
-            content => "${logpath}\n",
-            tag     => 'puppi_log',
-        }
-    }
-}
-
 }

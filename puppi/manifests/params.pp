@@ -18,6 +18,7 @@ class puppi::params  {
     $workdir = "/tmp/puppi"
     $libdir = "/var/lib/puppi"
     $archivedir = "/var/lib/puppi/archive"
+    $readmedir = "/var/lib/puppi/readme"
     $logdir = "/var/log/puppi"
 
     $configfile_mode = $operatingsystem ? {
@@ -33,7 +34,7 @@ class puppi::params  {
     }
 
     $nrpepluginsdir = $operatingsystem ? {
-        /(CentOS|RedHat)/ => $architecture ? {
+        /(CentOS|RedHat|centos|redhat)/ => $architecture ? {
             x86_64  => "/usr/lib64/nagios/plugins",
             default => "/usr/lib/nagios/plugins",
         },
@@ -43,14 +44,14 @@ class puppi::params  {
 # Commands used in puppi info templates
 
     $info_package_query = $operatingsystem ? {
-        /(CentOS|RedHat)/ => "rpm -qi",
-        /(Ubuntu|Debian)/ => "dpkg -s",
+        /(CentOS|RedHat|centos|redhat)/ => "rpm -qi",
+        /(Ubuntu|Debian|ubuntu|debian)/ => "dpkg -s",
         default => "echo",
     }
 
     $info_package_list = $operatingsystem ? {
-        /(CentOS|RedHat)/ => "rpm -ql",
-        /(Ubuntu|Debian)/ => "dpkg -L",
+        /(CentOS|RedHat|centos|redhat)/ => "rpm -ql",
+        /(Ubuntu|Debian|ubuntu|debian)/ => "dpkg -L",
         default => "echo",
     }
 

@@ -38,10 +38,6 @@ define puppi::project (
         mode => "755", owner => "${puppi::params::configfile_owner}", group => "${puppi::params::configfile_group}",
         recurse => true, purge => true, force => true,
         ensure => "${ensure}", require => File["${puppi::params::projectsdir}/${name}"];
-        "${puppi::params::projectsdir}/${name}/log":
-        mode => "755", owner => "${puppi::params::configfile_owner}", group => "${puppi::params::configfile_group}",
-        recurse => true, purge => true, force => true,
-        ensure => "${ensure}", require => File["${puppi::params::projectsdir}/${name}"];
         "${puppi::params::projectsdir}/${name}/rollback":
         mode => "755", owner => "${puppi::params::configfile_owner}", group => "${puppi::params::configfile_group}",
         recurse => true, purge => true, force => true,

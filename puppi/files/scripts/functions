@@ -58,9 +58,9 @@ echo_warning() {
 echo_title () {
   echo
   echo
-  $SETCOLOR_TITLE
+  [ "$BOOTUP" = "color" ] && $SETCOLOR_TITLE
   echo "$1"
-  $SETCOLOR_NORMAL
+  [ "$BOOTUP" = "color" ] && $SETCOLOR_NORMAL
 }
 
 check_retcode () {
