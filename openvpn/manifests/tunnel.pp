@@ -2,12 +2,13 @@
 #
 # Manages openvpn tunnels creating an openvpn .conf file
 # Availabla variables:
-# $mode="p2p" - Sets general openvpn mode: p2p or server,
-# $remote=""  - Sets remote host/IP
-# $port       - Required. 
-# $proto="tcp" - Transport protocol: tcp or udp
-# $auth_type  - Authentication method: secret, tls-server, or tls-client
-# $dev="tun"  - Device to use
+# $mode="server" - Sets general openvpn mode: client or server,
+# $remote=""  - Sets remote host/IP. Neeed is client mode
+# $port="1194"  - Default is 1194, change with multiple tunnels  
+# $proto="udp" - Transport protocol: tcp or udp
+# $auth_type  - Authentication method: key, ca
+# $auth_key  - Statif Key to use with  $auth_type=key
+# $dev="tun"  - tun for Ip routing , tap for bridging mode
 # $ifconfig="" 
 # $route="",
 # $templatefile='' ,
@@ -15,10 +16,11 @@
 #
 #
 define openvpn::tunnel (
-    $mode="p2p",
+    $mode="server",
     $remote="",
-    $port,
+    $port="1194",
     $auth_type,
+    $auth_key="",
     $proto="tcp",
     $dev="tun",
     $ifconfig="",
@@ -28,7 +30,15 @@ define openvpn::tunnel (
 
     require openvpn::params
 
-    file { "${name}.conf":
+    $real_proto = $proto ? {
+         udp => "udp",
+         tcp => $mode ? {
+             "server" => "tcp-server",
+             "client" => "tcp-client",
+         },
+    }
+
+    file { "openvpn_${name}.conf":
         path    => "${openvpn::params::configdir}/${name}.conf",
         mode    => "${openvpn::params::configfile_mode}",
         owner   => "${openvpn::params::configfile_owner}",
@@ -38,6 +48,19 @@ define openvpn::tunnel (
         notify  => Service["openvpn"],
         content => template("${templatefile}"),
     }
+
+if $authkey != "" {
+    file { "openvpn_${name}.key":
+        path    => "${openvpn::params::configdir}/${name}.key",
+        mode    => "644",
+        owner   => "${openvpn::params::configfile_owner}",
+        group   => "${openvpn::params::configfile_group}",
+        ensure  => present,
+        require => Package["openvpn"],
+        notify  => Service["openvpn"],
+        content => "${auth_key}",
+    }
+}
 
 # Automatic monitoring of port and service
   if $monitor == "yes" { 
