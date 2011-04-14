@@ -186,7 +186,7 @@ class apache::params  {
     # If apache plugin monitoring is enabled 
     $monitor_plugin_enable = $apache_monitor_plugin ? {
         ''      => $monitor_plugin ? {
-           ''      => true,
+           ''      => false,
            default => $monitor_plugin,
         },
         default => $apache_monitor_plugin,

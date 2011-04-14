@@ -31,11 +31,9 @@ define monitor::url (
     $urlq = regsubst($url , '/' , '-' , 'G') # Needed to create flag todo files seamlessly
 
     if ($tool =~ /munin/) {
-        if ( $debug == "yes" ) or ( $debug == true ) { file { "${puppet::params::debugdir}/todo/monitor-url-munin-$urlq": ensure => present } }
     }
 
     if ($tool =~ /collectd/) {
-        if ( $debug == "yes" ) or ( $debug == true ) { file { "${puppet::params::debugdir}/todo/monitor-url-collect-$urlq": ensure => present } }
     }
 
     if ($tool =~ /monit/) {

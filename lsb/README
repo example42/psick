@@ -1,0 +1,13 @@
+Puppet module: lsb
+
+Licence: GPLv3
+
+DESCRIPTION:
+This module manages installation of lsb on different OS
+
+
+USER VARIABLES:
+
+USAGE:
+# Standard Classes 
+include lsb              # Install lsb package

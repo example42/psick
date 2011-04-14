@@ -53,7 +53,7 @@ define apache::vhost( $port, $docroot, $ssl=true, $template='apache/virtualhosts
             apache::ports { "81": https => "8143" }
         }
         redhat,centos: {
-            apache::dotconf { "00-NameVirtualHost": content => template("apache/00-NameVirtualHost.conf.erb") }
+#            apache::dotconf { "00-NameVirtualHost": content => template("apache/00-NameVirtualHost.conf.erb") }
         }
         default: { }
     }

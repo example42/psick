@@ -153,7 +153,7 @@ class mysql::params  {
     # If mysql plugin monitoring is enabled 
     $monitor_plugin_enable = $mysql_monitor_plugin ? {
         ''      => $monitor_plugin ? {
-           ''      => true,
+           ''      => false,
            default => $monitor_plugin,
         },
         default => $mysql_monitor_plugin,
