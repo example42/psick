@@ -123,7 +123,7 @@ class snmpd::params  {
     # If snmpd port monitoring is enabled 
     $monitor_port_enable = $snmpd_monitor_port ? {
         ''      => $monitor_port ? {
-           ''      => true,
+           ''      => false,
            default => $monitor_port,
         },
         default => $snmpd_monitor_port,
