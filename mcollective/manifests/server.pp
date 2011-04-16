@@ -46,6 +46,16 @@ class mcollective::server {
         content => template("mcollective/server.cfg.erb"),
     }
 
+    # Yaml based fact source for mcollective. Set $mcollective_factsource = yaml to use it (and have a lot of fun)
+    file {"/etc/mcollective/facts.yaml":
+        owner    => root,
+        group    => root,
+        mode     => 400,
+        loglevel => debug,  # this is needed to avoid it being logged and reported on every run
+        # avoid including highly-dynamic facts as they will cause unnecessary template writes
+        content  => inline_template("<%= scope.to_hash.reject { |k,v| k.to_s =~ /(uptime_seconds|timestamp|free|.*password.*|.*psk.*|.*key)/ }.to_yaml %>")
+    }
+
     # Include Plugins
      if ( $mcollective::params::plugins != "no") { include mcollective::plugins }
 

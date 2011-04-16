@@ -10,18 +10,23 @@ module MCollective
                         :timeout     => 600
 
             def check_action
-                    # validate :command, :shellsafe
-                    reply.data = %x[puppi check].chomp
+#                   validate :project, :shellsafe
+                    project = request[:project]
+                    reply.data = %x[puppi check #{project}].chomp
 #                    reply.exitcode = $?.exitstatus
             end
 
             def info_action
-                    reply.data = %x[puppi info].chomp
+#                   validate :project, :shellsafe
+                    project = request[:project]
+                    reply.data = %x[puppi info #{project}].chomp
 #                    reply.exitcode = $?.exitstatus
             end
 
             def log_action
-                    reply.data = %x[puppi log -c 10].chomp
+#                   validate :project, :shellsafe
+                    project = request[:project]
+                    reply.data = %x[puppi log #{project} -c 10].chomp
 #                    reply.exitcode = $?.exitstatus
             end
 
