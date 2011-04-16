@@ -42,7 +42,7 @@ class mcollective::client {
     if $my_project { 
         case $my_project_onmodule {
             yes,true: { include "${my_project}::mcollective::client" }
-            default: { include "mcollective::client::${my_project}" }
+            default: { include "mcollective::${my_project}::client" }
         }
     }
 

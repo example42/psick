@@ -75,7 +75,7 @@ class mcollective::server {
     if $my_project { 
         case $my_project_onmodule {
             yes,true: { include "${my_project}::mcollective::server" }
-            default: { include "mcollective::server::${my_project}" }
+            default: { include "mcollective::${my_project}::server" }
         }
     }
 

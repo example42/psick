@@ -1,4 +1,4 @@
-# Class mcollective::client::example42
+# Class mcollective::example42::client
 #
 # Custom project class for example42 project. Use this to adapt the mcollective module to your project.
 # This class is autoloaded if $my_module == example42 and $my_module_onmodule != yes
@@ -11,6 +11,6 @@
 # - Via custom templates ( content => ) or templates joins
 # - Via some kind on infile line modification tools, such as Augeas or the Example42's conf define approach
 #
-class mcollective::client::example42 {
+class mcollective::example42::client {
 
 }

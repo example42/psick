@@ -7,11 +7,11 @@
 . <%= scope.lookupvar('puppi::params::scriptsdir') %>/header || exit 10
 
 # Show ReadMe file
-echo_title "Showing <%= name %> ReadMe"
+echo_title "$HOSTNAME - Showing <%= name %> ReadMe"
 show_command "cat <%= scope.lookupvar('puppi::params::readmedir') %>/<%= name %>"
 
 <% if run != "" %>
-echo_title "Extra info"
+echo_title "$HOSTNAME - Extra info"
 <% run.split("###").each do |cmd| %>show_command "<%= cmd %>"
 <% end %>
 <% end %>

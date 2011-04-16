@@ -6,6 +6,6 @@
 # Sources common header for Puppi scripts
 . <%= scope.lookupvar('puppi::params::scriptsdir') %>/header || exit 10
 
-echo_title "<%= description %>"
+echo_title "$HOSTNAME - <%= description %>"
 <% run.split("###").each do |cmd| %>show_command "<%= cmd %>"
 <% end %>
