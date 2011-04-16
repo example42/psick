@@ -8,7 +8,7 @@
 
 <% if packagename != "" %>
 # Show packages info
-echo_title "Packages Installed: <% packagename.split("###").each do |item| %><%= item %><% end %>"
+echo_title "$HOSTNAME - Packages Installed: <% packagename.split("###").each do |item| %><%= item %><% end %>"
 <% packagename.split("###").each do |item| %>
 show_command "<%= scope.lookupvar('puppi::params::info_package_query') %> <%= item %>"
 show_command "<%= scope.lookupvar('puppi::params::info_package_list') %> <%= item %> | egrep '(/bin|^/etc|/sbin|log)'"
@@ -17,7 +17,7 @@ show_command "<%= scope.lookupvar('puppi::params::info_package_list') %> <%= ite
 
 <% if servicename != "" %>
 # Show service info
-echo_title "Service managed: <% servicename.split("###").each do |item| %><%= item %><% end %>"
+echo_title "$HOSTNAME - Service managed: <% servicename.split("###").each do |item| %><%= item %><% end %>"
 <% servicename.split("###").each do |item| %>
 show_command "/etc/init.d/<%= item %> status"
 <% end %>
@@ -28,7 +28,7 @@ show_command "netstat -natup | grep ':<%= port %> '"
 
 <% if configfile != "" %>
 # Show config info
-echo_title "Configuration Files managed: <% configfile.split("###").each do |item| %><%= item %><% end %>"
+echo_title "$HOSTNAME - Configuration Files managed: <% configfile.split("###").each do |item| %><%= item %><% end %>"
 <% configfile.split("###").each do |item| %>
 show_command "stat <%= item %>"
 <% end %>
@@ -36,7 +36,7 @@ show_command "stat <%= item %>"
 
 <% if datadir != "" %>
 # Show data dir
-echo_title "Application data are in: <% datadir.split("###").each do |item| %><%= item %><% end %>"
+echo_title "$HOSTNAME - Application data are in: <% datadir.split("###").each do |item| %><%= item %><% end %>"
 <% datadir.split("###").each do |item| %>
 show_command "ls -latr <%= item %>"
 show_command "df <%= item %>"
@@ -44,7 +44,7 @@ show_command "df <%= item %>"
 <% end %>
 
 <% if run != "" %>
-echo_title "Extra info"
+echo_title "$HOSTNAME - Extra info"
 <% run.split("###").each do |cmd| %>show_command "<%= cmd %>"
 <% end %>
 <% end %>
