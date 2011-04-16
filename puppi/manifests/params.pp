@@ -33,12 +33,18 @@ class puppi::params  {
         default => "root",
     }
 
+# External tools
     $nrpepluginsdir = $operatingsystem ? {
         /(CentOS|RedHat|centos|redhat)/ => $architecture ? {
             x86_64  => "/usr/lib64/nagios/plugins",
             default => "/usr/lib/nagios/plugins",
         },
         default => "/usr/lib/nagios/plugins",
+    }
+
+    $ntp_server = $ntp_server ? {
+        ''      => "pool.ntp.org" ,
+        default => $ntp_server ,
     }
 
 # Commands used in puppi info templates

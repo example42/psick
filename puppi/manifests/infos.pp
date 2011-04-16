@@ -7,7 +7,7 @@ class puppi::infos {
 
     puppi::info { "network": 
         description => "Network settings and stats" ,
-        run         => "ifconfig###route###cat /etc/resolv.conf",
+        run         => "ifconfig###route###cat /etc/resolv.conf###netstat -natup | grep LISTEN",
     }
 
     puppi::info { "users":
