@@ -41,7 +41,7 @@ class puppi {
     # Create Puppi workdirs
     include puppi::skel
 
-    # Some extra stuff we use in Puppi scrips
+    # Some extra stuff we use in Puppi scripts
     include puppi::extra
 
     # Define standard systemwide log paths for puppi log
@@ -49,5 +49,8 @@ class puppi {
 
     # Define standard systemwide information sources
     include puppi::infos
-    
+
+    # Some default checks
+    include puppi::checks    
+
 }

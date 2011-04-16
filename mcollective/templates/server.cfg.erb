@@ -30,6 +30,7 @@ plugin.nrpe.conf_dir = <%= scope.lookupvar('mcollective::params::nrpe_configdir'
 <% if has_variable?('mcollective_filemgr_touch_file') -%>
 plugin.filemgr.touch_file = <%= mcollective_filemgr_touch_file %>
 <% end -%>
+plugin.yaml = /etc/mcollective/facts.yaml
 
 plugin.service.hasstatus = <%= scope.lookupvar('mcollective::params::service_hasstatus') %>
 plugin.service.hasrestart = true

@@ -48,6 +48,7 @@ class mcollective::plugins {
 
     # facts
     mcollective::plugin { "facts/facter.rb": source => "facts/facter/facter.rb" }
+    mcollective::plugin { "facts/facter_facts.rb": source => "facts/facter/facter_facts.rb" }
 
 
 
