@@ -67,6 +67,16 @@ class dashboard {
             path   => "$puppet::params::basedir/reports/puppet_dashboard.rb",
     }
 
+    # For ENC 
+    file {
+        "dashboard-node.rb":
+            ensure => "$dashboard::params::basedir/puppet-dashboard/ext/puppet/puppet_dashboard.rb",
+            # ensure => "$dashboard::params::basedir/puppet-dashboard/lib/puppet/puppet_dashboard.rb",
+            path   => "/etc/puppet/node.rb",
+    }
+
+
+
     exec {
         "create-dashboard-db":
             command => "rake RAILS_ENV=production db:create",
