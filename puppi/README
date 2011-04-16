@@ -159,17 +159,20 @@ There are different parts where you can customize the behaviour of puppi:
   exceptions with variables (see the $loadbalancer_ip usage in puppi/manifests/project/maven.pp)
 
 DEPENDENCIES
-The Example42 puppi module is completely independent: You can take it and use it out of the box.
-If you want to have automatic host-wide checks you may also use the Example42 monitor module
-and have "puppi" in your $monitor_tool array.
-Some general-use scripts use curl to retrieve external files: install curl on your nodes or
-write alternative get scripts.
+The Example42 puppi module aims to be independent and easily droppalo in your set of modules.
+In order to do something useful by default it need some packages that you probably already manage:
+- nagios plugins for the puppi check,
+- curl for some general scripts used in puppi deploy.
+
+Extra elements for check, info and log are automatic included with the relevant application if you use
+the Example42 modules.
 
 PROJECT STATUS
 Puppi is a work in progress. It has been originally designed to automate deployments in
 a specific environment and more project templates have to be written to manage different 
 scenarios. It has evolved with some commands useful to quickly understand what's 
-happening on the system and how it's  configured.
-At the moment the puppi command is intended to be run (by root) on the deploy host without
-direct dependencies on actions executed on other nodes (if not with custom scripts and logic).
-
+happening on the system and how it's configured.
+It has greatly broadened its applications and possibilities with the introduction of the mc-puppi
+mcollective command and the relevant plugin.
+All the puppi commands you can issue to obtain information, check status and manage applications
+deployments are now usable via Mcollective.
