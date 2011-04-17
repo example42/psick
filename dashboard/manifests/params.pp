@@ -159,7 +159,7 @@ class dashboard::params  {
     # If dashboard url monitoring is enabled 
     $monitor_url_enable = $dashboard_monitor_url ? {
         ''      => $monitor_url ? {
-           ''      => true,
+           ''      => false,
            default => $monitor_url,
         },
         default => $dashboard_monitor_url,

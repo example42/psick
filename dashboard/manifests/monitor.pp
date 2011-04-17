@@ -52,7 +52,8 @@ if ($dashboard_server_local == true) or ($dashboard_server == "$fqdn") {
 
     # Process monitoring 
     monitor::process { "dashboard_process":
-        process  => "${dashboard::params::processname}",
+        process  => "ruby",
+        argument => "${dashboard::params::processname}",
         service  => "${dashboard::params::servicename}",
         pidfile  => "${dashboard::params::pidfile}",
         enable   => "${dashboard::params::monitor_process_enable}",
