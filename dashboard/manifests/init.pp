@@ -31,6 +31,10 @@ class dashboard {
         mysql: {
              require mysql::params
              include mysql
+             include dashboard::mysql
+        }
+        sqlite: {
+             include dashboard::sqlite
         }
         no: {
         }
@@ -71,7 +75,10 @@ class dashboard {
         "create-dashboard-db":
             command => "rake RAILS_ENV=production db:create",
             cwd => "$dashboard::params::basedir/puppet-dashboard",
-            require => File["database.yml"],
+            require => [File["database.yml"], $dashboard::params::db ? {
+                mysql  => Class["dashboard::mysql"],
+                sqlite => Class["dashboard::sqlite"]
+            }],
             creates => $dashboard::params::db ? {
                 sqlite => "$dashboard::params::basedir/puppet-dashboard/db/production.sqlite3",
                 mysql  => "$mysql::params::datadir/dashboard",
