@@ -20,8 +20,9 @@ class foo::puppi {
         # run         => "foo -V###",
     }
 
-##    puppi::log { "foo":
-##        logdir      => "${foo::params::logdir}",
-##    }
+    puppi::log { "foo":
+        description => "Logs of foo" ,  
+        log      => "${foo::params::logdir}",
+    }
 
 }

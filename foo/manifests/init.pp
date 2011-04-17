@@ -46,14 +46,14 @@ class foo {
         default: { }
     }
 
+    # Include project specific class if $my_project is set
+    if $my_project { include "foo::${my_project}" }
+
     # Include extended classes, if relevant variables are defined 
     if $puppi == "yes" { include foo::puppi }
     if $backup == "yes" { include foo::backup }
     if $monitor == "yes" { include foo::monitor }
     if $firewall == "yes" { include foo::firewall }
-
-    # Include project specific class if $my_project is set
-    if $my_project { include foo::${my_project} }
 
     # Include debug class is debugging is enabled ($debug=yes)
     if ( $debug == "yes" ) or ( $debug == true ) { include foo::debug }
