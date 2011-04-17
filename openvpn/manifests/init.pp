@@ -34,21 +34,14 @@ class openvpn {
         default: { }
     }
 
+    # Include project specific class if $my_project is set
+    if $my_project { include "openvpn::${my_project}" }
+
     # Include extended classes, if relevant variables are defined 
     if $puppi == "yes" { include openvpn::puppi }
     if $backup == "yes" { include openvpn::backup }
     if $monitor == "yes" { include openvpn::monitor }
     if $firewall == "yes" { include openvpn::firewall }
-
-    # Include project specific class if $my_project is set
-    # The extra project class is by default looked in openvpn module 
-    # If $my_project_onmodule == yes it's looked in your project module
-    if $my_project { 
-        case $my_project_onmodule {
-            yes,true: { include "${my_project}::openvpn" }
-            default: { include "openvpn::${my_project}" }
-        }
-    }
 
     # Include debug class is debugging is enabled ($debug=yes)
     if ( $debug == "yes" ) or ( $debug == true ) { include openvpn::debug }
