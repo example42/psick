@@ -7,7 +7,7 @@ class puppi::checks {
 
     puppi::check { "NTP_Sync":
         command  => "check_ntp -H ${puppi::params::ntp_server}" ,
-        priority => "10" ,
+        priority => "20" ,
         hostwide => "yes" ,
     }
 
@@ -23,8 +23,20 @@ class puppi::checks {
         hostwide => "yes" ,
     }
 
-    puppi::check { "Zombie_Procs":
+    puppi::check { "Zombie_Processes":
         command  => "check_procs -w 5 -c 10 -s Z" ,
+        priority => "10" ,
+        hostwide => "yes" ,
+    }
+
+    puppi::check { "Local_Mail_Queue":
+        command  => "check_mailq -w 2 -c 5" ,
+        priority => "10" ,
+        hostwide => "yes" ,
+    }
+
+    puppi::check { "Connected_Users":
+        command  => "check_users -w 5 -c 10" ,
         priority => "10" ,
         hostwide => "yes" ,
     }
