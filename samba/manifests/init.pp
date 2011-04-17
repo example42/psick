@@ -46,20 +46,14 @@ class samba {
         default: { }
     }
 
-    # Include extended classes, if 
+    # Include project specific class if $my_project is set
+    if $my_project { include "samba::${my_project}" }
+
+    # Include extended classes, if relevant variables are defined 
+    if $puppi == "yes" { include samba::puppi }
     if $backup == "yes" { include samba::backup }
     if $monitor == "yes" { include samba::monitor }
     if $firewall == "yes" { include samba::firewall }
-
-    # Include project specific class if $my_project is set
-    # The extra project class is by default looked in samba module 
-    # If $my_project_onmodule == yes it's looked in your project module
-    if $my_project { 
-        case $my_project_onmodule {
-            yes,true: { include "${my_project}::samba" }
-            default: { include "samba::${my_project}" }
-        }
-    }
 
     # Include debug class is debugging is enabled ($debug=yes)
     if ( $debug == "yes" ) or ( $debug == true ) { include samba::debug }
