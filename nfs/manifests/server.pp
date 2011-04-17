@@ -46,6 +46,10 @@ class nfs::server {
     if $monitor == "yes" { include nfs::monitor }
     if $firewall == "yes" { include nfs::firewall }
 
+    # Include project specific class for server if $my_project is set
+    if $my_project { include "nfs::${my_project}::server" }
+
+
 # TODO : Add extra services (statd, gss, lockd...)
 
 }

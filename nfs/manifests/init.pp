@@ -20,8 +20,6 @@ class nfs {
         ensure => present,
     }
 
-    case $operatingsystem {
-        default: { }
-    }
+    if $my_project { include "nfs::${my_project}" }
 
 }
