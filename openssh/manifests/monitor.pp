@@ -65,12 +65,7 @@ class openssh::monitor {
     }
 
     # Include project specific monitor class if $my_project is set
-    if $my_project { 
-        case $my_project_onmodule {
-            yes,true: { include "${my_project}::openssh::monitor" }
-            default: { include "openssh::monitor::${my_project}" }
-        }
-    }
+    if $my_project { include "openssh::${my_project}::monitor" }
 
 }
 

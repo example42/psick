@@ -39,12 +39,7 @@ class openssh::backup {
     }
 
     # Include project specific backup class if $my_project is set
-    if $my_project { 
-        case $my_project_onmodule {
-            yes,true: { include "${my_project}::openssh::backup" }
-            default: { include "openssh::backup::${my_project}" }
-        }
-    }
+    if $my_project { include "openssh::${my_project}::backup" }
 
 }
 

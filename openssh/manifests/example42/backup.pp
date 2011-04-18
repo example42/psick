@@ -1,8 +1,8 @@
-# Class openssh::backup::example42
+# Class openssh::example42::backup
 #
 # Custom backup class for example42 project.
 # Here you can override or define your settings for the backup wrapper
 #
-class openssh::backup::example42 inherits openssh::backup {
+class openssh::example42::backup inherits openssh::backup {
 
 }
