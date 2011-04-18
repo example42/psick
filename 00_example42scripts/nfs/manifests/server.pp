@@ -42,8 +42,6 @@ class nfs::server {
         ensure  => present,
     }
 
-    # Include extended classes, if relevant variables are defined
-    if $puppi == "yes" { include nfs::puppi }
     if $backup == "yes" { include nfs::backup }
     if $monitor == "yes" { include nfs::monitor }
     if $firewall == "yes" { include nfs::firewall }

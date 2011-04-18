@@ -1,13 +1,8 @@
-# Class: nfs::firewall
+# Class: nfs::firewall::absent
 #
-# Manages nfs firewalling using custom Firewall wrapper
-# By default it opens nfs's default port(s) to anybody
-# It's automatically included if $firewall=yes
+# Remove nfs firewall elements
 #
-# Usage:
-# Automatically included if $firewall=yes 
-#
-class nfs::firewall {
+class nfs::firewall::absent {
 
     include nfs::params
 
@@ -18,7 +13,7 @@ class nfs::firewall {
         port        => "${nfs::params::port}",
         action      => "allow",
         direction   => "input",
-        enable      => "${nfs::params::firewall_enable}",
+        enable      => "false",
     }
 
 }

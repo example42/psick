@@ -6,7 +6,7 @@
 # Usage:
 # include nfs::disableboot
 #
-class nfs::disableboot inherits nfs {
+class nfs::disableboot inherits nfs::server {
     Service["nfs"] {
         enable => "false",
     }
