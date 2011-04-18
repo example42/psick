@@ -1,0 +1,49 @@
+# File Managed By Puppet
+
+These are the variables used by the module portmap
+
+User variables (unfiltered):
+# $portmap_server = <%= scope.lookupvar('portmap_server') %>
+
+User variables (after params.pp filter):
+# $portmap::params::server = <%= scope.lookupvar('portmap::params::server') %>
+
+General internal variables:
+$portmap::params::packagename = <%= scope.lookupvar('portmap::params::packagename') %>
+$portmap::params::servicename = <%= scope.lookupvar('portmap::params::servicename') %>
+$portmap::params::processname = <%= scope.lookupvar('portmap::params::processname') %>
+$portmap::params::hasstatus = <%= scope.lookupvar('portmap::params::hasstatus') %>
+$portmap::params::configfile = <%= scope.lookupvar('portmap::params::configfile') %>
+$portmap::params::configfile_mode = <%= scope.lookupvar('portmap::params::configfile_mode') %>
+$portmap::params::configfile_owner = <%= scope.lookupvar('portmap::params::configfile_owner') %>
+$portmap::params::configfile_group = <%= scope.lookupvar('portmap::params::configfile_group') %>
+$portmap::params::configdir = <%= scope.lookupvar('portmap::params::configdir') %>
+$portmap::params::initconfigfile = <%= scope.lookupvar('portmap::params::initconfigfile') %>
+$portmap::params::pidfile = <%= scope.lookupvar('portmap::params::pidfile') %>
+$portmap::params::datadir = <%= scope.lookupvar('portmap::params::datadir') %>
+$portmap::params::logdir = <%= scope.lookupvar('portmap::params::logdir') %>
+$portmap::params::protocol = <%= scope.lookupvar('portmap::params::protocol') %>
+$portmap::params::port = <%= scope.lookupvar('portmap::params::port') %>
+
+Variables used by monitor class:
+$portmap::params::monitor_target_real = <%= scope.lookupvar('portmap::params::monitor_target_real') %> ( Set with $portmap_monitor_target )
+$portmap::params::monitor_baseurl_real = <%= scope.lookupvar('portmap::params::monitor_baseurl_real') %> ( Set with $portmap_monitor_baseurl )
+$portmap::params::monitor_url_pattern = <%= scope.lookupvar('portmap::params::monitor_url_pattern') %> ( Set with $portmap_monitor_url_pattern )
+$portmap::params::monitor_port_enable = <%= scope.lookupvar('portmap::params::monitor_port_enable') %> ( Set with $portmap_monitor_port )
+$portmap::params::monitor_url_enable = <%= scope.lookupvar('portmap::params::monitor_url_enable') %> ( Set with $portmap_monitor_url )
+$portmap::params::monitor_process_enable = <%= scope.lookupvar('portmap::params::monitor_process_enable') %> ( Set with $portmap_monitor_process )
+$portmap::params::monitor_plugin_enable = <%= scope.lookupvar('portmap::params::monitor_plugin_enable') %> ( Set with $portmap_monitor_plugin )
+
+Variables used by backup class:
+$portmap::params::backup_target_real = <%= scope.lookupvar('portmap::params::backup_target_real') %> ( Set with $portmap_backup_target )
+$portmap::params::backup_frequency = <%= scope.lookupvar('portmap::params::backup_frequency') %> ( Set with $portmap_backup_frequency )
+$portmap::params::backup_data_enable = <%= scope.lookupvar('portmap::params::backup_data_enable') %> ( Set with $portmap_backup_data )
+$portmap::params::backup_log_enable = <%= scope.lookupvar('portmap::params::backup_log_enable') %> ( Set with $portmap_backup_log )
+
+Variables used by firewall class:
+$portmap::params::firewall_source_real = <%= scope.lookupvar('portmap::params::firewall_source_real') %> ( Set with $portmap_firewall_source )
+$portmap::params::firewall_destination_real = <%= scope.lookupvar('portmap::params::firewall_destination_real') %> ( Set with $portmap_firewall_destination )
+$portmap::params::firewall_enable = <%= scope.lookupvar('portmap::params::firewall_destination_real') %> ( Set with $portmap_firewall_enable )
+
+Module base source for static files:
+$portmap::params::general_base_source = <%= scope.lookupvar('portmap::params::general_base_source') %> ( Set with $base_source )

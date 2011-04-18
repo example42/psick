@@ -3,32 +3,35 @@
 # Manages portmap firewalling using custom Firewall wrapper
 # By default it opens portmap's default port(s) to anybody
 # It's automatically included if $firewall=yes
-# Note that it uses fact's based $ipaddress as destination IP
-# You may need to change it for natted or multihomed hosts
 #
 # Usage:
-# include portmap::firewall
+# Automatically included if $firewall=yes 
 #
 class portmap::firewall {
 
-    firewall {
-        "portmap_port_111_udp":
-        source      => "any",
-        destination => $ipaddress,
-        protocol    => "udp",
-        port        => 111,
+    include portmap::params
+
+    firewall { "portmap_tcp_${portmap::params::port}":
+        source      => "${portmap::params::firewall_source_real}",
+        destination => "${portmap::params::firewall_destination_real}",
+        protocol    => "tcp",
+        port        => "${portmap::params::port}",
         action      => "allow",
-        direction   => "inbound",
+        direction   => "input",
+        enable      => "${portmap::params::firewall_enable}",
     }
 
-    firewall {
-        "portmap_port_111_tcp":
-        source      => "any",
-        destination => $ipaddress,
-        protocol    => "tcp",
-        port        => 111,
+    # Portmap uses both tcp and udp
+    firewall { "portmap_udp_${portmap::params::port}":
+        source      => "${portmap::params::firewall_source_real}",
+        destination => "${portmap::params::firewall_destination_real}",
+        protocol    => "udp",
+        port        => "${portmap::params::port}",
         action      => "allow",
-        direction   => "inbound",
+        direction   => "input",
+        enable      => "${portmap::params::firewall_enable}",
     }
+
+
 
 }

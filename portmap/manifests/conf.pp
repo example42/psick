@@ -1,23 +1,23 @@
 # Define portmap::conf
-# TO TEST
+#
 # General portmap main configuration file's inline modification define
 # Use with caution, it's still at experimental stage and may break in untested circumstances
+# Engine, pattern end line parameters can be tweaked for better behaviour
 #
 # Usage:
-# portmap::conf    { "protocols":  value => "imap imaps pop3 pop3s" }
+# portmap::conf    { "mynetworks":  value => "127.0.0.0/8 10.42.42.0/24" }
 #
 define portmap::conf ($value) {
 
-    include portmap::params
+    require portmap::params
 
-# TODO Decide if and what portmap config file manage
-#    config { "portmap_conf_$name":
-#        file      => ${portmap::params::configfile},
-#        line      => "$name $value",
-#        pattern   => "^$name ",
-#        engine    => "replaceline",
-#        notify    => Service["portmap"],
-#        require   => File["exports"],
-#    }
+    config { "portmap_conf_$name":
+        file      => "${portmap::params::configfile}",
+        line      => "$name = $value",
+        pattern   => "^$name ",
+        engine    => "replaceline",
+        notify    => Service["portmap"],
+        require   => File["portmap.conf"],
+    }
 
 }
