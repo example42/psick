@@ -41,19 +41,16 @@ class postfix {
         # content => template("postfix/postfix.conf.erb"),
     }
 
-
     # Include OS specific subclasses, if necessary
     case $operatingsystem {
-        redhat: { include sendmail::disable }
-        centos: { include sendmail::disable }
         default: { }
     }
 
     # Include project specific class if $my_project is set
     if $my_project { include "postfix::${my_project}" }
 
-    # Include extended classes, if relevant variables are defined 
-    if $puppi == "yes" { include postfix::puppi }
+
+    # Include extended classes, if 
     if $backup == "yes" { include postfix::backup }
     if $monitor == "yes" { include postfix::monitor }
     if $firewall == "yes" { include postfix::firewall }

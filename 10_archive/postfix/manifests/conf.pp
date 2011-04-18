@@ -13,11 +13,11 @@ define postfix::conf ($value) {
 
     config { "postfix_conf_$name":
         file      => "${postfix::params::configfile}",
-        line      => "$name = $value",
+        line      => "$name $value",
         pattern   => "^$name ",
         engine    => "replaceline",
         notify    => Service["postfix"],
-        require   => File["postfix.conf"],
+        require   => File["main.cf"],
     }
 
 }

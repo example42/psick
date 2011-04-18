@@ -22,4 +22,5 @@ class postfix::absent {
     # Include debug class is debugging is enabled ($debug=yes)
     if ( $debug == "yes" ) or ( $debug == true ) { include postfix::debug }
 
+
 }

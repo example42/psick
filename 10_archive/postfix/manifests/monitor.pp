@@ -1,10 +1,9 @@
 # Class: postfix::monitor
 #
 # Monitors postfix process/ports/service using Example42 monitor meta module (to be adapted to custom monitor solutions)
-# It's automatically included and used if $monitor=yes and is defined at least one monitoring software in $monitor_tool
+# It's automatically included ad used if $monitor=yes and is defined at least one monitoring software in $monitor_tool
 # This class permits to abstract what you want to monitor from the actual tool and modules you'll use for monitoring
-# and can be used to quickly deploy a new monitoring solution that instantly notifies what's working and what's needs
-# to be fixed (call it Test Driven Puppet Deployment, if you like ;-)
+# and can be used to quickly deploy a new monitoring solution
 #
 # Variables:
 # The behaviour of this class has some defaults that can be overriden by user's variables:
@@ -67,6 +66,11 @@ class postfix::monitor {
     }
 
     # Include project specific monitor class if $my_project is set
-    if $my_project { include "postfix::${my_project}::monitor" }
+    if $my_project { 
+        case $my_project_onmodule {
+            yes,true: { include "${my_project}::postfix::monitor" }
+            default: { include "postfix::monitor::${my_project}" }
+        }
+    }
 
 }

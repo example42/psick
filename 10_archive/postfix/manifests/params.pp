@@ -163,12 +163,7 @@ class postfix::params  {
     # How the monitor server refers to the monitor target 
     $monitor_target_real = $postfix_monitor_target ? {
         ''      => $monitor_target ? {
-           ''   => $inet_interfaces ? {
-                ''          => "127.0.0.1",
-                'localhost' => "127.0.0.1",
-                '127.0.0.1' => "127.0.0.1",
-                default => "${fqdn}",
-           },
+           ''      => "${fqdn}",
            default => $monitor_target,
         },
         default => "$postfix_monitor_target",
@@ -219,7 +214,7 @@ class postfix::params  {
     # If postfix plugin monitoring is enabled 
     $monitor_plugin_enable = $postfix_monitor_plugin ? {
         ''      => $monitor_plugin ? {
-           ''      => false,
+           ''      => true,
            default => $monitor_plugin,
         },
         default => $postfix_monitor_plugin,
