@@ -15,9 +15,9 @@ class openldap::absent {
     }
 
     # Remove relevant monitor, backup, firewall entries
-    if $monitor == "yes" { include openldap::monitor::absent }
-    if $backup == "yes" { include openldap::backup::absent }
-    if $firewall == "yes" { include openldap::firewall::absent  }
+#    if $monitor == "yes" { include openldap::monitor::absent }
+#    if $backup == "yes" { include openldap::backup::absent }
+#    if $firewall == "yes" { include openldap::firewall::absent  }
 
     # Include debug class is debugging is enabled ($debug=yes)
     if ( $debug == "yes" ) or ( $debug == true ) { include openldap::debug }
