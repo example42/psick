@@ -67,11 +67,6 @@ class foo::monitor {
     }
 
     # Include project specific monitor class if $my_project is set
-    if $my_project { 
-        case $my_project_onmodule {
-            yes,true: { include "${my_project}::foo::monitor" }
-            default: { include "foo::${my_project}::monitor" }
-        }
-    }
+    if $my_project { include "foo::${my_project}::monitor" }
 
 }
