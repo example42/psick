@@ -20,9 +20,9 @@ class postfix::puppi {
         # run         => "postfix -V###",
     }
 
-    puppi::log { "postfix":
-        description => "Logs of postfix" ,  
-        log      => "${postfix::params::logdir}",
-    }
+#    puppi::log { "postfix":
+#        description => "Logs of postfix" ,  
+#        log      => "${postfix::params::logdir}",
+#    }
 
 }
