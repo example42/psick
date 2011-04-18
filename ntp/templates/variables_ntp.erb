@@ -1,0 +1,49 @@
+# File Managed By Puppet
+
+These are the variables used by the module ntp
+
+User variables (unfiltered):
+# $ntp_server = <%= scope.lookupvar('ntp_server') %>
+
+User variables (after params.pp filter):
+# $ntp::params::server = <%= scope.lookupvar('ntp::params::server') %>
+
+General internal variables:
+$ntp::params::packagename = <%= scope.lookupvar('ntp::params::packagename') %>
+$ntp::params::servicename = <%= scope.lookupvar('ntp::params::servicename') %>
+$ntp::params::processname = <%= scope.lookupvar('ntp::params::processname') %>
+$ntp::params::hasstatus = <%= scope.lookupvar('ntp::params::hasstatus') %>
+$ntp::params::configfile = <%= scope.lookupvar('ntp::params::configfile') %>
+$ntp::params::configfile_mode = <%= scope.lookupvar('ntp::params::configfile_mode') %>
+$ntp::params::configfile_owner = <%= scope.lookupvar('ntp::params::configfile_owner') %>
+$ntp::params::configfile_group = <%= scope.lookupvar('ntp::params::configfile_group') %>
+$ntp::params::configdir = <%= scope.lookupvar('ntp::params::configdir') %>
+$ntp::params::initconfigfile = <%= scope.lookupvar('ntp::params::initconfigfile') %>
+$ntp::params::pidfile = <%= scope.lookupvar('ntp::params::pidfile') %>
+$ntp::params::datadir = <%= scope.lookupvar('ntp::params::datadir') %>
+$ntp::params::logdir = <%= scope.lookupvar('ntp::params::logdir') %>
+$ntp::params::protocol = <%= scope.lookupvar('ntp::params::protocol') %>
+$ntp::params::port = <%= scope.lookupvar('ntp::params::port') %>
+
+Variables used by monitor class:
+$ntp::params::monitor_target_real = <%= scope.lookupvar('ntp::params::monitor_target_real') %> ( Set with $ntp_monitor_target )
+$ntp::params::monitor_baseurl_real = <%= scope.lookupvar('ntp::params::monitor_baseurl_real') %> ( Set with $ntp_monitor_baseurl )
+$ntp::params::monitor_url_pattern = <%= scope.lookupvar('ntp::params::monitor_url_pattern') %> ( Set with $ntp_monitor_url_pattern )
+$ntp::params::monitor_port_enable = <%= scope.lookupvar('ntp::params::monitor_port_enable') %> ( Set with $ntp_monitor_port )
+$ntp::params::monitor_url_enable = <%= scope.lookupvar('ntp::params::monitor_url_enable') %> ( Set with $ntp_monitor_url )
+$ntp::params::monitor_process_enable = <%= scope.lookupvar('ntp::params::monitor_process_enable') %> ( Set with $ntp_monitor_process )
+$ntp::params::monitor_plugin_enable = <%= scope.lookupvar('ntp::params::monitor_plugin_enable') %> ( Set with $ntp_monitor_plugin )
+
+Variables used by backup class:
+$ntp::params::backup_target_real = <%= scope.lookupvar('ntp::params::backup_target_real') %> ( Set with $ntp_backup_target )
+$ntp::params::backup_frequency = <%= scope.lookupvar('ntp::params::backup_frequency') %> ( Set with $ntp_backup_frequency )
+$ntp::params::backup_data_enable = <%= scope.lookupvar('ntp::params::backup_data_enable') %> ( Set with $ntp_backup_data )
+$ntp::params::backup_log_enable = <%= scope.lookupvar('ntp::params::backup_log_enable') %> ( Set with $ntp_backup_log )
+
+Variables used by firewall class:
+$ntp::params::firewall_source_real = <%= scope.lookupvar('ntp::params::firewall_source_real') %> ( Set with $ntp_firewall_source )
+$ntp::params::firewall_destination_real = <%= scope.lookupvar('ntp::params::firewall_destination_real') %> ( Set with $ntp_firewall_destination )
+$ntp::params::firewall_enable = <%= scope.lookupvar('ntp::params::firewall_destination_real') %> ( Set with $ntp_firewall_enable )
+
+Module base source for static files:
+$ntp::params::general_base_source = <%= scope.lookupvar('ntp::params::general_base_source') %> ( Set with $base_source )

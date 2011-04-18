@@ -1,0 +1,13 @@
+#!/bin/sh
+# Managed by Puppet
+
+# Wait up to 600 seconds 
+randomsec=$RANDOM
+let "randomsec %= 600"
+sleep $randomsec
+
+/usr/sbin/ntpdate -s <%= scope.lookupvar('ntp::params::ntp_server') %>
+/sbin/clock -w
+
+exit 0
+
