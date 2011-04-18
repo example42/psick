@@ -9,7 +9,7 @@ class dashboard::source {
 
     git::clone {
         "puppet-dashboard":
-            url => "git://github.com/reductivelabs/puppet-dashboard.git",
+            url => "git://github.com/puppetlabs/puppet-dashboard.git",
             path => $dashboard::params::basedir,
     }
     

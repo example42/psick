@@ -16,12 +16,6 @@ class dashboard {
     require dashboard::params
     require puppet::params
 
-    $dashboard_db = $dashboard::params::db
-    $dashboard_db_server = $dashboard::params::db_server
-    $dashboard_db_user = $dashboard::params::db_user
-    $dashboard_db_password = $dashboard::params::db_password
-
-
     case $dashboard::params::install {
         source: { include dashboard::source }
         package: { include dashboard::package }
@@ -31,6 +25,10 @@ class dashboard {
         mysql: {
              require mysql::params
              include mysql
+             include dashboard::mysql
+        }
+        sqlite: {
+             include dashboard::sqlite
         }
         no: {
         }
@@ -75,13 +73,14 @@ class dashboard {
             path   => "/etc/puppet/node.rb",
     }
 
-
-
     exec {
         "create-dashboard-db":
             command => "rake RAILS_ENV=production db:create",
             cwd => "$dashboard::params::basedir/puppet-dashboard",
-            require => File["database.yml"],
+            require => $dashboard::params::db ? {
+                sqlite => [ File["database.yml"] , Class["dashboard::sqlite"] ],
+                mysql  => [ File["database.yml"] , Class["dashboard::mysql"] ],
+            },
             creates => $dashboard::params::db ? {
                 sqlite => "$dashboard::params::basedir/puppet-dashboard/db/production.sqlite3",
                 mysql  => "$mysql::params::datadir/dashboard",

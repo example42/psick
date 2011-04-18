@@ -14,8 +14,6 @@ class dashboard::params  {
         default => "package",
     }
 
-    $basedir = "/usr/share"
-
 # Sets externalnodes support according to user's variable puppet_externalnodes (if not set, default is no)
     $externalnodes = $puppet_externalnodes ? {
         yes  => "yes",
@@ -23,6 +21,7 @@ class dashboard::params  {
         default => "no",
     }
 
+    $basedir = "/usr/share"
 
 # Define dashboard DB type
     $db = $dashboard_db ? {
@@ -61,7 +60,7 @@ class dashboard::params  {
     }
 
     $configfile = $operatingsystem ? {
-        default => "$basedir/puppet-dashboard/config/database.yml",
+        default => "/usr/share/puppet-dashboard/config/database.yml",
     }
 
     $configfile_mode = $operatingsystem ? {

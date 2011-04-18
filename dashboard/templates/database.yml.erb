@@ -2,7 +2,7 @@
 # ============
 # File managed by Puppet
 #
-<% if dashboard_db == "sqlite" -%>
+<% if scope.lookupvar("dashboard::params::db") == "sqlite" -%>
 # Db settings for sqlite
 production:
   adapter: sqlite3
@@ -23,16 +23,16 @@ test:
   timeout: 5000
 <% end -%>
 
-<% if dashboard_db == "mysql" -%>
+<% if scope.lookupvar("dashboard::params::db") == "mysql" -%>
 # Db settings for mysql
 production:
   adapter: mysql
   database: dashboard
-  username: <%= dashboard_db_user %>
-  password: <%= dashboard_db_password %>
+  username: <%= scope.lookupvar("dashboard::params::db_user") %>
+  password: <%= scope.lookupvar("dashboard::params::db_password") %>
   encoding: utf8
-<% if dashboard_db_server != "localhost" -%>
-  host: <%= dashboard_db_server %>
+<% if scope.lookupvar("dashboard::params::db_server") != "localhost" -%>
+  host: <%= scope.lookupvar("dashboard::params::db_server") %>
   port: 3306
 <% end -%>
 
@@ -40,22 +40,22 @@ development:
   adapter: mysql
   database: dashboard
   # database: dashboard_devel # We leave dashboard as database for devel environment to work with (incomplete?) dahsboard's rpm init scripts
-  username: <%= dashboard_db_user %>
-  password: <%= dashboard_db_password %>
+  username: <%= scope.lookupvar("dashboard::params::db_user") %>
+  password: <%= scope.lookupvar("dashboard::params::db_password") %>
   encoding: utf8
-<% if dashboard_db_server != "localhost" -%>
-  host: <%= dashboard_db_server %>
+<% if scope.lookupvar("dashboard::params::db_server") != "localhost" -%>
+  host: <%= scope.lookupvar("dashboard::params::db_server") %>
   port: 3306
 <% end -%>
 
 test:
   adapter: mysql
   database: dashboard_test
-  username: <%= dashboard_db_user %>
-  password: <%= dashboard_db_password %>
+  username: <%= scope.lookupvar("dashboard::params::db_user") %>
+  password: <%= scope.lookupvar("dashboard::params::db_password") %>
   encoding: utf8
-<% if dashboard_db_server != "localhost" -%>
-  host: <%= dashboard_db_server %>
+<% if scope.lookupvar("dashboard::params::db_server") != "localhost" -%>
+  host: <%= scope.lookupvar("dashboard::params::db_server") %>
   port: 3306
 <% end -%>
 <% end -%>
@@ -65,33 +65,33 @@ test:
 production:
   adapter: postgresql
   database: dashboard
-  username: <%= dashboard_db_user %>
-  password: <%= dashboard_db_password %>
+  username: <%= scope.lookupvar("dashboard::params::db_user") %>
+  password: <%= scope.lookupvar("dashboard::params::db_password") %>
   encoding: unicode
-<% if dashboard_db_server != "localhost" -%>
-  host: <%= dashboard_db_server %>
+<% if scope.lookupvar("dashboard::params::db_server") != "localhost" -%>
+  host: <%= scope.lookupvar("dashboard::params::db_server") %>
   port: 3306
 <% end -%>
 
 development:
   adapter: postgresql
   database: dashboard_devel
-  username: <%= dashboard_db_user %>
-  password: <%= dashboard_db_password %>
+  username: <%= scope.lookupvar("dashboard::params::db_user") %>
+  password: <%= scope.lookupvar("dashboard::params::db_password") %>
   encoding: unicode
-<% if dashboard_db_server != "localhost" -%>
-  host: <%= dashboard_db_server %>
+<% if scope.lookupvar("dashboard::params::db_server") != "localhost" -%>
+  host: <%= scope.lookupvar("dashboard::params::db_server") %>
   port: 3306
 <% end -%>
 
 test:
   adapter: postgresql_test
   database: dashboard
-  username: <%= dashboard_db_user %>
-  password: <%= dashboard_db_password %>
+  username: <%= scope.lookupvar("dashboard::params::db_user") %>
+  password: <%= scope.lookupvar("dashboard::params::db_password") %>
   encoding: unicode
-<% if dashboard_db_server != "localhost" -%>
-  host: <%= dashboard_db_server %>
+<% if scope.lookupvar("dashboard::params::db_server") != "localhost" -%>
+  host: <%= scope.lookupvar("dashboard::params::db_server") %>
   port: 3306
 <% end -%>
 <% end -%>
