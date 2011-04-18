@@ -11,6 +11,7 @@ use warnings;
 use strict;
 use Getopt::Long qw(:config no_ignore_case);
 use lib '/usr/lib/nagios/plugins';
+use lib '/usr/lib64/nagios/plugins';
 use utils qw(%ERRORS);
 
 my $MOUNT = undef;
