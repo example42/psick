@@ -1,0 +1,49 @@
+# File Managed By Puppet
+
+These are the variables used by the module cobbler
+
+User variables (unfiltered):
+# $cobbler_server = <%= scope.lookupvar('cobbler_server') %>
+
+User variables (after params.pp filter):
+# $cobbler::params::server = <%= scope.lookupvar('cobbler::params::server') %>
+
+General internal variables:
+$cobbler::params::packagename = <%= scope.lookupvar('cobbler::params::packagename') %>
+$cobbler::params::servicename = <%= scope.lookupvar('cobbler::params::servicename') %>
+$cobbler::params::processname = <%= scope.lookupvar('cobbler::params::processname') %>
+$cobbler::params::hasstatus = <%= scope.lookupvar('cobbler::params::hasstatus') %>
+$cobbler::params::configfile = <%= scope.lookupvar('cobbler::params::configfile') %>
+$cobbler::params::configfile_mode = <%= scope.lookupvar('cobbler::params::configfile_mode') %>
+$cobbler::params::configfile_owner = <%= scope.lookupvar('cobbler::params::configfile_owner') %>
+$cobbler::params::configfile_group = <%= scope.lookupvar('cobbler::params::configfile_group') %>
+$cobbler::params::configdir = <%= scope.lookupvar('cobbler::params::configdir') %>
+$cobbler::params::initconfigfile = <%= scope.lookupvar('cobbler::params::initconfigfile') %>
+$cobbler::params::pidfile = <%= scope.lookupvar('cobbler::params::pidfile') %>
+$cobbler::params::datadir = <%= scope.lookupvar('cobbler::params::datadir') %>
+$cobbler::params::logdir = <%= scope.lookupvar('cobbler::params::logdir') %>
+$cobbler::params::protocol = <%= scope.lookupvar('cobbler::params::protocol') %>
+$cobbler::params::port = <%= scope.lookupvar('cobbler::params::port') %>
+
+Variables used by monitor class:
+$cobbler::params::monitor_target_real = <%= scope.lookupvar('cobbler::params::monitor_target_real') %> ( Set with $cobbler_monitor_target )
+$cobbler::params::monitor_baseurl_real = <%= scope.lookupvar('cobbler::params::monitor_baseurl_real') %> ( Set with $cobbler_monitor_baseurl )
+$cobbler::params::monitor_url_pattern = <%= scope.lookupvar('cobbler::params::monitor_url_pattern') %> ( Set with $cobbler_monitor_url_pattern )
+$cobbler::params::monitor_port_enable = <%= scope.lookupvar('cobbler::params::monitor_port_enable') %> ( Set with $cobbler_monitor_port )
+$cobbler::params::monitor_url_enable = <%= scope.lookupvar('cobbler::params::monitor_url_enable') %> ( Set with $cobbler_monitor_url )
+$cobbler::params::monitor_process_enable = <%= scope.lookupvar('cobbler::params::monitor_process_enable') %> ( Set with $cobbler_monitor_process )
+$cobbler::params::monitor_plugin_enable = <%= scope.lookupvar('cobbler::params::monitor_plugin_enable') %> ( Set with $cobbler_monitor_plugin )
+
+Variables used by backup class:
+$cobbler::params::backup_target_real = <%= scope.lookupvar('cobbler::params::backup_target_real') %> ( Set with $cobbler_backup_target )
+$cobbler::params::backup_frequency = <%= scope.lookupvar('cobbler::params::backup_frequency') %> ( Set with $cobbler_backup_frequency )
+$cobbler::params::backup_data_enable = <%= scope.lookupvar('cobbler::params::backup_data_enable') %> ( Set with $cobbler_backup_data )
+$cobbler::params::backup_log_enable = <%= scope.lookupvar('cobbler::params::backup_log_enable') %> ( Set with $cobbler_backup_log )
+
+Variables used by firewall class:
+$cobbler::params::firewall_source_real = <%= scope.lookupvar('cobbler::params::firewall_source_real') %> ( Set with $cobbler_firewall_source )
+$cobbler::params::firewall_destination_real = <%= scope.lookupvar('cobbler::params::firewall_destination_real') %> ( Set with $cobbler_firewall_destination )
+$cobbler::params::firewall_enable = <%= scope.lookupvar('cobbler::params::firewall_destination_real') %> ( Set with $cobbler_firewall_enable )
+
+Module base source for static files:
+$cobbler::params::general_base_source = <%= scope.lookupvar('cobbler::params::general_base_source') %> ( Set with $base_source )

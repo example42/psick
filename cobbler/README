@@ -1,0 +1,105 @@
+Puppet module: cobbler
+
+# Written by Lab42 #
+# http://www.Example42.com
+
+Licence: GPLv3
+
+DESCRIPTION:
+This module installs and manages cobbler.
+It's based on Example42's module structure and features standard and
+extended classes for automatic monitoring, backup and firewalling.
+
+All the variables used in this module are defined in the cobbler::params class
+(File: $MODULEPATH/cobbler/manifests/params.pp). Here you can:
+- Set default settings and filtering module's specific Users variables
+- Add selectors for internal variables to adapt the module to different OSes
+- Review and eventually change default settings for variables that affect the
+  Example42 extended classes.
+
+Customizations for different projects and logic on how to populate configuration
+files should be placed in the $my_project classes.
+
+
+MODULE'S SPECIFIC USER VARIABLES:
+
+
+USAGE:
+# Standard Classes 
+include cobbler              # Install and run cobbler 
+
+include cobbler::disable     # Disable cobbler service.
+include cobbler::disableboot # Disable cobbler service at boot time, but don't stop if is running.
+include cobbler::absent      # Remove cobbler package.
+include cobbler::debug       # Used for debugging purposes (not resource hungry)
+                         # Automatically included if $debug=yes
+                         # Requires Example42's puppet::params and puppet::debug
+
+# Extended Classes
+include cobbler::puppi       # Puppi extensions for the cobbler module
+                         # Requires Example42's puppi module
+include cobbler::monitor     # Monitor cobbler
+                         # Automatically included if $monitor=yes
+                         # Requires Example42's monitor module
+include cobbler::backup      # Backup cobbler data
+                         # Automatically included if $backup=yes
+                         # Requires Example42's backup module
+include cobbler::firewall    # Manages firewall rules for cobbler service
+                         # Automatically included if $firewall=yes
+                         # Requires Example42's firewall module
+
+# Generic define to set parameters in the main configuration file. EXPERIMENTAL.
+cobbler::conf { "ParameterName": value="YourValue"} # Generic 
+
+# Module specific classes
+
+# Module specific defines
+
+
+EXAMPLE42 GENERAL VARIABLES:
+Example42 modules collection uses some general variables that can influence the
+behaviour of this module. You can happily live without considering or setting them,
+but they can be useful to get many useful features out of the box.
+$my_project - If set, permits you to alter and customize the module behaviour
+  and files's deploy logic in custom project classes
+  The custom class cobbler::$my_module autoloads from MODULEPATH/cobbler/manifests/$my_project.pp
+  but you can place it in a separated module by explicitely importing it:
+  "import $my_project" to have something like MODULEPATH/$my_project/manifests/cobbler.pp
+$base_source - Lets you define an alternative source for static files:
+  - $base_source not set -> Files are looked in puppet://$servername/ (the PuppetMaster)
+  - $base_source set -> Files are in $base_source ( Ex: puppet://$servername/$my_module ) 
+  Note that the module automatically manages the different paths for Puppet pre 0.25
+$debug - If set to yes writes in /var/lib/puppet/debug/ useful debugging info
+
+VARIABLES FOR EXTENDED MODULES:
+$puppi - Set to "yes" to enable cobbler plugins for puppi
+Check cobbler/manifests/puppi.pp for more info.
+
+$monitor - Set to "yes" to enable auto monitoring classes 
+$monitor_tool - Defines the monitor tools to activate (At leat one, can be an array)
+Check cobbler/manifests/monitor.pp for more info on cobbler monitoring related variables.
+
+$backup - Set to "yes" to enable auto backuping classes 
+$backup_tool - Defines the backup tools to activate (At leat one, can be an array)
+Check cobbler/manifests/backup.pp for more info on cobbler backuping related variables.
+
+$firewall - Set to "yes" to enable auto firewalling classes
+$firewall_tool - Defines the firewall tools to activate
+Check cobbler/manifests/firewall.pp for more info on cobbler firewalling related variables.
+
+
+DEPENDENCIES:
+Standard classes generally don't need external modules.
+Extended classes need the relevant external modules.
+cobbler::conf generic infile configuration define needs the Example42 "common" module
+
+
+OPERATING SYSTEMS SUPPORT (Planned, Development, Testing, Production):
+RedHat/Centos 5 : Testing
+RedHat/Centos 6 : Testing
+Debian 5        : Testing
+Debian 6        : Planned
+Ubuntu 8.04     : Testing
+Ubuntu 10.04    : Testing
+SLES 10         : Planned
+SLES 11         : Testing

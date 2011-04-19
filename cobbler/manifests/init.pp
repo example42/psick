@@ -1,84 +1,61 @@
+#
+# Class: cobbler
+#
+# Manages cobbler.
+# Include it to install and run cobbler
+# It defines package, service, main configuration file.
+#
+# Usage:
+# include cobbler
+#
 class cobbler {
-    package { cobbler:
-        name => $operatingsystem ? {
-            default => "cobbler",
-            },
+
+    # Load the variables used in this module. Check the params.pp file 
+    require cobbler::params
+
+    # Basic Package - Service - Configuration file management
+    package { "cobbler":
+        name   => "${cobbler::params::packagename}",
         ensure => present,
     }
 
-    package { syslinux:
-        name => $operatingsystem ? {
-            default => "syslinux",
-            },
-        ensure => present,
-    }
-
-    service { cobblerd:
-        name => $operatingsystem ? {
-            default => "cobblerd",
-            },
-        ensure => running,
-        enable => true,
+    service { "cobbler":
+        name       => "${cobbler::params::servicename}",
+        ensure     => running,
+        enable     => true,
         hasrestart => true,
-        require => Package[cobbler],
+        hasstatus  => "${cobbler::params::hasstatus}",
+        pattern    => "${cobbler::params::processname}",
+        require    => Package["cobbler"],
+        subscribe  => File["cobbler.conf"],
     }
 
-    file {
-        "/etc/cron.daily/cobbler-reposync":
-            mode => 755, owner => root, group => root,
-            require => Package[cobbler],
-            ensure => present,
-            source => "puppet://$servername/cobbler/cobbler-reposync",
-    }
-    file {
-        "/etc/cobbler/settings":
-            mode => 664, owner => root, group => root,
-            require => Package[cobbler],
-            ensure => present,
-            path => $operatingsystem ?{
-                default => "/etc/cobbler/settings",
-            },
+    file { "cobbler.conf":
+        path    => "${cobbler::params::configfile}",
+        mode    => "${cobbler::params::configfile_mode}",
+        owner   => "${cobbler::params::configfile_owner}",
+        group   => "${cobbler::params::configfile_group}",
+        ensure  => present,
+        require => Package["cobbler"],
+        notify  => Service["cobbler"],
+        # content => template("cobbler/cobbler.conf.erb"),
     }
 
-    file {
-        "/etc/cobbler/dhcp.template":
-            mode => 644, owner => root, group => root,
-            require => Package[cobbler],
-            ensure => present,
-            path => $operatingsystem ?{
-                default => "/etc/cobbler/dhcp.template",
-            },
+    # Include OS specific subclasses, if necessary
+    case $operatingsystem {
+        default: { }
     }
 
-    file {
-        "/etc/cobbler/pxedefault.template":
-            mode => 644, owner => root, group => root,
-            require => Package[cobbler],
-            ensure => present,
-            path => $operatingsystem ?{
-                default => "/etc/cobbler/pxedefault.template",
-            },
-    }
+    # Include project specific class if $my_project is set
+    if $my_project { include "cobbler::${my_project}" }
 
-    file {
-        "/etc/cobbler/rsync.exclude":
-            mode => 644, owner => root, group => root,
-            require => Package[cobbler],
-            ensure => present,
-            path => $operatingsystem ?{
-                default => "/etc/cobbler/rsync.exclude",
-            },
-    }
+    # Include extended classes, if relevant variables are defined 
+    if $puppi == "yes" { include cobbler::puppi }
+    if $backup == "yes" { include cobbler::backup }
+    if $monitor == "yes" { include cobbler::monitor }
+    if $firewall == "yes" { include cobbler::firewall }
 
-}
+    # Include debug class is debugging is enabled ($debug=yes)
+    if ( $debug == "yes" ) or ( $debug == true ) { include cobbler::debug }
 
-# Cobbler full server: PXE - DHCP - WEB - SYSLOG
-# Requires dhcpd and tfpd modules
-# Requires $cobbler_server definition
-
-class cobbler::full inherits cobbler {
-    File ["/etc/cobbler/settings"] {
-            require => [ Package[cobbler], Package[dhcp], Package[tftp-server]],
-            content => template("cobbler/settings-full"),
-    }
 }
