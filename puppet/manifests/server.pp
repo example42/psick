@@ -13,19 +13,6 @@ class puppet::server {
     # Load the variables used in this module. Check the params.pp file 
     require puppet::params
 
-    # Resets variables needed in templates (to get deault values)
-    $puppet_server = $puppet::params::server
-    $puppet_allow = $puppet::params::allow
-    $puppet_nodetool = $puppet::params::nodetool
-    $puppet_externalnodes = $puppet::params::externalnodes
-    $puppet_storeconfigs = $puppet::params::storeconfigs
-    $puppet_db = $puppet::params::db
-    $puppet_db_server = $puppet::params::db_server
-    $puppet_db_user = $puppet::params::db_user
-    $puppet_db_password = $puppet::params::db_password
-    $puppet_version = $puppet::params::version
-    $puppet_passenger = $puppet::params::passenger
-
     # We need rails for storeconfigs
     case $puppet_storeconfigs {
         yes: { include puppet::rails }
@@ -107,7 +94,7 @@ class puppet::server {
         require => Package["puppet-server"],
         ensure  => present,
         content => template("puppet/server/fileserver.conf.erb"),
-        notify  => [ Service["puppet"], Service["puppetmaster"] ] ,
+        notify  => Service["puppetmaster"] ,
     }
 
     file { "tagmail.conf":
@@ -118,6 +105,18 @@ class puppet::server {
         require => Package["puppet-server"],
         content => template("puppet/server/tagmail.conf.erb"),
     }
+
+  if ($puppet::params::inventoryserver != "") {
+    file { "auth.conf":
+        path    => "${puppet::params::configdir}/auth.conf",
+        mode    => "${puppet::params::configfile_mode}",
+        owner   => "${puppet::params::configfile_owner}",
+        group   => "${puppet::params::configfile_group}",
+        require => Package["puppet-server"],
+        content => template("puppet/server/auth.conf.erb"),
+        notify  => Service["puppetmaster"] ,
+    }
+  }
 
     # Automatic firewalling for Puppetmaster
     if $firewall == "yes" { include puppet::firewall }

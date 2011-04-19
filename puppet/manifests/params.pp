@@ -80,11 +80,21 @@ class puppet::params  {
         default => "$puppet_db_password",
     }
 
+# Define the inventory service server (Set "localhost" to use the local puppetmaster)
+    $inventoryserver = $puppet_inventoryserver ? {
+        ''      => "",
+        default => "$puppet_inventoryserver",
+    }
+
+
+
 # Define Puppet version. Autocalculated: "0.2" for 0.24/0.25 "old" versions, 2.x for new 2.6.x branch.
     $version =  $puppetversion ? {
         /(^0.)/   => "0.2",
         default   => "2.x",
     }
+
+
 
 
 # Module's internal variables

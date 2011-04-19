@@ -1,4 +1,4 @@
 # File managed by Puppet 
 
 [puppetrunner]
-allow <%= puppet_server %>
+allow <%= scope.lookupvar('puppet::params::server') %>

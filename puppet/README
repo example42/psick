@@ -25,7 +25,10 @@ $puppet_db  (default: sqlite) - Define DB backend if you activate storeconfigs (
 $puppet_db_server  (default: localhost) - Define DB server host (used if $puppet_db = "mysql")
 $puppet_db_user  (default: root) - Define DB access user (used if $puppet_db = "mysql")
 $puppet_db_password  (default: undefined) - Define DB access password (used if $puppet_db = "mysql")
-
+$puppet_inventoryserver  (default: undefined) - Define if you want to use the inventory service (Availble form Puppet 2.6.7)
+                                              - Set "localhost" if the inventory service is on the local puppetmaster
+                                              - Set the hostname of the inventory service to use a remote puppetmaster
+                                              Note that the db settings are the same used for storeconfigs.
 
 USAGE:
 # Standard Classes 

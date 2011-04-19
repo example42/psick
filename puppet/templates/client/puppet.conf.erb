@@ -12,7 +12,7 @@ summarize = true
 # trace = true
 usecacheonfailure = true
 
-<% if puppet_version == "0.2" -%>
+<% if scope.lookupvar('puppet::params::version') == "0.2" -%>
 [puppetd]
 <% else -%>
 [agent]
@@ -26,4 +26,4 @@ pluginsync = true
 # runinterval = 1800
 runinterval = 21600 # Run every 6 hours
 
-server = <%= puppet_server %>
+server = <%= scope.lookupvar('puppet::params::server') %>
