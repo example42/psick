@@ -53,7 +53,6 @@ class mcollective::params  {
         default => "${mcollective_stomp_password}",
     }
 
-# Internal vars
     $factsource = $mcollective_factsource ? {
         ''      => "facter",
         default => "${mcollective_factsource}",

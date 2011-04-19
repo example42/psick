@@ -53,7 +53,7 @@ class mcollective::server {
         mode     => 400,
         loglevel => debug,  # this is needed to avoid it being logged and reported on every run
         # avoid including highly-dynamic facts as they will cause unnecessary template writes
-        content  => inline_template("<%= scope.to_hash.reject { |k,v| k.to_s =~ /(uptime_.*|timestamp|free|.*password.*|.*psk.*|.*key)/ }.to_yaml %>")
+        content  => inline_template("<%= scope.to_hash.reject { |k,v| k.to_s =~ /(uptime.*|path|timestamp|free|.*password.*|.*psk.*|.*key)/ }.to_yaml %>")
     }
 
     # Include Plugins
@@ -65,6 +65,7 @@ class mcollective::server {
     }
 
     # Include extended classes, if desired
+    if $puppi == "yes" { include mcollective::puppi }
     if $backup == "yes" { include mcollective::backup }
     if $monitor == "yes" { include mcollective::monitor }
     if $firewall == "yes" { include mcollective::firewall }
