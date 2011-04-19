@@ -21,7 +21,7 @@ class apache::puppi {
     }
 
 ##    puppi::log { "apache":
-##        logdir      => "${apache::params::logdir}",
+##        log      => "${apache::params::logdir}",
 ##    }
 
 }

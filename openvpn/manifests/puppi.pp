@@ -21,7 +21,7 @@ class openvpn::puppi {
     }
 
 ##    puppi::log { "openvpn":
-##        logdir      => "${openvpn::params::logdir}",
+##        log      => "${openvpn::params::logdir}",
 ##    }
 
 }

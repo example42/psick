@@ -21,7 +21,7 @@ class nrpe::puppi {
     }
 
 ##    puppi::log { "nrpe":
-##        logdir      => "${nrpe::params::logdir}",
+##        log     => "${nrpe::params::logdir}",
 ##    }
 
 }

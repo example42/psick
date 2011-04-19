@@ -21,7 +21,7 @@ class openssh::puppi {
     }
 
 ##    puppi::log { "openssh":
-##        logdir      => "${openssh::params::logdir}",
+##        log      => "${openssh::params::logdir}",
 ##    }
 
 }

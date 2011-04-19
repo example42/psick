@@ -21,7 +21,7 @@ class openldap::puppi {
     }
 
 ##    puppi::log { "openldap":
-##        logdir      => "${openldap::params::logdir}",
+##        log     => "${openldap::params::logdir}",
 ##    }
 
 }
