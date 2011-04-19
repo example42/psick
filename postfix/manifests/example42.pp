@@ -18,7 +18,7 @@
 # - Via custom templates ( content => ) or templates joins
 # - Via some kind on infile line modification tools, such as Augeas or the Example42's conf define approach
 #
-class postfix::example42 {
+class postfix::example42 inherits postfix {
     File["main.cf"] {
         content => template("postfix/example42/main.cf"),
     }
