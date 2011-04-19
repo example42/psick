@@ -1,0 +1,49 @@
+# File Managed By Puppet
+
+These are the variables used by the module rsync
+
+User variables (unfiltered):
+# $rsync_server = <%= scope.lookupvar('rsync_server') %>
+
+User variables (after params.pp filter):
+# $rsync::params::server = <%= scope.lookupvar('rsync::params::server') %>
+
+General internal variables:
+$rsync::params::packagename = <%= scope.lookupvar('rsync::params::packagename') %>
+$rsync::params::servicename = <%= scope.lookupvar('rsync::params::servicename') %>
+$rsync::params::processname = <%= scope.lookupvar('rsync::params::processname') %>
+$rsync::params::hasstatus = <%= scope.lookupvar('rsync::params::hasstatus') %>
+$rsync::params::configfile = <%= scope.lookupvar('rsync::params::configfile') %>
+$rsync::params::configfile_mode = <%= scope.lookupvar('rsync::params::configfile_mode') %>
+$rsync::params::configfile_owner = <%= scope.lookupvar('rsync::params::configfile_owner') %>
+$rsync::params::configfile_group = <%= scope.lookupvar('rsync::params::configfile_group') %>
+$rsync::params::configdir = <%= scope.lookupvar('rsync::params::configdir') %>
+$rsync::params::initconfigfile = <%= scope.lookupvar('rsync::params::initconfigfile') %>
+$rsync::params::pidfile = <%= scope.lookupvar('rsync::params::pidfile') %>
+$rsync::params::datadir = <%= scope.lookupvar('rsync::params::datadir') %>
+$rsync::params::logdir = <%= scope.lookupvar('rsync::params::logdir') %>
+$rsync::params::protocol = <%= scope.lookupvar('rsync::params::protocol') %>
+$rsync::params::port = <%= scope.lookupvar('rsync::params::port') %>
+
+Variables used by monitor class:
+$rsync::params::monitor_target_real = <%= scope.lookupvar('rsync::params::monitor_target_real') %> ( Set with $rsync_monitor_target )
+$rsync::params::monitor_baseurl_real = <%= scope.lookupvar('rsync::params::monitor_baseurl_real') %> ( Set with $rsync_monitor_baseurl )
+$rsync::params::monitor_url_pattern = <%= scope.lookupvar('rsync::params::monitor_url_pattern') %> ( Set with $rsync_monitor_url_pattern )
+$rsync::params::monitor_port_enable = <%= scope.lookupvar('rsync::params::monitor_port_enable') %> ( Set with $rsync_monitor_port )
+$rsync::params::monitor_url_enable = <%= scope.lookupvar('rsync::params::monitor_url_enable') %> ( Set with $rsync_monitor_url )
+$rsync::params::monitor_process_enable = <%= scope.lookupvar('rsync::params::monitor_process_enable') %> ( Set with $rsync_monitor_process )
+$rsync::params::monitor_plugin_enable = <%= scope.lookupvar('rsync::params::monitor_plugin_enable') %> ( Set with $rsync_monitor_plugin )
+
+Variables used by backup class:
+$rsync::params::backup_target_real = <%= scope.lookupvar('rsync::params::backup_target_real') %> ( Set with $rsync_backup_target )
+$rsync::params::backup_frequency = <%= scope.lookupvar('rsync::params::backup_frequency') %> ( Set with $rsync_backup_frequency )
+$rsync::params::backup_data_enable = <%= scope.lookupvar('rsync::params::backup_data_enable') %> ( Set with $rsync_backup_data )
+$rsync::params::backup_log_enable = <%= scope.lookupvar('rsync::params::backup_log_enable') %> ( Set with $rsync_backup_log )
+
+Variables used by firewall class:
+$rsync::params::firewall_source_real = <%= scope.lookupvar('rsync::params::firewall_source_real') %> ( Set with $rsync_firewall_source )
+$rsync::params::firewall_destination_real = <%= scope.lookupvar('rsync::params::firewall_destination_real') %> ( Set with $rsync_firewall_destination )
+$rsync::params::firewall_enable = <%= scope.lookupvar('rsync::params::firewall_destination_real') %> ( Set with $rsync_firewall_enable )
+
+Module base source for static files:
+$rsync::params::general_base_source = <%= scope.lookupvar('rsync::params::general_base_source') %> ( Set with $base_source )
