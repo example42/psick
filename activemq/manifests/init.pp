@@ -48,7 +48,8 @@ class activemq {
         default: { }
     }
 
-    # Include extended classes, if 
+    # Include extended classes
+    if $puppi == "yes" { include activemq::puppi }
     if $backup == "yes" { include activemq::backup }
     if $monitor == "yes" { include activemq::monitor }
     if $firewall == "yes" { include activemq::firewall }
