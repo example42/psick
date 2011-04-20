@@ -41,8 +41,10 @@ class puppi {
     # Create Puppi workdirs
     include puppi::skel
 
-    # Some extra stuff we use in Puppi scripts
-    include puppi::extra
+    # Some extra packages we use in Puppi scripts
+    # This class might conflict with your existing classes
+    # Just be sure to provide the requested packages
+    # include puppi::extra
 
     # Define standard systemwide log paths for puppi log
     include puppi::logs
