@@ -17,7 +17,7 @@ class openldap::disable inherits openldap {
     }
 
     # Remove relevant monitor, backup, firewall entries
-    if $monitor == "yes" { include openldap::monitor::absent }
+#    if $monitor == "yes" { include openldap::monitor::absent }
     # if $backup == "yes" { include openldap::backup::absent }
     # if $firewall == "yes" { include openldap::firewall::absent  }
 
