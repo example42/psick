@@ -30,4 +30,23 @@ class puppi::infos {
         run         => [ "lspci" , "cat /proc/cpuinfo" ],
     }
 
+    puppi::info { "packages":
+        description => "Packages information" ,
+        run         => $operatingsystem ? { 
+            /(CentOS|RedHat|Scientific|centos|redhat|scientific)/ => [ "yum repolist" , "rpm -qa" ] ,
+            /(Ubuntu|Debian|ubuntu|debian)/ => [ "apt-config dump" , "apt-cache stats" , "apt-key list" , "dpkg -l" ],
+        },
+    }
+
+    puppi::info::module { "puppi":
+        configfile => "${puppi::params::basedir}/puppi.conf",
+        configdir => "${puppi::params::basedir}",
+        pidfile => "${puppi::params::pidfile}",
+        datadir => "${puppi::params::archivedir}",
+        logdir => "${puppi::params::logdir}",
+        description => "What Puppet knows about puppi" ,
+        verbose => "yes",
+        # run => "ls -lR ${puppi::params::logdir}/puppi-data/",
+    }
+
 }
