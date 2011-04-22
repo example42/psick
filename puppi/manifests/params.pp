@@ -6,8 +6,12 @@
 class puppi::params  {
 
 ## DEFAULTS FOR VARIABLES USERS CAN SET
-# (Here are set the defaults, provide your custom variables externally)
-# (The default used is in the line with '')
+    $extra = $puppi_extra ? {
+        ''      => "no",
+        default => "${puppi_extra}",
+    }
+
+## INTERNALVARS
 
     $basedir = "/etc/puppi"
     $scriptsdir = "/etc/puppi/scripts"

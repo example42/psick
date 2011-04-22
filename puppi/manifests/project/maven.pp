@@ -146,7 +146,7 @@ if ($deploy_root != "") {
              priority => "25" , command => "get_maven_files.sh" , arguments => "$source warfile" ,
              user => "root" , project => "$name" , enable => $enable ;
         "${name}-Backup_existing_WAR":
-             priority => "30" , command => "archive.sh" , arguments => "-b $deploy_root -t war -o '$backup_rsync_options'" ,
+             priority => "30" , command => "archive.sh" , arguments => "-b $deploy_root -t war -s move -o '$backup_rsync_options'" ,
              user => "root" , project => "$name" , enable => $enable;
         "${name}-Deploy_Maven_WAR":
              priority => "40" , command => "deploy.sh" , arguments => "$deploy_root" ,

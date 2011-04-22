@@ -3,9 +3,6 @@
 # This is a puppi info plugin that provides a Readme text which can be
 # used to show local info on the managed server and eventually run custom commands.
 # 
-# Note: A quick and dirty fix to manage an array of commands to use for the "run" argument
-#       requires the usage of "###" to separate each command
-# 
 #    puppi::info::readme { "myapp":
 #        description => "Guidelines for myapp setup",
 #        readme => "myapp/readme.txt" ,

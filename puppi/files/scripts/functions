@@ -166,6 +166,6 @@ ask_interactive () {
 # Shows or executes a command
 show_command () {
    echo
-   $SETCOLOR_BOLD ; echo "$HOSTNAME: $*" ; $SETCOLOR_NORMAL
+   $SETCOLOR_BOLD ; echo "$*" ; $SETCOLOR_NORMAL
    bash -c "$*"
 }

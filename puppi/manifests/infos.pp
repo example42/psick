@@ -5,29 +5,29 @@
 #
 class puppi::infos {
 
-    puppi::info { "network": 
+    puppi::info { "network":
         description => "Network settings and stats" ,
-        run         => "ifconfig###route###cat /etc/resolv.conf###netstat -natup | grep LISTEN",
+        run         => [ "ifconfig" , "route -n" , "cat /etc/resolv.conf" , "netstat -natup | grep LISTEN" ],
     }
 
     puppi::info { "users":
         description => "Users and logins information" ,
-        run         => "who -a###last###lastlog",
+        run         => [ "who -a" , "last" , "lastlog" ],
     }
 
     puppi::info { "perf":
         description => "System performances and resources utilization" ,
-        run         => "uptime###free###vmstat 1 5",
+        run         => [ "uptime" , "free" , "vmstat 1 5" ],
     }
 
     puppi::info { "disks":
         description => "Disks and filesystem information" ,
-        run         => "df -h###mount###fdisk -l",
+        run         => [ "df -h" , "mount" , "fdisk -l" ],
     }
 
     puppi::info { "hardware":
         description => "Hardware information" ,
-        run         => "lspci###cat /proc/cpuinfo",
+        run         => [ "lspci" , "cat /proc/cpuinfo" ],
     }
 
 }

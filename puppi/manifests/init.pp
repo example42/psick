@@ -44,7 +44,7 @@ class puppi {
     # Some extra packages we use in Puppi scripts
     # This class might conflict with your existing classes
     # Just be sure to provide the requested packages
-    # include puppi::extra
+    if $puppi::params::extra != "no" { include puppi::extra }
 
     # Define standard systemwide log paths for puppi log
     include puppi::logs

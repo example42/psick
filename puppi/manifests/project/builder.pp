@@ -157,14 +157,18 @@ if ($real_source_type == "dir") {
 
 if ($real_source_type == "war") {
     puppi::deploy {
+        "${name}-PreDeploy_War":
+             priority => "25" , command => "predeploy.sh" ,
+             arguments => $magicfix ? { '' => "", default => "-m $magicfix" , },
+             user => "$root" , project => "$name" , enable => $enable;
         "${name}-Remove_existing_WAR":
              priority => "35" , command => "delete.sh" , arguments => "$deploy_root/$source_filename" ,
              user => "root" , project => "$name" , enable => $enable;
         "${name}-Check_undeploy":
-             priority => "37" , command => "checkwardir.sh" , arguments => "$deploy_root/$source_filename absent" ,
+             priority => "37" , command => "checkwardir.sh" , arguments => "-a $deploy_root/$source_filename" ,
              user => "$user" , project => "$name" , enable => $enable;
         "${name}-Check_deploy":
-             priority => "43" , command => "checkwardir.sh" , arguments => "$deploy_root/$source_filename present" ,
+             priority => "43" , command => "checkwardir.sh" , arguments => "-p $deploy_root/$source_filename" ,
              user => "$user" , project => "$name" , enable => $enable;
     }
 
@@ -173,10 +177,10 @@ if ($real_source_type == "war") {
              priority => "30" , command => "delete.sh" , arguments => "$deploy_root/$source_filename" ,
              user => "root" , project => "$name" , enable => $enable;
         "${name}-Check_undeploy":
-             priority => "37" , command => "checkwardir.sh" , arguments => "$deploy_root/$source_filename absent" ,
+             priority => "37" , command => "checkwardir.sh" , arguments => "-a $deploy_root/$source_filename" ,
              user => "$user" , project => "$name" , enable => $enable;
         "${name}-Check_deploy":
-             priority => "43" , command => "checkwardir.sh" , arguments => "$deploy_root/$source_filename present" ,
+             priority => "43" , command => "checkwardir.sh" , arguments => "-p $deploy_root/$source_filename" ,
              user => "$user" , project => "$name" , enable => $enable;
     }
 }

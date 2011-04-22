@@ -3,13 +3,10 @@
 # This define creates a basic log file that simply contains the list of logs to show
 # when issuing the puppi log command.
 #
-# Note: A quick and dirty fix to manage an array of logs to use for the "log" argument
-#       requires the usage of "###" to separate each command
-#
 # Usage:
 # puppi::log { "system":
 #     description => "General System Logs" ,
-#     log    => "/var/log/syslog ###/var/log/messages",
+#     log    => [ "/var/log/syslog" , "/var/log/messages" ],
 # }
 #
 define puppi::log (

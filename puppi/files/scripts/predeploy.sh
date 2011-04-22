@@ -68,6 +68,10 @@ predeploy () {
           ;;
         esac
         ;;
+      war)
+        cp $downloadedfile .
+        check_retcode
+        ;;
     esac
 }
 

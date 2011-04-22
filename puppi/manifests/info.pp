@@ -7,13 +7,10 @@
 # Other info defines are used to gather and create puppi info scripts with different arguments
 # and contents. Check puppi/manifests/info/ for alternative puppi::info::  plugins
 #
-# Note: A quick and dirty fix to manage an array of commands to use for the "run" argument
-#       requires the usage of "###" to separate each command
-#
 # Usage:
 # puppi::info { "network":
 #     description => "Network status and information" ,
-#     run    => "ifconfig ### route -n",
+#     run    => [ "ifconfig" , "route -n" ],
 # }
 #
 define puppi::info (

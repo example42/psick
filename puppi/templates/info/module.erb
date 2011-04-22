@@ -8,43 +8,79 @@
 
 <% if packagename != "" %>
 # Show packages info
-echo_title "$HOSTNAME - Packages Installed: <% packagename.split("###").each do |item| %><%= item %><% end %>"
-<% packagename.split("###").each do |item| %>
+echo_title "$HOSTNAME - <%= name %>: Packages Installed: <% packagename.each do |item| %><%= item %><% end %>"
+<% packagename.each do |item| %>
 show_command "<%= scope.lookupvar('puppi::params::info_package_query') %> <%= item %>"
-show_command "<%= scope.lookupvar('puppi::params::info_package_list') %> <%= item %> | egrep '(/bin|^/etc|/sbin|log)'"
-<% end %>
-<% end %>
+<% if verbose == "yes" %>
+show_command "<%= scope.lookupvar('puppi::params::info_package_list') %> <%= item %>"
+<% else %> 
+show_command "<%= scope.lookupvar('puppi::params::info_package_list') %> <%= item %> | egrep '(/bin|^/etc|/sbin|log$)'"
+<% end -%>
+<% end -%>
+<% end -%>
 
 <% if servicename != "" %>
 # Show service info
-echo_title "$HOSTNAME - Service managed: <% servicename.split("###").each do |item| %><%= item %><% end %>"
-<% servicename.split("###").each do |item| %>
+echo_title "$HOSTNAME - <%= name %>: Services: <% servicename.each do |item| %><%= item %><% end %>"
+<% servicename.each do |item| %>
 show_command "/etc/init.d/<%= item %> status"
-<% end %>
-
+<% end -%>
+<% if verbose == "yes" %>
 show_command "ps -adef | grep <%= processname %>"
+<% else -%>
+show_command "ps -adef | grep <%= processname %> | head -20"
+<% end -%>
+<% if verbose == "yes" %>
 show_command "netstat -natup | grep ':<%= port %> '"
-<% end %>
+<% else -%>
+show_command "netstat -natup | grep ':<%= port %> ' | head -20"
+<% end -%>
+<% end -%>
 
 <% if configfile != "" %>
 # Show config info
-echo_title "$HOSTNAME - Configuration Files managed: <% configfile.split("###").each do |item| %><%= item %><% end %>"
-<% configfile.split("###").each do |item| %>
+echo_title "$HOSTNAME - <%= name %>: Configuration Files managed: <% configfile.each do |item| %><%= item %><% end %>"
+<% configfile.each do |item| %>
+<% if verbose == "yes" %>
+show_command "cat <%= item %>"
+<% else -%> 
 show_command "stat <%= item %>"
-<% end %>
-<% end %>
+<% end -%>
+<% end -%>
+<% end -%>
 
 <% if datadir != "" %>
 # Show data dir
-echo_title "$HOSTNAME - Application data are in: <% datadir.split("###").each do |item| %><%= item %><% end %>"
-<% datadir.split("###").each do |item| %>
+echo_title "$HOSTNAME - <%= name %>: Application data are in: <% datadir.each do |item| %><%= item %><% end %>"
+<% datadir.each do |item| %>
 show_command "ls -latr <%= item %>"
 show_command "df <%= item %>"
-<% end %>
-<% end %>
+<% end -%>
+<% end -%>
+
+<% if logdir != "" %>
+# Show log dir
+echo_title "$HOSTNAME - <%= name %>: Logs are in: <% logdir.each do |item| %><%= item %><% end %>"
+<% logdir.each do |item| %>
+show_command "ls -latr <%= item %>"
+show_command "df <%= item %>"
+<% end -%>
+<% end -%>
+
+<% if logfile != "" %>
+# Show logs 
+echo_title "$HOSTNAME - <%= name %>: Last log entries: <% logfile.each do |item| %><%= item %><% end %>"
+<% logfile.each do |item| %>
+<% if verbose == "yes" %>
+show_command "tail -30 <%= item %>"
+<% else -%>
+show_command "tail -10 <%= item %>"
+<% end -%>
+<% end -%>
+<% end -%>
 
 <% if run != "" %>
-echo_title "$HOSTNAME - Extra info"
-<% run.split("###").each do |cmd| %>show_command "<%= cmd %>"
-<% end %>
-<% end %>
+echo_title "$HOSTNAME - <%= name %>: Extra info"
+<% run.each do |cmd| %>show_command "<%= cmd %>"
+<% end -%>
+<% end -%>

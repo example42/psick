@@ -9,40 +9,54 @@ showhelp () {
     echo "This script is used to check if a webapp directory is successfully created or removed"
     echo " after the (un)deploy of a war file"
     echo "It implies that a directory with the name of the war file is created in the same path"
-    echo "It has 2 required arguments:"
-    echo "First argument (\$1 - required) is the absolute path of the deployed war"
-    echo "Second argument (\$2 - required) defines what to check (absent|present)"
-    echo 
+    echo "-p <warname> - Waits until war created dir is present"
+    echo "-a <warname> - Wait until war created dir is absent"
+    echo "-s <seconds> - Wait some more seconds after the check"
+    echo "-c <configentry> - Name of the runtime config variable that contains the warname"
     echo "Examples:"
-    echo "checkwardir.sh /store/tomcat/myapp/webapps/myapp.war present"
-    echo "checkwardir.sh /store/tomcat/myoldapp/webapps/myoldapp.war absent"
+    echo "checkwardir.sh -p /store/tomcat/myapp/webapps/myapp.war"
+    echo "checkwardir.sh -a /store/tomcat/myoldapp/webapps/myoldapp.war"
 }
 
-# Manage script variables
-if [ $1 ] ; then
-    warfile=$1
-    wardir=${warfile%\.*}
-else
-    showhelp
-    exit 2 
-fi
+seconds=2
 
-if [ $2 ] ; then
-    status=$2
-else
-    showhelp
-    exit 2 
-fi
+while [ $# -gt 0 ]; do
+  case "$1" in
+    -s)
+      seconds=$2
+      shift 2
+      ;;
+    -p)
+      check="present"
+      warname=$2
+      shift 2
+      ;;
+    -a)
+      check="absent"
+      warname=$2
+      shift 2
+      ;;
+    -c)
+      warname="$(eval "echo \${$(echo ${2})}")"      
+      shift 2
+      ;;
+    *)
+      showhelp
+      exit
+      ;;
+  esac
+done
 
 checkdir () {
+    wardir=${warfile%\.*}
     while true
        do
-        if [ $status == absent ] ; then
+        if [ $check == absent ] ; then
             [ ! -d $wardir ] && break
         else
-            [ -d $wardir ] && break
+            [ -f $wardir/WEB-INF/web.xml ] && break
         fi
-        sleep 1
+        sleep $seconds
     done
 }
 

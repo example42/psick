@@ -153,7 +153,7 @@ if ($postdeploy_customcommand != "") {
 if ($init_script != "") {
     puppi::deploy {
         "${name}-Check_undeploy":
-             priority => "37" , command => "checkwardir.sh" , arguments => "$deploy_root/$war_file absent" ,
+             priority => "37" , command => "checkwardir.sh" , arguments => "-a $deploy_root/$war_file" ,
              user => "$user" , project => "$name" , enable => $enable;
         "${name}-Service_stop":
              priority => "38" , command => "service.sh" , arguments => "stop $init_script" ,
@@ -162,12 +162,12 @@ if ($init_script != "") {
              priority => "42" , command => "service.sh" , arguments => "start $init_script" ,
              user => "root" , project => "$name" , enable => $enable;
         "${name}-Check_deploy":
-             priority => "43" , command => "checkwardir.sh" , arguments => "$deploy_root/$war_file present" ,
+             priority => "43" , command => "checkwardir.sh" , arguments => "-p $deploy_root/$war_file" ,
              user => "$user" , project => "$name" , enable => $enable;
     }
     puppi::rollback {
         "${name}-Check_undeploy":
-             priority => "37" , command => "checkwardir.sh" , arguments => "$deploy_root/$war_file absent" ,
+             priority => "37" , command => "checkwardir.sh" , arguments => "-a $deploy_root/$war_file" ,
              user => "$user" , project => "$name" , enable => $enable;
         "${name}-Service_stop":
              priority => "38" , command => "service.sh" , arguments => "stop $init_script" ,
@@ -176,7 +176,7 @@ if ($init_script != "") {
              priority => "42" , command => "service.sh" , arguments => "start $init_script" ,
              user => "root" , project => "$name" , enable => $enable;
         "${name}-Check_deploy":
-             priority => "43" , command => "checkwardir.sh" , arguments => "$deploy_root/$war_file present" ,
+             priority => "43" , command => "checkwardir.sh" , arguments => "-p $deploy_root/$war_file" ,
              user => "$user" , project => "$name" , enable => $enable;
     }
 }

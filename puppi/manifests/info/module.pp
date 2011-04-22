@@ -3,9 +3,6 @@
 # This is a puppi info plugin that provides automatic info to modules
 # It uses a default template puppi/info/module.erb that can be changed and adapted
 # 
-# Note: A quick and dirty fix to manage an array of commands to use for the "run" argument
-#       requires the usage of "###" to separate each command
-# 
 # Usage (Sample from Example42 apache module where there's wide use of qualified variables,
 #       note that you can provide direct values to it withouth using variables):
 #
@@ -17,11 +14,12 @@
 #        configdir   => "${apache::params::configdir}",
 #        pidfile     => "${apache::params::pidfile}",
 #        datadir     => "${apache::params::datadir}",
+#        logfile     => "${apache::params::logfile}",
 #        logdir      => "${apache::params::logdir}",
 #        protocol    => "${apache::params::protocol}",
 #        port        => "${apache::params::port}",
 #        description => "What Puppet knows about apache" ,
-#        run         => "httpd -V###",
+#        run         => "httpd -V",
 #    }
 #
 define puppi::info::module (
@@ -33,11 +31,13 @@ define puppi::info::module (
     $initconfigfile="",
     $pidfile="",
     $datadir="",
+    $logfile="",
     $logdir="",
     $protocol="",
     $port="",
     $description="",
     $run="",
+    $verbose="no",
     $templatefile="puppi/info/module.erb" ) {
 
     require puppi::params
