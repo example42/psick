@@ -46,7 +46,8 @@ class mysql {
         default: { }
     }
 
-    # Include extended classes, if 
+    # Include extended classes
+    if $puppi == "yes" { include mysql::puppi }
     if $backup == "yes" { include mysql::backup }
     if $monitor == "yes" { include mysql::monitor }
     if $firewall == "yes" { include mysql::firewall }

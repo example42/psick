@@ -65,7 +65,8 @@ class squid {
         default: { }
     }
 
-    # Include extended classes, if 
+    # Include extended classes
+    if $puppi == "yes" { include squid::puppi }
     if $backup == "yes" { include squid::backup }
     if $monitor == "yes" { include squid::monitor }
     if $firewall == "yes" { include squid::firewall }

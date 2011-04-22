@@ -10,6 +10,10 @@ class mysql::params  {
 # (The default used is in the line with '')
 
 
+    $logfile = $operatingsystem ? {
+        default => "/var/log/mysqld.log",
+    }
+
 
 ## MODULE INTERNAL VARIABLES
 # (Modify to adapt to unsupported OSes)

@@ -74,13 +74,13 @@ class activemq::params  {
 
     # Used by backup class
     $datadir = $operatingsystem ? {
-        default => "/var/log/activemq/activemq-data/",
+        default => "/var/log/activemq/activemq-data",
         # default => "/var/cache/activemq/data",
     }
 
     # Used by backup class - Provide the file name, if there's no dedicated dir
     $logdir = $operatingsystem ? {
-        default => "/var/log/activemq/",
+        default => "/var/log/activemq",
     }
 
     # Used by monitor and firewall class

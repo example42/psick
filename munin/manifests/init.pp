@@ -88,7 +88,8 @@ class munin {
         default: { }
     }
 
-    # Include extended classes, if 
+    # Include extended classes
+    if $puppi == "yes" { include munin::puppi }
     if $backup == "yes" { include munin::backup }
     if $monitor == "yes" { include munin::monitor }
     if $firewall == "yes" { include munin::firewall }
