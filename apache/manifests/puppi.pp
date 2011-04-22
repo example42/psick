@@ -17,7 +17,7 @@ class apache::puppi {
         protocol    => "${apache::params::protocol}",
         port        => "${apache::params::port}",
         description => "What Puppet knows about apache" ,
-        run         => "httpd -V###",
+        run         => "httpd -V",
     }
 
 ##    puppi::log { "apache":

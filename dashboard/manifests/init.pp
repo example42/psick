@@ -57,6 +57,19 @@ class dashboard {
         content => template("dashboard/database.yml.erb"),
     }
 
+    file { "settings.yml":
+        path    => "${dashboard::params::configfilesettings}",
+        mode    => "${dashboard::params::configfile_mode}",
+        owner   => "${dashboard::params::configfile_owner}",
+        group   => "${dashboard::params::configfile_group}",
+        require => $dashboard::params::install ? {
+            source  => Class["dashboard::source"],
+            package => Package["dashboard"],
+        },
+        ensure  => present,
+        content => template("dashboard/settings.yml.erb"),
+    }
+
     # Note: puppet-dashboard report lib is installed directory in $puppet_basedir/reports for 0.24 compliance
     file {
         "puppet-dashboard.rb":
@@ -99,9 +112,14 @@ class dashboard {
     }
 
     case $operatingsystem {
+        centos : { package { "rubygem-json": ensure => present , } }
+        redhat : { package { "rubygem-json": ensure => present , } }
+        ubuntu: { package { "libjson-ruby": ensure => present , } }
+        debian: { package { "libjson-ruby": ensure => present , } }
         default: { }
     }
 
+    if $puppi == "yes" { include dashboard::puppi }
     if $backup == "yes" { include dashboard::backup }
     if $monitor == "yes" { include dashboard::monitor }
     if $firewall == "yes" { include dashboard::firewall }

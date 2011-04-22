@@ -63,6 +63,10 @@ class dashboard::params  {
         default => "/usr/share/puppet-dashboard/config/database.yml",
     }
 
+    $configfilesettings = $operatingsystem ? {
+        default => "/usr/share/puppet-dashboard/config/settings.yml",
+    }
+
     $configfile_mode = $operatingsystem ? {
         default => "644",
     }
