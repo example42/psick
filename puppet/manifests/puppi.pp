@@ -22,7 +22,7 @@ class puppet::puppi {
 
     if ($puppet_server_local == true) or ($puppet_server == "$fqdn") {
         puppi::log { "puppet":
-            log      => "/var/log/puppet/http.log###/var/log/puppet/masterhttp.log",
+            log      => [ "/var/log/puppet/http.log" , "/var/log/puppet/masterhttp.log" ] ,
         }
     }
 }

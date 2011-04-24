@@ -23,6 +23,10 @@ class tomcat::params  {
         default => "tomcat",
     }
 
+    $webappsdir = $operatingsystem ? {
+        default => "/usr/share/tomcat6/webapps",
+    }
+
 
 ## MODULE INTERNAL VARIABLES
 # (Modify to adapt to unsupported OSes)

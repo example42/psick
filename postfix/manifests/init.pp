@@ -46,7 +46,7 @@ class postfix {
     case $operatingsystem {
         redhat: { include sendmail::disable }
         centos: { include sendmail::disable }
-        debian: { include exim::absent }
+        debian: { include exim::disable }
         default: { }
     }
 

@@ -19,24 +19,6 @@ show_command "<%= scope.lookupvar('puppi::params::info_package_list') %> <%= ite
 <% end -%>
 <% end -%>
 
-<% if servicename != "" -%>
-# Show service info
-echo_title "$HOSTNAME - <%= name %>: Services: <% servicename.each do |item| %><%= item %><% end %>"
-<% servicename.each do |item| -%>
-show_command "/etc/init.d/<%= item %> status"
-<% end -%>
-<% if verbose == "yes" -%>
-show_command "ps -adef | grep <%= processname %>"
-<% else -%>
-show_command "ps -adef | grep <%= processname %> | head -20"
-<% end -%>
-<% if verbose == "yes" -%>
-show_command "netstat -natup | grep ':<%= port %> '"
-<% else -%>
-show_command "netstat -natup | grep ':<%= port %> ' | head -20"
-<% end -%>
-<% end -%>
-
 <% if configfile != "" -%>
 # Show config info
 echo_title "$HOSTNAME - <%= name %>: Configuration Files managed: <% configfile.each do |item| %><%= item %><% end %>"
@@ -44,7 +26,7 @@ echo_title "$HOSTNAME - <%= name %>: Configuration Files managed: <% configfile.
 <% if verbose == "yes" -%>
 show_command "cat <%= item %>"
 <% else -%> 
-show_command "stat <%= item %>"
+show_command "head <%= item %>"
 <% end -%>
 <% end -%>
 <% end -%>
@@ -82,5 +64,24 @@ show_command "tail -10 <%= item %>"
 <% if run != "" -%>
 echo_title "$HOSTNAME - <%= name %>: Extra info"
 <% run.each do |cmd| %>show_command "<%= cmd %>"
+<% end -%>
+<% end -%>
+
+
+<% if servicename != "" -%>
+# Show service info
+echo_title "$HOSTNAME - <%= name %>: Services: <% servicename.each do |item| %><%= item %><% end %>"
+<% servicename.each do |item| -%>
+show_command "/etc/init.d/<%= item %> status"
+<% end -%>
+<% if verbose == "yes" -%>
+show_command "ps -adef | grep <%= processname %>"
+<% else -%>
+show_command "ps -adef | grep <%= processname %> | head -20"
+<% end -%>
+<% if verbose == "yes" -%>
+show_command "netstat -natup | grep ':<%= port %> '"
+<% else -%>
+show_command "netstat -natup | grep ':<%= port %> ' | head -20"
 <% end -%>
 <% end -%>

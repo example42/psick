@@ -21,7 +21,7 @@ class activemq::puppi {
     }
 
     puppi::log { "activemq":
-        log      => [ "${activemq::params::logdir}/activemq.log" , "${activemq::params::logdir}/wrapper.log" , "${activemq::params::logdir}/status.log" ] ,
+        log      => [ "${activemq::params::logdir}/activemq.log" , "${activemq::params::logdir}/wrapper.log" , "${activemq::params::logdir}/status.log" ] ,
     }
 
 }

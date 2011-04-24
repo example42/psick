@@ -12,7 +12,7 @@ class puppi::infos {
 
     puppi::info { "users":
         description => "Users and logins information" ,
-        run         => [ "who -a" , "last" , "lastlog" ],
+        run         => [ "who" , "last" , "lastlog | grep -v 'Never logged in'" ],
     }
 
     puppi::info { "perf":

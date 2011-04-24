@@ -35,6 +35,7 @@ class tomcat {
     }
 
     # Include extended classes, if relevant variables are defined 
+    if $puppi == "yes" { include tomcat::puppi }
     if $backup == "yes" { include tomcat::backup }
     if $monitor == "yes" { include tomcat::monitor }
     if $firewall == "yes" { include tomcat::firewall }
