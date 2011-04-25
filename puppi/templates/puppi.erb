@@ -254,7 +254,7 @@ create_runtime_conf () {
     test -r "$projectsdir/$project/config" && cp $projectsdir/$project/config $workdir/$project/
     chmod 644 $workdir/$project/config || initerr=1
 
-#    save_runtime_config "project=$project" || initerr=1
+    save_runtime_config "project=$project" || initerr=1
     save_runtime_config "tag=$tag" || initerr=1
     save_runtime_config "action=$action" || initerr=1
 
@@ -288,7 +288,7 @@ showhelp () {
    echo "check [project] - Run puppi checks host-wide or for a specific project"
    echo "log [topic] [-i] - Show system and application specific logs"
    echo "info [topic] [-i] - Show informations about the system"
-   echo "init <project> - First time project initilization and setup"
+   echo "init <project> - First time project initialization and setup"
    echo "deploy <project> - Deploy the specified project"
    echo "rollback <project> - Rollback the specified project. "
    echo " "
