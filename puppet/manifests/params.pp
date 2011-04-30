@@ -16,6 +16,11 @@ class puppet::params  {
         default => $puppet_allow,
     }
 
+# Bind address, useful if only one address should be used or if it should be IPv6
+    $bindaddress = $puppet_bindaddress ? {
+	''	=> "",
+	default => $puppet_bindaddress,
+    }
 
 # Use a node tool ($puppet_nodetool). Default: undef
     $nodetool = $puppet_nodetool ? {
