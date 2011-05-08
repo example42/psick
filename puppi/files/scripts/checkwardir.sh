@@ -48,7 +48,7 @@ while [ $# -gt 0 ]; do
 done
 
 checkdir () {
-    wardir=${warfile%\.*}
+    wardir=${warname%\.*}
     while true
        do
         if [ $check == absent ] ; then

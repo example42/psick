@@ -121,6 +121,14 @@ info () {
     fi
 }
 
+
+todo () {
+    for todo in $(ls $tododir) ; do
+        $tododir/$todo
+    done
+}
+
+
 rollback () {
     echo "Choose deploy to rollback:"
     ls -l $archivedir/$project
@@ -239,11 +247,10 @@ create_runtime_conf () {
     [ ! -z "$project" ] || export project="default"
 
     # Clean up and Create runtime configuration file 
-    command="00-$project-RuntimeConfig-Initialization"
-    title="Puppi setup: $command"
-    code="rm -rf $workdir/$project && touch $workdir/$project/config [...]"
-    command="00-$project-RuntimeConfig-Initialization"
-    echo -n $title
+#    command="00-$project-RuntimeConfig-Initialization"
+#    title="Puppi setup: $command"
+#    code="rm -rf $workdir/$project && touch $workdir/$project/config [...]"
+#    echo -n $title
 
     echo $workdir | grep tmp >/dev/null 2>&1 || ( echo "Workdir must contain string tmp" ; exit 1 )
     rm -rf $workdir/$project || initerr=1
@@ -277,7 +284,7 @@ create_runtime_conf () {
     done
     
     echo $initerr | grep "0" 2>&1 > /dev/null
-    handle_result
+#    handle_result
 }
 
 
@@ -288,6 +295,7 @@ showhelp () {
    echo "check [project] - Run puppi checks host-wide or for a specific project"
    echo "log [topic] [-i] - Show system and application specific logs"
    echo "info [topic] [-i] - Show informations about the system"
+   echo "todo - Show todo's checklist of the system"
    echo "init <project> - First time project initialization and setup"
    echo "deploy <project> - Deploy the specified project"
    echo "rollback <project> - Rollback the specified project. "
@@ -368,6 +376,9 @@ while [ $# -gt 0 ]; do
         shift
       fi
     ;;
+    todo)
+      export action="todo"
+      shift ;;
     -i)
       interactive="yes"
       shift ;;
@@ -400,6 +411,7 @@ case $action in
     checkhost) check_host ;;
     log) create_runtime_conf ; log ;;
     info) create_runtime_conf ; info ;;
+    todo) create_runtime_conf ; todo ;;
     rollback) create_runtime_conf ; rollback ;;
     deploy) create_runtime_conf ; deploy ;;
     init) create_runtime_conf ; initialize ;;

@@ -24,6 +24,7 @@ The puppi command has these possibile actions:
 - puppi check [project_name] : Runs project specific and host wide checks 
 - puppi log [project_name] : Tails system wide or project specific logs 
 - puppi info [topic] : Show system information (for all or only the specified topic)
+- puppi todo [topic] : Show things to do (or done) manually on the system
 For most of these actions puppi runs the commands in /etc/puppi/projects/$project_name/$action,
 logs their status and then runs the commands in /etc/puppi/projects/$project_name/report to
 provide reporting, in whatever, pluggable, way.
@@ -39,6 +40,7 @@ Some usage examples:
 puppi check : Run host-wide checks. 
 puppi check myapp : Run project "myapp" specific tests AND host-wide checks
 puppi log : Show system logs
+puppi todo : Show what has to be done manually on the system to complete the setup
 puppi info : Show general system infos (outputs all the topics available)
 puppi info network : Show network related info (outputs only the "network" topic)
 puppi init myapp : Make the first deploy of "myapp". Can be optional.

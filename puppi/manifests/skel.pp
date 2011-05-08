@@ -44,6 +44,16 @@ class puppi::skel {
         recurse => true, purge => true, force => true,
     }
 
+    file { "puppi_tododir":
+        path    => "${puppi::params::tododir}",
+        mode    => "755",
+        owner   => "${puppi::params::configfile_owner}",
+        group   => "${puppi::params::configfile_group}",
+        ensure  => directory,
+        require => File["puppi_basedir"],
+        recurse => true, purge => true, force => true,
+    }
+
     file { "puppi_projectsdir":
         path    => "${puppi::params::projectsdir}",
         mode    => "755",

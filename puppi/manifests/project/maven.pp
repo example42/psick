@@ -37,6 +37,7 @@
 #                                during deploy. By default is blank. Example: "puppet monit"
 # $firewall_src_ip (Optional) - The IP address of a loadbalancer you might want to block during deploy
 # $firewall_dst_port (Optional) - The local port to block from the loadbalancer during deploy (Default all)
+# $check_deploy (Optional) - If you want to check for war (un)deployment during the procedure (Default yes).
 # $report_email (Optional) - The (space separated) email(s) to notify of deploy/rollback operations
 # $backup_rsync_options (Optional) - The extra options to pass to rsync for backup operations. Use this, for example, to exclude 
 #                                    directories that you don't want to archive.
@@ -63,6 +64,7 @@ define puppi::project::maven (
     $disable_services="",
     $firewall_src_ip="",
     $firewall_dst_port="0",
+    $check_deploy="yes",
     $report_email="",
     $backup_rsync_options="--exclude .snapshot",
     $enable = "true" ) {
@@ -95,7 +97,6 @@ define puppi::project::maven (
 
     # Create Project
     puppi::project { $name: enable => $enable }
-
 
 if ($document_init_source != "") {
     puppi::initialize {
@@ -149,7 +150,7 @@ if ($deploy_root != "") {
              priority => "30" , command => "archive.sh" , arguments => "-b $deploy_root -t war -s move -o '$backup_rsync_options'" ,
              user => "root" , project => "$name" , enable => $enable;
         "${name}-Deploy_Maven_WAR":
-             priority => "40" , command => "deploy.sh" , arguments => "$deploy_root" ,
+             priority => "32" , command => "deploy.sh" , arguments => "$deploy_root" ,
              user => "$user" , project => "$name" , enable => $enable;
     }
     puppi::rollback {
@@ -159,6 +160,16 @@ if ($deploy_root != "") {
     }
 }
 
+if ($check_deploy == "yes") {
+    puppi::deploy {
+        "${name}-Check_undeploy":
+             priority => "31" , command => "checkwardir.sh" , arguments => "-a $deploy_root -c deploy_warpath" ,
+             user => "$user" , project => "$name" , enable => $enable;
+        "${name}-Check_deploy":
+             priority => "33" , command => "checkwardir.sh" , arguments => "-p $deploy_root -c deploy_warpath" ,
+             user => "$user" , project => "$name" , enable => $enable;
+    }
+}
 
 # Config tar is managed only if $config_root is set
 if ($config_root != "") {
@@ -200,9 +211,6 @@ if ($document_root != "") {
     }
 }
 
-
-
-
 # Run predeploy custom script, if defined
 if ($predeploy_customcommand != "") {
     puppi::deploy {
@@ -235,7 +243,10 @@ if ($postdeploy_customcommand != "") {
 if ($init_script != "") {
     puppi::deploy {
         "${name}-Service_stop":
-             priority => "38" , command => "service.sh" , arguments => "stop $init_script" ,
+             priority => "40" , command => "service.sh" , arguments => "stop $init_script" ,
+             user => "root" , project => "$name" , enable => $enable;
+        "${name}-Sleep_5":
+             priority => "41" , command => "wait.sh" , arguments => "-s 5" ,
              user => "root" , project => "$name" , enable => $enable;
         "${name}-Service_start":
              priority => "42" , command => "service.sh" , arguments => "start $init_script" ,
@@ -243,7 +254,10 @@ if ($init_script != "") {
     }
     puppi::rollback {
         "${name}-Service_stop":
-             priority => "38" , command => "service.sh" , arguments => "stop $init_script" ,
+             priority => "40" , command => "service.sh" , arguments => "stop $init_script" ,
+             user => "root" , project => "$name" , enable => $enable;
+        "${name}-Sleep_5":
+             priority => "41" , command => "wait.sh" , arguments => "-s 5" ,
              user => "root" , project => "$name" , enable => $enable;
         "${name}-Service_start":
              priority => "42" , command => "service.sh" , arguments => "start $init_script" ,
@@ -255,7 +269,7 @@ if ($init_script != "") {
 if ($disable_services != "") {
     puppi::deploy {
         "${name}-Disable_extra_services":
-             priority => "36" , command => "service.sh" , arguments => "stop $disable_services" ,
+             priority => "39" , command => "service.sh" , arguments => "stop $disable_services" ,
              user => "root" , project => "$name" , enable => $enable;
         "${name}-Enable_extra_services":
              priority => "44" , command => "service.sh" , arguments => "start $disable_services" ,
@@ -263,7 +277,7 @@ if ($disable_services != "") {
     }
     puppi::rollback {
         "${name}-Disable_extra_services":
-             priority => "36" , command => "service.sh" , arguments => "stop $disable_services" ,
+             priority => "39" , command => "service.sh" , arguments => "stop $disable_services" ,
              user => "root" , project => "$name" , enable => $enable;
         "${name}-Enable_extra_services":
              priority => "44" , command => "service.sh" , arguments => "start $disable_services" ,
@@ -276,7 +290,7 @@ if ($disable_services != "") {
 if ($firewall_src_ip != "") {
     puppi::deploy {
         "${name}-Load_Balancer_Block":
-             priority => "35" , command => "firewall.sh" , arguments => "$firewall_src_ip $firewall_dst_port on" ,
+             priority => "30" , command => "firewall.sh" , arguments => "$firewall_src_ip $firewall_dst_port on" ,
              user => "root" , project => "$name" , enable => $enable;
         "${name}-Load_Balancer_Unblock":
              priority => "45" , command => "firewall.sh" , arguments => "$firewall_src_ip $firewall_dst_port off" ,
@@ -284,7 +298,7 @@ if ($firewall_src_ip != "") {
     }
     puppi::rollback {
         "${name}-Load_Balancer_Block":
-             priority => "35" , command => "firewall.sh" , arguments => "$firewall_src_ip $firewall_dst_port on" ,
+             priority => "30" , command => "firewall.sh" , arguments => "$firewall_src_ip $firewall_dst_port on" ,
              user => "root" , project => "$name" , enable => $enable;
         "${name}-Load_Balancer_Unblock":
              priority => "45" , command => "firewall.sh" , arguments => "$firewall_src_ip $firewall_dst_port off" ,

@@ -124,7 +124,7 @@ save_runtime_config () {
     parameter=$(echo $1 | cut -d '=' -f1)
     value=$(echo $1 | cut -d '=' -f2)
 
-    if [ ! $(grep $parameter $workdir/$project/config ) ] ; then
+    if [[ ! $(grep $parameter $workdir/$project/config) ]] ; then
         echo  >> $workdir/$project/config
         echo "# Added by $0" >> $workdir/$project/config
         echo "$parameter=\"$value\"" >> $workdir/$project/config

@@ -20,6 +20,11 @@ echo "cat /var/lib/puppet/debug/localconfig"
 echo_title "$HOSTNAME - <%= name %>: ReadMe"
 show_command "cat <%= scope.lookupvar('puppi::params::readmedir') %>/<%= name %>"
 
+<% if autoreadme = "yes" %>
+echo_title "$HOSTNAME - <%= name %>: ReadMe Custom"
+show_command "cat <%= scope.lookupvar('puppi::params::readmedir') %>/<%= name %>-custom"
+<% end %>
+
 <% if run != "" %>
 echo_title "$HOSTNAME - <%= name %>: Extra info"
 <% run.each do |cmd| %>show_command "<%= cmd %>"

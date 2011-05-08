@@ -30,6 +30,7 @@ case $2 in
         curl -s -f $1/$version/$warfile -O
         check_retcode
         cp -a $warfile $predeploydir/$artifact.war
+        save_runtime_config "deploy_warpath=$deploy_root/$artifact.war"
     ;;
     configfile)
         curl -s -f $1/$version/$configfile -O
