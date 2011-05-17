@@ -19,6 +19,11 @@ class cobbler {
         ensure => present,
     }
 
+    package { "cobbler-web":
+        name   => "${cobbler::params::packagenameweb}",
+        ensure => present,
+    }
+
     service { "cobbler":
         name       => "${cobbler::params::servicename}",
         ensure     => running,

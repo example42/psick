@@ -19,6 +19,9 @@ class cobbler::params  {
 ## EXTRA MODULE INTERNAL VARIABLES
 #(add here module specific internal variables)
 
+    $packagenameweb = $operatingsystem ? {
+        default => "cobbler-web",
+    }
 
 
 ## MODULE INTERNAL VARIABLES
