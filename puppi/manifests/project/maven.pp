@@ -12,11 +12,11 @@
 # $user (Optional) - The user to be used for deploy operations  (owner of the files in $deploy_root)
 # $suffix (Optional) - The suffix that might be appended to the src/cfg filenames 
 # $document_root (Optional) - The destination directory where the src tar in unpacked
-# $document_init_source (Optional) - The full URL to be used to retrieve, for the first time, the project files present in the src tar.
+# $document_init_source (Optional) - The full URL to be used to retrieve, for the first time, the project files present in the src tar.
 #                           They are copied to the $document_root. Format should be in URI standard (http:// file:// ssh:// svn://)
 # $document_user (Optional) - The user to be used for deploy operations of src tar (owner of the files in $document_root)
 # $config_root (Optional) - The destination directory where the cfg tar in unpacked
-# $config_init_source (Optional) - The full URL to be used to retrieve, for the first time, the project files present in the cfg tar.
+# $config_init_source (Optional) - The full URL to be used to retrieve, for the first time, the project files present in the cfg tar.
 #                           They are copied to the $document_root. Format should be in URI standard (http:// file:// ssh:// svn://)
 # $config_user (Optional) - The user to be used for deploy operations of cfg tar (owner of the files in $config_root)
 # $predeploy_customcommand (Optional) -  Full path with arguments of an eventual custom command to execute before the deploy.
@@ -71,7 +71,7 @@ define puppi::project::maven (
 
     require puppi::params
 
-    # Autoinclude the puppi class
+    # Autoinclude the puppi class
     include puppi
 
     # Set default values

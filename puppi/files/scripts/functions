@@ -163,7 +163,7 @@ ask_interactive () {
    fi
 }
 
-# Shows or executes a command
+# Shows or executes a command
 show_command () {
    echo
    $SETCOLOR_BOLD ; echo "$HOSTNAME: $*" ; $SETCOLOR_NORMAL

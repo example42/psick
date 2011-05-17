@@ -1,7 +1,7 @@
 # Define puppi::check
 #
 # This define creates a file with a check command that can be used locally.
-# It ususes Nagios plugins for all checks
+# It ususes Nagios plugins for all checks
 # It creates a file with the relevant check that can be used by automatic checking scripts
 #
 # Usage:
@@ -19,7 +19,7 @@ define puppi::check (
     require puppi::params
     require puppi::params
 
-    # Autoinclude the puppi class
+    # Autoinclude the puppi class
     include puppi
 
     $ensure = $enable ? {

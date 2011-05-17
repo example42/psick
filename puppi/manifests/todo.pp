@@ -4,7 +4,7 @@
 # on how to complete tasks that for time or other reasons could not be 
 # entirely automated by Puppet.
 # The basic idea is to have a quick way to document and check if are completed
-# some specific operations that are required to bring a new, puppettized system 
+# some specific operations that are required to bring a new, puppettized system 
 # to full operative status.
 # This can be useful for cases hard to automate with Puppet:
 # - First setup and import of a database needed by an application (module)
@@ -35,7 +35,7 @@ define puppi::todo (
 
     require puppi::params
 
-    # Autoinclude the puppi class
+    # Autoinclude the puppi class
     include puppi
 
     file { "${puppi::params::tododir}/${name}":

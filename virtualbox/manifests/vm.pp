@@ -22,7 +22,7 @@ define virtualbox::vm ($startup="yes") {
 #        path      => "${virtualbox::params::autostartdir}",
 #        content   => $startup ? {
 #            yes     => "vboxheadless -s $name &",
-#            default => "# vboxheadless -s $name &",
+#            default => "# vboxheadless -s $name &",
 #        },
 #        mode      => "755",
 #    }

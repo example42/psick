@@ -8,7 +8,7 @@
 #
 # Variables:
 # $source - The full URL of the main file to retrieve. Format should be in URI standard (http:// file:// ssh:// svn:// rsync://)
-# $init_source (Optional) - The full URL to be used to retrieve, for the first time, the project files.
+# $init_source (Optional) - The full URL to be used to retrieve, for the first time, the project files.
 #                           Format should be in URI standard (http:// file:// ssh:// svn://)
 # $mysql_user - The mysql user used to run the queries
 # $mysql_host - The hostname of the mysql server
@@ -53,7 +53,7 @@ define puppi::project::mysql (
 
     require puppi::params
 
-    # Autoinclude the puppi class
+    # Autoinclude the puppi class
     include puppi
 
     # Set default values

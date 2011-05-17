@@ -15,7 +15,7 @@ define puppi::log (
 
     require puppi::params
 
-    # Autoinclude the puppi class
+    # Autoinclude the puppi class
     include puppi
 
     file { "${puppi::params::logsdir}/${name}":

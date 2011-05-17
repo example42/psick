@@ -8,7 +8,7 @@ define puppi::project (
 
     require puppi::params
 
-    # Autoinclude the puppi class
+    # Autoinclude the puppi class
     include puppi
 
     $ensure = $enable ? {

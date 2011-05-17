@@ -10,7 +10,7 @@
 # $source - The full URL of the main file to retrieve. Format should be in URI standard (http:// file:// ssh:// svn:// rsync://)
 # $source_type - The type of file that is retrived. Accepted values: tarball, zip, list, war, dir, maven-metadata  
 # $deploy_root - The destination directory where the retrieve file(s) have to be deployed
-# $init_source (Optional) - The full URL to be used to retrieve, for the first time, the project files.
+# $init_source (Optional) - The full URL to be used to retrieve, for the first time, the project files.
 #                           They are copied to the $deploy_root
 #                           Format should be in URI standard (http:// file:// ssh:// svn://)
 # $magicfix (Optional) - A string that is used as prefix or suffix according to the context and the scripts used in the
@@ -67,7 +67,7 @@ define puppi::project::builder (
 
     require puppi::params
 
-    # Autoinclude the puppi class
+    # Autoinclude the puppi class
     include puppi
 
     # Set default values

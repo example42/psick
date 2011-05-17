@@ -42,14 +42,14 @@ class puppi {
     include puppi::skel
 
     # Some extra packages we use in Puppi scripts
-    # This class might conflict with your existing classes
-    # Just be sure to provide the requested packages
+    # This class might conflict with your existing classes
+    # Just be sure to provide the requested packages
     if $puppi::params::extra != "no" { include puppi::extra }
 
     # Define standard systemwide log paths for puppi log
     include puppi::logs
 
-    # Define standard systemwide information sources
+    # Define standard systemwide information sources
     include puppi::infos
 
     # Some default checks

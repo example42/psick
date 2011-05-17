@@ -46,7 +46,7 @@ class mcollective::server {
         content => template("mcollective/server.cfg.erb"),
     }
 
-    # Yaml based fact source for mcollective. Set $mcollective_factsource = yaml to use it (and have a lot of fun)
+    # Yaml based fact source for mcollective. Set $mcollective_factsource = yaml to use it (and have a lot of fun)
     file {"/etc/mcollective/facts.yaml":
         owner    => root,
         group    => root,
@@ -72,7 +72,7 @@ class mcollective::server {
 
     # Include project specific class if $my_project is set
     # The extra project class is by default looked in mcollective module 
-    # If $my_project_onmodule == yes it's looked in your project module
+    # If $my_project_onmodule == yes it's looked in your project module
     if $my_project { 
         case $my_project_onmodule {
             yes,true: { include "${my_project}::mcollective::server" }

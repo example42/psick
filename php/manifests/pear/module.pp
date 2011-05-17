@@ -35,7 +35,7 @@ case $use_package {
             require => Package["php-pear"],
         }
     }
-} # End Case
+} # End Case
 
 }
 

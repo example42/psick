@@ -20,7 +20,7 @@ define puppi::info (
 
     require puppi::params
 
-    # Autoinclude the puppi class
+    # Autoinclude the puppi class
     include puppi
 
     file { "${puppi::params::infodir}/${name}":

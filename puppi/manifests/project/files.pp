@@ -11,7 +11,7 @@
 #
 # Variables:
 # $source - The full URL to be used to retrieve the files list. Format should be in URI standard (http:// file:// ssh:// svn://)  
-# $init_source (Optional) - The full URL to be used to retrieve, for the first time, the project files.
+# $init_source (Optional) - The full URL to be used to retrieve, for the first time, the project files.
 #                           They are copied to the $deploy_root
 #                           Format should be in URI standard (http:// file:// ssh:// svn://)
 # $files_prefix - The prefix to remove form the list entries in order to determine the files path on the deploy_root
@@ -69,7 +69,7 @@ define puppi::project::files (
 
     require puppi::params
 
-    # Autoinclude the puppi class
+    # Autoinclude the puppi class
     include puppi
 
     # Set default values for the user running the pre/post commands

@@ -77,7 +77,7 @@ class mcollective::params  {
 
 
 
-## EXTRA INTERNAL VARIABLES
+## EXTRA INTERNAL VARIABLES
 
     $packagename_client = $operatingsystem ? {
         default => "mcollective-client",
@@ -163,9 +163,9 @@ class mcollective::params  {
         default => "/var/log/mcollective.log",
     }
 
-    # Used by monitor and firewall class
-    # If you need to define additional ports, call them $protocol1/$port1 and add the relevant
-    # parts in firewall.pp and monitor.pp
+    # Used by monitor and firewall class
+    # If you need to define additional ports, call them $protocol1/$port1 and add the relevant
+    # parts in firewall.pp and monitor.pp
     $protocol = "tcp"
     $port = $stomp_port
     
@@ -252,7 +252,7 @@ class mcollective::params  {
         default => "$mcollective_backup_target",
     }
   
-    # Frequency of backups
+    # Frequency of backups
     $backup_frequency = $mcollective_backup_frequency ? {
         ''      => "daily",
         default => "$mcollective_backup_frequency",

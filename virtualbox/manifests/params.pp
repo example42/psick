@@ -11,7 +11,7 @@ class virtualbox::params  {
 
 ## Directory where to place a script or file to manage the autostart of VMs 
     $autostartdir = $virtualbox_autostartdir ? {
-        ''      => "/etc/rc.local.d", # TODO Quick setup with dependency on example42 rclocal module
+        ''      => "/etc/rc.local.d", # TODO Quick setup with dependency on example42 rclocal module
         default => "${virtualbox_autostartdir}",
     }
 
