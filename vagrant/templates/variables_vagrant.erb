@@ -1,0 +1,49 @@
+# File Managed By Puppet
+
+These are the variables used by the module vagrant
+
+User variables (unfiltered):
+# $vagrant_server = <%= scope.lookupvar('vagrant_server') %>
+
+User variables (after params.pp filter):
+# $vagrant::params::server = <%= scope.lookupvar('vagrant::params::server') %>
+
+General internal variables:
+$vagrant::params::packagename = <%= scope.lookupvar('vagrant::params::packagename') %>
+$vagrant::params::servicename = <%= scope.lookupvar('vagrant::params::servicename') %>
+$vagrant::params::processname = <%= scope.lookupvar('vagrant::params::processname') %>
+$vagrant::params::hasstatus = <%= scope.lookupvar('vagrant::params::hasstatus') %>
+$vagrant::params::configfile = <%= scope.lookupvar('vagrant::params::configfile') %>
+$vagrant::params::configfile_mode = <%= scope.lookupvar('vagrant::params::configfile_mode') %>
+$vagrant::params::configfile_owner = <%= scope.lookupvar('vagrant::params::configfile_owner') %>
+$vagrant::params::configfile_group = <%= scope.lookupvar('vagrant::params::configfile_group') %>
+$vagrant::params::configdir = <%= scope.lookupvar('vagrant::params::configdir') %>
+$vagrant::params::initconfigfile = <%= scope.lookupvar('vagrant::params::initconfigfile') %>
+$vagrant::params::pidfile = <%= scope.lookupvar('vagrant::params::pidfile') %>
+$vagrant::params::datadir = <%= scope.lookupvar('vagrant::params::datadir') %>
+$vagrant::params::logdir = <%= scope.lookupvar('vagrant::params::logdir') %>
+$vagrant::params::protocol = <%= scope.lookupvar('vagrant::params::protocol') %>
+$vagrant::params::port = <%= scope.lookupvar('vagrant::params::port') %>
+
+Variables used by monitor class:
+$vagrant::params::monitor_target_real = <%= scope.lookupvar('vagrant::params::monitor_target_real') %> ( Set with $vagrant_monitor_target )
+$vagrant::params::monitor_baseurl_real = <%= scope.lookupvar('vagrant::params::monitor_baseurl_real') %> ( Set with $vagrant_monitor_baseurl )
+$vagrant::params::monitor_url_pattern = <%= scope.lookupvar('vagrant::params::monitor_url_pattern') %> ( Set with $vagrant_monitor_url_pattern )
+$vagrant::params::monitor_port_enable = <%= scope.lookupvar('vagrant::params::monitor_port_enable') %> ( Set with $vagrant_monitor_port )
+$vagrant::params::monitor_url_enable = <%= scope.lookupvar('vagrant::params::monitor_url_enable') %> ( Set with $vagrant_monitor_url )
+$vagrant::params::monitor_process_enable = <%= scope.lookupvar('vagrant::params::monitor_process_enable') %> ( Set with $vagrant_monitor_process )
+$vagrant::params::monitor_plugin_enable = <%= scope.lookupvar('vagrant::params::monitor_plugin_enable') %> ( Set with $vagrant_monitor_plugin )
+
+Variables used by backup class:
+$vagrant::params::backup_target_real = <%= scope.lookupvar('vagrant::params::backup_target_real') %> ( Set with $vagrant_backup_target )
+$vagrant::params::backup_frequency = <%= scope.lookupvar('vagrant::params::backup_frequency') %> ( Set with $vagrant_backup_frequency )
+$vagrant::params::backup_data_enable = <%= scope.lookupvar('vagrant::params::backup_data_enable') %> ( Set with $vagrant_backup_data )
+$vagrant::params::backup_log_enable = <%= scope.lookupvar('vagrant::params::backup_log_enable') %> ( Set with $vagrant_backup_log )
+
+Variables used by firewall class:
+$vagrant::params::firewall_source_real = <%= scope.lookupvar('vagrant::params::firewall_source_real') %> ( Set with $vagrant_firewall_source )
+$vagrant::params::firewall_destination_real = <%= scope.lookupvar('vagrant::params::firewall_destination_real') %> ( Set with $vagrant_firewall_destination )
+$vagrant::params::firewall_enable = <%= scope.lookupvar('vagrant::params::firewall_destination_real') %> ( Set with $vagrant_firewall_enable )
+
+Module base source for static files:
+$vagrant::params::general_base_source = <%= scope.lookupvar('vagrant::params::general_base_source') %> ( Set with $base_source )
