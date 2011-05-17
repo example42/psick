@@ -1,11 +1,7 @@
 class foreman::package::redhat {
 
-  yumrepo { "foreman":
-    descr => "Foreman Repo",
-    baseurl => "http://theforeman.org/repo",
-    gpgcheck => "0",
-    enabled => "1"
-  }
+  include yum::repo::foreman
+#  include yum::repo::rbel
 
   package{"foreman":
     ensure => installed,

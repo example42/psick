@@ -20,13 +20,13 @@ class foreman {
 
     # Variables used inside the module- Their values is obtained from Example42 variables scheme for puppet module
     $using_store_configs = "${puppet::params::storeconfigs}" ? {
-        yes => "true",
-        no  => "false",
+        yes => true,
+        no  => false,
     }
     
     $using_passenger = "${puppet::params::passenger}" ? {
-        yes => "true",
-        no  => "false",
+        yes => true,
+        no  => false,
     }
   
   $railspath           = "${foreman::params::basedir}"
