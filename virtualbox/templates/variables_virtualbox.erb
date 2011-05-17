@@ -1,0 +1,49 @@
+# File Managed By Puppet
+
+These are the variables used by the module virtualbox
+
+User variables (unfiltered):
+# $virtualbox_server = <%= scope.lookupvar('virtualbox_server') %>
+
+User variables (after params.pp filter):
+# $virtualbox::params::server = <%= scope.lookupvar('virtualbox::params::server') %>
+
+General internal variables:
+$virtualbox::params::packagename = <%= scope.lookupvar('virtualbox::params::packagename') %>
+$virtualbox::params::servicename = <%= scope.lookupvar('virtualbox::params::servicename') %>
+$virtualbox::params::processname = <%= scope.lookupvar('virtualbox::params::processname') %>
+$virtualbox::params::hasstatus = <%= scope.lookupvar('virtualbox::params::hasstatus') %>
+$virtualbox::params::configfile = <%= scope.lookupvar('virtualbox::params::configfile') %>
+$virtualbox::params::configfile_mode = <%= scope.lookupvar('virtualbox::params::configfile_mode') %>
+$virtualbox::params::configfile_owner = <%= scope.lookupvar('virtualbox::params::configfile_owner') %>
+$virtualbox::params::configfile_group = <%= scope.lookupvar('virtualbox::params::configfile_group') %>
+$virtualbox::params::configdir = <%= scope.lookupvar('virtualbox::params::configdir') %>
+$virtualbox::params::initconfigfile = <%= scope.lookupvar('virtualbox::params::initconfigfile') %>
+$virtualbox::params::pidfile = <%= scope.lookupvar('virtualbox::params::pidfile') %>
+$virtualbox::params::datadir = <%= scope.lookupvar('virtualbox::params::datadir') %>
+$virtualbox::params::logdir = <%= scope.lookupvar('virtualbox::params::logdir') %>
+$virtualbox::params::protocol = <%= scope.lookupvar('virtualbox::params::protocol') %>
+$virtualbox::params::port = <%= scope.lookupvar('virtualbox::params::port') %>
+
+Variables used by monitor class:
+$virtualbox::params::monitor_target_real = <%= scope.lookupvar('virtualbox::params::monitor_target_real') %> ( Set with $virtualbox_monitor_target )
+$virtualbox::params::monitor_baseurl_real = <%= scope.lookupvar('virtualbox::params::monitor_baseurl_real') %> ( Set with $virtualbox_monitor_baseurl )
+$virtualbox::params::monitor_url_pattern = <%= scope.lookupvar('virtualbox::params::monitor_url_pattern') %> ( Set with $virtualbox_monitor_url_pattern )
+$virtualbox::params::monitor_port_enable = <%= scope.lookupvar('virtualbox::params::monitor_port_enable') %> ( Set with $virtualbox_monitor_port )
+$virtualbox::params::monitor_url_enable = <%= scope.lookupvar('virtualbox::params::monitor_url_enable') %> ( Set with $virtualbox_monitor_url )
+$virtualbox::params::monitor_process_enable = <%= scope.lookupvar('virtualbox::params::monitor_process_enable') %> ( Set with $virtualbox_monitor_process )
+$virtualbox::params::monitor_plugin_enable = <%= scope.lookupvar('virtualbox::params::monitor_plugin_enable') %> ( Set with $virtualbox_monitor_plugin )
+
+Variables used by backup class:
+$virtualbox::params::backup_target_real = <%= scope.lookupvar('virtualbox::params::backup_target_real') %> ( Set with $virtualbox_backup_target )
+$virtualbox::params::backup_frequency = <%= scope.lookupvar('virtualbox::params::backup_frequency') %> ( Set with $virtualbox_backup_frequency )
+$virtualbox::params::backup_data_enable = <%= scope.lookupvar('virtualbox::params::backup_data_enable') %> ( Set with $virtualbox_backup_data )
+$virtualbox::params::backup_log_enable = <%= scope.lookupvar('virtualbox::params::backup_log_enable') %> ( Set with $virtualbox_backup_log )
+
+Variables used by firewall class:
+$virtualbox::params::firewall_source_real = <%= scope.lookupvar('virtualbox::params::firewall_source_real') %> ( Set with $virtualbox_firewall_source )
+$virtualbox::params::firewall_destination_real = <%= scope.lookupvar('virtualbox::params::firewall_destination_real') %> ( Set with $virtualbox_firewall_destination )
+$virtualbox::params::firewall_enable = <%= scope.lookupvar('virtualbox::params::firewall_destination_real') %> ( Set with $virtualbox_firewall_enable )
+
+Module base source for static files:
+$virtualbox::params::general_base_source = <%= scope.lookupvar('virtualbox::params::general_base_source') %> ( Set with $base_source )
