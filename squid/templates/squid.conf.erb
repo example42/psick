@@ -276,6 +276,9 @@
 #auth_param basic children 5
 #auth_param basic realm Squid proxy-caching web server
 #auth_param basic credentialsttl 2 hours
+<% scope.lookupvar('squid::params::auth_param').each do |auth| -%>
+auth_param <%= auth %>
+<% end %>
 
 #  TAG: authenticate_cache_garbage_interval
 #	The time period between garbage collection across the username cache.
@@ -576,7 +579,7 @@
 #acl javascript rep_mime_type -i ^application/x-javascript$
 #
 #Default:
-# acl all src all
+acl all src all
 #
 #Recommended minimum configuration:
 acl manager proto cache_object

@@ -53,6 +53,10 @@ class squid::params  {
         default => $squid_custom_http_accesses,
     }
 
+    $auth_param = $squid_auth_param ? {
+        default => $squid_auth_param,
+    }
+
     $cache_dir = $squid_cache_dir ? {
         ''      => "/var/spool/squid",
         default => "${squid_cache_dir}",
@@ -112,7 +116,11 @@ class squid::params  {
     }
 
     $cache_log_dir = $squid_cache_log_dir ? {
-        ''      => "/var/log/squid3",
+        ''      => $operatingsystem ? {
+            ubuntu => "/var/log/squid3",
+            debian => "/var/log/squid3",
+            default => "/var/log/squid",
+            },
         default => "${squid_cache_log_dir}",
     }
 
@@ -275,7 +283,7 @@ class squid::params  {
     # If squid plugin monitoring is enabled 
     $monitor_plugin_enable = $squid_monitor_plugin ? {
         ''      => $monitor_plugin ? {
-           ''      => true,
+           ''      => false,
            default => $monitor_plugin,
         },
         default => $squid_monitor_plugin,
