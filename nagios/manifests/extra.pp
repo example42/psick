@@ -28,6 +28,7 @@ class nagios::extra {
         group   => "${nagios::params::configfile_group}",
         ensure  => directory,
         require => File["nagios_configdir"],
+        recurse => true, purge => true, force => true,
     }
 
     file { "nagios_configdir_services":
@@ -37,6 +38,7 @@ class nagios::extra {
         group   => "${nagios::params::configfile_group}",
         ensure  => directory,
         require => File["nagios_configdir"],
+        recurse => true, purge => true, force => true,
     }
 
     file { "nagios_configdir_commands":
