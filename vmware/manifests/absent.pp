@@ -15,7 +15,7 @@ class vmware::absent {
     }
 
     # Remove relevant monitor, backup, firewall entries
-#    if $monitor == "yes" { include vmware::monitor::absent }
+    if $monitor == "yes" { include vmware::monitor::absent }
 #    if $backup == "yes" { include vmware::backup::absent }
 #    if $firewall == "yes" { include vmware::firewall::absent  }
 

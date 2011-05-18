@@ -7,17 +7,24 @@
 # Usage:
 # include vmware::disable
 #
-class vmware::disable inherits vmware {
+class vmware::disable {
 
     require vmware::params
 
-    Service["vmware"] {
-        ensure => "stopped" ,
-        enable => "false",
+    package { "vmware":
+        name   => "${vmware::params::packagename}",
+        ensure => present,
+    }
+
+    service { "vmware":
+        name       => "${vmware::params::servicename}",
+        ensure     => "stopped" ,
+        enable     => "false",
+        require    => Package["vmware"],
     }
 
     # Remove relevant monitor, backup, firewall entries
-#    if $monitor == "yes" { include vmware::monitor::absent }
+    if $monitor == "yes" { include vmware::monitor::absent }
     # if $backup == "yes" { include vmware::backup::absent }
     # if $firewall == "yes" { include vmware::firewall::absent  }
 
