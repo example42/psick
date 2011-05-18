@@ -1,0 +1,49 @@
+# File Managed By Puppet
+
+These are the variables used by the module dhcpd
+
+User variables (unfiltered):
+# $dhcpd_server = <%= scope.lookupvar('dhcpd_server') %>
+
+User variables (after params.pp filter):
+# $dhcpd::params::server = <%= scope.lookupvar('dhcpd::params::server') %>
+
+General internal variables:
+$dhcpd::params::packagename = <%= scope.lookupvar('dhcpd::params::packagename') %>
+$dhcpd::params::servicename = <%= scope.lookupvar('dhcpd::params::servicename') %>
+$dhcpd::params::processname = <%= scope.lookupvar('dhcpd::params::processname') %>
+$dhcpd::params::hasstatus = <%= scope.lookupvar('dhcpd::params::hasstatus') %>
+$dhcpd::params::configfile = <%= scope.lookupvar('dhcpd::params::configfile') %>
+$dhcpd::params::configfile_mode = <%= scope.lookupvar('dhcpd::params::configfile_mode') %>
+$dhcpd::params::configfile_owner = <%= scope.lookupvar('dhcpd::params::configfile_owner') %>
+$dhcpd::params::configfile_group = <%= scope.lookupvar('dhcpd::params::configfile_group') %>
+$dhcpd::params::configdir = <%= scope.lookupvar('dhcpd::params::configdir') %>
+$dhcpd::params::initconfigfile = <%= scope.lookupvar('dhcpd::params::initconfigfile') %>
+$dhcpd::params::pidfile = <%= scope.lookupvar('dhcpd::params::pidfile') %>
+$dhcpd::params::datadir = <%= scope.lookupvar('dhcpd::params::datadir') %>
+$dhcpd::params::logdir = <%= scope.lookupvar('dhcpd::params::logdir') %>
+$dhcpd::params::protocol = <%= scope.lookupvar('dhcpd::params::protocol') %>
+$dhcpd::params::port = <%= scope.lookupvar('dhcpd::params::port') %>
+
+Variables used by monitor class:
+$dhcpd::params::monitor_target_real = <%= scope.lookupvar('dhcpd::params::monitor_target_real') %> ( Set with $dhcpd_monitor_target )
+$dhcpd::params::monitor_baseurl_real = <%= scope.lookupvar('dhcpd::params::monitor_baseurl_real') %> ( Set with $dhcpd_monitor_baseurl )
+$dhcpd::params::monitor_url_pattern = <%= scope.lookupvar('dhcpd::params::monitor_url_pattern') %> ( Set with $dhcpd_monitor_url_pattern )
+$dhcpd::params::monitor_port_enable = <%= scope.lookupvar('dhcpd::params::monitor_port_enable') %> ( Set with $dhcpd_monitor_port )
+$dhcpd::params::monitor_url_enable = <%= scope.lookupvar('dhcpd::params::monitor_url_enable') %> ( Set with $dhcpd_monitor_url )
+$dhcpd::params::monitor_process_enable = <%= scope.lookupvar('dhcpd::params::monitor_process_enable') %> ( Set with $dhcpd_monitor_process )
+$dhcpd::params::monitor_plugin_enable = <%= scope.lookupvar('dhcpd::params::monitor_plugin_enable') %> ( Set with $dhcpd_monitor_plugin )
+
+Variables used by backup class:
+$dhcpd::params::backup_target_real = <%= scope.lookupvar('dhcpd::params::backup_target_real') %> ( Set with $dhcpd_backup_target )
+$dhcpd::params::backup_frequency = <%= scope.lookupvar('dhcpd::params::backup_frequency') %> ( Set with $dhcpd_backup_frequency )
+$dhcpd::params::backup_data_enable = <%= scope.lookupvar('dhcpd::params::backup_data_enable') %> ( Set with $dhcpd_backup_data )
+$dhcpd::params::backup_log_enable = <%= scope.lookupvar('dhcpd::params::backup_log_enable') %> ( Set with $dhcpd_backup_log )
+
+Variables used by firewall class:
+$dhcpd::params::firewall_source_real = <%= scope.lookupvar('dhcpd::params::firewall_source_real') %> ( Set with $dhcpd_firewall_source )
+$dhcpd::params::firewall_destination_real = <%= scope.lookupvar('dhcpd::params::firewall_destination_real') %> ( Set with $dhcpd_firewall_destination )
+$dhcpd::params::firewall_enable = <%= scope.lookupvar('dhcpd::params::firewall_destination_real') %> ( Set with $dhcpd_firewall_enable )
+
+Module base source for static files:
+$dhcpd::params::general_base_source = <%= scope.lookupvar('dhcpd::params::general_base_source') %> ( Set with $base_source )
