@@ -150,7 +150,7 @@ class openvpn::params  {
     # If openvpn process monitoring is enabled 
     $monitor_process_enable = $openvpn_monitor_process ? {
         ''      => $monitor_process ? {
-           ''      => false,
+           ''      => true,
            default => $monitor_process,
         },
         default => $openvpn_monitor_process,
