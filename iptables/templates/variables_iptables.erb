@@ -32,9 +32,5 @@ $iptables::params::configfile_mode = <%= scope.lookupvar('iptables::params::conf
 $iptables::params::configfile_owner = <%= scope.lookupvar('iptables::params::configfile_owner') %>
 $iptables::params::configfile_group = <%= scope.lookupvar('iptables::params::configfile_group') %>
 
-Variables used by monitor class:
-$iptables::params::monitor_process_enable = <%= scope.lookupvar('iptables::params::monitor_process_enable') %> ( Set with $iptables_monitor_process )
-$iptables::params::monitor_plugin_enable = <%= scope.lookupvar('iptables::params::monitor_plugin_enable') %> ( Set with $iptables_monitor_plugin )
-
 Module base source for static files:
 $iptables::params::general_base_source = <%= scope.lookupvar('iptables::params::general_base_source') %> ( Set with $base_source )

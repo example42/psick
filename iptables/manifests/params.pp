@@ -126,25 +126,6 @@ class iptables::params  {
     }
 
 
-    # If iptables process monitoring is enabled 
-    $monitor_process_enable = $iptables_monitor_process ? {
-        ''      => $monitor_process ? {
-           ''      => true,
-           default => $monitor_process,
-        },
-        default => $iptables_monitor_process,
-    }
-
-    # If iptables plugin monitoring is enabled 
-    $monitor_plugin_enable = $iptables_monitor_plugin ? {
-        ''      => $monitor_plugin ? {
-           ''      => false,
-           default => $monitor_plugin,
-        },
-        default => $iptables_monitor_plugin,
-    }
-
-
     ## FILE SERVING SOURCE
     case $base_source {
         '': {

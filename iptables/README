@@ -70,9 +70,6 @@ include iptables::debug       # Used for debugging purposes (not resource hungry
                          # Automatically included if $debug=yes
                          # Requires Example42's puppet::params and puppet::debug
 
-# Extended Classes (generally require storeconfigs)
-include iptables::monitor     # Monitor iptables
-
 # Module specific defines
 iptables::rule # Inserts and iptables rule (works only if you use concat mode)
 
@@ -105,16 +102,6 @@ $base_source - Lets you define an alternative source for static files:
   - $base_source set -> Files are in $base_source ( Ex: puppet://$servername/$my_module ) 
   Note that the module automatically manages the different paths for Puppet pre 0.25
 $debug - If set to yes writes in /var/lib/puppet/debug/ useful debugging info
-
-VARIABLES FOR EXTENDED MODULES:
-$monitor - Set to "yes" to enable auto monitoring classes 
-$monitor_tool - Defines the monitor tools to activate (At leat one, can be an array)
-Check iptables/manifests/monitor.pp for more info on iptables monitoring related variables.
-
-$backup - Set to "yes" to enable auto backuping classes 
-$backup_tool - Defines the backup tools to activate (At leat one, can be an array)
-Check iptables/manifests/backup.pp for more info on iptables backuping related variables.
-
 
 DEPENDENCIES:
 Standard classes generally don't need external modules.

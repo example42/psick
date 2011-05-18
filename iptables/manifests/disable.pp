@@ -16,9 +16,6 @@ class iptables::disable inherits iptables::base {
         enable => "false",
     }
 
-    # Remove relevant monitor, backup, firewall entries
-    if $monitor == "yes" { include iptables::monitor::absent }
-
     # Include debug class is debugging is enabled ($debug=yes)
     if ( $debug == "yes" ) or ( $debug == true ) { include iptables::debug }
 

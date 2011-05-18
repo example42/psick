@@ -41,9 +41,6 @@ class iptables::base {
         default: { }
     }
 
-    # Include extended classes, if relevant variables are defined
-    if $monitor == "yes" { include iptables::monitor }
-
     # Include project specific class if $my_project is set
     # The extra project class is by default looked in iptables module 
     # If $my_project_onmodule == yes it's looked in your project module
