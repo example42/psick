@@ -28,12 +28,17 @@ $bind_config # Define how you want to manage named.conf:
 $bind_servertype # Define what kind of server installation you want
                  # "master" - Master server. Authoritative for at least a zone.
                  # "slave" - Slave server. Authoritative for at least a zone.
-                 # "cache" - Chaching only nameserver. Not autoritative
+                 # "cache" - Caching only nameserver. Not autoritative. (default)
 $bind_chroot # Define if you want to install bind-chroot packages (only on RedHat/Centos)
 $bind_log # Define if you want to log on syslog or custom file ($logdir/bind.log)
 $bind_forwarders # Define global forwarders (Can be an array)
 $bind_also_notify # # Define global slaves to notify (option also-notify) 
-
+$bind_clients # Define (in named.conf address_match_element format) the clients that can use
+              # this server for queries. Can be an array. Default: localhost
+$bind_slaves # Define (in named.conf address_match_element format) the clients that can use
+             # this server for zone-transfers. Can be an array. Default: localhost
+             # Note that this parameter only affects the acl that is permitted for zone 
+             # transfers, if you need to notify your slaves, use (also) $bind_also_notify 
 USAGE:
 # Standard Classes 
 include bind              # Install and run bind 

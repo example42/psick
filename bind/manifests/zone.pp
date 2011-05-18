@@ -1,7 +1,9 @@
 # Define: bind::zone
 #
 # Adds a custom bind zone to named.conf
-# Note that this define doesn't manage the zone file (on master servers).
+# The $file params defines the name of the zone file in named.conf
+# The $file_source defines where to retrive via the zone file (prefix puppet:/// is implied)
+#     It empty the zone file is not provided via bind::zone
 #
 # Usage examples:
 #
@@ -20,6 +22,7 @@
 define bind::zone (
     $zone_type="master",
     $file="",
+    $file_source="",
     $masters="",
     $forwarders="",
     $allow_query="",
@@ -50,4 +53,14 @@ define bind::zone (
         notify  => Service["bind"],
     }
 
+    if ( $zone_type == "master" and $file_source != "" ) {
+        file { "zone_$name":
+            path    => "${bind::params::datadir}/${true_file}",
+            mode    => "644",
+            owner   => "root",
+            group   => "${bind::params::user}",
+            ensure  => present,
+            source  => "puppet:///${file_source}",
+        }
+    }
 }

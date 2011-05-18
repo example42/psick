@@ -29,6 +29,21 @@ class bind::params  {
         default     => "cache",
     }
 
+# Define (in named.conf address_match_element format) the clients that can use this server for query 
+# Can be an array
+    $clients = $bind_clients ? {
+        ''      => "localhost",
+        default => $bind_clients,
+    }
+
+# Define (in named.conf address_match_element format) the clients that can use this server for zone-transfers 
+# Can be an array 
+    $slaves = $bind_slaves ? {
+        ''      => "localhost",
+        default => $bind_slaves,
+    }
+
+
 ## Define if you want to install bind-chroot packages (only on RedHat/Centos)
     $chroot = $bind_chroot ? {
         true    => "yes",

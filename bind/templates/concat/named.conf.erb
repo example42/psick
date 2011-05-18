@@ -1,4 +1,6 @@
 # File Managed by Puppet
+acl "clients" { <% scope.lookupvar('bind::params::clients').each do |item| %><%= item %>; <% end -%> };
+acl "slaves" { <% scope.lookupvar('bind::params::slaves').each do |item| %><%= item %>; <% end -%> };
 
 options {
 	directory "<%= scope.lookupvar('bind::params::basedir') %>";
@@ -12,9 +14,10 @@ options {
         notify yes;
 <% end -%>
 
-	allow-recursion { any; };
-     	allow-query { any; };
-     	allow-query-cache { any; };
+	allow-recursion { "clients"; "slaves"; };
+	allow-transfer { "slaves"; };
+     	allow-query { "clients"; "slaves"; };
+     	allow-query-cache { "clients"; "slaves"; };
 
 	auth-nxdomain no;    # conform to RFC1035
 	// listen-on-v6 { any; };
