@@ -7,13 +7,20 @@
 # Usage:
 # include foo::disable
 #
-class foo::disable inherits foo {
+class foo::disable {
 
     require foo::params
 
-    Service["foo"] {
-        ensure => "stopped" ,
-        enable => "false",
+    package { "foo":
+        name   => "${foo::params::packagename}",
+        ensure => present,
+    }
+
+    service { "foo":
+        name       => "${foo::params::servicename}",
+        ensure     => "stopped" ,
+        enable     => "false",
+        require    => Package["foo"],
     }
 
     # Remove relevant monitor, backup, firewall entries
