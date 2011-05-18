@@ -7,63 +7,59 @@ define monitor::process (
     $enable='true'
     ) {
 
-    if ( $debug == "yes" ) or ( $debug == true ) {
-        require puppet::params
-        require puppet::debug 
+    $ensure = $enable ? {
+        "false" => "absent",
+        "no"    => "absent",
+        "true"  => "present",
+        "yes"   => "present",
     }
 
     if ($tool =~ /munin/) {
-        if ( $debug == "yes" ) or ( $debug == true ) {
-            file { "${puppet::params::debugdir}/todo/monitor-process-munin_$name":
-                ensure => present,
-                content => "Name: $name \nProcess: $process \nService: $service \nPidfile: $pidfile \nTool: $tool \nEnable: $enable\n"
-            }
-        }
     }
 
     if ($tool =~ /collectd/) {
-        if ( $debug == "yes" ) or ( $debug == true ) {
-            file { "${puppet::params::debugdir}/todo/monitor-process-collectd_$name":
-                ensure => present,
-                content => "Name: $name \nProcess: $process \nService: $service \nPidfile: $pidfile \nTool: $tool \nEnable: $enable\n"
-            }
-        }
     }
 
     if ($tool =~ /monit/) {
-        monitor::process::monit { "$name":
-            pidfile  => $pidfile,
-            argument => $argument,
-            process  => $process,
-            service  => $service,
-            enable   => $enable,
+        monit::checkpid { "${name}":
+            pidfile      => "${pidfile}",
+            process      => "${process}${argument}",
+            startprogram => "/etc/init.d/${service} start",
+            stopprogram  => "/etc/init.d/${service} stop",
+            enable       => $enable,
         }
     }
 
     if ($tool =~ /nagios/) {
-        monitor::process::nagios { "$name":
-            pidfile  => $pidfile,
-            argument => $argument,
-            process  => $process,
-            service  => $service,
-            enable   => $enable,
+        nagios::service { "$name":
+            ensure      => $ensure,
+            check_command => $process ? {
+                undef   => "check_nrpe!check_process!${name}" ,
+                default => $argument ? {
+                    undef   => "check_nrpe!check_process!${process}" ,
+                    ""      => "check_nrpe!check_process!${process}" ,
+                    default => "check_nrpe!check_processwitharg!${process}!${argument}" ,
+                }
+            }
         }
     }
 
     if ($tool =~ /puppi/) {
-        monitor::process::puppi { "$name":
-            pidfile  => $pidfile,
-            argument => $argument,
-            process  => $process,
-            service  => $service,
+        puppi::check { "$name":
             enable   => $enable,
+            hostwide => "yes",
+            command  => $process ? {
+                undef   => "check_procs -c 1: -C ${name}" ,
+                default => $argument ? {
+                    undef   => "check_procs -c 1: -C ${process}" ,
+                    ""      => "check_procs -c 1: -C ${process}" ,
+                    default => "check_procs -c 1: -C ${process} -a ${argument}" ,
+                }
+            }
         }
     }
 
-
-
-
-if ($debug != "false") and ($debug != "no") and ($debug != false) {
+if ($debug != "false") and ($debug != "no") and ($debug != false) and ($debug != "") {
 
     include puppet::params
     file { "puppet_debug_variables_monitor-$name":

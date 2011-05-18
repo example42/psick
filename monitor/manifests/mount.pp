@@ -27,6 +27,17 @@ define monitor::mount (
     $tool=$monitor_tool
     ) {
 
+    $escapedname=regsubst($name,'/','_','G')
+
+    $computed_ensure = $enable ? {
+        false   => "absent",
+        "false" => "absent",
+        "no"    => "absent",
+        true    => "present",
+        "true"  => "present",
+        "yes"   => "present",
+    }
+
     # The mount is actually done (if $only_check != true )
     if ( $only_check != true ) {
         mount { "$name":
@@ -41,7 +52,7 @@ define monitor::mount (
         }
     }
 
-    if ( $create_dir == true ) {
+    if ( $create_dir == true ) and ( $only_check != true ) {
         file { "$name":
             path    => "$name",
             owner   => "$owner",
@@ -53,18 +64,17 @@ define monitor::mount (
     }
 
     if ($tool =~ /nagios/) {
-        monitor::mount::nagios { "$name":
-            name    => $name,
-            fstype  => $fstype,
-            enable  => $enable,
+        nagios::service { "Mount_$escapedname":
+            ensure      => $computed_ensure,
+            check_command => "check_nrpe!check_mount!${name}!${fstype}",
         }
     }
 
     if ($tool =~ /puppi/) {
-        monitor::mount::puppi { "$name":
-            name    => $name,
-            fstype  => $fstype,
-            enable  => $enable,
+        puppi::check { "Mount_$escapedname":
+            enable   => $enable,
+            hostwide => "yes",
+            command  => "check_mount -m ${name} -t ${fstype}" ,
         }
     }
 

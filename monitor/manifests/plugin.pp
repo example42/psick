@@ -12,19 +12,17 @@ if ($enable != "false") and ($enable != "no") and ($enable != false) {
     }
 
     if ($tool =~ /munin/) {
-        monitor::plugin::munin { "$name": }
+        munin::plugin { "$name": }
     }
 
     if ($tool =~ /collectd/) {
-        monitor::plugin::collectd { "$name": }
+        collectd::plugin { "$name": }
     }
 
     if ($tool =~ /monit/) {
-        if ( $debug == "yes" ) or ( $debug == true ) { file { "${puppet::params::debugdir}/todo/monitor-plugin-monit-$plugin": ensure => present } }
     }
 
     if ($tool =~ /nagios/) {
-        if ( $debug == "yes" ) or ( $debug == true ) { file { "${puppet::params::debugdir}/todo/monitor-plugin-nagios-$plugin": ensure => present } }
     }
 
 } # End if $enable

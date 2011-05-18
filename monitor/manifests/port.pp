@@ -7,59 +7,47 @@ define monitor::port (
     $enable='true'
     ) {
 
-    if ( $debug == "yes" ) or ( $debug == true ) {
-        require puppet::params
-        require puppet::debug 
+    $ensure = $enable ? {
+        "false" => "absent",
+        "no"    => "absent",
+        "true"  => "present",
+        "yes"   => "present",
     }
 
     if ($tool =~ /munin/) {
-        if ( $debug == "yes" ) or ( $debug == true ) {
-            file { "${puppet::params::debugdir}/todo/monitor-port-munin_$name":
-                ensure => present,
-                content => "Name: $name \nPort: $port \nProtocol: $protocol \nTarget: $target \nTool: $tool \nEnable: $enable\n"
-            }
-        }
     }
 
     if ($tool =~ /collectd/) {
-        if ( $debug == "yes" ) or ( $debug == true ) {
-            file { "${puppet::params::debugdir}/todo/monitor-port-collectd_$name":
-                ensure => present,
-                content => "Name: $name \nPort: $port \nProtocol: $protocol \nTarget: $target \nTool: $tool \nEnable: $enable\n"
-            }
-        }
     }
 
     if ($tool =~ /monit/) {
-        if ( $debug == "yes" ) or ( $debug == true ) {
-            file { "${puppet::params::debugdir}/todo/monitor-port-monit_$name":
-                ensure => present,
-                content => "Name: $name \nPort: $port \nProtocol: $protocol \nTarget: $target \nTool: $tool \nEnable: $enable\n"
-            }
-#            file { "${puppet::params::debugdir}/todo/monitor-port-monit-$port-$protocol": ensure => absent } # TODO Remove after cleanup
-        }
     }
 
     if ($tool =~ /nagios/) {
-        monitor::port::nagios { "$name":
-            target      => $target,
-            protocol    => $protocol,
-            port        => $port,
-            checksource => $checksource,
-            enable      => $enable,
+        nagios::service { "$name":
+            ensure      => $ensure,
+            check_command => $protocol ? {
+                tcp => $checksource ? {
+                    local   => "check_nrpe!check_port_tcp!${target}!${port}",
+                    default => "check_tcp!${port}",
+                },
+                udp => $checksource ? {
+                    local   => "check_nrpe!check_port_udp!${target}!${port}",
+                    default => "check_udp!${port}",
+                },
+            }
         }
     }
 
     if ($tool =~ /puppi/) {
-        monitor::port::puppi { "$name":
-            target      => $target,
-            protocol    => $protocol,
-            port        => $port,
-            checksource => $checksource,
-            enable      => $enable,
+        puppi::check { "$name":
+            enable   => $enable,
+            hostwide => "yes",
+            command  => $protocol ? {
+                tcp => "check_tcp -H ${target} -p ${port}" ,
+                udp => "check_udp -H ${target} -p ${port}" ,
+            }
         }
     }
 
-
 }
-
