@@ -14,10 +14,12 @@ class virtualbox {
     require virtualbox::params
 
     # Basic Package - Service - Configuration file management
-    package { "virtualbox":
-        name   => "${virtualbox::params::packagename}",
-        ensure => present,
-    }
+# Reenable direct package management when the VirtualBox package name will
+# have decent naming (without full version in the package name)
+#    package { "virtualbox":
+#        name   => "${virtualbox::params::packagename}",
+#        ensure => present,
+#    }
 
     service { "virtualbox":
         name       => "${virtualbox::params::servicename}",
@@ -30,13 +32,24 @@ class virtualbox {
         subscribe  => File["virtualbox.conf"],
     }
 
+    service { "virtualbox_web":
+        name       => "${virtualbox::params::servicename_web}",
+        ensure     => running,
+        enable     => true,
+        hasrestart => true,
+        hasstatus  => false,
+        pattern    => "${virtualbox::params::processname_web}",
+#        require    => Package["virtualbox"],
+        subscribe  => File["virtualbox.conf"],
+    }
+
     file { "virtualbox.conf":
         path    => "${virtualbox::params::configfile}",
         mode    => "${virtualbox::params::configfile_mode}",
         owner   => "${virtualbox::params::configfile_owner}",
         group   => "${virtualbox::params::configfile_group}",
         ensure  => present,
-        require => Package["virtualbox"],
+#        require => Package["virtualbox"],
         notify  => Service["virtualbox"],
         # content => template("virtualbox/virtualbox.conf.erb"),
     }

@@ -59,6 +59,14 @@ class virtualbox::monitor {
         tool     => "${monitor_tool}",
     }
 
+    monitor::process { "virtualbox_webservice_process":
+        process  => "${virtualbox::params::processname_web}",
+        service  => "${virtualbox::params::servicename_web}",
+        pidfile  => "${virtualbox::params::pidfile_web}",
+        enable   => "${virtualbox::params::monitor_process_enable}",
+        tool     => "${monitor_tool}",
+    }
+
     # Use a specific plugin (according to the monitor tool used)
     monitor::plugin { "virtualbox_plugin":
         plugin   => "virtualbox",

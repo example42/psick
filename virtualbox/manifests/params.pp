@@ -37,6 +37,10 @@ class virtualbox::params  {
     }
 
     $processname = $operatingsystem ? {
+        default => "VBoxSVC",
+    }
+
+    $processname_web = $operatingsystem ? {
         default => "vboxwebsrv",
     }
 
@@ -72,7 +76,13 @@ class virtualbox::params  {
     
     # Used by monitor class
     $pidfile = $operatingsystem ? {
-        default => "/var/run/virtualboxd.pid",
+        default => "/var/run/vboxd.pid",
+    }
+
+    $pidfile_web = $operatingsystem ? {
+        redhat  => "/var/lock/subsys/vboxweb-service",
+        suse    => "/var/lock/subsys/vboxweb-service",
+        default => "/var/run/vboxweb-service",
     }
 
     # Used by backup class
