@@ -29,6 +29,12 @@ class puppet::params  {
         default   => undef,
     }
 
+# The run interval
+    $runinterval = $puppet_runinterval ? {
+        "" => "1800",
+        default => $puppet_runinterval,
+    }
+
 # Use external nodes qualifiers to manage nodes ($puppet_externalnodes). Default: no
 # Note that you can still define a $puppet_nodetool and leave $puppet_externalnodes=no
 # But if you set $puppet_externalnodes=yes you MUST define a valid $puppet_nodetool

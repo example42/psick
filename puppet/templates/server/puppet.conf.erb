@@ -33,8 +33,7 @@ listen = true
 report = true
 classfile = $vardir/classes.txt
 localconfig = $vardir/localconfig
-# runinterval = 1800
-runinterval = 21600 # Run every 6 hours
+runinterval = <%= scope.lookupvar('puppet::params::runinterval') %>
 
 server = <%= scope.lookupvar('puppet::params::server') %>
 
