@@ -67,6 +67,12 @@ class puppet::params  {
         default => "sqlite",
     }
 
+# Define Puppet DB name ($puppet_db_name). Default: puppet
+    $db_name = $puppet_db_name ? {
+        ''      => "puppet",
+        default => "$puppet_db_name",
+    }
+
 # Define Puppet DB server ($puppet_db_server). Default: localhost
     $db_server = $puppet_db_server ? {
         ''      => "localhost",

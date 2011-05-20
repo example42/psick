@@ -68,6 +68,7 @@ dblocation = /var/lib/puppet/storeconfigs.sqlite
 <% if scope.lookupvar('puppet::params::db') == "mysql" -%>
 # Sets MySQL database backend
 dbadapter = mysql
+dbname = <%= scope.lookupvar('puppet::params::db_name') %>
 dbserver = <%= scope.lookupvar('puppet::params::db_server') %>
 dbuser = <%= scope.lookupvar('puppet::params::db_user') %>
 dbpassword = <%= scope.lookupvar('puppet::params::db_password') %>
