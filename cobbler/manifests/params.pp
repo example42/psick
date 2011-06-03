@@ -103,7 +103,7 @@ class cobbler::params  {
     # How the monitor server refers to the monitor target 
     $monitor_target_real = $cobbler_monitor_target ? {
         ''      => $monitor_target ? {
-           ''      => "${fqdn}",
+           ''      => "127.0.0.1",
            default => $monitor_target,
         },
         default => "$cobbler_monitor_target",
