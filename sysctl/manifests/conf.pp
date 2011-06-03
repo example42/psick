@@ -4,12 +4,11 @@
 # Use with caution, it's still at experimental stage and may break in untested circumstances
 #
 # Usage:
-# sysctl::conf    { "net.ip_forward":  value => "1" }
+# sysctl::conf    { "net.ipv4.ip_forward":  value => "1" }
 
 define sysctl::conf ($value) {
 
-    require sysctl
-    require sysctl::params
+    include sysctl::params
 
     config { "sysctl_conf_${name}":
         file      => "${sysctl::params::configfile}",

@@ -1,5 +1,3 @@
-import "defines/*.pp"
-
 class sysctl {
 
     require sysctl::params
