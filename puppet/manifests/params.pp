@@ -16,12 +16,23 @@ class puppet::params  {
         default => $puppet_allow,
     }
 
+# Bind address, useful if only one address should be used or if it should be IPv6
+    $bindaddress = $puppet_bindaddress ? {
+	''	=> "",
+	default => $puppet_bindaddress,
+    }
 
 # Use a node tool ($puppet_nodetool). Default: undef
     $nodetool = $puppet_nodetool ? {
         dashboard => "dashboard",
         foreman   => "foreman",
         default   => undef,
+    }
+
+# The run interval
+    $runinterval = $puppet_runinterval ? {
+        "" => "1800",
+        default => $puppet_runinterval,
     }
 
 # Use external nodes qualifiers to manage nodes ($puppet_externalnodes). Default: no
@@ -60,6 +71,12 @@ class puppet::params  {
         mysql   => "mysql",
 #        postgresql   => "postgresql", # Not yet supported
         default => "sqlite",
+    }
+
+# Define Puppet DB name ($puppet_db_name). Default: puppet
+    $db_name = $puppet_db_name ? {
+        ''      => "puppet",
+        default => "$puppet_db_name",
     }
 
 # Define Puppet DB server ($puppet_db_server). Default: localhost
