@@ -26,7 +26,7 @@ class yum::prerequisites {
         source => [ "puppet:///modules/yum/${operatingsystem}.${lsbmajdistrelease}/rpm-gpg/",
                     "puppet:///modules/yum/CentOS.5/rpm-gpg/" ],
         recurse => true,
-        purge => true,
+#        purge => true,
         ignore  => ".svn",
         owner => root,
         group => 0,

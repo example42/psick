@@ -5,7 +5,10 @@
 #
 class yum::updatesd {
 
-    package {"yum-updatesd":
+    package { "yum-updatesd":
+        name => $lsbmajdistrelease ? {
+            5 => "yum-updatesd",
+        },
         ensure => present,
     }
 
