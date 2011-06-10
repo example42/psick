@@ -7,8 +7,8 @@
 class cron::params  {
 
     $packagename = $operatingsystem ? {
-        /(Ubuntu|Debian)/ => "cron",
-        /(CentOS|RedHat)/ => $lsbmajdistrelease ? {
+        /(?i:Ubuntu|Debian)/ => "cron",
+        /(?i:CentOS|RedHat)/ => $lsbmajdistrelease ? {
             5    => "vixie-cron",
             6    => "cronie",
             default => "cronie",
@@ -16,13 +16,13 @@ class cron::params  {
     }
 
     $servicename = $operatingsystem ? {
-        /(Ubuntu|Debian)/ => "cron",
+        /(?i:Ubuntu|Debian)/ => "cron",
         /(CentOS|RedHat)/ => "crond",
     }
 
     $processname = $operatingsystem ? {
-        /(Ubuntu|Debian)/ => "cron",
-        /(CentOS|RedHat)/ => "crond",
+        /(?i:Ubuntu|Debian)/ => "cron",
+        /(?i:CentOS|RedHat)/ => "crond",
     }
 
     $pidfile = $operatingsystem ? {

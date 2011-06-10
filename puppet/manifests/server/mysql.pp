@@ -11,7 +11,7 @@ class puppet::server::mysql {
         "localhost","127.0.0.1": {
             include mysql
             mysql::grant { "puppet_server_grants_${fqdn}":
-                mysql_db         => "puppet",
+                mysql_db         => "$(puppet::params::db_name}",
                 mysql_user       => "${puppet::params::db_user}",
                 mysql_password   => "${puppet::params::db_password}",
                 mysql_privileges => "ALL",
@@ -22,7 +22,7 @@ class puppet::server::mysql {
         default: {
             # Attempt to automanage Mysql grants on external servers. TODO: Verify if it works ;-D
             @@mysql::grant { "puppet_server_grants_${fqdn}":
-                mysql_db         => "puppet",
+                mysql_db         => "$(puppet::params::db_name}",
                 mysql_user       => "${puppet::params::db_user}",
                 mysql_password   => "${puppet::params::db_password}",
                 mysql_privileges => "ALL",

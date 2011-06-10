@@ -33,8 +33,7 @@ listen = true
 report = true
 classfile = $vardir/classes.txt
 localconfig = $vardir/localconfig
-# runinterval = 1800
-runinterval = 21600 # Run every 6 hours
+runinterval = <%= scope.lookupvar('puppet::params::runinterval') %>
 
 server = <%= scope.lookupvar('puppet::params::server') %>
 
@@ -42,6 +41,9 @@ server = <%= scope.lookupvar('puppet::params::server') %>
 [puppetmasterd]
 <% else -%>
 [master]
+<% end -%>
+<% if scope.lookupvar('puppet::params::bindaddress') != "" -%>
+bindaddress = <%= scope.lookupvar('puppet::params::bindaddress') %>
 <% end -%>
 <% if scope.lookupvar('puppet::params::passenger') == "yes" -%>
 ssl_client_header = SSL_CLIENT_S_DN
@@ -65,6 +67,7 @@ dblocation = /var/lib/puppet/storeconfigs.sqlite
 <% if scope.lookupvar('puppet::params::db') == "mysql" -%>
 # Sets MySQL database backend
 dbadapter = mysql
+dbname = <%= scope.lookupvar('puppet::params::db_name') %>
 dbserver = <%= scope.lookupvar('puppet::params::db_server') %>
 dbuser = <%= scope.lookupvar('puppet::params::db_user') %>
 dbpassword = <%= scope.lookupvar('puppet::params::db_password') %>
