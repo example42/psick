@@ -39,11 +39,6 @@ class activemq::backup {
     }
 
     # Include project specific backup class if $my_project is set
-    if $my_project { 
-        case $my_project_onmodule {
-            yes,true: { include "${my_project}::activemq::backup" }
-            default: { include "activemq::backup::${my_project}" }
-        }
-    }
+    if $my_project { include "activemq::${my_project}::backup" }
 
 }

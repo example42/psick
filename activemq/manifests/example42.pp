@@ -1,9 +1,7 @@
 # Class activemq::example42
 #
 # Custom project class for example42 project. Use this to adapt the activemq module to your project.
-# This class is autoloaded if $my_module == example42 and $my_module_onmodule != yes
-# If $my_module_onmodule == yes Puppet tries to autoload example42::activemq
-# that is:  MODULEPATH/example42/manifests/activemq.pp
+# This class is autoloaded if $my_module == example42 
 #
 # You can use your custom project class to modify the standard behaviour of activemq module
 # If you need to override parameters of resources defined in activemq class use a syntax like

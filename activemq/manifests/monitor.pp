@@ -67,11 +67,6 @@ class activemq::monitor {
     }
 
     # Include project specific monitor class if $my_project is set
-    if $my_project { 
-        case $my_project_onmodule {
-            yes,true: { include "${my_project}::activemq::monitor" }
-            default: { include "activemq::monitor::${my_project}" }
-        }
-    }
+    if $my_project { include "activemq::${my_project}::monitor" }
 
 }
