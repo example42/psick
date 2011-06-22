@@ -31,7 +31,7 @@ class postfix::postfixadmin {
     }
 
     netinstall { postfixadmin:
-        url                 => "{postfix::params::postfixadmin_url}"",
+        url                 => "{postfix::params::postfixadmin_url}",
         extracted_dir       => "${postfix::params::postfixadmin_dirname}",
         postextract_command => "ln -s ${postfix::params::postfixadmin_dirname} ../postfixadmin",
         destination_dir     => "${apache::params::documentroot}",
