@@ -3,7 +3,7 @@ Puppet abstraction module: firewall
 # Written by Lab42 #
 # http://www.example42.com
 
-Licence: GPLv3
+Licence: Apache2
 
 DESCRIPTION:
 This module abstracts the firewalling definitions for an host or application, in order to add

@@ -3,7 +3,7 @@ Puppet module: mcollective
 # Written by Lab42 #
 # http://www.Example42.com
 
-Licence: GPLv3
+Licence: Apache2
 The included mcollective-plugins ( obtained via http://github.com/ripienaar/mcollective-plugins ) are released under GPLv2 unless stated otherwise in individual plugins.
 
 DESCRIPTION:

@@ -5,7 +5,7 @@ Puppet module: vsftpd
 
 # Customized by Matteo Cappadonna
 
-Licence: GPLv3
+Licence: Apache2
 
 DESCRIPTION:
 This module installs and manages vsftpd.

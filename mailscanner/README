@@ -3,7 +3,7 @@ Puppet module: mailscanner
 # Written by Lab42 #
 # http://www.example42.com
 
-License: GPLv3
+License: Apache2
 
 
 DESCRIPTION:

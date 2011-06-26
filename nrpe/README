@@ -3,7 +3,7 @@ Puppet module: nrpe
 # Written by Lab42 #
 # http://www.Example42.com
 
-Licence: GPLv3
+Licence: Apache2
 
 DESCRIPTION:
 This module installs, configures and manages nrpe.

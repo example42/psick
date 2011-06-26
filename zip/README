@@ -1,6 +1,6 @@
 Puppet module: zip
 
-Licence: GPLv3
+Licence: Apache2
 
 DESCRIPTION:
 This module manages installation of zip (and unzip) on different OS

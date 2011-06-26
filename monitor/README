@@ -3,7 +3,7 @@ Puppet abstraction module: monitor
 # Written by Lab42 #
 # http://www.example42.com
 
-Licence: GPLv3
+Licence: Apache2
 
 Goal of this module:
 A Puppet infrastructure where whenever you add nodes and services these are AUTOMATICALLY checked

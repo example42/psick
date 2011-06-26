@@ -2,7 +2,7 @@ Puppet module: varnish
 
 # Written by Marco Bonetti #
 
-Licence: GPLv3
+Licence: Apache2
 
 DESCRIPTION:
 This module installs and manages varnish.
