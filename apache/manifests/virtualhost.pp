@@ -78,13 +78,4 @@ define apache::virtualhost ( $templatefile='virtualhost.conf.erb' , $documentroo
         default: { }
     }
 
-    # This define manage different roles and projects
-    apache::virtualhost::custom { "$name":
-        templatefile => $templatefile,
-        documentroot => $documentroot,
-        enable => $enable,
-        filename => $filename,
-	aliases => $aliases,
-    }
-
 }
