@@ -11,6 +11,7 @@
 # apache::virtualhost    { "www.example42.com": }
 # With custom template (create it in MODULEPATH/apache/templates/virtualhost/)
 # apache::virtualhost    { "webmail.example42.com": templatefile => "webmail.conf.erb" }
+# apache::virtualhost    { "www.example42.com": aliases => "example42.com web.example42.com" }
 #
 define apache::virtualhost ( $templatefile='virtualhost.conf.erb' , $documentroot='' , $enable=true , $filename='', $aliases='') {
 
@@ -29,7 +30,7 @@ define apache::virtualhost ( $templatefile='virtualhost.conf.erb' , $documentroo
         $documentroot_real = $documentroot
     }
     else {
-        $documentroot_real = "${name}"
+        $documentroot_real = "${apache::params::documentroot}/${name}"
     }
 
     file { "ApacheVirtualHost_$name":
@@ -56,6 +57,13 @@ define apache::virtualhost ( $templatefile='virtualhost.conf.erb' , $documentroo
         content => template("apache/virtualhost/$templatefile"),
     }
 
+    # We create the virtualhost DocumentRoot
+    file { "$documentroot_real":
+        owner => "${apache::params::configfile_owner}",
+        group => "${apache::params::configfile_group}",
+        mode => '775',
+        ensure => directory,
+    }
 
     # Some OS specific settings:
     # On Debian/Ubuntu manages sites-enabled 
@@ -73,7 +81,7 @@ define apache::virtualhost ( $templatefile='virtualhost.conf.erb' , $documentroo
             }
         }
         redhat,centos: { 
-            apache::dotconf { "00-NameVirtualHost": content => template("apache/00-NameVirtualHost.conf.erb") } 
+            include apache::redhat
         }
         default: { }
     }
