@@ -26,34 +26,17 @@ MODULE'S SPECIFIC USER VARIABLES:
 
 USAGE:
 # Standard Classes 
-include vagrant              # Install and run vagrant 
+include vagrant              # Installs vagrant as gem
 
-include vagrant::disable     # Disable vagrant service.
-include vagrant::disableboot # Disable vagrant service at boot time, but don't stop if is running.
 include vagrant::absent      # Remove vagrant package.
 include vagrant::debug       # Used for debugging purposes (not resource hungry)
                          # Automatically included if $debug=yes
                          # Requires Example42's puppet::params and puppet::debug
 
 # Extended Classes
-include vagrant::puppi       # Puppi extensions for the vagrant module
+include vagrant::puppi   # Puppi extensions for the vagrant module
                          # Requires Example42's puppi module
-include vagrant::monitor     # Monitor vagrant
-                         # Automatically included if $monitor=yes
-                         # Requires Example42's monitor module
-include vagrant::backup      # Backup vagrant data
-                         # Automatically included if $backup=yes
-                         # Requires Example42's backup module
-include vagrant::firewall    # Manages firewall rules for vagrant service
-                         # Automatically included if $firewall=yes
-                         # Requires Example42's firewall module
 
-# Generic define to set parameters in the main configuration file. EXPERIMENTAL.
-vagrant::conf { "ParameterName": value="YourValue"} # Generic 
-
-# Module specific classes
-
-# Module specific defines
 
 
 EXAMPLE42 GENERAL VARIABLES:
@@ -75,17 +58,6 @@ VARIABLES FOR EXTENDED MODULES:
 $puppi - Set to "yes" to enable vagrant plugins for puppi
 Check vagrant/manifests/puppi.pp for more info.
 
-$monitor - Set to "yes" to enable auto monitoring classes 
-$monitor_tool - Defines the monitor tools to activate (At leat one, can be an array)
-Check vagrant/manifests/monitor.pp for more info on vagrant monitoring related variables.
-
-$backup - Set to "yes" to enable auto backuping classes 
-$backup_tool - Defines the backup tools to activate (At leat one, can be an array)
-Check vagrant/manifests/backup.pp for more info on vagrant backuping related variables.
-
-$firewall - Set to "yes" to enable auto firewalling classes
-$firewall_tool - Defines the firewall tools to activate
-Check vagrant/manifests/firewall.pp for more info on vagrant firewalling related variables.
 
 
 DEPENDENCIES:
@@ -95,11 +67,10 @@ vagrant::conf generic infile configuration define needs the Example42 "common" m
 
 
 OPERATING SYSTEMS SUPPORT (Planned, Development, Testing, Production):
-RedHat/Centos 5 : Testing
+RedHat/Centos 5 : Not Planned
 RedHat/Centos 6 : Testing
-Debian 5        : Testing
+Debian 5        : Not Planned
 Debian 6        : Planned
-Ubuntu 8.04     : Testing
+Ubuntu 8.04     : Not Planned
 Ubuntu 10.04    : Testing
-SLES 10         : Planned
-SLES 11         : Testing
+Ubuntu 11.04    : Testing
