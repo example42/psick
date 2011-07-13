@@ -31,6 +31,8 @@ define apt::repository (
     $url,
     $distro,
     $repository,
+    $key='',
+    $key_url='',
     $source=false
 ) { 
     include apt
@@ -47,5 +49,21 @@ define apt::repository (
 	notify  => Exec["aptget_update"],
     }
 
+  if $key {
+    case $key_url {
+        '' : { 
+            exec { "aptkey_add_${key}":
+                command => "gpg --recv-key ${key} ; gpg -a --export | apt-key add -",
+                unless  => "apt-key list | grep -q ${key}",
+            }
+        }
+        default: {  
+            exec { "aptkey_add_${key}":
+                command => "wget -O - ${key_url} | apt-key add -",
+	        unless  => "apt-key list | grep -q ${key}",
+            }
+        }
+    }
+  }
 }
 

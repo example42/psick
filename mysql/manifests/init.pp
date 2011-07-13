@@ -38,7 +38,7 @@ class mysql {
         ensure  => present,
         require => Package["mysql"],
         notify  => Service["mysql"],
-        # content => template("mysql/mysql.conf.erb"),
+#        content => template("mysql/mysql.conf.erb"),
     }
 
     # Include OS specific subclasses, if necessary
