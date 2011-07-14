@@ -17,7 +17,7 @@ class cron::params  {
 
     $servicename = $operatingsystem ? {
         /(?i:Ubuntu|Debian)/ => "cron",
-        /(CentOS|RedHat)/ => "crond",
+        /(?i:CentOS|RedHat)/ => "crond",
     }
 
     $processname = $operatingsystem ? {

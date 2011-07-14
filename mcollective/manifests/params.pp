@@ -54,7 +54,7 @@ class mcollective::params  {
     }
 
     $factsource = $mcollective_factsource ? {
-        ''      => "facter",
+        ''      => "yaml",
         default => "${mcollective_factsource}",
     }
 

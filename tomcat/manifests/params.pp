@@ -19,6 +19,7 @@ class tomcat::params  {
         /(CentOS|RedHat)/ => $lsbmajdistrelease ? {
             5    => "tomcat5",
             6    => "tomcat6",
+         default => "tomcat6",
         },
         default => "tomcat",
     }
