@@ -1,0 +1,32 @@
+  config.vm.define :<%= name %> do |<%= name %>_config|
+    <%= name %>_config.vm.box = "<%= box %>"
+<% if forward_name != '' -%>
+    <%= name %>_config.vm.forward_port("<%= forward_name %>", <%= forward_guestport %>, <%= forward_hostport %>)
+<% end -%>
+<% if network != '' -%>
+    <%= name %>_config.vm.network "<%= network %>"
+<% end -%>
+<% if box_url != '' -%>
+    <%= name %>_config.vm.box_url = "<%= box_url %>"
+<% end -%>
+<% if share_name != '' -%>
+    <%= name %>_config.vm.share_folder "<%= share_name %>", "<%= share_guestmount %>", "<%= share_hostdir %>"
+<% end -%>
+<% if boot_mode == 'gui' -%>
+   <%= name %>_config.vm.boot_mode = :gui
+<% end -%>
+<% if provision == 'puppet' -%>
+    <%= name %>_config.vm.provision :puppet do |puppet|
+      puppet.manifests_path = "manifests"
+      puppet.manifest_file  = "base.pp"
+      puppet.puppet_server = "<%= puppet_server %>"
+      puppet.puppet_node = "<%= puppet_node %>"
+    end
+<% end -%>
+<% if provision == 'chef_server' -%>
+    <%= name %>_config.vm.provision :chef_server do |chef|
+      chef.chef_server_url = "https://api.opscode.com/organizations/<%= chef_orgname %>"
+      chef.validation_key_path = "<%= chef_orgname %>-validator.pem"
+    end
+<% end -%>
+  end

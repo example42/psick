@@ -6,53 +6,27 @@ Puppet module: vagrant
 Licence: Apache2
 
 DESCRIPTION:
-This module installs and manages vagrant.
-It's based on Example42's module structure and features standard and
-extended classes for automatic monitoring, backup and firewalling.
-
-All the variables used in this module are defined in the vagrant::params class
-(File: $MODULEPATH/vagrant/manifests/params.pp). Here you can:
-- Set default settings and filtering module's specific Users variables
-- Add selectors for internal variables to adapt the module to different OSes
-- Review and eventually change default settings for variables that affect the
-  Example42 extended classes.
-
-Customizations for different projects and logic on how to populate configuration
-files should be placed in the $my_project classes.
-
-
-MODULE'S SPECIFIC USER VARIABLES:
-
+This module installs vagrant and manages its environments and vms.
 
 USAGE:
-# Standard Classes 
 include vagrant              # Installs vagrant as gem
-
 include vagrant::absent      # Remove vagrant package.
-include vagrant::debug       # Used for debugging purposes (not resource hungry)
-                         # Automatically included if $debug=yes
-                         # Requires Example42's puppet::params and puppet::debug
 
-# Extended Classes
-include vagrant::puppi   # Puppi extensions for the vagrant module
-                         # Requires Example42's puppi module
+To setup single or multiple VM environments (per user): 
+($box_url is optional and should point to a local repository)
+ 
+vagrant::environment { "test42": user => "al" }
+vagrant::vm { "test_lenny64":
+    environment => "test42" ,
+    box => "debian_lenny_64" ,
+    box_url => "http://puppetlabs.s3.amazonaws.com/pub/debian_lenny_64.box"
+}
+vagrant::vm { "test_lucid64":
+    environment => "test42" ,
+    box => "lucid64" ,
+    box_url => "http://files.vagrantup.com/lucid64.box"
+}
 
-
-
-EXAMPLE42 GENERAL VARIABLES:
-Example42 modules collection uses some general variables that can influence the
-behaviour of this module. You can happily live without considering or setting them,
-but they can be useful to get many useful features out of the box.
-$my_project - If set, permits you to alter and customize the module behaviour
-  and files's deploy logic in custom project classes
-  The custom class vagrant::$my_module autoloads from MODULEPATH/vagrant/manifests/$my_project.pp
-  but you can place it in a separated module by explicitely importing it:
-  "import $my_project" to have something like MODULEPATH/$my_project/manifests/vagrant.pp
-$base_source - Lets you define an alternative source for static files:
-  - $base_source not set -> Files are looked in puppet://$servername/ (the PuppetMaster)
-  - $base_source set -> Files are in $base_source ( Ex: puppet://$servername/$my_module ) 
-  Note that the module automatically manages the different paths for Puppet pre 0.25
-$debug - If set to yes writes in /var/lib/puppet/debug/ useful debugging info
 
 VARIABLES FOR EXTENDED MODULES:
 $puppi - Set to "yes" to enable vagrant plugins for puppi
@@ -63,7 +37,6 @@ Check vagrant/manifests/puppi.pp for more info.
 DEPENDENCIES:
 Standard classes generally don't need external modules.
 Extended classes need the relevant external modules.
-vagrant::conf generic infile configuration define needs the Example42 "common" module
 
 
 OPERATING SYSTEMS SUPPORT (Planned, Development, Testing, Production):

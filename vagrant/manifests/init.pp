@@ -25,6 +25,12 @@ class vagrant {
         content => "#!/bin/sh\nexport PATH=\$PATH:${vagrant::params::binpath}\n",
     }
 
+    file { "vagrant_basedir":
+        path    => "${vagrant::params::basedir}",
+        mode    => 755,
+        ensure  => directory,
+    }
+
     # Include OS specific subclasses, if necessary
     case $operatingsystem {
         default: { }

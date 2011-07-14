@@ -1,27 +1,12 @@
 # Class: vagrant::params
 #
-# Sets internal variables and defaults for vagrant module
-# This class is loaded in all the classes that use the values set here 
-#
 class vagrant::params  {
 
 ## DEFAULTS FOR VARIABLES USERS CAN SET
-# (Here are set the defaults, provide your custom variables externally)
-# (The default used is in the line with '')
-
     $basedir = $vagrant_basedir ? {
         ''      => "/opt/vagrant",
         default => "${vagrant_basedir}",
     }
-
-    $user = $vagrant_user ? {
-        ''      => "root",
-        default => "${vagrant_user}",
-    }
-
-
-## EXTRA MODULE INTERNAL VARIABLES
-#(add here module specific internal variables)
 
     $binpath = $operatingsystem ? {
         default => "/var/lib/gems/1.8/bin",
@@ -29,8 +14,6 @@ class vagrant::params  {
 
 
 ## MODULE INTERNAL VARIABLES
-# (Modify to adapt to unsupported OSes)
-
     $packagename = $operatingsystem ? {
         default => "vagrant",
     }
@@ -39,11 +22,6 @@ class vagrant::params  {
         default => "vagrant",
     }
     
-    # Used by monitor class
-    $pidfile = $operatingsystem ? {
-        default => "/var/run/vagrantd.pid",
-    }
-
     # Used by backup class - Provide the file name, if there's no dedicated dir
     $logdir = $operatingsystem ? {
         default => "/var/log/vagrant",
@@ -52,13 +30,6 @@ class vagrant::params  {
 
 
 ## DEFAULTS FOR MONITOR CLASS
-# These are settings that influence the (optional) vagrant::monitor class
-# You can define these variables or leave the defaults
-# The apparently complex variables assignements below follow this logic:
-# - If no user variable is set, a reasonable default is used
-# - If the user has set a host-wide variable (ex: $monitor_target ) that one is set
-# - The host-wide variable can be overriden by a module specific one (ex: $vagrant_monitor_target)
-
     # How the monitor server refers to the monitor target 
     $monitor_target_real = $vagrant_monitor_target ? {
         ''      => $monitor_target ? {
@@ -182,7 +153,7 @@ class vagrant::params  {
     # If firewall filter is enabled
     $firewall_enable = $vagrant_firewall_enable ? {
         ''      => $firewall_enable ? {
-           ''      => true,
+           ''      => false,
            default => $firewall_enable,
         },
         default => $vagrant_firewall_enable,
