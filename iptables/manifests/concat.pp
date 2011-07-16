@@ -17,6 +17,7 @@ class iptables::concat {
         mode    => "${iptables::params::configfile_mode}",
         owner   => "${iptables::params::configfile_owner}",
         group   => "${iptables::params::configfile_group}",
+        notify  => Service["iptables"],
     }
 
 

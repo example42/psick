@@ -14,12 +14,10 @@ class virtualbox {
     require virtualbox::params
 
     # Basic Package - Service - Configuration file management
-# Reenable direct package management when the VirtualBox package name will
-# have decent naming (without full version in the package name)
-#    package { "virtualbox":
-#        name   => "${virtualbox::params::packagename}",
-#        ensure => present,
-#    }
+    package { "virtualbox":
+        name   => "${virtualbox::params::packagename}",
+        ensure => present,
+    }
 
     service { "virtualbox":
         name       => "${virtualbox::params::servicename}",

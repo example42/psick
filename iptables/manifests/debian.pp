@@ -10,4 +10,8 @@ class iptables::debian {
         before => Service["iptables"],
     }
 
+   file { "/etc/iptables": 
+        ensure => directory,
+   }
+
 }

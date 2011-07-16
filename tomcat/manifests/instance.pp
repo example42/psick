@@ -2,6 +2,7 @@
 #
 # Original author: Marco Bonetti
 # Adapted for Example42 by Alessandro Franceschi
+# Tested only on Ubuntu
 #
 # Tomcat user instance
 #

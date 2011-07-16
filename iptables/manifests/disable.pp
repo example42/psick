@@ -7,16 +7,13 @@
 # Usage:
 # include iptables::disable
 #
-class iptables::disable inherits iptables::base {
+class iptables::disable {
 
     require iptables::params
 
-    Service["iptables"] {
+    service { "iptables":
         ensure => "stopped" ,
         enable => "false",
     }
-
-    # Include debug class is debugging is enabled ($debug=yes)
-    if ( $debug == "yes" ) or ( $debug == true ) { include iptables::debug }
 
 }

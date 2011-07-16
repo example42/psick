@@ -25,7 +25,7 @@ class virtualbox::params  {
 # (Modify to adapt to unsupported OSes)
 
     $packagename = $operatingsystem ? {
-        default => "VirtualBox",
+        default => "virtualbox-4.0",
     }
 
     $servicename = $operatingsystem ? {

@@ -32,8 +32,9 @@ if $preextract_command {
 
     exec {
         "Extract $source_filename":
-            command => "mkdir -p $destination_dir ; cd $destination_dir ; $extract_command $work_dir/$source_filename",
+            command => "mkdir -p $destination_dir && cd $destination_dir && $extract_command $work_dir/$source_filename",
             unless  => "find $destination_dir | grep $extracted_dir",
+            creates => "${destination_dir}/${extracted_dir}",
             require => Exec["Retrieve $url"],
     }
 

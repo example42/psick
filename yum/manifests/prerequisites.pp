@@ -4,6 +4,7 @@ class yum::prerequisites {
         name => $lsbmajdistrelease ? {
             5 => "yum-priorities",
             6 => "yum-plugin-priorities",
+            default => "yum-plugin-priorities",
         },
         ensure => present,
     }
@@ -23,8 +24,7 @@ class yum::prerequisites {
     #gpg key
     file { "rpm_gpg":
         path => '/etc/pki/rpm-gpg/',
-        source => [ "puppet:///modules/yum/${operatingsystem}.${lsbmajdistrelease}/rpm-gpg/",
-                    "puppet:///modules/yum/CentOS.5/rpm-gpg/" ],
+        source => "puppet:///modules/yum/${operatingsystem}.${lsbmajdistrelease}/rpm-gpg/",
         recurse => true,
 #        purge => true,
         ignore  => ".svn",

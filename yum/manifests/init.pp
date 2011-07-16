@@ -21,7 +21,8 @@ class yum {
   case $operatingsystem {
 
     centos: {
-        include yum::repo::centos
+        if $lsbmajordistrelease == "6" { include yum::repo::centos6 }
+        if $lsbmajordistrelease == "5" { include yum::repo::centos }
         if $yum::params::update == "cron" { include yum::cron }
         if $yum::params::update == "updatesd" { include yum::updatesd }
         if $yum::params::extrarepo =~ /centos-testing/ { include yum::repo::centos_testing }
