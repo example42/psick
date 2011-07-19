@@ -25,6 +25,8 @@ class virtualbox::params  {
 # (Modify to adapt to unsupported OSes)
 
     $packagename = $operatingsystem ? {
+        centos => "VirtualBox-4.0",
+        redhat => "VirtualBox-4.0",
         default => "virtualbox-4.0",
     }
 
