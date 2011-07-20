@@ -25,8 +25,8 @@ class foreman {
     }
     
     $using_passenger = "${puppet::params::passenger}" ? {
-        yes => true,
-        no  => false,
+        tofixyes => true,
+        default  => false,
     }
   
   $railspath           = "${foreman::params::basedir}"

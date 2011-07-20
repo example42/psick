@@ -122,12 +122,7 @@ class puppet::server {
     if $firewall == "yes" { include puppet::firewall }
 
     # Include project specific class for server if $my_project is set
-    if $my_project { 
-        case $my_project_onmodule {
-            yes,true: { include "${my_project}::puppet::server" }
-            default: { include "puppet::${my_project}::server" }
-        }
-    }
+    if $my_project { include "puppet::${my_project}::server" }
 
 }
 

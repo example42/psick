@@ -18,8 +18,8 @@ class virtualbox {
 
     # Basic Package - Service - Configuration file management
     package { "virtualbox":
-        name   => "${virtualbox::params::packagename}",
-        ensure => present,
+        name    => "${virtualbox::params::packagename}",
+        ensure  => present,
         require => Class["virtualbox::repo"],
     }
 

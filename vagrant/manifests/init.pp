@@ -18,6 +18,7 @@ class vagrant {
         ensure => present,
         provider => gem,
     }
+    # Note: On Centos/Rhel 6 you need installed ruby-devel and gcc
 
     file { "vagrant_addpath":
         path    => "/etc/profile.d/vagrant.sh", 

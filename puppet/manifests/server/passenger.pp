@@ -1,13 +1,20 @@
 #
 # Class puppet::server::passenger 
 # 
-# Installs and confgiures passenger for Pupeptmaster
-# Autoloaded if $puppet_passneger = yes
+# Installs and configures passenger for Puppetmaster
+# Autoloaded if $puppet_passenger = yes
 #
 class puppet::server::passenger {
     require puppet::params
 
+    case $operatingsystem {
+        centos: { require yum::repo::passenger }
+        redhat: { require yum::repo::passenger }
+    }
+
+    include puppet::server::disable
     include apache
+#    apache::module { "ssl": }
 
     file { ['/etc/puppet/rack', '/etc/puppet/rack/public', '/etc/puppet/rack/tmp']:
         owner => 'puppet',
