@@ -1,0 +1,24 @@
+# File managed by Puppet
+
+[main]
+vardir = /var/lib/puppet
+logdir = /var/log/puppet
+rundir = /var/run/puppet
+ssldir = $vardir/ssl
+# Report Translactions to Master (or separated report) server
+report = true
+reportserver = <%= puppet_server %>
+summarize = true
+# trace = true
+usecacheonfailure = true
+
+[agent]
+pluginsync = true
+#pluginsource = puppet://$server/plugins
+#plugindest = $vardir/lib/plugins
+#factpath = $vardir/lib/puppet/facter
+# listen = true
+
+runinterval = 300
+
+server = <%= puppet_server %>

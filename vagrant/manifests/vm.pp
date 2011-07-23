@@ -28,7 +28,7 @@ define vagrant::vm (
     $network="",
     $boot_mode="",
     $provision="",
-    $puppet_server="",
+    $puppet_server="$puppet_server",
     $puppet_node="$fqdn",
     $chef_orgname="",
     $order="50",
@@ -37,7 +37,7 @@ define vagrant::vm (
     include vagrant::params
     include concat::setup
 
-    concat::fragment{ "Vagrantfile_vm_$name":
+    concat::fragment{ "Vagrantfile_vm_$environment_$name":
         target  => "${vagrant::params::basedir}/${environment}/Vagrantfile",
         content => template("vagrant/concat/Vagrantfile_vm.erb"),
         order   => $order,
