@@ -29,11 +29,11 @@ fi
 echo "Changing password for user $1"
 ldappasswd -x -h $SERVER -D "$ROOTDN" -w $ROOTPW -S "uid=$1,ou=People,$BASEDN"
 
-echo "Resetting shadowLastChange counter"
-(
-echo "dn: uid=$1,ou=People,$BASEDN"
-echo "changetype: modify"
-echo "replace: shadowLastChange"
-echo "shadowLastChange: 0"
-) | ldapmodify -x -h $SERVER -D "$ROOTDN" -w $ROOTPW
+#echo "Resetting shadowLastChange counter"
+#(
+#echo "dn: uid=$1,ou=People,$BASEDN"
+#echo "changetype: modify"
+#echo "replace: shadowLastChange"
+#echo "shadowLastChange: 0"
+#) | ldapmodify -x -h $SERVER -D "$ROOTDN" -w $ROOTPW
 
