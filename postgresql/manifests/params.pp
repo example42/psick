@@ -15,7 +15,7 @@ class postgresql::params  {
     }
 
     $configfilehba = $operatingsystem ? {
-        ubuntu  => "/etc/postgresql/8.4/main/pg_hba.conf"
+        ubuntu  => "/etc/postgresql/8.4/main/pg_hba.conf",
         default => "/var/lib/pgsql/data/pg_hba.conf",
     }
 
