@@ -23,6 +23,7 @@ define mysql::query (
             require => File["mysqlquery-$mysql_user-$mysql_db.sql"],
             refreshonly => true,
             subscribe => File["mysqlquery-$mysql_user-$mysql_db.sql"],
+            path    => [ "/usr/bin" , "/usr/sbin" ],
     }
 
 }
