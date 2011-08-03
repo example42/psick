@@ -6,6 +6,7 @@ define postgresql::dbcreate ($role , $password='' , $conntype="host" , $address=
         user    => "${postgresql::params::processuser}",
         unless  => "echo \\\\dg | psql | grep $name 2>/dev/null",
         command => "echo \"create role $name $usertype nocreatedb nocreaterole noinherit nologin ; create role $role nosuperuser nocreatedb nocreaterole noinherit login encrypted password '$password'; grant $name to $role; create database $name with owner=$role;\" | /usr/bin/psql",
+        require => Service["postgresql"],
     }
 
     postgresql::hba { "hba_$name":
