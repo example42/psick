@@ -28,7 +28,6 @@ class mysql {
         enable     => true,
         hasrestart => true,
         hasstatus  => "${mysql::params::hasstatus}",
-        status     => "${mysql::params::status}",
         pattern    => "${mysql::params::processname}",
         require    => Package["mysql"],
         subscribe  => File["mysql.conf"],
@@ -45,22 +44,22 @@ class mysql {
 #        content => template("mysql/mysql.conf.erb"),
     }
 
-    file { '/root/.my.cnf':
-        ensure => 'file',
-        path => '/root/.my.cnf',
-        mode => 400,
-        owner => 'root',
-        group => 'root',
+    file { "/root/.my.cnf":
+        ensure  => 'file',
+        path    => '/root/.my.cnf',
+        mode    => 400,
+        owner   => 'root',
+        group   => 'root',
         content => template('mysql/root.my.cnf.erb'),
         replace => 'false',
         require => Exec['mysql_root_password'];
     }
 
-    exec { 'mysql_root_password':
-        subscribe => Package['mysql'],
-        require => Service['mysql'],
+    exec { "mysql_root_password":
+        subscribe   => Package['mysql'],
+        require     => Service['mysql'],
         refreshonly => true,
-        command => "mysqladmin -uroot password '$root_password'";
+        command     => "mysqladmin -uroot password '$root_password'";
     }
 
     # Include OS specific subclasses, if necessary
