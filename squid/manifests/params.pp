@@ -41,6 +41,7 @@ class squid::params  {
     }
 
     $custom_acls = $squid_custom_acls ? {
+        ''      => "",
         default => $squid_custom_acls
     }
 
@@ -50,10 +51,12 @@ class squid::params  {
     }
 
     $custom_http_accesses = $squid_custom_http_accesses ? {
+        ''      => "",
         default => $squid_custom_http_accesses,
     }
 
     $auth_param = $squid_auth_param ? {
+        ''      => "",
         default => $squid_auth_param,
     }
 
@@ -97,6 +100,7 @@ class squid::params  {
     }
 
     $cache_peers = $squid_cache_peers ? {
+        ''      => "",
         default => $squid_cache_peers
     }
 

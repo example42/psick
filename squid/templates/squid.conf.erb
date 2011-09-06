@@ -1470,7 +1470,7 @@ http_port <%= scope.lookupvar('squid::params::http_port') %> <%= scope.lookupvar
 <% if (scope.lookupvar('squid::params::cache_parent') != "") -%>
 cache_peer <%= scope.lookupvar('squid::params::cache_parent') -%>   parent  <%= scope.lookupvar('squid::params::cache_parent_port') -%> <%= scope.lookupvar('squid::params::cache_parent_icp_port') -%>    <%= scope.lookupvar('squid::params::cache_parent_options') -%>
 <% end %>
-<% (scope.lookupvar('squid::params::cache_peers')).each do |peer| -%>
+<% scope.lookupvar('squid::params::cache_peers').each do |peer| -%>
 cache_peer <%= peer -%> sibling    <%= scope.lookupvar('squid::params::cache_peers_port') -%> <%= scope.lookupvar('squid::params::cache_peers_icp_port') -%>    <%= scope.lookupvar('squid::params::cache_peers_options') -%>
 <% end %>
 
