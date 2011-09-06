@@ -11,10 +11,10 @@
 class virtualbox {
 
     # Load the variables used in this module. Check the params.pp file 
-    require virtualbox::params
+    include virtualbox::params
 
     # Virtualbox is installed with official repositories
-    require virtualbox::repo
+    include virtualbox::repo
 
     # Basic Package - Service - Configuration file management
     package { "virtualbox":

@@ -47,7 +47,7 @@ class virtualbox::params  {
     }
 
     $hasstatus = $operatingsystem ? {
-        default => true,
+        default => false,
     }
 
     $configfile = $operatingsystem ? {
