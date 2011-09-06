@@ -1,11 +1,10 @@
-define mysql::grant (
-    $mysql_db,
+define mysql::user (
     $mysql_user,
-    $mysql_password,
-    $mysql_privileges = "ALL",
+    $mysql_password = '',
+    $mysql_password_hash,
     $mysql_host = "localhost",
     $mysql_grant_filepath = "/root"
-    ) {
+) {
 
     include mysql
 
@@ -19,29 +18,23 @@ define mysql::grant (
         }
     }
 
-    if ($mysql_db == '*') {
-        $mysql_grant_file = "mysqlgrant-$mysql_user-$mysql_host-all.sql"
-    } else {
-        $mysql_grant_file = "mysqlgrant-$mysql_user-$mysql_host-$mysql_db.sql"
-    }
+    $mysql_grant_file = "mysqluser-$mysql_user-$mysql_host.sql"
 
     file {
         "$mysql_grant_file":
             mode => 600, owner => root, group => root,
             ensure => present,
             path => "$mysql_grant_filepath/$mysql_grant_file",
-            content => template("mysql/grant.erb"),
+            content => template("mysql/user.erb"),
             replace => false;
     }
 
     exec {
-        "mysqlgrant-$mysql_user-$mysql_host-$mysql_db":
+        "mysqluser-$mysql_user-$mysql_host":
             command => "mysql --defaults-file=/root/.my.cnf -uroot < $mysql_grant_filepath/$mysql_grant_file",
-            require => [ Service["mysql"], File['/root/.my.cnf'], Exec["mysqluser-$mysql_user-$mysql_host"] ],
+            require => [ Service["mysql"], File['/root/.my.cnf'] ],
             subscribe => File["$mysql_grant_file"],
             path => [ "/usr/bin" , "/usr/sbin" ],
             refreshonly => true;
     }
-
 }
-

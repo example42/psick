@@ -44,6 +44,10 @@ class mysql::params  {
         default => true,
     }
 
+    $status = $operatingsystem ? {
+        default => '/etc/init.d/mysql status',
+    }
+
     $configfile = $operatingsystem ? {
         debian  => "/etc/mysql/my.cnf",
         ubuntu  => "/etc/mysql/my.cnf",
