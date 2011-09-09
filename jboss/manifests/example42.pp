@@ -1,13 +1,13 @@
-# Class jboss::seat
+# Class jboss::example42
 #
-# Custom project class for seat project. Use this to adapt the jboss module to your project.
-# This class is autoloaded if $my_module == seat and $my_module_onmodule != yes
-# If $my_module_onmodule == yes Puppet tries to autoload seat::jboss
-# that is:  MODULEPATH/seat/manifests/jboss.pp
+# Custom project class for example42 project. Use this to adapt the jboss module to your project.
+# This class is autoloaded if $my_module == example42 and $my_module_onmodule != yes
+# If $my_module_onmodule == yes Puppet tries to autoload example42::jboss
+# that is:  MODULEPATH/example42/manifests/jboss.pp
 #
 # You can use your custom project class to modify the standard behaviour of jboss module
 # If you need to override parameters of resources defined in jboss class use a syntax like
-# class jboss::seat inherits jboss {
+# class jboss::example42 inherits jboss {
 #     File["jboss.conf"] {
 #         source => [ "puppet:///jboss/jboss.conf-$hostname" , "puppet:///jboss/jboss.conf" ],
 #     }
@@ -20,6 +20,6 @@
 # - Via custom templates ( content => ) or templates joins
 # - Via some kind on infile line modification tools, such as Augeas or the Example42's conf define approach
 #
-class jboss::seat {
+class jboss::example42 {
 
 }
