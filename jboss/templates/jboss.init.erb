@@ -1,0 +1,140 @@
+#!/bin/sh
+# File Managed by Puppet
+# Based on init script samples provided in Jboss source
+
+# define where jboss is - this is the directory containing directories log, bin, conf etc
+JBOSS_HOME=${JBOSS_HOME:-"<%= scope.lookupvar('jboss::params::jboss_dir') %>"}
+
+# define the user under which jboss will run, or use 'RUNASIS' to run as the current user
+JBOSS_USER=${JBOSS_USER:-"<%= user %>"}
+
+# make sure java is in your path
+JAVAPTH=${JAVAPTH:-"/usr/local/jdk/bin"}
+
+# configuration to use, usually one of 'minimal', 'default', 'all'
+JBOSS_CONF=${JBOSS_CONF:-"<%= name %>"}
+
+# if JBOSS_HOST specified, use -b to bind jboss services to that address
+#JBOSS_BIND_ADDR=${JBOSS_HOST:+"-b <%= bindaddr %>"}
+JBOSS_BIND_ADDR=${JBOSS_HOST:-"-b <%= bindaddr %>"}
+
+# define the classpath for the shutdown class
+JBOSSCP=${JBOSSCP:-"$JBOSS_HOME/bin/shutdown.jar:$JBOSS_HOME/client/jnet.jar"}
+
+# define the script to use to start jboss
+JBOSSSH=${JBOSSSH:-"$JBOSS_HOME/bin/run.sh -c $JBOSS_CONF $JBOSS_BIND_ADDR"}
+
+# Lock and Pid files
+LOCKFILE=/var/lock/subsys/jboss-<%= name %>
+PIDFILE=/var/run/jboss-<%= name %>.pid
+
+if [ "$JBOSS_USER" = "RUNASIS" ]; then
+  SUBIT=""
+else
+  SUBIT="su - $JBOSS_USER -c "
+fi
+
+if [ -n "$JBOSS_CONSOLE" -a ! -d "$JBOSS_CONSOLE" ]; then
+  # ensure the file exists
+  touch $JBOSS_CONSOLE
+  if [ ! -z "$SUBIT" ]; then
+    chown $JBOSS_USER $JBOSS_CONSOLE
+  fi 
+fi
+
+if [ -n "$JBOSS_CONSOLE" -a ! -f "$JBOSS_CONSOLE" ]; then
+  echo "WARNING: location for saving console log invalid: $JBOSS_CONSOLE"
+  echo "WARNING: ignoring it and using /dev/null"
+  JBOSS_CONSOLE="/dev/null"
+fi
+
+#define what will be done with the console log
+JBOSS_CONSOLE=${JBOSS_CONSOLE:-"/dev/null"}
+
+# Jboss Start command
+<% if scope.lookupvar('run_conf') != "" -%>
+# Custom, per instance, run.conf configured via Puppet
+JBOSS_CMD_START="cd $JBOSS_HOME/bin; export RUN_CONF=<%= scope.lookupvar('jboss::params::jboss_dir') %>/server/<%= name %>/run.conf ; $JBOSSSH"
+<% else -%>
+JBOSS_CMD_START="cd $JBOSS_HOME/bin; $JBOSSSH"
+<% end -%>
+
+
+JBOSS_CMD_STOP=${JBOSS_CMD_STOP:-"java -classpath $JBOSSCP org.jboss.Shutdown --shutdown"}
+
+if [ -z "`echo $PATH | grep $JAVAPTH`" ]; then
+  export PATH=$PATH:$JAVAPTH
+fi
+
+if [ ! -d "$JBOSS_HOME" ]; then
+  echo JBOSS_HOME does not exist as a valid directory : $JBOSS_HOME
+  exit 1
+fi
+
+
+status () {
+  pslist=$( ps -ef | grep java | grep $JBOSS_USER | awk '{print $2}' | tr '\n' ' ' | sed -e s/\ $// )
+  if [ -n "$pslist" ]; then
+    echo "jboss (pid $pslist) is running result: 0"
+    return 0
+  fi
+  if [ -f $PIDFILE ]; then
+    echo "jboss dead but pid file exists result: 1"
+    return 1
+  fi
+  if [ -f $LOCKFILE ]; then
+    echo "jboss dead but subsys locked result: 2"
+    return 2
+  fi
+  echo "jboss is stopped result: 3"
+  return 3
+}
+
+start () {
+  if [ -f $LOCKFILE ]; then
+    status
+    exit
+  fi
+  cd $JBOSS_HOME/bin
+  echo JBOSS_CMD_START = $JBOSS_CMD_START
+  if [ -z "$SUBIT" ]; then
+    eval $JBOSS_CMD_START >${JBOSS_CONSOLE} 2>&1 &
+    if [ "$?" -eq 0 ]; then
+      touch $LOCKFILE
+    fi
+  else
+    $SUBIT "$JBOSS_CMD_START >${JBOSS_CONSOLE} 2>&1 &"
+    if [ "$?" -eq 0 ]; then
+      touch $LOCKFILE
+    fi
+  fi
+}
+
+stop () {
+  echo JBOSS_CMD_STOP = $JBOSS_CMD_STOP
+  if [ -z "$SUBIT" ]; then
+    $JBOSS_CMD_STOP && rm -f $LOCKFILE
+  else
+    $SUBIT "$JBOSS_CMD_STOP" && rm -f $LOCKFILE
+  fi
+}
+
+case "$1" in
+start)
+    start
+    ;;
+stop)
+    stop
+    ;;
+restart)
+    stop
+    sleep 15
+    start
+    ;;
+status)
+    status
+    ;;
+*)
+    echo "usage: $0 (start|stop|restart|status|help)"
+esac
+

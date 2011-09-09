@@ -1,0 +1,49 @@
+# File Managed By Puppet
+
+These are the variables used by the module jboss
+
+User variables (unfiltered):
+# $jboss_server = <%= scope.lookupvar('jboss_server') %>
+
+User variables (after params.pp filter):
+# $jboss::params::server = <%= scope.lookupvar('jboss::params::server') %>
+
+General internal variables:
+$jboss::params::packagename = <%= scope.lookupvar('jboss::params::packagename') %>
+$jboss::params::servicename = <%= scope.lookupvar('jboss::params::servicename') %>
+$jboss::params::processname = <%= scope.lookupvar('jboss::params::processname') %>
+$jboss::params::hasstatus = <%= scope.lookupvar('jboss::params::hasstatus') %>
+$jboss::params::configfile = <%= scope.lookupvar('jboss::params::configfile') %>
+$jboss::params::configfile_mode = <%= scope.lookupvar('jboss::params::configfile_mode') %>
+$jboss::params::configfile_owner = <%= scope.lookupvar('jboss::params::configfile_owner') %>
+$jboss::params::configfile_group = <%= scope.lookupvar('jboss::params::configfile_group') %>
+$jboss::params::configdir = <%= scope.lookupvar('jboss::params::configdir') %>
+$jboss::params::initconfigfile = <%= scope.lookupvar('jboss::params::initconfigfile') %>
+$jboss::params::pidfile = <%= scope.lookupvar('jboss::params::pidfile') %>
+$jboss::params::datadir = <%= scope.lookupvar('jboss::params::datadir') %>
+$jboss::params::logdir = <%= scope.lookupvar('jboss::params::logdir') %>
+$jboss::params::protocol = <%= scope.lookupvar('jboss::params::protocol') %>
+$jboss::params::port = <%= scope.lookupvar('jboss::params::port') %>
+
+Variables used by monitor class:
+$jboss::params::monitor_target_real = <%= scope.lookupvar('jboss::params::monitor_target_real') %> ( Set with $jboss_monitor_target )
+$jboss::params::monitor_baseurl_real = <%= scope.lookupvar('jboss::params::monitor_baseurl_real') %> ( Set with $jboss_monitor_baseurl )
+$jboss::params::monitor_url_pattern = <%= scope.lookupvar('jboss::params::monitor_url_pattern') %> ( Set with $jboss_monitor_url_pattern )
+$jboss::params::monitor_port_enable = <%= scope.lookupvar('jboss::params::monitor_port_enable') %> ( Set with $jboss_monitor_port )
+$jboss::params::monitor_url_enable = <%= scope.lookupvar('jboss::params::monitor_url_enable') %> ( Set with $jboss_monitor_url )
+$jboss::params::monitor_process_enable = <%= scope.lookupvar('jboss::params::monitor_process_enable') %> ( Set with $jboss_monitor_process )
+$jboss::params::monitor_plugin_enable = <%= scope.lookupvar('jboss::params::monitor_plugin_enable') %> ( Set with $jboss_monitor_plugin )
+
+Variables used by backup class:
+$jboss::params::backup_target_real = <%= scope.lookupvar('jboss::params::backup_target_real') %> ( Set with $jboss_backup_target )
+$jboss::params::backup_frequency = <%= scope.lookupvar('jboss::params::backup_frequency') %> ( Set with $jboss_backup_frequency )
+$jboss::params::backup_data_enable = <%= scope.lookupvar('jboss::params::backup_data_enable') %> ( Set with $jboss_backup_data )
+$jboss::params::backup_log_enable = <%= scope.lookupvar('jboss::params::backup_log_enable') %> ( Set with $jboss_backup_log )
+
+Variables used by firewall class:
+$jboss::params::firewall_source_real = <%= scope.lookupvar('jboss::params::firewall_source_real') %> ( Set with $jboss_firewall_source )
+$jboss::params::firewall_destination_real = <%= scope.lookupvar('jboss::params::firewall_destination_real') %> ( Set with $jboss_firewall_destination )
+$jboss::params::firewall_enable = <%= scope.lookupvar('jboss::params::firewall_destination_real') %> ( Set with $jboss_firewall_enable )
+
+Module base source for static files:
+$jboss::params::general_base_source = <%= scope.lookupvar('jboss::params::general_base_source') %> ( Set with $base_source )

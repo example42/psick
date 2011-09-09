@@ -1,0 +1,92 @@
+Puppet module: jboss
+
+# Written by Lab42 #
+# http://www.Example42.com
+
+Licence: Apache2 
+
+DESCRIPTION:
+This module installs and manages jboss either via system packages or native sources.
+It provides a define to manage multiple instances on the same host.
+
+Even if is intended to adapt to different Jboss versions and installation types, it has been 
+tested only with Jboss 6 (Community Edition zip file) on Ubuntu.
+
+All the variables used in this module are defined in the jboss::params class
+(File: $MODULEPATH/jboss/manifests/params.pp). Here you can:
+- Set default settings and filtering module's specific Users variables
+- Add selectors for internal variables to adapt the module to different OSes
+- Review and eventually change default settings for variables that affect the
+  Example42 extended classes.
+
+Customizations for different projects and logic on how to populate configuration
+files should be placed in the $my_project classes.
+
+
+MODULE'S SPECIFIC USER VARIABLES:
+
+USAGE:
+include jboss                # Installs jboss (no instance provided by default, unless the package does it)
+jboss::instance { "myapp": } # Creates "myapp" instance (Check documentation on jboss/manifests/instance.pp 
+                             # for customization options)
+
+If you want multiple instances you can bind them to different IP address :
+include jboss
+jboss::instance { "myapp1": bindaddr => 10.42.42.180 }
+jboss::instance { "myapp2": bindaddr => 10.42.42.181 }
+If you want to use the same address for multiple instances you've to manage in a custom way the offset on
+the various ports that Jboss opens by default.
+
+You can set this variables to alter jboss installation:
+$jboss_use_package - Define if you want to install Jboss via a package or from original source zip files. 
+                     Default "no": files are downloaded from the Internet (or source defined in $jboss_source_url )
+$jboss_source_url  - Define an alternative source from where to download the source zip files.
+                     Default are the official Jboss community download urls
+$jboss_version     - Define the Jboss version to install. Default is 6.                       
+$jboss_destination_dir - Define where to unzip the source file. Default /usr/local
+$jboss_jboss_dir       - Define the base jboss dir (a link with this name is created pointing to the extracted dir)
+                         Default: $jboss_destination_dir/jboss
+$jboss_download_dir    - Define where to download the source zip file. Default /var/tmp
+
+# Extended Classes
+If you use Example42 monitoring abstraction or Puppi, jboss::instance creates the relevant configurations
+
+
+EXAMPLE42 GENERAL VARIABLES:
+Example42 modules collection uses some general variables that can influence the
+behaviour of this module. You can happily live without considering or setting them,
+but they can be useful to get many useful features out of the box.
+$my_project - If set, permits you to alter and customize the module behaviour
+  and files's deploy logic in custom project classes
+  The custom class jboss::$my_module autoloads from MODULEPATH/jboss/manifests/$my_project.pp
+  but you can place it in a separated module by explicitely importing it:
+  "import $my_project" to have something like MODULEPATH/$my_project/manifests/jboss.pp
+$base_source - Lets you define an alternative source for static files:
+  - $base_source not set -> Files are looked in puppet://$servername/ (the PuppetMaster)
+  - $base_source set -> Files are in $base_source ( Ex: puppet://$servername/$my_module ) 
+  Note that the module automatically manages the different paths for Puppet pre 0.25
+$debug - If set to yes writes in /var/lib/puppet/debug/ useful debugging info
+
+VARIABLES FOR EXTENDED MODULES:
+$puppi - Set to "yes" to enable jboss plugins for puppi
+Check jboss/manifests/puppi.pp for more info.
+
+$monitor - Set to "yes" to enable auto monitoring classes 
+$monitor_tool - Defines the monitor tools to activate (At leat one, can be an array)
+Check jboss/manifests/monitor.pp for more info on jboss monitoring related variables.
+
+$firewall - Set to "yes" to enable auto firewalling classes
+$firewall_tool - Defines the firewall tools to activate
+Check jboss/manifests/firewall.pp for more info on jboss firewalling related variables.
+
+
+DEPENDENCIES:
+Standard classes generally don't need external modules.
+Extended classes need the relevant external modules.
+jboss::instance needs curl and unzip commands. They are provided in the jboss::prerequisites class.
+
+OPERATING SYSTEMS SUPPORT (Planned, Development, Testing, Production):
+RedHat/Centos 5 : Testing
+RedHat/Centos 6 : Testing
+Debian 6        : Planned
+Ubuntu 10.04    : Production
