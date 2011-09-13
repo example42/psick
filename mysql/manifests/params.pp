@@ -9,6 +9,13 @@ class mysql::params  {
 # (Here are set the defaults, provide your custom variables externally)
 # (The default used is in the line with '')
 
+    $random_password = inline_template("<%= (1..25).collect{|a| (('a'..'z').to_a + ('A'..'Z').to_a + ('0'..'9').to_a + %w(# % & * + - : = ? @ ^ _))[rand(75)] }.join %>")
+
+    $root_password = $mysql_root_password ? {
+         ''      => "",
+         auto    => "$random_password",
+         default => "$mysql_root_password",
+    }
 
     $logfile = $operatingsystem ? {
         default => "/var/log/mysqld.log",

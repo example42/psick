@@ -12,7 +12,7 @@ Decide and customize how you want to define configuration files: static files, t
 
 
 USER VARIABLES:
-
+$mysql_root_password => The password of mysql root user. Set to "auto" to generate a random one. Default is unset.
 
 USAGE:
 # Standard Classes 

@@ -7,7 +7,7 @@ define mysql::grant (
     $mysql_grant_filepath = "/root"
     ) {
 
-    include mysql
+    require mysql
 
     if (!defined(File[$mysql_grant_filepath])) {
         file { "$mysql_grant_filepath":
@@ -34,10 +34,13 @@ define mysql::grant (
     }
 
     exec { "mysqlgrant-$mysql_user-$mysql_host-$mysql_db":
-        command => "mysql --defaults-file=/root/.my.cnf -uroot < $mysql_grant_filepath/$mysql_grant_file",
+        command => $mysql::params::root_password ? {
+            ""      => "mysql -uroot < $mysql_grant_filepath/$mysql_grant_file",
+            default => "mysql --defaults-file=/root/.my.cnf -uroot < $mysql_grant_filepath/$mysql_grant_file",
+        },
         require => $mysql_user ? { 
-            root    => [ Service["mysql"], File['/root/.my.cnf'] ],
-            default => [ Service["mysql"], File['/root/.my.cnf'], Exec["mysqluser-$mysql_user-$mysql_host"] ],
+            root    => Service["mysql"],
+            default => [ Service["mysql"] , Exec["mysqluser-$mysql_user-$mysql_host"] ],
         },
         subscribe => File["$mysql_grant_file"],
         path => [ "/usr/bin" , "/usr/sbin" ],

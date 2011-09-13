@@ -13,8 +13,8 @@ class mysql {
     # Load the variables used in this module. Check the params.pp file 
     require mysql::params
 
-    # Generate a random password for the root account
-    $root_password = inline_template("<%= (1..25).collect{|a| (('a'..'z').to_a + ('A'..'Z').to_a + ('0'..'9').to_a + %w(# $ % & * + - : = ? @ ^ _))[rand(75)] }.join %>")
+    # Set root password
+    if "${mysql::params::root_password}" != "" { include mysql::password }
 
     # Basic Package - Service - Configuration file management
     package { "mysql":
@@ -42,24 +42,6 @@ class mysql {
         require => Package["mysql"],
         notify  => Service["mysql"],
 #        content => template("mysql/mysql.conf.erb"),
-    }
-
-    file { "/root/.my.cnf":
-        ensure  => 'file',
-        path    => '/root/.my.cnf',
-        mode    => 400,
-        owner   => 'root',
-        group   => 'root',
-        content => template('mysql/root.my.cnf.erb'),
-        replace => 'false',
-        require => Exec['mysql_root_password'];
-    }
-
-    exec { "mysql_root_password":
-        subscribe   => Package['mysql'],
-        require     => Service['mysql'],
-        refreshonly => true,
-        command     => "mysqladmin -uroot password '$root_password'";
     }
 
     # Include OS specific subclasses, if necessary
