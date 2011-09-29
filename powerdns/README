@@ -28,11 +28,10 @@ USAGE:
 # Standard Classes 
 include powerdns              # Install and run powerdns 
 
-
-include powerdns::mysql { 
-	"powerdns-mysql-settings":
+#configures mysql access
+include powerdns::mysql { "powerdns-mysql-settings":
        user => "powerdns",
        password => "powerdns_mysql_password",
 }
 
-
+Tables needed for mysql backend to work properly 
