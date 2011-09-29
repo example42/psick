@@ -5,12 +5,17 @@
 # Usage:
 # include powerdns::absent
 #
+
 class powerdns::absent {
 
     require powerdns::params
 
     package { "powerdns":
         name   => "${powerdns::params::packagename}",
+        ensure => absent,
+    }
+	package { "powerdns-sql":
+		name   => "${powerdns::params::packagenamesql}",
         ensure => absent,
     }
 

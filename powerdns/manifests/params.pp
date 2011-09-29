@@ -45,12 +45,12 @@ class powerdns::params  {
     }
 
     $processname = $operatingsystem ? {
-        default => "pdns",
+        default => "pdns_server",
     }
 
     $hasstatus = $operatingsystem ? {
-        debian  => false,
-        ubuntu  => false,
+        debian  => true,
+        ubuntu  => true,
         default => true,
     }
 
@@ -93,14 +93,14 @@ class powerdns::params  {
 
     # Used by backup class - Provide the file name, if there's no dedicated dir
     $logdir = $operatingsystem ? {
-        default => "/var/log/powerdns",
+        default => "/var/log/syslog",
     }
 
     # Used by monitor and firewall class
     # If you need to define additional ports, call them $protocol1/$port1 and add the relevant
     # parts in firewall.pp and monitor.pp
-    #$protocol = "tcp"
-    #$port = "80"
+    $protocol = "udp"
+    $port = "53"
     
 
 
