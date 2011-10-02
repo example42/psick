@@ -16,6 +16,18 @@ $yum_update (default: off) - Define if and how to manage automatic updates. Poss
 $yum_extrarepo (default: null) - Define what extra repositories you might want to add. It can be an array. 
                Possible values: centos-testing, epel, rpmforge, karan, jpackage, remi, tmz, puppetlabs
                Note that not all the extra repositories might adapt to your RedHat/Centos version.
+$yum_clean_repos (default: false) - Define if you want to erase all the existing content of /etc/yum.repos.d/
 
-USAGE:
+SAMPLE USAGE:
+$yum_extrarepo = [ "epel" , "puppetlabs" ] 
+$yum_update = "updatesd"
 include yum
+
+OPERATING SYSTEMS SUPPORT
+REDHAT 6 - Full
+REDHAT 5 - Full
+REDHAT 4 - Partial
+CENTOS 6 - Full
+CENTOS 5 - Full
+CENTOS 4 - Partial
+SCIENTIFIC 6 - Full

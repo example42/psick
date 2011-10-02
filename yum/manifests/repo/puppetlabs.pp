@@ -7,7 +7,7 @@ class yum::repo::puppetlabs {
         gpgcheck => 1,
         failovermethod => 'priority',
         gpgkey => 'http://yum.puppetlabs.com/RPM-GPG-KEY-puppetlabs',
-        priority => 16,
+        priority => 15,
     }
 
 }

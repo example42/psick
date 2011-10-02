@@ -5,8 +5,11 @@
 #
 class yum::updatesd {
 
+    require yum::params
+    require common
+
     package { "yum-updatesd":
-        name => $lsbmajdistrelease ? {
+        name => $common::osver ? {
             5 => "yum-updatesd",
         },
         ensure => present,
@@ -21,7 +24,7 @@ class yum::updatesd {
     file {"yum-updatesd.conf":
         path   => "/etc/yum/yum-updatesd.conf",
         ensure => present,
-        source  => "${yum::params::general_base_source}/yum/yum-updatesd.conf",
+        source  => "${common::source}/yum/yum-updatesd.conf",
         require => Package['yum-updatesd'],
     }
 
