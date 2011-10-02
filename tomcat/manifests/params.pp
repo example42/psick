@@ -5,9 +5,7 @@
 #
 class tomcat::params  {
 
-## DEFAULTS FOR VARIABLES USERS CAN SET
-# (Here are set the defaults, provide your custom variables externally)
-# (The default used is in the line with '')
+    require common
 
 
 ## EXTRA MODULE INTERNAL VARIABLES
@@ -15,8 +13,12 @@ class tomcat::params  {
 
     $packageversion = $operatingsystem ? {
         ubuntu  => "tomcat6",
-        debian  => "tomcat5.5",
-        /(CentOS|RedHat)/ => $lsbmajdistrelease ? {
+        debian  => $common::osver ? {
+            5    => "tomcat5.5",
+            6    => "tomcat6",
+         default => "tomcat6",
+        },
+        /(?i:CentOS|RedHat|Scientific)/ => $common::osver ? {
             5    => "tomcat5",
             6    => "tomcat6",
          default => "tomcat6",

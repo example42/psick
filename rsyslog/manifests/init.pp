@@ -12,6 +12,7 @@ class rsyslog {
 
     # Load the variables used in this module. Check the params.pp file 
     require rsyslog::params
+    require common
 
     if ($syslog_server_local == true) or ($syslog_server == "$fqdn") { include rsyslog::server }
     else { include rsyslog::client }
@@ -47,8 +48,8 @@ class rsyslog {
 
     # Include OS specific subclasses, if necessary
     case $operatingsystem {
-        centos: { include sysklogd::absent }
-        redhat: { include sysklogd::absent }
+        centos: { if $common::osver == 5 { require sysklogd::disable } }
+        redhat: { require sysklogd::disable }
         default: { }
     }
 

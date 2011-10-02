@@ -12,6 +12,13 @@ class mcollective::server {
     # Load the variables used in this module. Check the params.pp file 
     require mcollective::params
 
+    # Include OS specific subclasses, if necessary
+    case $operatingsystem {
+        debian: { require apt::repo::puppetlabs }
+        ubuntu: { require apt::repo::puppetlabs }
+        default: { }
+    }
+
     # Basic Package - Service - Configuration file management
     package { "mcollective":
         name     => "${mcollective::params::packagename}",
@@ -59,13 +66,6 @@ class mcollective::server {
 
     # Include Plugins
      if ( $mcollective::params::plugins != "no") { include mcollective::plugins }
-
-    # Include OS specific subclasses, if necessary
-    case $operatingsystem {
-        debian: { include apt::repo::puppetlabs }
-        ubuntu: { include apt::repo::puppetlabs }
-        default: { }
-    }
 
     # Include extended classes, if desired
     if $puppi == "yes" { include mcollective::puppi }

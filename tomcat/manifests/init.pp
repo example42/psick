@@ -21,12 +21,12 @@ class tomcat {
 
     service { "tomcat":
         name       => "${tomcat::params::servicename}",
+        require    => Package["tomcat"],
         ensure     => running,
         enable     => true,
         hasrestart => true,
         hasstatus  => "${tomcat::params::hasstatus}",
         pattern    => "${tomcat::params::processname}",
-        require    => Package["tomcat"],
     }
 
     # Include OS specific subclasses, if necessary
