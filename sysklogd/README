@@ -7,13 +7,21 @@ Licence: Apache2
 
 DESCRIPTION:
 This module installs and manages sysklogd.
-Standard and Example42 extended classes are available.
-Generally you can easily import and use standard classes in your own modules set, without other Example42 modules.
-You can place your customizations in the dedicated "project" files (by default example42.pp, use the example42_project_rename.sh script to rename them).
-Decide and customize how you want to define configuration files: static files, templates, infile modifications...
+It's based on Example42's module structure and features standard and
+extended classes for automatic monitoring, backup and firewalling.
+
+All the variables used in this module are defined in the sysklogd::params class
+(File: $MODULEPATH/sysklogd/manifests/params.pp). Here you can:
+- Set default settings and filtering module's specific Users variables
+- Add selectors for internal variables to adapt the module to different OSes
+- Review and eventually change default settings for variables that affect the
+  Example42 extended classes.
+
+Customizations for different projects and logic on how to populate configuration
+files should be placed in the $my_project classes.
 
 
-USER VARIABLES:
+MODULE'S SPECIFIC USER VARIABLES:
 
 
 USAGE:
@@ -21,14 +29,24 @@ USAGE:
 include sysklogd              # Install and run sysklogd 
 
 include sysklogd::disable     # Disable sysklogd service.
-include sysklogd::disableboot # Disable sysklogd service at boot time, but don't stop if it's running.
+include sysklogd::disableboot # Disable sysklogd service at boot time, but don't stop if is running.
 include sysklogd::absent      # Remove sysklogd package.
-include sysklogd::debug       # Used for debugging purposes (not resource hungry) - Automatically included if $debug=yes - Requires Example42's puppet module
+include sysklogd::debug       # Used for debugging purposes (not resource hungry)
+                         # Automatically included if $debug=yes
+                         # Requires Example42's puppet::params and puppet::debug
 
-# Extended Classes (generally require storeconfigs)
-include sysklogd::monitor     # Monitor sysklogd - Automatically included if $monitor=yes - Requires Example42's monitor module
-include sysklogd::backup      # Backup sysklogd data - Automatically included if $backup=yes - Requires Example42's backup module
-include sysklogd::firewall    # Manages firewall rule for sysklogd service - Automatically included if $firewall=yes - Requires Example42's firewall module
+# Extended Classes
+include sysklogd::puppi       # Puppi extensions for the sysklogd module
+                         # Requires Example42's puppi module
+include sysklogd::monitor     # Monitor sysklogd
+                         # Automatically included if $monitor=yes
+                         # Requires Example42's monitor module
+include sysklogd::backup      # Backup sysklogd data
+                         # Automatically included if $backup=yes
+                         # Requires Example42's backup module
+include sysklogd::firewall    # Manages firewall rules for sysklogd service
+                         # Automatically included if $firewall=yes
+                         # Requires Example42's firewall module
 
 # Generic define to set parameters in the main configuration file. EXPERIMENTAL.
 sysklogd::conf { "ParameterName": value="YourValue"} # Generic 
@@ -38,21 +56,50 @@ sysklogd::conf { "ParameterName": value="YourValue"} # Generic
 # Module specific defines
 
 
-GENERAL VARIABLES:
-Example42 modules collection uses some general variables that can influence the behaviour of this module.
-You can happily live without considering or setting them, but they can be useful to manage different projects maintanining the module's resuability. 
-$my_project - If set, permits you to alter and customize the module behaviour in custom project classes
-$my_project_onmodule - If set to yes your project classes are looked in a dedicated project module:
-  - $my_project_onmodule not set -> Module autoloads sysklogd::$my_module (MODULEPATH/sysklogd/manifests/$my_project.pp)
-  - $my_project_onmodule == yes -> Module autoloads $my_module::sysklogd (MODULEPATH/$my_project/manifests/sysklogd.pp)
-$base_source - Let you define an alternative source for static files:
+EXAMPLE42 GENERAL VARIABLES:
+Example42 modules collection uses some general variables that can influence the
+behaviour of this module. You can happily live without considering or setting them,
+but they can be useful to get many useful features out of the box.
+$my_project - If set, permits you to alter and customize the module behaviour
+  and files's deploy logic in custom project classes
+  The custom class sysklogd::$my_module autoloads from MODULEPATH/sysklogd/manifests/$my_project.pp
+  but you can place it in a separated module by explicitely importing it:
+  "import $my_project" to have something like MODULEPATH/$my_project/manifests/sysklogd.pp
+$base_source - Lets you define an alternative source for static files:
   - $base_source not set -> Files are looked in puppet://$servername/ (the PuppetMaster)
-  - $base_source set -> Files are looked in $base_source ( could be puppet://$servername/$my_module ) 
+  - $base_source set -> Files are in $base_source ( Ex: puppet://$servername/$my_module ) 
   Note that the module automatically manages the different paths for Puppet pre 0.25
-  
+$debug - If set to yes writes in /var/lib/puppet/debug/ useful debugging info
+
+VARIABLES FOR EXTENDED MODULES:
+$puppi - Set to "yes" to enable sysklogd plugins for puppi
+Check sysklogd/manifests/puppi.pp for more info.
+
+$monitor - Set to "yes" to enable auto monitoring classes 
+$monitor_tool - Defines the monitor tools to activate (At leat one, can be an array)
+Check sysklogd/manifests/monitor.pp for more info on sysklogd monitoring related variables.
+
+$backup - Set to "yes" to enable auto backuping classes 
+$backup_tool - Defines the backup tools to activate (At leat one, can be an array)
+Check sysklogd/manifests/backup.pp for more info on sysklogd backuping related variables.
+
+$firewall - Set to "yes" to enable auto firewalling classes
+$firewall_tool - Defines the firewall tools to activate
+Check sysklogd/manifests/firewall.pp for more info on sysklogd firewalling related variables.
+
 
 DEPENDENCIES:
 Standard classes generally don't need external modules.
-Extended classes need the relevant external modules ( monitor ; backup ... ) and the "common" module.
-sysklogd::conf generic infile configuration define needs the "common" module
-Check on individual module specific classes and defines if there are specific requirements.
+Extended classes need the relevant external modules.
+sysklogd::conf generic infile configuration define needs the Example42 "common" module
+
+
+OPERATING SYSTEMS SUPPORT (Planned, Development, Testing, Production):
+RedHat/Centos 5 : Testing
+RedHat/Centos 6 : Testing
+Debian 5        : Testing
+Debian 6        : Planned
+Ubuntu 8.04     : Testing
+Ubuntu 10.04    : Testing
+SLES 10         : Planned
+SLES 11         : Testing

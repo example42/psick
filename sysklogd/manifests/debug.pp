@@ -4,12 +4,13 @@
 # This class is used only for debugging purposes
 #
 # Usage:
-# This class is used if you set $debug=yes
+# This class is autoloaded if you set $debug=yes
 #
 class sysklogd::debug {
 
     # Load the variables used in this module. Check the params.pp file 
     require sysklogd::params
+    include puppet::debug
     include puppet::params
 
     file { "puppet_debug_variables_sysklogd":

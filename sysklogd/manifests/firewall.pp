@@ -21,14 +21,4 @@ class sysklogd::firewall {
         enable      => "${sysklogd::params::firewall_enable}",
     }
 
-    firewall { "sysklogd_${sysklogd::params::protocol2}_${sysklogd::params::port2}":
-        source      => "${sysklogd::params::firewall_source_real}",
-        destination => "${sysklogd::params::firewall_destination_real}",
-        protocol    => "${sysklogd::params::protocol2}",
-        port        => "${sysklogd::params::port2}",
-        action      => "allow",
-        direction   => "input",
-        enable      => "${sysklogd::params::firewall_enable}",
-    }
-
 }

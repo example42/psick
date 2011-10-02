@@ -7,13 +7,22 @@
 # Usage:
 # include sysklogd::disable
 #
-class sysklogd::disable inherits sysklogd {
+class sysklogd::disable {
 
     require sysklogd::params
 
-    Service["sysklogd"] {
-        ensure => "stopped" ,
-        enable => "false",
+    package { "sysklogd":
+        name   => "${sysklogd::params::packagename}",
+        ensure => present,
+    }
+
+    service { "sysklogd":
+        name       => "${sysklogd::params::servicename}",
+        ensure     => "stopped" ,
+        enable     => "false",
+        hasstatus  => "${sysklogd::params::hasstatus}",
+        pattern    => "${sysklogd::params::processname}",
+        require    => Package["sysklogd"],
     }
 
     # Remove relevant monitor, backup, firewall entries

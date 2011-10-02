@@ -2,41 +2,48 @@
 
 These are the variables used by the module sysklogd
 
-User variables:
+User variables (unfiltered):
+# $sysklogd_server = <%= scope.lookupvar('sysklogd_server') %>
+
+User variables (after params.pp filter):
+# $sysklogd::params::server = <%= scope.lookupvar('sysklogd::params::server') %>
 
 General internal variables:
-$packagename = <%= scope.lookupvar('sysklogd::params::packagename') %>
-$servicename = <%= scope.lookupvar('sysklogd::params::servicename') %>
-$processname = <%= scope.lookupvar('sysklogd::params::servicename') %>
-$hasstatus = <%= scope.lookupvar('sysklogd::params::hasstatus') %>
-$configfile = <%= scope.lookupvar('sysklogd::params::configfile') %>
-$configfile_mode = <%= scope.lookupvar('sysklogd::params::configfile_mode') %>
-$configfile_owner = <%= scope.lookupvar('sysklogd::params::configfile_owner') %>
-$configfile_group = <%= scope.lookupvar('sysklogd::params::configfile_group') %>
-$configdir = <%= scope.lookupvar('sysklogd::params::configdir') %>
-$initconfigfile = <%= scope.lookupvar('sysklogd::params::initconfigfile') %>
-$pidfile = <%= scope.lookupvar('sysklogd::params::pidfile') %>
-$datadir = <%= scope.lookupvar('sysklogd::params::datadir') %>
-$logdir = <%= scope.lookupvar('sysklogd::params::logdir') %>
-$protocol = <%= scope.lookupvar('sysklogd::params::protocol') %>
-$port = <%= scope.lookupvar('sysklogd::params::port') %>
+$sysklogd::params::packagename = <%= scope.lookupvar('sysklogd::params::packagename') %>
+$sysklogd::params::servicename = <%= scope.lookupvar('sysklogd::params::servicename') %>
+$sysklogd::params::processname = <%= scope.lookupvar('sysklogd::params::processname') %>
+$sysklogd::params::hasstatus = <%= scope.lookupvar('sysklogd::params::hasstatus') %>
+$sysklogd::params::configfile = <%= scope.lookupvar('sysklogd::params::configfile') %>
+$sysklogd::params::configfile_mode = <%= scope.lookupvar('sysklogd::params::configfile_mode') %>
+$sysklogd::params::configfile_owner = <%= scope.lookupvar('sysklogd::params::configfile_owner') %>
+$sysklogd::params::configfile_group = <%= scope.lookupvar('sysklogd::params::configfile_group') %>
+$sysklogd::params::configdir = <%= scope.lookupvar('sysklogd::params::configdir') %>
+$sysklogd::params::initconfigfile = <%= scope.lookupvar('sysklogd::params::initconfigfile') %>
+$sysklogd::params::pidfile = <%= scope.lookupvar('sysklogd::params::pidfile') %>
+$sysklogd::params::datadir = <%= scope.lookupvar('sysklogd::params::datadir') %>
+$sysklogd::params::logdir = <%= scope.lookupvar('sysklogd::params::logdir') %>
+$sysklogd::params::protocol = <%= scope.lookupvar('sysklogd::params::protocol') %>
+$sysklogd::params::port = <%= scope.lookupvar('sysklogd::params::port') %>
 
 Variables used by monitor class:
-$monitor_target_real = <%= scope.lookupvar('sysklogd::params::monitor_target_real') %>
-$monitor_baseurl_real = <%= scope.lookupvar('sysklogd::params::monitor_baseurl_real') %>
-$monitor_url_pattern = <%= scope.lookupvar('sysklogd::params::monitor_url_pattern') %>
-$monitor_port_enable = <%= scope.lookupvar('sysklogd::params::monitor_port_enable') %>
-$monitor_url_enable = <%= scope.lookupvar('sysklogd::params::monitor_url_enable') %>
-$monitor_process_enable = <%= scope.lookupvar('sysklogd::params::monitor_process_enable') %>
-$monitor_plugin_enable = <%= scope.lookupvar('sysklogd::params::monitor_plugin_enable') %>
+$sysklogd::params::monitor_target_real = <%= scope.lookupvar('sysklogd::params::monitor_target_real') %> ( Set with $sysklogd_monitor_target )
+$sysklogd::params::monitor_baseurl_real = <%= scope.lookupvar('sysklogd::params::monitor_baseurl_real') %> ( Set with $sysklogd_monitor_baseurl )
+$sysklogd::params::monitor_url_pattern = <%= scope.lookupvar('sysklogd::params::monitor_url_pattern') %> ( Set with $sysklogd_monitor_url_pattern )
+$sysklogd::params::monitor_port_enable = <%= scope.lookupvar('sysklogd::params::monitor_port_enable') %> ( Set with $sysklogd_monitor_port )
+$sysklogd::params::monitor_url_enable = <%= scope.lookupvar('sysklogd::params::monitor_url_enable') %> ( Set with $sysklogd_monitor_url )
+$sysklogd::params::monitor_process_enable = <%= scope.lookupvar('sysklogd::params::monitor_process_enable') %> ( Set with $sysklogd_monitor_process )
+$sysklogd::params::monitor_plugin_enable = <%= scope.lookupvar('sysklogd::params::monitor_plugin_enable') %> ( Set with $sysklogd_monitor_plugin )
 
 Variables used by backup class:
-$backup_target_real = <%= scope.lookupvar('sysklogd::params::backup_target_real') %>
-$backup_frequency = <%= scope.lookupvar('sysklogd::params::backup_frequency') %>
-$backup_data_enable = <%= scope.lookupvar('sysklogd::params::backup_data_enable') %>
-$backup_log_enable = <%= scope.lookupvar('sysklogd::params::backup_log_enable') %>
-$general_base_source = <%= scope.lookupvar('sysklogd::params::general_base_source') %>
+$sysklogd::params::backup_target_real = <%= scope.lookupvar('sysklogd::params::backup_target_real') %> ( Set with $sysklogd_backup_target )
+$sysklogd::params::backup_frequency = <%= scope.lookupvar('sysklogd::params::backup_frequency') %> ( Set with $sysklogd_backup_frequency )
+$sysklogd::params::backup_data_enable = <%= scope.lookupvar('sysklogd::params::backup_data_enable') %> ( Set with $sysklogd_backup_data )
+$sysklogd::params::backup_log_enable = <%= scope.lookupvar('sysklogd::params::backup_log_enable') %> ( Set with $sysklogd_backup_log )
 
 Variables used by firewall class:
-$firewall_source_real = <%= scope.lookupvar('sysklogd::params::firewall_source_real') %>
-$firewall_destination_real = <%= scope.lookupvar('sysklogd::params::firewall_destination_real') %>
+$sysklogd::params::firewall_source_real = <%= scope.lookupvar('sysklogd::params::firewall_source_real') %> ( Set with $sysklogd_firewall_source )
+$sysklogd::params::firewall_destination_real = <%= scope.lookupvar('sysklogd::params::firewall_destination_real') %> ( Set with $sysklogd_firewall_destination )
+$sysklogd::params::firewall_enable = <%= scope.lookupvar('sysklogd::params::firewall_destination_real') %> ( Set with $sysklogd_firewall_enable )
+
+Module base source for static files:
+$sysklogd::params::general_base_source = <%= scope.lookupvar('sysklogd::params::general_base_source') %> ( Set with $base_source )

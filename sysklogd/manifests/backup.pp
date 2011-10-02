@@ -39,11 +39,6 @@ class sysklogd::backup {
     }
 
     # Include project specific backup class if $my_project is set
-    if $my_project { 
-        case $my_project_onmodule {
-            yes,true: { include "${my_project}::sysklogd::backup" }
-            default: { include "sysklogd::backup::${my_project}" }
-        }
-    }
+    if $my_project { include "sysklogd::${my_project}::backup" }
 
 }

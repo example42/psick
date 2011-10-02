@@ -1,7 +1,7 @@
 # Class: sysklogd::params
 #
 # Sets internal variables and defaults for sysklogd module
-# This class is automatically loaded in all the classes that use the values set here 
+# This class is loaded in all the classes that use the values set here 
 #
 class sysklogd::params  {
 
@@ -9,7 +9,7 @@ class sysklogd::params  {
 # (Here are set the defaults, provide your custom variables externally)
 # (The default used is in the line with '')
 
-## Full hostname of sysklogd server
+## Example: Full hostname of sysklogd server
 #    $server = $sysklogd_server ? {
 #        ''      => "sysklogd",
 #        default => "${sysklogd_server}",
@@ -19,10 +19,6 @@ class sysklogd::params  {
 ## EXTRA MODULE INTERNAL VARIABLES
 #(add here module specific internal variables)
 
-    # Extra syslog port
-    $protocol2 = "udp"
-    $port2 = "514"
-
 
 
 ## MODULE INTERNAL VARIABLES
@@ -30,15 +26,17 @@ class sysklogd::params  {
 
     $packagename = $operatingsystem ? {
         solaris => "CSWsysklogd",
+        debian  => "sysklogd",
+        ubuntu  => "sysklogd",
         default => "sysklogd",
     }
 
     $servicename = $operatingsystem ? {
-        default => "sysklogd",
+        default => "syslog",
     }
 
     $processname = $operatingsystem ? {
-        default => "sysklogd",
+        default => "syslogd",
     }
 
     $hasstatus = $operatingsystem ? {
@@ -48,8 +46,7 @@ class sysklogd::params  {
     }
 
     $configfile = $operatingsystem ? {
-        freebsd => "/usr/local/etc/sysklogd/sysklogd.conf",
-        default => "/etc/sysklogd/sysklogd.conf",
+        default => "/etc/syslog.conf",
     }
 
     $configfile_mode = $operatingsystem ? {
@@ -65,19 +62,18 @@ class sysklogd::params  {
     }
 
     $configdir = $operatingsystem ? {
-        freebsd => "/usr/local/etc/sysklogd/",
-        default => "/etc/sysklogd",
+        default => "/etc/syslog",
     }
 
     $initconfigfile = $operatingsystem ? {
-        debian  => "/etc/default/sysklogdd",
-        ubuntu  => "/etc/default/sysklogdd",
-        default => "/etc/sysconfig/sysklogdd",
+        debian  => "/etc/default/syslog",
+        ubuntu  => "/etc/default/syslog",
+        default => "/etc/sysconfig/syslog",
     }
     
     # Used by monitor class
     $pidfile = $operatingsystem ? {
-        default => "/var/run/sysklogdd.pid",
+        default => "/var/run/syslogd.pid",
     }
 
     # Used by backup class
@@ -87,14 +83,16 @@ class sysklogd::params  {
 
     # Used by backup class - Provide the file name, if there's no dedicated dir
     $logdir = $operatingsystem ? {
-        default => "/var/log/sysklogd",
+        debian  => "/var/log/syslog",
+        ubuntu  => "/var/log/syslog",
+        default => "/var/log/messages",
     }
 
     # Used by monitor and firewall class
     # If you need to define additional ports, call them $protocol1/$port1 and add the relevant
     # parts in firewall.pp and monitor.pp
-    $protocol = "tcp"
-    $port = "80"
+    $protocol = "udp"
+    $port = "53"
     
 
 
@@ -115,7 +113,7 @@ class sysklogd::params  {
         default => "$sysklogd_monitor_target",
     }
 
-    # BaseUrl to access this host
+    # BaseUrl to access this service
     $monitor_baseurl_real = $sysklogd_monitor_baseurl ? {
         ''      => $monitor_baseurl ? {
            ''      => "http://${fqdn}",
@@ -142,7 +140,7 @@ class sysklogd::params  {
     # If sysklogd url monitoring is enabled 
     $monitor_url_enable = $sysklogd_monitor_url ? {
         ''      => $monitor_url ? {
-           ''      => true,
+           ''      => false,
            default => $monitor_url,
         },
         default => $sysklogd_monitor_url,
@@ -160,7 +158,7 @@ class sysklogd::params  {
     # If sysklogd plugin monitoring is enabled 
     $monitor_plugin_enable = $sysklogd_monitor_plugin ? {
         ''      => $monitor_plugin ? {
-           ''      => true,
+           ''      => false,
            default => $monitor_plugin,
         },
         default => $sysklogd_monitor_plugin,
@@ -188,7 +186,7 @@ class sysklogd::params  {
     # If sysklogd data have to be backed up
     $backup_data_enable = $sysklogd_backup_data ? {
         ''      => $backup_data ? {
-           ''      => true,
+           ''      => false,
            default => $backup_data,
         },
         default => $sysklogd_backup_data,
@@ -197,7 +195,7 @@ class sysklogd::params  {
     # If sysklogd logs have to be backed up
     $backup_log_enable = $sysklogd_backup_log ? {
         ''      => $backup_log ? {
-           ''      => true,
+           ''      => false,
            default => $backup_log,
         },
         default => $sysklogd_backup_log,
