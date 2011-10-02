@@ -25,11 +25,7 @@ class munin {
     }
 
     package { "libnet-cidr-perl":
-        name   => $operatingsystem ? {
-            centos  => "perl-Net-CIDR",
-            redhat  => "perl-Net-CIDR",
-            default => "libnet-cidr-perl",
-        },
+        name   => "${munin::params::packagename_perlcidr}",
         ensure => present,
     }
 

@@ -5,9 +5,7 @@
 #
 class munin::params  {
 
-## DEFAULTS FOR VARIABLES USERS CAN SET
-# (Here are set the defaults, provide your custom variables externally)
-# (The default used is in the line with '')
+    require common
 
 ## Full hostname of munin server
     $server = $munin_server ? {
@@ -43,6 +41,14 @@ class munin::params  {
 
 ## EXTRA MODULE INTERNAL VARIABLES
 #(add here module specific internal variables)
+
+    $packagename_perlcidr = $operatingsystem ? {
+        /(?i:centos|redhat|scientific)/ => $common::osver ? {
+                4        => "perl-Net-CIDR-Lite",
+                default  => "perl-Net-CIDR",
+            },
+        default => "libnet-cidr-perl",
+    }
 
     $packagename_server = $operatingsystem ? {
         default => "munin",
