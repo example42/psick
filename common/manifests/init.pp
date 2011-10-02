@@ -31,7 +31,7 @@ class common {
         "10.10" => "meerkat",
         "11.04" => "natty",
         "11.10" => "oneiric",
-    },
+    }
 
 
 ## FILE SERVING SOURCE
