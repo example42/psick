@@ -60,7 +60,7 @@ test:
 <% end -%>
 <% end -%>
 
-<% if dashboard_db == "postgresql" -%>
+<% if scope.lookupvar("dashboard::params::db") == "postgresql" -%>
 # Db settings for postgresql
 production:
   adapter: postgresql

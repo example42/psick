@@ -106,7 +106,7 @@ class dashboard {
             cwd => "$dashboard::params::basedir/puppet-dashboard",
             require => Exec["create-dashboard-db"],
             creates => $dashboard::params::db ? {
-                sqlite => "$dashboard::params::basedir/puppet-dashboard/db/production.sqlite3",
+                sqlite => "$dashboard::params::basedir/puppet-dashboard/db/schema.rb",
                 mysql  => "$mysql::params::datadir/dashboard/nodes.frm",
             },
     }
@@ -114,8 +114,8 @@ class dashboard {
     case $operatingsystem {
         centos : { package { "rubygem-json": ensure => present , } }
         redhat : { package { "rubygem-json": ensure => present , } }
-        ubuntu: { package { "libjson-ruby": ensure => present , } }
-        debian: { package { "libjson-ruby": ensure => present , } }
+        ubuntu : { package { "libjson-ruby": ensure => present , } }
+        debian : { package { "libjson-ruby": ensure => present , } }
         default: { }
     }
 
@@ -125,14 +125,7 @@ class dashboard {
     if $firewall == "yes" { include dashboard::firewall }
 
     # Include project specific class if $my_project is set
-    # The extra project class is by default looked in dashboard module 
-    # If $my_project_onmodule == yes it's looked in your project module
-    if $my_project { 
-        case $my_project_onmodule {
-            yes,true: { include "${my_project}::dashboard" }
-            default: { include "dashboard::${my_project}" }
-        }
-    }
+    if $my_project { include "dashboard::${my_project}" }
 
     # Include debug class is debugging is enabled ($debug=yes)
     if ( $debug == "yes" ) or ( $debug == true ) { include dashboard::debug }

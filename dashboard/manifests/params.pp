@@ -28,7 +28,7 @@ class dashboard::params  {
         sqlite  => "sqlite",
         mysql   => "mysql",
         postgresql   => "postgresql",
-        default => "sqlite",
+        default  => "sqlite",
     }
 
 # Define dashboard DB server ($dashboard_db_server). Default: localhost
