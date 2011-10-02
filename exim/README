@@ -1,39 +1,107 @@
 Puppet module: exim
 
 # Written by Lab42 #
-# http://www.example42.com
+# http://www.Example42.com
 
 Licence: Apache2
 
-
 DESCRIPTION:
 This module installs and manages exim.
-Standard and extended classes are available.
-Decide and customize how you want to define configuration files: static files, templates, infile modifications...
+It's based on Example42's module structure and features standard and
+extended classes for automatic monitoring, backup and firewalling.
+
+All the variables used in this module are defined in the exim::params class
+(File: $MODULEPATH/exim/manifests/params.pp). Here you can:
+- Set default settings and filtering module's specific Users variables
+- Add selectors for internal variables to adapt the module to different OSes
+- Review and eventually change default settings for variables that affect the
+  Example42 extended classes.
+
+Customizations for different projects and logic on how to populate configuration
+files should be placed in the $my_project classes.
+
+
+MODULE'S SPECIFIC USER VARIABLES:
 
 
 USAGE:
 # Standard Classes 
-include exim              # Install and run exim with standard configurations.
+include exim              # Install and run exim 
+
 include exim::disable     # Disable exim service.
-include exim::disableboot # Disable exim service at boot time, but don't stop if it's running.
+include exim::disableboot # Disable exim service at boot time, but don't stop if is running.
 include exim::absent      # Remove exim package.
+include exim::debug       # Used for debugging purposes (not resource hungry)
+                         # Automatically included if $debug=yes
+                         # Requires Example42's puppet::params and puppet::debug
 
-# Extended Classes (require storeconfings)
-include exim::monitor     # Monitor exim  Automatically included if $monitor=yes
-include exim::backup      # Backup exim data - Automatically included if $backup=yes
-include exim::firewall    # Manages firewall rule for exim service - Automatically included if $firewall=yes
+# Extended Classes
+include exim::puppi       # Puppi extensions for the exim module
+                         # Requires Example42's puppi module
+include exim::monitor     # Monitor exim
+                         # Automatically included if $monitor=yes
+                         # Requires Example42's monitor module
+include exim::backup      # Backup exim data
+                         # Automatically included if $backup=yes
+                         # Requires Example42's backup module
+include exim::firewall    # Manages firewall rules for exim service
+                         # Automatically included if $firewall=yes
+                         # Requires Example42's firewall module
 
-# Extra Classes
+# Generic define to set parameters in the main configuration file. EXPERIMENTAL.
+exim::conf { "ParameterName": value="YourValue"} # Generic 
 
-# Generic main configuration infile modification Define
-exim::conf { "ParameterName": value="YourValue"} 
+# Module specific classes
 
-# Extra Defines
+# Module specific defines
+
+
+EXAMPLE42 GENERAL VARIABLES:
+Example42 modules collection uses some general variables that can influence the
+behaviour of this module. You can happily live without considering or setting them,
+but they can be useful to get many useful features out of the box.
+$my_project - If set, permits you to alter and customize the module behaviour
+  and files's deploy logic in custom project classes
+  The custom class exim::$my_module autoloads from MODULEPATH/exim/manifests/$my_project.pp
+  but you can place it in a separated module by explicitely importing it:
+  "import $my_project" to have something like MODULEPATH/$my_project/manifests/exim.pp
+$base_source - Lets you define an alternative source for static files:
+  - $base_source not set -> Files are looked in puppet://$servername/ (the PuppetMaster)
+  - $base_source set -> Files are in $base_source ( Ex: $base_source = "puppet://myfileserver" ) 
+  Note that the module automatically manages the different paths for Puppet pre 0.25
+$debug - If set to yes writes in /var/lib/puppet/debug/ useful debugging info
+
+VARIABLES FOR EXTENDED MODULES:
+$puppi - Set to "yes" to enable exim plugins for puppi
+Check exim/manifests/puppi.pp for more info.
+
+$monitor - Set to "yes" to enable auto monitoring classes 
+$monitor_tool - Defines the monitor tools to activate (At leat one, can be an array)
+Check exim/manifests/monitor.pp for more info on exim monitoring related variables.
+
+$backup - Set to "yes" to enable auto backuping classes 
+$backup_tool - Defines the backup tools to activate (At leat one, can be an array)
+Check exim/manifests/backup.pp for more info on exim backuping related variables.
+
+$firewall - Set to "yes" to enable auto firewalling classes
+$firewall_tool - Defines the firewall tools to activate
+Check exim/manifests/firewall.pp for more info on exim firewalling related variables.
 
 
 DEPENDENCIES:
-Standard classes generally don't need external modules.
-Extended classes need the relevant external modules (import monitor ; import backup ... ) and the "common" module (import common)
-exim::conf generic infile configuration define needs the "common" module
-Check on individual Extra classes and defines if there are specific requirements (generally only the common module).
+Usage of Example 42 "common" module may be required in these cases:
+- $common:: variables are used in this module
+- You use the experminetal (and not much tested) exim::conf define for infile lines configuration
+
+
+OPERATING SYSTEMS SUPPORT 
+RedHat/Centos/Scientific 4 : Partial
+RedHat/Centos/Scientific 5 : Yes
+RedHat/Centos/Scientific 6 : Yes
+Debian 5                   : Yes
+Debian 6                   : Yes
+Ubuntu 8.04                : Tes
+Ubuntu 10.04               : Yes
+Ubuntu current             : Yes (at module creation time)
+SLES 11                    : Planned
+Solaris 10                 : Planned

@@ -1,27 +1,25 @@
 # Class: exim::absent
 #
-# Removes exim
+# Removes exim package and its relevant monitor, backup, firewall entries
 #
 # Usage:
 # include exim::absent
 #
 class exim::absent {
 
-    # Load the variables used in this module. Check the params.pp file
     require exim::params
 
-    # Basic Package - Service - Configuration file management
-    package { exim:
+    package { "exim":
         name   => "${exim::params::packagename}",
         ensure => absent,
     }
 
-    file { "exim.conf":
-        path    => "${exim::params::configfile}",
-        mode    => "${exim::params::configfile_mode}",
-        owner   => "${exim::params::configfile_owner}",
-        group   => "${exim::params::configfile_group}",
-        ensure  => absent,
-    }
+    # Remove relevant monitor, backup, firewall entries
+    if $monitor == "yes" { include exim::monitor::absent }
+    if $backup == "yes" { include exim::backup::absent }
+    if $firewall == "yes" { include exim::firewall::absent  }
+
+    # Include debug class is debugging is enabled ($debug=yes)
+    if ( $debug == "yes" ) or ( $debug == true ) { include exim::debug }
 
 }

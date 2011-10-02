@@ -1,0 +1,47 @@
+# File Managed By Puppet
+
+These are the variables used by the module exim
+
+User variables (unfiltered):
+# $exim_server = <%= scope.lookupvar('exim_server') %>
+
+User variables (after params.pp filter):
+# $exim::params::server = <%= scope.lookupvar('exim::params::server') %>
+
+General internal variables:
+$exim::params::packagename = <%= scope.lookupvar('exim::params::packagename') %>
+$exim::params::servicename = <%= scope.lookupvar('exim::params::servicename') %>
+$exim::params::processname = <%= scope.lookupvar('exim::params::processname') %>
+$exim::params::hasstatus = <%= scope.lookupvar('exim::params::hasstatus') %>
+$exim::params::configfile = <%= scope.lookupvar('exim::params::configfile') %>
+$exim::params::configfile_mode = <%= scope.lookupvar('exim::params::configfile_mode') %>
+$exim::params::configfile_owner = <%= scope.lookupvar('exim::params::configfile_owner') %>
+$exim::params::configfile_group = <%= scope.lookupvar('exim::params::configfile_group') %>
+$exim::params::configdir = <%= scope.lookupvar('exim::params::configdir') %>
+$exim::params::initconfigfile = <%= scope.lookupvar('exim::params::initconfigfile') %>
+$exim::params::pidfile = <%= scope.lookupvar('exim::params::pidfile') %>
+$exim::params::datadir = <%= scope.lookupvar('exim::params::datadir') %>
+$exim::params::logdir = <%= scope.lookupvar('exim::params::logdir') %>
+$exim::params::protocol = <%= scope.lookupvar('exim::params::protocol') %>
+$exim::params::port = <%= scope.lookupvar('exim::params::port') %>
+
+Variables used by monitor class:
+$exim::params::monitor_target_real = <%= scope.lookupvar('exim::params::monitor_target_real') %> ( Set with $exim_monitor_target )
+$exim::params::monitor_baseurl_real = <%= scope.lookupvar('exim::params::monitor_baseurl_real') %> ( Set with $exim_monitor_baseurl )
+$exim::params::monitor_url_pattern = <%= scope.lookupvar('exim::params::monitor_url_pattern') %> ( Set with $exim_monitor_url_pattern )
+$exim::params::monitor_port_enable = <%= scope.lookupvar('exim::params::monitor_port_enable') %> ( Set with $exim_monitor_port )
+$exim::params::monitor_url_enable = <%= scope.lookupvar('exim::params::monitor_url_enable') %> ( Set with $exim_monitor_url )
+$exim::params::monitor_process_enable = <%= scope.lookupvar('exim::params::monitor_process_enable') %> ( Set with $exim_monitor_process )
+$exim::params::monitor_plugin_enable = <%= scope.lookupvar('exim::params::monitor_plugin_enable') %> ( Set with $exim_monitor_plugin )
+
+Variables used by backup class:
+$exim::params::backup_target_real = <%= scope.lookupvar('exim::params::backup_target_real') %> ( Set with $exim_backup_target )
+$exim::params::backup_frequency = <%= scope.lookupvar('exim::params::backup_frequency') %> ( Set with $exim_backup_frequency )
+$exim::params::backup_data_enable = <%= scope.lookupvar('exim::params::backup_data_enable') %> ( Set with $exim_backup_data )
+$exim::params::backup_log_enable = <%= scope.lookupvar('exim::params::backup_log_enable') %> ( Set with $exim_backup_log )
+
+Variables used by firewall class:
+$exim::params::firewall_source_real = <%= scope.lookupvar('exim::params::firewall_source_real') %> ( Set with $exim_firewall_source )
+$exim::params::firewall_destination_real = <%= scope.lookupvar('exim::params::firewall_destination_real') %> ( Set with $exim_firewall_destination )
+$exim::params::firewall_enable = <%= scope.lookupvar('exim::params::firewall_destination_real') %> ( Set with $exim_firewall_enable )
+

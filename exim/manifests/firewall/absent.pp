@@ -1,13 +1,8 @@
-# Class: exim::firewall
+# Class: exim::firewall::absent
 #
-# Manages exim firewalling using custom Firewall wrapper
-# By default it opens exim's default port(s) to anybody
-# It's automatically included if $firewall=yes
+# Remove exim firewall elements
 #
-# Usage:
-# Automatically included if $firewall=yes 
-#
-class exim::firewall {
+class exim::firewall::absent {
 
     include exim::params
 
@@ -18,7 +13,7 @@ class exim::firewall {
         port        => "${exim::params::port}",
         action      => "allow",
         direction   => "input",
-        enable      => "${exim::params::firewall_enable}",
+        enable      => "false",
     }
 
 }
