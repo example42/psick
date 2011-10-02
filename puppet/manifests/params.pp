@@ -136,8 +136,12 @@ class puppet::params  {
     }
 
     $processname = $version ? {
-            "0.2" => "puppetd",
-            "2.x" => "puppet",
+        "0.2" => "puppetd",
+        "2.x" => $operatingsystem ? {
+            redhat => "puppetd",
+            centos => "puppetd",
+            default => "puppet",
+        },
     }
 
     $processname_server = $operatingsystem ? {
