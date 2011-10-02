@@ -40,7 +40,8 @@ define mysql::grant (
         },
         require => $mysql_user ? { 
             root    => Service["mysql"],
-            default => [ Service["mysql"] , Exec["mysqluser-$mysql_user-$mysql_host"] ],
+            default => Service["mysql"],
+            # default => [ Service["mysql"] , Exec["mysqluser-$mysql_user-$mysql_host"] ],
         },
         subscribe => File["$mysql_grant_file"],
         path => [ "/usr/bin" , "/usr/sbin" ],
