@@ -9,7 +9,6 @@
 define nagios::plugin ( $enable="yes" ) {
 
    include nagios::params
-   include nrpe::params
 
     $ensure = $enable ? {
         "false" => "absent",
@@ -19,7 +18,7 @@ define nagios::plugin ( $enable="yes" ) {
     }
 
    file { "Nagios_plugin_${name}":
-        path    => "${nrpe::params::pluginsdir}/${name}",
+        path    => "${nagios::params::pluginsdir}/${name}",
         owner   => root,
         group   => root,
         mode    => 755,

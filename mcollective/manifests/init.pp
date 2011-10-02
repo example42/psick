@@ -13,6 +13,18 @@ class mcollective {
     # Load the variables used in this module. Check the params.pp file 
     require mcollective::params
 
+    # We use Puppetlabs repos for mcollective packages
+    # Include OS specific subclasses, if necessary
+    case $operatingsystem {
+        debian: { require apt::repo::puppetlabs }
+        ubuntu: { require apt::repo::puppetlabs }
+        redhat: { require yum::repo::puppetlabs }
+        centos: { require yum::repo::puppetlabs }
+        scientific: { require yum::repo::puppetlabs }
+        default: { }
+    }
+
+
     # Autoloads server class. This is done by default.
     # To install a mcollective client without the server components 
     # Set $mcollective_client to "yes" and $mcollective_server to "no"

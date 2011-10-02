@@ -14,8 +14,7 @@ class apache::params  {
         freebsd => "/usr/local/etc/apache20/conf.d",
         ubuntu  => "/etc/apache2/sites-available",
         debian  => "/etc/apache2/sites-available",
-        centos  => "/etc/httpd/conf.d",
-        redhat  => "/etc/httpd/conf.d",
+        /(?i:CentOS|RedHat|Scientific)/ => "/etc/httpd/conf.d",
     }
 
 # MODULES INTERNAL VARIABLES

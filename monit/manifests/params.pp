@@ -44,8 +44,7 @@ class monit::params  {
     }
 
     $hasstatus = $operatingsystem ? {
-        redhat  => "true",
-        centos  => "true",
+        /(?i:CentOS|RedHat|Scientific)/ => "true",
         default => "false",
     }
 
@@ -54,8 +53,7 @@ class monit::params  {
     }
 
     $configfile = $operatingsystem ? {
-        redhat  => "/etc/monit.conf",
-        centos  => "/etc/monit.conf",
+        /(?i:CentOS|RedHat|Scientific)/ => "/etc/monit.conf",
         default => "/etc/monit/monitrc",
     }
 
@@ -72,8 +70,7 @@ class monit::params  {
     }
 
     $initdconfigfile = $operatingsystem ? {
-        redhat  => "/etc/sysconfig/monit",
-	centos  => "/etc/sysconfig/monit",
+        /(?i:CentOS|RedHat|Scientific)/ => "/etc/sysconfig/monit",
         default => "/etc/default/monit",
     }
 

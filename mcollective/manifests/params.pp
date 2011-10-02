@@ -97,8 +97,7 @@ class mcollective::params  {
     $libdir = $operatingsystem ? {
         debian => "/usr/share/mcollective/plugins",
         ubuntu => "/usr/share/mcollective/plugins",
-        centos => "/usr/libexec/mcollective",
-        redhat => "/usr/libexec/mcollective",
+        /(?i:CentOS|RedHat|Scientific)/ => "/usr/libexec/mcollective",
     }
 
 

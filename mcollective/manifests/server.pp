@@ -12,13 +12,6 @@ class mcollective::server {
     # Load the variables used in this module. Check the params.pp file 
     require mcollective::params
 
-    # Include OS specific subclasses, if necessary
-    case $operatingsystem {
-        debian: { require apt::repo::puppetlabs }
-        ubuntu: { require apt::repo::puppetlabs }
-        default: { }
-    }
-
     # Basic Package - Service - Configuration file management
     package { "mcollective":
         name     => "${mcollective::params::packagename}",

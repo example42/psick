@@ -19,10 +19,10 @@ class common {
     $osver=$ossplit[0]
 
 # Set OS name (for Ubuntu and Debian without using lsbdistcodename
-    $osname = $operatingsystemrelease ? {
-        /(^4)/  => "etch",
-        /(^5)/  => "lenny",
-        /(^6)/  => "squeeze",
+    $osname=$operatingsystemrelease ? {
+        /^4/  => "etch",
+        /^5/  => "lenny",
+        /^6/  => "squeeze",
         "8.04"  => "hardy",
         "8.10"  => "intrepid",
         "9.04"  => "jaunty",

@@ -40,7 +40,7 @@ class nrpe::params  {
 
 ## MODULE EXTRA VARIABLES
     $pluginsdir = $operatingsystem ? {
-        /(CentOS|RedHat)/ => $architecture ? {
+        /(CentOS|RedHat|Scientific)/ => $architecture ? {
             x86_64  => "/usr/lib64/nagios/plugins",
             default => "/usr/lib/nagios/plugins",
         },

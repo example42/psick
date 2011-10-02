@@ -104,28 +104,22 @@ class openldap::params  {
     $argsfile = $operatingsystem ? {
         debian  => "/var/run/slapd/slapd.args",
         ubuntu  => "/var/run/slapd/slapd.args",
-        redhat  => "/var/run/openldap/slapd.args",
-        centos  => "/var/run/openldap/slapd.args",
+        /(?i:CentOS|RedHat|Scientific)/  => "/var/run/openldap/slapd.args",
     }
 
     $modulepath = $operatingsystem ? {
         debian  => "/usr/lib/ldap",
         ubuntu  => "/usr/lib/ldap",
-        redhat  => $architecture ? {
+        /(?i:CentOS|RedHat|Scientific)/ => $architecture ? {
                        x86_64  => "/usr/lib64/openldap",
                        default => "/usr/lib/openldap",
-                   },
-        centos  => $architecture ? {
-                       x86_64  => "/usr/lib64/openldap",
-                       default => "/usr/lib/openldap",
-                   },
+        },
     }
 
     $certsdir = $operatingsystem ? {
         debian  => "/etc/ldap/certs",
         ubuntu  => "/etc/ldap/certs",
-        redhat  => "/etc/pki/tls/certs",
-        centos  => "/etc/pki/tls/certs",
+        /(?i:CentOS|RedHat|Scientific)/ => "/etc/pki/tls/certs",
     }
 
     # Openldap user
@@ -136,8 +130,7 @@ class openldap::params  {
     $packagenameclient = $operatingsystem ? {
         debian  => "ldap-utils",
         ubuntu  => "ldap-utils", 
-        redhat  => "openldap-clients",
-        centos  => "openldap-clients",
+        /(?i:CentOS|RedHat|Scientific)/ => "openldap-clients",
     }
 
 ## MODULE INTERNAL VARIABLES
@@ -146,8 +139,7 @@ class openldap::params  {
     $packagename = $operatingsystem ? {
         debian  => "slapd",
         ubuntu  => "slapd",
-        redhat  => "openldap-servers",
-        centos  => "openldap-servers",
+        /(?i:CentOS|RedHat|Scientific)/ => "openldap-servers",
     }
 
     $servicename = $operatingsystem ? {
@@ -167,8 +159,7 @@ class openldap::params  {
     }
 
     $configfile = $operatingsystem ? {
-        redhat  => "/etc/openldap/slapd.conf",
-        centos  => "/etc/openldap/slapd.conf",
+        /(?i:CentOS|RedHat|Scientific)/ => "/etc/openldap/slapd.conf",
         default => "/etc/ldap/slapd.conf",
     }
 
@@ -183,37 +174,30 @@ class openldap::params  {
     $configfile_group = $operatingsystem ? {
         debian  => "openldap",
         ubuntu  => "openldap",
-        redhat  => "ldap",
-        centos  => "ldap",
+        /(?i:CentOS|RedHat|Scientific)/ => "ldap",
     }
 
     $configdir = $operatingsystem ? {
         debian  => "/etc/ldap",
         ubuntu  => "/etc/ldap",
-        redhat  => "/etc/openldap",
-        centos  => "/etc/openldap",
+        /(?i:CentOS|RedHat|Scientific)/ => "/etc/openldap",
     }
 
     $initconfigfile = $operatingsystem ? {
         debian  => "/etc/default/slapd",
         ubuntu  => "/etc/default/slapd",
-        redhat  => "/etc/sysconfig/lapd",
-        centos  => "/etc/sysconfig/lapd",
+        /(?i:CentOS|RedHat|Scientific)/ => "/etc/sysconfig/lapd",
     }
     
     $pidfile = $operatingsystem ? {
         debian  => "/var/run/slapd/slapd.pid",
         ubuntu  => "/var/run/slapd/slapd.pid",
-        redhat  => "/var/run/openldap/slapd.pid",
-        centos  => "/var/run/openldap/slapd.pid",
+        /(?i:CentOS|RedHat|Scientific)/ => "/var/run/openldap/slapd.pid",
     }
 
     # Used by backup class
     $datadir = $operatingsystem ? {
-        debian  => "/var/lib/ldap",
-        ubuntu  => "/var/lib/ldap",
-        redhat  => "/var/lib/ldap",
-        centos  => "/var/lib/ldap",
+        default => "/var/lib/ldap",
     }
 
     # Used by backup class - Provide the file name, if there's no dedicated dir

@@ -55,8 +55,7 @@ class users::ldap {
         path    => $operatingsystem ? {
             debian => "/etc/ldap/ldap.conf",
             ubuntu => "/etc/ldap/ldap.conf",
-            redhat => "/etc/openldap/ldap.conf",
-            centos => "/etc/openldap/ldap.conf",
+            /(?i:CentOS|RedHat|Scientific)/ => "/etc/openldap/ldap.conf",
         },
         mode    => "644",
         owner   => "root",

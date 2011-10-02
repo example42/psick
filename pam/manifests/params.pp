@@ -20,8 +20,7 @@ class pam::params  {
     $oslayout = $operatingsystem ? {
         debian => "debian5",
         ubuntu => "ubuntu104",
-        redhat => "redhat5",
-        centos => "redhat5",
+        /(?i:CentOS|RedHat|Scientific)/ => "redhat5",
     }
 
 # Basic settings

@@ -46,6 +46,14 @@ class nagios::params  {
         default => "${nagios_plugins}",
     }
 
+    $pluginsdir = $operatingsystem ? {
+        /(CentOS|RedHat|Scientific)/ => $architecture ? {
+            x86_64  => "/usr/lib64/nagios/plugins",
+            default => "/usr/lib/nagios/plugins",
+        },
+        default => "/usr/lib/nagios/plugins",
+    }
+
 # Configure Nagios for using SSL for NRPE Checks
     $use_ssl = $nagios_use_ssl ? {
          'no'    => "no",

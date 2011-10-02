@@ -119,12 +119,14 @@ Extended classes need the relevant external modules and the Example42 "common" m
 openldap::conf generic infile configuration define needs the Example42 "common" module
 
 
-OPERATING SYSTEMS SUPPORT (Planned, Development, Testing, Production):
-RedHat/Centos 5 : Testing
-RedHat/Centos 6 : Testing
-Debian 5        : Testing
-Debian 6        : Planned
-Ubuntu 8.04     : Testing
-Ubuntu 10.04    : Testing
-SLES 10         : Planned
-SLES 11         : Planned
+OPERATING SYSTEMS SUPPORT 
+RedHat/Centos/Scientific 4 : Partial
+RedHat/Centos/Scientific 5 : Yes
+RedHat/Centos/Scientific 6 : Yes
+Debian 5                   : Yes
+Debian 6                   : Yes
+Ubuntu 8.04                : Tes
+Ubuntu 10.04               : Yes
+Ubuntu current             : Yes (at module creation time)
+SLES 11                    : Planned
+Solaris 10                 : Planned
