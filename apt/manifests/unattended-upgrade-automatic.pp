@@ -1,4 +1,4 @@
-class apt::unattended-upgrade-automatic {
+define apt::unattended-upgrade-automatic($mail = '') {
   package {"unattended-upgrades":
     ensure => present,
   }
@@ -7,7 +7,10 @@ class apt::unattended-upgrade-automatic {
     ensure  => present,
     content => "APT::Periodic::Unattended-Upgrade \"1\";\n",
   }
-
+  apt::conf {"10periodic":                                                                                                                                                                                                                    
+    ensure => present,                                                                                                                                                                                                                        
+    source => "puppet:///apt/10periodic",                                                                                                                                                                                                     
+  }
   case $lsbdistid {
     'Debian': {
       apt::conf{'50unattended-upgrades':
