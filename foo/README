@@ -67,7 +67,7 @@ $my_project - If set, permits you to alter and customize the module behaviour
   "import $my_project" to have something like MODULEPATH/$my_project/manifests/foo.pp
 $base_source - Lets you define an alternative source for static files:
   - $base_source not set -> Files are looked in puppet://$servername/ (the PuppetMaster)
-  - $base_source set -> Files are in $base_source ( Ex: puppet://$servername/$my_module ) 
+  - $base_source set -> Files are in $base_source ( Ex: $base_source = "puppet://myfileserver" ) 
   Note that the module automatically manages the different paths for Puppet pre 0.25
 $debug - If set to yes writes in /var/lib/puppet/debug/ useful debugging info
 
@@ -89,17 +89,19 @@ Check foo/manifests/firewall.pp for more info on foo firewalling related variabl
 
 
 DEPENDENCIES:
-Standard classes generally don't need external modules.
-Extended classes need the relevant external modules.
-foo::conf generic infile configuration define needs the Example42 "common" module
+Usage of Example 42 "common" module may be required in these cases:
+- $common:: variables are used in this module
+- You use the experminetal (and not much tested) foo::conf define for infile lines configuration
 
 
-OPERATING SYSTEMS SUPPORT (Planned, Development, Testing, Production):
-RedHat/Centos 5 : Testing
-RedHat/Centos 6 : Testing
-Debian 5        : Testing
-Debian 6        : Planned
-Ubuntu 8.04     : Testing
-Ubuntu 10.04    : Testing
-SLES 10         : Planned
-SLES 11         : Testing
+OPERATING SYSTEMS SUPPORT 
+RedHat/Centos/Scientific 4 : Partial
+RedHat/Centos/Scientific 5 : Yes
+RedHat/Centos/Scientific 6 : Yes
+Debian 5                   : Yes
+Debian 6                   : Yes
+Ubuntu 8.04                : Tes
+Ubuntu 10.04               : Yes
+Ubuntu current             : Yes (at module creation time)
+SLES 11                    : Planned
+Solaris 10                 : Planned

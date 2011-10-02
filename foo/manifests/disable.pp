@@ -20,6 +20,8 @@ class foo::disable {
         name       => "${foo::params::servicename}",
         ensure     => "stopped" ,
         enable     => "false",
+        hasstatus  => "${foo::params::hasstatus}",
+        pattern    => "${foo::params::processname}",
         require    => Package["foo"],
     }
 

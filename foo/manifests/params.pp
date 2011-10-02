@@ -196,7 +196,7 @@ class foo::params  {
     # If foo logs have to be backed up
     $backup_log_enable = $foo_backup_log ? {
         ''      => $backup_log ? {
-           ''      => true,
+           ''      => false,
            default => $backup_log,
         },
         default => $foo_backup_log,
@@ -232,24 +232,6 @@ class foo::params  {
            default => $firewall_enable,
         },
         default => $foo_firewall_enable,
-    }
-
-## FILE SERVING SOURCE
-# Sets the correct source for static files
-# In order to provide files from different sources without modifying the module
-# you can override the default source path setting the variable $base_source
-# Ex: $base_source="puppet://ip.of.fileserver" or $base_source="puppet://$servername/myprojectmodule"
-# What follows automatically manages the new source standard (with /modules/) from 0.25 
-
-    case $base_source {
-        '': {
-            $general_base_source = $puppetversion ? {
-                /(^0.25)/ => "puppet:///modules",
-                /(^0.)/   => "puppet://$servername",
-                default   => "puppet:///modules",
-            }
-        }
-        default: { $general_base_source=$base_source }
     }
 
 }

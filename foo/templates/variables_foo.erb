@@ -45,5 +45,3 @@ $foo::params::firewall_source_real = <%= scope.lookupvar('foo::params::firewall_
 $foo::params::firewall_destination_real = <%= scope.lookupvar('foo::params::firewall_destination_real') %> ( Set with $foo_firewall_destination )
 $foo::params::firewall_enable = <%= scope.lookupvar('foo::params::firewall_destination_real') %> ( Set with $foo_firewall_enable )
 
-Module base source for static files:
-$foo::params::general_base_source = <%= scope.lookupvar('foo::params::general_base_source') %> ( Set with $base_source )

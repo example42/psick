@@ -1,5 +1,5 @@
 name    'lab42-foo'
-version '0.1.9'
+version '0.1.10'
 
 # dependency 'lab42/common', '>= 0.1.0'
 # dependency 'lab42/puppi', '>= 0.1.0'
