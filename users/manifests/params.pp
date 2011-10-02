@@ -7,6 +7,8 @@
 #
 class users::params  {
 
+    require common
+
 ## DEFAULTS FOR VARIABLES USERS CAN SET
 # (Here are set the defaults, provide your custom variables externally)
 
@@ -52,9 +54,9 @@ class users::params  {
     }
 
     $configfile_ldap = $operatingsystem ? {
-            debian => $lsbdistid ? {
-                 debian => "/etc/libnss-ldap.conf",
-                 default => "/etc/ldap.conf",
+            debian => $common::osver ? {
+                 8       => "/etc/ldap.conf", # Ubuntu 8.04 operatingsystem fact returns Debian
+                 default => "/etc/libnss-ldap.conf",
             },
             default => "/etc/ldap.conf",
     }
