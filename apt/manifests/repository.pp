@@ -16,7 +16,7 @@
 #      url        => "http://it.archive.ubuntu.com/ubuntu/",
 #      distro     => 'lucid',
 #      repository => 'main restricted',
-#   } 
+#   }
 # This will make the file /etc/apt/sources.list.d/ubuntu.list
 # with content:
 #
@@ -34,7 +34,7 @@ define apt::repository (
     $key='',
     $key_url='',
     $source=false
-) { 
+    ) {
     include apt
 
     # Create repository file
@@ -46,24 +46,22 @@ define apt::repository (
         require => File["/etc/apt/sources.list.d"],
         ensure  => present,
         content => template("apt/repository.list.erb"),
-	notify  => Exec["aptget_update"],
+        notify  => Exec["aptget_update"],
     }
-
-  if $key {
-    case $key_url {
-        '' : { 
-            exec { "aptkey_add_${key}":
-                command => "gpg --recv-key ${key} ; gpg -a --export | apt-key add -",
-                unless  => "apt-key list | grep -q ${key}",
+      if $key {
+        case $key_url {
+            '' : {
+                exec { "aptkey_add_${key}":                                                                       
+                    command => "gpg --recv-key ${key} ; gpg -a --export | apt-key add -",
+                    unless  => "apt-key list | grep -q ${key}",
+                }
+            }
+            default: {
+                exec { "aptkey_add_${key}":
+                    command => "wget -O - ${key_url} | apt-key add -",
+                    unless  => "apt-key list | grep -q ${key}",
+                }
             }
         }
-        default: {  
-            exec { "aptkey_add_${key}":
-                command => "wget -O - ${key_url} | apt-key add -",
-	        unless  => "apt-key list | grep -q ${key}",
-            }
-        }
+      }
     }
-  }
-}
-

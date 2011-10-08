@@ -1,0 +1,49 @@
+# File Managed By Puppet
+
+These are the variables used by the module apt
+
+User variables (unfiltered):
+# $apt_server = <%= scope.lookupvar('apt_server') %>
+
+User variables (after params.pp filter):
+# $apt::params::server = <%= scope.lookupvar('apt::params::server') %>
+
+General internal variables:
+$apt::params::packagename = <%= scope.lookupvar('apt::params::packagename') %>
+$apt::params::servicename = <%= scope.lookupvar('apt::params::servicename') %>
+$apt::params::processname = <%= scope.lookupvar('apt::params::processname') %>
+$apt::params::hasstatus = <%= scope.lookupvar('apt::params::hasstatus') %>
+$apt::params::configfile = <%= scope.lookupvar('apt::params::configfile') %>
+$apt::params::configfile_mode = <%= scope.lookupvar('apt::params::configfile_mode') %>
+$apt::params::configfile_owner = <%= scope.lookupvar('apt::params::configfile_owner') %>
+$apt::params::configfile_group = <%= scope.lookupvar('apt::params::configfile_group') %>
+$apt::params::configdir = <%= scope.lookupvar('apt::params::configdir') %>
+$apt::params::initconfigfile = <%= scope.lookupvar('apt::params::initconfigfile') %>
+$apt::params::pidfile = <%= scope.lookupvar('apt::params::pidfile') %>
+$apt::params::datadir = <%= scope.lookupvar('apt::params::datadir') %>
+$apt::params::logdir = <%= scope.lookupvar('apt::params::logdir') %>
+$apt::params::protocol = <%= scope.lookupvar('apt::params::protocol') %>
+$apt::params::port = <%= scope.lookupvar('apt::params::port') %>
+
+Variables used by monitor class:
+$apt::params::monitor_target_real = <%= scope.lookupvar('apt::params::monitor_target_real') %> ( Set with $apt_monitor_target )
+$apt::params::monitor_baseurl_real = <%= scope.lookupvar('apt::params::monitor_baseurl_real') %> ( Set with $apt_monitor_baseurl )
+$apt::params::monitor_url_pattern = <%= scope.lookupvar('apt::params::monitor_url_pattern') %> ( Set with $apt_monitor_url_pattern )
+$apt::params::monitor_port_enable = <%= scope.lookupvar('apt::params::monitor_port_enable') %> ( Set with $apt_monitor_port )
+$apt::params::monitor_url_enable = <%= scope.lookupvar('apt::params::monitor_url_enable') %> ( Set with $apt_monitor_url )
+$apt::params::monitor_process_enable = <%= scope.lookupvar('apt::params::monitor_process_enable') %> ( Set with $apt_monitor_process )
+$apt::params::monitor_plugin_enable = <%= scope.lookupvar('apt::params::monitor_plugin_enable') %> ( Set with $apt_monitor_plugin )
+
+Variables used by backup class:
+$apt::params::backup_target_real = <%= scope.lookupvar('apt::params::backup_target_real') %> ( Set with $apt_backup_target )
+$apt::params::backup_frequency = <%= scope.lookupvar('apt::params::backup_frequency') %> ( Set with $apt_backup_frequency )
+$apt::params::backup_data_enable = <%= scope.lookupvar('apt::params::backup_data_enable') %> ( Set with $apt_backup_data )
+$apt::params::backup_log_enable = <%= scope.lookupvar('apt::params::backup_log_enable') %> ( Set with $apt_backup_log )
+
+Variables used by firewall class:
+$apt::params::firewall_source_real = <%= scope.lookupvar('apt::params::firewall_source_real') %> ( Set with $apt_firewall_source )
+$apt::params::firewall_destination_real = <%= scope.lookupvar('apt::params::firewall_destination_real') %> ( Set with $apt_firewall_destination )
+$apt::params::firewall_enable = <%= scope.lookupvar('apt::params::firewall_destination_real') %> ( Set with $apt_firewall_enable )
+
+Module base source for static files:
+$apt::params::general_base_source = <%= scope.lookupvar('apt::params::general_base_source') %> ( Set with $base_source )
