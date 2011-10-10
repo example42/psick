@@ -1,2 +1,46 @@
-Apt module quickly imported from Marco Bonetti's work
+Puppet module: apt
 
+# Written by Boian Mihailov #
+# boian.mihailov@gmail.com
+
+Licence: Apache2
+
+DESCRIPTION:
+This module installs and manages apt and automatic updates with unattended-upgrades package.
+It's based on Example42's module structure and features standard and
+extended classes for automatic monitoring, backup and firewalling.
+
+All the variables used in this module are defined in the apt::params class
+(File: $MODULEPATH/apt/manifests/params.pp). Here you can:
+- Set default settings and filtering module's specific Users variables
+- Add selectors for internal variables to adapt the module to different OSes
+- Review and eventually change default settings for variables that affect the
+  Example42 extended classes.
+
+Customizations for different projects and logic on how to populate configuration
+files should be placed in the $my_project classes.
+
+
+MODULE'S SPECIFIC USER VARIABLES:
+
+
+USAGE:
+# Standard Classes 
+include apt              # Install and run apt 
+
+# Add config via source
+apt::conf {"10periodic":                                                                                                                                                                                                                    
+  ensure => present,                                                                                                                                                                                                                        
+  source => "puppet:///apt/10periodic",                                                                                                                                                                                                     
+}
+
+# Add config via content
+apt::conf{"99unattended-upgrade":
+  ensure  => present,
+  content => "APT::Periodic::Unattended-Upgrade \"1\";\n",
+}
+
+# Set automatic unattended security updates 
+apt::unattended-upgrade-automatic{"updates":
+  mail => "boian.mihailov@cvalka.com",
+}

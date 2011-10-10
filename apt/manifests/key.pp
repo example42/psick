@@ -8,19 +8,19 @@
 #  }
 #
 #
-define apt::key ( $url="" ) { 
-
+define apt::key ( $url="" ) {
+    
     case $url {
-        '' : { 
+        '' : {
             exec { "aptkey_add_${name}":
                 command => "gpg --recv-key ${name} ; gpg -a --export | apt-key add -",
                 unless  => "apt-key list | grep -q ${name}",
             }
         }
-        default: {  
+        default: {
             exec { "aptkey_add_${name}":
                 command => "wget -O - ${url} | apt-key add -",
-	        unless  => "apt-key list | grep -q ${name}",
+                unless  => "apt-key list | grep -q ${name}",
             }
         }
     }

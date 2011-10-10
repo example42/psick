@@ -1,0 +1,29 @@
+Unattended-Upgrade::Allowed-Origins {
+        "Ubuntu <%= lsbdistcodename %>-security";
+        //"Ubuntu <%= lsbdistcodename %>-updates";
+};
+Unattended-Upgrade::Package-Blacklist {
+//  "vim";
+//  "libc6";
+//  "libc6-dev";
+//  "libc6-i686";
+};
+
+// Send email to this address for problems or packages upgrades
+// If empty or unset then no email is sent, make sure that you 
+// have a working mail setup on your system. The package 'mailx'
+// must be installed or anything that provides /usr/bin/mail.
+//Unattended-Upgrade::Mail "root@localhost";
+
+<% if mail != "" -%>
+Unattended-Upgrade::Mail "<%= mail %>";
+<% end -%>
+
+
+// Do automatic removal of new unused dependencies after the upgrade
+// (equivalent to apt-get autoremove)
+//Unattended-Upgrade::Remove-Unused-Dependencies "false";
+
+// Automatically reboot *WITHOUT CONFIRMATION* if a 
+// the file /var/run/reboot-required is found after the upgrade 
+//Unattended-Upgrade::Automatic-Reboot "false";

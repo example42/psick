@@ -1,0 +1,37 @@
+Puppet module: powerdns
+
+# Written by Boian Mihailov #
+# boian.mihailov@gmail.com
+
+Licence: Apache2
+
+DESCRIPTION:
+This module installs and manages powerdns.
+It's based on Example42's module structure and features standard and
+extended classes for automatic monitoring, backup and firewalling.
+
+All the variables used in this module are defined in the powerdns::params class
+(File: $MODULEPATH/powerdns/manifests/params.pp). Here you can:
+- Set default settings and filtering module's specific Users variables
+- Add selectors for internal variables to adapt the module to different OSes
+- Review and eventually change default settings for variables that affect the
+  Example42 extended classes.
+
+Customizations for different projects and logic on how to populate configuration
+files should be placed in the $my_project classes.
+
+
+MODULE'S SPECIFIC USER VARIABLES:
+
+
+USAGE:
+# Standard Classes 
+include powerdns              # Install and run powerdns 
+
+#configures mysql access
+include powerdns::mysql { "powerdns-mysql-settings":
+       user => "powerdns",
+       password => "powerdns_mysql_password",
+}
+
+Tables needed for mysql backend to work properly 
