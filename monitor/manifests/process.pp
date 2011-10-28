@@ -1,7 +1,7 @@
 define monitor::process (
     $process,
     $argument="",
-    $service,
+    $service="",
     $pidfile,
     $tool,
     $enable='true'
