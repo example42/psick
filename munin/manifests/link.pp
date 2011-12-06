@@ -19,10 +19,10 @@ class munin::link {
         host        => "${fqdn}",
         type        => "monitor",
         private     => "no",
-#        priority    => "10",
+        priority    => "10",
 #        linktags    => [ "${role}" , "${stack}" ], 
-#        login       => "",
-#        password    => "",
+        login       => "",
+        password    => "",
         tool        => "${link_tool}",
         enable      => "true",
     }

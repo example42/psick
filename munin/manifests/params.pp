@@ -60,6 +60,8 @@ class munin::params  {
 
     $includedir = "/etc/munin/munin-conf.d"
 
+    $plugins_includedir = "/etc/munin/plugin-conf.d"
+
     $webdir = $operatingsystem ? {
         debian  => "/var/cache/munin/www",
         ubuntu  => "/var/cache/munin/www",

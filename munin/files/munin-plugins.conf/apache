@@ -1,0 +1,4 @@
+# File managed by puppet: do not modify!
+
+[apache_*]
+env.ports 666
