@@ -39,6 +39,7 @@ class postfix::monitor {
         port     => "${postfix::params::port}",
         target   => "${postfix::params::monitor_target_real}",
         enable   => "${postfix::params::monitor_port_enable}",
+        checksource => "local", # Needed when Postfix binds to localhost
         tool     => "${monitor_tool}",
     }
     
