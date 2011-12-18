@@ -1,7 +1,7 @@
 file {
 #    # Module programmers can use /var/lib/puppet/modules/$modulename to save
 #    # module-local data, e.g. for constructing config files
-    "/var/lib/puppet/modules":
+    "${settings::vardir}/modules":
         ensure => directory,
 ##        source => "puppet://$server/modules/common/modules/",
 ##        ignore => '\.ignore',

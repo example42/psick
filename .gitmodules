@@ -1,3 +1,9 @@
 [submodule "puppi"]
 	path = puppi
 	url = git://github.com/example42/puppi.git
+[submodule "wordpress"]
+	path = wordpress
+	url = git://github.com/example42/puppet-wordpress.git
+[submodule "stdlib"]
+	path = stdlib
+	url = https://github.com/puppetlabs/puppetlabs-stdlib.git
