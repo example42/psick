@@ -30,7 +30,7 @@ define mysql::grant (
         ensure => present,
         path => "$mysql_grant_filepath/$mysql_grant_file",
         content => template("mysql/grant.erb"),
-        replace => false;
+#        replace => false;
     }
 
     exec { "mysqlgrant-$mysql_user-$mysql_host-$mysql_db":

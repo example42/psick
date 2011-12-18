@@ -22,6 +22,7 @@ class mysql::password {
     exec { "mysql_root_password":
         subscribe   => Package['mysql'],
         require     => Service['mysql'],
+        path        => "/bin:/sbin:/usr/bin:/usr/sbin",
         refreshonly => true,
         command     => "mysqladmin -uroot password '${mysql::params::root_password}'";
     }
