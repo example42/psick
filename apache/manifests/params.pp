@@ -17,6 +17,13 @@ class apache::params  {
         /(?i:CentOS|RedHat|Scientific)/ => "/etc/httpd/conf.d",
     }
 
+    $packagename_modssl = $operatingsystem ? {
+        debian  => "libapache-mod-ssl",
+        ubuntu  => "libapache-mod-ssl",
+        default => "mod_ssl",
+    }
+
+
 # MODULES INTERNAL VARIABLES
 # (Modify only to adapt to unsupported OSes)
     $packagename = $operatingsystem ? {

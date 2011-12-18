@@ -14,7 +14,7 @@ class puppet::server::passenger {
 
     include puppet::server::disable
     include apache
-#    apache::module { "ssl": }
+    include apache::ssl
 
     file { ['/etc/puppet/rack', '/etc/puppet/rack/public', '/etc/puppet/rack/tmp']:
         owner => 'puppet',
