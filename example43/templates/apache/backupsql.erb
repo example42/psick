@@ -1,0 +1,4 @@
+#!/bin/bash
+# File Managed by Puppet
+
+mysqldump <%= mysql_database %> -u <%= mysql_user %> -p<%= mysql_password %> > /data/init/<%= name %>/sql/<%= mysql_database %>.sql
