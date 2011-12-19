@@ -1,5 +1,5 @@
 # Sample custom define to manage web sites:
-# - Creates apache virtual host configuration
+# - Creates apache virtual host configuration
 # - Creates document root directory
 # - Creates puppi procedures for deploy of www files and eventually mysql data
 # - Creates cron jobs for backup or www files and eventually mysql data

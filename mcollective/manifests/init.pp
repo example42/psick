@@ -13,7 +13,7 @@ class mcollective {
     # Load the variables used in this module. Check the params.pp file 
     require mcollective::params
 
-    # We use Puppetlabs repos for mcollective packages
+    # We use Puppetlabs repos for mcollective packages
     # Include OS specific subclasses, if necessary
     case $operatingsystem {
         debian: { require apt::repo::puppetlabs }

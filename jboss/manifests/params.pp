@@ -7,7 +7,7 @@ class jboss::params  {
 
 ## DEFAULTS FOR VARIABLES USERS CAN SET
 
-    # Specify if installation is done via packages or downloading official zip
+    # Specify if installation is done via packages or downloading official zip
     $use_package  = $jboss_use_package ? {
         true    => "yes",
         "true"  => "yes",
@@ -68,7 +68,7 @@ class jboss::params  {
     }
 
     # The urlfilename function is provided by Example 42 common module
-    $source_filename = urlfilename($source_url) # Name of zip file
+    $source_filename = urlfilename($source_url) # Name of zip file
     $extracted_dir = regsubst($source_filename,'\.zip$','') # Name of basedir extracted from zip
 
 
