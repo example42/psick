@@ -58,15 +58,8 @@ class openssh {
         default: { }
     }
 
-    # Include project specific class if $my_project is set
-    # The extra project class is by default looked in openssh module 
-    # If $my_project_onmodule == yes it's looked in your project module
-    if $my_project { 
-        case $my_project_onmodule {
-            yes,true: { include "${my_project}::openssh" }
-            default: { include "openssh::${my_project}" }
-        }
-    }
+    # Include project specific monitor class if $my_project is set
+    if $my_project { include "openssh::${my_project}" }
 
     # Include debug class is debugging is enabled ($debug=yes)
     if ( $debug == "yes" ) or ( $debug == true ) { include openssh::debug }

@@ -38,12 +38,4 @@ class bind::backup {
         target    => "${bind::params::backup_target_real}",
     }
 
-    # Include project specific backup class if $my_project is set
-    if $my_project { 
-        case $my_project_onmodule {
-            yes,true: { include "${my_project}::bind::backup" }
-            default: { include "bind::${my_project}::backup" }
-        }
-    }
-
 }

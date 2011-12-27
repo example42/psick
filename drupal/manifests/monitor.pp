@@ -66,12 +66,7 @@ class drupal::monitor {
         tool     => "${monitor_tool}",
     }
 
-    # Include project specific monitor class if $my_project is set
-    if $my_project { 
-        case $my_project_onmodule {
-            yes,true: { include "${my_project}::drupal::monitor" }
-            default: { include "drupal::${my_project}::monitor" }
-        }
-    }
+    # Include project specific class if $my_project is set
+    if $my_project { include "drupal::${my_project}::monitor" }
 
 }

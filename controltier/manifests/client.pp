@@ -26,6 +26,6 @@ class controltier::client {
         cwd     => "${controltier::params::root}",
     }
 
-    if $my_project { include "controltier::client::${my_project}" }
+    if $my_project { include "controltier::${my_project}::client" }
 
 }

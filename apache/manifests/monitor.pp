@@ -65,11 +65,6 @@ class apache::monitor {
     }
 
     # Include project specific monitor class if $my_project is set
-    if $my_project { 
-        case $my_project_onmodule {
-            yes,true: { include "${my_project}::apache::monitor" }
-            default: { include "apache::monitor::${my_project}" }
-        }
-    }
+    if $my_project { include "apache::${my_project}::monitor" }
 
 }

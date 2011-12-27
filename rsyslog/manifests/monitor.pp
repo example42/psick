@@ -66,11 +66,6 @@ class rsyslog::monitor {
     }
 
     # Include project specific monitor class if $my_project is set
-    if $my_project { 
-        case $my_project_onmodule {
-            yes,true: { include "${my_project}::rsyslog::monitor" }
-            default: { include "rsyslog::monitor::${my_project}" }
-        }
-    }
+    if $my_project { include "rsyslog::${my_project}::monitor" }
 
 }

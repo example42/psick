@@ -38,7 +38,4 @@ class sysklogd::backup {
         target    => "${sysklogd::params::backup_target_real}",
     }
 
-    # Include project specific backup class if $my_project is set
-    if $my_project { include "sysklogd::${my_project}::backup" }
-
 }

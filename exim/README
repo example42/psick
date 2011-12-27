@@ -61,10 +61,7 @@ Example42 modules collection uses some general variables that can influence the
 behaviour of this module. You can happily live without considering or setting them,
 but they can be useful to get many useful features out of the box.
 $my_project - If set, permits you to alter and customize the module behaviour
-  and files's deploy logic in custom project classes
-  The custom class exim::$my_module autoloads from MODULEPATH/exim/manifests/$my_project.pp
-  but you can place it in a separated module by explicitely importing it:
-  "import $my_project" to have something like MODULEPATH/$my_project/manifests/exim.pp
+  and files's deploy logic in custom project classes than can be placed in a separated module.   
 $base_source - Lets you define an alternative source for static files:
   - $base_source not set -> Files are looked in puppet://$servername/ (the PuppetMaster)
   - $base_source set -> Files are in $base_source ( Ex: $base_source = "puppet://myfileserver" ) 

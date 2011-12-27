@@ -38,12 +38,4 @@ class mcollective::backup {
         target    => "${mcollective::params::backup_target_real}",
     }
 
-    # Include project specific backup class if $my_project is set
-    if $my_project { 
-        case $my_project_onmodule {
-            yes,true: { include "${my_project}::mcollective::backup" }
-            default: { include "mcollective::backup::${my_project}" }
-        }
-    }
-
 }

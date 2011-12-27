@@ -38,7 +38,4 @@ class dhcpd::backup {
         target    => "${dhcpd::params::backup_target_real}",
     }
 
-    # Include project specific backup class if $my_project is set
-    if $my_project { include "dhcpd::${my_project}::backup" }
-
 }

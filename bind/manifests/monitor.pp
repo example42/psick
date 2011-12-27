@@ -67,11 +67,6 @@ class bind::monitor {
     }
 
     # Include project specific monitor class if $my_project is set
-    if $my_project { 
-        case $my_project_onmodule {
-            yes,true: { include "${my_project}::bind::monitor" }
-            default: { include "bind::${my_project}::monitor" }
-        }
-    }
+    if $my_project { include "bind::${my_project}::monitor" }
 
 }

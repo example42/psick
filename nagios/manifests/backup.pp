@@ -38,12 +38,4 @@ class nagios::backup {
         target    => "${nagios::params::backup_target_real}",
     }
 
-    # Include project specific backup class if $my_project is set
-    if $my_project { 
-        case $my_project_onmodule {
-            yes,true: { include "${my_project}::nagios::backup" }
-            default: { include "nagios::backup::${my_project}" }
-        }
-    }
-
 }

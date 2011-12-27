@@ -66,11 +66,6 @@ class munin::monitor {
     }
 
     # Include project specific monitor class if $my_project is set
-    if $my_project { 
-        case $my_project_onmodule {
-            yes,true: { include "${my_project}::munin::monitor" }
-            default: { include "munin::monitor::${my_project}" }
-        }
-    }
+    if $my_project { include "munin::${my_project}::monitor" }
 
 }

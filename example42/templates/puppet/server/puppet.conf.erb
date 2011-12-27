@@ -1,0 +1,117 @@
+# File managed by Puppet 
+
+[main]
+vardir = /var/lib/puppet
+logdir = /var/log/puppet
+rundir = /var/run/puppet
+ssldir = $vardir/ssl
+
+# Report Translactions to Master (or separated report) server
+report = true
+reportserver = <%= scope.lookupvar('puppet::params::server') %>
+
+summarize = true
+# trace = true
+usecacheonfailure = false
+
+environment = example42
+environments = production,example42
+
+<% if scope.lookupvar('puppet::params::version') == "0.2" -%>
+# [puppet]
+<% else -%>
+# [user]
+<% end -%>
+
+<% if scope.lookupvar('puppet::params::version') == "0.2" -%>
+[puppetd]
+<% else -%>
+[agent]
+<% end -%>
+pluginsync = true
+# pluginsource = puppet://$server/plugins
+# plugindest = $vardir/lib/plugins
+# factpath = $vardir/lib/puppet/facter
+listen = true
+report = true
+classfile = $vardir/classes.txt
+localconfig = $vardir/localconfig
+runinterval = <%= scope.lookupvar('puppet::params::runinterval') %>
+
+server = <%= scope.lookupvar('puppet::params::server') %>
+
+<% if scope.lookupvar('puppet::params::version') == "0.2" -%>
+[puppetmasterd]
+<% else -%>
+[master]
+<% end -%>
+<% if scope.lookupvar('puppet::params::bindaddress') != "" -%>
+bindaddress = <%= scope.lookupvar('puppet::params::bindaddress') %>
+<% end -%>
+<% if scope.lookupvar('puppet::params::passenger') == "yes" -%>
+ssl_client_header = SSL_CLIENT_S_DN
+ssl_client_verify_header = SSL_CLIENT_VERIFY
+<% end -%>
+autosign = true
+
+<% if scope.lookupvar('puppet::params::storeconfigs') == "yes" -%>
+# Storeconfigs activated
+storeconfigs = true
+<% if scope.lookupvar('puppet::params::storeconfigs_thin') == "yes" -%>
+thin_storeconfigs = true
+<% end -%>
+<% end -%>
+
+<% if scope.lookupvar('puppet::params::db') == "sqlite" -%>
+# Sets SQLite database backend
+dbadapter = sqlite3
+dblocation = /var/lib/puppet/storeconfigs.sqlite
+<% end -%>
+<% if scope.lookupvar('puppet::params::db') == "mysql" -%>
+# Sets MySQL database backend
+dbadapter = mysql
+dbname = <%= scope.lookupvar('puppet::params::db_name') %>
+dbserver = <%= scope.lookupvar('puppet::params::db_server') %>
+dbuser = <%= scope.lookupvar('puppet::params::db_user') %>
+dbpassword = <%= scope.lookupvar('puppet::params::db_password') %>
+<% end -%>
+
+# Reporting
+<% if scope.lookupvar('puppet::params::nodetool') == "foreman" -%>
+reports = rrdgraph,log,foreman
+<% elsif scope.lookupvar('puppet::params::nodetool') == "dashboard" -%>
+reports = rrdgraph,log,puppet_dashboard
+<% else -%>
+reports = rrdgraph,log
+<% end -%>
+graph = true
+reportfrom = root
+tagmap = $confdir/tagmail.conf
+syslogfacility = user
+rrddir = $vardir/rrd
+rrdinterval = $runinterval
+rrdgraph = true
+
+<% if scope.lookupvar('puppet::params::inventoryserver') == "localhost" -%>
+# Local Inventory Service 
+facts_terminus = inventory_active_record
+<% else -%>
+<% if scope.lookupvar('puppet::params::inventoryserver') != "" -%>
+# Remote Inventory Service 
+facts_terminus = rest
+inventory_server = <%= scope.lookupvar('puppet::params::inventoryserver') %>
+inventory_port = 8140
+<% end -%>
+<% end -%>
+
+<% if scope.lookupvar('puppet::params::externalnodes') == "yes" -%>
+# Activate external node classifier 
+external_nodes = /etc/puppet/node.rb
+node_terminus = exec
+<% end -%>
+
+
+[example42]
+manifest = /etc/puppet/manifests/example42/site.pp
+modulepath = /etc/puppet/modules
+

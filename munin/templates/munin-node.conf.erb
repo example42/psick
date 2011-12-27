@@ -31,7 +31,7 @@ host_name <%= fqdn %>
 # allow ^127\.0\.0\.1$
 
 # We install Net::CIDR perl module with Puppet
-<% munin_server.each do |server| %>cidr_allow <%= server -%>/32
+<% scope.lookupvar('munin::params::server').each do |server| %>cidr_allow <%= server -%>/32
 <% end %>
 
 # Which address to bind to;

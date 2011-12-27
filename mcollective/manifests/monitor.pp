@@ -67,11 +67,6 @@ class mcollective::monitor {
     }
 
     # Include project specific monitor class if $my_project is set
-    if $my_project { 
-        case $my_project_onmodule {
-            yes,true: { include "${my_project}::mcollective::monitor" }
-            default: { include "mcollective::monitor::${my_project}" }
-        }
-    }
+    if $my_project { include "mcollective::${my_project}::monitor" }
 
 }

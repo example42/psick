@@ -1,4 +1,4 @@
-postgresql::redhat {
+class postgresql::redhat {
 
     exec { "postgresql_initdb":
         command => "${postgresql::params::initdbcommand}",

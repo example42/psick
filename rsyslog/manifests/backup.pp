@@ -38,12 +38,4 @@ class rsyslog::backup {
         target    => "${rsyslog::params::backup_target_real}",
     }
 
-    # Include project specific backup class if $my_project is set
-    if $my_project { 
-        case $my_project_onmodule {
-            yes,true: { include "${my_project}::rsyslog::backup" }
-            default: { include "rsyslog::backup::${my_project}" }
-        }
-    }
-
 }

@@ -50,12 +50,7 @@ class puppet::client {
         default: { }
     }
 
-    # Include project specific class for client if $my_project is set
-    if $my_project {
-        case $my_project_onmodule {
-            yes,true: { include "${my_project}::puppet::client" }
-            default: { include "puppet::${my_project}::client" }
-        }
-    }
+    # Include project specific monitor class if $my_project is set
+    if $my_project { include "puppet::${my_project}::client" }
 
 }

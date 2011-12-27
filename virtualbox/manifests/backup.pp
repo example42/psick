@@ -38,7 +38,4 @@ class virtualbox::backup {
         target    => "${virtualbox::params::backup_target_real}",
     }
 
-    # Include project specific backup class if $my_project is set
-    if $my_project { include "virtualbox::${my_project}::backup" }
-
 }

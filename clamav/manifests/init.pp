@@ -39,8 +39,8 @@ class clamav {
     }
 
 # Inclusion of optional extended classes
-    if $backup == "yes" { include clamav::backup }
-    if $monitor == "yes" { include clamav::monitor }
-    if $firewall == "yes" { include clamav::firewall }
+#    if $backup == "yes" { include clamav::backup }
+#    if $monitor == "yes" { include clamav::monitor }
+#    if $firewall == "yes" { include clamav::firewall }
 
 }

@@ -30,8 +30,8 @@ class powerdns::params  {
         ubuntu  => "pdns-server",
         default => "powerdns",
     }
-	
-	$packagenamesql = $operatingsystem ? {
+
+    $packagename_sql = $operatingsystem ? {
         solaris => "CSWpdns-backend-mysql",
         debian  => "pdns-backend-mysql",
         ubuntu  => "pdns-backend-mysql",

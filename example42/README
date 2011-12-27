@@ -1,0 +1,23 @@
+This is a sample "project" module, where you can place all your customizations
+without modifying the existing Example42 modules.
+
+You can have a project for your whole organization, or department or one project for each customer.
+
+Here you can place:
+- All your custom classes (in manifests/*.pp) which are automatically loaded 
+  if you set the variable $my_project to "example42" (See Note Below)
+- All your custom templates and static files, as referred according to the logic   you define in the custom classes
+- Your own role classes (in manifests/role/*.pp) where you can group the classes and defines used by one or more ndes that have the same function.
+- Your custom defines, such as the sample manifests/site.pp
+
+Note about Custom subclasses
+Once you set the variable $my_project MOST (if not ALL) the Example42 modules automatically try to load a class called modulename::$my_project.
+This subclass can stay in the module itself (such as modulename/manifests/example42.pp, which would be autoloaded if you set $my_project to "example42") or in a dedicated "project" module like this example42.
+
+For better reusability and portability is definitively reccommended to use the "project module" approach, where you have all your customizations in a single directory (the module itself) instead of having custom files sprayed around different modules.
+A side effect of this approach, though, is that you need to explicitely define a custom subclass with your $my_project name for ALL the modules you include in your manifests, otherwise Puppet compilation fails with an error like:
+err: Could not retrieve catalog from remote server: Error 400 on SERVER: Could not find class hosts::example42 for web01 at /etc/puppet/modules/hosts/manifests/init.pp:13 on node web01
+
+For this reason the manifests/ directory of this module is full of subclasses that actually do nothing but must exist (some provide commented examples on what can be customized in these classes).
+
+This approach is going to be fixed in the next generation of Example42 modules, where you'll be able to automatically include custom classes only for the modules you want. Here, for now, is an "all or nothing" option.

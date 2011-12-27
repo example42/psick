@@ -1,7 +1,7 @@
 #!/bin/sh
 # File Managed by Puppet
 # Installs the packages required for installing Oracle applications
-<% if $architecture="i386" %>
+<% if $architecture=="i386" %>
 yum install -y binutils compat-db compat-libstdc++ compat-libstdc++-33 elfutils-libelf elfutils-libelf-devel elfutils-libelf-devel-static gcc gcc-c++ glibc glibc-common glibc-devel glibc-headers kernel-headers ksh libaio libaio-devel libgcc libgomp libstdc++ libstdc++-devel make numactl-devel pdksh sysstat unixODBC unixODBC-devel
 yum groupinstall -y "X Window System"
 <% else %>

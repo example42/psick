@@ -9,7 +9,6 @@ Licence: Apache2
 DESCRIPTION:
 This module provides pam configuration files.
 Due to the flexible nature of PAM, the different configuration layouts on different OSes and the fact that different applications and custom needs may influence the PAM conf files we have followed a very simple and straightforward approach, with static files provided according to different OS and specific needs (such as ldap authentication).
-For a custom approach you should use the pam::$my_project submodule (autoloaded if $my_project is defined) and place your files in pam/files/$my_module/$operatingsystem/.
 The base pam class defines just the typical apm files according to the relevant OS layout. This class basically does nothing.
 The sub classes inherit that main class and define the source of the static files to provide according to the requested feature. The same should be done for custom subclasses.
 

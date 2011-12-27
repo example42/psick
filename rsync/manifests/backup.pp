@@ -38,7 +38,4 @@ class rsync::backup {
         target    => "${rsync::params::backup_target_real}",
     }
 
-    # Include project specific backup class if $my_project is set
-    if $my_project { include "rsync::${my_project}::backup" }
-
 }

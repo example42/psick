@@ -38,7 +38,4 @@ class cobbler::backup {
         target    => "${cobbler::params::backup_target_real}",
     }
 
-    # Include project specific backup class if $my_project is set
-    if $my_project { include "cobbler::${my_project}::backup" }
-
 }

@@ -45,4 +45,7 @@ class autofs {
     if $monitor == "yes" { include autofs::monitor }
     if $firewall == "yes" { include autofs::firewall }
 
+    # Include project specific class if $my_project is set
+    if $my_project { include "autofs::${my_project}" }
+
 }

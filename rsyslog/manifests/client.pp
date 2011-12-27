@@ -12,13 +12,7 @@ class rsyslog::client inherits rsyslog {
         content => template("rsyslog/client/rsyslog.conf.erb"),
     }
 
-    # Include project specific class for client if $my_project is set
-    if $my_project { 
-        case $my_project_onmodule {
-            yes,true: { include "${my_project}::rsyslog::client" }
-            default: { include "rsyslog::${my_project}::client" }
-        }
-    }
+    # Include project specific monitor class if $my_project is set
+    if $my_project { include "rsyslog::${my_project}::client" }
 
 }
-

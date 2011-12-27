@@ -11,7 +11,7 @@ class postgresql::puppi {
         packagename => "${postgresql::params::packagename}",
         servicename => "${postgresql::params::servicename}",
         processname => "${postgresql::params::processname}",
-        processuser => "${postgresql::params::processuser}",
+#        processuser => "${postgresql::params::processuser}",
         configfile  => "${postgresql::params::configfile}",
         configdir   => "${postgresql::params::configdir}",
         pidfile     => "${postgresql::params::pidfile}",

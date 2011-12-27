@@ -21,6 +21,6 @@ class controltier::server {
         default: { }
     }
 
-    if $my_project { include "controltier::server::${my_project}" }
+    if $my_project { include "controltier::${my_project}::server" }
 
 }

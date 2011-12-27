@@ -67,11 +67,6 @@ class ntp::monitor {
     }
 
     # Include project specific monitor class if $my_project is set
-    if $my_project { 
-        case $my_project_onmodule {
-            yes,true: { include "${my_project}::ntp::monitor" }
-            default: { include "ntp::${my_project}::monitor" }
-        }
-    }
+    if $my_project { include "ntp::${my_project}::monitor" }
 
 }

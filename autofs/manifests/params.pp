@@ -23,6 +23,14 @@ class autofs::params  {
         default => "autofs",
     }
 
+    $processname = $operatingsystem ? {
+        default => "automount",
+    }
+
+    $pidfile = $operatingsystem ? {
+        default => "/var/run/autofs.fifo-net",
+    }
+
     $configfile = $operatingsystem ? {
         default => "/etc/auto.master",
     }
@@ -37,6 +45,16 @@ class autofs::params  {
 
     $configfile_group = $operatingsystem ? {
         default => "root",
+    }
+
+
+    # If autofs process monitoring is enabled 
+    $monitor_process_enable = $autofs_monitor_process ? {
+        ''      => $monitor_process ? {
+           ''      => true,
+           default => $monitor_process,
+        },
+        default => $autofs_monitor_process,
     }
 
 ## FILE SERVING SOURCE

@@ -85,11 +85,6 @@ if (($puppet_server_local == true) or ($puppet_server == "$fqdn")) and ( "${pupp
     }
 
     # Include project specific monitor class if $my_project is set
-    if $my_project { 
-        case $my_project_onmodule {
-            yes,true: { include "${my_project}::puppet::monitor" }
-            default: { include "puppet::monitor::${my_project}" }
-        }
-    }
+    if $my_project { include "puppet::${my_project}::monitor" }
 
 }

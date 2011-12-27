@@ -38,12 +38,4 @@ class apache::backup {
         target    => "${apache::params::backup_target_real}",
     }
 
-    # Include project specific backup class if $my_project is set
-    if $my_project { 
-        case $my_project_onmodule {
-            yes,true: { include "${my_project}::apache::backup" }
-            default: { include "apache::backup::${my_project}" }
-        }
-    }
-
 }
