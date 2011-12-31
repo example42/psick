@@ -65,12 +65,7 @@ class vsftpd::monitor {
         tool     => "${monitor_tool}",
     }
 
-    # Include project specific monitor class if $my_project is set
-    if $my_project { 
-        case $my_project_onmodule {
-            yes,true: { include "${my_project}::vsftpd::monitor" }
-            default: { include "vsftpd::monitor::${my_project}" }
-        }
-    }
+    # Include project specific class if $my_project is set
+    if $my_project { include "vsftpd::${my_project}::monitor" }
 
 }

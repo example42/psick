@@ -38,7 +38,4 @@ class foo::backup {
         target    => "${foo::params::backup_target_real}",
     }
 
-    # Include project specific backup class if $my_project is set
-    if $my_project { include "foo::${my_project}::backup" }
-
 }

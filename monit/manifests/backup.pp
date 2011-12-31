@@ -38,12 +38,4 @@ class monit::backup {
         target    => "${monit::params::backup_target_real}",
     }
 
-    # Include project specific backup class if $my_project is set
-    if $my_project { 
-        case $my_project_onmodule {
-            yes,true: { include "${my_project}::monit::backup" }
-            default: { include "monit::backup::${my_project}" }
-        }
-    }
-
 }

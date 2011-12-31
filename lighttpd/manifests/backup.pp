@@ -38,12 +38,4 @@ class lighttpd::backup {
         target    => "${lighttpd::params::backup_target_real}",
     }
 
-    # Include project specific backup class if $my_project is set
-    if $my_project { 
-        case $my_project_onmodule {
-            yes,true: { include "${my_project}::lighttpd::backup" }
-            default: { include "lighttpd::${my_project}::backup" }
-        }
-    }
-
 }

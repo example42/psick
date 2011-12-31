@@ -67,11 +67,6 @@ class samba::monitor {
     }
 
     # Include project specific monitor class if $my_project is set
-    if $my_project { 
-        case $my_project_onmodule {
-            yes,true: { include "${my_project}::samba::monitor" }
-            default: { include "samba::${my_project}::monitor" }
-        }
-    }
+    if $my_project { include "samba::${my_project}::monitor" }
 
 }

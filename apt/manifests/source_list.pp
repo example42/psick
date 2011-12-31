@@ -1,9 +1,9 @@
 define apt::sources_list (
-  require apt::params
-  
   $ensure = present,
   $source = false,
   $content = false) {
+
+  require apt::params
 
   if $source {
     file {"${apt::params::sourcelistdir}/${name}.list":

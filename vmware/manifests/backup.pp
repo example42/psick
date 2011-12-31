@@ -38,7 +38,4 @@ class vmware::backup {
         target    => "${vmware::params::backup_target_real}",
     }
 
-    # Include project specific backup class if $my_project is set
-    if $my_project { include "vmware::${my_project}::backup" }
-
 }

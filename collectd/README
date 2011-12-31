@@ -45,10 +45,8 @@ collectd::plugin { "pluginname":  } # Loads the specified plugin. Note that a om
 GENERAL VARIABLES:
 Example42 modules collection uses some general variables that can influence the behaviour of this module.
 You can happily live without considering or setting them, but they can be useful to manage different projects maintanining the module's resuability. 
-$my_project - If set, permits you to alter and customize the module behaviour in custom project classes
-$my_project_onmodule - If set to yes your project classes are looked in a dedicated project module:
-  - $my_project_onmodule not set -> Module autoloads collectd::$my_module (MODULEPATH/collectd/manifests/$my_project.pp)
-  - $my_project_onmodule == yes -> Module autoloads $my_module::collectd (MODULEPATH/$my_project/manifests/collectd.pp)
+$my_project - If set, permits you to alter and customize the module behaviour
+  and files's deploy logic in custom project classes than can be placed in a separated module.   
 $base_source - Let you define an alternative source for static files:
   - $base_source not set -> Files are looked in puppet://$servername/ (the PuppetMaster)
   - $base_source set -> Files are looked in $base_source ( could be puppet://$servername/$my_module ) 

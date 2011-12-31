@@ -38,7 +38,4 @@ class postfix::backup {
         target    => "${postfix::params::backup_target_real}",
     }
 
-    # Include project specific backup class if $my_project is set
-    if $my_project { include "postfix::${my_project}::backup" }
-
 }

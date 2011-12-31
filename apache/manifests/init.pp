@@ -47,15 +47,8 @@ class apache {
     if $monitor == "yes" { include apache::monitor }
     if $firewall == "yes" { include apache::firewall }
 
-    # Include project specific class if $my_project is set
-    # The extra project class is by default looked in apache module 
-    # If $my_project_onmodule == yes it's looked in your project module
-    if $my_project { 
-        case $my_project_onmodule {
-            yes,true: { include "${my_project}::apache" }
-            default: { include "apache::${my_project}" }
-        }
-    }
+    # Include project specific monitor class if $my_project is set
+    if $my_project { include "apache::${my_project}" }
 
     # Include debug class is debugging is enabled ($debug=yes)
     if ( $debug == "yes" ) or ( $debug == true ) { include apache::debug }

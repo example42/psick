@@ -41,14 +41,7 @@ class tomcat {
     if $firewall == "yes" { include tomcat::firewall }
 
     # Include project specific class if $my_project is set
-    # The extra project class is by default looked in tomcat module 
-    # If $my_project_onmodule == yes it's looked in your project module
-    if $my_project { 
-        case $my_project_onmodule {
-            yes,true: { include "${my_project}::tomcat" }
-            default: { include "tomcat::${my_project}" }
-        }
-    }
+    if $my_project { include "tomcat::${my_project}" }
 
     # Include debug class is debugging is enabled ($debug=yes)
     if ( $debug == "yes" ) or ( $debug == true ) { include tomcat::debug }

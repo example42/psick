@@ -119,15 +119,4 @@ class openldap::extra {
         content => template("openldap/extra/initldap.sh.erb"),
     }
 
-
-    # Include project specific class if $my_project is set
-    # The extra project class is by default looked in openldap module 
-    # If $my_project_onmodule == yes it's looked in your project module
-    if $my_project {
-        case $my_project_onmodule {
-            yes,true: { include "${my_project}::openldap::extra" }
-            default: { include "openldap::${my_project}::extra" }
-        }
-    }
-
 }

@@ -18,8 +18,8 @@ class powerdns {
         name   => "${powerdns::params::packagename}",
         ensure => present,
     }
-    package { "powerdns-sql":
-        name   => "${powerdns::params::packagename-sql}",
+    package { "powerdns_sql":
+        name   => "${powerdns::params::packagename_sql}",
         ensure => present,
     }
 

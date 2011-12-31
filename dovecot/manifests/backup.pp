@@ -38,12 +38,4 @@ class dovecot::backup {
         target    => "${dovecot::params::backup_target_real}",
     }
 
-    # Include project specific backup class if $my_project is set
-    if $my_project { 
-        case $my_project_onmodule {
-            yes,true: { include "${my_project}::dovecot::backup" }
-            default: { include "dovecot::backup::${my_project}" }
-        }
-    }
-
 }

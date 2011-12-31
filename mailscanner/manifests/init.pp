@@ -54,8 +54,8 @@ class mailscanner {
             },
     }
 
-    if $backup == "yes" { include mailscanner::backup }
-    if $monitor == "yes" { include mailscanner::monitor }
-    if $firewall == "yes" { include mailscanner::firewall }
+#    if $backup == "yes" { include mailscanner::backup }
+#    if $monitor == "yes" { include mailscanner::monitor }
+#    if $firewall == "yes" { include mailscanner::firewall }
 
 }

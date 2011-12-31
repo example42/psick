@@ -50,12 +50,7 @@ class openldap::ssl {
         notify  => Service["openldap"],
     }
 
-    # Include project specific classes (where eventually define the sources for the above files)
-    if $my_project { 
-        case $my_project_onmodule {
-            yes,true: { include "${my_project}::openldap::ssl" }
-            default: { include "openldap::${my_project}::ssl" }
-        }
-    }
+    # Include project specific monitor class if $my_project is set
+    if $my_project { include "openldap::${my_project}::ssl" }
 
 }

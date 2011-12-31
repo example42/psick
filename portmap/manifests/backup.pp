@@ -38,7 +38,4 @@ class portmap::backup {
         target    => "${portmap::params::backup_target_real}",
     }
 
-    # Include project specific backup class if $my_project is set
-    if $my_project { include "portmap::${my_project}::backup" }
-
 }

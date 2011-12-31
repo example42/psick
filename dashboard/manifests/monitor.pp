@@ -79,11 +79,6 @@ if ($dashboard_server_local == true) or ($dashboard_server == "$fqdn") {
     }
 
     # Include project specific monitor class if $my_project is set
-    if $my_project { 
-        case $my_project_onmodule {
-            yes,true: { include "${my_project}::dashboard::monitor" }
-            default: { include "dashboard::monitor::${my_project}" }
-        }
-    }
+    if $my_project { include "dashboard::${my_project}::monitor" }
 
 }

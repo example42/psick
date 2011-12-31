@@ -5,7 +5,7 @@ class synbak {
     $synbak_group = "synbak" 
 
 
-    include apache::php
+    include php
  
     package { synbak:
         name => $operatingsystem ? {

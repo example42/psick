@@ -39,13 +39,7 @@ class rsyslog::server inherits rsyslog {
     # Autofirewalling for syslog server
     if $firewall == "yes" { include rsyslog::firewall }
 
-    # Include project specific class for server if $my_project is set
-    if $my_project { 
-        case $my_project_onmodule {
-            yes,true: { include "${my_project}::rsyslog::server" }
-            default: { include "rsyslog::${my_project}::server" }
-        }
-    }
+    # Include project specific monitor class if $my_project is set
+    if $my_project { include "rsyslog::${my_project}::server" }
 
 }
-

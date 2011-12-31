@@ -1,4 +1,0 @@
-class yum::example43 {
-
-}
-
