@@ -1,7 +1,0 @@
-name    'lab42-postfix'
-version '0.1.4'
-
-# dependency 'lab42/common', '>= 0.1.0'
-# dependency 'lab42/monitor', '>= 0.1.0'
-# dependency 'lab42/backup', '>= 0.1.0'
-# dependency 'lab42/firewall', '>= 0.1.0'

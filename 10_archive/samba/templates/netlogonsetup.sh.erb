@@ -1,7 +1,0 @@
-#!/bin/sh
-# File managed by Puppet <%= puppetversion %> on <%= fqdn %>
-
-cd /archive/samba/netlogon
-tar zxvf /archive/samba/netlogon/netlogon.tar.gz .
-cp ./logo_<%= samba_workgroup %>.bmp logo.bmp
-cp ./logon_<%= samba_workgroup %>.kix logon.kix

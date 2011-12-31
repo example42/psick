@@ -1,9 +1,0 @@
-# File managed by Puppet
-user = <%= scope.lookupvar('postfix::params::mysqluser') %>
-password = <%= scope.lookupvar('postfix::params::mysqlpassword') %>
-hosts = <%= scope.lookupvar('postfix::params::mysqlhost') %>
-dbname = <%= scope.lookupvar('postfix::params::mysqldbname') %>
-
-table = alias
-select_field = goto
-where_field = address 

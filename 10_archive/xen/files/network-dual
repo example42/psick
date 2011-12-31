@@ -1,9 +1,0 @@
-#!/bin/bash
-PATH=/etc/xen/scripts:$PATH
-network-bridge start bridge=xenbr0 netdev=eth0 vifnum=0
-network-bridge start bridge=xenbr1 netdev=eth1 vifnum=1
-
-
-
-#"$dir/vif-bridge" bridge=xenbr0
-#"$dir/vif-bridge" bridge=xenbr1 
