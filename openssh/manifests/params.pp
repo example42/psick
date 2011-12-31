@@ -76,8 +76,10 @@ class openssh::params  {
     # If you need to define additional ports, call them $protocol1/$port1 and add the relevant
     # parts in firewall.pp and monitor.pp
     $protocol = "tcp"
-    $port = "22"
-
+    $port = $openssh_port ? {
+         ''      => "22",
+         default => "$openssh_port",
+    }
 
 
 ## DEFAULTS FOR MONITOR CLASS
