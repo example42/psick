@@ -9,7 +9,7 @@
 define dashboard::conf ($value) {
 
     config { "dashboard_conf_$name":
-        file      => ${dashboard::params::configfile},
+        file      => "${dashboard::params::configfile}",
         line      => "$name $value",
         pattern   => "$name ",
         engine    => "replaceline",
