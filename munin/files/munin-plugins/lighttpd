@@ -1,0 +1,159 @@
+#!/usr/bin/python
+"""
+Munin plugin to monitor lighttpd 2.x statistics
+Plugin Version 1.1
+
+Install:
+Copy this script to the directory of your other munin plugins
+(e.g. /usr/share/munin/plugins) and make it executeable (chmod +x).
+Then issue any of the following commands to enable the graphs:
+ln -s path_to_this_script /etc/munin/plugins/lighttpd_requests
+ln -s path_to_this_script /etc/munin/plugins/lighttpd_connections
+ln -s path_to_this_script /etc/munin/plugins/lighttpd_traffic
+ln -s path_to_this_script /etc/munin/plugins/lighttpd_statuscodes
+
+Also ensure that lighttpd has mod_status enabled and that your
+config contains a status.info action.
+Adjust the STATUS_URL below if needed.
+Example lighttpd 2.x config: if req.path == "/status" { status.info; }
+
+Copyright (c) 2009-2010 Thomas Porzelt
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+"""
+
+import os, sys, urllib2
+
+STATUS_URL = os.environ.get('statusurl', 'http://127.0.0.1/status?format=plain')
+
+
+def print_config(param):
+	# generates and returns a munin config for a given chart
+	if param == 'requests':
+		print 'graph_title lighttpd: requests'
+		print 'graph_category lighttpd'
+		print 'graph_vlabel requests / s'
+		print 'graph_info Requests per second'
+		print 'requests.label requests / s'
+		print 'requests.type DERIVE'
+		print 'requests.min 0'
+	elif param == 'traffic':
+		print 'graph_title lighttpd: traffic'
+		print 'graph_category lighttpd'
+		print 'graph_vlabel bytes / s'
+		print 'graph_info Traffic in bytes per second'
+		print 'traffic_in.label incoming'
+		print 'traffic_in.type DERIVE'
+		print 'traffic_in.min 0'
+		print 'traffic_out.label outgoing'
+		print 'traffic_out.type DERIVE'
+		print 'traffic_out.min 0'
+	elif param == 'connections':
+		print 'graph_title lighttpd: connections'
+		print 'graph_category lighttpd'
+		print 'graph_vlabel connections'
+		print 'graph_info Connections'
+		print 'con_start.type GAUGE'
+		print 'con_start.label start'
+		print 'con_read_header.label read header'
+		print 'con_handle_request.label handle request'
+		print 'con_write_response.label write response'
+		print 'con_keepalive.label keep alive'
+		print 'con_total.label total'
+	elif param == 'statuscodes':
+		print 'graph_title lighttpd: status codes'
+		print 'graph_category lighttpd'
+		print 'graph_vlabel status codes'
+		print 'graph_info Response status codes'
+		print 'status_1xx.label 1xx (info)'
+		print 'status_1xx.type DERIVE'
+		print 'status_1xx.min 0'
+		print 'status_2xx.label 2xx (success)'
+		print 'status_2xx.type DERIVE'
+		print 'status_2xx.min 0'
+		print 'status_3xx.label 3xx (redirect)'
+		print 'status_3xx.type DERIVE'
+		print 'status_3xx.min 0'
+		print 'status_4xx.label 4xx (client error)'
+		print 'status_4xx.type DERIVE'
+		print 'status_4xx.min 0'
+		print 'status_5xx.label 5xx (server error)'
+		print 'status_5xx.type DERIVE'
+		print 'status_5xx.min 0'
+
+def print_status(param):
+	global STATUS_URL
+	statuslist = urllib2.urlopen(STATUS_URL).readlines()
+
+	for entry in statuslist:
+		if len(entry) == 1 or entry[0] == '#':
+			continue
+		key, value = entry.split(': ')
+		if param == 'requests' and key == 'requests_abs':
+			print 'requests.value %s' % (value)
+		elif param == 'traffic':
+			if key == 'traffic_out_abs':
+				print 'traffic_out.value %s' % (value)
+			elif key == 'traffic_in_abs':
+				print 'traffic_in.value %s' % (value)
+		elif param == 'connections':
+			if key == 'connections_abs':
+				print 'con_total.value %s' % (value)
+			if key == 'connection_state_start':
+				print 'con_start.value %s' % (value)
+			elif key == 'connection_state_read_header':
+				print 'con_read_header.value %s' % (value)
+			elif key == 'connection_state_handle_request':
+				print 'con_handle_request.value %s' % (value)
+			elif key == 'connection_state_write_response':
+				print 'con_write_response.value %s' % (value)
+			elif key == 'connection_state_keep_alive':
+				print 'con_keepalive.value %s' % (value)
+		elif param == 'statuscodes':
+			if key == 'status_1xx':
+				print 'status_1xx.value %s' % (value)
+			elif key == 'status_2xx':
+				print 'status_2xx.value %s' % (value)
+			elif key == 'status_3xx':
+				print 'status_3xx.value %s' % (value)
+			elif key == 'status_4xx':
+				print 'status_4xx.value %s' % (value)
+			elif key == 'status_5xx':
+				print 'status_5xx.value %s' % (value)
+
+if __name__ == '__main__':
+	try:
+		param = os.path.split(sys.argv[0])[-1].split('_')[1]
+	except IndexError:
+		param = 'requests'
+
+	if param not in ['requests', 'traffic', 'connections', 'statuscodes']:
+		print 'unknown parameter %s' % (param)
+		sys.exit(1)
+
+	if len(sys.argv) > 1:
+		if sys.argv[1] == 'autoconf':
+			print 'yes'
+			sys.exit(0)
+		elif sys.argv[1] == 'config':
+			print_config(param)
+			sys.exit(0)
+
+	print_status(param)
+

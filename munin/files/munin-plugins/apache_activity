@@ -21,7 +21,7 @@ if (!eval "require LWP::UserAgent;") {
 my $URL = exists $ENV{'url'} ? $ENV{'url'} : "http://127.0.0.1:%d/server-status?auto";
 my @PORTS = exists $ENV{'ports'} ? split(' ', $ENV{'ports'}) : (80);
 my %chars = (
-	     '\_' => 'Waiting',
+#	     '\_' => 'Waiting',
 	     'S' => 'Starting up',
 	     'R' => 'Reading request',
 	     'W' => 'Sending reply',
@@ -31,7 +31,7 @@ my %chars = (
 	     'L' => 'Logging',
 	     'G' => 'Gracefully finishing',
 	     'I' => 'Idle cleanup',
-	     '\.' => 'Open slot',
+#	     '\.' => 'Open slot',
 	     );
 
 #    "_" Waiting for Connection, "S" Starting up, "R" Reading Request,

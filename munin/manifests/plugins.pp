@@ -9,6 +9,8 @@ class munin::plugins {
 
     # Filemgr plugin
     munin::plugin { "apache_activity": } 
+    munin::plugin { "lighttpd": } 
+#    munin::plugin { "bind97_": } 
     # munin::plugin { "apache_activity": enable => "no" } 
 
 }
