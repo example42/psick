@@ -6,11 +6,10 @@ $puppet_db = "mysql"
 $puppet_db_server = "localhost"
 $puppet_db_user = "puppet"
 $puppet_db_password = "mys3cr3tp4ss0rd"
-$puppet_allow = [ "*.example42.com" , "10.42.20.0" ]
+$puppet_allow = [ "*.example42.com" , "10.42.20.*" ]
 $puppet_nodetool = "foreman"
 # $puppet_externalnodes = "no"
 
     include example42::role::general
-
 
 }
