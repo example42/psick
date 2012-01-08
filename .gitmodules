@@ -7,3 +7,6 @@
 [submodule "stdlib"]
 	path = stdlib
 	url = https://github.com/puppetlabs/puppetlabs-stdlib.git
+[submodule "jenkins"]
+	path = jenkins
+	url = https://example42@github.com/example42/puppet-jenkins.git
