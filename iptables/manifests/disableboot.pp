@@ -5,7 +5,7 @@
 # Usage:
 # include iptables::disableboot
 #
-class iptables::disableboot inherits iptables::base {
+class iptables::disableboot inherits iptables {
     Service["iptables"] {
         enable => "false",
     }

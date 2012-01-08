@@ -2,41 +2,28 @@
 #
 # Remove sysklogd monitor elements
 #
-class sysklogd::monitor::absent {
+class sysklogd::monitor::absent inherits sysklogd::monitor {
 
     include sysklogd::params
 
     # Port monitoring
-    monitor::port { "sysklogd_${sysklogd::params::protocol}_${sysklogd::params::port}": 
-        protocol => "${sysklogd::params::protocol}",
-        port     => "${sysklogd::params::port}",
-        target   => "${sysklogd::params::monitor_target_real}",
+    Monitor::Port["sysklogd_${sysklogd::params::protocol}_${sysklogd::params::port}"] { 
         enable   => "false",
-        tool     => "${monitor_tool}",
     }
     
     # URL monitoring 
-    monitor::url { "sysklogd_url":
-        url      => "${sysklogd::params::monitor_baseurl_real}/index.php",
-        pattern  => "${sysklogd::params::monitor_url_pattern}",
+    Monitor::Url["sysklogd_url"] {
         enable   => "false",
-        tool     => "${monitor_tool}",
     }
 
     # Process monitoring 
-    monitor::process { "sysklogd_process":
-        process  => "${sysklogd::params::processname}",
-        service  => "${sysklogd::params::servicename}",
-        pidfile  => "${sysklogd::params::pidfile}",
+    Monitor::Process["sysklogd_process"] { 
         enable   => "false",
-        tool     => "${monitor_tool}",
     }
 
     # Use a specific plugin (according to the monitor tool used)
-    monitor::plugin { "sysklogd_plugin":
-        plugin   => "sysklogd",
+    Monitor::Plugin["sysklogd_plugin"] {
         enable   => "false",
-        tool     => "${monitor_tool}",
     }
 
 }
