@@ -15,10 +15,12 @@ The Example42 modules set is going to have some heavy modifications:
 * The "nextgen" modules, still under development and research are
   placed in the dedicated repository:
   https://github.com/example42/puppet-modules-nextgen
+
   Read http://www.example42.com/?q=NextGen for more info about them
 
 * In the master branch of this repository I'm going to merge old and new
-  modules: all the new modules are git submodules
+  modules: all the new modules are git submodules, the old ones are not
+  submodules
 
 The reason for this choice is that I need to test the new modules in a 
 live environment and that, in the mid-term, this repository is going to
@@ -49,15 +51,18 @@ The new modules allow much cleaner and separated customizations so that you
 hardly need to modify them in order to add custom resources or redefine
 existing ones.
 
-Decommissioning or classes is now done via top scope variables or arguments 
+Decommissioning of classes is now done via top scope variables or arguments 
 of the main class (absent, disable, disableboot) and not including the relevant
 sub-class.
 
 Monitoring and firewalling abstraction and Puppi integration are still present,
-while backup abrastion has been discontinued.
+while backup abstraction has been discontinued.
 The new modules use an alternative approach to Puppi integration.
 The Puppi module is going to remain unique and compatible for both the old and
 the new modules, at least until the migration has been completed.
+
+This transition is going to last some months and will hopefully be completed
+by the release of Puppet 2.8 (somewhen in 2012?)
 
 For any question contact me via GitHub or on http://www.example42.com
 
