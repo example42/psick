@@ -25,3 +25,6 @@
 [submodule "firewall"]
 	path = firewall
 	url = https://github.com/example42/puppet-firewall
+[submodule "iptables"]
+	path = iptables
+	url = https://github.com/example42/puppet-iptables
