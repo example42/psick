@@ -13,3 +13,9 @@
 [submodule "tomcat"]
 	path = tomcat
 	url = https://github.com/example42/puppet-tomcat.git
+[submodule "splunk"]
+	path = splunk
+	url = https://example42@github.com/example42/puppet-splunk
+[submodule "monitor"]
+	path = monitor
+	url = https://example42@github.com/example42/puppet-monitor
