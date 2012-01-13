@@ -2,7 +2,7 @@ require 'rake'
 require 'rspec/core/rake_task'
 
 task :default do
-    FileList["*/Rakefile"].exclude('stdlib').each do |project|
+    FileList["*/Rakefile"].exclude('stdlib.Rakefile').each do |project|
         Rake::Task.clear
         load project
         if !Rake::Task.task_defined?(:default)
