@@ -1,9 +1,20 @@
 require 'rake'
 require 'rspec/core/rake_task'
 
-RSpec::Core::RakeTask.new(:test) do |t|
-  t.rspec_opts = ["--format", "doc", "--color"]
-  t.pattern = '*/spec/*/*_spec.rb'
+task :default do
+    FileList["*/Rakefile"].exclude('stdlib').each do |project|
+        Rake::Task.clear
+        load project
+        if !Rake::Task.task_defined?(:default)
+            puts "No default task defined in #{project}, aborting!"
+            exit -1
+        else
+            dir = project.pathmap("%d")
+            Dir.chdir(dir) do
+                default_task = Rake::Task[:default]
+                default_task.invoke()
+            end
+        end
+    end
+    puts "Done building projects"
 end
-
-task :default => :test

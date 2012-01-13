@@ -34,6 +34,24 @@ If you don't intend to keep your local copy aligned to the upstream version
 you won't have problems, though I reccommend to migrate to the new 
 modules sooner or later.
 
+## INSTALLATION
+You can retrieve the Example42 modules Version 1.0 (Stable) with:
+
+        git clone --recursive -b 1.0 git://github.com/example42/puppet-modules.git
+
+You can get the current module set, which is in a transition phase with both 1.0 and NextGen modules with:
+
+        git clone --recursive git://github.com/example42/puppet-modules.git
+
+## UPDATE
+When you want to update the modules with the upstream version (don't do this directory in a production environment!) remember that also the submodules have to be updated:
+
+        cd /etc/puppet/modules # Or the dir where you have your local git repo
+        git pull origin master
+        git submodule init
+        git submodule update
+        git submodule foreach git pull origin master
+
 ## DIFFERENCES BETWEEN OLD AND NEW MODULES
 
 The new modules are compatible only with Puppet versions > 2.6
