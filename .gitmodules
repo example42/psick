@@ -33,4 +33,4 @@
 	url = https://github.com/example42/puppet-foo
 [submodule "Example42-tools"]
 	path = Example42-tools
-	url = https://example42@github.com/example42/Example42-tools.git
+	url = https://github.com/example42/Example42-tools.git
