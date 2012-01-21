@@ -28,3 +28,6 @@
 [submodule "iptables"]
 	path = iptables
 	url = https://github.com/example42/puppet-iptables
+[submodule "foo"]
+	path = foo
+	url = https://github.com/example42/puppet-foo
