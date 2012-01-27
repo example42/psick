@@ -34,3 +34,6 @@
 [submodule "Example42-tools"]
 	path = Example42-tools
 	url = https://github.com/example42/Example42-tools.git
+[submodule "openssh"]
+	path = openssh
+	url = https://github.com/example42/puppet-openssh
