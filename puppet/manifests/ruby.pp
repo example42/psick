@@ -21,6 +21,7 @@ class puppet::ruby {
       default => "rake",
       "CentOs" => "rubygem-rake",
       "RedHat" => "rubygem-rake",
+      "Scientific" => "rubygem-rake",
     },
     ensure => installed,
   }
@@ -30,6 +31,7 @@ class puppet::ruby {
       default => "libsqlite3-ruby",
       "CentOs" => "rubygem-sqlite3-ruby",
       "RedHat" => "rubygem-sqlite3-ruby",
+      "Scientific" => "rubygem-sqlite3-ruby",
     },
     ensure => installed,
   }
