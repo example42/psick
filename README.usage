@@ -1,10 +1,16 @@
-== MODULES USAGE
+= MODULES USAGE
 
 The Next Gen Example42 Puppet modules share a common layout that make it possible
-to use them with a coherent and standard (well, at least inside the same module set)
+to use them with a coherent and standard (at least inside the same module set)
 appoach.
 
-A module (in this case we use openssh as sample) can be used in 3 ways:
+When using a module, generally, you have to "include" or call it and provide
+in some way variables that affect the module's behaviour and the configuration
+files it deploys.
+
+=== ALTERNATIVE OPTIONS TO PROVIDE DATA 
+In the next-gen Example42 modules you have 3 different ways to provide variables
+to a module:
 
 * With the old style "Set variables and include class" pattern:
 
@@ -48,6 +54,44 @@ Below you have an overview of the most important module's parameters (you can mi
 The examples use parametrized classes, but for all the parameters you can set a $openssh_ top scope variable.
 
 For example, the variable "$openssh_absent" is equivant to the "absent =>" parameter or hiera_lookup('openssh_absent').
+
+=== THE MAGIC OF PARAMS_LOOKUP
+The described behaviour is provided by the function params_lookup used for each module's argument.
+This function is provided by the puppi module, which is required by every example42 module.
+Note that you are not forced to use (include) Puppi itself to use Example42 modules, you just need it to autoload its functions (in this case consider it as a Example42 stdlib).
+
+Params_lookup has this behaviour, for each parameter passed to a class or defined where is used:
+
+- If the argument is explicitely set, while calling the class, that's the value used (that's standard Puppet behaviour). For example: 
+
+        class { "openssh":
+          monitor_tool => [ "nagios" , "munin" , "puppi" ],
+        }
+
+- If no argument is explicitely defined an automatic lookup is made with this precedence:
+
+- If Hiera exists and the params_lookup has the 'global' option set, an Hiera lookup is done on a general variable with the same name:
+
+       hiera('monitor_tool')
+
+- If Hiera exists, an Hiera lookup is done to a, more specific, variable with the same name and the class name as prefix:
+
+       hiera('openssh_monitor_tool')
+
+- If Hiera does not exist or doesn't return any value the lookup is done on top scope variables. If the 'global' option is set, there's a first lookup of a top scope variable with the same name:
+
+       ::monitor_tool
+
+- Then a module specific top scope variable is looked for:
+
+       ::openssh_monitor_tool
+
+- Finally is the module's user has to set the variable in any way, the function looks for the default value (or the right value for different operating systems) in the params class of the same module:
+
+       ::openssh::params::monitor_tool
+
+This is doen for each argument provided by the main module class. Some of these arguments are related to the relevant application setup on different operating system, you generally have not to change them (BUT you still can, if needed): package, service, config_file... and so on.
+Other arguments affect the module's behaviour and how you can customize it without modifying it. Let's see the most important ones.
 
 === USAGE - Basic management
 * Install openssh with default settings
