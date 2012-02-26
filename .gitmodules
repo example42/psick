@@ -34,3 +34,9 @@
 [submodule "openssh"]
 	path = openssh
 	url = https://github.com/example42/puppet-openssh
+[submodule "redis"]
+	path = redis
+	url = https://github.com/example42/puppet-redis.git
+[submodule "haproxy"]
+	path = haproxy
+	url = https://github.com/example42/puppet-haproxy.git
