@@ -18,44 +18,49 @@
 #
 # Sample Usage:
 #  apache::vhost { 'site.name.fqdn':
-#    priority => '20',
-#    port => '80',
-#    docroot => '/path/to/docroot',
+#  priority => '20',
+#  port => '80',
+#  docroot => '/path/to/docroot',
 #  }
 #
-define apache::vhost( $port='80', $docroot, $ssl=true, $template='apache/virtualhost/virtualhost.conf.erb', $priority='50', $serveraliases = '' , $enable=true) {
+define apache::vhost (
+  $docroot,
+  $port          = '80',
+  $ssl           = false,
+  $template      = 'apache/virtualhost/virtualhost.conf.erb',
+  $priority      = '50',
+  $serveraliases = '',
+  $enable        = true ) {
 
-    include apache
-    include apache::params
+  include apache
+  include apache::params
 
-    file {"${apache::params::vdir}/${priority}-${name}.conf":
-        content => template($template),
-        mode    => "${apache::params::configfile_mode}",
-        owner   => "${apache::params::configfile_owner}",
-        group   => "${apache::params::configfile_group}",
-        require => Package['apache'],
-        notify => Service['apache'],
+  file { "${apache::params::vdir}/${priority}-${name}.conf":
+    content => template($template),
+    mode    => $apache::params::configfile_mode,
+    owner   => $apache::params::configfile_owner,
+    group   => $apache::params::configfile_group,
+    require => Package['apache'],
+    notify  => Service['apache'],
+  }
+
+  # Some OS specific settings:
+  # On Debian/Ubuntu manages sites-enabled 
+  case $operatingsystem {
+    ubuntu,debian,mint: {
+      file { "ApacheVHostEnabled_$name":
+        path   => "/etc/apache2/sites-enabled/${priority}-${name}.conf",
+        ensure => $enable ? {
+          true  => "${apache::params::vdir}/${priority}-${name}.conf",
+          false => absent,
+        },
+        require => Package["apache"],
+      }
     }
-
-    # Some OS specific settings:
-    # On Debian/Ubuntu manages sites-enabled 
-    # On RedHat/Centos Creates the apache conf file with NameVirtualHost directive
-    case $operatingsystem {
-        ubuntu,debian: {
-            file { "ApacheVHostEnabled_$name":
-                path   => "/etc/apache2/sites-enabled/${priority}-${name}",
-                ensure => $enable ? {
-                    true  => "/etc/apache2/sites-available/${priority}-${name}",
-                    false => absent,
-                },
-                require => Package["apache"],
-            }
-            apache::ports { "81": https => "8143" }
-        }
-        redhat,centos: {
-#            apache::dotconf { "00-NameVirtualHost": content => template("apache/00-NameVirtualHost.conf.erb") }
-        }
-        default: { }
+    redhat,centos,scientific,fedora: {
+      include apache::redhat
     }
+    default: { }
+  }
+
 }
-

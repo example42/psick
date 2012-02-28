@@ -29,7 +29,7 @@ class puppet::server::passenger {
         source => 'puppet:///modules/puppet/config.ru',
     }
 
-    apache::vhost { 'puppetmaster.conf':
+    apache::vhost { 'puppetmaster':
         port => '8140',
         priority => '10',
         docroot => '/etc/puppet/rack/public/',
