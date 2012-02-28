@@ -9,7 +9,7 @@ include mailscanner::params
         timeout     => 3600,
     }
 
-    netinstall { mailscanner:
+    puppi::netinstall { mailscanner:
         url         => "${mailscanner::params::source_url}",
         extracted_dir   => "${mailscanner::params::extracted_dir}",
 #        preextract_command => "${mailscanner::params::preextract_command}",

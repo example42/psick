@@ -10,7 +10,7 @@
 # $mailscanner_mysqlhost = "127.0.0.1"
 # $mailscanner_mysqldbname = "mailscanner"
 #
-# This class requires Example42 apache module (just for the php::module define) and Example42 common module (for the netinstall and config defines)
+# This class requires Example42 apache module (just for the php::module define) and Example42 puppi and common module (for the netinstall and config defines)
 # NOTE: Due to molteplicy of relations, this class is tuned and tested for a 
 # Postfix + MailScanner + MailWatch installation on RedHat/Centos 5.
 # You may need to fix and refine things for proper work under different setups.
@@ -45,7 +45,7 @@ File["MailScanner.conf"] {
 
 # Download sources from official site
 
-    netinstall { "mailwatch":
+    puppi::netinstall { "mailwatch":
         url         => "${mailscanner::params::mailwatch_source_url}",
         extracted_dir   => "${mailscanner::params::mailwatch_extracted_dir}",
         postextract_command => "cp -a mailscanner ${mailscanner::params::mailwatch_webdir}",

@@ -11,7 +11,7 @@
 # $postfix_mysqldbname = "postfix"
 # $postfix_mynetworks = $network/$netmask
 #
-# This class requires Example42 apache module (just for the php::module define) and Example42 common module (for the netinstall and config defines)
+# This class requires Example42 apache module (just for the php::module define) and Example42 puppi and common module (for the netinstall and config defines)
 #
 # You may have these components on separated servers or included on the same host
 # Postfix (with Mysql support): include postfix::mysql
@@ -30,7 +30,7 @@ class postfix::postfixadmin {
         default: { php::module  { [ mysql, mbstring, imap ]: } }
     }
 
-    netinstall { postfixadmin:
+    puppi::netinstall { postfixadmin:
         url                 => "{postfix::params::postfixadmin_url}",
         extracted_dir       => "${postfix::params::postfixadmin_dirname}",
         postextract_command => "ln -s ${postfix::params::postfixadmin_dirname} ../postfixadmin",

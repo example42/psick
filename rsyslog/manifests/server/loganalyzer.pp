@@ -12,7 +12,7 @@ class rsyslog::server::loganalyzer {
     php::module { mysql: }
     php::module { gd: }
 
-    netinstall { "netinstall_loganalyzer":
+    puppi::netinstall { "netinstall_loganalyzer":
         url              => "${rsyslog::params::loganalyzer_url}",
         extracted_dir    => "${rsyslog::params::loganalyzer_dirname}",
         destination_dir  => "${apache::params::documentroot}",

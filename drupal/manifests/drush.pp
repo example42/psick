@@ -7,7 +7,7 @@ class drupal::drush {
 
     require drupal::params
 
-    netinstall { "netinstall_drush":
+    puppi::netinstall { "netinstall_drush":
         url              => "${drupal::params::drush_url}",
         extracted_dir    => "drush",
         destination_dir  => "${drupal::params::sitesdir}/all/modules",
