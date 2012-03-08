@@ -40,3 +40,6 @@
 [submodule "haproxy"]
 	path = haproxy
 	url = https://github.com/example42/puppet-haproxy.git
+[submodule "mysql"]
+	path = mysql
+	url = https://github.com/example42/puppet-mysql
