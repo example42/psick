@@ -31,11 +31,7 @@ command[check_load]=<%= scope.lookupvar('nrpe::params::pluginsdir') %>/check_loa
 command[check_zombie_procs]=<%= scope.lookupvar('nrpe::params::pluginsdir') %>/check_procs -w 5 -c 10 -s Z
 command[check_ageandcontent]=<%= scope.lookupvar('nrpe::params::pluginsdir') %>/check_ageandcontent.pl -f "$ARG1$" -i "$ARG2$" -n "$ARG3$" -m "$ARG4$"
 command[check_total_procs]=<%= scope.lookupvar('nrpe::params::pluginsdir') %>/check_procs -w 150 -c 200 
-<% if scope.lookupvar("ntp_server") != "" -%>
-command[check_ntp]=<%= scope.lookupvar('nrpe::params::pluginsdir') %>/check_ntp -H <%= scope.lookupvar("ntp_servers").first %>
-<% else -%>
 command[check_ntp]=<%= scope.lookupvar('nrpe::params::pluginsdir') %>/check_ntp -H <%= scope.lookupvar("nrpe::params::ntp") %>
-<% end -%>
 <% if operatingsystem == "Debian" || operatingsystem == "Ubuntu" -%>
 command[check_apt]=<%= scope.lookupvar('nrpe::params::pluginsdir') %>/check_apt
 <% end -%>
