@@ -46,3 +46,6 @@
 [submodule "nginx"]
 	path = nginx
 	url = https://github.com/example42/puppet-nginx.git
+[submodule "apache"]
+	path = apache
+	url = https://github.com/example42/puppet-apache.git
