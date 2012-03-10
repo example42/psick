@@ -58,3 +58,6 @@
 [submodule "openntpd"]
 	path = openntpd
 	url = https://github.com/example42/puppet-openntpd
+[submodule "DOCS"]
+	path = DOCS
+	url = https://github.com/example42/Example42-documentation

@@ -5,6 +5,8 @@ Released under the terms of Apache2 licence
 Official website:
 http://www.example42.com
 
+Check the DOCS directory fro more documentation.
+
 == IMPORTANT NOTICE:
 
 The Example42 modules set is going to have some heavy modifications:
