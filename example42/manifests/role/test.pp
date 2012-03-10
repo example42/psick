@@ -4,5 +4,11 @@ class example42::role::test {
 ##  include example42::role::allabsent
 ##  include example42::role::alldisable
 ##  include example42::role::alldisableboot
-  include example42::role::all
+#  include example42::role::all
+
+class { "wordpress":
+  install             => "source",
+  web_server => nginx ,
+}
+
 }

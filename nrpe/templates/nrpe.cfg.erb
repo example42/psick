@@ -21,14 +21,15 @@ command[check_process]=<%= scope.lookupvar('nrpe::params::pluginsdir') %>/check_
 command[check_processwitharg]=<%= scope.lookupvar('nrpe::params::pluginsdir') %>/check_procs -c 1: -C "$ARG1$" -a "$ARG2$"
 command[check_port_tcp]=<%= scope.lookupvar('nrpe::params::pluginsdir') %>/check_tcp -H "$ARG1$" -p "$ARG2$"
 command[check_port_udp]=<%= scope.lookupvar('nrpe::params::pluginsdir') %>/check_udp -H "$ARG1$" -p "$ARG2$"
-command[check_url]=<%= scope.lookupvar('nrpe::params::pluginsdir') %>/check_http -I "$ARG1$" -p "$ARG2$" -u "$ARG3$" -s "$ARG4$"
-command[check_url_auth]=<%= scope.lookupvar('nrpe::params::pluginsdir') %>/check_http -I "$ARG1$" -p "$ARG2$" -u "$ARG3$" -s "$ARG4$" -a "$ARG5$"
+command[check_url]=<%= scope.lookupvar('nrpe::params::pluginsdir') %>/check_http -I "$ARG1$" -p "$ARG2$" -u "$ARG3$" -r "$ARG4$" -A "$ARG5$" -H "$ARG6$"
+command[check_url_auth]=<%= scope.lookupvar('nrpe::params::pluginsdir') %>/check_http -I "$ARG1$" -p "$ARG2$" -u "$ARG3$" -r "$ARG4$" -a "$ARG5$" -A "$ARG6$"-H "$ARG7"
 command[check_swap]=<%= scope.lookupvar('nrpe::params::pluginsdir') %>/check_swap -w 50 -c 10
 command[check_mailq]=<%= scope.lookupvar('nrpe::params::pluginsdir') %>/check_mailq -w 1 -c 5
-command[check_all_disks]=<%= scope.lookupvar('nrpe::params::pluginsdir') %>/check_disk -w 20% -c 10% -A
+command[check_all_disks]=<%= scope.lookupvar('nrpe::params::pluginsdir') %>/check_disk -w 20% -c 10% -L -X tmpfs
 command[check_users]=<%= scope.lookupvar('nrpe::params::pluginsdir') %>/check_users -w 5 -c 10
 command[check_load]=<%= scope.lookupvar('nrpe::params::pluginsdir') %>/check_load -w 15,10,5 -c 30,25,20
 command[check_zombie_procs]=<%= scope.lookupvar('nrpe::params::pluginsdir') %>/check_procs -w 5 -c 10 -s Z
+command[check_ageandcontent]=<%= scope.lookupvar('nrpe::params::pluginsdir') %>/check_ageandcontent.pl -f "$ARG1$" -i "$ARG2$" -n "$ARG3$" -m "$ARG4$"
 command[check_total_procs]=<%= scope.lookupvar('nrpe::params::pluginsdir') %>/check_procs -w 150 -c 200 
 command[check_ntp]=<%= scope.lookupvar('nrpe::params::pluginsdir') %>/check_ntp -H <%= scope.lookupvar("nrpe::params::ntp") %>
 <% if operatingsystem == "Debian" || operatingsystem == "Ubuntu" -%>

@@ -1,9 +1,9 @@
 [submodule "puppi"]
 	path = puppi
-	url = git://github.com/example42/puppi.git
+	url = https://github.com/example42/puppi.git
 [submodule "wordpress"]
 	path = wordpress
-	url = git://github.com/example42/puppet-wordpress.git
+	url = https://github.com/example42/puppet-wordpress.git
 [submodule "jenkins"]
 	path = jenkins
 	url = https://github.com/example42/puppet-jenkins.git
@@ -42,7 +42,7 @@
 	url = https://github.com/example42/puppet-haproxy.git
 [submodule "mysql"]
 	path = mysql
-	url = https://github.com/example42/puppet-mysql.git
+	url = https://github.com/example42/puppet-mysql
 [submodule "nginx"]
 	path = nginx
 	url = https://github.com/example42/puppet-nginx.git
