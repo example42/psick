@@ -12,7 +12,7 @@ class nagios {
 
     # Load the variables used in this module. Check the params.pp file 
     require nagios::params
-    include apache::params
+#    include apache::params
 
     # No Nagios without webserver
     include apache
@@ -58,7 +58,7 @@ class nagios {
             path    => "${nagios::params::commanddir}",
             mode    => "750",
             owner   => "${nagios::params::username}",
-            group   => "${apache::params::username}",
+            group   => "${apache::process_user}",
             ensure  => present,
             require => Package["nagios"],
         }
@@ -67,7 +67,7 @@ class nagios {
             path    => "${nagios::params::commandfile}",
             mode    => "660",
             owner   => "${nagios::params::username}",
-            group   => "${apache::params::username}",
+            group   => "${apache::process_user}",
             ensure  => present,
             require => Package["nagios"],
             notify  => Service["nagios"],
