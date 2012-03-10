@@ -49,3 +49,12 @@
 [submodule "apache"]
 	path = apache
 	url = https://github.com/example42/puppet-apache.git
+[submodule "xinetd"]
+	path = xinetd
+	url = https://github.com/example42/puppet-xinetd
+[submodule "tftp"]
+	path = tftp
+	url = https://github.com/example42/puppet-tftp
+[submodule "openntpd"]
+	path = openntpd
+	url = https://github.com/example42/puppet-openntpd

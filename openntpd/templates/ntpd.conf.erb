@@ -1,9 +1,0 @@
-# File managed by Puppet
-
-# Addresses to listen on (ntpd does not listen by default)
-#listen on *
-
-#NTP servers to use
-<% ntp_server.each do |ntp| -%>
-server <%= ntp %>
-<% end %>
