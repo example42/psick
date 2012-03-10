@@ -5,7 +5,7 @@ Released under the terms of Apache2 licence
 Official website:
 http://www.example42.com
 
-Check the {DOCS}[link:DOCS] directory for more documentation.
+Check the {DOCS}[link:Example42-documentation] directory for more documentation.
 
 == IMPORTANT NOTICE:
 
