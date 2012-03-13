@@ -61,3 +61,6 @@
 [submodule "DOCS"]
 	path = DOCS
 	url = https://github.com/example42/Example42-documentation
+[submodule "nrpe"]
+	path = nrpe
+	url = https://github.com/example42/puppet-nrpe
