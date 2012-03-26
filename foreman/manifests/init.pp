@@ -15,18 +15,18 @@ class foreman {
 
     # Load the variables used in this module. Check the params.pp file
     require foreman::params
-    include puppet::params
+    include puppet
 
 
     # Variables used inside the module- Their values is obtained from Example42 variables scheme for puppet module
-    $using_store_configs = "${puppet::params::storeconfigs}" ? {
-        yes => true,
-        no  => false,
+    $using_store_configs = "${puppet::bool_storeconfigs}" ? {
+        'true'  => true,
+        'false' => false,
     }
     
-    $using_passenger = "${puppet::params::passenger}" ? {
-        tofixyes => true,
-        default  => false,
+    $using_passenger = "${puppet::bool_passenger}" ? {
+        'true ' => true,
+        default => false,
     }
   
   $railspath           = "${foreman::params::basedir}"
@@ -60,8 +60,8 @@ class foreman {
         package: { include foreman::package }
     }
 
-    case $puppet::params::passenger {
-        yes: { include foreman::passenger }
+    case $puppet::bool_passenger {
+        true: { include foreman::passenger }
         default: { }
     }
 

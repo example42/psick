@@ -1,14 +1,23 @@
 class example42::role::test {
- $role="test"
-###    include example42::role::general
-##  include example42::role::allabsent
-##  include example42::role::alldisable
-##  include example42::role::alldisableboot
+  $role="test"
+
+  include example42::role::general
+
+#  include example42::role::allabsent
+#  include example42::role::alldisable
+#  include example42::role::alldisableboot
 #  include example42::role::all
 
-class { "wordpress":
-  install             => "source",
-  web_server => nginx ,
-}
+#class { "wordpress":
+#  install             => "source",
+#  web_server => nginx ,
+#}
+
+  class { 'mysql':
+#    puppi  => true,
+#    monitor => true,
+#    monitor_tool => 'puppi',
+     disable => false,
+  }
 
 }
