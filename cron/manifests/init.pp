@@ -1,17 +1,13 @@
 class cron {
 
-    case $operatingsystem {
-        centos: {
+    case $::osfamily {
+        'Redhat': {
             include cron::base
             include cron::crontabs
         }
-        redhat: {
+        'Debian': {
             include cron::base
-            include cron::crontabs
         }
-
-        debian: { include cron::base }
-        ubuntu: { include cron::base }
         freebsd: { }
     }
 
