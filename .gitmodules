@@ -88,3 +88,6 @@
 [submodule "maven"]
 	path = maven
 	url = https://github.com/example42/puppet-maven.git
+[submodule "openvpn"]
+	path = openvpn
+	url = https://github.com/example42/puppet-openvpn.git
