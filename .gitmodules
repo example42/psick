@@ -76,3 +76,9 @@
 [submodule "puppetdashboard"]
 	path = puppetdashboard
 	url = https://github.com/example42/puppet-puppetdashboard.git
+[submodule "orientdb"]
+	path = orientdb
+	url = https://github.com/example42/puppet-orientdb.git
+[submodule "postgresql"]
+	path = postgresql
+	url = https://github.com/example42/puppet-postgresql.git
