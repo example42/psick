@@ -73,3 +73,6 @@
 [submodule "resolver"]
 	path = resolver
 	url = https://github.com/example42/puppet-resolver.git
+[submodule "puppetdashboard"]
+	path = puppetdashboard
+	url = https://github.com/example42/puppet-puppetdashboard.git
