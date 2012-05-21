@@ -82,3 +82,9 @@
 [submodule "postgresql"]
 	path = postgresql
 	url = https://github.com/example42/puppet-postgresql.git
+[submodule "wget"]
+	path = wget
+	url = https://github.com/example42/puppet-wget.git
+[submodule "maven"]
+	path = maven
+	url = https://github.com/example42/puppet-maven.git
