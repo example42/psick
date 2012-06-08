@@ -106,3 +106,6 @@
 [submodule "puppetdb"]
 	path = puppetdb
 	url = https://github.com/example42/puppet-puppetdb
+[submodule "solr"]
+	path = solr
+	url = https://github.com/example42/puppet-solr
