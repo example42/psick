@@ -100,3 +100,6 @@
 [submodule "munin"]
 	path = munin
 	url = https://github.com/example42/puppet-munin
+[submodule "ntp"]
+	path = ntp
+	url = https://github.com/example42/puppet-ntp
