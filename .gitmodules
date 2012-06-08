@@ -97,3 +97,6 @@
 [submodule "libvirt"]
 	path = libvirt
 	url = https://github.com/example42/puppet-libvirt
+[submodule "munin"]
+	path = munin
+	url = https://github.com/example42/puppet-munin
