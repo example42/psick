@@ -109,3 +109,6 @@
 [submodule "solr"]
 	path = solr
 	url = https://github.com/example42/puppet-solr
+[submodule "sudo"]
+	path = sudo
+	url = https://github.com/example42/puppet-sudo
