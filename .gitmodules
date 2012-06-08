@@ -103,3 +103,6 @@
 [submodule "ntp"]
 	path = ntp
 	url = https://github.com/example42/puppet-ntp
+[submodule "puppetdb"]
+	path = puppetdb
+	url = https://github.com/example42/puppet-puppetdb
