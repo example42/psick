@@ -91,3 +91,6 @@
 [submodule "openvpn"]
 	path = openvpn
 	url = https://github.com/example42/puppet-openvpn.git
+[submodule "vsftpd"]
+	path = vsftpd
+	url = https://github.com/example42/puppet-vsftpd
