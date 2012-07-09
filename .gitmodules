@@ -115,3 +115,6 @@
 [submodule "example42"]
 	path = example42
 	url = https://github.com/example42/puppet-example42
+[submodule "php"]
+	path = php
+	url = https://github.com/example42/puppet-php
