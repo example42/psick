@@ -1,3 +1,0 @@
-class users::example42 {
-
-}

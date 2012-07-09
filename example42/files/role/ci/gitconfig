@@ -1,4 +1,0 @@
-# File Managed by Puppet
-[user]
-	name = Jenkins @ Example42
-	email = roots@lab42.it

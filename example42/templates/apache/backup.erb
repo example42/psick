@@ -1,3 +1,0 @@
-#!/bin/bash
-
-rsync -av <%= scope.lookupvar("apache::params::documentroot") %>/<%= name %>/* /data/init/<%= name %>/htdocs

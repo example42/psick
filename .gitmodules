@@ -112,3 +112,6 @@
 [submodule "sudo"]
 	path = sudo
 	url = https://github.com/example42/puppet-sudo
+[submodule "example42"]
+	path = example42
+	url = https://github.com/example42/puppet-example42
