@@ -118,3 +118,6 @@
 [submodule "php"]
 	path = php
 	url = https://github.com/example42/puppet-php
+[submodule "foreman"]
+	path = foreman
+	url = https://github.com/example42/puppet-foreman
