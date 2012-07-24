@@ -127,3 +127,12 @@
 [submodule "yum"]
 	path = yum
 	url = https://github.com/example42/puppet-yum
+[submodule "pentaho"]
+	path = pentaho
+	url = https://github.com/example42/puppet-pentaho
+[submodule "java"]
+	path = java
+	url = https://github.com/example42/puppet-java
+[submodule "icinga"]
+	path = icinga
+	url = https://github.com/example42/puppet-icinga
