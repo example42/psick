@@ -139,3 +139,6 @@
 [submodule "nagios"]
 	path = nagios
 	url = https://github.com/example42/puppet-nagios
+[submodule "rsync"]
+	path = rsync
+	url = https://github.com/example42/puppet-rsync
