@@ -142,3 +142,9 @@
 [submodule "rsync"]
 	path = rsync
 	url = https://github.com/example42/puppet-rsync
+[submodule "rvm"]
+	path = rvm
+	url = https://github.com/example42/puppet-rvm
+[submodule "concat"]
+	path = concat
+	url = https://github.com/example42/puppet-concat
