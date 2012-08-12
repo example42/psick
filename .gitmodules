@@ -148,3 +148,9 @@
 [submodule "concat"]
 	path = concat
 	url = https://github.com/example42/puppet-concat
+[submodule "mcollective"]
+	path = mcollective
+	url = https://github.com/example42/puppet-mcollective
+[submodule "activemq"]
+	path = activemq
+	url = https://github.com/example42/puppet-activemq
