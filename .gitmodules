@@ -154,3 +154,6 @@
 [submodule "activemq"]
 	path = activemq
 	url = https://github.com/example42/puppet-activemq
+[submodule "rclocal"]
+	path = rclocal
+	url = https://github.com/example42/puppet-rclocal
