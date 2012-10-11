@@ -175,3 +175,9 @@
 [submodule "rsyncssh"]
 	path = rsyncssh
 	url = https://github.com/example42/puppet-rsyncssh
+[submodule "rsyslog"]
+	path = rsyslog
+	url = https://github.com/example42/puppet-rsyslog
+[submodule "vagrant"]
+	path = vagrant
+	url = https://github.com/example42/puppet-vagrant

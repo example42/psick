@@ -1,5 +1,0 @@
-# File managed by Puppet
-
-$ModLoad ommysql
-*.* :ommysql:<%= scope.lookupvar('rsyslog::params::db_server') %>,<%= scope.lookupvar('rsyslog::params::db_name') %>,<%= scope.lookupvar('rsyslog::params::db_user') %>,<%= scope.lookupvar('rsyslog::params::db_password') %>
-
