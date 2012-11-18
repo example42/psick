@@ -51,13 +51,13 @@ define apt::repository (
       if $key {
         case $key_url {
             '' : {
-                exec { "aptkey_add_${key}":                                                                       
+                exec { "aptkey_add_${key_url}":
                     command => "gpg --recv-key ${key} ; gpg -a --export | apt-key add -",
                     unless  => "apt-key list | grep -q ${key}",
                 }
             }
             default: {
-                exec { "aptkey_add_${key}":
+                exec { "aptkey_add_${key_url}":
                     command => "wget -O - ${key_url} | apt-key add -",
                     unless  => "apt-key list | grep -q ${key}",
                 }
