@@ -8,10 +8,11 @@
 # Usage:
 # include varnish
 #
-class varnish {
+class varnish (
+    $template             = params_lookup( 'template' ),
+    ) inherits varnish::params {
 
     # Load the variables used in this module. Check the params.pp file 
-    require varnish::params
 
     # Basic Package - Service - Configuration file management
     package { "varnish":
@@ -38,7 +39,7 @@ class varnish {
         ensure  => present,
         require => Package["varnish"],
         notify  => Service["varnish"],
-        content => template("varnish/default.vcl.erb"),
+        content => template($template),
     }
 
     file { "varnish.initconf":

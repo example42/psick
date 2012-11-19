@@ -68,6 +68,10 @@ class varnish::params  {
         default => false,
     }
 
+    $template = $operatingsystem ? {
+        default => "varnish/default.vcl.erb",
+    }
+
     $configfile = $operatingsystem ? {
         default => "/etc/varnish/default.vcl",
     }
