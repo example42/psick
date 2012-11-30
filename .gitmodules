@@ -181,3 +181,6 @@
 [submodule "vagrant"]
 	path = vagrant
 	url = https://github.com/example42/puppet-vagrant
+[submodule "sendmail"]
+	path = sendmail
+	url = https://github.com/example42/puppet-sendmail
