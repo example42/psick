@@ -190,3 +190,6 @@
 [submodule "lighttpd"]
 	path = lighttpd
 	url = https://github.com/example42/puppet-lighttpd
+[submodule "vim"]
+	path = vim
+	url = https://github.com/example42/puppet-vim
