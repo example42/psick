@@ -184,3 +184,6 @@
 [submodule "sendmail"]
 	path = sendmail
 	url = https://github.com/example42/puppet-sendmail
+[submodule "proftpd"]
+	path = proftpd
+	url = https://github.com/example42/puppet-proftpd
