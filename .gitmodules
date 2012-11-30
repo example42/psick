@@ -187,3 +187,6 @@
 [submodule "proftpd"]
 	path = proftpd
 	url = https://github.com/example42/puppet-proftpd
+[submodule "lighttpd"]
+	path = lighttpd
+	url = https://github.com/example42/puppet-lighttpd
