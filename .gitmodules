@@ -58,9 +58,6 @@
 [submodule "openntpd"]
 	path = openntpd
 	url = https://github.com/example42/puppet-openntpd
-[submodule "DOCS"]
-	path = DOCS
-	url = https://github.com/example42/Example42-documentation
 [submodule "nrpe"]
 	path = nrpe
 	url = https://github.com/example42/puppet-nrpe
@@ -193,3 +190,21 @@
 [submodule "vim"]
 	path = vim
 	url = https://github.com/example42/puppet-vim
+[submodule "Example42-templates"]
+	path = Example42-templates
+	url = https://github.com/example42/Example42-templates
+[submodule "Example42-documentation"]
+	path = Example42-documentation
+	url = https://github.com/example42/Example42-documentation
+[submodule "freeradius"]
+	path = freeradius
+	url = https://github.com/example42/puppet-freeradius
+[submodule "django"]
+	path = django
+	url = https://github.com/example42/puppet-django
+[submodule "snmpd"]
+	path = snmpd
+	url = https://github.com/example42/puppet-snmpd
+[submodule "tinc"]
+	path = tinc
+	url = https://github.com/example42/puppet-tinc
