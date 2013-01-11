@@ -208,3 +208,6 @@
 [submodule "tinc"]
 	path = tinc
 	url = https://github.com/example42/puppet-tinc
+[submodule "apt"]
+	path = apt
+	url = https://github.com/example42/puppet-apt
