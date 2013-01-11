@@ -214,3 +214,6 @@
 [submodule "dhcpd"]
 	path = dhcpd
 	url = https://github.com/example42/puppet-dhcpd.git
+[submodule "dovecot"]
+	path = dovecot
+	url = https://github.com/example42/puppet-dovecot.git
