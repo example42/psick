@@ -211,3 +211,6 @@
 [submodule "apt"]
 	path = apt
 	url = https://github.com/example42/puppet-apt
+[submodule "dhcpd"]
+	path = dhcpd
+	url = https://github.com/example42/puppet-dhcpd.git
