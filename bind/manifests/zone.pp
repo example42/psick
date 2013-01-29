@@ -39,7 +39,6 @@ define bind::zone (
             ''      => $name,
             default => $file,
         }
-        $true_database = ""
     }
     else {
         $true_database = $database
