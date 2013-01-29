@@ -7,7 +7,7 @@ zone "<%= name %>" {
 <% if allow_transfer != "" -%>    allow-transfer { <% allow_tranfer.each do |item| %><%= item %>; <% end -%>};
     notify yes;<% end -%>
 <% if also_notify != "" -%>    also-notify { <% also_notify.each do |item| %><%= item %>; <% end -%>};<% end -%>
-    file "<%= true_file %>";
+<% if $true_database == "" -%>    file "<%= true_file %>";<% else -%>    database "<%= true_database %>";<% end -%>
 };
 <% end -%>
 <% if zone_type == "slave" -%>

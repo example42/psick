@@ -28,14 +28,21 @@ define bind::zone (
     $allow_query="",
     $allow_transfer="",
     $also_notify="",
+    $database="",
     $enable="yes" ) {
 
     include bind::params
     include concat::setup
 
-    $true_file = $file ? {
-        ''      => $name,
-        default => $file,
+    if $database == "" {
+        $true_file = $file ? {
+            ''      => $name,
+            default => $file,
+        }
+        $true_database = ""
+    }
+    else {
+        $true_database = $database
     }
 
     $ensure = $enable ? {
