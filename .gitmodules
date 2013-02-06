@@ -220,3 +220,21 @@
 [submodule "exim"]
 	path = exim
 	url = https://github.com/example42/puppet-exim.git
+[submodule "multipath"]
+	path = multipath
+	url = https://github.com/example42/puppet-multipath
+[submodule "clvm"]
+	path = clvm
+	url = https://github.com/example42/puppet-clvm
+[submodule "rhcs"]
+	path = rhcs
+	url = https://github.com/example42/puppet-rhcs
+[submodule "Example42-tutorials"]
+	path = Example42-tutorials
+	url = https://github.com/example42/Example42-tutorials
+[submodule "scmserver"]
+	path = scmserver
+	url = https://github.com/example42/puppet-scmserver
+[submodule "msmtp"]
+	path = msmtp
+	url = https://github.com/zylon-internet/puppet-msmtp.git
