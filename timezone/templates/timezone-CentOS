@@ -1,5 +1,5 @@
 # File managed by Puppet
 
 ZONE="<%= timezone %>"
-UTC=false
+UTC=<%= hw_utc %>
 ARC=false

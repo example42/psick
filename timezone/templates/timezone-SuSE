@@ -8,7 +8,11 @@
 # Set to "-u" if your system clock is set to UTC, and to "--localtime"
 # if your clock runs that way.
 #
+<% if hw_utc == true -%>
+HWCLOCK="-u"
+<% else -%>
 HWCLOCK="--localtime"
+<% end -%>
 
 ## Type:		yesno
 ## Default:		yes
