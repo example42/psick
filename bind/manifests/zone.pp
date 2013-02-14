@@ -3,7 +3,10 @@
 # Adds a custom bind zone to named.conf
 # The $file params defines the name of the zone file in named.conf
 # The $file_source defines where to retrive via the zone file (prefix puppet:/// is implied)
-#     It empty the zone file is not provided via bind::zone
+#     If empty the zone file is not provided via bind::zone
+# The $database param defines a database string, such as what is used by
+#     bind-sdb, if this is set it will ignore any $file params. Only for
+#     "master" zones.
 #
 # Usage examples:
 #
@@ -19,6 +22,9 @@
 # For a Forward zone (for more than one forwarders use an array):
 # bind::zone { "example42.com": zone_type => "forward" , forwarders  => [ "10.42.42.5" , "10.42.42.6" ] }
 #
+# For an LDAP zone; if you have an ldap SDB plugin installed:
+# bind::zone { "example42.com": database => "ldap ldap://localhost/zoneName=example42.com,dc=DNS,o=Internet 6400" }
+#
 define bind::zone (
     $zone_type="master",
     $file="",
@@ -28,14 +34,20 @@ define bind::zone (
     $allow_query="",
     $allow_transfer="",
     $also_notify="",
+    $database="",
     $enable="yes" ) {
 
     include bind::params
     include concat::setup
 
-    $true_file = $file ? {
-        ''      => $name,
-        default => $file,
+    if $database == "" {
+        $true_file = $file ? {
+            ''      => $name,
+            default => $file,
+        }
+    }
+    else {
+        $true_database = $database
     }
 
     $ensure = $enable ? {
