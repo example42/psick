@@ -1,6 +1,9 @@
 # Defaults to setting up the timezone to match what it's already set to. If you
 # set the timezone variable for the class it will use that timezone instead.
-class timezone(timezone=$timezone, hw_utc=false) {
+class timezone(
+  $timezone = params_lookup('timezone', 'global'),
+  $hw_utc = false
+  ) {
 
      file {
         "timezone":
