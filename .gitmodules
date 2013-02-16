@@ -238,3 +238,6 @@
 [submodule "logrotate"]
 	path = logrotate
 	url = https://github.com/example42/puppet-logrotate
+[submodule "mailx"]
+	path = mailx
+	url = https://github.com/example42/puppet-mailx
