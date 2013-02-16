@@ -241,3 +241,6 @@
 [submodule "mailx"]
 	path = mailx
 	url = https://github.com/example42/puppet-mailx
+[submodule "lsb"]
+	path = lsb
+	url = https://github.com/example42/puppet-lsb
