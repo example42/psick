@@ -244,3 +244,6 @@
 [submodule "lsb"]
 	path = lsb
 	url = https://github.com/example42/puppet-lsb
+[submodule "autofs"]
+	path = autofs
+	url = https://github.com/example42/puppet-autofs
