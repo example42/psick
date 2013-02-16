@@ -247,3 +247,6 @@
 [submodule "autofs"]
 	path = autofs
 	url = https://github.com/example42/puppet-autofs
+[submodule "zip"]
+	path = zip
+	url = https://github.com/example42/puppet-zip
