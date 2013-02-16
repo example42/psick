@@ -250,3 +250,6 @@
 [submodule "zip"]
 	path = zip
 	url = https://github.com/example42/puppet-zip
+[submodule "samba"]
+	path = samba
+	url = https://github.com/example42/puppet-samba
