@@ -1,7 +1,0 @@
-# File managed by Puppet
-# Create your custom repo with packages from http://puppetlabs.com/downloads/mcollective/ : 
-[mcollective]
-name=MCollective and ActiveMQ packages
-baseurl=http://10.42.0.1/mcollective/
-enabled=1
-gpgcheck=0

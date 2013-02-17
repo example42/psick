@@ -1,8 +1,0 @@
-# File Managed by Puppet
-# TEMP disabled gpgcheck since mcollective packages are not (yet) signed
-[puppetlabs]
-name=Puppet Labs Packages
-baseurl=http://yum.puppetlabs.com/base/
-enabled=1
-gpgcheck=0
-gpgkey=http://yum.puppetlabs.com/RPM-GPG-KEY-reductive

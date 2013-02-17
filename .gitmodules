@@ -253,3 +253,9 @@
 [submodule "samba"]
 	path = samba
 	url = https://github.com/example42/puppet-samba
+[submodule "sysklogd"]
+	path = sysklogd
+	url = https://github.com/example42/puppet-sysklogd
+[submodule "syslog-ng"]
+	path = syslog-ng
+	url = https://github.com/example42/puppet-syslog-ng

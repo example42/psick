@@ -1,6 +1,0 @@
-# File Managed by Puppet
-[passenger]
-name=The Phusion Passenger Packages
-baseurl=http://passenger.stealthymonkeys.com/rhel/5/$arch/
-enabled=1
-gpgcheck=0

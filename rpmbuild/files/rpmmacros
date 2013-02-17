@@ -1,2 +1,0 @@
-%packager       Al 
-%_topdir        %(echo $HOME)/rpmbuild
