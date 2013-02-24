@@ -259,3 +259,6 @@
 [submodule "syslog-ng"]
 	path = syslog-ng
 	url = https://github.com/example42/puppet-syslog-ng
+[submodule "sysctl"]
+	path = sysctl
+	url = https://github.com/example42/puppet-sysctl
