@@ -271,3 +271,6 @@
 [submodule "svn"]
 	path = svn
 	url = https://github.com/example42/puppet-svn.git
+[submodule "perl"]
+	path = perl
+	url = https://github.com/example42/puppet-perl.git
