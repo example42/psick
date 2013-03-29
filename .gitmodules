@@ -268,3 +268,6 @@
 [submodule "hosts"]
 	path = hosts
 	url = https://github.com/example42/puppet-hosts.git
+[submodule "svn"]
+	path = svn
+	url = https://github.com/example42/puppet-svn.git
