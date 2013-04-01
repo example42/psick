@@ -274,3 +274,6 @@
 [submodule "perl"]
 	path = perl
 	url = https://github.com/example42/puppet-perl.git
+[submodule "mongodb"]
+	path = mongodb
+	url = https://github.com/example42/puppet-mongodb
