@@ -277,3 +277,6 @@
 [submodule "mongodb"]
 	path = mongodb
 	url = https://github.com/example42/puppet-mongodb
+[submodule "exported_vars"]
+	path = exported_vars
+	url = https://github.com/example42/puppet-exported_vars
