@@ -280,3 +280,6 @@
 [submodule "exported_vars"]
 	path = exported_vars
 	url = https://github.com/example42/puppet-exported_vars
+[submodule "git"]
+	path = git
+	url = https://github.com/example42/puppet-git
