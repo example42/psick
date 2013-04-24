@@ -292,3 +292,6 @@
 [submodule "pam"]
 	path = pam
 	url = https://github.com/example42/puppet-pam
+[submodule "auth"]
+	path = auth
+	url = https://github.com/example42/puppet-auth
