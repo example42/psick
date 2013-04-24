@@ -283,3 +283,6 @@
 [submodule "git"]
 	path = git
 	url = https://github.com/example42/puppet-git
+[submodule "elasticsearch"]
+	path = elasticsearch
+	url = https://github.com/example42/puppet-elasticsearch
