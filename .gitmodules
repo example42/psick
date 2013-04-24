@@ -289,3 +289,6 @@
 [submodule "unicorn"]
 	path = unicorn
 	url = https://github.com/example42/puppet-unicorn
+[submodule "pam"]
+	path = pam
+	url = https://github.com/example42/puppet-pam
