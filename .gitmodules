@@ -298,3 +298,6 @@
 [submodule "graylog2"]
 	path = graylog2
 	url = https://github.com/example42/puppet-graylog2
+[submodule "profile"]
+	path = profile
+	url = https://github.com/example42/puppet-profile
