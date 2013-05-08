@@ -2,7 +2,7 @@
 
 Released under the terms of Apache2 licence.
 
-Copyright Alessandro Franceschi / Lab42 (and others -see commits' authors)
+Copyright Alessandro Franceschi / Lab42 (and specific commits authors)
 
 Official website: [http://www.example42.com](http://www.example42.com)
 
