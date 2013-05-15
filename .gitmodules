@@ -301,3 +301,15 @@
 [submodule "profile"]
 	path = profile
 	url = https://github.com/example42/puppet-profile
+[submodule "bundler"]
+	path = bundler
+	url = https://github.com/example42/puppet-bundler
+[submodule "ruby"]
+	path = ruby
+	url = https://github.com/example42/puppet-ruby
+[submodule "newrelic"]
+	path = newrelic
+	url = https://github.com/example42/puppet-newrelic
+[submodule "nfs"]
+	path = nfs
+	url = https://github.com/example42/puppet-nfs
