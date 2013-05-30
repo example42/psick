@@ -313,3 +313,6 @@
 [submodule "nfs"]
 	path = nfs
 	url = https://github.com/example42/puppet-nfs
+[submodule "monit"]
+	path = monit
+	url = https://github.com/example42/puppet-monit
