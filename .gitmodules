@@ -316,3 +316,6 @@
 [submodule "monit"]
 	path = monit
 	url = https://github.com/example42/puppet-monit
+[submodule "ssmtp"]
+	path = ssmtp
+	url = https://github.com/netmanagers/puppet-ssmtp.git
