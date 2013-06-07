@@ -325,3 +325,6 @@
 [submodule "dnsmasq"]
 	path = dnsmasq
 	url = https://github.com/netmanagers/puppet-dnsmasq.git
+[submodule "ddclient"]
+	path = ddclient
+	url = https://github.com/netmanagers/puppet-ddclient.git
