@@ -331,3 +331,6 @@
 [submodule "varnish"]
 	path = varnish
 	url = https://github.com/netmanagers/puppet-varnish
+[submodule "zabbix_agent"]
+	path = zabbix_agent
+	url = https://github.com/example42/puppet-zabbix_agent
