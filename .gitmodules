@@ -334,3 +334,6 @@
 [submodule "zabbix_agent"]
 	path = zabbix_agent
 	url = https://github.com/example42/puppet-zabbix_agent
+[submodule "bluepill"]
+	path = bluepill
+	url = https://github.com/mburger/puppet-bluepill
