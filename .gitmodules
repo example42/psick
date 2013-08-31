@@ -337,3 +337,6 @@
 [submodule "bluepill"]
 	path = bluepill
 	url = https://github.com/mburger/puppet-bluepill
+[submodule "bacula"]
+	path = bacula
+	url = https://github.com/netmanagers/puppet-bacula
