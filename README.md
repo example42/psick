@@ -40,6 +40,11 @@ You can get the current module set, with both 1.0 and NextGen modules with:
 
 You can use the [Puppet Playground](https://github.com/example42/puppet-playground) to test these (and other) modules on a safe Vagrant environment.
 
+From September 2013 most of the modules are published, and regularly updated, on the **Puppet Forge**.
+
+Use the Puppet module tool to query and install Example42 modules:
+
+        puppet module search example42
 
 ## UPDATE
 
