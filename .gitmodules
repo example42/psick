@@ -343,3 +343,6 @@
 [submodule "bind"]
 	path = bind
 	url = https://github.com/netmanagers/puppet-bind
+[submodule "tcpwrappers"]
+	path = tcpwrappers
+	url = https://github.com/netmanagers/puppet-tcpwrappers
