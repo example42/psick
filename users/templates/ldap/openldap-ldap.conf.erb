@@ -1,8 +1,0 @@
-# File Managed by Puppet
-HOST <% users_ldap_servers.each do |ldap| -%><%= ldap -%> <% end %>
-URI ldap://<%= users_ldap_servers.first %>
-BASE <%= users_ldap_basedn %>
-<% if users_ldap_ssl == "yes" -%>
-TLS_CACERT <%= users_ldap_cacert %>
-TLS_REQCERT demand
-<% end -%>

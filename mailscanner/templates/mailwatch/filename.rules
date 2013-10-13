@@ -1,3 +1,0 @@
-# File Managed by Puppet
-From:		127.0.0.1	/etc/MailScanner/filename.rules.allowall.conf
-FromOrTo:	default		/etc/MailScanner/filename.rules.conf

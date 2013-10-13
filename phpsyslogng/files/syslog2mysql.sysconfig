@@ -1,6 +1,0 @@
-PIDFILE=
-LOCKFILE=
-DBSYSLOG_PIPE=
-export DBUSER=syslogadmin
-export DBPWD=password
-export DBNAME=syslog
