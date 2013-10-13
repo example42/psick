@@ -346,3 +346,6 @@
 [submodule "tcpwrappers"]
 	path = tcpwrappers
 	url = https://github.com/netmanagers/puppet-tcpwrappers
+[submodule "stdlib"]
+	path = stdlib
+	url = https://github.com/puppetlabs/puppetlabs-stdlib
