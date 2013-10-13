@@ -345,3 +345,6 @@
 [submodule "stdlib"]
 	path = stdlib
 	url = https://github.com/puppetlabs/puppetlabs-stdlib
+[submodule "concat"]
+	path = concat
+	url = https://github.com/puppetlabs/puppetlabs-concat
