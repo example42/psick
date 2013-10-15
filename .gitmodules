@@ -1,3 +1,4 @@
+[submodule "puppi"]
 	path = puppi
 	url = https://github.com/example42/puppi.git
 [submodule "wordpress"]
