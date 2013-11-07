@@ -22,11 +22,8 @@ jboss
 rvm
 resolver
 ntp
-Example42-documentation
 orientdb
 openvpn
-maven
-wget
 puppetdb
 postgresql
 foreman
@@ -47,7 +44,6 @@ java
 rclocal
 tartarus
 rsyncssh
-pupmod-concat
 activemq
 mcollective
 vagrant
@@ -64,7 +60,6 @@ django
 snmpd
 freeradius
 proftpd
-Example42-templates
 apt
 dhcpd
 dovecot
@@ -108,3 +103,4 @@ nova
 openvswitch
 glance
 ceph
+mariadb
