@@ -352,3 +352,6 @@
 [submodule "stdmod"]
 	path = stdmod
 	url = https://github.com/stdmod/stdmod
+[submodule "mariadb"]
+	path = mariadb
+	url = https://github.com/example42/puppet-mariadb
