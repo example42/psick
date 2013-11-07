@@ -349,3 +349,6 @@
 [submodule "concat"]
 	path = concat
 	url = https://github.com/puppetlabs/puppetlabs-concat
+[submodule "stdmod"]
+	path = stdmod
+	url = https://github.com/stdmod/stdmod
