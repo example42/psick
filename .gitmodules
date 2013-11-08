@@ -355,3 +355,6 @@
 [submodule "mariadb"]
 	path = mariadb
 	url = https://github.com/example42/puppet-mariadb
+[submodule "rabbitmq"]
+	path = rabbitmq
+	url = https://github.com/example42/puppetlabs-rabbitmq
