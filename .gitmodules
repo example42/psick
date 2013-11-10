@@ -358,3 +358,24 @@
 [submodule "rabbitmq"]
 	path = rabbitmq
 	url = https://github.com/example42/puppetlabs-rabbitmq
+[submodule "cinder"]
+	path = cinder
+	url = https://github.com/example42/puppet-cinder
+[submodule "glance"]
+	path = glance
+	url = https://github.com/example42/puppet-glance
+[submodule "keystone"]
+	path = keystone
+	url = https://github.com/example42/puppet-keystone
+[submodule "nova"]
+	path = nova
+	url = https://github.com/example42/puppet-nova
+[submodule "quantum"]
+	path = quantum
+	url = https://github.com/example42/puppet-quantum
+[submodule "openvswitch"]
+	path = openvswitch
+	url = https://github.com/example42/puppet-openvswitch
+[submodule "corosync"]
+	path = corosync
+	url = https://github.com/example42/puppet-corosync
