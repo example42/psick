@@ -379,3 +379,6 @@
 [submodule "corosync"]
 	path = corosync
 	url = https://github.com/example42/puppet-corosync
+[submodule "memcached"]
+	path = memcached
+	url = https://github.com/example42/puppet-memcached
