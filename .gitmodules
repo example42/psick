@@ -382,3 +382,6 @@
 [submodule "memcached"]
 	path = memcached
 	url = https://github.com/example42/puppet-memcached
+[submodule "ceilometer"]
+	path = ceilometer
+	url = https://github.com/example42/ceilometer
