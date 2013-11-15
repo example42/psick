@@ -64,7 +64,6 @@ apt
 dhcpd
 dovecot
 exim
-msmtp
 clvm
 multipath
 rhcs
