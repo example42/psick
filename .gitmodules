@@ -385,3 +385,9 @@
 [submodule "ceilometer"]
 	path = ceilometer
 	url = https://github.com/example42/puppet-ceilometer
+[submodule "network"]
+	path = network
+	url = https://github.com/example42/puppet-network
+[submodule "collectd"]
+	path = collectd
+	url = https://github.com/example42/puppet-collectd
