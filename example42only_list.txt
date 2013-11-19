@@ -101,5 +101,13 @@ quantum
 nova
 openvswitch
 glance
+keystone
 ceph
 mariadb
+cinder
+corosync
+memcached
+ceilometer
+network
+collectd
+
