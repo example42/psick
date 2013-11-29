@@ -394,3 +394,6 @@
 [submodule "puppet-skeleton-standard42"]
 	path = puppet-skeleton-standard42
 	url = https://github.com/example42/puppet-skeleton-standard42
+[submodule "ceph"]
+	path = ceph
+	url = https://github.com/example42/puppet-ceph
