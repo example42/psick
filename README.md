@@ -157,3 +157,7 @@ If you need a specific module, improvements or conversion to 3.x of an existing 
 
 Alessandro Franceschi
 Lab42
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/example42/puppet-modules/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
