@@ -397,3 +397,12 @@
 [submodule "ceph"]
 	path = ceph
 	url = https://github.com/example42/puppet-ceph
+[submodule "module_data"]
+	path = module_data
+	url = https://github.com/ripienaar/puppet-module-data
+[submodule "pacemaker"]
+	path = pacemaker
+	url = https://github.com/example42/puppet-pacemaker
+[submodule "kibana"]
+	path = kibana
+	url = https://github.com/example42/puppet-kibana
