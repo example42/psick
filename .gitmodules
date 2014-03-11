@@ -42,7 +42,7 @@
 	url = https://github.com/example42/puppet-mysql
 [submodule "nginx"]
 	path = nginx
-	url = https://github.com/example42/puppet-nginx.git
+	url = https://github.com/netmanagers/puppet-nginx.git
 [submodule "apache"]
 	path = apache
 	url = https://github.com/example42/puppet-apache.git
@@ -406,3 +406,6 @@
 [submodule "kibana"]
 	path = kibana
 	url = https://github.com/example42/puppet-kibana
+[submodule "limits"]
+	path = limits
+	url = https://github.com/example42/puppet-limits
