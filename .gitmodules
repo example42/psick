@@ -412,3 +412,6 @@
 [submodule "sysstat"]
 	path = sysstat
 	url = https://github.com/bmcclure/puppet-sysstat.git
+[submodule "quagga"]
+	path = quagga
+	url = https://github.com/example42/puppet-quagga.git
