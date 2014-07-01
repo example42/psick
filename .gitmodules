@@ -415,3 +415,6 @@
 [submodule "quagga"]
 	path = quagga
 	url = https://github.com/example42/puppet-quagga.git
+[submodule "vcsrepo"]
+	path = vcsrepo
+	url = https://github.com/puppetlabs/puppetlabs-vcsrepo
