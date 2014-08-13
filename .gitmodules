@@ -418,3 +418,6 @@
 [submodule "vcsrepo"]
 	path = vcsrepo
 	url = https://github.com/puppetlabs/puppetlabs-vcsrepo
+[submodule "icinga2"]
+	path = icinga2
+	url = https://github.com/example42/puppet-icinga2
