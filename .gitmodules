@@ -421,3 +421,6 @@
 [submodule "icinga2"]
 	path = icinga2
 	url = https://github.com/example42/puppet-icinga2
+[submodule "tp"]
+	path = tp
+	url = https://github.com/example42/puppet-tp.git

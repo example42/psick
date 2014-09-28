@@ -7,3 +7,4 @@ Session.vim
 spec/fixtures
 .*.sw[a-z]
 *.un~
+.DS_Store
