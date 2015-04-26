@@ -424,3 +424,6 @@
 [submodule "tp"]
 	path = tp
 	url = https://github.com/example42/puppet-tp.git
+[submodule "extlib"]
+	path = extlib
+	url = https://github.com/puppet-community/puppetcommunity-extlib
