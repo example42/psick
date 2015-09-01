@@ -427,3 +427,9 @@
 [submodule "extlib"]
 	path = extlib
 	url = https://github.com/puppet-community/puppetcommunity-extlib
+[submodule "mesos"]
+	path = mesos
+	url = https://github.com/enverromon/puppet-mesos.git
+[submodule "chronos"]
+	path = chronos
+	url = https://github.com/enverromon/puppet-chronos.git
