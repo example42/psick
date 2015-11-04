@@ -433,3 +433,6 @@
 [submodule "chronos"]
 	path = chronos
 	url = https://github.com/enverromon/puppet-chronos.git
+[submodule "tinydata"]
+	path = tinydata
+	url = git@github.com:example42/tinydata.git
