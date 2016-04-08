@@ -20,6 +20,7 @@ postgresql
 profile
 puppet
 puppetdb
+puppi
 rabbitmq
 rclocal
 resolver
@@ -28,7 +29,9 @@ svn
 sysctl
 sysstat
 timezone
+tinydata
 tomcat
+tp
 user
 wget
 yum

@@ -1,0 +1,4 @@
+---
+  site::puppet_class: 'profile::puppet4'
+  profile::puppet4::server_class: 'profile::puppetserver'
+

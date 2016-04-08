@@ -1,5 +1,4 @@
 /.gradle
-/metadata.json
 /.rvmrc
 build
 pkg/
@@ -8,3 +7,6 @@ spec/fixtures
 .*.sw[a-z]
 *.un~
 .DS_Store
+.bundle
+modules/
+.vagrant/

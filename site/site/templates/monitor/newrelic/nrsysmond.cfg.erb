@@ -1,0 +1,13 @@
+license_key=<%= @options['license_key'] %>
+loglevel=<%= @options['license_key'] ||= '' %>
+logfile=<%= @settings['log_file_path'] %>
+<% if @proxy_host != '' -%>
+proxy=<%= @proxy_host %>:<%= @proxy_port %>
+<% else -%>
+<% end -%>
+ssl=true
+hostname=<%= @options['license_key'] ||= @::hostname %>
+pidfile=<%= @settings['pid_file_path'] %>
+collector_host=<%= @options['collector_host'] ||= "collector.newrelic.com" %>
+timeout=<%= @options['timeout'] ||= "30" %>
+
