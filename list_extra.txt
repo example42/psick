@@ -1,0 +1,7 @@
+Example42-documentation
+Example42-templates
+Example42-tools
+Example42-tutorials
+example42
+exported_vars
+extlib
