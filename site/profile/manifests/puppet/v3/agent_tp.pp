@@ -1,6 +1,5 @@
-# == Class: site::puppet
 #
-class site::puppet (
+class profile::puppet::v3::agent_tp (
   $ensure                     = 'present',
 
   $config_dir_source          = undef,
@@ -14,10 +13,8 @@ class site::puppet (
   $options_user=hiera_hash('puppet_options', {} )
   $options=merge($options_default,$options_user)
 
-  if $ensure == 'absent' {
-    ::tp::uninstall3 { 'puppet': }
-  } else { 
-    ::tp::install3 { 'puppet': }
+  ::tp::install3 { 'puppet':
+    ensure => $ensure,
   }
 
   ::tp::dir3 { 'puppet':

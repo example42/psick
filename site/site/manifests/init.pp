@@ -1,4 +1,9 @@
+# Common site modules
+#
+# Use _class params for exceptions and alternatives.
+#
 class site (
+
   $pre_class         = '::site::pre',
 
   $general_class     = '::site::general',
@@ -7,10 +12,12 @@ class site (
 
   $network_class     = '::site::network',
   $users_class       = '::site::users',
+
   $monitor_class     = '::site::monitor',
   $firewall_class    = '::site::firewall',
-  $backup_class      = '',
   $logs_class        = '::site::logs',
+
+  $backup_class      = '',
 
 ) {
 
@@ -69,7 +76,7 @@ class site (
 
   # Role specific class is loaded, if $role is set
   if $::role and $::role != '' {
-    class { "::site::role::${::role}":
+    class { "::role::${::role}":
       require => Class[$pre_class],
     }
   }

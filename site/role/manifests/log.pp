@@ -1,0 +1,3 @@
+class role::log {
+
+}

@@ -1,6 +1,6 @@
 # Puppet Master
 #
-class site::role::puppet {
+class ::role::puppet {
 
   include ::profile::puppetserver
   include ::profile::puppetdb

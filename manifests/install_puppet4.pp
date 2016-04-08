@@ -1,5 +1,5 @@
 # 
-# We use the class defined in site/site/manifests/puppet4.pp
+# Manages puppet agent in Puppet 4
 #
-include ::profile::puppet4
+include ::profile::puppet::v4::agent_tp
 

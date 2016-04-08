@@ -1,6 +1,6 @@
-# == Class: profile::puppet
+# == p_agent
 #
-class profile::puppet (
+class profile::puppet::v3::upgradeto4 (
   $ensure                     = 'present',
 
   $config_file_template       = undef,
@@ -25,10 +25,8 @@ class profile::puppet (
   $options_user=hiera_hash('profile::puppet::options', {} )
   $options=merge($options_default,$options_user)
 
-  if $ensure == 'absent' {
-    ::tp::uninstall3 { 'puppet-agent': }
-  } else {
-    ::tp::install3 { 'puppet-agent': }
+  ::tp::install3 { 'puppet-agent':
+    ensure => $ensure,
   }
 
   ::tp::conf3 { 'puppet-agent':
@@ -40,10 +38,6 @@ class profile::puppet (
   ::tp::dir3 { 'puppet-agent':
     ensure => $ensure,
     source => $config_dir_source,
-  }
-
-  if $server_class {
-    include $server_class
   }
 
 }

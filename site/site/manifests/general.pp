@@ -18,5 +18,4 @@ class site::general {
     options_hash => hiera('tp::postfix::options', { } ),
   }
 
-
 }
