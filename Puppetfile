@@ -53,8 +53,6 @@ mod'example42/puppet',
   :git => 'git@github.com:/example42/puppet-puppet'
 mod'example42/puppetdb',
   :git => 'git@github.com:/example42/puppet-puppetdb'
-mod'example42/rabbitmq',
-  :git => 'git@github.com:/example42/puppet-rabbitmq'
 mod'example42/rclocal',
   :git => 'git@github.com:/example42/puppet-rclocal'
 mod'example42/resolver',
@@ -65,8 +63,6 @@ mod'example42/svn',
   :git => 'git@github.com:/example42/puppet-svn'
 mod'example42/sysctl',
   :git => 'git@github.com:/example42/puppet-sysctl'
-mod'example42/sysstat',
-  :git => 'git@github.com:/example42/puppet-sysstat'
 mod'example42/timezone',
   :git => 'git@github.com:/example42/puppet-timezone'
 mod'example42/tomcat',
