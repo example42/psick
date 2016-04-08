@@ -34,7 +34,7 @@ There are currently 4 generations of example42 modules:
 
 Use the Forge to install example42 modules (be aware of the deprecated ones):
 
-    puppet modules search example42
+    puppet module search example42
 
 or cherry pick them from [GitHub](https://github.com/example42).
 
