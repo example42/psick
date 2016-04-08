@@ -118,3 +118,6 @@
 [submodule "tp"]
 	path = tp
 	url = https://github.com/example42/puppet-tp.git
+[submodule "tinydata"]
+	path = tinydata
+	url = https://github.com/example42/tinydata.git
