@@ -131,7 +131,7 @@ EOF
           puppet.hiera_config_path = 'hiera.yaml'
           puppet.working_directory = '/vagrant/hieradata'
           puppet.manifests_path = "manifests"
-          puppet.module_path = [ 'modules_local' , 'modules' ]
+          puppet.module_path = [ 'site' , 'modules' ]
           puppet.manifest_file = "site.pp"
           puppet.options = [
            '--verbose',

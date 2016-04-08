@@ -8,3 +8,5 @@ spec/fixtures
 *.un~
 .DS_Store
 .bundle
+modules/
+.vagrant/
