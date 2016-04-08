@@ -5,3 +5,8 @@ Example42-tutorials
 example42
 exported_vars
 extlib
+module_data
+pupmod-concat
+puppet-skeleton-standard42
+stdmod
+

@@ -15,7 +15,7 @@ network
 nrpe
 perl
 php
-postfix (amateo, shellfu)
+postfix
 postgresql
 profile
 puppet
