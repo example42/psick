@@ -1,0 +1,136 @@
+# Example42 modules conversion list
+# + Module data migrated to tp
+# - Module won't be migrated and will be removed for Ex42 modules 3.x
+# = Module will remain on Ex42
+# ! Module deprecated
+# (name) maintainer
+# (name!) maintainer in own repo
+# [FORK] module was a fork on a third party module
+
++activemq (gwarf)
++=apache (gwarf)
++=apt (sathieu, gwarf)
+-auth (gwarf)
++autofs (shellfu)
++bacula (netmanagers!)
++bind (netmanagers!) 
++bluepill (mburger!)
+!-bundler
+!+ceilometer
+!+ceph
+!+cinder
+!+clvm
+!+collectd
+!+corosync
++ddclient (netmanagers!)
+!+dhcpd
+!-django
++dnsmasq (netmanagers!)
+!+dovecot
+!+elasticsearch
+!+exim
++fail2ban (netmanagers!)
+!-firewall
+-foreman (ricciocri)
+!+freeradius
+=git
+!+glance
+!+graylog2
+!+haproxy
+!+heartbeat
+=hosts
+!+icinga
+!+icinga2 [FORK]
+=iptables
+=java (gwarf)
++jboss (gwarf)
+!+jenkins
+!+keystone
+!-kibana
+!+libvirt
+!+lighttpd
+=limits
++logrotate (gwarf)
+!+logstash
+!+lsb
+!+mailx
++mariadb
+!-maven [FORK]
++mcollective (gwarf)
+!+memcached
++mongodb
++monit (ricciocri)
+-monitor
+!+msmtp
+!+multipath
++munin (gwarf)
++mysql (lermit, gwarf)
+!+nagios
+=network
++newrelic
+!+nfs
++nginx (netmanagers!)
+!+nova
++nrpe
++ntp (gwarf)
+-nut (netmanagers!)
+!+openntpd
+!+openssh
+!+openvpn
+!+openvswitch
+!+orientdb
+!+pacemaker
+!+pam
+!-pentaho
+=perl
++=php (gwarf)
++postfix (amateo, shellfu)
++postgresql (gwarf)
++profile
+!+proftpd
++puppet (gwarf)
+-puppetdashboard (gwarf)
++puppetdb (gwarf)
+!+quagga
+!+quantum
++=rabbitmq
+=rclocal
+!+redis
+=resolver
+!-rhcs
+!+rsync
+!-rsyncssh
+!+rsyslog
+!-ruby
+!-rvm
+!+samba
+!-scmserver
+!+sendmail
+!+snmpd
+!-=solr
+!-=splunk
+!+ssmtp
+=sudo (gwarf)
+=svn (renamed to subversion)
+=sysctl (gwarf)
+!+sysklogd
+!+syslogng (renamed to syslog-ng)
++sysstat (bmcclure!)
+!-tartarus
+-=tcpwrappers (netmanagers!)
+!+tftp
+=timezone (gwarf)
+!+tinc
+=tomcat (ricciocri)
+-unicorn (shellfu)
+=user
+!-vagrant
++varnish (netmanagers!)
+!+vim
++vsftpd (gwarf)
+=wget
+!-wordpress
+!+xinetd
+=yum (shellfu, gwarf)
++zabbix_agent (renamed to zabbix-agent) (shellfu)
+!-zip

@@ -1,0 +1,10 @@
+---
+:backends:
+  - yaml
+:hierarchy:
+  - "hostname/%{::hostname}"
+  - global
+
+:yaml:
+  :datadir: /vagrant/hieradata/
+

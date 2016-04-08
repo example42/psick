@@ -1,0 +1,4 @@
+---
+  postgresql::version: '9.3'
+  postgresql::install_class: 'postgresql::install::postgresql_org_debian'
+

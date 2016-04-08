@@ -1,0 +1,5 @@
+class site::time {
+
+  # TODO
+
+}

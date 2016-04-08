@@ -1,0 +1,171 @@
+#!/bin/bash
+# General functions
+
+BOOTUP=color
+RES_COL=75
+MOVE_TO_COL="echo -en \\033[${RES_COL}G"
+SETCOLOR_SUCCESS="echo -en \\033[0;32m"
+SETCOLOR_FAILURE="echo -en \\033[0;31m"
+SETCOLOR_NA="echo -en \\033[0;34m"
+SETCOLOR_WARNING="echo -en \\033[0;33m"
+SETCOLOR_NORMAL="echo -en \\033[0;39m"
+SETCOLOR_TITLE="echo -en \\033[0;35m"
+SETCOLOR_BOLD="echo -en \\033[0;1m"
+
+echo_success() {
+  echo "$1"
+  [ "$BOOTUP" = "color" ] && $MOVE_TO_COL
+  echo -n "["
+  [ "$BOOTUP" = "color" ] && $SETCOLOR_SUCCESS
+  echo -n $"  OK  "
+  [ "$BOOTUP" = "color" ] && $SETCOLOR_NORMAL
+  echo -n "]"
+  echo -ne "\r"
+  return 0
+}
+
+echo_failure() {
+  echo "$1"
+  [ "$BOOTUP" = "color" ] && $MOVE_TO_COL
+  echo -n "["
+  [ "$BOOTUP" = "color" ] && $SETCOLOR_FAILURE
+  echo -n $"FAILED"
+  [ "$BOOTUP" = "color" ] && $SETCOLOR_NORMAL
+  echo -n "]"
+  echo -ne "\r"
+  return 1
+}
+
+echo_na() {
+  echo "$1"
+  [ "$BOOTUP" = "color" ] && $MOVE_TO_COL
+  echo -n "["
+  [ "$BOOTUP" = "color" ] && $SETCOLOR_NA
+  echo -n $"NOT APPLICABLE"
+  [ "$BOOTUP" = "color" ] && $SETCOLOR_NORMAL
+  echo -n "]"
+  echo -ne "\r"
+  return 0
+}
+
+echo_passed() {
+  [ "$BOOTUP" = "color" ] && $MOVE_TO_COL
+  echo -n "["
+  [ "$BOOTUP" = "color" ] && $SETCOLOR_WARNING
+  echo -n $"PASSED"
+  [ "$BOOTUP" = "color" ] && $SETCOLOR_NORMAL
+  echo -n "]"
+  echo -ne "\r"
+  return 1
+}
+
+echo_warning() {
+  [ "$BOOTUP" = "color" ] && $MOVE_TO_COL
+  echo -n "["
+  [ "$BOOTUP" = "color" ] && $SETCOLOR_WARNING
+  echo -n $"WARNING"
+  [ "$BOOTUP" = "color" ] && $SETCOLOR_NORMAL
+  echo -n "]"
+  echo -ne "\r"
+  return 1
+}
+
+echo_title () {
+  echo
+  echo
+  [ "$BOOTUP" = "color" ] && $SETCOLOR_TITLE
+  echo "$1"
+  [ "$BOOTUP" = "color" ] && $SETCOLOR_NORMAL
+}
+
+check_retcode () {
+    if [ $? = "0" ] ; then
+        true
+    else
+        exit 2
+    fi
+}
+
+handle_result () {
+        RETVAL=$?
+        if [ "$RETVAL" = "0" ] ; then
+            showresult="echo_success"
+            result="OK"
+        fi
+        if [ "$RETVAL" = "1" ] ; then
+            showresult="echo_warning"
+            EXITWARN="1"
+            result="WARNING"
+        fi
+        if [ "$RETVAL" = "2" ] ; then
+            showresult="echo_failure"
+            EXITCRIT="1"
+            result="CRITICAL"
+        fi
+        if [ "$RETVAL" = "99" ] ; then
+            showresult="echo_dontdeploy"
+            DONTDEPLOY="1"
+            result="OK"
+        fi
+        if [ x$show == "xyes" ] ; then
+            $showresult
+            echo
+            echo -e "$output"
+            echo
+        elif [ x$show == "xfail" ] && [ x$RETVAL != "x0" ] ; then
+            $showresult
+            echo
+            echo -e "$output"
+            echo
+        fi
+
+        # Output to file
+        if [ ! -d $logdir/$project/$tag ] ; then
+            mkdir -p $logdir/$project/$tag
+        fi
+        let counter=counter+1
+        echo $title > $logdir/$project/$tag/$counter-$command
+        echo $code >> $logdir/$project/$tag/$counter-$command
+        echo $result >> $logdir/$project/$tag/$counter-$command
+        echo $output >> $logdir/$project/$tag/$counter-$command
+
+}
+
+ask_interactive () {
+    if [ x$show == "xyes" ] ; then
+        echo -n $title
+    fi
+
+    if [ "$interactive" = "yes" ] ; then
+        echo 
+        echo "INTERACTIVE MODE: Press 'x' to exit or just return to go on" 
+        read press
+        case $press in 
+            x) exit 2 ;;
+            *) return
+        esac
+    fi
+}
+
+# Shows or executes a command
+show_command () {
+   echo
+   $SETCOLOR_BOLD ; echo "$HOSTNAME: $*" ; $SETCOLOR_NORMAL
+
+   bash -c "$*"
+
+}
+
+# Filtering out only:  $ ; ` | < >
+shell_filter () {
+    echo $1 | sed 's/\$//g' | sed 's/;//g' | sed 's/`//g' | sed 's/|//g' | sed 's/<//g' | sed 's/>//g'
+}
+
+shell_filter_strict () {
+# Filtering out:  $ ; ` | < > = ! { } [ ] / \ # &
+    echo $1 | sed 's/\$//g' | sed 's/;//g' | sed 's/`//g' | sed 's/|//g' | sed 's/<//g' | sed 's/>//g'  | sed 's/=//g' | sed 's/!//g' | sed 's/{//g' | sed 's/}//g' | sed 's/\[//g' | sed 's/\]//g' | sed 's/\///g' | sed 's/\\//g' | sed 's/#//g' | sed 's/&//g'
+
+# Filtering out: all but accepted chars
+#     echo $1 | sed "s/[^a-Z0-9_\-]//Ig"
+}
+

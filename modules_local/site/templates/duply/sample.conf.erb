@@ -1,0 +1,7 @@
+# File Managed by Puppet
+TARGET='<%= @options['target'] %>'
+SOURCE='<%= @options['source'] %>'
+MAX_AGE=<%= @options['max_age'] %>
+MAX_FULLBKP_AGE=<%= @options['max_fullbkp_age'] %>
+DUPL_PARAMS="$DUPL_PARAMS --full-if-older-than $MAX_FULLBKP_AGE "
+
