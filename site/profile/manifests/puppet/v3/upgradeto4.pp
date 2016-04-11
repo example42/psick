@@ -12,9 +12,9 @@ class profile::puppet::v3::upgradeto4 (
 
   $real_config_file_template = $config_file_template ? {
     undef   => $server_class ? {
-      ''      => 'profile/puppet/puppet.conf.erb',
-      undef   => 'profile/puppet/puppet.conf.erb',
-      default => 'profile/puppet/puppet.conf-server.erb',
+      ''      => 'profile/puppet/v4/puppet.conf.erb',
+      undef   => 'profile/puppet/v4/puppet.conf.erb',
+      default => 'profile/puppet/v4/puppet.conf-server.erb',
     },
     default => $config_file_template,
   }

@@ -1,4 +1,4 @@
 ---
-  site::puppet_class: 'profile::puppet4'
-  profile::puppet4::install_server: true
+  site::puppet_class: 'profile::puppet::v4::agent_tp'
+  profile::puppet::v4::agent_tp::server_class : 'profile::puppet::v4::puppetserver'
 

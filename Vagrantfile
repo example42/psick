@@ -103,7 +103,7 @@ Vagrant.configure("2") do |config|
         v.customize [ 'modifyvm', :id, '--memory', memory.to_s ]
         v.customize [ 'modifyvm', :id, '--cpus', cpu.to_s ]
       end
-      local.vm.synced_folder ".", "/vagrant", type: "rsync", rsync__exclude: ".git/"
+      local.vm.synced_folder ".", "/vagrant"
       local.vm.box = cfg[:box]
       local.vm.box_url = cfg[:box_url] if cfg[:box_url]
 #      local.vm.boot_mode = :gui

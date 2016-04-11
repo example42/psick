@@ -1,6 +1,6 @@
 # == Class: site::monitor::nrpe
 #
-class site::monitor::nrpe (
+class profile::monitor::nrpe (
   $ensure                     = 'present',
 
   $config_dir_source          = undef,
@@ -40,23 +40,21 @@ class site::monitor::nrpe (
   $options_user=hiera_hash('nrpe_options', {} )
   $options=merge($options_default,$options_user)
 
-  if $ensure == 'absent' {
-    ::tp::uninstall3 { 'nrpe': }
-  } else { 
-    ::tp::install3 { 'nrpe': }
+  ::tp::install { 'nrpe':
+    ensure => $ensure,
   }
 
-  ::tp::dir3 { 'nrpe':
+  ::tp::dir { 'nrpe':
     ensure => $ensure,
     source => $config_dir_source,
   }
-  ::tp::conf3 { 'nrpe':
+  ::tp::conf { 'nrpe':
     ensure       => $ensure,
     template     => $config_file_template,
     options_hash => $options,
   }
 
-  ::tp::conf3 { 'nrpe::extra.conf':
+  ::tp::conf { 'nrpe::extra.conf':
     ensure       => $ensure,
     template     => $extra_config_file_template,
     options_hash => $options,

@@ -1,5 +1,0 @@
-class site::firewall {
-
-  # TODO
-
-}

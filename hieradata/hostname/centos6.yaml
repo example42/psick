@@ -1,2 +1,0 @@
----
-:postgresql::install_class: 'postgresql::install::postgresql_org_redhat'

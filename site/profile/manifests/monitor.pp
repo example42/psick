@@ -1,4 +1,4 @@
-class site::monitor (
+class profile::monitor (
   $icinga_class        = '',
   $nagiosplugins_class = '',
   $nrpe_class          = '',

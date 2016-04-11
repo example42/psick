@@ -1,0 +1,5 @@
+class profile::network {
+
+  # TODO
+
+}
