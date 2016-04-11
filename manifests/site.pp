@@ -4,5 +4,16 @@
 # Here we have a $::role driven nodeless setup where
 # we just include our site class where we include common and per role classes
 
-include ::site
+# If Puppet is already 4.x we include the relevant site class
+# otherwise we install Puppet 4 agent
 
+if versioncmp($::puppetversion, '4.0.0') >= 0 {
+  case $::kernel {
+    'windows': { include ::site::windows }
+    'Solaris': { include ::site::solaris }
+    'Linux': { include ::site }
+    default: { fail("Unsupported Operating System ${::kernel}") }
+  }
+} else {
+  include ::profile::puppet::v3::upgradeto4
+}

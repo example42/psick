@@ -1,6 +1,6 @@
 # Some basic tests
 
-class site::test {
+class profile::test {
 
   # include site::web::nginx
   package { 'git': }

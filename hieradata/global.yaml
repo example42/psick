@@ -3,39 +3,6 @@
 #  site::puppet_class: 'profile::puppet4'
 #  profile::puppet4::install_server: true
  
-  site::backup::duply::enable: false
-#  site::monitor::nagiosplugins_class : '::site::monitor::nagiosplugins'
+  profile::backup::duply::enable: false
+#  profile::monitor::nagiosplugins_class : '::profile::monitor::nagiosplugins'
 
-# Alternative data set used by /vagrant/manifests/hiera.pp
-
-  # TP Default settings (Note the usage of Yaml aliases to define common parameters)
-  tp_defaults: &tp_defaults
-    data_module: 'tinydata'
-    debug: false
-
-  tp_install_defaults: &tp_install_defaults
-    <<: *tp_defaults
-    ensure: 'present'
-
-  # Apps to install
-  tp::install:
-    munin:
-      <<: *tp_install_defaults
-    proftpd:
-      <<: *tp_install_defaults
-    apache:
-      <<: *tp_install_defaults
-    nginx:
-      <<: *tp_install_defaults
-
-
-  tp_conf_defaults: &tp_conf_defaults
-    <<: *tp_defaults
-    ensure: 'present'
-    config_file_notify: true
-
-  tp::conf:
-    munin:
-      <<: *tp_conf_defaults
-
-# 

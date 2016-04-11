@@ -1,5 +1,0 @@
-class site::sysctl {
-
-  # TODO
-
-}

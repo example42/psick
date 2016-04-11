@@ -1,83 +1,75 @@
-# Common site modules
+# Common site class
 #
 # Use _class params for exceptions and alternatives.
 #
 class site (
 
-  $pre_class         = '::site::pre',
+  $pre_class         = '::profile::pre',
 
-  $general_class     = '::site::general',
+  $mail_class        = '::profile::mail::postfix',
 
   $puppet_class      = '',
 
-  $network_class     = '::site::network',
-  $users_class       = '::site::users',
+  $network_class     = '::profile::network',
+  $users_class       = '::profile::users',
 
-  $monitor_class     = '::site::monitor',
-  $firewall_class    = '::site::firewall',
-  $logs_class        = '::site::logs',
+  $monitor_class     = '::profile::monitor',
+  $firewall_class    = '::profile::firewall::iptables',
+  $logs_class        = '::profile::logs::rsyslog',
 
   $backup_class      = '',
 
 ) {
 
   if $pre_class and $pre_class != '' {
-    include $pre_class
+    contain $pre_class
   }
 
   if $network_class and $network_class != '' {
-    class { $network_class:
-      require => Class[$pre_class],
-    }
+    contain $network_class
+    Class[$pre_class] -> Class[$network_class]
   }
 
-  if $general_class and $general_class != '' {
-    class { $general_class:
-      require => Class[$pre_class],
-    }
+  if $mail_class and $mail_class != '' {
+    contain $mail_class
+    Class[$pre_class] -> Class[$main_class]
   }
 
   if $puppet_class and $puppet_class != '' {
-    class { $puppet_class:
-      require => Class[$pre_class],
-    }
+    contain $puppet_class
+    Class[$pre_class] -> Class[$puppet_class]
   }
 
   if $monitor_class and $monitor_class != '' {
-    class { $monitor_class:
-      require => Class[$pre_class],
-    }
+    contain $monitor_class
+    Class[$pre_class] -> Class[$monitor_class]
   }
 
   if $backup_class and $backup_class != '' {
-    class { $backup_class:
-      require => Class[$pre_class],
-    }
+    contain $backup_class
+    Class[$pre_class] -> Class[$backup_class]
   }
 
   if $users_class and $users_class != '' {
-    class { $users_class:
-      require => Class[$pre_class],
-    }
+    contain $users_class
+    Class[$pre_class] -> Class[$users_class]
   }
 
   if $firewall_class and $firewall_class != '' {
-    class { $firewall_class:
-      require => Class[$pre_class],
-    }
+    contain $firewall_class
+    Class[$pre_class] -> Class[$firewall_class]
   }
 
   if $logs_class and $logs_class != '' {
-    class { $logs_class:
-      require => Class[$pre_class],
-    }
+    contain $logs_class
+    Class[$pre_class] -> Class[$logs_class]
   }
 
 
   # Role specific class is loaded, if $role is set
   if $::role and $::role != '' {
-    class { "::role::${::role}":
-      require => Class[$pre_class],
-    }
+    include "::role::${::role}"
+    contain "::role::${::role}"
+    Class[$pre_class] -> Class["::role::${::role}"]
   }
 }
