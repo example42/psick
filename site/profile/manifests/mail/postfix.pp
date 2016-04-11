@@ -10,7 +10,7 @@ class profile::mail::postfix (
   $options_default = {
   }
   $options_user=hiera_hash('postfix_options', {} )
-  $options=merge($options_default,$options_user){
+  $options=merge($options_default,$options_user)
 
   # Postfix as local mailer
   ::tp::install { 'postfix':

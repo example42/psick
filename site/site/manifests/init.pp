@@ -32,7 +32,7 @@ class site (
 
   if $mail_class and $mail_class != '' {
     contain $mail_class
-    Class[$pre_class] -> Class[$main_class]
+    Class[$pre_class] -> Class[$mail_class]
   }
 
   if $puppet_class and $puppet_class != '' {
