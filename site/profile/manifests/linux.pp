@@ -1,8 +1,8 @@
-# Common site class
+# Common linux profile
 #
 # Use _class params for exceptions and alternatives.
 #
-class site (
+class profile::linux (
 
   $pre_class         = '::profile::pre',
 
@@ -22,46 +22,46 @@ class site (
 ) {
 
   if $pre_class and $pre_class != '' {
-    contain $pre_class
+    include $pre_class
   }
 
   if $network_class and $network_class != '' {
-    contain $network_class
+    include $network_class
     Class[$pre_class] -> Class[$network_class]
   }
 
   if $mail_class and $mail_class != '' {
-    contain $mail_class
+    include $mail_class
     Class[$pre_class] -> Class[$mail_class]
   }
 
   if $puppet_class and $puppet_class != '' {
-    contain $puppet_class
+    include $puppet_class
     Class[$pre_class] -> Class[$puppet_class]
   }
 
   if $monitor_class and $monitor_class != '' {
-    contain $monitor_class
+    include $monitor_class
     Class[$pre_class] -> Class[$monitor_class]
   }
 
   if $backup_class and $backup_class != '' {
-    contain $backup_class
+    include $backup_class
     Class[$pre_class] -> Class[$backup_class]
   }
 
   if $users_class and $users_class != '' {
-    contain $users_class
+    include $users_class
     Class[$pre_class] -> Class[$users_class]
   }
 
   if $firewall_class and $firewall_class != '' {
-    contain $firewall_class
+    include $firewall_class
     Class[$pre_class] -> Class[$firewall_class]
   }
 
   if $logs_class and $logs_class != '' {
-    contain $logs_class
+    include $logs_class
     Class[$pre_class] -> Class[$logs_class]
   }
 
@@ -69,7 +69,7 @@ class site (
   # Role specific class is loaded, if $role is set
   if $::role and $::role != '' {
     include "::role::${::role}"
-    contain "::role::${::role}"
+    include "::role::${::role}"
     Class[$pre_class] -> Class["::role::${::role}"]
   }
 }
