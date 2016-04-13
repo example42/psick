@@ -1,0 +1,141 @@
+# Default ram (can be overriden per node)
+default_ram = '1024'
+
+# Default number of cpu  (can be overriden per node)
+default_cpu = '1'
+
+# Default domain for nodes
+default_domain = 'devel'
+
+Vagrant.configure("2") do |config|
+  config.cache.auto_detect = true
+
+  # See https://github.com/mitchellh/vagrant/issues/1673
+  # config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
+
+  {
+    :Centos7_PuppetServer => {
+      :box              => 'puppetlabs/centos-7.0-64-puppet',
+      :provision_agent  => false,
+      :provision_apply  => true,
+      :breed            => 'puppetlabs',
+      :ram              => '4096',
+      :cpu              => '2',
+      :role             => 'puppet',
+    },
+    :Ubuntu1404_PuppetServer => {
+      :box              => 'puppetlabs/ubuntu-14.04-64-puppet',
+      :provision_agent  => false,
+      :provision_apply  => true,
+      :breed            => 'puppetlabs-apt',
+      :ram              => '4096',
+      :cpu              => '2',
+      :role             => 'puppet',
+    },
+    :Centos7 => {
+      :box              => 'puppetlabs/centos-7.0-64-puppet',
+      :breed            => 'puppetlabs',
+      :provision_agent  => false,
+      :provision_apply  => true,
+    },
+    :Centos7_P3 => {
+      :box              => 'webhippie/centos-7',
+      :breed            => 'redhat7',
+      :provision_agent  => false,
+      :provision_apply  => true,
+    },
+    :Centos7_PE => {
+      :box              => 'puppetlabs/centos-7.0-64-puppet-enterprise',
+      :breed            => 'puppetlabs',
+      :provision_agent  => false,
+      :provision_apply  => true,
+    },
+    :Centos6 => {
+      :box              => 'puppetlabs/centos-6.6-64-puppet',
+      :breed            => 'puppetlabs-centos6',
+      :provision_agent  => false,
+      :provision_apply  => true,
+    },
+    :Ubuntu1404 => {
+      :box              => 'puppetlabs/ubuntu-14.04-64-puppet',
+      :breed            => 'puppetlabs-apt',
+      :provision_agent  => false,
+      :provision_apply  => true,
+    },
+    :Ubuntu1204 => {
+      :box              => 'puppetlabs/ubuntu-12.04-64-puppet',
+      :breed            => 'puppetlabs-ubuntu1204',
+      :provision_agent  => false,
+      :provision_apply  => true,
+    },
+    :Debian8_P3 => {
+      :box              => 'oar-team/debian8',
+      :breed            => 'debian8',
+      :provision_agent  => false,
+      :provision_apply  => true,
+    },
+    :Debian7 => {
+      :box              => 'puppetlabs/debian-7.8-64-puppet',
+      :breed            => 'puppetlabs-apt',
+      :provision_agent  => false,
+      :provision_apply  => true,
+    },
+    :Debian6 => {
+      :box              => 'puppetlabs/debian-6.0.10-64-puppet',
+      :breed            => 'puppetlabs-apt',
+      :provision_agent  => false,
+      :provision_apply  => true,
+    },
+    :OpenSuse12_3 => {
+      :box              => 'opensuse-12.3-64',
+      :box_url          => 'http://sourceforge.net/projects/opensusevagrant/files/12.3/opensuse-12.3-64.box/download',
+      :breed            => 'opensuse12',
+      :provision_agent  => false,
+      :provision_apply  => true,
+    },
+  }.each do |name,cfg|
+
+    config.vm.define "#{name}.#{default_domain}" do |local|
+      memory = cfg[:ram] ? cfg[:ram] : default_ram ;
+      cpu = cfg[:cpu] ? cfg[:cpu] : default_cpu ;
+      local.vm.provider "virtualbox" do |v|
+        v.customize [ 'modifyvm', :id, '--memory', memory.to_s ]
+        v.customize [ 'modifyvm', :id, '--cpus', cpu.to_s ]
+      end
+      local.vm.synced_folder "../../../", "/vagrant"
+      local.vm.box = cfg[:box]
+      local.vm.box_url = cfg[:box_url] if cfg[:box_url]
+#      local.vm.boot_mode = :gui
+#      local.vm.host_name = "#{name}.#{default_domain}"
+
+      local.vm.provision "shell", path: '../../bin/vagrant-setup.sh', args: cfg[:breed]
+
+      if cfg[:facts]
+        local.vm.provision "shell", path: '../../bin/vagrant_setfacts.sh', args: cfg[:role]
+      end
+
+      if cfg[:provision_apply]
+        local.vm.provision "shell", path: '../../bin/vagrant_papply.sh'
+      end
+
+      if cfg[:provision_agent]
+        local.vm.provision "puppet_server" do |puppet|
+          puppet.puppet_server = 'puppet'
+          puppet.puppet_node = "#{name}.#{default_domain}"
+          puppet.options = [
+           '--verbose',
+           '--report',
+           '--show_diff',
+           '--pluginsync',
+           '--summarize',
+#        '--profile',
+#        '--evaltrace',
+#        '--trace',
+#        '--debug',
+#         '--parser future',
+          ]
+        end
+      end
+    end
+  end
+end
