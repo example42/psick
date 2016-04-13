@@ -25,6 +25,12 @@ class profile::puppet::v3::upgradeto4 (
   $options_user=hiera_hash('profile::puppet::options', {} )
   $options=merge($options_default,$options_user)
 
+  ::tp::install3 { 'puppet':
+    ensure => absent,
+    settings_hash => {
+      service_name     => '',
+    }, 
+  } ->
   ::tp::install3 { 'puppet-agent':
     ensure => $ensure,
   }

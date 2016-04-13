@@ -3,6 +3,7 @@
   - yaml
 :hierarchy:
   - "hostname/%{::hostname}"
+  - "role/%{::role}-${::env}"
   - "role/%{::role}"
   - global
 

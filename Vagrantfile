@@ -18,9 +18,7 @@ Vagrant.configure("2") do |config|
       :breed            => 'puppetlabs',
       :ram              => '4096',
       :cpu              => '2',
-      :facts            => {
-        :role => 'puppet',
-      }
+      :role             => 'puppet',
     },
     :Ubuntu1404_PuppetServer => {
       :box              => 'puppetlabs/ubuntu-14.04-64-puppet',
@@ -29,9 +27,7 @@ Vagrant.configure("2") do |config|
       :breed            => 'puppetlabs-apt',
       :ram              => '4096',
       :cpu              => '2',
-      :facts            => {
-        :role => 'puppet',
-      }
+      :role             => 'puppet',
     },
     :Centos7 => {
       :box              => 'puppetlabs/centos-7.0-64-puppet',
@@ -110,20 +106,12 @@ Vagrant.configure("2") do |config|
       local.vm.host_name = ENV['VAGRANT_HOSTNAME'] || name.to_s.downcase.gsub(/_/, '-').concat(".example42.dev")
       local.vm.provision "shell", path: 'bin/vagrant-setup.sh', args: cfg[:breed]
 
-# TODO Fix
-      $facter_script = <<EOF
-facts_dir=$(puppet config print pluginfactdest)
-mkdir -p $facts_dir
-echo "role=puppet" > $facts_dir/facts.txt
-EOF
-
       if cfg[:facts]
-        local.vm.provision "shell", inline: $facter_script
+        local.vm.provision "shell", path: 'bin/vagrant_setfacts.sh', args: cfg[:role]
       end
 
-
       if cfg[:provision_shell]
-        local.vm.provision "shell", path: 'bin/papply_vagrant.sh'
+        local.vm.provision "shell", path: 'bin/vagrant_papply.sh'
       end
 
       if cfg[:provision_puppet]

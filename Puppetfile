@@ -81,3 +81,5 @@ mod'puppetlabs/stdlib',
   :git => 'git@github.com:/puppetlabs/puppetlabs-stdlib'
 mod'puppetlabs/vcsrepo',
   :git => 'git@github.com:/puppetlabs/puppetlabs-vcsrepo'
+mod'puppetlabs/aws',
+  :git => 'git@github.com:/puppetlabs/puppetlabs-aws'

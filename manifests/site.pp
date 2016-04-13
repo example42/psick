@@ -9,9 +9,9 @@
 
 if versioncmp($::puppetversion, '4.0.0') >= 0 {
   case $::kernel {
-    'windows': { include ::site::windows }
-    'Solaris': { include ::site::solaris }
-    'Linux': { include ::site }
+    'windows': { include ::profile::windows }
+    'Solaris': { include ::profile::solaris }
+    'Linux': { include ::profile::linux }
     default: { fail("Unsupported Operating System ${::kernel}") }
   }
 } else {

@@ -17,7 +17,11 @@ else
   manifest_option='--manifestdir /vagrant/manifests'
 fi
 
-puppet apply --verbose --report --show_diff --pluginsync --summarize --modulepath "/vagrant/site:/vagrant/modules:/etc/puppet/modules" --hiera_config=/vagrant/hiera.yaml --detailed-exitcodes $manifest_option $manifest
+puppet apply --verbose --report --show_diff --summarize \
+	--modulepath "/vagrant/site:/vagrant/modules:/etc/puppet/modules" \
+	--environmentpath "/vagrant" \
+	--hiera_config=/vagrant/hiera.yaml \
+	--detailed-exitcodes $manifest_option $manifest
 
 if [ "x$?" == "x0" ] || [ "x$?" == "x1" ]; then
   exit 0
