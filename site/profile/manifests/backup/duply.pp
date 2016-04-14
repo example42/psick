@@ -19,7 +19,7 @@ class profile::backup::duply (
 
   ::tp::dir { 'duply':
     ensure => $ensure,
-    source => $duply_dir_source,
+    source => $config_dir_source,
   } 
 
   # All the data used in templates can be stored on Hiera ( 'duply_options' key)
