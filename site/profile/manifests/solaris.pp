@@ -4,20 +4,16 @@
 #
 class profile::solaris (
 
-  $pre_class         = '',
+  String $pre_class         = '::profile::pre',
 
-  $mail_class        = '',
-
-  $puppet_class      = '',
-
-  $network_class     = '',
-  $users_class       = '',
-
-  $monitor_class     = '',
-  $firewall_class    = '',
-  $logs_class        = '',
-
-  $backup_class      = '',
+  String $puppet_class      = '',
+  String $mail_class        = '',
+  String $network_class     = '',
+  String $users_class       = '',
+  String $monitor_class     = '',
+  String $firewall_class    = '',
+  String $logs_class        = '',
+  String $backup_class      = '',
 
 ) {
 
@@ -65,11 +61,4 @@ class profile::solaris (
     Class[$pre_class] -> Class[$logs_class]
   }
 
-
-  # Role specific class is loaded, if $role is set
-  if $::role and $::role != '' {
-    include "::role::${::role}"
-    contain "::role::${::role}"
-    Class[$pre_class] -> Class["::role::${::role}"]
-  }
 }
