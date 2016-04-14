@@ -2,6 +2,8 @@
 breed=$1
 lock_file=/var/tmp/vagrant-setup.lock
 
+echo "## Checking Puppet installation"
+
 setup_puppetlabs() {
   echo "## Using a PuppetLabs vagrant box. No Puppet setup activity needed"
 }

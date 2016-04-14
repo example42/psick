@@ -8,12 +8,20 @@
 # otherwise we install Puppet 4 agent
 
 if versioncmp($::puppetversion, '4.0.0') >= 0 {
-  case $::kernel {
-    'windows': { include ::profile::windows }
-    'Solaris': { include ::profile::solaris }
-    'Linux': { include ::profile::linux }
-    default: { fail("Unsupported Operating System ${::kernel}") }
+  $kernel_down=downcase($::kernel)
+  contain "::profile::${kernel_down}"
+
+  # Role specific class is loaded, if $role is set
+  if $::role and $::role != '' {
+    contain "::role::${::role}"
+    Class["::profile::${kernel_down}"] -> Class["::role::${::role}"]
   }
+
+  # Alternative hiera driven classification
+  hiera_include('profiles',[])
+
 } else {
   include ::profile::puppet::v3::upgradeto4
 }
+
+
