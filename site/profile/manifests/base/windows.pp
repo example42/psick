@@ -1,8 +1,8 @@
-# Common solaris profile
+# Common windows profile
 #
 # Use _class params for exceptions and alternatives.
 #
-class profile::solaris (
+class profile::base::windows (
 
   String $pre_class         = '::profile::pre',
 

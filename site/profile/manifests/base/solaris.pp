@@ -1,8 +1,8 @@
-# Common linux profile
+# Common solaris profile
 #
 # Use _class params for exceptions and alternatives.
 #
-class profile::linux (
+class profile::base::solaris (
 
   String $pre_class         = '::profile::pre',
 

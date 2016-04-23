@@ -1,12 +1,12 @@
 ---
-# profile::linux common classes
-  profile::linux::pre_class: '::profile::pre'
-  profile::linux::mail_class: ''
-  profile::linux::puppet_class: '::profile::puppet::v4::agent_tp'
-  profile::linux::network_class: '::profile::network'
-  profile::linux::users_class: '::profile::users::static'
-  profile::linux::monitor_class: '::profile::monitor'
-  profile::linux::users_class: '::profile::backup::duply'
+# profile::base::linux common classes
+  profile::base::linux::pre_class: '::profile::pre'
+  profile::base::linux::mail_class: ''
+  profile::base::linux::puppet_class: '::profile::puppet::v4::agent_tp'
+  profile::base::linux::network_class: '::profile::network'
+  profile::base::linux::users_class: '::profile::users::static'
+  profile::base::linux::monitor_class: '::profile::monitor'
+  profile::base::linux::users_class: '::profile::backup::duply'
  
   profile::backup::duply::enable: false
 #  profile::monitor::nagiosplugins_class : '::profile::monitor::nagiosplugins'

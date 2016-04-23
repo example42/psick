@@ -9,12 +9,12 @@
 
 if versioncmp($::puppetversion, '4.0.0') >= 0 {
   $kernel_down=downcase($::kernel)
-  contain "::profile::${kernel_down}"
+  contain "::profile::base::${kernel_down}"
 
   # Role specific class is loaded, if $role is set
   if $::role and $::role != '' {
     contain "::role::${::role}"
-    Class["::profile::${kernel_down}"] -> Class["::role::${::role}"]
+    Class["::profile::base::${kernel_down}"] -> Class["::role::${::role}"]
   }
 
   # Alternative hiera driven classification
