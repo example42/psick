@@ -8,5 +8,5 @@
   - global
 
 :yaml:
-  :datadir: /vagrant/hieradata/
+  :datadir: "/etc/puppetlabs/code/environments/%{environment}/hieradata/"
 

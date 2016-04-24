@@ -8,6 +8,7 @@
 # otherwise we install Puppet 4 agent
 
 if versioncmp($::puppetversion, '4.0.0') >= 0 {
+  # A general base profile is included for Linux / Windows / Solaris
   $kernel_down=downcase($::kernel)
   contain "::profile::base::${kernel_down}"
 

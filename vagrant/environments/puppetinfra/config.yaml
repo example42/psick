@@ -1,0 +1,72 @@
+---
+vm:
+  memory: 512
+  cpu: 1
+  box: centos7 # From boxes list below
+  puppet_apply: false
+  puppet_agent: true
+
+network:
+  range: 10.42.42.0/24
+  ip_start_offset: 101
+  domain: example42.dev
+
+puppet:
+  version: latest
+  env: dev
+  zone: local
+  master_ip: 10.42.42.10
+  master_hostname: dev-local-puppet-01
+
+nodes:
+  - role: puppet
+    count: 1
+    memory: 2048
+    cpu: 2
+    ip_address: 10.42.42.10
+    puppet_apply: true
+    aliases:
+      - puppet
+  - role: log
+    count: 1
+    memory: 1024
+  - role: mon
+    count: 1
+    memory: 1024
+  - role: aws
+    count: 1
+    memory: 1024
+  - role: docker
+    count: 2
+    memory: 512
+    box: ubuntu1404
+
+boxes:
+  centos7:
+    box: puppetlabs/centos-7.0-64-puppet
+    breed: puppetlabs
+  centos7_puppet3:
+    box: webhippie/centos-7
+    breed: redhat7
+  centos7_pe:
+    box: puppetlabs/centos-7.0-64-puppet-enterprise
+    breed: puppetlabs
+  centos6:
+    box: puppetlabs/centos-6.6-64-puppet
+    breed: puppetlabs-centos6
+  ubuntu1404:
+    box: puppetlabs/ubuntu-14.04-64-puppet
+    breed: puppetlabs-apt
+  ubuntu1204:
+    box: puppetlabs/ubuntu-12.04-64-puppet
+    breed: puppetlabs-ubuntu1204
+  debian8_puppet3:
+    box: oar-team/debian8
+    breed: debian8
+  debian7:
+    box: puppetlabs/debian-7.8-64-puppet
+    breed: puppetlabs-apt
+  debian6:
+    box: puppetlabs/debian-6.0.10-64-puppet
+    breed: puppetlabs-apt
+
