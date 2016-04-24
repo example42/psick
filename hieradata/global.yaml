@@ -11,3 +11,5 @@
   profile::backup::duply::enable: false
 #  profile::monitor::nagiosplugins_class : '::profile::monitor::nagiosplugins'
 
+  puppetserver_options:
+    java_args: '-Xms1g -Xmx1g -XX:MaxPermSize=256m'
