@@ -42,13 +42,11 @@ class profile::puppet::v4::agent_tp (
   }
 
   if $create_symlinks {
-    file { '/usr/local/bin/puppet':
-      ensure => link,
-      target => '/opt/puppetlabs/bin/puppet',
-    }
-    file { '/usr/local/bin/facter':
-      ensure => link,
-      target => '/opt/puppetlabs/bin/facter',
+    ['puppet','facter','hiera'].each |$cmd| {
+      file { "/usr/local/bin/${cmd}":
+        ensure => link,
+        target => "/opt/puppetlabs/bin/${cmd}",
+      }
     }
   }
 

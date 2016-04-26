@@ -1,10 +1,11 @@
 ---
+# Default settings for vms
 vm:
   memory: 512
   cpu: 1
   box: centos7 # From boxes list below
-  puppet_apply: false
-  puppet_agent: true
+  puppet_apply: true
+  puppet_agent: false
 
 network:
   range: 10.42.42.0/24
@@ -18,6 +19,7 @@ puppet:
   master_ip: 10.42.42.10
   master_hostname: dev-local-puppet-01
 
+# Nodes shown in vagrant status 
 nodes:
   - role: puppet
     count: 1
@@ -35,10 +37,10 @@ nodes:
     memory: 1024
   - role: aws
     count: 1
-    memory: 1024
   - role: docker
     count: 2
-    memory: 512
+    cpu: 2
+    memory: 1024
     box: ubuntu1404
 
 boxes:
