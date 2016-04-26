@@ -1,0 +1,3 @@
+---
+  puppetserver_options:
+    service_stop_retries: 2

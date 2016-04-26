@@ -110,7 +110,7 @@ Vagrant.configure("2") do |config|
       end
 
       if cfg[:provision_apply]
-        local.vm.provision "shell", path: '../../bin/vagrant_papply.sh'
+        local.vm.provision "shell", path: '../../bin/papply.sh'
       end
 
       if cfg[:provision_agent]

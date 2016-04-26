@@ -2,7 +2,7 @@
 class profile::aws (
   String $setup_class        = '::profile::aws::setup',
   String $autoscaling_class  = '',
-  String $ec2_class        = '',
+  String $ec2_class          = '',
 ) {
 
   if $setup_class and $setup_class != '' {

@@ -1,0 +1,8 @@
+---
+profile::docker::build::username: example42
+profile::docker::build::maintainer: 'Example42 GmbH <info@example42.com>'
+profile::docker::build::default_os: ubuntu
+profile::docker::build::default_osversion: '14.04'
+profile::docker::build::apps:
+  puppetserver:
+    ensure: present

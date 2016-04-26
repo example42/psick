@@ -5,30 +5,36 @@ class profile::puppet::v4::puppetserver (
 
   $config_dir_source          = undef,
   $config_file_template       = undef,
+  $init_file_template         = 'tinydata/puppetserver/init.erb',
 
 ) {
 
   $options_default = {
     server => 'puppet',
   }
-  $options_user=hiera_hash('puppet_options', {} )
+  $options_user=hiera('puppetserver_options', {} )
   $options=merge($options_default,$options_user)
-
-  if $ensure == 'absent' {
-    ::tp::uninstall3 { 'puppetserver': }
+  if $ensure != 'present' {
+    ::tp::uninstall { 'puppetserver': }
   } else {
     include ::java
     ## Exec['tp_apt_update'] -> Class['java']
-    ::tp::install3 { 'puppetserver': }
+    ::tp::install { 'puppetserver': }
   }
 
-  ::tp::dir3 { 'puppetserver':
+  ::tp::dir { 'puppetserver':
     ensure => $ensure,
     source => $config_dir_source,
   }
-  ::tp::conf3 { 'puppetserver':
+  ::tp::conf { 'puppetserver':
     ensure       => $ensure,
     template     => $config_file_template,
+    options_hash => $options,
+  }
+  ::tp::conf { 'puppetserver::init':
+    ensure       => $ensure,
+    template     => $init_file_template,
+    base_file    => 'init',
     options_hash => $options,
   }
 

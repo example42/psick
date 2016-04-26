@@ -1,8 +1,8 @@
-# Common windows profile
+# Common linux profile
 #
 # Use _class params for exceptions and alternatives.
 #
-class profile::windows (
+class profile::base::linux (
 
   String $pre_class         = '::profile::pre',
 

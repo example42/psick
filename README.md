@@ -71,7 +71,9 @@ For a correct setup of the Vagrant environment you need some extra plugins:
 
     vagrant plugin install vagrant-cachier
     vagrant plugin install vagrant-vbguest
-
+    vagrant plugin install vagrant-hostmanager
+    cd vagrant/environments/<$vagrant_env>/
+    vagrant status
 
 ## Example42 modules evolution
 
