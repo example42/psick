@@ -1,12 +1,6 @@
 ---
 profiles:
   - ::profile::aws
-  - ::profile::docker
-  - ::apache
-
-apache::profiles:
-  - ssl
-  - passenger
 
 profile::aws::setup_class: ::profile::aws::setup
 profile::aws::setup::vpc_hash:
