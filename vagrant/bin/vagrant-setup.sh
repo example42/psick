@@ -6,7 +6,6 @@ echo "## Checking Puppet installation"
 
 setup_puppetlabs() {
   echo "## Using a PuppetLabs vagrant box. No Puppet setup activity needed"
-  mkdir -p /etc/facter/facts.d/
 }
 
 setup_puppetlabs-apt() {
@@ -14,7 +13,6 @@ setup_puppetlabs-apt() {
   apt-get update >/dev/null
 
   echo "## Using a PuppetLabs vagrant box. No Puppet setup activity needed"
-  mkdir -p /etc/facter/facts.d/
 }
 
 setup_puppetlabs-centos6() {
@@ -31,7 +29,6 @@ setup_puppetlabs-centos6() {
 
   echo "## Installing Puppet 4"
   yum install -y puppet-agent
-  mkdir -p /etc/facter/facts.d/
 }
 
 setup_centos5() {
@@ -44,7 +41,6 @@ setup_redhat7() {
 
   echo "## Installing Puppet"
   yum install -y puppet >/dev/null 
-  mkdir -p /etc/facter/facts.d/
 }
 
 setup_puppetlabs-ubuntu1204() {
@@ -62,7 +58,6 @@ setup_puppetlabs-ubuntu1204() {
 
   update-alternatives --config ruby
   update-alternatives --config gem
-  mkdir -p /etc/facter/facts.d/
 }
 
 setup_debian8() {
@@ -76,7 +71,6 @@ setup_debian8() {
   echo "## Installing Puppet and its dependencies"
   apt-get install puppet -y >/dev/null
   apt-get install apt-transport-https -y >/dev/null
-  mkdir -p /etc/facter/facts.d/
 }
 
 setup_opensuse12(){

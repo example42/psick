@@ -1,4 +1,3 @@
-/.gradle
 /.rvmrc
 build
 pkg/
@@ -10,3 +9,4 @@ spec/fixtures
 .bundle
 modules/
 .vagrant/
+/keys/private_key.pkcs7.pem

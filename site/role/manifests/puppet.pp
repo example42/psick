@@ -2,7 +2,7 @@
 #
 class role::puppet {
 
-  include ::profile::puppet::v4::puppetserver
+  include ::profile::puppetserver
   include ::profile::puppetdb
 
 }
