@@ -1,3 +1,10 @@
+## Release 4.0.0.beta.1
+
+- Introduced hiera-eyaml
+- Hiera driven roles definition
+- Resource defaults for tp
+- Various optimisations and additions
+
 ## Release 4.0.0.alpha.2
 
 - Refactored Vagrant environment

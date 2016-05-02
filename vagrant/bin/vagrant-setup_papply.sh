@@ -1,6 +1,10 @@
 #!/bin/bash
 
-puppet resource package rubygems ensure=present
+if [ $(facter osfamily) == 'Debian' ]; then
+  puppet resource package ruby ensure=present
+else
+  puppet resource package rubygems ensure=present
+fi
 
 gem list | grep deep_merge >/dev/null 2>&1
 if [ "x$?" == "x1" ] ; then

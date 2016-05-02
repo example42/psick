@@ -23,7 +23,7 @@ else
   manifest_option="--manifestdir ${base_dir}/manifests"
 fi
 
-puppet apply --verbose --report --show_diff --summarize \
+puppet apply --test --report --summarize \
 	--modulepath "${base_dir}/site:${base_dir}/modules:/etc/puppet/modules" \
 	--environmentpath $base_dir \
 	--hiera_config "${base_dir}/hiera.yaml" \

@@ -28,20 +28,23 @@ Tp::Dir {
 
 if versioncmp($::puppetversion, '4.0.0') >= 0 {
 
-  # A general base profile is included for Linux / Windows / Solaris
+  # $kernel_down is used to include profile::base classes for different OS 
   $kernel_down=downcase($::kernel)
-  contain "::profile::base::${kernel_down}"
 
-  # Profiles to include in roles are defined via Hiera
-  hiera_include('profiles',[])
 
-  # Alternative based on role classes, if $role is set
+  # Classification option 1 - Profiles defined in Hiera
+  hiera_include('profiles')
+
+  # Classification option 2 - Classic roles and profiles classes
+  #  contain "::profile::base::${kernel_down}"
   #  if $::role and $::role != '' {
   #    contain "::role::${::role}"
   #    Class["::profile::base::${kernel_down}"] -> Class["::role::${::role}"]
   #  }
 
 } else {
+  # All the code here is Puppet 4 only compliant.
+  # Nodes with Puppet 3 are upgraded
   include ::profile::puppet::v3::upgradeto4
 }
 
