@@ -1,8 +1,8 @@
 define profile::aws::setup::vpc (
-  String ensure     = 'present',
-  String vpc        = $title,
-  String region     = 'us-east-1',
-  String cidr_block = '10.0.0.0/16',
+  String $ensure     = 'present',
+  String $vpc        = $title,
+  String $region     = 'us-east-1',
+  String $cidr_block = '10.0.0.0/16',
 ) {
 
   ec2_vpc { $vpc:
@@ -10,7 +10,7 @@ define profile::aws::setup::vpc (
     region       => $region,
     cidr_block   => $cidr_block,
   }
-  
+
   ec2_securitygroup { "ssh-${vpc}":
     ensure       => $present,
     region       => $region,

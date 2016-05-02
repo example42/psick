@@ -1,6 +1,6 @@
 # == Class: profile::puppetserver
 #
-class profile::puppet::v4::puppetserver (
+class profile::puppetserver (
   $ensure                     = 'present',
 
   $config_dir_source          = undef,

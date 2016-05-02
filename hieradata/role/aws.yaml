@@ -1,0 +1,12 @@
+---
+  profiles:
+    - '::profile::aws'
+    - '::apache::profile::passenger'
+  
+  profile::aws::setup_class: ::profile::aws::setup
+  profile::aws::setup::vpc_hash:
+    test:
+      ensure: present
+      region: eu-west-1
+      cidr_block: 10.42.10.0
+  

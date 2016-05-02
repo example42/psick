@@ -1,13 +1,20 @@
 ---
 :backends:
-  - yaml
+  - eyaml
+
 :hierarchy:
-  - "hostname/%{::hostname}"
+  - "hostname/%{::trusted.certname}"
   - "role/%{::role}-${::env}"
   - "role/%{::role}"
   - "zone/%{::zone}"
-  - global
+  - common
 
-:yaml:
+:eyaml:
   :datadir: "/etc/puppetlabs/code/environments/%{environment}/hieradata"
+
+  :pkcs7_private_key: /etc/puppet/environments/%{environment}/keys/private_key.pkcs7.pem
+  :pkcs7_public_key:  /etc/puppet/environments/%{environment}/keys/public_key.pkcs7.pem
+  :extension: 'yaml'
+
+:merge_behavior: deeper
 

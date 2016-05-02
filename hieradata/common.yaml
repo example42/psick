@@ -1,5 +1,17 @@
 ---
-# profile::base::linux common classes
+# Default tp behaviour
+  tp::test_enable: true
+  tp::puppi_enable: false
+  tp::debug: false
+
+# When using a custom data module for tp, set it here:
+  tp::data_module: tinydata
+
+# Common base profile class is included according to the OS
+  profiles:
+    - "::profile::base::%{::kernel_down}"
+
+# The default used classes of base::profile::linux are defined here:
   profile::base::linux::pre_class: '::profile::pre'
   profile::base::linux::mail_class: ''
   profile::base::linux::puppet_class: '::profile::puppet::v4::agent_tp'
@@ -7,9 +19,7 @@
   profile::base::linux::users_class: '::profile::users::static'
   profile::base::linux::monitor_class: '::profile::monitor'
   profile::base::linux::users_class: '::profile::backup::duply'
- 
+
   profile::backup::duply::enable: false
 #  profile::monitor::nagiosplugins_class : '::profile::monitor::nagiosplugins'
 
-  puppetserver_options:
-    java_args: '-Xms1g -Xmx1g -XX:MaxPermSize=256m'
