@@ -1,11 +1,20 @@
 ---
 profiles:
-  - ::profile::docker::build
+  - '::docker::profile::builder'
+  - '::docker::profile::host'
 
-profile::docker::build::username: example42
-profile::docker::build::maintainer: 'Example42 GmbH <info@example42.com>'
-profile::docker::build::default_os: ubuntu
-profile::docker::build::default_osversion: '14.04'
-profile::docker::build::apps:
+docker::username: example42
+docker::profile::builder::maintainer: 'Example42 GmbH <info@example42.com>'
+docker::profile::builder::default_os: ubuntu
+docker::profile::builder::default_osversion: '14.04'
+docker::profile::builder::images:
   puppetserver:
+    ensure: present
+  nginx:
+    ensure: present
+
+docker::profile::host::instances:
+  puppetserver:
+    ensure: present
+  nginx:
     ensure: present
