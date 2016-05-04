@@ -14,7 +14,8 @@ mod'example42/tp_docker',
 mod'example42/activemq',
   :git => 'git@github.com:/example42/puppet-activemq'
 mod'example42/apache',
-  :git => 'git@github.com:/example42/puppet-apache'
+  :git    => 'git@github.com:/example42/puppet-apache'
+  :branch => '4.0'
 mod'example42/apt',
   :git => 'git@github.com:/example42/puppet-apt'
 mod'example42/autofs',
