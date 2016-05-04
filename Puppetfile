@@ -1,21 +1,21 @@
 # Example42 extra modules
-
 mod'example42/puppi',
   :git => 'https://github.com/example42/puppi'
 mod'example42/tp',
   :git => 'https://github.com/example42/puppet-tp'
 mod'example42/tinydata',
   :git => 'https://github.com/example42/tinydata'
-mod'example42/tp_docker',
-  :git => 'https://github.com/example42/puppet-tp_docker'
 
-# Example42 component modules
-
-mod'example42/activemq',
-  :git => 'https://github.com/example42/puppet-activemq'
+# Example42 v4.x modules
+mod'example42/docker',
+  :git => 'https://github.com/example42/puppet-docker'
 mod'example42/apache',
   :git    => 'https://github.com/example42/puppet-apache',
   :branch => '4.0'
+
+# Older Example42 component modules
+mod'example42/activemq',
+  :git => 'https://github.com/example42/puppet-activemq'
 mod'example42/apt',
   :git => 'https://github.com/example42/puppet-apt'
 mod'example42/autofs',
