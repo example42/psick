@@ -13,8 +13,17 @@ docker::profile::builder::images:
   nginx:
     ensure: present
     conf_hash:
+      nginx:
+        content: 'Test main'
       nginx::test:
-        content: 'Test'
+        content: 'Test base_dir: config'
+        base_dir: 'config'
+      nginx::testinit:
+        content: 'Test base_file: init'
+        base_file: 'init'
+      nginx::testtmp.conf:
+        content: 'Test with explicit path'
+        path: /tmp/testnginx
     dir_hash:
       nginx:
         base_dir: 'data'

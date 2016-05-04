@@ -11,15 +11,13 @@
   profiles:
     - "::profile::base::%{::kernel_down}"
 
-# The default used classes of base::profile::linux are defined here:
+# The default common classes of base::profile::linux are defined here:
   profile::base::linux::pre_class: '::profile::pre'
   profile::base::linux::mail_class: ''
-  profile::base::linux::puppet_class: '::profile::puppet::v4::agent_tp'
+  profile::base::linux::puppet_class: '::puppet'
   profile::base::linux::network_class: '::profile::network'
   profile::base::linux::users_class: '::profile::users::static'
   profile::base::linux::monitor_class: '::profile::monitor'
-  profile::base::linux::users_class: '::profile::backup::duply'
+  profile::base::linux::backup_class: ''
 
-  profile::backup::duply::enable: false
-#  profile::monitor::nagiosplugins_class : '::profile::monitor::nagiosplugins'
 

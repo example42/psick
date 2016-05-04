@@ -12,6 +12,9 @@ mod'example42/docker',
 mod'example42/apache',
   :git    => 'https://github.com/example42/puppet-apache',
   :branch => '4.0'
+mod'example42/puppet',
+  :git => 'https://github.com/example42/puppet-puppet',
+  :branch => '4.x'
 
 # Older Example42 component modules
 mod'example42/activemq',
@@ -52,10 +55,6 @@ mod'example42/postgresql',
   :git => 'https://github.com/example42/puppet-postgresql'
 mod'example42/profile',
   :git => 'https://github.com/example42/puppet-profile'
-mod'example42/puppet',
-  :git => 'https://github.com/example42/puppet-puppet'
-mod'example42/puppetdb',
-  :git => 'https://github.com/example42/puppet-puppetdb'
 mod'example42/rclocal',
   :git => 'https://github.com/example42/puppet-rclocal'
 mod'example42/resolver',

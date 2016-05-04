@@ -9,7 +9,7 @@ setup_puppetlabs() {
 }
 
 setup_puppetlabs-apt() {
-  echo "## Running apy-get update"
+  echo "## Running apt-get update"
   apt-get update >/dev/null
 
   echo "## Using a PuppetLabs vagrant box. No Puppet setup activity needed"
@@ -44,7 +44,7 @@ setup_redhat7() {
 }
 
 setup_puppetlabs-ubuntu1204() {
-  echo "## Running apy-get update"
+  echo "## Running apt-get update"
   apt-get update >/dev/null
 
   echo "## Installing Ruby 1.9.3"
@@ -65,7 +65,7 @@ setup_debian8() {
   wget -q http://apt.puppetlabs.com/puppetlabs-release-jessie.deb >/dev/null
   dpkg -i puppetlabs-release-jessie.deb >/dev/null
 
-  echo "## Running apy-get update"
+  echo "## Running apt-get update"
   apt-get update >/dev/null 2>&1
 
   echo "## Installing Puppet and its dependencies"

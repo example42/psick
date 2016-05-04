@@ -45,6 +45,6 @@ if versioncmp($::puppetversion, '4.0.0') >= 0 {
 } else {
   # All the code here is Puppet 4 only compliant.
   # Nodes with Puppet 3 are upgraded
-  include ::profile::puppet::v3::upgradeto4
+  include ::puppet::profile::upgradeto4
 }
 
