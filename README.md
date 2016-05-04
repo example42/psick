@@ -1,12 +1,12 @@
 # example42 Puppet modules
 
-A selection of Puppet modules and a control-repo featuring:
+A selection of Puppet modules and control-repo featuring:
 
-  - Control repo code optimised for Puppet 4
+  - Control repo code optimised for Puppet 4 (earlier versions not supported).
 
-  - Modules code optimised for Puppet 4 and compatible with earlier versions
+  - Modules code optimised for Puppet 4 (WIP)
 
-  - Roles and profiles layout
+  - Roles and profiles approach, with roles defined via hiera (by default)
 
   - Usage of example42 and third party modules
 
@@ -16,7 +16,7 @@ A selection of Puppet modules and a control-repo featuring:
 
   - Alternative Vagrant environments for different test cases
 
-  - Useful as starting point or inspiration for a new Pupept project 
+  - Useful as starting point or inspiration for a new Puppet 4 project 
 
 Released under the terms of Apache2 licence.
 
@@ -40,10 +40,10 @@ or cherry pick them from [GitHub](https://github.com/example42).
 
     git clone git://github.com/example42/puppet-modules.git
     cd puppet-modules
-    r10k puppetfile install
+    r10k puppetfile install -v
     
     # For testing move in one of the vagrant environments:
-    cd vagrant/environments/ostest
+    cd vagrant/environments/puppetinfra
     vagrant status
 
 ### Old versions installation
@@ -58,12 +58,16 @@ Note that earlier versions were based on git modules.
 
 ## Dependencies
 
-### Modules
+### Single Modules
 
 All the modules have a metadata.json file where dependencies are described.
 
 Most of the modules require PuppetLabs' stdlib.
 Some modules (the ones which use the ```params_lookup``` function) require Puppi.
+
+### Control repo
+
+The modules used (and some example42 other)  in this control repo are defined in the ```Puppetfile``` and can be installed manually via git, from the Forge or via r10k.
 
 ### Vagrant
 
@@ -80,7 +84,7 @@ For a correct setup of the Vagrant environment you need some extra plugins:
 There are currently 4 generations of example42 modules:
 
 * "OLD" modules (Version 1.x) are no more supported or recommended.
-  They are supposed to work also on Puppet versions before 2.6
+  They are supposed to work also on Puppet versions 0.x
   You can give them a look using the 1.0 branch of this repo.
 
 * "NextGen" modules (Version 2.x) were made before the release of Puppet 3.
@@ -95,4 +99,5 @@ There are currently 4 generations of example42 modules:
   We will care better about the remaining ones. They are expected to be Puppet 4 compliant.
   The structure of the repo has changed radically, all the git submodules have been removed and a
   control-repo style has been introduced.
+  Currently the repo mantains also modules not optimised for Puppet 4, they will be upgraded or deprecated.
 
