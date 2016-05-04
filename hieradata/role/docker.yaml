@@ -12,6 +12,14 @@ docker::profile::builder::images:
     ensure: present
   nginx:
     ensure: present
+    conf_hash:
+      nginx::test:
+        content: 'Test'
+    dir_hash:
+      nginx:
+        base_dir: 'data'
+        vcsrepo: 'git'
+        source: 'https://github.com/example42/example42.github.io'
 
 docker::profile::host::instances:
   puppetserver:
