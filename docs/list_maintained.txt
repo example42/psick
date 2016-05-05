@@ -33,5 +33,4 @@ tinydata
 tomcat
 tp
 user
-wget
 yum

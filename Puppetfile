@@ -71,8 +71,6 @@ mod'example42/tomcat',
   :git => 'https://github.com/example42/puppet-tomcat'
 mod'example42/user',
   :git => 'https://github.com/example42/puppet-user'
-mod'example42/wget',
-  :git => 'https://github.com/example42/puppet-wget'
 mod'example42/yum',
   :git => 'https://github.com/example42/puppet-yum'
 

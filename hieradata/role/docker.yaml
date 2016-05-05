@@ -29,6 +29,10 @@ docker::profile::builder::images:
         base_dir: 'data'
         vcsrepo: 'git'
         source: 'https://github.com/example42/example42.github.io'
+      nginx::vhosts:
+        base_dir: 'vhost'
+        source: 'puppet:///modules/docker'
+
 
 docker::profile::host::instances:
   puppetserver:

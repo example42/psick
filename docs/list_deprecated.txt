@@ -87,6 +87,7 @@ vagrant
 varnish
 vim
 vsftpd
+wget
 wordpress
 xinetd
 zabbix_agent

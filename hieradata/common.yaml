@@ -7,11 +7,8 @@
 # When using a custom data module for tp, set it here:
   tp::data_module: tinydata
 
-# Common base profile class is included according to the OS
-  profiles:
-    - "::profile::base::%{::kernel_down}"
-
-# The default common classes of base::profile::linux are defined here:
+# The default common classes of base::profile::linux, included in manifests/site.pp
+# are defined here:
   profile::base::linux::pre_class: '::profile::pre'
   profile::base::linux::mail_class: ''
   profile::base::linux::puppet_class: '::puppet'
