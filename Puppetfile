@@ -1,5 +1,6 @@
 # Example42 extra modules
 mod "example42/puppi", :latest
+
 mod'example42/tp',
   :git => 'https://github.com/example42/puppet-tp'
 mod'example42/tinydata',
@@ -15,7 +16,7 @@ mod'example42/puppet',
   :git => 'https://github.com/example42/puppet-puppet',
   :branch => '4.x'
 mod'example42/rails',
-  :git => 'https://github.com/example42/puppet-rails',
+  :git => 'https://github.com/example42/puppet-rails'
 
 
 # Third Party modules
