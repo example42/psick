@@ -1,6 +1,5 @@
 # Example42 extra modules
-mod'example42/puppi',
-  :git => 'https://github.com/example42/puppi'
+mod "example42/puppi", :latest
 mod'example42/tp',
   :git => 'https://github.com/example42/puppet-tp'
 mod'example42/tinydata',
@@ -20,14 +19,11 @@ mod'example42/rails',
 
 
 # Third Party modules
-mod'puppetlabs/concat',
-  :git => 'https://github.com/puppetlabs/puppetlabs-concat'
-mod'puppetlabs/stdlib',
-  :git => 'https://github.com/puppetlabs/puppetlabs-stdlib'
-mod'puppetlabs/vcsrepo',
-  :git => 'https://github.com/puppetlabs/puppetlabs-vcsrepo'
-mod'puppetlabs/aws',
-  :git => 'https://github.com/puppetlabs/puppetlabs-aws'
+mod "puppetlabs/concat", :latest
+mod "puppetlabs/stdlib", :latest
+mod "puppetlabs/vcsrepo", :latest
+mod "puppetlabs/aws", :latest
+mod "jdowning/rbenv", :latest
 
 # Older 2.x example42 component modules
 #mod'example42/activemq',
