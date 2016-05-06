@@ -15,6 +15,9 @@ mod'example42/apache',
 mod'example42/puppet',
   :git => 'https://github.com/example42/puppet-puppet',
   :branch => '4.x'
+mod'example42/rails',
+  :git => 'https://github.com/example42/puppet-rails',
+
 
 # Third Party modules
 mod'puppetlabs/concat',
