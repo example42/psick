@@ -5,14 +5,14 @@ lock_file=/var/tmp/vagrant-setup.lock
 echo "## Checking Puppet installation"
 
 setup_puppetlabs() {
-  echo "## Using a PuppetLabs vagrant box. No Puppet setup activity needed"
+  echo "## Using an official Puppet vagrant box. Installation skipped."
 }
 
 setup_puppetlabs-apt() {
   echo "## Running apt-get update"
   apt-get update >/dev/null
 
-  echo "## Using a PuppetLabs vagrant box. No Puppet setup activity needed"
+  echo "## Using an official Puppet vagrant box. Installation skipped."
 }
 
 setup_puppetlabs-centos6() {
@@ -24,7 +24,7 @@ setup_puppetlabs-centos6() {
   echo "## Cleaning up existing ruby and puppet installations"
   yum erase -y ruby puppet
 
-  echo "## Installing PuppetLabs repo for Puppet 4"
+  echo "## Adding repo for Puppet 4"
   rpm -Uvh https://yum.puppetlabs.com/puppetlabs-release-pc1-el-6.noarch.rpm
 
   echo "## Installing Puppet 4"
@@ -36,7 +36,7 @@ setup_centos5() {
 }
 
 setup_redhat7() {
-  echo "## Installing Puppetlabs repo"
+  echo "## Adding repo for Puppet 4"
   rpm -ivh https://yum.puppetlabs.com/el/7/products/x86_64/puppetlabs-release-7-11.noarch.rpm >/dev/null # 2>&1
 
   echo "## Installing Puppet"
@@ -61,7 +61,7 @@ setup_puppetlabs-ubuntu1204() {
 }
 
 setup_debian8() {
-  echo "## Installing Puppetlabs repository"
+  echo "## Adding repo for Puppet 4"
   wget -q http://apt.puppetlabs.com/puppetlabs-release-jessie.deb >/dev/null
   dpkg -i puppetlabs-release-jessie.deb >/dev/null
 
@@ -74,11 +74,21 @@ setup_debian8() {
 }
 
 setup_opensuse12(){
-  echo "## Installing Puppetlabs repository"
+  echo "## Installing Puppet repository"
   zypper addrepo -f http://download.opensuse.org/repositories/systemsmanagement:/puppet/SLE_11_SP4/ puppet
 
   echo "## Installing Puppet and its dependencies"
   zypper install -y puppet
+}
+
+setup_alpine() {
+  echo "## Adding repo for Puppet 4"
+  echo http://dl-4.alpinelinux.org/alpine/edge/testing/ >> /etc/apk/repositories
+  apk update
+
+  echo "## Installing Puppet and its dependencies"
+  apk add shadow ruby less bash
+  gem install puppet --no-rdoc -no-ri
 }
 
 # Run setup only the first time

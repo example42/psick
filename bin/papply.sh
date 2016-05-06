@@ -1,11 +1,7 @@
 #!/bin/bash
 repo_dir="$(dirname $0)/../"
-
-if [ $1  ]; then
-  manifest=$1
-else
-  manifest="${repo_dir}/manifests/site.pp"
-fi
+manifest="${repo_dir}/manifests/site.pp"
+extra_options=$*
 
 PATH=$PATH:/opt/puppetlabs/bin
 
@@ -22,7 +18,7 @@ puppet apply --verbose --report --show_diff --summarize \
 	--modulepath "${repo_dir}/site:${repo_dir}/modules:/etc/puppetlabs/code//modules" \
 	--environmentpath "${repo_dir}" \
 	--hiera_config="${repo_dir}/hiera.yaml" \
-	--detailed-exitcodes $manifest_option $manifest
+	--detailed-exitcodes $manifest_option $extra_options $manifest
 
 if [ "x$?" == "x0" ] || [ "x$?" == "x1" ]; then
   exit 0

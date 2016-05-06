@@ -1,135 +1,119 @@
-# Default ram (can be overriden per node)
-default_ram = '1024'
+# Credits to Volkan Selcuk for initial Vagrantfile
+require 'yaml'
+require 'ipaddr'
 
-# Default number of cpu  (can be overriden per node)
-default_cpu = '1'
+# Nodes configuration is defined in config.yaml
+vagrantfile_dir = File.expand_path File.dirname(__FILE__)
+config_file = File.join(vagrantfile_dir, 'config.yaml')
 
-# Default domain for nodes
-default_domain = 'devel'
+if !File.exist?(config_file)
+  throw("File config.yaml not found. Must be in same dir of Vagrantfile")
+end
 
-# Default role
-default_role = 'base'
+ 
+settings = YAML::load_file config_file
 
+# Network and Puppet basics
+network_obj = IPAddr.new settings['network']['range']
+network_ip_range = network_obj.to_range.to_a
+range_start_offset = settings['network']['ip_start_offset'] ? settings['network']['ip_start_offset'] : 101
+puppet_master_hostname = settings['puppet']['master_hostname'] ? settings['puppet']['master_hostname'] : 'puppet'
+puppet_master_ip = settings['puppet']['master_ip']
+puppet_code_dir = '/etc/puppetlabs/code/environments/production'
+
+
+# Define vms settings
+vms = []
+if settings['nodes'].is_a?(Array)
+  ip_index = range_start_offset
+  settings['nodes'].each_with_index do |node, role_index|
+    count = node['count'] ? node['count'] : 1
+
+    (1..count).each do |vm_index|
+      vm = node.clone
+      vm['hostname'] = vm['hostname_base']
+      vm['role'] = node['role'] ? node['role'] : settings['vm']['role']
+      if vm['ip_address']
+        vm['ip'] = vm['ip_address']
+      else
+        vm['ip'] = network_ip_range[ip_index].to_s
+        ip_index+=1
+      end
+
+      vm['aliases'] = [
+          "%s.%s" % [vm['hostname'], settings['network']['domain']],
+          "%s-%02d" % [vm['hostname_base'], vm_index]
+      ]
+
+      vm['box'] = node['box'] ? node['box'] : settings['vm']['box']
+      vm['cpu'] = node['cpu'] ? node['cpu'] : settings['vm']['cpu']
+      vm['memory'] = node['memory'] ? node['memory'] : settings['vm']['memory']
+      vm['puppet_agent'] = node['puppet_agent'] ? node['puppet_agent'] : settings['vm']['puppet_agent']
+      vm['puppet_apply'] = node['puppet_apply'] ? node['puppet_apply'] : settings['vm']['puppet_apply']
+
+      vms.push(vm)
+    end
+  end
+end
+
+
+# Vagrant configuration
 Vagrant.configure("2") do |config|
-  config.cache.auto_detect = true
+
+  # hostmanager config
+  config.hostmanager.enabled = true
+  config.hostmanager.manage_host = true
+  config.hostmanager.ignore_private_ip = false
+  config.hostmanager.include_offline = true
 
   # See https://github.com/mitchellh/vagrant/issues/1673
-  # config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
+  config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
 
-  {
-    :Centos7 => {
-      :box              => 'puppetlabs/centos-7.0-64-puppet',
-      :breed            => 'puppetlabs',
-      :provision_agent  => false,
-      :provision_apply  => true,
-      :role             => default_role,
-    },
-    :Centos7_P3 => {
-      :box              => 'webhippie/centos-7',
-      :breed            => 'redhat7',
-      :provision_agent  => false,
-      :provision_apply  => true,
-      :role             => default_role,
-    },
-    :Centos7_PE => {
-      :box              => 'puppetlabs/centos-7.0-64-puppet-enterprise',
-      :breed            => 'puppetlabs',
-      :provision_agent  => false,
-      :provision_apply  => true,
-      :role             => default_role,
-    },
-    :Centos6 => {
-      :box              => 'puppetlabs/centos-6.6-64-puppet',
-      :breed            => 'puppetlabs-centos6',
-      :provision_agent  => false,
-      :provision_apply  => true,
-      :role             => default_role,
-    },
-    :Ubuntu1404 => {
-      :box              => 'puppetlabs/ubuntu-14.04-64-puppet',
-      :breed            => 'puppetlabs-apt',
-      :provision_agent  => false,
-      :provision_apply  => true,
-      :role             => default_role,
-    },
-    :Ubuntu1204 => {
-      :box              => 'puppetlabs/ubuntu-12.04-64-puppet',
-      :breed            => 'puppetlabs-ubuntu1204',
-      :provision_agent  => false,
-      :provision_apply  => true,
-      :role             => default_role,
-    },
-    :Debian8_P3 => {
-      :box              => 'oar-team/debian8',
-      :breed            => 'debian8',
-      :provision_agent  => false,
-      :provision_apply  => true,
-      :role             => default_role,
-    },
-    :Debian7 => {
-      :box              => 'puppetlabs/debian-7.8-64-puppet',
-      :breed            => 'puppetlabs-apt',
-      :provision_agent  => false,
-      :provision_apply  => true,
-      :role             => default_role,
-    },
-    :Debian6 => {
-      :box              => 'puppetlabs/debian-6.0.10-64-puppet',
-      :breed            => 'puppetlabs-apt',
-      :provision_agent  => false,
-      :provision_apply  => true,
-      :role             => default_role,
-    },
-    :OpenSuse12_3 => {
-      :box              => 'opensuse-12.3-64',
-      :box_url          => 'http://sourceforge.net/projects/opensusevagrant/files/12.3/opensuse-12.3-64.box/download',
-      :breed            => 'opensuse12',
-      :provision_agent  => false,
-      :provision_apply  => true,
-      :role             => default_role,
-    },
-  }.each do |name,cfg|
+  vms.each do |node|
+    role = node['role'].clone
+    hostname = node['hostname'].clone
+    box = node['box'].clone
+    aliases = node['aliases'].clone + node['aliases'] 
+    env = settings['puppet']['env']
+    zone = settings['puppet']['zone']
 
-    config.vm.define "#{name}.#{default_domain}" do |local|
-      memory = cfg[:ram] ? cfg[:ram] : default_ram ;
-      cpu = cfg[:cpu] ? cfg[:cpu] : default_cpu ;
-      local.vm.provider "virtualbox" do |v|
-        v.customize [ 'modifyvm', :id, '--memory', memory.to_s ]
-        v.customize [ 'modifyvm', :id, '--cpus', cpu.to_s ]
-      end
-      local.vm.synced_folder "../../../", "/vagrant"
-      local.vm.box = cfg[:box]
-      local.vm.box_url = cfg[:box_url] if cfg[:box_url]
-#      local.vm.boot_mode = :gui
-#      local.vm.host_name = "#{name}.#{default_domain}"
+    breed = settings['boxes']["#{box}"]['breed'] 
+    vm_box = settings['boxes']["#{box}"]['box']
 
-      local.vm.provision "shell", path: '../../bin/vagrant-setup.sh', args: cfg[:breed]
+    config.vm.define hostname do |node_config|
+      node_config.vm.box = vm_box
+      node_config.vm.hostname = hostname
+      node_config.vm.network :private_network, ip: node['ip']
+      node_config.vm.provision "shell", path: '../../bin/vagrant-setup.sh', args: breed
+      node_config.vm.provision "shell", path: '../../bin/vagrant-setfacts.sh', args: "--role #{role} --env #{env} --zone #{zone}"
 
-      if cfg[:role]
-        local.vm.provision "shell", path: '../../bin/vagrant_setfacts.sh', args: cfg[:role]
-      end
+      node_config.hostmanager.aliases = aliases
 
-      if cfg[:provision_apply]
-        local.vm.provision "shell", path: '../../bin/papply.sh'
-      end
-
-      if cfg[:provision_agent]
-        local.vm.provision "puppet_server" do |puppet|
-          puppet.puppet_server = 'puppet'
-          puppet.puppet_node = "#{name}.#{default_domain}"
-          puppet.options = [
-           '--verbose',
-           '--report',
-           '--show_diff',
-           '--pluginsync',
-           '--summarize',
-#        '--profile',
-#        '--evaltrace',
-#        '--trace',
-#        '--debug',
-#         '--parser future',
-          ]
+      if role != 'puppet'
+        # register destroy trigger to remove the node from puppet master
+        node_config.trigger.after :destroy do
+          node_name = @machine.name.to_s
+          puts "Cleaning #{node_name} certificate from puppet"
+          `vagrant ssh #{puppet_master_hostname} -- -t 'sudo puppet cert clean #{node_name}.#{settings['network']['domain']}'`
+          puts "Deactivating #{node_name} from puppet"
+          `vagrant ssh #{puppet_master_hostname} -- -t 'sudo puppet node deactivate #{node_name}.#{settings['network']['domain']}'`
         end
+      end
+
+      if node['puppet_apply']
+        node_config.vm.synced_folder "../../../", puppet_code_dir
+        node_config.vm.provision "shell", path: '../../bin/vagrant-setup_papply.sh'
+        node_config.vm.provision "shell", path: '../../bin/papply.sh'
+      end
+
+      if node['puppet_agent']
+        node_config.vm.provision "shell", path: "../../bin/pagent.sh", args: "--server #{puppet_master_hostname}"
+      end
+
+      node_config.vm.provider "virtualbox" do |v|
+        v.customize ['modifyvm', :id, '--name', hostname]
+        v.customize ['modifyvm', :id, '--cpus', node['cpu'].to_s]
+        v.customize ['modifyvm', :id, '--memory', node['memory'].to_s]
       end
     end
   end

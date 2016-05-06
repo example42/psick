@@ -1,4 +1,3 @@
 ---
-  puppet::server_class: 'puppet::profile::server'
-  puppet::puppetdb_class: 'puppet::profile::puppetdb'
-
+profiles:
+  - '::puppet::profile::server'
