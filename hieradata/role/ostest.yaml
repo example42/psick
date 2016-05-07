@@ -1,3 +1,7 @@
 ---
 profiles:
   - '::rails'
+
+rails::deploy_class: '::rails::deploy::tpweb'
+rails::install_class: '::rails::install::rbenv'
+rails::deploy::tpweb::auto_prerequisites: false

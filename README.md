@@ -30,7 +30,7 @@ or cherry pick them from [GitHub](https://github.com/example42).
     r10k puppetfile install -v
     
     # For testing move in one of the vagrant environments:
-    cd puppet-modules/vagrant/environments/puppetinfra
+    cd vagrant/environments/puppetinfra
     vagrant status
 
     # To customize the vagrant environment:
