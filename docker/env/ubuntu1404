@@ -1,0 +1,7 @@
+# Ubuntu 14.04 facts
+export FACTER_docker_os=ubuntu
+export FACTER_docker_osversion=14.04
+export FACTER_osfamily=Debian
+export FACTER_operatingsystem=Ubuntu
+export FACTER_operatingsystemmajrelease=14.04
+
