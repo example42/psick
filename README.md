@@ -1,21 +1,40 @@
-# example42 Puppet modules
+# example42 Puppet control-repo
 
-A state of the art Puppet 4 control-repo with a selection of modules.
+A state of the art, feature rich, Puppet 4 control-repo where you can:
 
-Use it to test the latest Puppet technologies (via the embedded Vagrant environments),
-as starting point for new projects or as a reference on how to organise your Puppet code and data.
+  - Explore the layout of a modern, general purpose, control-repo 
+  - Use Puppet 4 optimised modules with updated design patterns
+  - Test your code in the Docker and Vagrant environments
+  - Fork a clone as starting point for your Puppet infrastructure
 
 Released under the terms of Apache2 licence.
 
 Copyright example42 GmbH (and specific commits authors)
+
+Code: [https://github.com/example42/control-repo](https://github.com/example42/control-repo)
 
 Official website: [http://www.example42.com](http://www.example42.com)
 
 Official Support forum: [Google Groups](https://groups.google.com/forum/#!forum/example42-puppet-modules)
 
 
-
 ## Installation
+
+### Control-repo setup from GitHub:
+
+    git clone git://github.com/example42/control-repo.git
+    cd puppet-modules
+    r10k puppetfile install -v
+    
+    # For testing with Vagrant move in one of its environments:
+    cd vagrant/environments/puppetinfra
+    vagrant status
+    vagrant up <vm>
+
+    # To customize the vagrant environment:
+    vi config.yaml
+
+### Single example42 Puppet modules
 
 Use the Forge to install single example42 modules (be aware of the deprecated or old (2.x) ones):
 
@@ -23,29 +42,55 @@ Use the Forge to install single example42 modules (be aware of the deprecated or
 
 or cherry pick them from [GitHub](https://github.com/example42).
 
-### Control-repo setup from GitHub:
-
-    git clone git://github.com/example42/puppet-modules.git
-    cd puppet-modules
-    r10k puppetfile install -v
-    
-    # For testing move in one of the vagrant environments:
-    cd vagrant/environments/puppetinfra
-    vagrant status
-
-    # To customize the vagrant environment:
-    vi config.yaml
-
 ### Old versions installation
 
-You can retrieve the Example42 modules from other versions with:
+You can retrieve the old lists of Example42 modules from other versions with:
 
-    git clone --recursive -b 1.0 git://github.com/example42/puppet-modules.git
-    git clone --recursive -b 2.0 git://github.com/example42/puppet-modules.git
-    git clone --recursive -b 3.0 git://github.com/example42/puppet-modules.git
+    git clone --recursive -b 1.0 git://github.com/example42/control-repo.git
+    git clone --recursive -b 2.0 git://github.com/example42/control-repo.git
+    git clone --recursive -b 3.0 git://github.com/example42/control-repo.git
 
-Note that earlier versions were based on git modules.
+Note that earlier versions are based on git modules and have not a control-repo structure.
 
+
+## Common activities
+
+Many useful and common activities related to Puppet code development, testing and deployment can be fulfilled using Fabric.
+
+Show available Fabric tasks (note: some will be run locally, some on the hosts specified via -H):
+
+    fab -l 
+
+Run a Fabric task:
+
+    fab <task>
+
+Run puppet agent on the specified nodes (also in noop mode):
+
+    fab -H web01.example.test,web02.example.test puppet_agent_noop
+    fab -H web01.example.test,web02.example.test puppet_agent
+
+Show the current version of deployed Pupept code on the specified nodes:
+
+    fab -H web01.example.test,web02.example.test puppet_current_config
+
+Build the images for testing this control-repo on Docker using different OS.
+Note: image building is based on the data in ```hieradata/role/docker_multios_build.yaml``` 
+
+    fab docker_buildall
+
+Run Puppet apply of the specified role on the given image (name format: ```downcase($::operatingsystem)-$::operatingsystemmajrelease```):
+
+    fab docker_provision:log,ubuntu-14.04
+    fab docker_provision:role=log,image=ubuntu-14.04 # This has the same effect
+
+Run vagrant status on all the available Vagrant environments
+
+    fab vagrant_statuses
+
+Run vagrant provision on all the running VMs
+
+    fab vagrant_provision
 
 ## Dependencies
 
@@ -67,6 +112,14 @@ For a correct setup of the Vagrant environment you need some extra plugins:
     vagrant plugin install vagrant-cachier
     vagrant plugin install vagrant-vbguest
     vagrant plugin install vagrant-hostmanager
+
+### Docker
+
+Docker operations via Fabric or using the command line require Docker to be locally installed.
+
+If you use Mac or Windows you need the newer native client, things won't work when using Docker running inside a Virtualbox VM.
+
+You'll need to run ```docker login``` before trying any operation that involves pushing your images to Docker registry.
 
 
 ## Example42 modules evolution

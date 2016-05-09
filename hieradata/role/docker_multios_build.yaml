@@ -7,6 +7,7 @@ docker::install_class: ''
 docker::profile::builder::maintainer: 'Example42 GmbH <info@example42.com>'
 docker::profile::builder::workdir: '/var/tmp/dockerfiles'
 docker::profile::builder::always_build: true
+docker::profile::builder::push: true
 docker::profile::builder::images:
   puppet-agent:
     ensure: present
