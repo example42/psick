@@ -32,9 +32,12 @@ nodes:
     memory: 1024
   - role: aws
     count: 1
-  - role: docker
-    count: 2
-    cpu: 2
+  - role: docker_build
+    count: 1
+    memory: 1024
+    box: ubuntu1404
+  - role: docker_host
+    count: 1
     memory: 1024
     box: ubuntu1404
   - role: puppet

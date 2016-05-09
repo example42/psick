@@ -13,4 +13,4 @@ fi
 . env/${os}
 echo
 echo "# Generating Dockerfile for ${FACTER_operatingsystem} ${FACTER_operatingsystemmajrelease}"
-puppet apply -t --basemodulepath "../modules" --hiera_config "../hiera.yaml" manifests/generate.pp
+puppet apply -t --basemodulepath "../modules" --hiera_config "hiera.yaml" -e 'include ::docker::profile::builder' 
