@@ -10,4 +10,11 @@ docker::profile::builder::always_build: true
 docker::profile::builder::images:
   puppet-agent:
     ensure: present
-
+    append_lines:
+      - 'RUN /vagrant-setup_papply.sh'
+    conf_hash:
+      puppet-agent::setup:
+        path: /vagrant-setup_papply.sh
+        template: 'docker/setup_papply.sh'
+        mode: '0755'
+        group: 'wheel'      
