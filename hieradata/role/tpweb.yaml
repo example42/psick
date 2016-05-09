@@ -1,4 +1,4 @@
 profiles:
   - '::rails'
-  - '::rails::deploy::tpweb'
-#  - '::puppet::profile::server'
+
+rails::deploy_class: '::rails::deploy::tpweb'

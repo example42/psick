@@ -1,0 +1,10 @@
+---
+profiles:
+  - '::docker::profile::host'
+
+docker::username: example42
+docker::profile::host::instances:
+  puppetserver:
+    ensure: present
+  nginx:
+    ensure: present

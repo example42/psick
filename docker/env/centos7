@@ -1,0 +1,7 @@
+# Centos7 facts
+export FACTER_docker_os=centos
+export FACTER_docker_osversion=7
+export FACTER_osfamily=RedHat
+export FACTER_operatingsystem=CentOS
+export FACTER_operatingsystemmajrelease=7
+

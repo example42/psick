@@ -1,14 +1,11 @@
 ---
 profiles:
   - '::docker::profile::builder'
-  - '::docker::profile::host'
 
 docker::username: example42
 docker::profile::builder::maintainer: 'Example42 GmbH <info@example42.com>'
-docker::profile::builder::default_os: ubuntu
-docker::profile::builder::default_osversion: '14.04'
 docker::profile::builder::images:
-  puppetserver:
+  puppet-agent:
     ensure: present
   nginx:
     ensure: present
@@ -33,9 +30,3 @@ docker::profile::builder::images:
         base_dir: 'vhost'
         source: 'puppet:///modules/docker'
 
-
-docker::profile::host::instances:
-  puppetserver:
-    ensure: present
-  nginx:
-    ensure: present
