@@ -1,0 +1,6 @@
+# Debian 8 facts
+export FACTER_docker_os=debian
+export FACTER_docker_osversion=8
+export FACTER_osfamily=Debian
+export FACTER_operatingsystem=Debian
+export FACTER_operatingsystemmajrelease=8
