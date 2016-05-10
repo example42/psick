@@ -23,7 +23,7 @@ Official Support forum: [Google Groups](https://groups.google.com/forum/#!forum/
 ### Control-repo setup from GitHub:
 
     git clone git://github.com/example42/control-repo.git
-    cd puppet-modules
+    cd control-repo
     r10k puppetfile install -v
     
     # For testing with Vagrant move in one of its environments:
@@ -142,8 +142,7 @@ There are currently 4 generations of example42 modules:
   They are expected to be Puppet 4 only compliant.
   The structure of the repo has changed radically, all the git submodules have been removed and a
   control-repo style has been introduced.
-  Currently the repo mantains also modules not optimised for Puppet 4, they will be upgraded or deprecated.
-
+  With the release of 4.x this repo has been renamed: from *puppet-modules* to *control-repo*.
 
 
 ## Using and understanding this control-repo
