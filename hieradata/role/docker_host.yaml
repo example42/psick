@@ -1,5 +1,6 @@
 ---
 profiles:
+  - '::docker'
   - '::docker::profile::host'
 
 docker::username: example42

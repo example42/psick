@@ -33,10 +33,12 @@ nodes:
   - role: aws
     count: 1
   - role: docker_build
+    hostname_base: docker-build
     count: 1
     memory: 1024
     box: ubuntu1404
   - role: docker_host
+    hostname_base: docker-host
     count: 1
     memory: 1024
     box: ubuntu1404

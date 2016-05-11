@@ -26,14 +26,6 @@ Official Support forum: [Google Groups](https://groups.google.com/forum/#!forum/
     cd control-repo
     r10k puppetfile install -v
     
-    # For testing with Vagrant move in one of its environments:
-    cd vagrant/environments/puppetinfra
-    vagrant status
-    vagrant up <vm>
-
-    # To customize the vagrant environment:
-    vi config.yaml
-
 ### Single example42 Puppet modules
 
 Use the Forge to install single example42 modules (be aware of the deprecated or old (2.x) ones):
@@ -55,7 +47,7 @@ Note that earlier versions are based on git modules and have not a control-repo 
 
 ## Common activities
 
-Many useful and common activities related to Puppet code development, testing and deployment can be fulfilled using Fabric.
+Many useful and common activities related to Puppet code development, testing and deployment can be fulfilled using Fabric. Many Fabric tasks use shell commands and scripts you can invoke directly, if preferred.
 
 Show available Fabric tasks (note: some will be run locally, some on the hosts specified via -H):
 
@@ -63,34 +55,38 @@ Show available Fabric tasks (note: some will be run locally, some on the hosts s
 
 Run a Fabric task:
 
-    fab <task>
+    fab <task>[:host=<hostname>][,option=value]
 
-Run puppet agent on the specified nodes (also in noop mode):
+Run puppet agent in noop mode on all the known hosts:
 
-    fab -H web01.example.test,web02.example.test puppet_agent_noop
-    fab -H web01.example.test,web02.example.test puppet_agent
+    fab puppet.agent_noop
 
-Show the current version of deployed Pupept code on the specified nodes:
+Run puppet agent in a specific node:
 
-    fab -H web01.example.test,web02.example.test puppet_current_config
+    fab puppet.agent:host=web01.example.test
+
+Show the current version of deployed Pupept code on all  nodes:
+
+    fab puppet.current_config
 
 Build the images for testing this control-repo on Docker using different OS.
 Note: image building is based on the data in ```hieradata/role/docker_multios_build.yaml``` 
 
-    fab docker_buildall
+    fab docker.multios_build
 
 Run Puppet apply of the specified role on the given image (name format: ```downcase($::operatingsystem)-$::operatingsystemmajrelease```):
 
-    fab docker_provision:log,ubuntu-14.04
-    fab docker_provision:role=log,image=ubuntu-14.04 # This has the same effect
+    fab docker.provision:log,ubuntu-14.04
+    fab docker.provision:role=log,image=ubuntu-14.04 # This has the same effect
 
 Run vagrant status on all the available Vagrant environments
 
-    fab vagrant_statuses
+    fab vagrant.status
 
-Run vagrant provision on all the running VMs
+Run vagrant provision on all all the running vm of a Vagrant environment
 
-    fab vagrant_provision
+    fab vagrant.provision:env=puppetinfra
+
 
 ## Dependencies
 
@@ -104,6 +100,14 @@ Some modules (the ones, of generation 2.x, which use the ```params_lookup``` fun
 ### Control repo
 
 The modules used (and some example42 other)  in this control repo are defined in the ```Puppetfile``` and can be installed manually via git, from the Forge or via r10k.
+
+To install r10k:
+
+    gem install r10k
+
+To install Fabric you can use the local package providers or pip:
+
+    pip install fabric
 
 ### Vagrant
 
