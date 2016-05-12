@@ -105,9 +105,11 @@ To install r10k:
 
     gem install r10k
 
-To install Fabric you can use the local package providers or pip:
+To install Fabric you can use the local package providers or pip (you might need to install also the ecdsa package):
 
     pip install fabric
+    pip install ecdsa
+
 
 ### Vagrant
 
@@ -171,4 +173,5 @@ In the ```site``` directory there are local "not public" modules. Basically our 
 In the ```modules``` directory are placed the public modules, as defined in the ```Puppetfile``` and installed via r10k or librarian-puppet.
 
 The ```vagrant``` directory contains different Vagrant environments with the relevant toolset that can be used to test the same control-repo.
-The one in ```vagrant/environments/puppetinfra``` is fully customizable by editing the ```config.yaml``` file. 
+They are fully customizable by editing the ```config.yaml``` file.
+ 
