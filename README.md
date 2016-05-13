@@ -74,10 +74,13 @@ Note: image building is based on the data in ```hieradata/role/docker_multios_bu
 
     fab docker.multios_build
 
-Run Puppet apply of the specified role on the given image (name format: ```downcase($::operatingsystem)-$::operatingsystemmajrelease```):
+Run Puppet apply of the specified role on the given image OS.
+Available images are: (ubuntu-12.04, ubuntu-14.04, ubuntu-14.06, centos-7, debian-7, debian-8, alpine-3.3).
+Note that by default they are downloaded from [https://hub.docker.com/r/example42/puppet-agent/tags/](https://hub.docker.com/r/example42/puppet-agent/tags/).
+If you change the parameter ```docker::username``` (Here is example42 by default) you will have first to build (with ```fab docker.multios_build```) puppet-agent images and, eventually, push them to the registry.
 
     fab docker.provision:log,ubuntu-14.04
-    fab docker.provision:role=log,image=ubuntu-14.04 # This has the same effect
+    fab docker.provision:puppetrole=log,image=ubuntu-14.04 # This has the same effect
 
 Run vagrant status on all the available Vagrant environments
 
