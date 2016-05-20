@@ -1,28 +1,28 @@
 class profile::monitor (
-  $icinga_class        = '',
-  $nagiosplugins_class = '',
-  $nrpe_class          = '',
-  $newrelic_class      = '',
-  $graphite_class      = '',
+  String $icinga_class        = '',
+  String $nagiosplugins_class = '',
+  String $nrpe_class          = '',
+  String $newrelic_class      = '',
+  String $graphite_class      = '',
 ) {
 
-  if $icinga_class or $icinga_class != '' {
+  if ::tp::is_something($icinga_class) {
     include $icinga_class
   }
 
-  if $nagiosplugins_class or $nagiosplugins_class != '' {
+  if ::tp::is_something($nagiosplugins_class) {
     include $nagiosplugins_class
   }
 
-  if $nrpe_class or $nrpe_class != '' {
+  if ::tp::is_something($nrpe_class) {
     include $nrpe_class
   }
 
-  if $newrelic_class or $newrelic_class != '' {
+  if ::tp::is_something($newrelic_class) {
     include $newrelic_class
   }
 
-  if $graphite_class or $graphite_class != '' {
+  if ::tp::is_something($graphite_class) {
     include $graphite_class
   }
 

@@ -50,6 +50,10 @@ nodes:
     puppet_apply: true
     aliases:
       - puppet
+  - role: puppetdb
+    count: 1
+    memory: 1024
+    puppet_apply: true
 
 boxes:
   centos7:

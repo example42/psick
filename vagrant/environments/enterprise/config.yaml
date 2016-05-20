@@ -1,0 +1,49 @@
+---
+# Default settings for vms
+vm:
+  memory: 1024
+  cpu: 1
+  box: centos7 # From boxes list below
+  puppet_apply: true
+  puppet_agent: false
+
+network:
+  range: 10.42.42.0/24
+  ip_start_offset: 101
+  domain: example42.dev
+
+puppet:
+  version: latest
+  env: dev
+  zone: local
+  master_ip: 10.42.42.10
+  master_hostname: dev-local-puppet-01
+
+# Nodes shown in vagrant status 
+nodes:
+  - role: puppet
+    memory: 4096
+    box: centos7
+    aliases:
+      - puppet
+  - role: petest
+    hostname_base: petest-ubuntu1404
+    box: ubuntu1404
+  - role: petest
+    hostname_base: petest-centos7
+    box: centos7
+  - role: petest
+    hostname_base: petest-debian7
+    box: debian7
+
+boxes:
+  centos7:
+    box: puppetlabs/centos-7.2-64-puppet
+    breed: puppetlabs
+  ubuntu1404:
+    box: puppetlabs/ubuntu-14.04-64-puppet
+    breed: puppetlabs-apt
+  debian7:
+    box: puppetlabs/debian-7.8-64-puppet
+    breed: puppetlabs-apt
+

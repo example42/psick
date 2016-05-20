@@ -1,3 +1,12 @@
 ---
 profiles:
   - '::puppet::profile::server'
+  - '::ansible::profile::master'
+
+ansible::master: 'puppet'
+ansible::ssh_key: 'puppet'
+ansible::install_class: '::ansible::install::pip'
+ansible::install_class: '::ansible::install::tp'
+ansible::keyshare_method: 'storeconfigs'
+
+# ansible::install::pip::ensure: absent

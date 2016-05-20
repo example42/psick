@@ -35,6 +35,9 @@ nodes:
     box: debian7
   - hostname_base: alpine3
     box: alpine3
+  - hostname_base: fedora23
+    box: fedora23
+
 
 boxes:
   centos7:
@@ -67,5 +70,7 @@ boxes:
   alpine3:
     box: maier/alpine-3.3.1-x86_64
     breed: alpine
-
+  fedora23:
+    box: fedora/23-cloud-base
+    breed: redhat7
 

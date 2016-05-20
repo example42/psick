@@ -27,22 +27,23 @@ Tp::Dir {
 # otherwise we install Puppet 4 agent
 
 if versioncmp($::puppetversion, '4.0.0') >= 0 {
-
-  # $kernel_down is used to include profile::base classes for different OS 
+  # $kernel_down may be used to include ::profile::base classes for different OS 
   $kernel_down=downcase($::kernel)
-
 
   # Classification option 1 - Profiles defined in Hiera
   hiera_include('profiles',[])
 
-  # Classification option 2 - Classic roles and profiles classes
+  # Classification option 2 - Classic roles and profiles classes:
   #  if $::role and $::role != '' {
   #    contain "::role::${::role}"
   #    Class["::profile::base::${kernel_down}"] -> Class["::role::${::role}"]
   #  }
 
-  # We include here the base profile to be sure it's evaluated first
-  contain "::profile::base::${kernel_down}"
+  # With multi kernel clients better include different base profiles classes.
+  # Note: If you uncomment the contain below you have to comment in
+  #       hieradata/common.yaml the line:   - '::profile::base::linux'
+  #       
+  # contain "::profile::base::${kernel_down}"
 
 } else {
   # All the code here is Puppet 4 only compliant.
