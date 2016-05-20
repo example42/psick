@@ -17,7 +17,11 @@ mod'example42/puppet',
   :branch => '4.x'
 mod'example42/rails',
   :git => 'https://github.com/example42/puppet-rails'
-
+mod'example42/ansible',
+  :git => 'https://github.com/example42/puppet-ansible'
+mod'example42/icinga',
+  :git => 'https://github.com/example42/puppet-icinga',
+  :branch => '4.x'
 
 # Third Party modules
 mod "puppetlabs/concat", :latest

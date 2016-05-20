@@ -22,7 +22,7 @@
 
   profile::monitor::nrpe_class: '::profile::monitor::nrpe'
   # profile::monitor::icinga_class: '::profile::monitor::icinga'
-  profile::monitor::nagiosplugins_class: '::profile::monitor::nagiosplugins'
+  # profile::monitor::nagiosplugins_class: '::profile::monitor::nagiosplugins'
 
   ansible::install_class: tp
   ansible::auto_conf: true

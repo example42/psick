@@ -15,4 +15,8 @@ def up(env='',vm=''):
   """Run vagrant up on all the VMs (CAUTION!) or the specified one"""
   local( 'cd vagrant/environments ; for v in $(ls ' + str(env) + '); do cd $v ; echo $v ; vagrant up ' + str(vm) + '; cd ../ ; echo ; done' )
 
+@task
+def ssh(vm):
+  """Run vagrant ssh on the specified vm"""
+  local( 'vagrant/bin/vm.sh ssh ' + str(vm) )
 

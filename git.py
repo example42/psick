@@ -1,7 +1,7 @@
 from fabric.api import *
 
 @task
-def check_status():
+def status():
   """Check git status on this repo and the installed modules"""
   local( 'bin/check_gitstatus.sh' )
 
