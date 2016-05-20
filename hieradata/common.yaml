@@ -20,7 +20,7 @@
   profile::base::linux::backup_class: ''
 
 
-  profile::monitor::nrpe_class: '::profile::monitor::nrpe'
+  # profile::monitor::nrpe_class: '::profile::monitor::nrpe'
   # profile::monitor::icinga_class: '::profile::monitor::icinga'
   # profile::monitor::nagiosplugins_class: '::profile::monitor::nagiosplugins'
 
