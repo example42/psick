@@ -1,0 +1,29 @@
+# define <%= metadata.name %>::dotconf
+#
+define <%= metadata.name %>::conf (
+  String                  $ensure   = '',
+
+  Variant[Undef,String]   $source   = undef,
+  Variant[Undef,String]   $template = undef,
+  Variant[Undef,String]   $epp      = undef,
+  Variant[Undef,String]   $content  = undef,
+
+  Hash                    $options  = { },
+) {
+
+  include ::<%= metadata.name %>
+
+  tp::conf { "<%= metadata.name %>::${title}":
+    ensure             => pick($ensure, $::<%= metadata.name %>::ensure),
+    base_dir           => 'conf',
+    template           => $template,
+    epp                => $epp,
+    content            => $content,
+    source             => $source,
+    options_hash       => $::<%= metadata.name %>::options + $options,
+    data_module        => $::<%= metadata.name %>::data_module,
+    settings_hash      => $::<%= metadata.name %>::real_settings,
+    config_file_notify => $::<%= metadata.name %>::service_notify,
+  }
+
+}

@@ -1,0 +1,112 @@
+#### Table of Contents
+
+1. [Overview](#overview)
+2. [Module Descriptionl](#module-description)
+3. [Setup](#setup)
+    * [What <%= metadata.name %> affects](#what-<%= metadata.name %>-affects)
+    * [Setup requirements](#setup-requirements)
+    * [Beginning with <%= metadata.name %>](#beginning-with-<%= metadata.name %>)
+4. [Usage](#usage)
+5. [Reference](#reference)
+5. [Limitations](#limitations)
+6. [Development](#development)
+
+## Overview
+
+This module installs and configures <%= metadata.name %>.
+
+It is compatible only with Puppet version 4 or newer.
+
+## Module Description
+
+
+## Setup
+
+### What <%= metadata.name %> affects
+
+* Installation of <%= metadata.name %> package and eventual management of its service
+* Creation of configuration files for <%= metadata.name %>
+* Different profiles for different use cases
+
+### Setup Requirements
+
+This module needs the following prerequisites modules:
+
+  - puppetlabs-stdlib
+  - example42-tp
+
+### Beginning with <%= metadata.name %>
+
+To simply install <%= metadata.name %> without any configuration just:
+
+    include ::<%= metadata.name %>
+
+To install one of the profiles of this module (they have their own parameters and require the main class.
+
+    include ::<%= metadata.name %>::profile::<profile_name>
+
+    To manage a configuration file (in the conf.d directory):
+    
+    <%= metadata.name %>::conf { 'example':
+      template => 'site/<%= metadata.name %>/example.conf.erb',
+      options  => hiera('<%= metadata.name %>::conf::example::options'),
+    }
+
+## Usage
+
+The module's common paramateres entry point is the main class, which is included by all the profiles and defines.
+
+The most important parameters (here written as configurable via Hiera with Yaml backend, you can obviously pass them when declaring the <%= metadata.name %> class):
+
+    # Manage installation or removal
+    <%= metadata.name %>::ensure: present # Default
+
+    # Define what class to use to install <%= metadata.name %>
+    <%= metadata.name %>::install_class: '::<%= metadata.name %>::install::tp' # Default installation via Tiny Puppet
+
+    # Override the settings defined in the module's data
+    # Default is an empty hash, here an example to override the url of the repo and the GPG key to use
+    <%= metadata.name %>::settings:
+      repo_url: 'http://packages.example.com'
+      key_url: 'http://packages.example.com/gpg'
+
+    # Set any option you may want to use in templates
+    <%= metadata.name %>::options:
+      my_key: my_value # In an erb template this is accessed with \<\%= @options['my_key'] \%\>
+
+    # Define what module to use for Tiny Puppet data:
+    <%= metadata.name %>::data_module: <%= metadata.name %> # Default
+
+    # Restart service on change, by default, on all the module's classes and defines
+    <%= metadata.name %>::auto_restart: true # Default 
+
+    # Automatically add, in the main class and profiles, default configurations, if they are available
+    <%= metadata.name %>::auto_conf: false # Default 
+
+    # Automatically add prerequisites resources (packages, repos, users...) if they are defined
+    <%= metadata.name %>::auto_depend: false # Default 
+
+
+## Reference
+
+### class <%= metadata.name %>
+
+Check [Usage](#usage) section.
+
+
+## Limitations
+
+This module works only with Puppet version 4 or later.
+
+It supports the following Operating Systems:
+
+  - RedHat and derivatives: 5, 6, 7
+  - Debian 7, 8
+  - Ubuntu 12.04, 14.04, 16.04
+
+
+## Development
+
+Development of these done is done by commission of sponsor companies or by necessity.
+
+Check the [CONTRIBUTING](./github/CONTRIBUTING.md) document for more informations on how to contribute.

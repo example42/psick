@@ -1,0 +1,11 @@
+class <%= metadata.name %>::install::package (
+  String $ensure           = '',
+) {
+
+  include ::<%= metadata.name %>
+
+  package { $::<%= metadata.name %>::real_settings['package_name']:
+    ensure => pick($ensure, $::<%= metadata.name %>::ensure),
+  }
+
+}

@@ -1,0 +1,7 @@
+fixtures:
+  repositories:
+    tp: "https://github.com/example42/puppet-tp.git"
+    tinydata: "https://github.com/example42/tinydata.git"
+    stdlib: "https://github.com/puppetlabs/puppetlabs-stdlib.git"
+  symlinks:
+    <%= metadata.name %>: "#{source_dir}"
