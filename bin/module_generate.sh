@@ -25,4 +25,4 @@ cd ../
 
 echo "Generating ${module} module based on skeleton"
 puppet module generate $fullmodule
-mv "${fullmodule}/data/modulename" "${fullmodule}/data/${module}"
+mv "${module}/data/modulename" "${module}/data/${module}"

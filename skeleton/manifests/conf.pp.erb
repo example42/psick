@@ -9,7 +9,6 @@ define <%= metadata.name %>::conf (
   Variant[Undef,String]   $content  = undef,
 
   Hash                    $options  = { },
-
 ) {
 
   include ::<%= metadata.name %>
@@ -23,7 +22,7 @@ define <%= metadata.name %>::conf (
     source             => $source,
     options_hash       => $::<%= metadata.name %>::options + $options,
     data_module        => $::<%= metadata.name %>::data_module,
-    settings           => $::<%= metadata.name %>::real_settings,
+    settings_hash      => $::<%= metadata.name %>::real_settings,
     config_file_notify => $::<%= metadata.name %>::service_notify,
   }
 

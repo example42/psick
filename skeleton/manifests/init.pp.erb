@@ -6,21 +6,19 @@
 # For configurations for different use cases check the classes
 # in the profile directory.
 #
-#class <%= metadata.name %> (
+class <%= metadata.name %> (
 
-  Regexp[/present|absent/] $ensure        = 'present',
-  String                   $install_class = '::<%= metadata.name %>::install::tp',
+  String[1] $ensure        = 'present',
+  String    $install_class = '::<%= metadata.name %>::install::tp',
 
-  Hash                     $options       = { },
-  Hash                     $settings      = { },
+  Hash      $options       = { },
+  Hash      $settings      = { },
 
-  Array                    $profiles      = [],
+  String    $data_module   = '<%= metadata.name %>',
 
-  String[1]                $data_module   = '<%= metadata.name %>',
-
-  Boolean                  $auto_restart  = true,
-  Boolean                  $auto_conf     = false,
-  Boolean                  $auto_depend   = true,
+  Boole     $auto_restart  = true,
+  Boole     $auto_conf     = false,
+  Boole     $auto_depend   = true,
 
 ) {
 
@@ -34,12 +32,6 @@
 
   if $install_class != '' {
     include $install_class
-  }
-
-  if $profiles != [] {
-    $profiles.each |$kl| {
-      include "::<%= metadata.name %>::profile::${kl}"
-    }
   }
 
 }
