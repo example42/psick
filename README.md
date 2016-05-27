@@ -3,7 +3,7 @@
 A state of the art, feature rich, Puppet 4 control-repo where you can:
 
   - Explore the layout of a modern, general purpose, control-repo 
-  - Use Puppet 4 optimised modules with updated design patterns
+  - Create and use Puppet 4 optimised modules with updated design patterns
   - Test your code in the Docker and Vagrant environments
   - Fork a clone as starting point for your Puppet infrastructure
 
@@ -45,17 +45,19 @@ You can retrieve the old lists of Example42 modules from other versions with:
 Note that earlier versions are based on git modules and have not a control-repo structure.
 
 
-## Common activities
+## Common tasks via Fabric
 
 Many useful and common activities related to Puppet code development, testing and deployment can be fulfilled using Fabric. Many Fabric tasks use shell commands and scripts you can invoke directly, if preferred.
 
 Show available Fabric tasks (note: some will be run locally, some on the hosts specified via -H):
 
-    fab -l 
+    fab -l
 
-Run a Fabric task:
+Run a Fabric task (better to do this from the main repo directory):
 
     fab <task>[:host=<hostname>][,option=value]
+
+### Puppet tasks
 
 Run puppet agent in noop mode on all the known hosts:
 
@@ -68,6 +70,14 @@ Run puppet agent in a specific node:
 Show the current version of deployed Pupept code on all  nodes:
 
     fab puppet.current_config
+
+Generate a new module based on the format of the ```skeleton``` directory.
+
+    fab puppet.module_generate
+
+### Docker tasks
+
+The control repo provides various ways to use, configure and work with Docker.
 
 Build the images for testing this control-repo on Docker using different OS.
 Note: image building is based on the data in ```hieradata/role/docker_multios_build.yaml``` 
@@ -82,13 +92,24 @@ If you change the parameter ```docker::username``` (Here is example42 by default
     fab docker.provision:log,ubuntu-14.04
     fab docker.provision:puppetrole=log,image=ubuntu-14.04 # This has the same effect
 
+
+### Vagrant tasks
+
+This contro-repo contains different Vagrant environments for different purposes.
+
+You can work with then directly issuing ```vagrant``` commands in ```vagrant/environments/<env_name>``` or via Fabric from the main repo dir.
+
 Run vagrant status on all the available Vagrant environments
 
-    fab vagrant.status
+    fab vagrant.all_status
 
-Run vagrant provision on all all the running vm of a Vagrant environment
+Run vagrant provision on all the running vm of a Vagrant environment:
 
     fab vagrant.provision:env=puppetinfra
+
+Run vagrant up on the given vm:
+
+    fab vagrant.up:vm=dev-local-docker-build-01
 
 
 ## Dependencies
@@ -136,22 +157,22 @@ You'll need to run ```docker login``` before trying any operation that involves 
 There are currently 4 generations of example42 modules:
 
 * "OLD" modules (Version 1.x) are no more supported or recommended.
-  They are supposed to work also on Puppet versions 0.x
+  They are supposed to work also on Puppet versions 0.x.
   You can give them a look using the 1.0 branch of this repo.
 
 * "NextGen" modules (Version 2.x) were made before the release of Puppet 3.
   They are compatible with Puppet version 2.6 , 3 and, for most, 4.
-  You find them linked as git submodules.
+  They were linked as git submodules.
 
 * "StdMod" modules (Version 3.x) were supposed to be the next evolution of Example42 modules.
   They adhere to StdMod naming standards and be compatible with Puppet > 2.7 or 3.x
   This is an half baked generation, which was abandoned for other projects.
 
-* Version 4.x modules. Many modules have been deprecated and not maintained anymore.
-  They are expected to be Puppet 4 only compliant.
+* Version 4.x modules. Most of the old pre-Puppet 4 modules have been deprecated and not maintained anymore.
+  They are Puppet 4 only compliant.
   The structure of the repo has changed radically, all the git submodules have been removed and a
   control-repo style has been introduced.
-  With the release of 4.x this repo has been renamed: from *puppet-modules* to *control-repo*.
+  With the release of 4.x this repo has been renamed: from **puppet-modules** to **control-repo**.
 
 
 ## Using and understanding this control-repo
@@ -177,4 +198,6 @@ In the ```modules``` directory are placed the public modules, as defined in the 
 
 The ```vagrant``` directory contains different Vagrant environments with the relevant toolset that can be used to test the same control-repo.
 They are fully customizable by editing the ```config.yaml``` file.
+
+The ```skeleton``` directory contains a module skeleton you can use, and modify, to generate new modules based on the skeleton structure.
  
