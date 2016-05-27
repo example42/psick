@@ -114,6 +114,9 @@ Run vagrant up on the given vm:
 
 ## Dependencies
 
+To have a full working environment you might need to locally install some software for specific activities.
+
+
 ### Single Modules
 
 All the modules have a ```metadata.json``` file where dependencies are described.
@@ -133,7 +136,6 @@ To install Fabric you can use the local package providers or pip (you might need
 
     pip install fabric
     pip install ecdsa
-
 
 ### Vagrant
 
