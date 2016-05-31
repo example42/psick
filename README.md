@@ -79,12 +79,12 @@ Generate a new module based on the format of the ```skeleton``` directory.
 
 The control repo provides various ways to use, configure and work with Docker.
 
-Build the images for testing this control-repo on Docker using different OS.
-Note: image building is based on the data in ```hieradata/role/docker_multios_build.yaml``` 
+To build the images for testing this control-repo on Docker using different OS.
+Note: image building is based on the data in ```hieradata/role/docker_multios_build.yaml``` edit ```docker::profile::builder``` keys to customise what you want to build:
 
     fab docker.multios_build
 
-Run Puppet apply of the specified role on the given image OS.
+Test a specific role on specific OS Docker images via Puppet.
 Available images are: (ubuntu-12.04, ubuntu-14.04, ubuntu-14.06, centos-7, debian-7, debian-8, alpine-3.3).
 Note that by default they are downloaded from [https://hub.docker.com/r/example42/puppet-agent/tags/](https://hub.docker.com/r/example42/puppet-agent/tags/).
 If you change the parameter ```docker::username``` (Here is example42 by default) you will have first to build (with ```fab docker.multios_build```) puppet-agent images and, eventually, push them to the registry.
