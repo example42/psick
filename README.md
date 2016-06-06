@@ -112,6 +112,23 @@ Run vagrant up on the given vm:
     fab vagrant.up:vm=dev-local-docker-build-01
 
 
+### Git tasks
+
+Install useful git hooks for Puppet files checking. By default downloaded from (https://github.com/drwahl/puppet-git-hooks)[https://github.com/drwahl/puppet-git-hooks]:
+
+    fab git.install_hooks
+
+It's possible to specify the git repo url to use (hooks are looked for in the ```commit_hooks``` directory):
+
+    fab git.install_hooks:url=https://github.com/my/puppet-git-hooks
+
+Note that existing git hooks are not overwritten by this task.
+
+To quickly check the git status of the main control-repo and of the other eventual modules, run:
+
+    fab git.status
+
+
 ## Dependencies
 
 To have a full working environment you might need to locally install some software for specific activities.
