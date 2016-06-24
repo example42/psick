@@ -10,8 +10,11 @@ main_dir=$(git rev-parse --show-toplevel)
 echo "Executing: git clone ${hooks_repo} /var/tmp/"
 git clone ${hooks_repo} /var/tmp/puppet-git-hooks
 
-echo "Copying /var/tmp/puppet-git-hooks/commit_hooks/* in ${main_dir}/.git/hooks"
-cp -rvpn /var/tmp/puppet-git-hooks/commit_hooks/* "${main_dir}/.git/hooks"
+echo "Copying /var/tmp/puppet-git-hooks/commit_hooks in ${main_dir}/.git/hooks"
+cp -rvpn /var/tmp/puppet-git-hooks/commit_hooks "${main_dir}/.git/hooks"
+
+echo "Copying /var/tmp/puppet-git-hooks/pre-commit in ${main_dir}/.git/hooks"
+cp -rvpn /var/tmp/puppet-git-hooks/pre-commit "${main_dir}/.git/hooks"
 
 echo
 echo "Git hooks from ${hooks_repo}"

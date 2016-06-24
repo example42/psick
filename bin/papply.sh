@@ -3,7 +3,7 @@ repo_dir="$(dirname $0)/../"
 manifest="${repo_dir}/manifests/site.pp"
 extra_options=$*
 
-PATH=$PATH:/opt/puppetlabs/bin
+PATH=$PATH:/opt/puppetlabs/puppet/bin
 
 echo "## Running Puppet version $(puppet --version) on ${manifest}"
 

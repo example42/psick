@@ -4,7 +4,7 @@
 
 :hierarchy:
   - "hostname/%{::trusted.certname}"
-  - "role/%{::role}-${::env}"
+  - "role/%{::role}-%{::env}"
   - "role/%{::role}"
   - "zone/%{::zone}"
   - common

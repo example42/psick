@@ -1,8 +1,4 @@
 ---
-  profiles:
-    - '::profile::base::linux'
-#    - '::ansible::user'
-
 # Default tp behaviour
   tp::test_enable: true
   tp::puppi_enable: false
@@ -11,6 +7,7 @@
 # Default module to use for tp data:
   tp::data_module: tinydata
 
+# Base profile settings
   profile::base::linux::pre_class: '::profile::pre'
   profile::base::linux::mail_class: ''
   profile::base::linux::puppet_class: '::puppet'

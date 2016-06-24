@@ -98,9 +98,9 @@ fi
 modulename=$(basename `pwd`)
 branch=$(git branch --no-column | grep '*' | cut -c 3-)
 
-if [ ! -f manifests/init.pp ] ; then
+if [ ! -f metadata.json ] ; then
   echo_title "SOMETHING WRONG"
-  echo "I don't find manifests/init.pp "
+  echo "I don't find metadata.json "
   echo "Run this script from a module directory or specify -m modulename"
   showhelp
   exit 1

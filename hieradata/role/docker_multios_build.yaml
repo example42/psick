@@ -1,6 +1,7 @@
 ---
 profiles:
   - '::docker::profile::builder'
+  - '::docker::profile::rocker_builder'
 
 docker::username: example42
 docker::install_class: ''
@@ -19,3 +20,13 @@ docker::profile::builder::images:
         template: 'docker/setup_papply.sh'
         mode: '0755'
         group: 'wheel'      
+
+docker::profile::rocker_bilder::maintainer: 'Example42 GmbH <info@example42.com>'
+docker::profile::rocker_builder::workdir: '/var/tmp/rockerfiles'
+docker::profile::rocker_builder::always_build: true
+docker::profile::rocker_builder::push: false
+docker::profile::rocker_builder::images:
+  tpweb:
+    ensure: present
+    puppet_facts:
+      role: tpweb
