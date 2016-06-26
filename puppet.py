@@ -1,6 +1,11 @@
 from fabric.api import *
 
 @task
+def setup():
+  """Setup the contro-repo, installs r10k, external modules and optional tools"""
+  sudo( '$(puppet config print codedir)/environments/production/bin/setup.sh ; echo $?' )
+
+@task
 def apply():
   """Run puppet apply (needs to have this control-repo deployed)"""
   sudo( '$(puppet config print codedir)/environments/production/bin/papply.sh ; echo $?' )
