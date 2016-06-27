@@ -22,9 +22,18 @@ Official Support forum: [Google Groups](https://groups.google.com/forum/#!forum/
 
 ### Control-repo setup from GitHub:
 
+Download this repository:
+
     git clone git://github.com/example42/control-repo.git
     cd control-repo
-    r10k puppetfile install -v
+
+To setup or verify the presence of the needed prerequisites just execute the script:
+
+    bin/setup.sh
+
+If you have Fabric installed local you can use Fabric for initial setup (and many other operations):
+
+    fab puppet.setup
     
 ### Single example42 Puppet modules
 

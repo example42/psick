@@ -3,7 +3,7 @@ from fabric.api import *
 @task
 def setup():
   """Setup the contro-repo, installs r10k, external modules and optional tools"""
-  sudo( '$(puppet config print codedir)/environments/production/bin/setup.sh ; echo $?' )
+  local( "bin/setup.sh" )
 
 @task
 def apply():
