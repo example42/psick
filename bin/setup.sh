@@ -9,7 +9,7 @@ gem install r10k
 echo 
 cd $repo_dir
 echo "# Installing external modules via r10k"
-#r10k puppetfile install -v
+r10k puppetfile install -v
 echo
 
 progs="puppet vagrant docker fab"
