@@ -24,7 +24,7 @@ Official Support forum: [Google Groups](https://groups.google.com/forum/#!forum/
 
 Download this repository:
 
-    git clone git://github.com/example42/control-repo.git
+    git clone https://github.com/example42/control-repo
     cd control-repo
 
 To setup or verify the presence of the needed prerequisites just execute the script:
