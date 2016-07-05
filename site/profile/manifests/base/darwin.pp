@@ -1,10 +1,10 @@
-# Common linux profile
+# Common darwin profile
 #
 # Use _class params for exceptions and alternatives.
 #
-class profile::base::linux (
+class profile::base::darwin (
 
-  String $pre_class         = '::profile::pre',
+  String $pre_class         = '',
 
   String $puppet_class      = '',
   String $mail_class        = '',
@@ -14,7 +14,6 @@ class profile::base::linux (
   String $firewall_class    = '',
   String $logs_class        = '',
   String $backup_class      = '',
-  String $time_class        = '',
 
 ) {
 
@@ -62,8 +61,4 @@ class profile::base::linux (
     Class[$pre_class] -> Class[$logs_class]
   }
 
-  if $time_class and $time_class != '' {
-    contain $time_class
-    Class[$pre_class] -> Class[$time_class]
-  }
 }

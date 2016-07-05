@@ -29,6 +29,7 @@ mod "puppetlabs/stdlib", :latest
 mod "puppetlabs/vcsrepo", :latest
 mod "puppetlabs/aws", :latest
 mod "jdowning/rbenv", :latest
+mod "trlinkin/noop", :latest
 
 # Older 2.x example42 component modules
 #mod'example42/activemq',

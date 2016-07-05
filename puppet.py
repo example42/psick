@@ -10,6 +10,12 @@ def apply():
   """Run puppet apply (needs to have this control-repo deployed)"""
   sudo( '$(puppet config print codedir)/environments/production/bin/papply.sh ; echo $?' )
 
+
+@task
+def apply_local(role):
+  """Run puppet apply locally from the repo directory using the specified role"""
+  local( "export FACTER_role=" + str(role) + " && bin/papply_local.sh" )
+
 @task
 def apply_noop():
   """Run puppet apply in noop mode (needs to have this control-repo deployed)"""

@@ -1,12 +1,36 @@
 ---
   profiles:
-    - '::profile::aws'
-    - '::apache::profile::passenger'
-  
-  profile::aws::setup_class: ::profile::aws::setup
-  profile::aws::setup::vpc_hash:
-    test:
-      ensure: present
-      region: eu-west-1
-      cidr_block: 10.42.10.0
-  
+    - '::profile::aws::cli'
+    - '::profile::aws::setup::vpc'
+    - '::profile::aws::setup::sg'
+    - '::profile::aws::setup::ec2'
+    - '::profile::aws::setup::rds'
+    - '::profile::python::fabric'
+    - '::profile::git'
+
+  profile::aws::setup::vpc::region: 'eu-central-1'
+  profile::aws::setup::vpc::ensure: 'present'
+  profile::aws::setup::vpc::default_vpc_name: 'testing'
+  profile::aws::setup::vpc::default_cidr_block_prefix: '10.0'
+  profile::aws::setup::vpc::create_defaults: false
+
+  profile::aws::setup::sg::region: 'eu-central-1'
+  profile::aws::setup::sg::ensure: 'present'
+  profile::aws::setup::sg::default_vpc_name: 'testing'
+  profile::aws::setup::sg::create_defaults: true
+
+  profile::aws::setup::ec2::region: 'eu-central-1'
+  profile::aws::setup::ec2::ensure: 'present'
+  profile::aws::setup::ec2::create_defaults: true
+  profile::aws::setup::ec2::default_key_name: 'puppet'
+
+  profile::aws::setup::rds::region: 'eu-central-1'
+  profile::aws::setup::rds::ensure: 'absent'
+  profile::aws::setup::rds::create_defaults: true
+  profile::aws::setup::rds::default_master_username: 'admin'
+  profile::aws::setup::rds::default_master_user_password: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAcbB2bWG8Ha2cZ1Hehq9DRuGnXj2fwhOT+sPRwhsMLinEjxrOP4E4g4v02tAiW5rzgShnl3SZhou9TAkD6Zjltt4xcMLVLxObVMxcOe5wQnvW1i7VxQkGRpdVLtXhaTJd6A7npk/YGQCOkl4Cu8dAH7DL00vG9IgV5aEKoXf+atvMBZRCnkx6OkW8py18JDu2TJyYHcw0nZ8lMWVbe/gS1MIvuG7mT5XlTSxYsDmebQhGr9V9ajhsNP3xAw4IOU1xB6ZqEcBteaZdPgXFyZS2MvBUcvfNmP7P5PUY+r3KrrzZ6NihwRcGWWZ8pRJUUifz1JHCyySKko0aWRHdRGAdWDA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDs0Kuq0GYFrk9GaX8n3TfmgBD/YBxz1WUpUvjhu5JWONgL]
+
+
+  profile::aws::cli::aws_access_key_id: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAQtVPCM32ROxdPw5pC1Fy4TBe80AFtNp0iT7ys56sFis8H1px8iZyH/F/UgMVYlOZdV93y5Gaybk9wKRRFPdmoeXjdyEOjDTCcKbToS9f8NPSGYCYkLMJAEm7AHHEKgjtKtJdoa5/BzgS6QbIfEqjzlSMU/8w7Qqvw40ACR1Mj+HRjf/46jb6/ShtcInW74PJFxNQd7aa3YtIWg6JszgUNjmsEtHBS14RTnGP3QfEAXMprh9gRwwLCbzNUKb/2ldoliunaM+I27aoRnqG7naB6MrEaXcTUhghhOM+0T6GK3ovpNSjwYO+FeGFkt/6QmAaEsqCoNpXjZAfVIJPX+y1CjBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCKsXeC38Iwkg3H1ZBb011pgCBCk3QNV59ALEueTedA1kFIkfbTK5m2haapDGj1GCyCMQ==]
+  profile::aws::cli::aws_secret_access_key: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAV9MFM5h5IJi5+nQN9Z/7U3nAS4ktl0hXzMKIZzz+GiyF71ir8hxd5TmOuUJEZIc8Ojf1DkR/mr7WPgFi+N4btPX98y/oqKLNHt+9tj5HZu5ZeoKfrJ3bi0zgX2uLrzbl0VfuXVQfHvV5h+zA9CWP6sPoZAgqHVTZe7ZJ+Gib5mR549ufIuW0wvEJhJ+zrfs1p99IXZsyHpSpA8ggoAP4hpNN+yQbByVeVGMfqY4J+0kbA2t3VTvtZrhCtJHocnJ1aAvZQUKNR3mOsJelY9Bj5B7HuD2++2+HG0FxRhfLlYOUJi0vkzlxK92E1azK73go6yhTpIESVSFbVnrLrKETaTBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAuj3JsNeQt7Ek3NkL7DyR0gDCNWaBTsBkrUG+WL+OrlrkT55DI1NAK+OUb5l1a2LrjncPR59AzZl93uCvcnoGygJI=]
+

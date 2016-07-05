@@ -1,0 +1,20 @@
+---
+:backends:
+  - eyaml
+
+:hierarchy:
+  - "hostname/%{::trusted.certname}"
+  - "role/%{::role}-%{::env}"
+  - "role/%{::role}"
+  - "zone/%{::zone}"
+  - common
+
+:eyaml:
+  :datadir: "hieradata"
+
+  :pkcs7_private_key: keys/private_key.pkcs7.pem
+  :pkcs7_public_key:  keys/public_key.pkcs7.pem
+  :extension: 'yaml'
+
+:merge_behavior: deeper
+

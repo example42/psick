@@ -1,58 +1,157 @@
-define profile::aws::setup::vpc (
-  String $ensure     = 'present',
-  String $vpc        = $title,
-  String $region     = 'us-east-1',
-  String $cidr_block = '10.0.0.0/16',
+# Setup a VPC
+class profile::aws::setup::vpc (
+  String $region,
+  String $ensure                    = 'present',
+  String $default_cidr_block_prefix = '10.0',
+  String $default_vpc_name          = 'myvpc',
+  Boolean $create_defaults          = false,
+
+  Hash   $ec2_vpcs                  = { },
+  Hash   $ec2_vpc_subnets           = { },
+  Hash   $ec2_vpc_routetables       = { },
+  Hash   $ec2_vpc_internet_gateways = { },
+
 ) {
 
-  ec2_vpc { $vpc:
-    ensure       => $present,
-    region       => $region,
-    cidr_block   => $cidr_block,
+  if $ensure == 'absent' {
+    Ec2_vpc_routetable<||> ->
+    Ec2_vpc_internet_gateway<||> ->
+    Ec2_vpc_subnet<||> ->
+    Ec2_vpc<|name == $default_vpc_name|>
+    #   Ec2_vpc<||>
   }
 
-  ec2_securitygroup { "ssh-${vpc}":
-    ensure       => $present,
-    region       => $region,
-    vpc          => $vpc,
-    description  => "SSH to ${vpc}",
-    ingress     => [{
-      security_group => "ssh-${vpc}",
-    },{
-      protocol => 'tcp',
-      port     => 22,
-      cidr     => '0.0.0.0/0'
-    }]
-  }
+  # Default resources, if enabled
+  if $create_defaults {
+    $default_ec2_vpcs = {
+      $default_vpc_name => {
+        ensure       => 'present',
+        region       => $region,
+        cidr_block   => "${default_cidr_block_prefix}.0.0/16",
+      }
+    }
+
+    $default_ec2_vpc_internet_gateways = {
+      "${default_vpc_name}-igw" => {
+        ensure       => $ensure,
+        region       => $region,
+        vpc          => $default_vpc_name,
+      }
+    }
   
-  ec2_vpc_subnet { "eternal-${vpc}-1a":
-    ensure       => $present,
-    region       => $region,
-    vpc               => $vpc,
-    cidr_block        => $cidr_block,
-    availability_zone => "${vpc}-1a",
-    route_table       => "${vpc}-default",
-  }
-  
-  ec2_vpc_internet_gateway { "${vpc}-igw":
-    ensure       => $present,
-    region       => $region,
-    vpc          => $vpc,
-  }
-  
-  ec2_vpc_routetable { "${vpc}-default":
-    ensure       => $present,
-    region       => $region,
-    vpc    => $vpc,
-    routes => [
-      {
-        destination_cidr_block => $cidr_block,
-        gateway                => 'local'
-      },{
-        destination_cidr_block => '0.0.0.0/0',
-        gateway                => "${vpc}-igw",
+    $default_ec2_vpc_routetables = {
+      "${default_vpc_name}-public" => {
+        ensure       => $ensure,
+        region       => $region,
+        vpc          => $default_vpc_name,
+        routes => [
+          {
+            destination_cidr_block => '0.0.0.0/0',
+            gateway                => "${default_vpc_name}-igw",
+          },{
+            destination_cidr_block => "${default_cidr_block_prefix}.0.0/16",
+            gateway                => 'local'
+          }
+        ],
+      }
+    }
+
+    $default_ec2_vpc_subnets = {
+      "${default_vpc_name}_dmz_a" => {
+        cidr_block        => "${default_cidr_block_prefix}.1.0/24",
+        availability_zone => "${region}a",
+        route_table       => "${default_vpc_name}-public",
       },
-    ],
+      "${default_vpc_name}_dmz_b" => {
+        cidr_block        => "${default_cidr_block_prefix}.2.0/24",
+        availability_zone => "${region}b",
+        route_table       => "${default_vpc_name}-public",
+      },
+      "${default_vpc_name}_app_application_a" => {
+        cidr_block        => "${default_cidr_block_prefix}.21.0/24",
+        availability_zone => "${region}a",
+      },
+      "${default_vpc_name}_app_application_b" => {
+        cidr_block        => "${default_cidr_block_prefix}.22.0/24",
+        availability_zone => "${region}b",
+      },
+      "${default_vpc_name}_app_mongo_a" => {
+        cidr_block        => "${default_cidr_block_prefix}.31.0/24",
+        availability_zone => "${region}a",
+      },
+      "${default_vpc_name}_app_mongo_b" => {
+        cidr_block        => "${default_cidr_block_prefix}.32.0/24",
+        availability_zone => "${region}b",
+      },
+      "${default_vpc_name}_app_rds_a" => {
+        cidr_block        => "${default_cidr_block_prefix}.41.0/24",
+        availability_zone => "${region}a",
+      },
+      "${default_vpc_name}_app_rds_b" => {
+        cidr_block        => "${default_cidr_block_prefix}.42.0/24",
+        availability_zone => "${region}b",
+      },
+      "${default_vpc_name}_mgmt_a" => {
+        cidr_block        => "${default_cidr_block_prefix}.11.0/24",
+        availability_zone => "${region}a",
+      },
+      "${default_vpc_name}_mgmt_b" => {
+        cidr_block        => "${default_cidr_block_prefix}.12.0/24",
+        availability_zone => "${region}b",
+      }
+    }
+ 
+  } else {
+    $default_ec2_vpcs = {}
+    $default_ec2_vpc_subnets = {}
+    $default_ec2_vpc_routetables = {}
+    $default_ec2_vpc_internet_gateways = {}
+  }
+  $all_ec2_vpcs = $ec2_vpcs+$default_ec2_vpcs
+  $all_ec2_vpc_subnets = $ec2_vpc_subnets+$default_ec2_vpc_subnets
+  $all_ec2_vpc_routetables = $ec2_vpc_routetables+$default_ec2_vpc_routetables
+  $all_ec2_vpc_internet_gateways = $ec2_vpc_internet_gateways+$default_ec2_vpc_internet_gateways
+
+  # VPC
+  $ec2_vpcs_defaults = {
+    ensure                  => $ensure,
+    region                  => $region,
+  }
+  if $all_ec2_vpcs != { } {
+    create_resources('Ec2_vpc',$all_ec2_vpcs,$ec2_vpcs_defaults)
+  }
+
+  # Subnets
+  $ec2_vpc_subnets_defaults = {
+    ensure                  => $ensure,
+    region                  => $region,
+    vpc                     => $default_vpc_name,
+    availability_zone       => "${region}a",
+    map_public_ip_on_launch => false,
+    route_table             => "${default_vpc_name}",
+  }
+  if $all_ec2_vpc_subnets != { } {
+    create_resources('ec2_vpc_subnet',$all_ec2_vpc_subnets,$ec2_vpc_subnets_defaults)
+  }
+
+  
+  $ec2_vpc_internet_gateways_defaults = {
+    ensure     => $ensure,
+    region     => $region,
+    vpc        => $default_vpc_name,
+  }
+  if $all_ec2_vpc_internet_gateways != { } {
+    create_resources('ec2_vpc_internet_gateway',$all_ec2_vpc_internet_gateways,$ec2_vpc_internet_gateways_defaults)
+  }
+
+
+  $ec2_vpc_routetables_defaults = {
+    ensure     => $ensure,
+    region     => $region,
+    vpc        => $default_vpc_name,
+  }
+  if $all_ec2_vpc_routetables != { } {
+    create_resources('ec2_vpc_routetable',$all_ec2_vpc_routetables,$ec2_vpc_routetables_defaults)
   }
 
 }
