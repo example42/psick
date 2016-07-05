@@ -1,3 +1,12 @@
+## Release 4.0.0.beta.2
+- Added some base profiles (ntpdate, fabric, git...)
+- Refactored aws profile (WIP)
+- Added noop_mode
+- Added Docker testing of role environments
+- Added Docker building or role images (WIP)
+- Several improvements
+
+
 ## Release 4.0.0.beta.1
 
 - Introduced hiera-eyaml

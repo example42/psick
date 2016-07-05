@@ -121,6 +121,22 @@ Run vagrant up on the given vm:
     fab vagrant.up:vm=dev-local-docker-build-01
 
 
+### AWS tasks
+
+Some basic taskes are available to work on AWS. To install locally AWS cli and other tools used in the control-repo, and then configure the AWS credentials:
+
+    fab aws.presetup
+
+To show the status of AWS resources, mapped by puppet resources on all or a specified region:
+
+    fab aws.status             # Cycle on all regions
+    fab aws.status:eu-west-1   # Show the specified region's resources
+
+To run Puppet apply locally and setup AWS resources using the role 'aws' (configured in ```hieradata/role/aws.yaml``` (WARNING: AWS costs may incur here)
+
+    fab aws.apply
+
+
 ### Git tasks
 
 Install useful git hooks for Puppet files checking. By default downloaded from (https://github.com/drwahl/puppet-git-hooks)[https://github.com/drwahl/puppet-git-hooks]:
