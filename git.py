@@ -5,7 +5,7 @@ main_dir = subprocess.check_output("git rev-parse --show-toplevel", shell=True).
 @task
 def status():
   """Check git status on this repo and the installed modules"""
-  local( main_dir + '/bin/check_gitstatus.sh' )
+  local( main_dir + '/bin/git_status.sh' )
 
 @task
 def checkout_master(module=''):
@@ -15,5 +15,5 @@ def checkout_master(module=''):
 @task
 def install_hooks(url=''):
   """Install Puppet .git/hooks"""
-  local( main_dir + '/bin/install_githooks.sh ' + url )
+  local( main_dir + '/bin/git_install_hooks.sh ' + url )
 

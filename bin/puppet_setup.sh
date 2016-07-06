@@ -1,14 +1,16 @@
 #!/bin/bash
-repo_dir="$(dirname $0)/../"
+repo_dir=$(git rev-parse --show-toplevel)
+. "${repo_dir}/bin/functions"
+
 which gem || echo "You need gem support! Install rubygems to continue successfully" 
-echo "# Installing gems"
+echo_title "Installing gems"
 gem install deep_merge
 gem install hiera-eyaml
 gem install r10k
 
 echo 
 cd $repo_dir
-echo "# Installing external modules via r10k"
+echo_title "Installing external modules via r10k"
 r10k puppetfile install -v
 echo
 

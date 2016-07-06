@@ -1,12 +1,7 @@
 #!/bin/bash
+repo_dir="$(dirname $0)/.."
+. "${repo_dir}/bin/functions"
 work_dir=/tmp/puppet-publish
-echo_title () {
-  echo
-  echo
-  echo "###########################################"
-  echo "$1"
-  echo
-}
 
 showhelp () {
 cat << EOF
@@ -90,6 +85,8 @@ while [ $# -gt 0 ]; do
       shift ;;
   esac
 done
+
+cd "${repo_dir}/modules"
 
 if [ $module ] ; then
   cd $module

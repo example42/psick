@@ -1,4 +1,6 @@
 #!/bin/bash
+repo_dir="$(dirname $0)/.."
+. "${repo_dir}/bin/functions"
 
 if [ ! -z $1 ]; then
   region=$1
@@ -10,24 +12,24 @@ for reg in $region; do
 
   export AWS_REGION=$reg
 
-  resources="ec2_autoscalinggroup ec2_elastic_ip ec2_instance ec2_launchconfiguration ec2_scalingpolicy ec2_securitygroup ec2_vpc ec2_vpc_customer_gateway ec2_vpc_dhcp_options ec2_vpc_internet_gateway ec2_vpc_routetable ec2_vpc_subnet ec2_vpc_vpn ec2_vpc_vpn_gateway elb_loadbalancer rds_instance rds_db_securitygroup rds_db_parameter_group"
+  resources="ec2_autoscalinggroup ec2_elastic_ip ec2_instance ec2_launchconfiguration ec2_scalingpolicy ec2_securitygroup ec2_vpc ec2_vpc_customer_gateway ec2_vpc_dhcp_options ec2_vpc_internet_gateway ec2_vpc_routetable ec2_vpc_subnet ec2_vpc_vpn ec2_vpc_vpn_gateway elb_loadbalancer rds_instance rds_db_securitygroup rds_db_parameter_group sqs_queue cloudwatch_alarm"
   global_resources="route53_a_record route53_aaaa_record route53_cname_record route53_mx_record route53_ns_record route53_ptr_record route53_spf_record route53_srv_record route53_txt_record route53_zone"
 
   echo
-  echo "### Current region: $reg"
+  echo_title "Current region: $reg"
   echo
 
   for res in $resources; do
-    echo "# puppet resource $res"
+    echo_subtitle "puppet resource $res"
     puppet resource $res
     echo
   done
 
 done
 
-echo "### Global resources"
+echo_title "lobal resources"
 for res in $global_resources; do
-    echo "# puppet resource $res"
+    echo_subtitle "puppet resource $res"
     puppet resource $res
     echo
 done

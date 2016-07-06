@@ -13,5 +13,5 @@ def apply(role='aws'):
 @task
 def status(region=''):
   """Show AWS resources on one or all regions"""
-  local( "bin/aws_show_resources.sh " + str(region) )
+  local( "bin/aws_status.sh " + str(region) )
 

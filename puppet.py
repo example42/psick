@@ -3,7 +3,7 @@ from fabric.api import *
 @task
 def setup():
   """Setup the contro-repo, installs r10k, external modules and optional tools"""
-  local( "bin/setup.sh" )
+  local( "bin/puppet_setup.sh" )
 
 @task
 def apply():
@@ -42,16 +42,16 @@ def current_config():
 @task
 def deploy_controlrepo():
   """Deploy this control repo on a node (Puppet has to be already installed)"""
-  put( "bin/setup_controlrepo.sh","/usr/local/bin/setup_controlrepo.sh",mode=755 )
-  sudo ( "/usr/local/bin/setup_controlrepo.sh" )
+  put( "bin/puppet_deploy_controlrepo.sh","/usr/local/bin/puppet_deploy_controlrepo.sh",mode=755 )
+  sudo ( "/usr/local/bin/puppet_deploy_controlrepo.sh" )
 
 @task
-def install_puppet():
+def install():
   """Install Puppet 4 on a node (for Puppet official repos)"""
-  put( "bin/install_puppet.sh","/usr/local/bin/install_puppet.sh",mode=755 )
-  sudo ( "/usr/local/bin/install_puppet.sh" )
+  put( "bin/puppet_install.sh","/usr/local/bin/puppet_install.sh",mode=755 )
+  sudo ( "/usr/local/bin/puppet_install.sh" )
 
 @task
 def module_generate(module=''):
   """Generate a Puppet module based on skeleton"""
-  local( "bin/module_generate.sh " + str(module) )
+  local( "bin/puppet_module_generate.sh " + str(module) )
