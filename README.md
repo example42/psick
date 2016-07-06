@@ -29,7 +29,7 @@ Download this repository:
 
 To setup or verify the presence of the needed prerequisites just execute the script:
 
-    bin/setup.sh
+    bin/puppet_setup.sh
 
 If you have Fabric installed local you can use Fabric for initial setup (and many other operations):
 
