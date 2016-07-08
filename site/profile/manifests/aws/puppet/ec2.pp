@@ -7,7 +7,7 @@
 # *ec2_instances* An hash of (extra) ec2_instances to create
 # *ec2_launchconfigurations* An hash of (extra) ec2_launchconfigurations create
 # *ec2_autoscalinggroups* An hash of (extra) ec2_autoscalinggroups to create
-# 
+#
 # A list of parameters setting the default values for default and extra
 # ec2_instance resources. You can override them either setting the default value
 # via the parameters, or in the $ec2_instances hash for each extra instance
@@ -17,13 +17,13 @@
 # A similar list of parameters for the defaults of ec2_launchconfigurations
 # *default_autoscaling_instance_type* , *default_autoscaling_image_id*
 #
-class profile::aws::setup::ec2 (
-  String  $region,
+class profile::aws::puppet::ec2 (
   String  $default_key_name,
-
   String  $ensure                  = 'present',
 
-  Boolean $create_defaults         = false,
+  String $region                    = $::profile::aws::region,
+  String $default_vpc_name          = $::profile::aws::default_vpc_name,
+  Boolean $create_defaults          = $::profile::aws::create_defaults,
 
   # Hashes of resources to create
   Hash    $ec2_instances           = { },
@@ -31,36 +31,27 @@ class profile::aws::setup::ec2 (
   Hash    $ec2_autoscalinggroups = { },
 
   # Default settings
-  String  $default_instance_type  = 't2.micro',
-  String  $default_autoscaling_instance_type       = 't2.small',
+  String  $default_instance_type              = 't2.nano',
+  String  $default_autoscaling_instance_type  = 't2.small',
+  Integer $default_autoscaling_max_size       = 2,
+  Integer $default_autoscaling_min_size       = 1,
 
   Variant[Undef,String] $default_image_id = undef,
   Variant[Undef,String] $default_autoscaling_image_id = undef,
 
+  String $default_os                   = 'centos7',
+  String $default_autoscaling_os       = 'amazon4',
+
   Boolean $default_ebs_optimized       = false,
   Boolean $default_monitoring          = false,
 
-  String  $default_vpc_name            = $::profile::aws::setup::vpc::default_vpc_name,
 ) {
 
-  # Amazon AMI used by default
-  $calculated_image_id = $region ? {
-    'eu-west-1'    => 'ami-b0ac25c3',
-    'eu-central-1' => 'ami-ea26ce85',
-    'us-west-1'    => 'ami-b0ac25c3', # TODO: Find correct one
-    'us-west-2'    => 'ami-b0ac25c3', # TODO: Find correct one
-    'us-east-1'    => 'ami-b0ac25c3', # TODO: Find correct one
-    default        => 'ami-b0ac25c3',
-  }
-  $calculated_autoscaling_image_id = $region ? {
-    'eu-west-1'    => 'ami-b0ac25c3',
-    'eu-central-1' => 'ami-ea26ce85',
-    'eu-central-1' => 'ami-b0ac25c3', # TODO: Find correct one
-    'us-west-1'    => 'ami-b0ac25c3', # TODO: Find correct one
-    'us-west-2'    => 'ami-b0ac25c3', # TODO: Find correct one
-    'us-east-1'    => 'ami-b0ac25c3', # TODO: Find correct one
-    default        => 'ami-b0ac25c3',
-  }
+  # Find the AMI to use if none specified
+  include ::profile::aws::ami
+  $calculated_image_id = getvar("::profile::aws::ami::calculated_image_id_${default_os}")
+  $calculated_autoscaling_image_id =
+  getvar("::profile::aws::ami::calculated_autoscaling_image_id_${default_autoscaling_os}")
 
   $plain_ensure = $ensure ? {
     'absent' => 'absent',
@@ -68,7 +59,7 @@ class profile::aws::setup::ec2 (
   }
   if $ensure == 'absent' {
     Rds_db_securitygroup<|name == $title|> ->
-    Rds_instance<|name == $title|> 
+    Rds_instance<|name == $title|>
   }
 
   # Default resources, if enabled
@@ -79,30 +70,31 @@ class profile::aws::setup::ec2 (
         associate_public_ip_address => true,
         security_groups             => [ 'public-ssh' ],
       },
-      "${default_vpc_name}-app01" => {
-        subnet            => "${default_vpc_name}_app_application_a",
-        security_groups   => [ 'public-http' ],
-      },
       "${default_vpc_name}-mongo01" => {
-        subnet            => "${default_vpc_name}_app_mongo_a",
-        security_groups   => [ 'private-mongo' ],
-      },
-      "${default_vpc_name}-mongo02" => {
-        subnet            => "${default_vpc_name}_app_mongo_b",
-        availability_zone => "${region}b",
-        security_groups   => [ 'private-mongo' ],
+        subnet          => "${default_vpc_name}_mongo_a",
+        security_groups => [ 'private-ssh' , 'private-mongo' ],
       },
       "${default_vpc_name}-ci" => {
-        subnet            => "${default_vpc_name}_mgmt_a",
-        security_groups   => [ 'private-ssh' , 'public-http' ],
+        subnet          => "${default_vpc_name}_mgmt_a",
+        security_groups => [ 'private-ssh' , 'public-http' ],
       },
       "${default_vpc_name}-mon" => {
-        subnet            => "${default_vpc_name}_mgmt_a",
-        security_groups   => [ 'private-ssh' , 'public-http' ],
+        subnet          => "${default_vpc_name}_mgmt_a",
+        security_groups => [ 'private-ssh' , 'public-http' ],
       }
     }
-    $default_ec2_launchconfigurations = {}
-    $default_ec2_autoscalinggroups = {}
+    $default_ec2_launchconfigurations = {
+      "${default_vpc_name}-ecs" => {
+        security_groups => [ 'private-ssh' , 'public-http' ],
+      }
+    }
+    $default_ec2_autoscalinggroups = {
+      "${default_vpc_name}-ecs-a" => {
+        subnets              => ["${default_vpc_name}_dmz_a","${default_vpc_name}_dmz_b"],
+        availability_zones   => ["${region}a","${region}b"],
+        launch_configuration => "${default_vpc_name}-ecs",
+      }
+    }
 
   } else {
     $default_ec2_instances = {}
@@ -144,8 +136,10 @@ class profile::aws::setup::ec2 (
 
 
   $ec2_autoscalinggroups_defaults = {
-    ensure     => $plain_ensure,
-    region     => $region,
+    ensure   => $plain_ensure,
+    region   => $region,
+    max_size => $default_autoscaling_max_size,
+    min_size => $default_autoscaling_min_size,
   }
   if $all_ec2_autoscalinggroups != { } {
     create_resources('ec2_autoscalinggroup',$all_ec2_autoscalinggroups,$ec2_autoscalinggroups_defaults)

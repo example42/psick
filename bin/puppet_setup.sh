@@ -1,9 +1,19 @@
 #!/bin/bash
-repo_dir=$(git rev-parse --show-toplevel)
-. "${repo_dir}/bin/functions"
+repo_dir="$(dirname $0)/.."
+script_dir="$(dirname $0)"
+# repo_dir=$(git rev-parse --show-toplevel)
+. "${script_dir}/functions"
 
-which gem || echo "You need gem support! Install rubygems to continue successfully" 
+if [ "$1" = "unattended" ]; then
+  echo_subtitle "Unattended mode"
+else 
+  ask_interactive "We are going to install the deep_merge, hiera-eyaml and r10k gems and, via r10k, the modules listed in Puppetfile under the modules directory."
+fi
+
 echo_title "Installing gems"
+puppet resource package rubygems ensure=present
+which gem || echo "You need gem support! Install rubygems to continue successfully" 
+echo
 gem install deep_merge
 gem install hiera-eyaml
 gem install r10k
@@ -16,7 +26,7 @@ echo
 
 progs="puppet vagrant docker fab"
 for prog in $progs; do
-  echo "# Checking ${prog} availability"
+  echo_subtitle "Checking ${prog} availability"
   which $prog || echo "${prog} not found. Installation is recommended."
   echo
 done

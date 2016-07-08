@@ -30,6 +30,11 @@ mod "puppetlabs/vcsrepo", :latest
 mod "puppetlabs/aws", :latest
 mod "jdowning/rbenv", :latest
 mod "trlinkin/noop", :latest
+mod "puppetlabs/catalog_preview", :latest
+
+# Needed by profile::firewall::simple_nat
+# mod "example42/sysctl", :latest
+# mod "puppetlabs/firewall", :latest
 
 # Older 2.x example42 component modules
 #mod'example42/activemq',

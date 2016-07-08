@@ -1,3 +1,7 @@
+## Release 4.0.0.beta.3
+- Widely improved scripting
+- Aws role and relevant profiles and fab commands
+
 ## Release 4.0.0.beta.2
 - Added some base profiles (ntpdate, fabric, git...)
 - Refactored aws profile (WIP)

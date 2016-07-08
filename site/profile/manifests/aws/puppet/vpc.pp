@@ -1,10 +1,10 @@
 # Setup a VPC
-class profile::aws::setup::vpc (
-  String $region,
+class profile::aws::puppet::vpc (
+  String $region                    = $::profile::aws::region,
   String $ensure                    = 'present',
-  String $default_cidr_block_prefix = '10.0',
-  String $default_vpc_name          = 'myvpc',
-  Boolean $create_defaults          = false,
+  String $default_cidr_block_prefix = $::profile::aws::default_cidr_block_prefix,
+  String $default_vpc_name          = $::profile::aws::default_vpc_name,
+  Boolean $create_defaults          = $::profile::aws::create_defaults,
 
   Hash   $ec2_vpcs                  = { },
   Hash   $ec2_vpc_subnets           = { },
@@ -67,27 +67,19 @@ class profile::aws::setup::vpc (
         availability_zone => "${region}b",
         route_table       => "${default_vpc_name}-public",
       },
-      "${default_vpc_name}_app_application_a" => {
-        cidr_block        => "${default_cidr_block_prefix}.21.0/24",
-        availability_zone => "${region}a",
-      },
-      "${default_vpc_name}_app_application_b" => {
-        cidr_block        => "${default_cidr_block_prefix}.22.0/24",
-        availability_zone => "${region}b",
-      },
-      "${default_vpc_name}_app_mongo_a" => {
+      "${default_vpc_name}_mongo_a" => {
         cidr_block        => "${default_cidr_block_prefix}.31.0/24",
         availability_zone => "${region}a",
       },
-      "${default_vpc_name}_app_mongo_b" => {
+      "${default_vpc_name}_mongo_b" => {
         cidr_block        => "${default_cidr_block_prefix}.32.0/24",
         availability_zone => "${region}b",
       },
-      "${default_vpc_name}_app_rds_a" => {
+      "${default_vpc_name}_rds_a" => {
         cidr_block        => "${default_cidr_block_prefix}.41.0/24",
         availability_zone => "${region}a",
       },
-      "${default_vpc_name}_app_rds_b" => {
+      "${default_vpc_name}_rds_b" => {
         cidr_block        => "${default_cidr_block_prefix}.42.0/24",
         availability_zone => "${region}b",
       },

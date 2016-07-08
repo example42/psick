@@ -1,4 +1,5 @@
-class profile::webserver:nginx {
+#
+class profile::webserver::nginx {
 
   ::tp::install { 'nginx' : }
   $nginx_options = {

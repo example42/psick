@@ -33,11 +33,11 @@ setup_redhat7() {
   yum erase -y puppet >/dev/null 
 
   echo_title "Adding repo for Puppet 4"
-  rpm -ivh https://yum.puppetlabs.com/el/7/products/x86_64/puppetlabs-release-7-11.noarch.rpm >/dev/null # 2>&1
+  rpm -Uvh https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rpm
 
   sleep 2
   echo_title "Installing Puppet"
-  yum install -y puppet >/dev/null 
+  yum install -y puppet-agent 
 }
 
 setup_puppetlabs-ubuntu1204() {

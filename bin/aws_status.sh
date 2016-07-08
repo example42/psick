@@ -1,5 +1,5 @@
-#!/bin/bash
-repo_dir="$(dirname $0)/.."
+#!/usr/bin/env bash
+repo_dir=$(git rev-parse --show-toplevel)
 . "${repo_dir}/bin/functions"
 
 if [ ! -z $1 ]; then
@@ -7,6 +7,9 @@ if [ ! -z $1 ]; then
 else
   region='us-east-1 us-west-1 us-west-2 eu-west-1 eu-central-1 ap-south-1 ap-northeast-1 ap-northeast-2 ap-southeast-1 ap-southeast-2 sa-east-1'
 fi
+
+echo_title "Showing puppet recognised resources in regions: ${region}"
+ask_interactive "It may take some time with multiple regions"
 
 for reg in $region; do 
 
@@ -27,7 +30,7 @@ for reg in $region; do
 
 done
 
-echo_title "lobal resources"
+echo_title "Global resources"
 for res in $global_resources; do
     echo_subtitle "puppet resource $res"
     puppet resource $res

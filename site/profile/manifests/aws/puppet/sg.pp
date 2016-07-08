@@ -1,12 +1,12 @@
 # Setup security groups
-class profile::aws::setup::sg (
-  String $region,
+class profile::aws::puppet::sg (
   String $ensure                    = 'present',
-  String $default_vpc_name          = 'myvpc',
-  Boolean $create_defaults          = false,
 
+  String $region                    = $::profile::aws::region,
+  String $default_vpc_name          = $::profile::aws::default_vpc_name,
+  Boolean $create_defaults          = $::profile::aws::create_defaults,
+  String $default_cidr_block_prefix = $::profile::aws::default_cidr_block_prefix,
   Hash   $ec2_securitygroups        = { },
-
 ) {
 
   # Default resources, if enabled
@@ -15,11 +15,19 @@ class profile::aws::setup::sg (
       'public-ssh' => {
         description  => 'Public access to SSH TCP 22',
         ingress      => [{
+          'cidr'      => "${default_cidr_block_prefix}.0.0/16",
+          'from_port' => '0',
+          'to_port'   => '0',
+          'protocol'  => '-1',
+        },{
           'cidr'      => '0.0.0.0/0',
           'from_port' => '22',
           'protocol'  => 'tcp',
           'to_port'   => '22',
         }],
+        tags         => {
+          'Name' => "${default_vpc_name}-public-ssh",
+        },
       },
       'public-http' => {
         description  => 'Public access to HTTP TCP 80 and 443',
@@ -34,6 +42,9 @@ class profile::aws::setup::sg (
           'protocol'  => 'tcp',
           'to_port'   => '443',
         }],
+        tags         => {
+          'Name' => "${default_vpc_name}-public-http",
+        },
       },
       'private-mysql' => {
         description  => 'Private access access to MYSQL 3306',
@@ -43,6 +54,9 @@ class profile::aws::setup::sg (
           'protocol'  => 'tcp',
           'to_port'   => '3306',
         }],
+        tags         => {
+          'Name' => "${default_vpc_name}-private-mysql"
+        },
       },
       'private-mongo' => {
         description  => 'Private access access to Mongo 27017',
@@ -52,6 +66,9 @@ class profile::aws::setup::sg (
           'protocol'  => 'tcp',
           'to_port'   => '27017',
         }],
+        tags         => {
+          'Name' => "${default_vpc_name}-private-mongo",
+        },
       },
       'private-ssh' => {
         description  => 'Access to SSH from internal nodes',
@@ -61,6 +78,9 @@ class profile::aws::setup::sg (
           'protocol'  => 'tcp',
           'to_port'   => '22',
         }],
+        tags         => {
+          'Name' => "${default_vpc_name}-private-ssh",
+        },
       }
     }
  

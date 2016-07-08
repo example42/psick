@@ -1,12 +1,12 @@
 # Setup RDS
-class profile::aws::setup::rds (
-  String  $region,
+class profile::aws::puppet::rds (
   String  $default_master_user_password,
 
   String  $ensure                  = 'present',
 
-  # Set to true to aumatically create some default rds resources
-  Boolean $create_defaults         = false,
+  String $region                    = $::profile::aws::region,
+  String $default_vpc_name          = $::profile::aws::default_vpc_name,
+  Boolean $create_defaults          = $::profile::aws::create_defaults,
 
   Boolean $multi_az                = false,
 
@@ -32,16 +32,15 @@ class profile::aws::setup::rds (
 
   if $ensure == 'absent' {
     Rds_db_securitygroup<|name == $title|> ->
-    Rds_instance<|name == $title|> 
+    Rds_instance<|name == $title|>
   }
 
   # Default resources, if enabled
   if $create_defaults {
     $default_rds_instances = {
-      $default_db_name => {
-        # TODO Be smarter, avoid cross profile dependency
-        db_subnet => "${::profile::aws::setup::vpc::default_vpc_name}_app_rds_a",
-      }
+      "${default_vpc_name}-${default_db_name}" => {
+        ensure => present,
+      },
     }
     $default_rds_db_securitygroups = {
       #    rds_sg => {

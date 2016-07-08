@@ -1,0 +1,7 @@
+---
+  profiles:
+    - 'profile::git'
+    - 'profile::firewall::simple_nat'
+ 
+  profile::firewall::simplenat::source_net: '10.42.0.0/16'
+

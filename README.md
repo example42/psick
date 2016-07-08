@@ -125,7 +125,7 @@ Run vagrant up on the given vm:
 
 Some basic taskes are available to work on AWS. To install locally AWS cli and other tools used in the control-repo, and then configure the AWS credentials:
 
-    fab aws.presetup
+    fab aws.setup
 
 To show the status of AWS resources, mapped by puppet resources on all or a specified region:
 
