@@ -9,7 +9,7 @@ class profile::firewall::simple_nat (
   $source_net = "${::network}/${::netmask}",
 ) {
 
-  sysctl::value { '/proc/sys/net/ipv4/ip_forward': value => '1'}
+  sysctl::value { 'net/ipv4/ip_forward': value => '1'}
   firewall { "100 snat for network ${source_net}":
     chain  => 'POSTROUTING',
     jump   => 'MASQUERADE',
@@ -19,7 +19,7 @@ class profile::firewall::simple_nat (
   }
   firewall { "100 forward for network ${source_net}":
     chain  => 'FORWARD',
-    jump   => 'ACCEPT',
+    action => 'accept',
     proto  => 'all',
     source => $source_net,
   }

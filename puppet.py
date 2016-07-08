@@ -22,12 +22,13 @@ def apply():
 def sync_and_apply(role='UNDEFINED'):
   """Run puppet apply on a synced copy of the local git repo (syncs and uses control-repo in the environments/fabric_test dir)"""
   rsync_project(extra_opts='--delete',local_dir='.', remote_dir='/home/' + env.user + '/puppet-controlrepo', exclude='.git')
-  sudo( '[ -L /etc/puppetlabs/code/environments/fabric_test ] || ln -sf /home/' + env.user + '/puppet-controlrepo /etc/puppetlabs/code/environments/fabric_test')
+  sudo( '[ -L /etc/puppetlabs/code/environments/fabric_test ] || ln -sf /home/' + env.user + '/puppet-controlrepo/ /etc/puppetlabs/code/environments/fabric_test')
+  sudo( '[ -L /home/' + env.user + '/puppet-controlrepo/fabric_test ] || ln -sf /home/' + env.user + '/puppet-controlrepo /home/' + env.user + '/puppet-controlrepo/fabric_test')
   if role == "UNDEFINED":
     exportfact = "true"
   else:
     exportfact = "export FACTER_role=" + role
-  sudo( exportfact + '; $(puppet config print environmentpath)/fabric_test/bin/papply_local.sh ; echo $?' )
+  sudo( exportfact + '; $(puppet config print environmentpath)/fabric_test/bin/papply.sh --environment=fabric_test ; echo $?' )
   sudo( 'rm -f /home/' + env.user + '/puppet-controlrepo/keys/private_key.pkcs7.pem' )
 
 @task
