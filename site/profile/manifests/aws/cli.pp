@@ -1,3 +1,4 @@
+#
 class profile::aws::cli (
   String $ensure                = 'present',
   String $region                = $::profile::aws::region,
@@ -6,7 +7,7 @@ class profile::aws::cli (
   String $config_template       = 'profile/aws/credentials.erb',
 ) {
 
-  include profile::python::pip
+  include ::profile::python::pip
   tp::install { 'awscli':
     ensure => $ensure,
   }

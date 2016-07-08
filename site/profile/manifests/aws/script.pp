@@ -1,7 +1,7 @@
 #
 define profile::aws::script (
-  String $ensure = 'present',
   String $template,
+  String $ensure = 'present',
   Boolean $autorun = true,
   String $destination_dir = '/var/tmp',
   Variant[Undef,String] $region = undef,
@@ -13,7 +13,7 @@ define profile::aws::script (
   $script_path = "${destination_dir}/${title}"
   $exec_command = $command ? {
     # ''      => "${script_path} || rm ${script_path}",
-    ''      => "${script_path}",
+    ''      => $script_path,
     default => $command,
   }
 

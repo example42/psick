@@ -28,7 +28,7 @@ class profile::aws::puppet::vpc (
         ensure       => 'present',
         region       => $region,
         cidr_block   => "${default_cidr_block_prefix}.0.0/16",
-      }
+      },
     }
 
     $default_ec2_vpc_internet_gateways = {
@@ -36,7 +36,7 @@ class profile::aws::puppet::vpc (
         ensure       => $ensure,
         region       => $region,
         vpc          => $default_vpc_name,
-      }
+      },
     }
   
     $default_ec2_vpc_routetables = {
@@ -51,9 +51,9 @@ class profile::aws::puppet::vpc (
           },{
             destination_cidr_block => "${default_cidr_block_prefix}.0.0/16",
             gateway                => 'local'
-          }
+          },
         ],
-      }
+      },
     }
 
     $default_ec2_vpc_subnets = {
@@ -90,9 +90,8 @@ class profile::aws::puppet::vpc (
       "${default_vpc_name}_mgmt_b" => {
         cidr_block        => "${default_cidr_block_prefix}.12.0/24",
         availability_zone => "${region}b",
-      }
+      },
     }
- 
   } else {
     $default_ec2_vpcs = {}
     $default_ec2_vpc_subnets = {}
@@ -120,7 +119,7 @@ class profile::aws::puppet::vpc (
     vpc                     => $default_vpc_name,
     availability_zone       => "${region}a",
     map_public_ip_on_launch => false,
-    route_table             => "${default_vpc_name}",
+    route_table             => $default_vpc_name,
   }
   if $all_ec2_vpc_subnets != { } {
     create_resources('ec2_vpc_subnet',$all_ec2_vpc_subnets,$ec2_vpc_subnets_defaults)

@@ -81,19 +81,19 @@ class profile::aws::puppet::ec2 (
       "${default_vpc_name}-mon" => {
         subnet          => "${default_vpc_name}_mgmt_a",
         security_groups => [ 'private-ssh' , 'public-http' ],
-      }
+      },
     }
     $default_ec2_launchconfigurations = {
       "${default_vpc_name}-ecs" => {
         security_groups => [ 'private-ssh' , 'public-http' ],
-      }
+      },
     }
     $default_ec2_autoscalinggroups = {
       "${default_vpc_name}-ecs-a" => {
         subnets              => ["${default_vpc_name}_dmz_a","${default_vpc_name}_dmz_b"],
         availability_zones   => ["${region}a","${region}b"],
         launch_configuration => "${default_vpc_name}-ecs",
-      }
+      },
     }
 
   } else {

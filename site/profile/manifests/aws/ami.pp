@@ -1,3 +1,4 @@
+#
 class profile::aws::ami (
   String $region                    = $::profile::aws::region,
 ) {

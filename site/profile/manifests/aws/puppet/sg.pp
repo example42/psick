@@ -55,7 +55,7 @@ class profile::aws::puppet::sg (
           'to_port'   => '3306',
         }],
         tags         => {
-          'Name' => "${default_vpc_name}-private-mysql"
+          'Name' => "${default_vpc_name}-private-mysql",
         },
       },
       'private-mongo' => {
@@ -81,9 +81,8 @@ class profile::aws::puppet::sg (
         tags         => {
           'Name' => "${default_vpc_name}-private-ssh",
         },
-      }
+      },
     }
- 
   } else {
     $default_ec2_securitygroups = {}
   }

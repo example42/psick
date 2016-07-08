@@ -12,9 +12,9 @@ class profile::aws::cli::vpc (
 
   if $create_defaults {
     $default_aws_scripts = {
-      "vpc_$default_vpc_name" => {
+      "vpc_${default_vpc_name}" => {
         template    => 'profile/aws/cli/vpc.erb',
-      }
+      },
     }
   } else {
     $default_aws_scripts = {}
