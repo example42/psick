@@ -14,21 +14,25 @@ def check_syntax(file=''):
   local( main_dir + "/bin/puppet_check_syntax.sh " + str(file) )
 
 @task
-def apply():
+def apply(options=''):
   """Run puppet apply on the deployed control-repo (uses control-repo in the environments/production dir)"""
-  sudo( '$(puppet config print codedir)/environments/production/bin/papply.sh ; echo $?' )
+  sudo( '$(puppet config print codedir)/environments/production/bin/papply.sh ' + str(options) + ' ; echo $?' )
 
 @task
-def sync_and_apply(role='UNDEFINED'):
+def sync_and_apply(role='UNDEFINED',proxy='UNDEFINED',options=''):
   """Run puppet apply on a synced copy of the local git repo (syncs and uses control-repo in the environments/fabric_test dir)"""
-  rsync_project(extra_opts='--delete',local_dir='.', remote_dir='/home/' + env.user + '/puppet-controlrepo', exclude='.git')
+  if proxy == "UNDEFINED":
+    sshoptions = ""
+  else:
+    sshoptions = "-o \"ProxyCommand ssh -A -x -W %h:%p " + proxy + "\""
+  rsync_project(extra_opts='--delete', ssh_opts='' + str(sshoptions) + '',local_dir='.', remote_dir='/home/' + env.user + '/puppet-controlrepo', exclude='.git')
   sudo( '[ -L /etc/puppetlabs/code/environments/fabric_test ] || ln -sf /home/' + env.user + '/puppet-controlrepo/ /etc/puppetlabs/code/environments/fabric_test')
   sudo( '[ -L /home/' + env.user + '/puppet-controlrepo/fabric_test ] || ln -sf /home/' + env.user + '/puppet-controlrepo /home/' + env.user + '/puppet-controlrepo/fabric_test')
   if role == "UNDEFINED":
     exportfact = "true"
   else:
     exportfact = "export FACTER_role=" + role
-  sudo( exportfact + '; $(puppet config print environmentpath)/fabric_test/bin/papply.sh --environment=fabric_test ; echo $?' )
+  sudo( exportfact + '; $(puppet config print environmentpath)/fabric_test/bin/papply.sh --environment=fabric_test ' + str(options) + ' ; echo $?' )
   sudo( 'rm -f /home/' + env.user + '/puppet-controlrepo/keys/private_key.pkcs7.pem' )
 
 @task
@@ -40,9 +44,9 @@ def remote_setup(options=''):
 
 
 @task
-def apply_noop():
+def apply_noop(options=''):
   """Run puppet apply in noop mode (needs to have this control-repo deployed)"""
-  sudo( '$(puppet config print codedir)/environments/production/bin/papply.sh --noop ; echo $?' )
+  sudo( '$(puppet config print codedir)/environments/production/bin/papply.sh --noop ' + str(options) + ' ; echo $?' )
 
 @task
 @parallel(pool_size=4)

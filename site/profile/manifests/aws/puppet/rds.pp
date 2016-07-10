@@ -2,18 +2,18 @@
 class profile::aws::puppet::rds (
   String  $default_master_user_password,
 
-  String  $ensure                  = 'present',
+  String  $ensure                          = 'present',
 
-  String $region                    = $::profile::aws::region,
-  String $default_vpc_name          = $::profile::aws::default_vpc_name,
-  Boolean $create_defaults          = $::profile::aws::create_defaults,
+  String  $region                          = $::profile::aws::region,
+  String  $default_vpc_name                = $::profile::aws::default_vpc_name,
+  Boolean $create_defaults                 = $::profile::aws::create_defaults,
 
-  Boolean $multi_az                = false,
+  Boolean $multi_az                        = false,
 
   # Hashes of resources to create
-  Hash    $rds_instances           = { },
-  Hash    $rds_db_securitygroups   = { },
-  Hash    $rds_db_parameter_groups = { },
+  Hash    $rds_instances                   = { },
+  Hash    $rds_db_securitygroups           = { },
+  Hash    $rds_db_parameter_groups         = { },
 
   # Default settings
   String  $default_db_name                 = 'db',
@@ -38,8 +38,10 @@ class profile::aws::puppet::rds (
   # Default resources, if enabled
   if $create_defaults {
     $default_rds_instances = {
-      "${default_vpc_name}-${default_db_name}" => {
-        ensure => present,
+      "${default_vpc_name}-rds" => {
+        ensure    => present,
+        db_subnet => "${default_vpc_name}-rds", # TODO: Automate creation of
+                                                  #       DB subnet groups
       },
     }
     $default_rds_db_securitygroups = {

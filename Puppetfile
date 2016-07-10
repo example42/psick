@@ -27,14 +27,22 @@ mod'example42/icinga',
 mod "puppetlabs/concat", :latest
 mod "puppetlabs/stdlib", :latest
 mod "puppetlabs/vcsrepo", :latest
+mod "puppetlabs/firewall", :latest
 mod "puppetlabs/aws", :latest
 mod "jdowning/rbenv", :latest
 mod "trlinkin/noop", :latest
 mod "puppetlabs/catalog_preview", :latest
 
-# Needed by profile::firewall::simple_nat
+# Used by profile::firewall::simple_nat
 # mod "example42/sysctl", :latest
 # mod "puppetlabs/firewall", :latest
+
+# Used by profile::vpn::openvpn
+# mod 'luxflux/openvpn',
+#  :git => 'https://github.com/luxflux/puppet-openvpn'
+
+# Used by profile::mongo
+# mod 'puppetlabs/mongodb', :latest
 
 # Older 2.x example42 component modules
 #mod'example42/activemq',

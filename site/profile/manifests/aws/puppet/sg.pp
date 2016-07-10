@@ -24,6 +24,11 @@ class profile::aws::puppet::sg (
           'from_port' => '22',
           'protocol'  => 'tcp',
           'to_port'   => '22',
+        },{
+          'cidr'      => '0.0.0.0/0',
+          'from_port' => '1194',
+          'protocol'  => 'tcp',
+          'to_port'   => '1194',
         }],
         tags         => {
           'Name' => "${default_vpc_name}-public-ssh",
@@ -49,7 +54,7 @@ class profile::aws::puppet::sg (
       'private-mysql' => {
         description  => 'Private access access to MYSQL 3306',
         ingress      => [{
-          'cidr'      => '10.0.0.0/8',
+          'cidr'      => "${default_cidr_block_prefix}.0.0/16",
           'from_port' => '3306',
           'protocol'  => 'tcp',
           'to_port'   => '3306',
@@ -61,7 +66,7 @@ class profile::aws::puppet::sg (
       'private-mongo' => {
         description  => 'Private access access to Mongo 27017',
         ingress      => [{
-          'cidr'      => '10.0.0.0/8',
+          'cidr'      => "${default_cidr_block_prefix}.0.0/16",
           'from_port' => '27017',
           'protocol'  => 'tcp',
           'to_port'   => '27017',
@@ -70,10 +75,27 @@ class profile::aws::puppet::sg (
           'Name' => "${default_vpc_name}-private-mongo",
         },
       },
+      'private-ci' => {
+        description  => 'Access to CI from internal nodes',
+        ingress      => [{
+          'cidr'      => "${default_cidr_block_prefix}.0.0/16",
+          'from_port' => '8080',
+          'protocol'  => 'tcp',
+          'to_port'   => '8080',
+        }],
+        tags         => {
+          'Name' => "${default_vpc_name}-private-ci",
+        },
+      },
       'private-ssh' => {
         description  => 'Access to SSH from internal nodes',
         ingress      => [{
-          'cidr'      => '10.0.0.0/8',
+          'cidr'      => "${default_cidr_block_prefix}.0.0/16",
+          'from_port' => '0',
+          'to_port'   => '0',
+          'protocol'  => '-1',
+        },{
+          'cidr'      => "${default_cidr_block_prefix}.0.0/16",
           'from_port' => '22',
           'protocol'  => 'tcp',
           'to_port'   => '22',

@@ -12,6 +12,17 @@ echo_title () {
 
 echo_title "Checking Puppet installation"
 
+setup_amazon() {
+  echo_title "Cleaning up existing ruby and puppet installations"
+  yum erase -y ruby puppet
+
+  echo_title "Adding repo for Puppet 4"
+  rpm -Uvh https://yum.puppetlabs.com/puppetlabs-release-pc1-el-6.noarch.rpm
+
+  echo_title "Installing Puppet 4"
+  yum install -y puppet-agent
+}
+
 setup_puppetlabs-centos6() {
 #  echo_title "Installing Ruby 1.9.3
 #  yum install -y centos-release-SCL

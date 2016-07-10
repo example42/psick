@@ -14,9 +14,17 @@ echo_title "Installing gems"
 puppet resource package rubygems ensure=present
 which gem || echo "You need gem support! Install rubygems to continue successfully" 
 echo
+echo_subtitle "Installing with /bin/gem"
 gem install deep_merge
 gem install hiera-eyaml
 gem install r10k
+echo_subtitle "Installing with /opt/puppetlabs/puppet/bin/gem"
+/opt/puppetlabs/puppet/bin/gem install deep_merge
+/opt/puppetlabs/puppet/bin/gem install hiera-eyaml
+/opt/puppetlabs/puppet/bin/gem install r10k
+
+echo_title "Installing rsync"
+puppet resource package rsync ensure=present
 
 echo 
 cd $repo_dir

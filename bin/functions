@@ -11,11 +11,11 @@ SETCOLOR_SUBTITLE=$(tput setaf 14)
 SETCOLOR_BOLD=$(tput setaf 15)
 
 echo_success() {
-  echo "${SETCOLOR_SUCCESS} ${1} ${SETCOLOR_NORMAL}"
+  echo "${SETCOLOR_SUCCESS}${1}${SETCOLOR_NORMAL}"
 }
 
 echo_failure() {
-  echo "${SETCOLOR_FAILURE} ${1} ${SETCOLOR_NORMAL}"
+  echo "${SETCOLOR_FAILURE}${1}${SETCOLOR_NORMAL}"
   return 1
 }
 

@@ -32,7 +32,7 @@ class profile::aws::puppet::ec2 (
 
   # Default settings
   String  $default_instance_type              = 't2.nano',
-  String  $default_autoscaling_instance_type  = 't2.small',
+  String  $default_autoscaling_instance_type  = 't2.medium',
   Integer $default_autoscaling_max_size       = 2,
   Integer $default_autoscaling_min_size       = 1,
 
@@ -58,11 +58,12 @@ class profile::aws::puppet::ec2 (
     default  => 'present',
   }
   if $ensure == 'absent' {
-    Rds_db_securitygroup<|name == $title|> ->
+  # Rds_db_securitygroup<|name == $title|> ->
     Rds_instance<|name == $title|>
   }
 
   # Default resources, if enabled
+  # These default resources can be customised here.
   if $create_defaults {
     $default_ec2_instances = {
       "${default_vpc_name}-bastion" => {
@@ -70,13 +71,23 @@ class profile::aws::puppet::ec2 (
         associate_public_ip_address => true,
         security_groups             => [ 'public-ssh' ],
       },
-      "${default_vpc_name}-mongo01" => {
+      "${default_vpc_name}-mongo-01" => {
+        subnet          => "${default_vpc_name}_mongo_a",
+        security_groups => [ 'private-ssh' , 'private-mongo' ],
+      },
+      "${default_vpc_name}-mongo-02" => {
+        subnet            => "${default_vpc_name}_mongo_b",
+        availability_zone => "${region}b",
+        security_groups   => [ 'private-ssh' , 'private-mongo' ],
+      },
+      "${default_vpc_name}-mongo-03" => {
         subnet          => "${default_vpc_name}_mongo_a",
         security_groups => [ 'private-ssh' , 'private-mongo' ],
       },
       "${default_vpc_name}-ci" => {
         subnet          => "${default_vpc_name}_mgmt_a",
-        security_groups => [ 'private-ssh' , 'public-http' ],
+        security_groups => [ 'private-ssh' , 'private-ci' ],
+        instance_type   => 't2.medium',
       },
       "${default_vpc_name}-mon" => {
         subnet          => "${default_vpc_name}_mgmt_a",
@@ -89,6 +100,7 @@ class profile::aws::puppet::ec2 (
       },
     }
     $default_ec2_autoscalinggroups = {
+      # TODO: Creation of this doesn't seem to work
       "${default_vpc_name}-ecs-a" => {
         subnets              => ["${default_vpc_name}_dmz_a","${default_vpc_name}_dmz_b"],
         availability_zones   => ["${region}a","${region}b"],
