@@ -2,6 +2,7 @@
 #
 class profile::mongo (
   String                 $ensure   = 'present',
+  Variant[Undef,String]  $key      = undef,
   Variant[Undef,String]  $replset  = undef,
   Variant[Undef,String]  $default_password = undef,
   Variant[Undef,String]  $replset_arbiter = undef,
@@ -19,6 +20,8 @@ class profile::mongo (
     replset_members => $replset_members,
     bind_ip  => [ '0.0.0.0' ],  
     auth     => true,
+    keyfile  => '/etc/mongo.key',
+    key      => $key,
   }
 
   # Quick and dirty TODO Automate mongo servers lookup
@@ -55,10 +58,4 @@ class profile::mongo (
     }
   }  
  
-  if $replsetnooo {
-    mongodb_replset { $replset:
-      members => $replset_members,
-    }
-  }
-
 }
