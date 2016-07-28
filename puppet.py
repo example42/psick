@@ -50,15 +50,15 @@ def apply_noop(options=''):
 
 @task
 @parallel(pool_size=4)
-def agent():
+def agent(environment='production'):
   """Run puppet agent"""
-  sudo( 'puppet agent -t ; echo $?' )
+  sudo( 'puppet agent -t --environment ' + str(environment) + '; echo $?' )
 
 @task
 @parallel(pool_size=4)
-def agent_noop():
+def agent_noop(environment='production'):
   """Run puppet agent in noop mode"""
-  sudo( 'puppet agent -t --noop ; echo $?' )
+  sudo( 'puppet agent -t --noop --environment ' + str(environment) + '; echo $?' )
 
 @task
 @parallel(pool_size=4)

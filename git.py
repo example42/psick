@@ -17,3 +17,8 @@ def install_hooks(url=''):
   """Install Puppet .git/hooks"""
   local( main_dir + '/bin/git_install_hooks.sh ' + url )
 
+@task
+def setup_new_repo(repo=''):
+  """Create a new repo from scratch, based on the current contents of this control-repo"""
+  local( main_dir + '/bin/git_setup_new_repo.sh ' + repo )
+
