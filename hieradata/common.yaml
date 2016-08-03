@@ -14,11 +14,14 @@
   profile::base::linux::pre_class: '::profile::pre'
   profile::base::linux::mail_class: ''
   profile::base::linux::puppet_class: '::puppet'
+  profile::base::linux::ssh_class: ''
   profile::base::linux::network_class: '::profile::network'
   profile::base::linux::users_class: '::profile::users::static'
   profile::base::linux::monitor_class: '::profile::monitor'
   profile::base::linux::backup_class: ''
   profile::base::linux::time_class: '::profile::time::ntpdate'
+  profile::base::linux::sysctl_class: ''
+  profile::base::linux::dns_class: ''
 
   # Time settings
   profile::time::ntpdate::crontab: '0 0 * * *'

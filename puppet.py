@@ -82,3 +82,8 @@ def install(os=''):
 def module_generate(module=''):
   """Generate a Puppet module based on skeleton"""
   local( main_dir + "/bin/puppet_module_generate.sh " + str(module) )
+
+@task
+def modules_update():
+  local( "cd " + main_dir + "; r10k puppetfile install -v" )
+  """Run r10k to update modules/ according to the Puppetfile"""

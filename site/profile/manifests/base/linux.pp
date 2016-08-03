@@ -6,15 +6,18 @@ class profile::base::linux (
 
   String $pre_class         = '::profile::pre',
 
-  String $puppet_class      = '',
-  String $mail_class        = '',
   String $network_class     = '',
+  String $mail_class        = '',
+  String $puppet_class      = '',
+  String $ssh_class         = '',
   String $users_class       = '',
   String $monitor_class     = '',
   String $firewall_class    = '',
   String $logs_class        = '',
   String $backup_class      = '',
   String $time_class        = '',
+  String $sysctl_class      = '',
+  String $dns_class         = '',
 
 ) {
 
@@ -35,6 +38,11 @@ class profile::base::linux (
   if $puppet_class and $puppet_class != '' {
     contain $puppet_class
     Class[$pre_class] -> Class[$puppet_class]
+  }
+
+  if $ssh_class and $ssh_class != '' {
+    contain $ssh_class
+    Class[$pre_class] -> Class[$ssh_class]
   }
 
   if $monitor_class and $monitor_class != '' {
@@ -65,5 +73,15 @@ class profile::base::linux (
   if $time_class and $time_class != '' {
     contain $time_class
     Class[$pre_class] -> Class[$time_class]
+  }
+
+  if $sysctl_class and $sysctl_class != '' {
+    contain $sysctl_class
+    Class[$pre_class] -> Class[$sysctl_class]
+  }
+
+  if $dns_class and $dns_class != '' {
+    contain $dns_class
+    Class[$pre_class] -> Class[$dns_class]
   }
 }
