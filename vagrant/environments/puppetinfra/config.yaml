@@ -44,8 +44,9 @@ nodes:
     box: ubuntu1404
   - role: puppet
     count: 1
-    memory: 3072
+    memory: 4096
     cpu: 2
+    box: ubuntu1604
     ip_address: 10.42.42.10
     puppet_apply: true
     aliases:
@@ -68,6 +69,9 @@ boxes:
   centos6:
     box: puppetlabs/centos-6.6-64-puppet
     breed: puppetlabs-centos6
+  ubuntu1604:
+    box: puppetlabs/ubuntu-14.04-64-puppet
+    breed: puppetlabs-apt
   ubuntu1404:
     box: puppetlabs/ubuntu-14.04-64-puppet
     breed: puppetlabs-apt
