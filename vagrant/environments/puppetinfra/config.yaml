@@ -1,7 +1,7 @@
 ---
 # Default settings for vms
 vm:
-  memory: 512
+  memory: 1024
   cpu: 1
   box: centos7 # From boxes list below
   puppet_apply: true
@@ -23,24 +23,20 @@ puppet:
 nodes:
   - role: tpweb
     count: 1
-    memory: 1024
+    memory: 2048
   - role: log
     count: 1
-    memory: 1024
   - role: mon
     count: 1
-    memory: 1024
   - role: aws
     count: 1
   - role: docker_build
     hostname_base: docker-build
     count: 1
-    memory: 1024
     box: ubuntu1404
   - role: docker_host
     hostname_base: docker-host
     count: 1
-    memory: 1024
     box: ubuntu1404
   - role: puppet
     count: 1
@@ -53,7 +49,6 @@ nodes:
       - puppet
   - role: puppetdb
     count: 1
-    memory: 1024
     puppet_apply: true
 
 boxes:
