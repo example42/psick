@@ -76,7 +76,7 @@ Run puppet agent in a specific node:
 
     fab puppet.agent:host=web01.example.test
 
-Show the current version of deployed Pupept code on all  nodes:
+Show the current version of deployed Puppet code on all  nodes:
 
     fab puppet.current_config
 
