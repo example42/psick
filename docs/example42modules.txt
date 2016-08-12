@@ -7,11 +7,11 @@
 # (name!) maintainer in own repo
 # [FORK] module was a fork on a third party module
 
-+activemq (gwarf)
-+=apache (gwarf)
+!+activemq (gwarf)
+!+=apache (gwarf)
 +=apt (sathieu, gwarf)
--auth (gwarf)
-+autofs (shellfu)
+!-auth (gwarf)
+!+autofs (shellfu)
 +bacula (netmanagers!)
 +bind (netmanagers!) 
 +bluepill (mburger!)
@@ -31,48 +31,48 @@
 !+exim
 +fail2ban (netmanagers!)
 !-firewall
--foreman (ricciocri)
+!-foreman (ricciocri)
 !+freeradius
-=git
+!=git
 !+glance
 !+graylog2
 !+haproxy
 !+heartbeat
-=hosts
+!=hosts
 !+icinga
 !+icinga2 [FORK]
-=iptables
-=java (gwarf)
-+jboss (gwarf)
+!=iptables
+!=java (gwarf)
+!+jboss (gwarf)
 !+jenkins
 !+keystone
 !-kibana
 !+libvirt
 !+lighttpd
-=limits
-+logrotate (gwarf)
+!=limits
+!+logrotate (gwarf)
 !+logstash
 !+lsb
 !+mailx
-+mariadb
+!+mariadb
 !-maven [FORK]
-+mcollective (gwarf)
+!+mcollective (gwarf)
 !+memcached
-+mongodb
-+monit (ricciocri)
--monitor
+!+mongodb
+!+monit (ricciocri)
+!-monitor
 !+msmtp
 !+multipath
-+munin (gwarf)
-+mysql (lermit, gwarf)
+!+munin (gwarf)
+!+mysql (lermit, gwarf)
 !+nagios
 =network
-+newrelic
+!+newrelic
 !+nfs
 +nginx (netmanagers!)
 !+nova
-+nrpe
-+ntp (gwarf)
+!+nrpe
+!+ntp (gwarf)
 -nut (netmanagers!)
 !+openntpd
 !+openssh
@@ -82,21 +82,21 @@
 !+pacemaker
 !+pam
 !-pentaho
-=perl
-+=php (gwarf)
-+postfix (amateo, shellfu)
-+postgresql (gwarf)
-+profile
+!=perl
+!+=php (gwarf)
+!+postfix (amateo, shellfu)
+!+postgresql (gwarf)
+!+profile
 !+proftpd
-+puppet (gwarf)
--puppetdashboard (gwarf)
-+puppetdb (gwarf)
+!+puppet (gwarf)
+!-puppetdashboard (gwarf)
+!+puppetdb (gwarf)
 !+quagga
 !+quantum
-+=rabbitmq
-=rclocal
+!+=rabbitmq
+!=rclocal
 !+redis
-=resolver
+!=resolver
 !-rhcs
 !+rsync
 !-rsyncssh
@@ -110,27 +110,27 @@
 !-=solr
 !-=splunk
 !+ssmtp
-=sudo (gwarf)
-=svn (renamed to subversion)
-=sysctl (gwarf)
+!=sudo (gwarf)
+!=svn
+!=sysctl (gwarf)
 !+sysklogd
 !+syslogng (renamed to syslog-ng)
 +sysstat (bmcclure!)
 !-tartarus
 -=tcpwrappers (netmanagers!)
 !+tftp
-=timezone (gwarf)
+!=timezone (gwarf)
 !+tinc
-=tomcat (ricciocri)
--unicorn (shellfu)
-=user
+!=tomcat (ricciocri)
+!-unicorn (shellfu)
+!=user
 !-vagrant
 +varnish (netmanagers!)
 !+vim
-+vsftpd (gwarf)
-=wget
+!+vsftpd (gwarf)
+!=wget
 !-wordpress
 !+xinetd
 =yum (shellfu, gwarf)
-+zabbix_agent (renamed to zabbix-agent) (shellfu)
-!-zip
+!+zabbix_agent (renamed to zabbix-agent) (shellfu)
+!c-zip
