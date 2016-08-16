@@ -130,9 +130,9 @@ if [ $bump == 'true' ] ; then
 fi
 
 if [ $tag == 'true' ] ; then
+  rake -f ../../bin/Rakefile_blacksmith module:tag || exit 1
   version=$(git describe --abbrev=0 --tags)
   echo_title "MODULE TAG ${version}"
-  rake -f ../../bin/Rakefile_blacksmith module:tag || exit 1
   git commit -a -m "Release $version"
 fi
 

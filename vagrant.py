@@ -5,21 +5,21 @@ main_dir = subprocess.check_output("git rev-parse --show-toplevel", shell=True).
 @task
 def all_status(env=''):
   """Run vagrant status on all the available environments"""
-  local( 'source ' + main_dir + '/bin/functions ; cd ' + main_dir + '/vagrant/environments ; for v in $(ls ' + str(env) + '); do cd $v ; echo_title "Vagrant environment: ${v}" ; echo ; vagrant status ; cd ../ ; echo ; done' )
+  local( 'cd ' + main_dir + '/vagrant/environments ; for v in $(ls ' + str(env) + '); do cd $v ; echo "Vagrant environment: ${v}" ; echo ; vagrant status ; cd ../ ; echo ; done' )
 
 @task
 def status(vm=''):
-  """Show status of the specified vm"""
+  """Show status of all or the specified vm"""
   local( main_dir + '/vagrant/bin/vm.sh status ' + str(vm) )
 
 @task
-def suspend(vm):
-  """Suspend the specified vm"""
+def suspend(vm=''):
+  """Suspend all or the specified vm"""
   local( main_dir + '/vagrant/bin/vm.sh suspend ' + str(vm) )
 
 @task
-def resume(vm):
-  """Resume the specified vm"""
+def resume(vm=''):
+  """Resume all or the specified vm"""
   local( main_dir + '/vagrant/bin/vm.sh resume ' + str(vm) )
 
 @task
@@ -28,13 +28,13 @@ def destroy(vm):
   local( main_dir + '/vagrant/bin/vm.sh destroy ' + str(vm) )
 
 @task
-def reload(vm):
-  """Reload the specified vm"""
+def reload(vm=''):
+  """Reload all or the specified vm"""
   local( main_dir + '/vagrant/bin/vm.sh reload ' + str(vm) )
 
 @task
-def provision(vm):
-  """Run vagrant provision on the specified vm"""
+def provision(vm=''):
+  """Provision all or the specified vm"""
   local( main_dir + '/vagrant/bin/vm.sh provision ' + str(vm) )
 
 @task
@@ -43,7 +43,7 @@ def up(vm):
   local( main_dir + '/vagrant/bin/vm.sh up ' + str(vm) )
 
 @task
-def halt(vm):
-  """Halts the the specified Vagrant vm"""
-  local( main_dir + '/vagrant/bin/vm.sh halt' + str(vm) )
+def halt(vm=''):
+  """Halt all or the specified Vagrant vm"""
+  local( main_dir + '/vagrant/bin/vm.sh halt ' + str(vm) )
 
