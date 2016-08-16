@@ -8,12 +8,8 @@ for mod in $(ls -1 modules); do
   if [ -d '.git' ]; then
     echo
     echo_title "modules/${mod}"
-    git status
-    git branch
+    git checkout master
   fi
   cd ../../
 done
-
-echo_title "This Puppet control-repo"
-git status
 

@@ -10,7 +10,7 @@ def status():
 @task
 def checkout_master(module=''):
   """Run git checkout master on each on the installed modules"""
-  local( 'cd ' + main_dir + '; cd modules ; for m in $(ls ' + str(module) + '); do cd $m ; git checkout master ; cd ../ ; done' )
+  local( main_dir + '/bin/git_checkout_master.sh' )
 
 @task
 def install_hooks(url=''):
