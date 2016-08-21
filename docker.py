@@ -3,9 +3,10 @@ import subprocess
 main_dir = subprocess.check_output("git rev-parse --show-toplevel", shell=True).rstrip()
 
 @task
-def build_role(puppetrole='docker_test', image='ubuntu-14.04'):
+def build_role(puppetrole='docker_test', image='ubuntu1404'):
   """Build a Docker image of the specified role and OS (data in hieradata/role/$puppetrole.yaml)"""
   local( 'cd ' + main_dir + '/docker ; ./dockerize_role.sh ' + str(puppetrole) + ' ' + str(image) )
+
 @task
 def build_role_multios(puppetrole):
   """Build multi OS Docker images of the specified role (data in hieradata/role/$puppetrole.yaml)"""

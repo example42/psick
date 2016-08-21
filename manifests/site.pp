@@ -3,7 +3,22 @@
 # Here we have a sample $::role driven nodeless setup with a common base profile
 # Feel free to modify and adapt to your case.
 
-# First some resource defaults for Files, Execs and Tiny Puppet
+# The following lines are used to assign to top-scope variables (used in
+# hiera.yaml) the values of eventual trusted facts.
+# More info: https://docs.puppet.com/puppet/latest/reference/ssl_attributes_extensions.html
+# You may need to change and adapt them according to your hiera.yaml
+# You can keep them also if you don't set extended trusted facts.
+if $trusted['extensions']['pp_role'] {
+  $role = $trusted['extensions']['pp_role']
+}
+if $trusted['extensions']['pp_environment'] {
+  $env = $trusted['extensions']['pp_environment']
+}
+if $trusted['extensions']['pp_datacenter'] {
+  $zone = $trusted['extensions']['pp_datacenter']
+}
+
+# Some resource defaults for Files, Execs and Tiny Puppet
 File {
   owner => 'root',
   group => 'root',

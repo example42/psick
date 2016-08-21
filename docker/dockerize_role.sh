@@ -1,9 +1,11 @@
 #!/bin/bash
-image=$2
+repo_dir="$(dirname $0)/.."
+. "${repo_dir}/bin/functions"
 role=$1
+image=$2
 
-. config
-. env/${image}
+. "${repo_dir}/docker/config"
+. "${repo_dir}/docker/env/${image}"
 
-echo "## Building on image ${image} role ${role}"
-puppet apply -t --basemodulepath "../modules" --hiera_config "hiera.yaml" -e 'include ::docker::profile::rocker_builder'
+echo_title "## Building on image ${image} role ${role}"
+puppet apply -t --basemodulepath ""${repo_dir}/modules" --hiera_config ""${repo_dir}/hiera.yaml" -e 'include ::docker::profile::rocker_builder'
