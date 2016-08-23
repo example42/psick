@@ -11,6 +11,7 @@ class profile::base::linux (
   String $puppet_class      = '',
   String $ssh_class         = '',
   String $users_class       = '',
+  String $sudo_class        = '',
   String $monitor_class     = '',
   String $firewall_class    = '',
   String $logs_class        = '',
@@ -58,6 +59,11 @@ class profile::base::linux (
   if $users_class and $users_class != '' {
     contain $users_class
     Class[$pre_class] -> Class[$users_class]
+  }
+
+  if $sudo_class and $sudo_class != '' {
+    contain $sudo_class
+    Class[$pre_class] -> Class[$sudo_class]
   }
 
   if $firewall_class and $firewall_class != '' {

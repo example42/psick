@@ -44,6 +44,9 @@ mod "puppetlabs/catalog_preview", :latest
 # Used by profile::mongo
 # mod 'puppetlabs/mongodb', :latest
 
+# User by profile::sudo::sudoers
+# mod 'saz/sudo', :3.1.0
+
 # Older 2.x example42 component modules
 #mod'example42/activemq',
 #  :git => 'https://github.com/example42/puppet-activemq'
