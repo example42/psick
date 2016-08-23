@@ -1,9 +1,17 @@
+# Basic users management
+#
 class profile::users::static (
-  Hash $users         = {},
-  Hash $managed_users = {},
-  Boolean $delete_unmanaged = false,
+  Optional[String[1]] $rootpw  = undef,
+  Hash $users                  = {},
+  Hash $managed_users          = {},
+  Boolean $delete_unmanaged    = false,
 ) {
 
+  if $rootpw {
+    user { 'root':
+      password => $rootpw,
+    }
+  }
   if $users != {} {
     create_resources('user',$users)
   }
@@ -12,8 +20,8 @@ class profile::users::static (
   }
   if $delete_unmanaged {
     resources { 'user':
-     purge  => true,
-     unless_system_user => true,
+      purge              => true,
+      unless_system_user => true,
     }
   }
 }

@@ -34,3 +34,12 @@
   ansible::install_class: tp
   ansible::auto_conf: true
 
+# Sample user settings
+#  profile::users::static::rootpw: hash_as_in_etc_shadow
+#  profile::users::static::delete_unmanaged: false
+#  profile::users::static::managed_users:
+#    al:
+#      sshkey_content:
+#        key: AAAAB3NzaC1yc2E....
+#        type: ssh-rsa
+#        comment: al@macante.local

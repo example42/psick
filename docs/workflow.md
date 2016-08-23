@@ -46,10 +46,6 @@ Select the files to keep or remove, then commit them all
 
     git commit -a -m "Repo based on https://github.com/example42/control-repo"
 
-Now you can set the origin push your repo to an empty existing repo you have created on GitHub/Bitbucket/GitLab/... :
-
-    git remote add origin git@github.com:example42/puppet-control-repo.git
-    git push -u origin --all
 
 ### Development workflow based on Fabric tasks
 

@@ -1,61 +1,62 @@
 # Copied from example42 user::managed
 # sshkey:           have to be handed over as the classname
 #                   containing the ssh_keys
-# password:         the password in cleartext or as crypted string
-#                   which should be set. Default: absent -> no password is set.
+# password:         the password in cleartext or as crypted string which
+#                   should be set. Default: absent -> no password is set.
 #                   To create an encrypted password, you can use:
-#                   /usr/bin/mkpasswd -H md5 --salt=$salt $password , where $salt is 8 bytes long
-#                   Note: On OpenBSD systems we can only manage crypted passwords.
-#                         Therefor the password_crypted option doesn't have any effect.
-#                         You'll find a python script in ${module}/password/openbsd/genpwd.py
-#                         Which will help you to create such a password
+#                   /usr/bin/mkpasswd -H md5 --salt=$salt $password ,
+#                   where $salt is 8 bytes long
+#                   Note: On OpenBSD systems we can only manage crypted
+#                         passwords. Therefor the password_crypted
+#                         option doesn't have any effect.
 # password_crypted: if the supplied password is crypted or not.
 #                   Default: true
-#                   Note: If you'd like to use unencrypted passwords, you have to set a variable
-#                         $password_salt to an 8 character long salt, being used for the password.
+#                   Note: If you'd like to use unencrypted passwords,
+#                         you have to set a variable $password_salt to
+#                         an 8 character long salt used for the password.
 # gid:              define the gid of the group
 #                   absent: let the system take a gid
-#                   uid: take the same as the uid has if it isn't absent (*default*)
+#                   uid: (*default*) take the same as the uid if present
 #                   <value>: take this gid
-# manage_group:     Wether we should add a group with the same name as well, this works only
-#                   if you supply a uid.
+# manage_group:     Wether we should add a group with the same name as
+#                   well, this works only if you supply a uid.
 #                   Default: true
 # sshkey_content:   supply ssh key via 'key', 'comment' and 'type'
 # sshkeys_content:  supply ssh keys via an array of 'key', 'comment' and 'type'
 define profile::users::managed(
-  String $ensure             = present,
-  String $name_comment       = 'absent',
-  String $uid                = 'absent',
-  String $gid                = 'uid',
-  $groups             = [],
-  $manage_group       = true,
-  $membership         = 'minimum',
-  $homedir            = 'absent',
-  $managehome         = true,
-  $homedir_mode       = '0750',
-  $sshkey             = 'absent',
-  $sshkey_source      = '',
-  $bashprofile_source = '',
-  $known_hosts_source = '',
-  $password           = 'absent',
-  $password_crypted   = true,
-  $password_salt      = '',
-  $shell              = 'absent',
-  $id_rsa_source      = '',
-  $id_rsa_pub_source  = '',
-  $tag                = undef,
-  $sshkey_content     = {},
-  $sshkeys_content    = []
+  String $ensure       = present,
+  String $name_comment = 'absent',
+  String $uid          = 'absent',
+  String $gid          = 'uid',
+  $groups              = [],
+  $manage_group        = true,
+  $membership          = 'minimum',
+  $homedir             = 'absent',
+  $managehome          = true,
+  $homedir_mode        = '0750',
+  $sshkey              = 'absent',
+  $sshkey_source       = '',
+  $bashprofile_source  = '',
+  $known_hosts_source  = '',
+  $password            = 'absent',
+  $password_crypted    = true,
+  $password_salt       = '',
+  $shell               = 'absent',
+  $id_rsa_source       = '',
+  $id_rsa_pub_source   = '',
+  $tag                 = undef,
+  $sshkey_content      = {},
+  $sshkeys_content     = []
 ){
 
   $real_homedir = $homedir ? {
     'absent' => "/home/${name}",
-    default => $homedir
+    default  => $homedir
   }
 
   $real_name_comment = $name_comment ? {
     'absent' => $name,
-    default => $name_comment,
+    default  => $name_comment,
   }
 
   $real_shell = '/bin/bash'
@@ -110,7 +111,7 @@ define profile::users::managed(
   $sshkey_defaults = {
     ensure => present,
     user   => $name,
-    'type'   => 'ssh-rsa'
+    'type' => 'ssh-rsa',
   }
 
   if !empty($sshkey_content) {
@@ -233,7 +234,7 @@ define profile::users::managed(
         ensure => absent,
         }
         case $::operatingsystem {
-        OpenBSD: {
+        'OpenBSD': {
           Group[$name]{
           before => User[$name],
           }
@@ -258,7 +259,7 @@ define profile::users::managed(
         }
         if $ensure == 'absent' {
           case $::operatingsystem {
-          OpenBSD: {
+          'OpenBSD': {
             Group[$name]{
             before => User[$name],
             }
@@ -278,7 +279,7 @@ define profile::users::managed(
     }
   }
   case $ensure {
-    present: {
+    'present': {
       if $sshkey != 'absent' {
         User[$name]{
           before => Class[$sshkey],
@@ -288,7 +289,7 @@ define profile::users::managed(
 
       if $password != 'absent' {
         case $::operatingsystem {
-          'openbsd': {
+          'OpenBSD': {
             exec { "setpass ${name}":
               unless  => "grep -q '^${name}:${password}:' /etc/master.passwd",
               command => "usermod -p '${password}' ${name}",
