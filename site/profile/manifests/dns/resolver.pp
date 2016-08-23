@@ -2,7 +2,7 @@
 # Based on ghoneycutt-dnsclient
 class profile::dns::resolver (
   Array $nameservers           = ['8.8.8.8','8.8.4.4'],
-  Array $options               = ['rotate','timeout:1'],
+  Optional[Array] $options     = undef,
   Optional[Array] $search      = undef,
   Optional[String] $domain     = undef,
   Optional[Array] $sortlist    = undef,
@@ -15,7 +15,7 @@ class profile::dns::resolver (
     content => template($resolver_template),
     owner   => 'root',
     group   => 'root',
-    mode    => '0640',
+    mode    => '0644',
   }
 
 }
