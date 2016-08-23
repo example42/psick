@@ -2,20 +2,21 @@
 # This profile uses saz-sudo module
 #
 class profile::sudo::sudoers (
-  Optional[String[1]] $admins_group = undef,
-  Boolean $config_file_replace      = false,
-  Boolean $purge                    = false,
+  String $admins_group   = '',
+  String $admins_content = 'ALL=(ALL) NOPASSWD: ALL',
+  Boolean $purge_file    = false,
+  Boolean $purge_dir     = false,
 ) {
 
   class { '::sudo':
-    config_file_replace => $config_file_replace,
-    purge               => $purge,
+    config_file_replace => $purge_file,
+    purge               => $purge_dir,
   }
 
-  if $admins_group {
+  if $admins_group != '' {
     ::sudo::conf { $admins_group:
       priority => 10,
-      content  => "%${admins_group} ALL=(ALL) NOPASSWD: ALL",
+      content  => "%${admins_group} ${admins_content}",
     }
   }
 }
