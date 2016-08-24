@@ -11,7 +11,7 @@
   tp::data_module: tinydata
 
 # Base profile settings
-  profile::base::linux::pre_class: '::profile::pre'
+  profile::base::linux::pre_class: '::profile::repo::generic'
   profile::base::linux::mail_class: ''
   profile::base::linux::puppet_class: '::puppet'
   profile::base::linux::ssh_class: ''
@@ -23,8 +23,12 @@
   profile::base::linux::time_class: '::profile::time::ntpdate'
   profile::base::linux::sysctl_class: ''
   profile::base::linux::dns_class: ''
+  profile::base::linux::hardening_class: ''
 
-  # Time settings
+# Repo settings
+  profile::repo::generic::add_defaults: true
+
+# Time settings
   profile::time::ntpdate::crontab: '0 0 * * *'
   profile::time::ntpdate::ntp_server: 'pool.ntp.org'
 

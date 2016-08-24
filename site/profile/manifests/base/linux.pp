@@ -4,7 +4,7 @@
 #
 class profile::base::linux (
 
-  String $pre_class         = '::profile::pre',
+  String $pre_class         = '::profile::repo::generic',
 
   String $network_class     = '',
   String $mail_class        = '',
