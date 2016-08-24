@@ -19,6 +19,7 @@ class profile::base::linux (
   String $time_class        = '',
   String $sysctl_class      = '',
   String $dns_class         = '',
+  String $hardening_class   = '',
 
 ) {
 
@@ -90,4 +91,10 @@ class profile::base::linux (
     contain $dns_class
     Class[$pre_class] -> Class[$dns_class]
   }
+
+  if $hardening_class != '' {
+    contain $hardening_class
+    Class[$pre_class] -> Class[$hardening_class]
+  }
+
 }
