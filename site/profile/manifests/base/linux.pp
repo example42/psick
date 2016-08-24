@@ -20,6 +20,7 @@ class profile::base::linux (
   String $sysctl_class      = '',
   String $dns_class         = '',
   String $hardening_class   = '',
+  String $limits_class      = '',
 
 ) {
 
@@ -95,6 +96,11 @@ class profile::base::linux (
   if $hardening_class != '' {
     contain $hardening_class
     Class[$pre_class] -> Class[$hardening_class]
+  }
+
+  if $limits_class != '' {
+    contain $limits_class
+    Class[$pre_class] -> Class[$limits_class]
   }
 
 }
