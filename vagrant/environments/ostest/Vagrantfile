@@ -94,13 +94,15 @@ Vagrant.configure("2") do |config|
       end
 
       if role != 'puppet'
-        # register destroy trigger to remove the node from puppet master
-        node_config.trigger.after :destroy do
-          node_name = @machine.name.to_s
-          puts "Cleaning #{node_name} certificate from puppet"
-          `vagrant ssh #{puppet_master_hostname} -- -t 'sudo puppet cert clean #{node_name}.#{settings['network']['domain']}'`
-          puts "Deactivating #{node_name} from puppet"
-          `vagrant ssh #{puppet_master_hostname} -- -t 'sudo puppet node deactivate #{node_name}.#{settings['network']['domain']}'`
+        if Vagrant.has_plugin?("vagrant-hostmanager")
+          # register destroy trigger to remove the node from puppet master
+          node_config.trigger.after :destroy do
+            node_name = @machine.name.to_s
+            puts "Cleaning #{node_name} certificate from puppet"
+            `vagrant ssh #{puppet_master_hostname} -- -t 'sudo puppet cert clean #{node_name}.#{settings['network']['domain']}'`
+            puts "Deactivating #{node_name} from puppet"
+            `vagrant ssh #{puppet_master_hostname} -- -t 'sudo puppet node deactivate #{node_name}.#{settings['network']['domain']}'`
+          end
         end
       end
 

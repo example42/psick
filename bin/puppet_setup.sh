@@ -18,10 +18,12 @@ echo_subtitle "Installing with /bin/gem"
 gem install deep_merge
 gem install hiera-eyaml
 gem install r10k
-echo_subtitle "Installing with /opt/puppetlabs/puppet/bin/gem"
-/opt/puppetlabs/puppet/bin/gem install deep_merge
-/opt/puppetlabs/puppet/bin/gem install hiera-eyaml
-/opt/puppetlabs/puppet/bin/gem install r10k
+if [ -x /opt/puppetlabs/puppet/bin/gem ]; then
+  echo_subtitle "Installing with /opt/puppetlabs/puppet/bin/gem"
+  /opt/puppetlabs/puppet/bin/gem install deep_merge
+  /opt/puppetlabs/puppet/bin/gem install hiera-eyaml
+  /opt/puppetlabs/puppet/bin/gem install r10k
+fi
 
 echo_title "Installing rsync"
 puppet resource package rsync ensure=present
