@@ -13,6 +13,9 @@ for v in $(ls); do
     echo_subtitle "Running vagrant ${action} ${vm}"
     vagrant $action $vm
   else
+    if [ $action == 'status' ]; then
+      vagrant $action
+    fi
     true
   fi
   cd ../
