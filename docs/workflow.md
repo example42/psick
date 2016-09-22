@@ -90,7 +90,7 @@ During development you can check the git status of the main control-repo and of 
 
 ### Testing your code
 
-There are different methods available for testing your code before pushing it to to production. You can you some or all of them, both manually during your development activities and automatically in Continuous Integration pipelines.
+There are different methods available for testing your code before pushing it to to production. You can use some or all of them, both manually during your development activities and automatically in Continuous Integration pipelines.
 
 
 #### On live servers
