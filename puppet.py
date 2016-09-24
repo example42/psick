@@ -19,20 +19,24 @@ def apply(options=''):
   sudo( '$(puppet config print codedir)/environments/production/bin/papply.sh ' + str(options) + ' ; echo $?' )
 
 @task
-def sync_and_apply(role='UNDEFINED',proxy='UNDEFINED',options=''):
+def sync_and_apply(role='UNDEFINED',proxy='UNDEFINED',options='',fqdn='UNDEFINED'):
   """Run puppet apply on a synced copy of the local git repo (syncs and uses control-repo in the environments/fabric_test dir)"""
   if proxy == "UNDEFINED":
     sshoptions = ""
   else:
     sshoptions = "-o \"ProxyCommand ssh -A -x -W %h:%p " + proxy + "\""
   rsync_project(extra_opts='--delete', ssh_opts='' + str(sshoptions) + '',local_dir='.', remote_dir='/home/' + env.user + '/puppet-controlrepo', exclude='.git')
-  sudo( '[ -L /etc/puppetlabs/code/environments/fabric_test ] || ln -sf /home/' + env.user + '/puppet-controlrepo/ /etc/puppetlabs/code/environments/fabric_test')
-  sudo( '[ -L /home/' + env.user + '/puppet-controlrepo/fabric_test ] || ln -sf /home/' + env.user + '/puppet-controlrepo /home/' + env.user + '/puppet-controlrepo/fabric_test')
+  sudo( 'rm /etc/puppetlabs/code/environments/fabric_test && ln -sf /home/' + env.user + '/puppet-controlrepo/ /etc/puppetlabs/code/environments/fabric_test')
+  sudo( 'ln -sf /home/' + env.user + '/puppet-controlrepo /home/' + env.user + '/puppet-controlrepo/fabric_test')
   if role == "UNDEFINED":
-    exportfact = "true"
+    exportrole = "true"
   else:
-    exportfact = "export FACTER_role=" + role
-  sudo( exportfact + '; $(puppet config print environmentpath)/fabric_test/bin/papply.sh --environment=fabric_test ' + str(options) + ' ; echo $?' )
+    exportrole = "export FACTER_role=" + role
+  if fqdn == "UNDEFINED":
+    exporthostname = "true"
+  else:
+    exporthostname = "export FACTER_fqdn=" + fqdn + "; export FACTER_hostname=" + fqdn.partition('.')[0] + "; export FACTER_domain=" + fqdn.partition('.')[2]
+  sudo( exportrole + ';' + exporthostname + '; $(puppet config print environmentpath)/fabric_test/bin/papply.sh --environment=fabric_test ' + str(options) + ' ; echo $?' )
   sudo( 'rm -f /home/' + env.user + '/puppet-controlrepo/keys/private_key.pkcs7.pem' )
 
 @task
@@ -50,15 +54,15 @@ def apply_noop(options=''):
 
 @task
 @parallel(pool_size=4)
-def agent(environment='production'):
+def agent():
   """Run puppet agent"""
-  sudo( 'puppet agent -t --environment ' + str(environment) + '; echo $?' )
+  sudo( 'puppet agent -t ; echo $?' )
 
 @task
 @parallel(pool_size=4)
-def agent_noop(environment='production'):
+def agent_noop():
   """Run puppet agent in noop mode"""
-  sudo( 'puppet agent -t --noop --environment ' + str(environment) + '; echo $?' )
+  sudo( 'puppet agent -t --noop ; echo $?' )
 
 @task
 @parallel(pool_size=4)
@@ -82,8 +86,3 @@ def install(os=''):
 def module_generate(module=''):
   """Generate a Puppet module based on skeleton"""
   local( main_dir + "/bin/puppet_module_generate.sh " + str(module) )
-
-@task
-def modules_update():
-  local( "cd " + main_dir + "; r10k puppetfile install -v" )
-  """Run r10k to update modules/ according to the Puppetfile"""
