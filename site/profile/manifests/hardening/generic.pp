@@ -4,25 +4,27 @@ class profile::hardening::generic (
   Array $packages_to_remove        = [],
   Array $services_to_remove        = [],
   Boolean $remove_default_packages = false,
-  Boolean $remote_default_services = false,
+  Boolean $remove_default_services = false,
 ) {
 
   $packages_default = [] 
   $services_default = $::osfamily ? {
-    'RedHat' => $::operatingsystemmajrelease ? {
-      '5' => [ ],
-      '6' => [ ],
-      '7' => [ ],
+    'RedHat'  => $::operatingsystemmajrelease ? {
+      '5'      => [ ],
+      '6'      => [ ],
+      '7'      => [ ],
+       default => [ ],
      },
      'Debian' => $::operatingsystemmajrelease ? {
-      '6'     => [ ],
-      '7'     => [ ],
-      '8'     => [ ],
-      '12.04' => [ ],
-      '14.04' => [ ],
-      '16.04' => [ ],
+      '6'      => [ ],
+      '7'      => [ ],
+      '8'      => [ ],
+      '12.04'  => [ ],
+      '14.04'  => [ ],
+      '16.04'  => [ ],
+       default => [ ],
      },
-     default => [ ],
+     default  => [ ],
   }
 
   $packages = $remove_default_packages ? {
@@ -34,8 +36,8 @@ class profile::hardening::generic (
     false => $services_to_remove,
   }
 
-  $packages.each |$pkg| {
-    package { $pkg:
+  if $packages != [] {
+    package { $packages:
       ensure => absent,
     }
   }
