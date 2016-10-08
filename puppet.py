@@ -46,7 +46,6 @@ def remote_setup(options=''):
   put( "bin/puppet_setup.sh","/var/tmp/puppet_remote_setup.sh",mode=755 )
   sudo( "/var/tmp/puppet_remote_setup.sh " + str(options) )
 
-
 @task
 def apply_noop(options=''):
   """Run puppet apply in noop mode (needs to have this control-repo deployed)"""

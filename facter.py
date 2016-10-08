@@ -1,11 +1,17 @@
 from fabric.api import *
 
 @task
-def set_role(role):
-  """Configure an external role fact with the given value."""
-  sudo ( "mkdir -p /etc/puppetlabs/facter/facts.d && echo 'role=" + str(role) + "' > /etc/puppetlabs/facter/facts.d/role.txt" )
+def set_external_facts(role='',env=''):
+  """Set the given external facts in /etc/puppetlabs/facter/facts.d"""
+  sudo( '[ -d ' + facts_dir + ' ] || mkdir -p ' + facts_dir )
+  sudo( 'echo "role=' + role + '\n" > ' + facts_dir + '/role.txt ' )
+  sudo( 'echo "env=' + env + '\n" > ' + facts_dir + '/env.txt ' )
 
-def set_env(env):
-  """Configure an external env fact with the given value."""
-  sudo ( "mkdir -p /etc/puppetlabs/facter/facts.d && echo 'env=" + str(env) + "' > /etc/puppetlabs/facter/facts.d/env.txt" )
-
+@task
+def set_trusted_facts(facts={}):
+  """Set the given trusted facts in /etc/puppetlabs/puppet/csr_attributes.yaml"""
+  text << "---"
+  text << '  extension_requests:'
+  for key,value in facts.iteritems():
+      text << '   ' + key + ': ' + value
+  sudo( 'echo ' + text + ' > /etc/puppetlabs/puppet/csr_attributes.yaml' )

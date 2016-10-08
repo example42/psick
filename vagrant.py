@@ -3,11 +3,6 @@ import subprocess
 main_dir = subprocess.check_output("git rev-parse --show-toplevel", shell=True).rstrip()
 
 @task
-def all_status(env=''):
-  """Run vagrant status on all the available environments"""
-  local( 'cd ' + main_dir + '/vagrant/environments ; for v in $(ls ' + str(env) + '); do cd $v ; echo "Vagrant environment: ${v}" ; echo ; vagrant status ; cd ../ ; echo ; done' )
-
-@task
 def status(vm=''):
   """Show status of all or the specified vm"""
   local( main_dir + '/vagrant/bin/vm.sh status ' + str(vm) )
