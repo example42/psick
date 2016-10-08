@@ -14,7 +14,7 @@ class profile::base::solaris (
   String $firewall_class    = '',
   String $logs_class        = '',
   String $backup_class      = '',
-
+  String $timezone_class    = '',
 ) {
 
   if $pre_class != '' {
@@ -60,5 +60,10 @@ class profile::base::solaris (
     contain $logs_class
     Class[$pre_class] -> Class[$logs_class]
   }
+
+  if $timezone_class != '' {
+    contain $timezone_class
+    Class[$pre_class] -> Class[$timezone_class]
+  }  
 
 }

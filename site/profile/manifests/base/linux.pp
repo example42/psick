@@ -17,6 +17,7 @@ class profile::base::linux (
   String $logs_class        = '',
   String $backup_class      = '',
   String $time_class        = '',
+  String $timezone_class    = '',
   String $sysctl_class      = '',
   String $dns_class         = '',
   String $hardening_class   = '',
@@ -82,6 +83,11 @@ class profile::base::linux (
   if $time_class != '' {
     contain $time_class
     Class[$pre_class] -> Class[$time_class]
+  }
+
+  if $timezone_class != '' {
+    contain $timezone_class
+    Class[$pre_class] -> Class[$timezone_class]
   }
 
   if $sysctl_class != '' {

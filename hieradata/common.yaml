@@ -21,6 +21,7 @@
   profile::base::linux::monitor_class: '::profile::monitor'
   profile::base::linux::backup_class: ''
   profile::base::linux::time_class: '::profile::time::ntpdate'
+  profile::base::linux::timezone_class: '::profile::timezone'
   profile::base::linux::sysctl_class: ''
   profile::base::linux::dns_class: ''
   profile::base::linux::hardening_class: ''
@@ -31,6 +32,9 @@
 # Time settings
   profile::time::ntpdate::crontab: '0 0 * * *'
   profile::time::ntpdate::ntp_server: 'pool.ntp.org'
+
+# Timezone settings
+  profile::timezone::timezone: 'Europe/Berlin'
 
 # Sample monitor settings
 #  profile::monitor::nrpe_class: '::profile::monitor::nrpe'
