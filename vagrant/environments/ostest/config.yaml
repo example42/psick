@@ -37,18 +37,20 @@ nodes:
     box: alpine3
   - hostname_base: fedora23
     box: fedora23
+  - hostname_base: suse12
+    box: suse12
 
 
 boxes:
   centos7:
-    box: puppetlabs/centos-7.0-64-puppet
-    breed: puppetlabs
+    box: puppetlabs/centos-7.2-64-puppet
+    breed: puppetlabs-centos7
   centos7_puppet3:
     box: webhippie/centos-7
     breed: redhat7
   centos6:
     box: puppetlabs/centos-6.6-64-puppet
-    breed: puppetlabs-centos6
+    breed: puppetlabs
   ubuntu1604:
     box: puppetlabs/ubuntu-14.04-64-puppet
     breed: puppetlabs-apt
@@ -59,8 +61,8 @@ boxes:
     box: puppetlabs/ubuntu-12.04-64-puppet
     breed: puppetlabs-ubuntu1204
   debian8:
-    box: debian/jessie64
-    breed: debian8
+    box: puppetlabs/debian-8.2-64-puppet
+    breed: puppetlabs-apt
   debian7:
     box: puppetlabs/debian-7.8-64-puppet
     breed: puppetlabs-apt
@@ -73,4 +75,11 @@ boxes:
   fedora23:
     box: fedora/23-cloud-base
     breed: redhat7
-
+  suse12:
+    box: bheegu1/sles-12-sp1
+    breed: suse12
+# Image used for suse12 has issues. To setup correctly:
+# vagrant up suse12
+# vagrant provision suse12
+# vagrant reload suse12
+# vagrant provision suse12

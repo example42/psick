@@ -8,6 +8,12 @@ setup_puppetlabs() {
   echo "## Using an official Puppet vagrant box. Installation skipped."
 }
 
+setup_puppetlabs-centos7() {
+  echo "## Updating Puppet repo."
+  rpm -e puppetlabs-release-pc1
+  rpm -i https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rpm
+}
+
 setup_puppetlabs-apt() {
   echo "## Running apt-get update"
   apt-get update >/dev/null
@@ -16,13 +22,9 @@ setup_puppetlabs-apt() {
 }
 
 setup_puppetlabs-centos6() {
-#  echo "## Installing Ruby 1.9.3
-#  yum install -y centos-release-SCL
-#  yum install -y ruby193
-#  echo "source /opt/rh/ruby193/enable" | sudo tee -a /etc/profile.d/ruby193.sh
-
   echo "## Cleaning up existing ruby and puppet installations"
   yum erase -y ruby puppet
+  rpm -e puppetlabs-release-pc1
 
   echo "## Adding repo for Puppet 4"
   rpm -Uvh https://yum.puppetlabs.com/puppetlabs-release-pc1-el-6.noarch.rpm
