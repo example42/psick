@@ -16,7 +16,7 @@ class profile::users::static (
     create_resources('user',$users)
   }
   if $managed_users != {} {
-    create_resources('profile::users::managed',$managed_users)
+    create_resources('tools::user::managed',$managed_users)
   }
   if $delete_unmanaged {
     resources { 'user':

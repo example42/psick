@@ -12,20 +12,25 @@
 
 # Base profile settings
   profile::base::linux::pre_class: '::profile::repo::generic'
-  profile::base::linux::mail_class: ''
+#  profile::base::linux::network_class: '::profile::network' # Requires: example42-network
+  profile::base::linux::mail_class: '::profile::mail::postfix'
   profile::base::linux::puppet_class: '::puppet'
-  profile::base::linux::ssh_class: ''
-  profile::base::linux::network_class: '::profile::network'
+  profile::base::linux::ssh_class: '::profile::ssh::openssh'
   profile::base::linux::users_class: '::profile::users::static'
-#  profile::base::linux::sudo_class: '::profile::sudo::sudoers'
+  profile::base::linux::sudo_class: '::profile::sudo'
   profile::base::linux::monitor_class: '::profile::monitor'
+  profile::base::linux::firewall_class: ''
+  profile::base::linux::logs_class: '::profile::logs::rsyslog'
   profile::base::linux::backup_class: ''
   profile::base::linux::time_class: '::profile::time::ntpdate'
   profile::base::linux::timezone_class: '::profile::timezone'
-  profile::base::linux::sysctl_class: ''
-  profile::base::linux::dns_class: ''
+  profile::base::linux::sysctl_class: '::profile::sysctl'
+  profile::base::linux::dns_class: '::profile::dns::resolver'
   profile::base::linux::hardening_class: ''
-  profile::base::linux::hosts_class: '::profile::hosts::file'
+  profile::base::linux::limits_class: ''
+  profile::base::linux::hostname_class: '::profile::hostname'
+#  profile::base::linux::hosts_class: '::profile::hosts::file'
+  profile::base::linux::update_class: '::profile::update'
 
 # Repo settings
   profile::repo::generic::add_defaults: true
@@ -41,6 +46,7 @@
 #  profile::monitor::nrpe_class: '::profile::monitor::nrpe'
 #  profile::monitor::icinga_class: '::profile::monitor::icinga'
 #  profile::monitor::nagiosplugins_class: '::profile::monitor::nagiosplugins'
+  profile::monitor::systat_class: '::profile::monitor::sar'
 
 # Sample ansible settings
 #  ansible::install_class: tp
@@ -57,7 +63,10 @@
 #        comment: al@macante.local
 
 # Sample sudo settings
-# profile::sudo::sudoers::admins_group: admins
-# profile::sudo::sudoers::purge_dir: true
-# profile::sudo::sudoers::purge_files: true
+# profile::sudo::admins:
+#   - al
+# profile::sudo::sudoers_template: 'profile/sudo/sudoers.erb'
 
+# Sample sysctl settings
+  profile::sysctl::settings:
+    net.ipv4.conf.all.forwarding: 0

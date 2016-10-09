@@ -24,6 +24,7 @@ class profile::base::linux (
   String $limits_class      = '',
   String $hostname_class    = '',
   String $hosts_class       = '',
+  String $update_class      = '',
 
 ) {
 
@@ -120,4 +121,10 @@ class profile::base::linux (
     contain $hosts_class
     Class[$pre_class] -> Class[$hosts_class]
   }
+
+  if $update_class != '' {
+    contain $update_class
+    Class[$pre_class] -> Class[$update_class]
+  }
+
 }
