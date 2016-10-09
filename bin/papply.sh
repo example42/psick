@@ -33,8 +33,9 @@ puppet apply --verbose --report --show_diff --summarize \
 	--config_version="${config_version}" \
 	--detailed-exitcodes $manifest_option $extra_options $manifest
 
+result=$?
 # Puppet exit codes 0 and 2 both imply an error less run
-if [ "x$?" == "x0" ] || [ "x$?" == "x2" ]; then
+if [ "x$result" == "x0" ] || [ "x$result" == "x2" ]; then
   echo_success "Puppet run without errors"
   exit 0 
 else

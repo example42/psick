@@ -23,6 +23,7 @@ class profile::base::linux (
   String $hardening_class   = '',
   String $limits_class      = '',
   String $hostname_class    = '',
+  String $hosts_class       = '',
 
 ) {
 
@@ -115,4 +116,8 @@ class profile::base::linux (
     Class[$pre_class] -> Class[$hostname_class]
   }
 
+  if $hosts_class != '' {
+    contain $hosts_class
+    Class[$pre_class] -> Class[$hosts_class]
+  }
 }

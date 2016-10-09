@@ -64,6 +64,6 @@ class profile::base::solaris (
   if $timezone_class != '' {
     contain $timezone_class
     Class[$pre_class] -> Class[$timezone_class]
-  }  
+  }
 
 }

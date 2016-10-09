@@ -25,6 +25,7 @@
   profile::base::linux::sysctl_class: ''
   profile::base::linux::dns_class: ''
   profile::base::linux::hardening_class: ''
+  profile::base::linux::hosts_class: '::profile::hosts::file'
 
 # Repo settings
   profile::repo::generic::add_defaults: true
