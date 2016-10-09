@@ -1,3 +1,4 @@
+#
 class profile::monitor (
   String $icinga_class        = '',
   String $nagiosplugins_class = '',

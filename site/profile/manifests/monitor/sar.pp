@@ -10,7 +10,7 @@ class profile::monitor::sar (
     ensure => $ensure,
   }
   file { '/etc/cron.d/sysstat':
-    ensure => $ensure,
+    ensure  => $ensure,
     content => template($cron_template),
   }
 }
