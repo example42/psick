@@ -52,7 +52,7 @@ boxes:
     box: puppetlabs/centos-6.6-64-puppet
     breed: puppetlabs
   ubuntu1604:
-    box: puppetlabs/ubuntu-14.04-64-puppet
+    box: puppetlabs/ubuntu-16.04-64-puppet
     breed: puppetlabs-apt
   ubuntu1404:
     box: puppetlabs/ubuntu-14.04-64-puppet
