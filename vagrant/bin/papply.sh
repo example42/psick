@@ -29,7 +29,8 @@ puppet apply --test --report --summarize \
 	--hiera_config "${base_dir}/hiera.yaml" \
 	--detailed-exitcodes $manifest_option $manifest
 
-if [ "x$?" == "x0" ] || [ "x$?" == "x1" ]; then
+result=$?
+if [ "x$result" == "x0" ] || [ "x$result" == "x1" ]; then
   exit 0
 else
   exit 1
