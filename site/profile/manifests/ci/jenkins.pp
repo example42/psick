@@ -1,9 +1,12 @@
 #
 class profile::ci::jenkins (
-  String                $ensure   = 'present',
+  String                $ensure      = 'present',
 
-  Variant[Undef,String] $template = undef,
-  Hash                  $options  = { },
+  Variant[Undef,String] $template    = undef,
+  Hash                  $options     = { },
+
+  Boolean               $manage_user = false,
+  Hash                  $user_hash   = { },
 ) {
 
   include ::profile::java
@@ -22,4 +25,11 @@ class profile::ci::jenkins (
       options_hash => $jenkins_options,
     }
   }
+
+  if $manage_user {
+    user { 'jenkins':
+      * => $user_hash,
+    }
+  }
+
 }

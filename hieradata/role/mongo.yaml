@@ -1,0 +1,30 @@
+---
+  profiles:
+    - '::profile::mongo'
+
+  mongodb::enable_10gen: true
+  mongodb::globals::manage_package_repo: true
+  profile::mongo::mongo_class: '::profile::mongo::tp'
+
+# Sample settings for replica 
+#  profile::mongo::replset: 'test'
+#  profile::mongo::replset_arbiter: 'mongo-01.test'
+#  profile::mongo::hostnames:
+#   'mongo-01.test':
+#     ip: '10.10.31.210'
+#   'mongo-02.test':
+#     ip: '10.10.32.164'
+#   'mongo-03.test':
+#     ip: '10.10.31.77'
+#  profile::mongo::replset_members:
+#    - 'mongo-01.test:27017'
+#    - 'mongo-02.test:27017'
+#    - 'mongo-03.test:27017'
+
+# Sample settings for custom databases  
+#  profile::mongo::databases:
+#    'test':
+#      password:'testpw'
+
+# Sample setting for mongo.key
+# profile::mongo::key: hXFFY1xNxYF2lrDv6Py0RIqmkfPqAUfkg/9Gpuq848TWpLafI1JPfPaT0aJ1auW4enrbINFc2PZgKorPR4r4LWBvf1Mbzj2StRujbGuy3MtNivxKcpJWfReglOpo+g6nsd5bzZMJ141atnJYX9S5MIRxqvikHItebpRYljBVNrNA2drbRx64cY3jtiUstSC2gszUO+Ftwd/8WznbNEjfMToQK5syhwnnsqBwaYJwP/WvEUYM6vBsm33xkxAZyRnGUAG3WUz479SP+kLRZ+YvNUgfxCJ+fMYuHB4zhbxEIhhpTecbApgbZGWv0pq3Lh//hPB6g+wacqJGq8h1uTCo/ih6V1wuR9XwydPO5C5I+LG1DQwg/UgiUGQlJQju90/
