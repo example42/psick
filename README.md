@@ -20,8 +20,6 @@ Official Support forum: [Google Groups](https://groups.google.com/forum/#!forum/
 
 ## Installation
 
-### Control-repo setup from GitHub:
-
 Download this repository:
 
     git clone https://github.com/example42/control-repo
@@ -35,23 +33,31 @@ If you have Fabric installed local you can use Fabric for initial setup (and man
 
     fab puppet.setup
     
-### Single example42 Puppet modules
+## Documentation
 
-Use the Forge to install single example42 modules (be aware of the deprecated or old (2.x) ones):
+The control-repo is full of more or less hidden stuff, which ease a lot Puppet code development, testing and deployment.
 
-    puppet module search example42
+For more information on specific topics:
 
-or cherry pick them from [GitHub](https://github.com/example42).
+  - [Development Workflow](docs/workflow.md) - An introduction of possible commands and workflows for Puppet code management
 
-### Old versions installation
+  - [Vagrant Integration](docs/vagrant.md) - How to use Vagrant to test the control-repo while deployment
 
-You can retrieve the old lists of Example42 modules from other versions with:
+  - [Docker Integration](docs/docker.md) - How to use Docker to test Puppet code and to build images based on the existing Puppet code
 
-    git clone --recursive -b 1.0 git://github.com/example42/control-repo.git
-    git clone --recursive -b 2.0 git://github.com/example42/control-repo.git
-    git clone --recursive -b 3.0 git://github.com/example42/control-repo.git
+  - [AWS Integration](docs/aws.md) - How to use Puppet to query and configure AWS resources from the control-repo
 
-Note that earlier versions are based on git modules and have not a control-repo structure.
+  - [Noop Mode](docs/noop_mode.md) - An overview on how to enforce noop mode server side with this repo
+
+  - [Trusted Facts](docs/trusted_facts.md) - How to set and use trusted facts in this control-repo
+
+  - [Hiera eyaml](docs/hiera_eyaml.md) - An overview on how to use hiera-eyaml
+
+  - [Git tasks](docs/git.md) - A review of Git tasks available with Fabric
+
+  - [Puppet tasks](docs/puppet.md) - A review of Puppet tasks available with Fabric
+
+  - [example42 history](docs/example42.md) - A summary of the evolution of example42 modules
 
 
 ## Common tasks via Fabric
@@ -65,93 +71,6 @@ Show available Fabric tasks (note: some will be run locally, some on the hosts s
 Run a Fabric task (better to do this from the main repo directory):
 
     fab <task>[:host=<hostname>][,option=value]
-
-### Puppet tasks
-
-Run puppet agent in noop mode on all the known hosts:
-
-    fab puppet.agent_noop
-
-Run puppet agent in a specific node:
-
-    fab puppet.agent:host=web01.example.test
-
-Show the current version of deployed Puppet code on all  nodes:
-
-    fab puppet.current_config
-
-Generate a new module based on the format of the ```skeleton``` directory.
-
-    fab puppet.module_generate
-
-### Docker tasks
-
-The control repo provides various ways to use, configure and work with Docker.
-
-To build the images for testing this control-repo on Docker using different OS.
-Note: image building is based on the data in ```hieradata/role/docker_multios_build.yaml``` edit ```docker::profile::builder``` keys to customise what you want to build:
-
-    fab docker.multios_build
-
-Test a specific role on specific OS Docker images via Puppet.
-Available images are: (ubuntu-12.04, ubuntu-14.04, ubuntu-14.06, centos-7, debian-7, debian-8, alpine-3.3).
-Note that by default they are downloaded from [https://hub.docker.com/r/example42/puppet-agent/tags/](https://hub.docker.com/r/example42/puppet-agent/tags/).
-If you change the parameter ```docker::username``` (Here is example42 by default) you will have first to build (with ```fab docker.multios_build```) puppet-agent images and, eventually, push them to the registry.
-
-    fab docker.provision:log,ubuntu-14.04
-    fab docker.provision:puppetrole=log,image=ubuntu-14.04 # This has the same effect
-
-
-### Vagrant tasks
-
-This contro-repo contains different Vagrant environments for different purposes.
-
-You can work with then directly issuing ```vagrant``` commands in ```vagrant/environments/<env_name>``` or via Fabric from the main repo dir.
-
-Run vagrant status on all the available Vagrant environments
-
-    fab vagrant.all_status
-
-Run vagrant provision on all the running vm of a Vagrant environment:
-
-    fab vagrant.provision:env=puppetinfra
-
-Run vagrant up on the given vm:
-
-    fab vagrant.up:vm=dev-local-docker-build-01
-
-
-### AWS tasks
-
-Some basic taskes are available to work on AWS. To install locally AWS cli and other tools used in the control-repo, and then configure the AWS credentials:
-
-    fab aws.setup
-
-To show the status of AWS resources, mapped by puppet resources on all or a specified region:
-
-    fab aws.status             # Cycle on all regions
-    fab aws.status:eu-west-1   # Show the specified region's resources
-
-To run Puppet apply locally and setup AWS resources using the role 'aws' (configured in ```hieradata/role/aws.yaml``` (WARNING: AWS costs may incur here)
-
-    fab aws.apply
-
-
-### Git tasks
-
-Install useful git hooks for Puppet files checking. By default downloaded from (https://github.com/drwahl/puppet-git-hooks)[https://github.com/drwahl/puppet-git-hooks]:
-
-    fab git.install_hooks
-
-It's possible to specify the git repo url to use (hooks are looked for in the ```commit_hooks``` directory):
-
-    fab git.install_hooks:url=https://github.com/my/puppet-git-hooks
-
-Note that existing git hooks are not overwritten by this task.
-
-To quickly check the git status of the main control-repo and of the other eventual modules, run:
-
-    fab git.status
 
 
 ## Dependencies
@@ -194,29 +113,6 @@ Docker operations via Fabric or using the command line require Docker to be loca
 If you use Mac or Windows you need the newer native client, things won't work when using Docker running inside a Virtualbox VM.
 
 You'll need to run ```docker login``` before trying any operation that involves pushing your images to Docker registry.
-
-
-## Example42 modules evolution
-
-There are currently 4 generations of example42 modules:
-
-* "OLD" modules (Version 1.x) are no more supported or recommended.
-  They are supposed to work also on Puppet versions 0.x.
-  You can give them a look using the 1.0 branch of this repo.
-
-* "NextGen" modules (Version 2.x) were made before the release of Puppet 3.
-  They are compatible with Puppet version 2.6 , 3 and, for most, 4.
-  They were linked as git submodules.
-
-* "StdMod" modules (Version 3.x) were supposed to be the next evolution of Example42 modules.
-  They adhere to StdMod naming standards and be compatible with Puppet > 2.7 or 3.x
-  This is an half baked generation, which was abandoned for other projects.
-
-* Version 4.x modules. Most of the old pre-Puppet 4 modules have been deprecated and not maintained anymore.
-  They are Puppet 4 only compliant.
-  The structure of the repo has changed radically, all the git submodules have been removed and a
-  control-repo style has been introduced.
-  With the release of 4.x this repo has been renamed: from **puppet-modules** to **control-repo**.
 
 
 ## Using and understanding this control-repo
