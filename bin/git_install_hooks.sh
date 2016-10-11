@@ -22,5 +22,7 @@ echo
 echo_subtitle "Installed hooks from ${hooks_repo} to ${main_dir}/.git/hooks"
 echo
 echo "They will be used on git operations. Mostly in the pre-commit phase"
-echo_subtitle "Configure the tests to run hooks by editing ${main_dir}/.git/hooks/config.cfg"
+
+echo_title "Configure the tests to run hooks by editing ${main_dir}/.git/hooks/commit_hooks/config.cfg"
+echo "You may prefer to set CHECK_PUPPET_LINT='permissive' to avoid commit block on Puppet lint errors"
 
