@@ -20,7 +20,7 @@ To install the minimum prequequisites (hiera-eyaml, deep_merge, r10k gems) and p
 
     bin/puppet_setup.sh
 
-If you lso want to install the recommended (Fabric, Vagrant, Docker) prerequisites, run:
+If you also want to install the recommended (Fabric, Vagrant, Docker) tools that can be used with the repo, run:
 
     bin/setup.sh
 
