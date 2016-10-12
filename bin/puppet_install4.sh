@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
-breed=$1
+
+if $1;
+  breed=$1
+else
+  distro = findos distro
+  version = findos version
+  breed="$distro$version"
+fi
 
 SETCOLOR_NORMAL=$(tput sgr0)
 SETCOLOR_TITLE=$(tput setaf 6)
@@ -11,6 +18,10 @@ echo_title () {
 }
 
 echo_title "Checking Puppet installation"
+
+findos(what=distro) {
+
+}
 
 setup_amazon() {
   echo_title "Cleaning up existing ruby and puppet installations"

@@ -1,21 +1,12 @@
 # example42 Puppet control-repo
 
-A state of the art, feature rich, Puppet 4 control-repo where you can:
+A state of the art, feature rich, Puppet 4 control-repo. Use it to:
 
-  - Explore the layout of a modern, general purpose, control-repo 
+  - Explore the layout of a modern, opinionated, general purpose, control-repo
   - Create and use Puppet 4 optimised modules with updated design patterns
   - Test your code in the Docker and Vagrant environments
-  - Fork a clone as starting point for your Puppet infrastructure
-
-Released under the terms of Apache2 licence.
-
-Copyright example42 GmbH (and specific commits authors)
-
-Code: [https://github.com/example42/control-repo](https://github.com/example42/control-repo)
-
-Official website: [http://www.example42.com](http://www.example42.com)
-
-Official Support forum: [Google Groups](https://groups.google.com/forum/#!forum/example42-puppet-modules)
+  - Fork and use as starting point for your Puppet infrastructure
+  - Manage the deployment workflow of your Puppet code
 
 
 ## Installation
@@ -25,14 +16,28 @@ Download this repository:
     git clone https://github.com/example42/control-repo
     cd control-repo
 
-To setup or verify the presence of the needed prerequisites just execute the script:
+To install the minimum prequequisites (hiera-eyaml, deep_merge, r10k gems) and populate the external modules directory via r10k, just run: 
 
     bin/puppet_setup.sh
 
-If you have Fabric installed local you can use Fabric for initial setup (and many other operations):
+If you lso want to install the recommended (Fabric, Vagrant, Docker) prerequisites, run:
 
-    fab puppet.setup
-    
+    bin/setup.sh
+
+You will be asked to confirm or skip each component installation.
+
+NOTE: setup.sh currently does not fully work on Mac and Windows.
+
+For unattended setups (typically in CI pipelines) you can skip confirmation requests with:
+
+    bin/setup.sh auto
+
+
+The setup script installs Fabric, which can be used for several tasks related to control-repo workflow management. To show the available tasks:
+
+    fab -l
+
+
 ## Documentation
 
 The control-repo is full of more or less hidden stuff, which ease a lot Puppet code development, testing and deployment.
@@ -87,16 +92,10 @@ Some modules (the ones, of generation 2.x, which use the ```params_lookup``` fun
 
 ### Control repo
 
-The modules used (and some example42 other)  in this control repo are defined in the ```Puppetfile``` and can be installed manually via git, from the Forge or via r10k.
+To be able to use the control-repo with Puppet some gems are needed and defined in the ```Puppetfile``` have to be deployed.
 
-To install r10k:
+The hiera-eyaml, r10k and deep_merge gems can be installed by the setup script which also runs r10k to populate the modules directory.
 
-    gem install r10k
-
-To install Fabric you can use the local package providers or pip (you might need to install also the ecdsa package):
-
-    pip install fabric
-    pip install ecdsa
 
 ### Vagrant
 
@@ -106,6 +105,8 @@ For a correct setup of the Vagrant environment you need some extra plugins:
     vagrant plugin install vagrant-vbguest
     vagrant plugin install vagrant-hostmanager
 
+These plugins, as Vagrant itself, can be installed by the setup script.
+
 ### Docker
 
 Docker operations via Fabric or using the command line require Docker to be locally installed.
@@ -114,6 +115,7 @@ If you use Mac or Windows you need the newer native client, things won't work wh
 
 You'll need to run ```docker login``` before trying any operation that involves pushing your images to Docker registry.
 
+Also Docker can be installed by the setup script.
 
 ## Using and understanding this control-repo
 

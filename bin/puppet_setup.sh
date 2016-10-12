@@ -4,11 +4,12 @@ script_dir="$(dirname $0)"
 # repo_dir=$(git rev-parse --show-toplevel)
 . "${script_dir}/functions"
 
-if [ "$1" = "unattended" ]; then
-  echo_subtitle "Unattended mode"
-else 
-  ask_interactive "We are going to install the deep_merge, hiera-eyaml and r10k gems and, via r10k, the modules listed in Puppetfile under the modules directory."
+if [ "$1" = "auto" ]; then
+  auto=true
 fi
+
+[ "$auto" = "true" ] || ask_interactive "Going to install the needed gems and, via r10k, the modules listed in Puppetfile."
+[ "$?" = 0 ] || exit 1
 
 echo_title "Installing gems"
 puppet resource package rubygems ensure=present
@@ -37,6 +38,6 @@ echo
 progs="puppet vagrant docker fab"
 for prog in $progs; do
   echo_subtitle "Checking ${prog} availability"
-  which $prog || echo "${prog} not found. Installation is recommended."
+  which $prog || echo_failure "${prog} not found. Installation is recommended."
   echo
 done

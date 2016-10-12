@@ -33,15 +33,13 @@ echo_subtitle () {
 }
 
 ask_interactive () {
-    if [ "$unattended" != "yes" ] ; then
         echo "${SETCOLOR_ASK}${1}${SETCOLOR_NORMAL}"
-        echo "Press 'x' to exit or just return to go on"
+        echo "Press 'x' to skip or just return to go on"
         read press
         case $press in 
-            x) exit 2 ;;
+            x) return 2 ;;
             *) return
         esac
-    fi
 }
 
 # Shows or executes a command

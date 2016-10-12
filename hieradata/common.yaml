@@ -70,3 +70,7 @@
 # Sample sysctl settings
   profile::sysctl::settings:
     net.ipv4.conf.all.forwarding: 0
+
+# AWS region
+  profile::aws::region: eu-central-1
+

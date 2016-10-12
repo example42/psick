@@ -18,9 +18,18 @@ To use all the available features you should have locally installed:
 
 ### Setup of the control-repo
 
-You can follow 2 alternative approaches on how to setup a control repo to customise for your own use, based on example42's one: fork or start from scratch.
+You can follow alternative approaches on how to play or work with this control repo, eventuallt with the intention to customise it for your own use.
+
+#### Just playing around
+
+The quickest way to start to play around:
+
+    git clone https://github.com/example42/control-repo
+    cd control-repo
+    bin/setup.sh
 
 #### Forking example42's control repo
+
 You can [fork](https://help.github.com/articles/fork-a-repo/) example42 [control-repo](https://github.com/example42/control-repo) on GitHub and then work on your fork as origin and add example42 repo as upstream, in order to ease (always welcomed) Pull Requests for issues of features:
 
     git clone https://github.com/<yourname>/control-repo
@@ -28,6 +37,7 @@ You can [fork](https://help.github.com/articles/fork-a-repo/) example42 [control
     git remote add upstream https://github.com/example42/control-repo
 
 #### Starting from scratch
+
 If you want to start a git repo from scratch, wiping out the history (and the ability to easily merge back) of example42 control-repo, you can:
 
     git clone https://github.com/example42/control-repo
