@@ -25,6 +25,12 @@ if [ -x /opt/puppetlabs/puppet/bin/gem ]; then
   /opt/puppetlabs/puppet/bin/gem install hiera-eyaml
   /opt/puppetlabs/puppet/bin/gem install r10k
 fi
+if [ -x /opt/puppetlabs/server/apps/puppetserver/cli/apps/gem ]; then
+  echo_subtitle "Installing with /opt/puppetlabs/server/apps/puppetserver/cli/apps/gem"
+  /opt/puppetlabs/server/apps/puppetserver/cli/apps/gem install deep_merge
+  /opt/puppetlabs/server/apps/puppetserver/cli/apps/gem install hiera-eyaml
+  /opt/puppetlabs/server/apps/puppetserver/cli/apps/gem install r10k
+fi
 
 echo_title "Installing rsync"
 puppet resource package rsync ensure=present

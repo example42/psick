@@ -33,11 +33,6 @@ For unattended setups (typically in CI pipelines) you can skip confirmation requ
     bin/setup.sh auto
 
 
-The setup script installs Fabric, which can be used for several tasks related to control-repo workflow management. To show the available tasks:
-
-    fab -l
-
-
 ## Documentation
 
 The control-repo is full of more or less hidden stuff, which ease a lot Puppet code development, testing and deployment.
@@ -67,7 +62,9 @@ For more information on specific topics:
 
 ## Common tasks via Fabric
 
-Many useful and common activities related to Puppet code development, testing and deployment can be fulfilled using Fabric. Many Fabric tasks use shell commands and scripts you can invoke directly, if preferred.
+Many useful and common activities related to Puppet code development, testing and deployment can be fulfilled using Fabric.
+
+Many Fabric tasks use scripts in the ```bin/``` directory. You can invoke them directly, if preferred.
 
 Show available Fabric tasks (note: some will be run locally, some on the hosts specified via -H):
 
@@ -92,14 +89,33 @@ Some modules (the ones, of generation 2.x, which use the ```params_lookup``` fun
 
 ### Control repo
 
-To be able to use the control-repo with Puppet some gems are needed and defined in the ```Puppetfile``` have to be deployed.
+To be able to use the control-repo with Puppet some gems are needed and modules defined in the ```Puppetfile``` have to be deployed.
 
-The hiera-eyaml, r10k and deep_merge gems can be installed by the setup script which also runs r10k to populate the modules directory.
+The hiera-eyaml, r10k and deep_merge gems can be installed by the setup script or manually with commands like:
+
+    # Gem installation in system
+    gem install hiera-eyaml
+    gem install r10k
+    gem install deep_merge
+
+    # Gem installation in Puppet environment
+    /opt/puppetlabs/puppet/bin/gem install hiera-eyaml
+    /opt/puppetlabs/puppet/bin/gem install r10k
+    /opt/puppetlabs/puppet/bin/gem install deep_merge
+
+    # Gem installation in Puppet server environment (if present)
+    /opt/puppetlabs/server/apps/puppetserver/cli/apps/gem install hiera-eyaml
+    /opt/puppetlabs/server/apps/puppetserver/cli/apps/gem install r10k
+    /opt/puppetlabs/server/apps/puppetserver/cli/apps/gem install deep_merge
+
+Population of the ```modules``` directory via r10k based on ```Puppetfile```:
+
+    r10k puppetfile install -v
 
 
 ### Vagrant
 
-For a correct setup of the Vagrant environment you need some extra plugins:
+For a correct setup of the Vagrant environment you need Vagrant, VirtualBox and some extra plugins:
 
     vagrant plugin install vagrant-cachier
     vagrant plugin install vagrant-vbguest
@@ -109,13 +125,14 @@ These plugins, as Vagrant itself, can be installed by the setup script.
 
 ### Docker
 
-Docker operations via Fabric or using the command line require Docker to be locally installed.
+Docker operations via Fabric or the command line require Docker to be locally installed.
 
 If you use Mac or Windows you need the newer native client, things won't work when using Docker running inside a Virtualbox VM.
 
 You'll need to run ```docker login``` before trying any operation that involves pushing your images to Docker registry.
 
 Also Docker can be installed by the setup script.
+
 
 ## Using and understanding this control-repo
 
@@ -128,6 +145,8 @@ It's based on a nodeless classification, driven by 3 top scope variables:
   - ```$::zone``` - Defines the datacenter or region or segment of an infrastructure (optional)
 
 These variables are used in the Hiera's hierarchy (check ```hiera.yaml```) and should be enough to classify univocally any node in a averagely complex infrastructure. Here they are set as external facts (you'll need to set them when provisioning your nodes, as it's done in the Vagrant environment).
+
+Such an approach can be easily adaptaed to any other logic and environment, for example, you can use an External Node Classifier (ENC) like Puppet Enterprise or The Foreman and manage there how your nodes are classified.
 
 The manifests file, ```manifests/site.pp``` sets some resource defaults, includes a baseline profile according to the underlying OS and uses hiera to define what profiles have to be included in each role (a more traditional alternative, based on role classes, is possible).
 
