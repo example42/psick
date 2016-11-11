@@ -2,20 +2,99 @@
 
 The control repo provides various ways to use, configure and work with Docker.
 
-They are available via fanric commands.
+They are available via Fabric or shell commands, we are going to show them both.
 
-To build the images for testing this control-repo on Docker using different OS.
-Note: image building is based on the data in ```hieradata/role/docker_multios_build.yaml``` edit ```docker::profile::builder``` keys to customise what you want to build:
+### Docker for testing (WIP)
 
-    fab docker.multios_build
+You can try to test a Puppet run for a role in a Docker container.
 
-Test a specific role on specific OS Docker images via Puppet.
-Available images are: (ubuntu-12.04, ubuntu-14.04, ubuntu-14.06, centos-7, debian-7, debian-8, alpine-3.3).
-Note that by default they are downloaded from [https://hub.docker.com/r/example42/puppet-agent/tags/](https://hub.docker.com/r/example42/puppet-agent/tags/).
-If you change the parameter ```docker::username``` (Here is example42 by default) you will have first to build (with ```fab docker.multios_build```) puppet-agent images and, eventually, push them to the registry.
+To run Puppet for the default docker_test_role on the default image (centos-7):
 
-    fab docker.provision:log,ubuntu-14.04
-    fab docker.provision:puppetrole=log,image=ubuntu-14.04 # This has the same effect
+    fab docker.test_role
+    bin/docker_test_role.sh 
+
+To test another role (define the profiles to use and the relevant data in ```hieradata/role/$role.yaml```
+
+    fab docker.test_role:ansible
+    bin/docker_test_role.sh ansible
+
+It's also possible to select the underlying OS to use in the base image:
+
+Available images are: ubuntu-12.04, ubuntu-14.04, ubuntu-16.04, centos-7, debian-7, debian-8, alpine-3.3.
+
+    fab docker.test_role:myrole,debian-8
+    bin/docker_test_role.sh myrole debian-8
+
+
+Note that the base images used for the different OS are by default downloaded from [https://hub.docker.com/r/example42/puppet-agent/tags/](https://hub.docker.com/r/example42/puppet-agent/tags/).
+
+It's possible to use custom ones by:
+ 
+ - Setting on Hiera in the role yaml files the parameter ```docker::username``` (example42 by default)
+
+ - Build custom (with ```fab docker.tp_build_role:puppet-agent```) puppet-agent images
+
+ - Push them to your registry for use outside your local machine
+
+
+### Building Docker images
+
+In this control repo various ways to use Puppet to build Docker images are explored.
+
+They follow different approaches and have their own limitations. Work is progress here.
+
+#### Using tp build (WIP)
+
+Dockerize a role entirely based on tp defines for one or multiple OS Docker images.
+
+In this approach, Puppet is executed on your local machine.
+
+    fab docker.tp_build_role:webserver
+    bin/docker_tp_build_role.sh webserver
+
+The default commands:
+
+    fab docker.tp_build_role:webserver
+    bin/docker_tp_build_role.sh webserver
+
+#### Using tp::rocker (WIP)
+
+To build an image with Rocker, without leaving traces of Puppet inside the image, you can run the following command.
+
+Data used for the image is in hieradata/role/$puppetrole.yaml
+
+    docker.rocker_build_role
+
+#### Using image_clone (TODO)
+
+
+
+### General maintenance
+
+A few other commands are available for general Docker maintenance.
+
+
+#### Docker status
+
+To show general Docker information (version, containers and images):
+
+    fab docker.status
+    bin/docker_status.sh
+
+#### Docker files cleanup 
+
+To remove all local images and containers (WARNING: have no important data there).
+
+By default a confirmation prompt appears:
+
+    fab docker.purge
+    bin/docker_purge.sh
+
+To run in unattended mode (useful for cleanups in CI pipelines):
+
+    fab docker.purge:auto
+    bin/docker_purge.sh auto
+
 
 ### Docker prerequisites
 
@@ -24,6 +103,4 @@ Docker operations via Fabric or using the command line require Docker to be loca
 If you use Mac or Windows you need the newer native client, things won't work when using Docker running inside a Virtualbox VM.
 
 You'll need to run ```docker login``` before trying any operation that involves pushing your images to Docker registry.
-
-
  

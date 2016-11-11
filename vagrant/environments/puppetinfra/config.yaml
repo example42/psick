@@ -30,7 +30,7 @@ nodes:
     count: 1
   - role: aws
     count: 1
-  - role: docker_build
+  - role: docker_tp_build
     hostname_base: docker-build
     count: 1
     box: ubuntu1404

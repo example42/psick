@@ -1,9 +1,5 @@
 # Configurations here are done setting Puppet facts via environment variables:
 
-# Setting role=docker_builder to use settings in
-# puppet-modules/hieradata/role/docker_multios_build.yaml
-export FACTER_role='docker_multios_build'
-
 # Working directory (where dockerfiles are generated)
 export FACTER_docker_workdir="$(pwd)/dockerfiles"
 

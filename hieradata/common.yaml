@@ -4,7 +4,7 @@
 
 # Default tp behaviour
   tp::test_enable: true
-  tp::puppi_enable: false
+  tp::puppi_enable: true
   tp::debug: false
 
 # Default module to use for tp data:

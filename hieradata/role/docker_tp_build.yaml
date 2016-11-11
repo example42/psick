@@ -6,6 +6,7 @@ profiles:
   - '::docker::profile::build_examples'
 
 docker::username: example42
+docker::install_class: '' # To allow operations from Mac. Docker has to be installed.
 docker::profile::run_examples::ensure: absent
 docker::profile::builder::maintainer: 'Example42 GmbH <info@example42.com>'
 docker::profile::builder::images:

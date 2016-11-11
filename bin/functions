@@ -42,6 +42,16 @@ ask_interactive () {
         esac
 }
 
+ask_warning () {
+        echo "${SETCOLOR_WARNING}${1}${SETCOLOR_NORMAL}"
+        echo "Press 'y' to continue or anything else to skip."
+        read press
+        case $press in 
+            y) return ;;
+            *) return 2
+        esac
+}
+
 # Shows or executes a command
 show_command () {
    echo

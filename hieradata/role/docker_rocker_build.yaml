@@ -21,7 +21,7 @@ docker::profile::builder::images:
         mode: '0755'
         group: 'wheel'      
 
-docker::profile::rocker_bilder::maintainer: 'Example42 GmbH <info@example42.com>'
+docker::profile::rocker_builder::maintainer: 'Example42 GmbH <info@example42.com>'
 docker::profile::rocker_builder::workdir: '/var/tmp/rockerfiles'
 docker::profile::rocker_builder::always_build: true
 docker::profile::rocker_builder::push: false
