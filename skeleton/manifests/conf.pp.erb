@@ -1,14 +1,14 @@
 # define <%= metadata.name %>::dotconf
 #
 define <%= metadata.name %>::conf (
-  String                  $ensure   = '',
+  String             $ensure   = '',
 
-  Variant[Undef,String]   $source   = undef,
-  Variant[Undef,String]   $template = undef,
-  Variant[Undef,String]   $epp      = undef,
-  Variant[Undef,String]   $content  = undef,
+  Optional[String]   $source   = undef,
+  Optional[String]   $template = undef,
+  Optional[String]   $epp      = undef,
+  Optional[String]   $content  = undef,
 
-  Hash                    $options  = { },
+  Hash               $options  = { },
 ) {
 
   include ::<%= metadata.name %>
