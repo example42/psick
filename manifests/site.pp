@@ -46,6 +46,12 @@ Tp::Dir {
   data_module  => hiera('tp::data_module', 'tinydata'),
 }
 
+# Building Docker container support
+# This has a fix for service provider on docker
+if $virtual == 'docker' {
+  include dummy_service
+}
+
 # A useful trick to manage noop mode via hiera using the key: noop_mode
 # This needs the trlinklin-noop module
 $noop_mode = hiera('noop_mode', false)
