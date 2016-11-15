@@ -1,12 +1,21 @@
+# External modules to installed by r10k in modules/ dir
+# Here mostly at latest version for sample purposes.
+# In working environments specific versions should be defined.
+
+
 # Example42 extra modules
+
+# GitHub source is updated from frequently than on the Forge.
+#mod'example42/tp',
+#  :git => 'https://github.com/example42/puppet-tp'
+#mod'example42/tinydata',
+#  :git => 'https://github.com/example42/tinydata'
+
+mod "example42/tp", :latest
+mod "example42/tinydata", :latest
 mod "example42/puppi", :latest
-
-mod'example42/tp',
-  :git => 'https://github.com/example42/puppet-tp'
-mod'example42/tinydata',
-  :git => 'https://github.com/example42/tinydata'
-
-# Example42 v4.x modules
+ 
+# Example42 v4.x modules (Used in various profiles)
 mod'example42/docker',
   :git => 'https://github.com/example42/puppet-docker'
 mod'example42/apache',
@@ -34,6 +43,7 @@ mod "trlinkin/noop", :latest
 mod "puppetlabs/catalog_preview", :latest
 mod "puppet/archive", :latest
 mod "puppetlabs/dummy_service", :latest
+mod "puppetlabs/image_clone", :latest
 
 # Used by profile::firewall::simple_nat
 # mod "example42/sysctl", :latest
