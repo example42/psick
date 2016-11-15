@@ -85,3 +85,9 @@ def install(os=''):
 def module_generate(module=''):
   """[local] Generate a Puppet module based on skeleton"""
   local( main_dir + "/bin/puppet_module_generate.sh " + str(module) )
+
+@task
+def module_publish(module):
+  """[local] Publish on GitHub and the Forge the local version of a module"""
+  local( main_dir + "/bin/puppet_module_publish.sh -m " + str(module) )
+

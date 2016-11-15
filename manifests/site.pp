@@ -19,10 +19,21 @@ if $trusted['extensions']['pp_datacenter'] {
 }
 
 # Some resource defaults for Files, Execs and Tiny Puppet
-File {
-  owner => 'root',
-  group => 'root',
-  mode  => '0644',
+case $::kernel {
+  'Darwin': {
+    File {
+      owner => 'root',
+      group => 'wheel',
+      mode  => '0644',
+    }
+  }
+  default: {
+    File {
+      owner => 'root',
+      group => 'root',
+      mode  => '0644',
+    }
+  }
 }
 Exec {
   path => '/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin',
@@ -49,7 +60,7 @@ Tp::Dir {
 # Building Docker container support
 # This has a fix for service provider on docker
 if $virtual == 'docker' {
-  include dummy_service
+  include ::dummy_service
 }
 
 # A useful trick to manage noop mode via hiera using the key: noop_mode
