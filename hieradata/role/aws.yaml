@@ -1,3 +1,7 @@
+# This role example is for a node where aws tools are
+# installed and used to provision via Puppet AWS setup,
+# based on ::profile::aws
+
 ---
   profiles:
     - '::profile::aws'

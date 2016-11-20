@@ -1,9 +1,10 @@
+# Sample role data used in Vagrant ostest environment.
+# Useful for testing a set of profiles on different OS
+
 ---
 profiles:
-        #  - '::rails'
   - '::profile::git'
-  - '::profile::webserver::nginx'
+  - '::profile::ostest'
 
-rails::deploy_class: '::rails::deploy::tpweb'
-rails::install_class: '::rails::install::rbenv'
-rails::deploy::tpweb::auto_prerequisites: false
+# Skip base profile classes
+profile::base::linux::enable: false

@@ -47,7 +47,11 @@ They follow different approaches and have their own limitations. Work is progres
 
 Dockerize a role entirely based on tp defines for one or multiple OS Docker images.
 
-In this approach, Puppet is executed on your local machine.
+In this approach, Puppet is executed on your local machine, you might need root privileges to set file permissions.
+
+    fab docker.tp_build_role
+
+The above command uses the data in hieradata/role/docker_tp_build.yaml
 
     fab docker.tp_build_role:webserver
     bin/docker_tp_build_role.sh webserver
