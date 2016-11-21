@@ -1,7 +1,7 @@
 class profile::python::fabric (
   $ensure = 'present',
 ) {
-  package { 'fabric':
+  tp::install { 'fabric':
     ensure => $ensure,
   }
 }

@@ -7,10 +7,10 @@ class profile::time::ntpdate (
   String $ntp_server = 'pool.ntp.org',
 ) {
 
-  ensure_packages('ntpdate')
+  tp::install('ntpdate')
 
   exec { "ntpdate -s ${ntp_server}":
-    subscribe   => Package['ntpdate'],
+    subscribe   => Tp::Install['ntpdate'],
     refreshonly => true,
   }
   if $crontab != '' {

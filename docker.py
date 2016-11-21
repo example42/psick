@@ -25,6 +25,11 @@ def tp_build_role(puppetrole='docker_tp_build', image='centos7'):
 
 # Maintenance
 @task
+def setup():
+  """[local] Install locally Docker (needs su privileges)"""
+  local( main_dir + "/bin/docker_setup.sh" )
+
+@task
 def status():
   """[local] Show Docker status info"""
   local( 'cd ' + main_dir + '/bin ; ./docker_status.sh ' )
