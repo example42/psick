@@ -23,7 +23,7 @@ You can use normal vagrant commands by moving in the relevant environment (where
 
 Here you can see a multi VM ```Vagrantfile``` and its ```config.yaml``` file.
 
-This configuration file provides a quite flexible way to customise the nodes you want to see with your ```vagrant status``` (<boast_mode>Only this feature would deserve a dedicated Project</boast_mode>. Read below for more details on how to customise it.
+This configuration file provides a quite flexible way to customise the nodes you want to see with your ```vagrant status``` (*Only this feature would deserve a dedicated Project*). Read below for more details on how to customise it.
 
 Basic vagrant commands (here used a sample VM called dev-local-puppet-01):
 
@@ -149,7 +149,7 @@ Finally it's possible to define the Vagrant boxes to use for the different VMs:
     boxes:
       centos7:                                # Box name as referenced under ```vm``` or ```nodes```
         box: puppetlabs/centos-7.2-64-puppet  # Name of Vagrant box on Atlas
-        breed: puppetlabs-centos7             # Breed of the OS. (*) Read later for more info.
+        breed: puppetlabs-centos7             # Breed of the OS. Read later for more info.
       centos6:                                # Another box to select from...
         box: puppetlabs/centos-6.6-64-puppet
         breed: puppetlabs
@@ -160,7 +160,7 @@ Finally it's possible to define the Vagrant boxes to use for the different VMs:
         box: puppetlabs/ubuntu-14.04-64-puppet
         breed: puppetlabs-apt
     
-(*) The breed string defined for each box is passed during Vagrant provisioning for the local installation of Puppet (where needed) to the script ```vagrant/bin/vagrant-setup.sh```.
+The ```breed``` string defined for each box is passed during Vagrant provisioning for the local installation of Puppet (where needed) to the script ```vagrant/bin/vagrant-setup.sh```.
 
 You may want to edit this script to add support for new breeds (if VMs of not listed Vagrant boxes (note that the above list is a subset of the current ones).
 
