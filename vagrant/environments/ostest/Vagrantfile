@@ -94,7 +94,7 @@ Vagrant.configure("2") do |config|
       end
 
       if role != 'puppet'
-        if Vagrant.has_plugin?("vagrant-hostmanager")
+        if Vagrant.has_plugin?("vagrant-hostmanager") and Vagrant.has_plugin?('vagrant-triggers')
           # register destroy trigger to remove the node from puppet master
           node_config.trigger.after :destroy do
             node_name = @machine.name.to_s

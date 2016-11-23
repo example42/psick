@@ -1,6 +1,6 @@
 # example42 control-repo and Vagrant
 
-This contro-repo contains different customisable Vagrant environments that can be used for different purposes ad different stages of your Puppet workflow: local testing during development, continuous integration testings, semi-permanent test environviroments... 
+This contro-repo contains different customisable Vagrant environments that can be used for different purposes ad different stages of your Puppet workflow: local testing during development, continuous integration testings, semi-permanent test environments...
 
 This control-repo is by default shipped as self contained:
 
@@ -185,6 +185,7 @@ For a correct setup of the Vagrant environment you need:
         vagrant plugin install vagrant-cachier
         vagrant plugin install vagrant-vbguest
         vagrant plugin install vagrant-hostmanager
+        vagrant plugin install vagrant-triggers
 
 The Vagrant steps are basically what's done by the setup script (you may have to run it as privileged used):
 
