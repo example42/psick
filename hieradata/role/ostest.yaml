@@ -2,9 +2,20 @@
 # Useful for testing a set of profiles on different OS
 
 ---
+# In this role we include two profiles:
+# - A simple generic profile for basic repo setup
+# - A profile dedicated to testing code on different OS
+#
+# Use ::profile::ostest for testing Puppet code
+# Add profiles to the list below to test whole profiles
+
 profiles:
-  - '::profile::git'
+  - '::profile::repo::generic'
   - '::profile::ostest'
 
-# Skip base profile classes
+
+# For quicker tests we don't want to include all the
+# base profile classes which are by default added to 
+# all the roles.
+# Uncomment below to enable the inclusion of base classes
 profile::base::linux::enable: false

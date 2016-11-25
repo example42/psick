@@ -3,7 +3,7 @@
 if [ -d /vagrant/manifests ]; then
   base_dir='/vagrant'
 else
-  base_dir='/etc/puppetlabs/code/environments/production'
+  base_dir='/etc/puppetlabs/code/environments/development'
 fi
 
 if [ $1  ]; then
@@ -25,13 +25,15 @@ fi
 
 puppet apply --test --report --summarize \
 	--modulepath "${base_dir}/site:${base_dir}/modules:/etc/puppet/modules" \
-	--environmentpath $base_dir \
+	--environmentpath "${base_dir}/.." \
+	--environment development \
 	--hiera_config "${base_dir}/hiera.yaml" \
 	--detailed-exitcodes $manifest_option $manifest
 
 result=$?
-if [ "x$result" == "x0" ] || [ "x$result" == "x1" ]; then
+if [ "x$result" == "x0" ] || [ "x$result" == "x2" ]; then
   exit 0
 else
   exit 1
 fi
+

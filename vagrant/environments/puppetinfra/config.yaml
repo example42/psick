@@ -21,7 +21,7 @@ puppet:
 
 # Nodes shown in vagrant status 
 nodes:
-  - role: tpweb
+  - role: ci
     count: 1
     memory: 2048
   - role: log
