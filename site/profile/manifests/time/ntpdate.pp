@@ -7,7 +7,7 @@ class profile::time::ntpdate (
   String $ntp_server = 'pool.ntp.org',
 ) {
 
-  tp::install('ntpdate')
+  tp::install { 'ntpdate': }
 
   exec { "ntpdate -s ${ntp_server}":
     subscribe   => Tp::Install['ntpdate'],
