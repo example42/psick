@@ -10,8 +10,8 @@ class profile::ostest {
   }
   
   # Test base failures
-  tp::install { 'zabbix-agent': }
-  tp::conf3 { 'zabbix-agent':
+  tp::install { 'vsftpd': }
+  tp::conf3 { 'vsftpd':
     base_file => 'init',
     content   => 'test',
   }

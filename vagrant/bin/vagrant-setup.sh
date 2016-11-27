@@ -2,8 +2,6 @@
 breed=$1
 lock_file=/var/tmp/vagrant-setup.lock
 
-echo "## Checking Puppet installation"
-
 setup_puppetlabs() {
   echo "## Using an official Puppet vagrant box. Installation skipped."
 }
@@ -34,15 +32,36 @@ setup_puppetlabs-centos6() {
 }
 
 setup_centos5() {
-  echo
+  echo "## Removing existing repos and Puppet"
+  yum remove -y puppetlabs-release puppet facter
+
+  echo "## Adding repo for Puppet 4"
+  rpm -Uvh https://yum.puppetlabs.com/puppetlabs-release-pc1-el-5.noarch.rpm >/dev/null # 2>&1
+
+  echo "## Installing Puppet"
+  yum install -y puppet-agent >/dev/null 
+}
+
+setup_redhat6() {
+  echo "## Removing existing repos and Puppet"
+  yum remove -y puppetlabs-release puppet facter
+
+  echo "## Adding repo for Puppet 4"
+  rpm -Uvh https://yum.puppetlabs.com/puppetlabs-release-pc1-el-6.noarch.rpm >/dev/null # 2>&1
+
+  echo "## Installing Puppet"
+  yum install -y puppet-agent >/dev/null 
 }
 
 setup_redhat7() {
+  echo "## Removing existing repos and Puppet"
+  yum remove -y puppetlabs-release puppet facter
+
   echo "## Adding repo for Puppet 4"
-  rpm -ivh https://yum.puppetlabs.com/el/7/products/x86_64/puppetlabs-release-7-11.noarch.rpm >/dev/null # 2>&1
+  rpm -Uvh https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rpm >/dev/null # 2>&1
 
   echo "## Installing Puppet"
-  yum install -y puppet >/dev/null 
+  yum install -y puppet-agent >/dev/null 
 }
 
 setup_puppetlabs-ubuntu1204() {
@@ -64,14 +83,38 @@ setup_puppetlabs-ubuntu1204() {
 
 setup_debian8() {
   echo "## Adding repo for Puppet 4"
-  wget -q http://apt.puppetlabs.com/puppetlabs-release-jessie.deb >/dev/null
-  dpkg -i puppetlabs-release-jessie.deb >/dev/null
+  wget -q http://apt.puppetlabs.com/puppetlabs-release-pc1-jessie.deb >/dev/null
+  dpkg -i puppetlabs-release-pc1-jessie.deb >/dev/null
 
   echo "## Running apt-get update"
   apt-get update >/dev/null 2>&1
 
   echo "## Installing Puppet and its dependencies"
-  apt-get install puppet -y >/dev/null
+  apt-get install puppet-agent -y >/dev/null
+  apt-get install apt-transport-https -y >/dev/null
+}
+
+setup_debian() {
+  dist=$( cat /etc/apt/sources.list | grep updates | grep 'deb http' | cut -d ' ' -f 3 | cut -d "/" -f 1)
+  deb_install $dist
+}
+
+setup_ubuntu() {
+  dist=$( cat /etc/lsb-release | grep DISTRIB_CODENAME | cut -d '=' -f 2)
+  deb_install $dist
+}
+
+deb_install() {
+  dist=$1
+  echo "## Adding repo for Puppet 4"
+  wget -q "http://apt.puppetlabs.com/puppetlabs-release-pc1-${dist}.deb" >/dev/null
+  dpkg -i "puppetlabs-release-pc1-${dist}.deb" >/dev/null
+
+  echo "## Running apt-get update"
+  apt-get update >/dev/null 2>&1
+
+  echo "## Installing Puppet and its dependencies"
+  apt-get install puppet-agent -y >/dev/null
   apt-get install apt-transport-https -y >/dev/null
 }
 
@@ -83,6 +126,22 @@ setup_opensuse12(){
   zypper install -y puppet
 }
 
+setup_sles12(){
+  echo "## Installing Puppet repository"
+  rpm -Uvh https://yum.puppetlabs.com/puppetlabs-release-pc1-sles-12.noarch.rpm >/dev/null # 2>&1
+
+  echo "## Installing Puppet"
+  yum install -y puppet-agent >/dev/null 
+}
+  
+setup_sles11(){
+  echo "## Installing Puppet repository"
+  rpm -Uvh https://yum.puppetlabs.com/puppetlabs-release-pc1-sles-11.noarch.rpm >/dev/null # 2>&1
+
+  echo "## Installing Puppet"
+  yum install -y puppet-agent >/dev/null 
+}
+  
 setup_alpine() {
   echo "## Adding repo for Puppet 4"
   echo http://dl-4.alpinelinux.org/alpine/edge/testing/ >> /etc/apk/repositories
@@ -93,5 +152,20 @@ setup_alpine() {
   gem install puppet --no-rdoc -no-ri
 }
 
+link_controlrepo() {
+  echo "## Linking Puppet production environment to local development directory."
+  mv /etc/puppetlabs/code/environments/production /etc/puppetlabs/code/environments/production_$(date +%Y%m%d_%H%M%S)
+  ln -sf /etc/puppetlabs/code/environments/development /etc/puppetlabs/code/environments/production 
+}
+
 # Run setup only the first time
-[ -f $lock_file ] || setup_$breed && touch $lock_file
+if [ -f $lock_file ]; then
+  echo "### Found $lock_file. Skipping installation of Puppet."
+  echo "## Remove $lock_file on the Vagrant VM to retry Puppet installation"
+else
+  echo "### Installing Puppet 4"
+  setup_$breed && touch $lock_file
+  link_controlrepo
+fi
+
+

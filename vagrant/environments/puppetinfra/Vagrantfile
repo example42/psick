@@ -19,7 +19,7 @@ network_ip_range = network_obj.to_range.to_a
 range_start_offset = settings['network']['ip_start_offset'] ? settings['network']['ip_start_offset'] : 101
 puppet_master_hostname = settings['puppet']['master_hostname'] ? settings['puppet']['master_hostname'] : 'puppet'
 puppet_master_ip = settings['puppet']['master_ip']
-puppet_code_dir = '/etc/puppetlabs/code/environments/production'
+puppet_code_dir = '/etc/puppetlabs/code/environments/development'
 
 
 # Define vms settings

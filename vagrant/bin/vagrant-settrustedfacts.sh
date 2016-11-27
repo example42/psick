@@ -21,7 +21,7 @@ while [ $# -gt 0 ]; do
 done
 
 [ -d $facts_dir ] || mkdir -p $facts_dir
-echo "## Setting trusted facts pp_role=${role} , pp_environment=${env} , pp_datacenter=${zone}"
+echo "### Setting trusted facts pp_role=${role} , pp_environment=${env} , pp_datacenter=${zone}"
 csr_file=$(puppet config print csr_attributes)
 mkdir -p $(puppet config print confdir)
 echo "---" > $csr_file
