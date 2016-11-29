@@ -81,6 +81,7 @@ Run a Fabric task (better to do this from the main repo directory):
 
 To have a full working environment you might need to locally install some software for specific activities.
 
+You can simply run ```bin/setup.sh``` to install them via Puppet or just can do that manually, as follows.
 
 ### Single Modules
 
@@ -113,6 +114,8 @@ The hiera-eyaml, r10k and deep_merge gems can be installed by the setup script o
 Population of the ```modules``` directory via r10k based on ```Puppetfile```:
 
     r10k puppetfile install -v
+
+The above steps can be accomplished by simply running ```bin/puppet_setup.sh```.
 
 
 ### Vagrant
@@ -148,7 +151,7 @@ It's based on a nodeless classification, driven by 3 top scope variables:
 
 These variables are used in the Hiera's hierarchy (check ```hiera.yaml```) and should be enough to classify univocally any node in a averagely complex infrastructure. Here they are set as external facts (you'll need to set them when provisioning your nodes, as it's done in the Vagrant environment).
 
-Such an approach can be easily adaptaed to any other logic and environment, for example, you can use an External Node Classifier (ENC) like Puppet Enterprise or The Foreman and manage there how your nodes are classified.
+Such an approach can be easily adapted to any other logic and environment, for example, you can use an External Node Classifier (ENC) like Puppet Enterprise or The Foreman and manage there how your nodes are classified.
 
 The manifests file, ```manifests/site.pp``` sets some resource defaults, includes a baseline profile according to the underlying OS and uses hiera to define what profiles have to be included in each role (a more traditional alternative, based on role classes, is possible).
 
@@ -157,10 +160,19 @@ You will have to regenerate your hiera-eyaml keys (run, from the main repo dir, 
 
 In the ```site``` directory there are local "not public" modules. Basically our profiles and some role examples.
 
+For specifically there's the **profile** modules under ```site/profile``` with a large amount of sample profiles for several common and not so sommon tasks.
+
+There's also a **tools** module, under ```site/tools``` which contains defines useful to manage common resources on a system.
+
 In the ```modules``` directory are placed the public modules, as defined in the ```Puppetfile``` and installed via r10k or librarian-puppet.
 
 The ```vagrant``` directory contains different Vagrant environments with the relevant toolset that can be used to test the same control-repo.
-They are fully customizable by editing the ```config.yaml``` file.
+They are fully customizable by editing the ```config.yaml``` file in each Vagrant environment.
+
+Files for building Docker images locally are under the ```docker``` directory.
 
 The ```skeleton``` directory contains a module skeleton you can use, and modify, to generate new modules based on the skeleton structure.
  
+Documentation is stored under ```docs```, while the ```bin``` directory contains several scirpts fot various purposes. Most of them can be invoked via Fabric, as configured in the ```*.py``` files in the main directory.
+
+
