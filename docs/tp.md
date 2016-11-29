@@ -33,11 +33,11 @@ Prequesities for the magic to happen:
 
   - Puppet 4 is installed locally. To do it from the control repo:
 
-    bin/puppet_install.sh [redhatX|debian|ubuntu] # WIP on automatic OS detection 
+        bin/puppet_install.sh [redhatX|debian|ubuntu] # WIP on automatic OS detection 
 
   - This control-repo is provisioned locally (that is it has run r10k to fetch tp and tinydata modules from upstream source):
 
-    bin/puppet_setup.sh
+        bin/puppet_setup.sh
 
   - There's in tinydata all the needed data to install the application on your OS.
 
