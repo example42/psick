@@ -57,6 +57,8 @@ For more information on specific topics:
 
   - [Puppet tasks](docs/puppet.md) - A review of Puppet tasks available with Fabric
 
+  - [Tiny Puppet Integrations](docs/tp.md) - Learn about the impressive things you can do with Tiny Puppet and this control-repo
+
   - [example42 history](docs/example42.md) - A summary of the evolution of example42 modules
 
 
