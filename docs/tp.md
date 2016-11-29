@@ -1,12 +1,12 @@
 # example42 control-repo and Tiny Puppet
 
-This Puppet contro-repo has various interesting integrations with [Tiny Puppet](http://tiny-puppet.com), even if the integration is totally optional, we strongly recommend to give it a try by using and practising about it.
+This Puppet contro-repo has various interesting integrations with [Tiny Puppet](http://tiny-puppet.com), even theye are totally optional, we strongly recommend to give tp a try by using and practising about it: it can same you a lot of time.
 
 Usage of Tiny Puppet ([tp](https://github.com/example42/puppet-tp)) and [tinydata](https://github.com/example42/tinydaya) modules (they are both present in the ```Puppetfile```) is at different levels:
 
-  - Several sample profiles use tp defines to manage resources
+  - Several sample profiles use tp defines to manage the relevant applications
 
-  - Some (currently experimental) external modules use tp in module
+  - Some (currently experimental) external modules use tp in module, with local data
 
   - It's possible to easily install any (known) app locally, via a tp shell wrapper
 
@@ -17,11 +17,13 @@ Usage of Tiny Puppet ([tp](https://github.com/example42/puppet-tp)) and [tinydat
 
 ### Install anything anywhere with a tiny command
 
-Image a simple command, which expects as input the the name of an application or software and installs it, taking care of the underlying operating system, the eventual repositories that provide packages, how their names are different on different operating systems, if that app needs other apps or packages installed as prerequisites.
+Image a simple command, which expects as input the name of an application or a software and installs it, taking care of the underlying operating system, the eventual repositories that provide packages, how their names are different on different operating systems, if that app needs other apps or packages installed as prerequisites.
 
-Something like ```install <software>``` that works everywhere.
+A command like ```install <software>``` that works everywhere.
 
-Here it exists. To install locally (you might need root privileges ) any application on any operating systems, managing all the necessary dependencies:
+Well, it exists. Here.
+
+To install locally (you might need root privileges ) *any application on any operating system*, managing all the necessary dependencies, just write from the main dir of this control repo:
 
     bin/tp_install.sh <app_name>
 
@@ -35,13 +37,12 @@ Prequesities for the magic to happen:
 
         bin/puppet_install.sh [redhatX|debian|ubuntu] # WIP on automatic OS detection 
 
-  - This control-repo is provisioned locally (that is it has run r10k to fetch tp and tinydata modules from upstream source):
+  - This control-repo is provisioned locally (that is it has run r10k to fetch tp and tinydata modules from upstream source). You can do it with:
 
         bin/puppet_setup.sh
 
-  - There's in tinydata all the needed data to install the application on your OS.
+  - There's in tinydata all the needed data to install your application on your OS.
 
-If this does not work on your system, open a Bug Fix on tinydata, or send your PR with correction. The underlying tools to manage everything are there, it's just a matter or prevising the right data for all the different use cases.
 
 Some possible uses:
 
@@ -71,7 +72,7 @@ Current support for most of the applications in tinydata is for Linux. MacOS and
 
 ### Create tiny data for a new application
 
-To clone the structure of the tinydata directory of an existing application and create data for a **new** app:
+To replicate the structure of the tinydata directory of an existing application and create data for a **new** app:
 
     fab tp.clone_data:redis
 
