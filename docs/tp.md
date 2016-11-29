@@ -1,8 +1,8 @@
 # example42 control-repo and Tiny Puppet
 
-This Puppet contro-repo has various interesting integrations with Tiny Puppet, even if the integration is totally optional, we strongly recommend to give it a try by using and practising about it.
+This Puppet contro-repo has various interesting integrations with [Tiny Puppet](http://tiny-puppet.com), even if the integration is totally optional, we strongly recommend to give it a try by using and practising about it.
 
-Usage of Tiny Puppet and tinydata (they are both present in the ```Puppetfile``` is at different levels:
+Usage of Tiny Puppet ([tp](https://github.com/example42/puppet-tp)) and [tinydata](https://github.com/example42/tinydaya) modules (they are both present in the ```Puppetfile```) is at different levels:
 
   - Several sample profiles use tp defines to manage resources
 
@@ -31,19 +31,25 @@ Or if you prefer to run it via Fabric:
 
 Prequesities for the magic to happen:
 
-  - Puppet 4 is installed locally
+  - Puppet 4 is installed locally. To do it from the control repo:
 
-  - This control-repo is provisioned locally (that is it has run r10k to fetch tp and tinydata modules from upstream source)
+    bin/puppet_install.sh [redhatX|debian|ubuntu] # WIP on automatic OS detection 
+
+  - This control-repo is provisioned locally (that is it has run r10k to fetch tp and tinydata modules from upstream source):
+
+    bin/puppet_setup.sh
 
   - There's in tinydata all the needed data to install the application on your OS.
 
 If this does not work on your system, open a Bug Fix on tinydata, or send your PR with correction. The underlying tools to manage everything are there, it's just a matter or prevising the right data for all the different use cases.
 
-Some possible uses
+Some possible uses:
+
     # Setup epel (on RHEL systems)
     bin/tp_install.sh epel
 
-    # Install sysdig (automatically manages dependencies with tp >= version 1.2 and tinydata >= v0.0.14 )
+    # Install sysdig (automatically manages dependencies from other tp apps)
+    # Requires tp version >= 1.2 and tinydata version >= v0.0.14 )
     bin/tp_install.sh sysdig
  
     # Install puppetserver from Puppet official repos
@@ -67,7 +73,7 @@ Current support for most of the applications in tinydata is for Linux. MacOS and
 
 To clone the structure of the tinydata directory of an existing application and create data for a **new** app:
 
-   fab tp.clone_data:redis
+    fab tp.clone_data:redis
 
 redis, or whatever you specify as data to be cloned, must exist on tinydata. You will be asked the name of the new app for with create data files based on the redis structure.
 
