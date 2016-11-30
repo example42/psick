@@ -1,10 +1,10 @@
 # example42 control-repo and Tiny Puppet
 
-This Puppet contro-repo has various interesting integrations with [Tiny Puppet](http://tiny-puppet.com), even theye are totally optional, we strongly recommend to give tp a try by using and practising about it: it can same you a lot of time.
+This Puppet contro-repo has various interesting integrations with [Tiny Puppet](http://tiny-puppet.com), even they are totally optional, we strongly reccommend to give tp a try: it can same you a lot of time.
 
-Usage of Tiny Puppet ([tp](https://github.com/example42/puppet-tp)) and [tinydata](https://github.com/example42/tinydata) modules (they are both present in the ```Puppetfile```) is at different levels:
+Integration with Tiny Puppet ([tp](https://github.com/example42/puppet-tp)) and [tinydata](https://github.com/example42/tinydata) modules (they are both present in the ```Puppetfile```) is at different levels:
 
-  - Several sample profiles use tp defines to manage the relevant applications
+  - Several sample profiles of this control repo use tp defines to manage the relevant applications
 
   - Some (currently experimental) external modules use tp in module, with local data
 
@@ -14,6 +14,15 @@ Usage of Tiny Puppet ([tp](https://github.com/example42/puppet-tp)) and [tinydat
 
   - Integration tests are free on multiple apps and os  out of the box with tp::test
 
+### Sample profiles based on tp
+
+Some of the profiles under the ```site/profile/manifests``` directory use tp instead of a dedicated component module to manage an application. You are free to use them or not and they can be good examples on how to design profiles based on tp and same headaches on studying and integrsting a dedicated component module.
+
+### tp in component modules
+
+Some experimental modules (apache v4.x, docker, rails, ansible...) added by default in the ```Puppetfile``` use tp directly in the module, with local tp data, to manage the component application.
+
+For more info read this [blog post](http://www.example42.com/2016/05/30/exploring-puppet4-modules-design-patterns/). 
 
 ### Install anything anywhere with a tiny command
 
