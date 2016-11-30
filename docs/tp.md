@@ -41,6 +41,10 @@ Prequesities for the magic to happen:
 
         bin/puppet_setup.sh
 
+    or simply:
+
+        puppet module install example42/tp
+
   - There's in tinydata all the needed data to install your application on your OS.
 
 
