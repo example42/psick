@@ -16,19 +16,25 @@ Integration with Tiny Puppet ([tp](https://github.com/example42/puppet-tp)) and 
 
 ### Sample profiles based on tp
 
-Some of the profiles under the ```site/profile/manifests``` directory use tp instead of a dedicated component module to manage an application. You are free to use them or not and they can be good examples on how to design profiles based on tp and same headaches on studying and integrsting a dedicated component module.
+Some of the profiles under the ```site/profile/manifests``` directory use tp instead of a dedicated component module to manage an application. You are free to use them or not and they can be good examples on how to design profiles based on tp and save headaches and time on studying and integrsting a dedicated component module.
 
 ### tp in component modules
 
 Some experimental modules (apache v4.x, docker, rails, ansible...) added by default in the ```Puppetfile``` use tp directly in the module, with local tp data, to manage the component application.
 
-For more info read this [blog post](http://www.example42.com/2016/05/30/exploring-puppet4-modules-design-patterns/). 
+For more info on this usage of tp inside component modules and other modern design patterns for modules, read this [blog post](http://www.example42.com/2016/05/30/exploring-puppet4-modules-design-patterns/). 
 
 ### Install anything anywhere with a tiny command
 
-Image a simple command, which expects as input the name of an application or a software and installs it, taking care of the underlying operating system, the eventual repositories that provide packages, how their names are different on different operating systems, if that app needs other apps or packages installed as prerequisites.
+Imagine a simple command, it expects as input the name of an application or a software and installs it. It takes case automatically of:
 
-A command like ```install <software>``` that works everywhere.
+  - installing the eventual repositories that provide the package
+
+  - use the right package name for the underlying operating systems
+
+  - if it depends on other softwares or packages, install them as prerequisites
+
+A command like ```install <software>``` that works everywhere, with any software that can be installed via a package.
 
 Well, it exists. Here.
 
@@ -42,7 +48,7 @@ Or if you prefer to run it via Fabric:
 
 Prequesities for the magic to happen:
 
-  - Puppet 4 is installed locally. To do it from the control repo:
+  - Puppet 4 or later must be installed locally. To do it from the control repo:
 
         bin/puppet_install.sh [redhatX|debian|ubuntu] # WIP on automatic OS detection 
 
@@ -50,7 +56,7 @@ Prequesities for the magic to happen:
 
         bin/puppet_setup.sh
 
-    or simply:
+    or, simply, have tp installed via:
 
         puppet module install example42/tp
 
