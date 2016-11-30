@@ -59,6 +59,9 @@ Some possible uses:
     # Install docker from Docker official repos
     bin/tp_install.sh docker-engine
 
+    # Install virtualbox from Oracle official repos
+    bin/tp_install.sh virtualbox
+
     # Install OpenJDK
     bin/tp_install.sh openjdk-jdk
 
@@ -67,7 +70,7 @@ Some possible uses:
 
 If some of these or other commands don't work for the selected app on your local operating system, then it's probably a matter of missing or wrong tinydata, which can be easily solved.
 
-Current support for most of the applications in tinydata is for Linux. MacOS and Windows support is technically present, but data is missing for most of the applications.
+Current support for most of the applications in tinydata is for Linux (mostly RedHat and Debian derivatives). MacOS and Windows support is technically present, but data is missing for most of the applications.
 
 
 ### Create tiny data for a new application
