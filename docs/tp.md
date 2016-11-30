@@ -2,7 +2,7 @@
 
 This Puppet contro-repo has various interesting integrations with [Tiny Puppet](http://tiny-puppet.com), even theye are totally optional, we strongly recommend to give tp a try by using and practising about it: it can same you a lot of time.
 
-Usage of Tiny Puppet ([tp](https://github.com/example42/puppet-tp)) and [tinydata](https://github.com/example42/tinydaya) modules (they are both present in the ```Puppetfile```) is at different levels:
+Usage of Tiny Puppet ([tp](https://github.com/example42/puppet-tp)) and [tinydata](https://github.com/example42/tinydata) modules (they are both present in the ```Puppetfile```) is at different levels:
 
   - Several sample profiles use tp defines to manage the relevant applications
 

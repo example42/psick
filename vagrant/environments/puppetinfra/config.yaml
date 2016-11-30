@@ -21,6 +21,9 @@ puppet:
 
 # Nodes shown in vagrant status 
 nodes:
+  - role: git
+    count: 1
+    memory: 2048
   - role: ci
     count: 1
     memory: 2048
