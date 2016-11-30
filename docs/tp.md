@@ -1,6 +1,6 @@
 # example42 control-repo and Tiny Puppet
 
-This Puppet contro-repo has various interesting integrations with [Tiny Puppet](http://tiny-puppet.com), even they are totally optional, we strongly reccommend to give tp a try: it can same you a lot of time.
+This Puppet contro-repo has various interesting integrations with [Tiny Puppet](http://tiny-puppet.com), even if they are totally optional, we strongly reccommend to give tp a try: it can same you a lot of time.
 
 Integration with Tiny Puppet ([tp](https://github.com/example42/puppet-tp)) and [tinydata](https://github.com/example42/tinydata) modules (they are both present in the ```Puppetfile```) is at different levels:
 
@@ -10,9 +10,9 @@ Integration with Tiny Puppet ([tp](https://github.com/example42/puppet-tp)) and 
 
   - It's possible to easily install any (known) app locally, via a tp shell wrapper
 
-  - It's possible to create easily data for new apps to manage
+  - It's possible to quickly create data for new apps to manage
 
-  - Integration tests are free on multiple apps and os  out of the box with tp::test
+  - Integration tests comes out of the box free, for multiple apps and os, with tp::test
 
 ### Sample profiles based on tp
 
@@ -26,7 +26,7 @@ For more info on this usage of tp inside component modules and other modern desi
 
 ### Install anything anywhere with a tiny command
 
-Imagine a simple command, it expects as input the name of an application or a software and installs it. It takes case automatically of:
+Imagine a simple command, it expects as input the name of an application or a software and installs it. It takes care automatically of:
 
   - installing the eventual repositories that provide the package
 
@@ -36,7 +36,7 @@ Imagine a simple command, it expects as input the name of an application or a so
 
 A command like ```install <software>``` that works everywhere, with any software that can be installed via a package.
 
-Well, it exists. Here.
+Well, it exists. Here. But it's called ```tp_install.sh```.
 
 To install locally (you might need root privileges ) *any application on any operating system*, managing all the necessary dependencies, just write from the main dir of this control repo:
 
@@ -89,7 +89,7 @@ Some possible uses:
 
 If some of these or other commands don't work for the selected app on your local operating system, then it's probably a matter of missing or wrong tinydata, which can be easily solved.
 
-Current support for most of the applications in tinydata is for Linux (mostly RedHat and Debian derivatives). MacOS and Windows support is technically present, but data is missing for most of the applications.
+Current support for most of the applications in tinydata is for Linux (mostly RedHat and Debian derivatives). MacOS and Windows support is technically present, but data is missing for most of the cases. Support is possible for any OS for which there's a Puppet package provider.
 
 
 ### Create tiny data for a new application
@@ -98,15 +98,16 @@ To replicate the structure of the tinydata directory of an existing application 
 
     fab tp.clone_data:redis
 
-redis, or whatever you specify as data to be cloned, must exist on tinydata. You will be asked the name of the new app for with create data files based on the redis structure.
+redis, or whatever you specify as data to be cloned, must exist on tinydata. You will be asked the name of the new app for which you want to create data files based on the redis structure. Names are automatically converted.
+
 
 ### Local or remote integration tests (WIP)
 
 Since tp knows everything (well, enough) about the applications it installs, it knows how to check if they are working correctly.
 
-This can be effortlessly and automatically enabled by using ```tp::test``` on the applications want to test (or by setting to true the ```test_enable``` argument when using tp::install).
+This can be effortlessly and automatically enabled by using ```tp::test``` for the applications you want to test (or by setting to true the ```test_enable``` argument when using tp::install).
 
-In this control repo it's tp testing is enabled by default on all tp installed applications with the following entry on ```hieradata/common.yaml```:
+In this control repo tp testing is enabled by default on all tp installed applications with the following entry on ```hieradata/common.yaml``` which is used in ```manifests/site.pp```:
 
     ---
       tp::test_enable: true
@@ -115,4 +116,4 @@ The following Fabric task (will) allow to test on a remote server if application
 
     fab tp.remote_test -H <hostname>
 
-
+You can test if tp installed applications are correctly running just by executing the scripts under ```/etc/tp/test``` on your servers.
