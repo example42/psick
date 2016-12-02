@@ -9,5 +9,6 @@ spec/fixtures
 .bundle
 modules/
 .vagrant/
+.pe_build
 /keys/private_key.pkcs7.pem
 *.pyc

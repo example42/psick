@@ -17,9 +17,13 @@ settings = YAML::load_file config_file
 network_obj = IPAddr.new settings['network']['range']
 network_ip_range = network_obj.to_range.to_a
 range_start_offset = settings['network']['ip_start_offset'] ? settings['network']['ip_start_offset'] : 101
-puppet_master_hostname = settings['puppet']['master_hostname'] ? settings['puppet']['master_hostname'] : 'puppet'
+puppet_master_hostname = settings['puppet']['master_fqdn'] ? settings['puppet']['master_fqdn'] : 'master'
 puppet_master_ip = settings['puppet']['master_ip']
-puppet_code_dir = '/etc/puppetlabs/code/environments/production'
+
+# We mount this directory on the VMs and then link production to it
+# This is needed to avoid Puppet installation issues complaining about limited space 
+# under production
+puppet_code_dir = '/etc/puppetlabs/code/environments/development'
 
 
 # Define vms settings
@@ -51,6 +55,13 @@ if settings['nodes'].is_a?(Array)
       vm['memory'] = node['memory'] ? node['memory'] : settings['vm']['memory']
       vm['puppet_agent'] = node['puppet_agent'] ? node['puppet_agent'] : settings['vm']['puppet_agent']
       vm['puppet_apply'] = node['puppet_apply'] ? node['puppet_apply'] : settings['vm']['puppet_apply']
+      vm['facter_external_facts'] = node['facter_external_facts'] ? node['facter_external_facts'] : settings['vm']['facter_external_facts']
+      vm['facter_trusted_facts'] = node['facter_trusted_facts'] ? node['facter_trusted_facts'] : settings['vm']['facter_trusted_facts']
+
+      vm['pe_role'] = node['pe_role'] ? node['pe_role'] : nil
+      vm['pe_answer_file'] = node['pe_answer_file'] ? node['pe_answer_file'] : nil
+      vm['forwarded_port'] = node['forwarded_port'] ? node['forwarded_port'] : nil
+      vm['application'] = node['application'] ? node['application'] : settings['puppet']['application']
 
       vms.push(vm)
     end
@@ -78,20 +89,42 @@ Vagrant.configure("2") do |config|
     box = node['box'].clone
     aliases = node['aliases'].clone + node['aliases'] 
     env = settings['puppet']['env']
+    datacenter = settings['puppet']['datacenter']
     zone = settings['puppet']['zone']
-
+    application = node['application']
+    pe_role = node['pe_role'] if node['pe_role']
+    pe_verbose = settings['puppet']['pe_verbose'] ? settings['puppet']['pe_verbose'] : true
+    pe_version = settings['puppet']['pe_version'] 
+    pe_relocate_manifests = settings['puppet']['pe_relocate_manifests'] 
+    pe_download_root = settings['puppet']['pe_download_root'] if settings['puppet']['pe_download_root']
+    master_vm = settings['puppet']['master_vm'] if settings['puppet']['master_vm']
+    forwarded_port = node['forwarded_port']
     breed = settings['boxes']["#{box}"]['breed'] 
     vm_box = settings['boxes']["#{box}"]['box']
+    link_controlrepo = settings['puppet']['link_controlrepo'] ? settings['puppet']['link_controlrepo'] : false
 
     config.vm.define hostname do |node_config|
       node_config.vm.box = vm_box
       node_config.vm.hostname = hostname
       node_config.vm.network :private_network, ip: node['ip']
-      node_config.vm.provision "shell", path: '../../bin/vagrant-setup.sh', args: breed
-      node_config.vm.provision "shell", path: '../../bin/vagrant-setfacts.sh', args: "--role #{role} --env #{env} --zone #{zone}"
+      node_config.vm.provision "shell", path: '../../bin/vagrant-setfacts.sh', args: "--role #{role} --env #{env} --zone #{zone} --datacenter #{datacenter} --application #{application}" if node['facter_external_facts']
+      node_config.vm.provision "shell", path: '../../bin/vagrant-settrustedfacts.sh', args: "--role #{role} --env #{env} --zone #{zone} --datacenter #{datacenter} --application #{application}" if node['facter_trusted_facts']
 
       if Vagrant.has_plugin?("vagrant-hostmanager")
         node_config.hostmanager.aliases = aliases
+      end
+
+      if Vagrant.has_plugin?("vagrant-pe_build") and pe_role == 'master'
+        node_config.pe_build.version = pe_version if pe_version
+        node_config.pe_build.download_root = pe_download_root if pe_download_root
+
+        node_config.vm.provision :pe_bootstrap do |p|
+          p.role = pe_role if pe_role
+          p.verbose = pe_verbose
+          p.relocate_manifests = pe_relocate_manifests
+          p.answer_file = node['pe_answer_file'] if node['pe_answer_file']
+          p.master = puppet_master_hostname
+        end
       end
 
       if role != 'puppet'
@@ -107,14 +140,30 @@ Vagrant.configure("2") do |config|
         end
       end
 
-      if node['puppet_apply']
-        node_config.vm.synced_folder "../../../", puppet_code_dir, mount_options: ["ro"]
+      if node['puppet_apply'] == true
+   #     node_config.vm.synced_folder "../../../", puppet_code_dir, mount_options: ["ro"]
+        node_config.vm.provision "shell", path: '../../bin/vagrant-linkcontrolrepo.sh' if link_controlrepo
         node_config.vm.provision "shell", path: '../../bin/vagrant-setup_papply.sh'
         node_config.vm.provision "shell", path: '../../bin/papply.sh'
       end
 
+      if node['pe_role'] == 'master'
+        node_config.vm.synced_folder "../../../", puppet_code_dir, mount_options: ["ro"]
+        node_config.vm.provision "shell", path: '../../bin/vagrant-linkcontrolrepo.sh' if link_controlrepo
+        node_config.vm.provision "shell", path: '../../bin/vagrant-setup_papply.sh'
+      end
+
       if node['puppet_agent']
+        if Vagrant.has_plugin?("vagrant-pe_build")
+          node_config.vm.provision :pe_agent do |p|
+            p.master_vm = master_vm
+          end
+        end
         node_config.vm.provision "shell", path: "../../bin/pagent.sh", args: "--server #{puppet_master_hostname}"
+      end
+
+      if node['forwarded_port']
+        node_config.vm.network "forwarded_port", guest: node['forwarded_port']['guest'], host: node['forwarded_port']['host']
       end
 
       node_config.vm.provider "virtualbox" do |v|

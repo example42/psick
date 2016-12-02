@@ -13,6 +13,12 @@ setup() {
   puppet resource package deep_merge provider=gem ensure=present
   puppet resource package deep_merge provider=puppet_gem ensure=present
   puppet resource package git ensure=present
+  which puppetserver 2>/dev/null
+  if [ "x$?" == "x0" ]; then
+    puppetserver gem install hiera-eyaml
+    puppetserver gem install deep_merge
+    service pe-puppetserver restart
+  fi
   ln -sf /etc/puppetlabs/code/environments/development/hiera.yaml /etc/puppetlabs/puppet/hiera.yaml
 }
 

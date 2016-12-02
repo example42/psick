@@ -152,12 +152,6 @@ setup_alpine() {
   gem install puppet --no-rdoc -no-ri
 }
 
-link_controlrepo() {
-  echo "## Linking Puppet production environment to local development directory."
-  mv /etc/puppetlabs/code/environments/production /etc/puppetlabs/code/environments/production_$(date +%Y%m%d_%H%M%S)
-  ln -sf /etc/puppetlabs/code/environments/development /etc/puppetlabs/code/environments/production 
-}
-
 # Run setup only the first time
 if [ -f $lock_file ]; then
   echo "### Found $lock_file. Skipping installation of Puppet."
@@ -165,7 +159,6 @@ if [ -f $lock_file ]; then
 else
   echo "### Installing Puppet 4"
   setup_$breed && touch $lock_file
-  link_controlrepo
 fi
 
 
