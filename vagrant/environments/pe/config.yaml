@@ -56,6 +56,7 @@ nodes:
       host: 1443
   - role: git
     memory: 2048
+    puppet_agent: false
   - role: docker_tp_build
     hostname_base: docker-build
     count: 1

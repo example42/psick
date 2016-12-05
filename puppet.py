@@ -87,7 +87,7 @@ def module_generate(module=''):
   local( main_dir + "/bin/puppet_module_generate.sh " + str(module) )
 
 @task
-def module_publish(module):
+def module_publish(module,options=''):
   """[local] Publish on GitHub and the Forge the local version of a module"""
-  local( main_dir + "/bin/puppet_module_publish.sh -m " + str(module) )
+  local( main_dir + "/bin/puppet_module_publish.sh -m " + str(module) + " " + str(options) )
 
