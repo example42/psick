@@ -6,7 +6,7 @@ PUPPET=$(which puppet)
 ERB=$(which erb)
 RUBY=$(which ruby)
 global_exit=0
-filter='grep -v www/pcdb/js'
+filter='grep -v somethingtoskip'
 
 if [ -n ${PUPPET} ]; then
   echo_title "Checking for pesky non printable characters in files."

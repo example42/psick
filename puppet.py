@@ -14,6 +14,11 @@ def check_syntax(file=''):
   local( main_dir + "/bin/puppet_check_syntax.sh " + str(file) )
 
 @task
+def lint(action=''):
+  """[local] Run puppet-lint on all site manifests. Eventually fix them"""
+  local( main_dir + "/bin/puppet_lint.sh " + str(action) )
+
+@task
 def apply(options=''):
   """[remote] Run puppet apply on the deployed control-repo (uses control-repo in the environments/production dir)"""
   sudo( '$(puppet config print codedir)/environments/production/bin/papply.sh ' + str(options) + ' ; echo $?' )
