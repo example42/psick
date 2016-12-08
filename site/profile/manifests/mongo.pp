@@ -1,20 +1,28 @@
 #
-#
 class profile::mongo (
   String                 $ensure           = 'present',
   Variant[Undef,String]  $key              = undef,
-  Variant[Undef,String]  $replset          = undef,
+  String                 $replset          = '',
   Variant[Undef,String]  $default_password = undef,
-  Variant[Undef,String]  $replset_arbiter  = undef,
-  Variant[Undef,Array]   $replset_members  = [ ],
+  String                 $replset_arbiter  = '',
+  Array                  $replset_members  = [],
   Variant[Undef,Boolean] $shardsvr         = undef,
   Variant[Undef,Hash]    $databases        = undef,
   Variant[Undef,Hash]    $hostnames        = undef,
 
-  String                 $mongo_class      = 'profile::mongo::tp',
+  String                 $disable_huge_pages_class = 'profile::disable_huge_pages',
+  String                 $mongo_class              = 'profile::mongo::tp',
+  String                 $mms_class                = '',
 ) {
 
+  if $disable_huge_pages_class != '' {
+    include $disable_huge_pages_class
+    Class[$disable_huge_pages_class] -> Class[$mongo_class]
+  }
   if $mongo_class != '' {
     include $mongo_class
+  }
+  if $mms_class != '' {
+    include $mms_class
   }
 }

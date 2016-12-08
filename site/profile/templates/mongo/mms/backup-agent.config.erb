@@ -1,0 +1,30 @@
+# File Managed by Puppet
+#
+# Enter your API key - It can be found in the Ops Manager UI under Settings ->
+# Group Settings.
+#
+mmsApiKey=<%= @options['mmsApiKey'] %>
+
+#
+# Hostname and port of the Backup HTTP Server. The hostname will match
+# what is used to access the Ops Manager UI. The default port of the
+# Backup HTTP Server for an Ops Manager install is 8081. The protocol
+# (http(s)://) should NOT be included. It is controlled by the `https`
+# setting.
+#
+# ex. mms.<company>.com:8081
+#
+mothership=<%= @options['mothership'] %>
+
+#
+# Communicate with the MMS Backup HTTP Server over SSL.
+#
+# The default Ops Manager install does not run the Backup HTTP Server with
+# SSL. If the `mothership` accepts SSL connections because Ops Manager has
+# been configured with SSL or a load balancer has been placed in front
+# of Ops Manager doing SSL termination this setting can be changed to true.
+#
+https=<%= @options['backup_https'] %>
+
+# For additional optional settings, please see
+# https://docs.opsmanager.mongodb.com/current/reference/backup-agent/

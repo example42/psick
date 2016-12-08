@@ -25,7 +25,10 @@ define tools::mongo::command (
   }
 
   $mongodb_script_user = "mongo_${name}.js"
-
+  $db_name_suffix = $db_name ? {
+    ''      => '',
+    default => "/${db_name}",
+  }
   file { $mongodb_script_user:
     ensure  => present,
     mode    => '0600',
@@ -37,7 +40,7 @@ define tools::mongo::command (
 
   if $run_command {
     exec { "mongo_${name}":
-      command     => "mongo ${cmd_options} ${db_host}:${db_port}/${db_name} ${js_dir}/${mongodb_script_user}",
+      command     => "mongo ${cmd_options} ${db_host}:${db_port}${db_name_suffix} ${js_dir}/${mongodb_script_user}",
       subscribe   => File[$mongodb_script_user],
       path        => [ '/usr/bin' , '/usr/sbin' ],
       refreshonly => true,

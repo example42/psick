@@ -1,0 +1,10 @@
+---
+  profiles:
+    - '::profile::mongo'
+
+  profile::mongo::replset: "replSet%{::extra_id}"
+  profile::mongo::tp::options:
+    port: '30000'
+    dbPath: '/data/arb'
+    journal_enabled: false
+
