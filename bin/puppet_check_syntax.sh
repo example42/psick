@@ -5,12 +5,14 @@ repo_dir="$(dirname $0)/.."
 PUPPET=$(which puppet)
 ERB=$(which erb)
 RUBY=$(which ruby)
+global_exit=0
+filter='grep -v www/pcdb/js'
 
-#if [ -n ${PUPPET} ]; then
-  #echo_title "Checking for pesky non printable characters in files."
+if [ -n ${PUPPET} ]; then
+  echo_title "Checking for pesky non printable characters in files."
 
-  #grep -I -H -P -n "[\xa0]" --color=yes -r * |tr '\302\102' 'X'
-#fi
+  grep -I -H -P -n "[\xa0]" --color=yes -r * | $filter |tr '\302\102' 'X'
+fi
 
 if [ ! -z ${PUPPET} ]; then
   echo_title "Validating Manifests in site directory"
@@ -24,6 +26,7 @@ if [ ! -z ${PUPPET} ]; then
     else
       echo_failure "ERROR"
       echo $err
+      global_exit=1
     fi
   done
 else
@@ -43,6 +46,7 @@ if [ ! -z ${RUBY} ]; then
     else
       echo_failure "ERROR"
       echo $err
+      global_exit=1
     fi
   done
 else
@@ -62,8 +66,11 @@ if [ ! -z ${ERB} ] && [ ! -z ${RUBY} ]; then
     else
       echo_failure "ERROR"
       echo $err
+      global_exit=1
     fi
   done
 else
   echo_warning "erb not found."
 fi
+
+exit $global_exit

@@ -1,15 +1,26 @@
 #!/bin/bash
 # General functions for shell scripts in this directory
 
-SETCOLOR_SUCCESS=$(tput setaf 2)
-SETCOLOR_FAILURE=$(tput setaf 1)
-SETCOLOR_WARNING=$(tput setaf 3)
-SETCOLOR_ASK=$(tput setaf 13)
-SETCOLOR_NORMAL=$(tput sgr0)
-SETCOLOR_TITLE=$(tput setaf 6)
-SETCOLOR_SUBTITLE=$(tput setaf 14)
-SETCOLOR_BOLD=$(tput setaf 15)
-
+if tty -s
+then
+  SETCOLOR_SUCCESS=$(tput setaf 2)
+  SETCOLOR_FAILURE=$(tput setaf 1)
+  SETCOLOR_WARNING=$(tput setaf 3)
+  SETCOLOR_ASK=$(tput setaf 13)
+  SETCOLOR_NORMAL=$(tput sgr0)
+  SETCOLOR_TITLE=$(tput setaf 6)
+  SETCOLOR_SUBTITLE=$(tput setaf 14)
+  SETCOLOR_BOLD=$(tput setaf 15)
+else
+  SETCOLOR_SUCCESS="-"
+  SETCOLOR_FAILURE="-"
+  SETCOLOR_WARNING="-"
+  SETCOLOR_ASK="-"
+  SETCOLOR_NORMAL="-"
+  SETCOLOR_TITLE="-"
+  SETCOLOR_SUBTITLE="-"
+  SETCOLOR_BOLD="-"
+fi
 echo_success() {
   echo "${SETCOLOR_SUCCESS}${1}${SETCOLOR_NORMAL}"
 }
