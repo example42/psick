@@ -1,0 +1,17 @@
+# File managed by Puppet
+
+vrrp_instance <%= $options['vrrp_instance'] %> {
+  state <%= $options['vrrp_instance.state'] %>
+  interface <%= $options['vrrp_instance.interface'] %>
+  lvs_sync_daemon_interface <%= $options['vrrp_instance.lvs_sync_daemon_interface'] %>
+  virtual_router_id <%= $options['vrrp_instance.virtual_router_id'] %>
+  priority <%= $options['vrrp_instance.priority'] %>
+  advert_int <%= $options['vrrp_instance.advert_int'] %>
+  authentication {
+    auth_type <%= $options['vrrp_instance.autentication.auth_type'] %>
+    auth_pass <%= $options['vrrp_instance.autentication.auth_pass'] %>
+  }
+  virtual_ipaddress {
+    <%= $vip %><%= $vip_mask %> dev <%= $options['vrrp_instance.interface'] %>
+  }
+}

@@ -1,0 +1,68 @@
+# File managed by Puppet
+
+vrrp_instance <%= $options['vrrp_instance'] %> {
+	state <%= $options['vrrp_instance.state'] %>
+	interface <%= $options['vrrp_instance.interface'] %>
+	lvs_sync_daemon_interface <%= $options['vrrp_instance.lvs_sync_daemon_interface'] %>
+	virtual_router_id <%= $options['vrrp_instance.virtual_router_id'] %>
+	priority <%= $options['vrrp_instance.priority'] %>
+	advert_int <%= $options['vrrp_instance.advert_int'] %>
+	authentication {
+		auth_type <%= $options['vrrp_instance.autentication.auth_type'] %>
+		auth_pass <%= $options['vrrp_instance.autentication.auth_pass'] %>
+	}
+	virtual_ipaddress {
+		<%= $vip %><%= $vip_mask %> dev <%= $options['vrrp_instance.interface'] %>
+	}
+}
+
+<% $vip_port.each | $port | { -%>
+virtual_server <%= $vip %> <%= $port %> {
+        delay_loop <%= $options['virtual_server.delay_loop'] %>
+        lb_algo <%= $options['virtual_server.lb_algo'] %>
+        lb_kind <%= $options['virtual_server.lb_kind'] %>
+        persistence_timeout <%= $options['virtual_server.persistence_timeout'] %>
+        protocol <%= $options['virtual_server.protocol'] %>
+
+        sorry_server <%= $options['virtual_server.sorry_server'] %> <%= $port %>
+        <% $real_servers.each | $server , $params | { -%>
+                real_server <%= $params['ip'] %> <%= $port %> {
+                weight <%= $params['weight'] %>
+                <% if $params['inhibit_on_failure'] { -%>inhibit_on_failure <% } -%>
+                <% if $params['notify_up'] { -%>notify_up <%= $params['notify_up'] %><% } -%>
+                <% if $params['notify_down'] { -%>notify_down <%= $params['notify_down'] %><% } -%>
+                <%= $params['healthchecker'] %> {
+                        <% if $params['url'] { -%>
+                        url {
+                                <% $params['paths'].each | $path | { %>
+				path <%= $path %>
+                                <% } -%>
+				status_code <%= $params['status_code'] %>
+                        }
+                        <% } -%>
+                        <% if $params['host'] { -%>
+                        host {
+				connect_ip <%= $params['connect_ip'] %>
+				connect_port <%= $params['connect_port'] %>
+				bindto <%= $params['bindto'] %>
+                        }
+                        <% } -%>
+                        <% if $params['connect_ip'] { -%>connect_ip <%= $params['connect_ip'] %><% } -%>
+                        <% if $params['connect_timeout'] { -%>connect_timeout <%= $params['connect_timeout'] %><% } -%>
+                        <% if $params['connect_port'] { -%>connect_port <%= $params['connect_port'] %><% } -%>
+                        <% if $params['bindto'] { -%>bindto <%= $params['bindto'] %><% } -%>
+                        <% if $params['bind_port'] { -%>bind_port <%= $params['bind_port'] %><% } -%>
+                        <% if $params['nm_get_retry'] { -%>nm_get_retry <%= $params['nm_get_retry'] %><% } -%>
+                        <% if $params['delay_before_retry'] { -%>delay_before_retry <%= $params['delay_before_retry'] %><% } -%>
+                        <% if $params['retry'] { -%>retry <%= $params['retry'] %><% } -%>
+                        <% if $params['helo_name'] { -%>helo_name <%= $params['helo_name'] %><% } -%>
+                        <% if $params['fwmark'] { -%>fwmark <%= $params['fwmark'] %><% } -%>
+                        <% if $params['warmup'] { -%>warmup <%= $params['warmup'] %><% } -%>
+                        <% if $params['misc_timeout'] { -%>misc_timeout <%= $params['misc_timeout'] %><% } -%>
+                        <% if $params['misc_dynamic'] { -%>misc_dynamic <%= $params['misc_dynamic'] %><% } -%>
+                        <% if $params['misc_path'] { -%>misc_path <%= $params['misc_path'] %><% } -%>
+                }
+        }
+        <% } -%>
+} ### 
+<% } -%>

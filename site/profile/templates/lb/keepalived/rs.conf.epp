@@ -1,0 +1,73 @@
+    # Configuration fragment for <%= $title %>
+    real_server <%= $options['ip'] %> <%= $options['port'] %> {
+      weight <%= $options['weight'] %>
+<% if $options['inhibit_on_failure'] { -%>
+      inhibit_on_failure
+<% } -%>
+<% if $options['notify_up'] { -%>
+      notify_up <%= $options['notify_up'] %>
+<% } -%>
+<% if $options['notify_down'] { -%>
+      notify_down <%= $options['notify_down'] %>
+<% } -%>
+      <%= $options['healthchecker'] %> {
+        <% if $options['url'] { %>
+        url {
+          <% $options['paths'].each | $path | { -%>
+          path <%= $path %>
+          <% } -%>
+          status_code <%= $options['status_code'] %>
+        }
+        <% } %>
+        <% if $options['host'] { %>
+        host {
+          connect_ip <%= $options['connect_ip'] %>
+          connect_port <%= $options['connect_port'] %>
+          bindto <%= $options['bindto'] %>
+        }
+        <% } %>
+      }
+<% if $options['connect_ip'] { -%>
+      connect_ip <%= $options['connect_ip'] %>
+<% } -%>
+<% if $options['connect_timeout'] { -%>
+      connect_timeout <%= $options['connect_timeout'] %>
+<% } -%>
+<% if $options['connect_port'] { -%>
+      connect_port <%= $options['connect_port'] %>
+<% } -%>
+<% if $options['bindto'] { -%>
+      bindto <%= $options['bindto'] %>
+<% } -%>
+<% if $options['bind_port'] { -%>
+      bind_port <%= $options['bind_port'] %>
+<% } -%>
+<% if $options['nm_get_retry'] { -%>
+      nm_get_retry <%= $options['nm_get_retry'] %>
+<% } -%>
+<% if $options['delay_before_retry'] { -%>
+      delay_before_retry <%= $options['delay_before_retry'] %>
+<% } -%>
+<% if $options['retry'] { -%>
+      retry <%= $options['retry'] %>
+<% } -%>
+<% if $options['helo_name'] { -%>
+      helo_name <%= $options['helo_name'] %>
+<% } -%>
+<% if $options['fwmark'] { -%>
+      fwmark <%= $options['fwmark'] %>
+<% } -%>
+<% if $options['warmup'] { -%>
+      warmup <%= $options['warmup'] %>
+<% } -%>
+<% if $options['misc_timeout'] { -%>
+      misc_timeout <%= $options['misc_timeout'] %>
+<% } -%>
+<% if $options['misc_dynamic'] { -%>
+      misc_dynamic <%= $options['misc_dynamic'] %>
+<% } -%>
+<% if $options['misc_path'] { -%>
+      misc_path <%= $options['misc_path'] %>
+<% } -%>
+    }
+
