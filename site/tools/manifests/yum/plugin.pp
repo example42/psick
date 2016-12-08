@@ -1,12 +1,11 @@
 # Define: tools::yum::plugin
 #
 define tools::yum::plugin (
-  String $package_name                = '',
-  Variant[String,Undef] $template     = '',
-  $enable       = true
+  String $package_name            = '',
+  String $source                  = '',
+  Variant[String,Undef] $template = '',
+  Boolean $enable                 = true
   ) {
-
-  include yum
 
   $ensure = bool2ensure( $enable )
 
@@ -22,7 +21,7 @@ define tools::yum::plugin (
   }
 
   package { $real_package_name :
-    ensure => $ensure
+    ensure => $ensure,
   }
 
   if ( $source != '' ) {

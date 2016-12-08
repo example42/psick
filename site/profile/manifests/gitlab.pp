@@ -4,7 +4,7 @@ class profile::gitlab (
 
   Variant[Undef,String] $template    = undef,
   Hash                  $options     = { },
-  
+
   Boolean $manage_installation       = true,
 
 ) {

@@ -1,21 +1,17 @@
-# This class installs and configures snmpd
 #
 class profile::monitor::snmpd (
+  Array                    $extra_packages,
   Enum['present','absent'] $ensure                     = 'present',
-
   Variant[String[1],Undef] $config_dir_source          = undef,
   String                   $config_file_template       = '',
 ) {
 
   $options_default = {
-    'ro_community'    => 'public',
+    'rocommunity' => 'public',
   }
+
   $options_user=hiera_hash('profile::monitor::snmpd::options', {} )
   $options=merge($options_default,$options_user)
-  $extra_packages = $::osfamily ? {
-    'RedHat' => [ 'net-snmp-utils' ],
-    default  => [],
-  }
 
   ::tp::install { 'snmpd':
     ensure        => $ensure,

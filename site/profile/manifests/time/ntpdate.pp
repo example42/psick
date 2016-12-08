@@ -1,6 +1,6 @@
 # This class installs and runs once ntpdate
 class profile::time::ntpdate (
-  # If given a ntpdate cron jon is scheduled. Format: * * * * *
+  # If given a ntpdate cron jon is scheduled. Format: * * * * *
   String $crontab    = '',
 
   # Server to sync to (just one)

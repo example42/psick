@@ -58,7 +58,7 @@ class profile::aws::puppet::ec2 (
     default  => 'present',
   }
   if $ensure == 'absent' {
-  # Rds_db_securitygroup<|name == $title|> ->
+  # Rds_db_securitygroup<|name == $title|> ->
     Rds_instance<|name == $title|>
   }
 

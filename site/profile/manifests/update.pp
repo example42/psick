@@ -1,5 +1,5 @@
 # This class managed system's packages updates
-# via cron. A cron schedule has to be set in order
+# via cron. A cron schedule has to be set in order
 # to enable updates
 #
 class profile::update (

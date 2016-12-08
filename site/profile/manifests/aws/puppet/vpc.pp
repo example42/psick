@@ -38,7 +38,7 @@ class profile::aws::puppet::vpc (
         vpc          => $default_vpc_name,
       },
     }
-  
+
     $default_ec2_vpc_routetables = {
       "${default_vpc_name}-public" => {
         ensure       => $ensure,
@@ -125,7 +125,7 @@ class profile::aws::puppet::vpc (
     create_resources('ec2_vpc_subnet',$all_ec2_vpc_subnets,$ec2_vpc_subnets_defaults)
   }
 
-  
+
   $ec2_vpc_internet_gateways_defaults = {
     ensure     => $ensure,
     region     => $region,

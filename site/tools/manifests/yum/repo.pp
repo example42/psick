@@ -78,7 +78,7 @@ define tools::yum::repo (
       sslcacert       => $sslcacert,
       sslclientcert   => $sslclientcert,
       sslclientkey    => $sslclientkey,
-      sslverify       => $sslverify
+      sslverify       => $sslverify,
     }
 
     if $autokeyimport == 'yes' and $gpgkey != '' {

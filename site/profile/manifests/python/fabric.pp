@@ -1,3 +1,5 @@
+# Fabric installation
+#
 class profile::python::fabric (
   $ensure = 'present',
 ) {

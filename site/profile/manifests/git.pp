@@ -1,3 +1,5 @@
+# Git installation
+#
 class profile::git (
   $ensure = 'present',
 ) {

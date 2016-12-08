@@ -20,7 +20,7 @@ class profile::backup::duply (
   ::tp::dir { 'duply':
     ensure => $ensure,
     source => $config_dir_source,
-  } 
+  }
 
   # All the data used in templates can be stored on Hiera ( 'duply_options' key)
   # Here are defined the defaults (useful just for a POC) for the used templates
@@ -42,8 +42,8 @@ class profile::backup::duply (
   if $enable {
   # When enabled cronjob for automatic backups and log rotation are managed
     ::tp::conf { 'cron::duply':
-      ensure   => $ensure,
-      content  => "${cron_schedule} duply  backup_verify_purge --force ${log_file} 2>&1"
+      ensure  => $ensure,
+      content => "${cron_schedule} duply  backup_verify_purge --force 2>&1",
     }
     ::tp::conf { 'logrotate::duply.conf':
       ensure   => $ensure,

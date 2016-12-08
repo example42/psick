@@ -7,24 +7,24 @@ class profile::hardening::generic (
   Boolean $remove_default_services = false,
 ) {
 
-  $packages_default = [] 
+  $packages_default = []
   $services_default = $::osfamily ? {
     'RedHat'  => $::operatingsystemmajrelease ? {
       '5'      => [ ],
       '6'      => [ ],
       '7'      => [ ],
-       default => [ ],
-     },
-     'Debian' => $::operatingsystemmajrelease ? {
+      default => [ ],
+    },
+    'Debian' => $::operatingsystemmajrelease ? {
       '6'      => [ ],
       '7'      => [ ],
       '8'      => [ ],
       '12.04'  => [ ],
       '14.04'  => [ ],
       '16.04'  => [ ],
-       default => [ ],
-     },
-     default  => [ ],
+      default => [ ],
+    },
+    default  => [ ],
   }
 
   $packages = $remove_default_packages ? {

@@ -14,9 +14,9 @@ class profile::test {
   }
 
   tp::dir { 'test':
-    path        => '/opt/tp_self',
-    source      => 'https://github.com/example42/puppet-tp/',
-    vcsrepo     => 'git',
+    path    => '/opt/tp_self',
+    source  => 'https://github.com/example42/puppet-tp/',
+    vcsrepo => 'git',
   }
 
 }

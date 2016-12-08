@@ -21,9 +21,9 @@ A pre_class *must* always be defined, even if you don't place any resource insid
 Sample base profile settings for Linux servers:
 
     profile::base::linux::pre_class: '::profile::pre'
-    profile::base::linux::network_class: '::profile::network' # Requires example42-network
+    profile::base::linux::network_class: '::profile::network' # Requires example42-network
     profile::base::linux::mail_class: '::profile::mail::postfix'
-    profile::base::linux::puppet_class: 'puppet' # Requires example42-puppet 4.x branch
+    profile::base::linux::puppet_class: 'puppet' # Requires example42-puppet 4.x branch
     profile::base::linux::ssh_class: '::profile::ssh::openssh'
     profile::base::linux::users_class: '::profile::users::static'
     profile::base::linux::sudo_class: '::profile::sudo'
@@ -104,10 +104,10 @@ This class manages /etc/hosts, it can be included with the parameter:
 
 To customise its behaviour you can set the template to use to manage ```/etc/hosts```, and the ipaddress, domain and hostname values for the local node (by default the relevant facts values are used):
 
-    profile::hosts::file::template: 'profile/hosts/file/hosts.erb' # Default value
-    profile::hosts::file::ipaddress: '10.0.0.4' # Default: $::ipaddress
-    profile::hosts::file::domain: 'domain.com' # Default: $::domain
-    profile::hosts::file::hostname: 'www01' # Default: $::hostname
+    profile::hosts::file::template: 'profile/hosts/file/hosts.erb' # Default value
+    profile::hosts::file::ipaddress: '10.0.0.4' # Default: $::ipaddress
+    profile::hosts::file::domain: 'domain.com' # Default: $::domain
+    profile::hosts::file::hostname: 'www01' # Default: $::hostname
 
 
 ## ::profile::hosts::dynamic - Automatic /etc/hosts management
@@ -150,12 +150,12 @@ This class manages sudo. It can be included by setting:
 
 You can configure the template to use for ```/etc/sudoers```, the admins who can sudo on your system (if it's used the default or a compatible template), the Puppet fileserver source for the whole content of the ```/etc/sudoers.d/```:
 
-    profile::sudo::sudoers_template: 'profile/sudo/sudoers.erb' # Default value
-    profile::sudo::admins: # Default is [] 
+    profile::sudo::sudoers_template: 'profile/sudo/sudoers.erb' # Default value
+    profile::sudo::admins: # Default is [] 
       - al
       - mark
       - bill
-    profile::sudo::sudoers_d_source: 'puppet:///modules/site/sudo/sudoers.d' # Default is empty
+    profile::sudo::sudoers_d_source: 'puppet:///modules/site/sudo/sudoers.d' # Default is empty
 
 It's also possible to provide an hash of custom sudo directives to pass to the ```::tools::sudo::directive``` define:
 
@@ -232,7 +232,7 @@ To avoid to manage the configuration file (eventually overriding more general se
     profile::logs::rsyslog::config_file_template: ''
 
 
-## ::profile::sysctl - Manage sysctl settings
+## ::profile::sysctl - Manage sysctl settings
 
 This class manages sysctl settings. To include it:
 
@@ -247,7 +247,7 @@ Any sysctl setting can be set via Hiera, using the ```profile::sysctl::settings`
         value: 250 32000 100 128
 
 
-## ::profile::motd - Manage /etc/motd and /etc/issue files
+## ::profile::motd - Manage /etc/motd and /etc/issue files
 
 This class just manages the content of the ```/etc/motd.conf``` and ```/etc/issue``` files. To include it:
 
@@ -255,8 +255,8 @@ This class just manages the content of the ```/etc/motd.conf``` and ```/etc/issu
 
 To customise the content of the provided files:
 
-    profile::motd::motd_file_template: 'profile/motd/motd.erb' # Default value
-    profile::motd::issue_file_template: 'profile/motd/issue.erb' # Default value
+    profile::motd::motd_file_template: 'profile/motd/motd.erb' # Default value
+    profile::motd::issue_file_template: 'profile/motd/issue.erb' # Default value
 
 To avoid to manage these files:
 

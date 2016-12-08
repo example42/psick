@@ -32,6 +32,6 @@ class profile::monitor::newrelic (
     ensure       => $ensure,
     template     => $extra_config_file_template,
     options_hash => $options,
-  } 
-  
+  }
+
 }

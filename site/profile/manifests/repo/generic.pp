@@ -1,12 +1,12 @@
 # Generic repo management wrapper class
-# Repos to create, besides default ones (when add_defaults = true)
+# Repos to create, besides default ones (when add_defaults = true)
 # are looked up via hiera_hash
 #
 class profile::repo::generic (
   Boolean $add_defaults = false,
-  String $yum_resource = 'yumrepo',     # As native resource type
-  String $apt_resource = 'apt::source', # As in puppetlabs-apt
-  String $zypper_resource = 'zypprepo', # As in darin-zypprepo
+  String $yum_resource = 'yumrepo',     # As native resource type
+  String $apt_resource = 'apt::source', # As in puppetlabs-apt
+  String $zypper_resource = 'zypprepo', # As in darin-zypprepo
 ) {
 
   # Default repos

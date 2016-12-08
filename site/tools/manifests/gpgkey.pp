@@ -16,7 +16,7 @@ define tools::gpgkey (
     file { $title:
       ensure => $ensure,
       path   => "${rpm_gpg_dir_path}/${title}",
-      source => "${source}",
+      source => $source,
     }
   }
 
