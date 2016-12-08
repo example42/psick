@@ -12,3 +12,4 @@ modules/
 .pe_build
 /keys/private_key.pkcs7.pem
 *.pyc
+vagrant/environments/ostest/ubuntu-xenial-16.04-cloudimg-console.log
