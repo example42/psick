@@ -3,7 +3,7 @@
 vm:
   memory: 1024
   cpu: 1
-  box: centos7 # From boxes list below
+  box: centos7 # From boxes list below
   puppet_apply: true
   puppet_agent: false
 

@@ -133,9 +133,9 @@ Vagrant.configure("2") do |config|
           node_config.trigger.after :destroy do
             node_name = @machine.name.to_s
             puts "Cleaning #{node_name} certificate from puppet"
-            `vagrant ssh #{puppet_master_hostname} -- -t 'sudo puppet cert clean #{node_name}.#{settings['network']['domain']}'`
+            `vagrant ssh #{master_vm} -- -t 'sudo puppet cert clean #{node_name}.#{settings['network']['domain']}'`
             puts "Deactivating #{node_name} from puppet"
-            `vagrant ssh #{puppet_master_hostname} -- -t 'sudo puppet node deactivate #{node_name}.#{settings['network']['domain']}'`
+            `vagrant ssh #{master_vm} -- -t 'sudo puppet node deactivate #{node_name}.#{settings['network']['domain']}'`
           end
         end
       end
