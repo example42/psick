@@ -1,0 +1,15 @@
+---
+  profiles:
+    - profile::nfs::zam
+
+  profile::nfs::zam::is_nfsclient: true
+  profile::nfs::zam::is_nfsserver: true
+  profile::nfs::zam::configure_fileserver: true
+  profile::nfs::zam::nfs_server: 'localhost'
+  profile::nfs::zam::nfs_ro_clients:
+    - '10.42.42.0/24'
+  profile::nfs::zam::nfs_rw_clients:
+    - '127.0.0.1'
+
+  puppet_enterprise::profile::puppetdb::whitelisted_certnames:
+    - cirunner.lan
