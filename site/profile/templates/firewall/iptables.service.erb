@@ -1,0 +1,13 @@
+# File Managed by Puppet
+[Unit]
+Description=Iptables service
+After=network.target ypbind.service nfs.service nfsserver.service rpcbind.service SuSEfirewall2_init.service
+
+[Service]
+ExecStart=/usr/sbin/iptables-restore /etc/sysconfig/iptables
+ExecStop=/usr/sbin/iptables-restore /etc/sysconfig/iptables.stop
+RemainAfterExit=true
+Type=oneshot
+
+[Install]
+WantedBy=multi-user.target
