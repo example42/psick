@@ -1,0 +1,3 @@
+profile::firewall::iptables::package_name: 'iptables-persistent'
+profile::firewall::iptables::service_name: 'iptables-persistent'
+profile::firewall::iptables::config_file_path: '/etc/iptables/rules.v4'

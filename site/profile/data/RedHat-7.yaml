@@ -1,0 +1,13 @@
+profile::firewall::iptables::package_name: 'iptables-services'
+
+profile::hardening::services::services_default:
+  - 'avahi-daemon'
+  - 'NetworkManager'
+  - 'cups'
+
+profile::packages::packages_default:
+  - 'lynx'
+  - 'screen'
+  - 'selinux-policy-targeted'
+  - 'sysfsutils'
+
