@@ -73,7 +73,7 @@ Data used for the image is in hieradata/role/$puppetrole.yaml
 
 
 
-### General maintenance
+### General maintenance
 
 A few other commands are available for general Docker maintenance.
 
@@ -100,7 +100,7 @@ To run in unattended mode (useful for cleanups in CI pipelines):
     bin/docker_purge.sh auto
 
 
-### Docker prerequisites
+### Docker prerequisites
 
 Docker operations via Fabric or using the command line require Docker to be locally installed.
 

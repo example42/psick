@@ -80,7 +80,7 @@ if versioncmp($::puppetversion, '4.0.0') >= 0 {
   $kernel_down=downcase($::kernel)
   contain "::profile::base::${kernel_down}"
 
-  # Classification option 1 - Profiles defined in Hiera
+  # Classification option 1 - Profiles defined in Hiera
   hiera_include('profiles',[])
 
   # Classification option 2 - Classic roles and profiles classes:

@@ -130,8 +130,8 @@ So to run a noop Puppet run on the given node for a specific Puppet environment 
 To make a real Puppet run on a given node:
 
     fab -H <node> puppet.agent:[environment]
-    fab -H web01.example.com puppet.agent # Normal Puppet agent run using production environment
-    fab -H web01.example.com puppet.agent:test_festure # Puppet agent run using an environment called test_feature
+    fab -H web01.example.com puppet.agent # Normal Puppet agent run using production environment
+    fab -H web01.example.com puppet.agent:test_festure # Puppet agent run using an environment called test_feature
 
 
 #### With Docker

@@ -17,4 +17,4 @@ profiles:
 # base profile classes which are by default added to 
 # all the roles.
 # Uncomment below to enable the inclusion of base classes
-profile::base::linux::enable: false
+# profile::base::linux::enable: false

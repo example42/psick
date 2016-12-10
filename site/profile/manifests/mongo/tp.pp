@@ -97,7 +97,7 @@ class profile::mongo::tp (
     }
   }
 
-  if $all_options['replSetName'] != '' and $initial_master and $replset_members != [] {
+  if $all_options['replSetName'] != '' and $initial_master and $replset_members != [] {
     # Replica members add
     $additional_members=$replset_members - $replset_members[0]
     $additional_members.each |$member| {
@@ -118,7 +118,7 @@ class profile::mongo::tp (
     }
   }
 
-  if $initial_router and $shards != [] {
+  if $initial_router and $shards != [] {
     # Replica members add
     $shards.each |String $shard| {
       $safe_shard=regsubst($shard, '/', '_', 'G')

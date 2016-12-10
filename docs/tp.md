@@ -14,7 +14,7 @@ Integration with Tiny Puppet ([tp](https://github.com/example42/puppet-tp)) and 
 
   - Integration tests comes out of the box free, for multiple apps and os, with tp::test
 
-### Sample profiles based on tp
+### Sample profiles based on tp
 
 Some of the profiles under the ```site/profile/manifests``` directory use tp instead of a dedicated component module to manage an application. You are free to use them or not and they can be good examples on how to design profiles based on tp and save headaches and time on studying and integrsting a dedicated component module.
 
@@ -69,7 +69,7 @@ Some possible uses:
     bin/tp_install.sh epel
 
     # Install sysdig (automatically manages dependencies from other tp apps)
-    # Requires tp version >= 1.2 and tinydata version >= v0.0.14 )
+    # Requires tp version >= 1.2 and tinydata version >= v0.0.14 )
     bin/tp_install.sh sysdig
  
     # Install puppetserver from Puppet official repos
@@ -84,7 +84,7 @@ Some possible uses:
     # Install OpenJDK
     bin/tp_install.sh openjdk-jdk
 
-    # Install apache for the lazy or mindless ones
+    # Install apache for the lazy or mindless ones
     bin/tp_install.sh apache
 
 If some of these or other commands don't work for the selected app on your local operating system, then it's probably a matter of missing or wrong tinydata, which can be easily solved.

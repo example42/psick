@@ -46,7 +46,7 @@ You can retrieve the old lists of Example42 modules from other versions with:
 Note that earlier versions are based on git modules and have not a control-repo structure.
 
 
-### Single Modules
+### Single Modules
 
 All the modules have a ```metadata.json``` file where dependencies are described.
 

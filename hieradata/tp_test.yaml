@@ -1,5 +1,5 @@
 ---
-  # Sample classification entirely driven by tp
+  # Sample classification entirely driven by tp
 
   ## TP Default settings (Note the usage of Yaml aliases to define common parameters)
   tp_defaults: &tp_defaults

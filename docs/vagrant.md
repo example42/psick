@@ -45,7 +45,7 @@ To do the same from the local vm:
 
 If you want to use a Puppet Master for Puppet provisioning on the VM:
 
-    vm # puppet agent -t 
+    vm # puppet agent -t 
 
 Note that by default a puppet apply is used and so it can work on the local control-repo files (mounted on the Vagrant VM). If you use a Puppet Master which is not in your Vagrant environment you will test the code present on the Master itself.
 
@@ -103,17 +103,17 @@ You can set the general settings valid for all the VM:
 
     vm:
       memory: 512            # Memory in MB of the VM
-      cpu: 1                 # vCPUs of the VM
-      role: ostest           # The default Puppet role (you may not want to set it here)
-      box: centos7           # The default Vagrant box to use (from the list under ```boxes```)
+      cpu: 1                 # vCPUs of the VM
+      role: ostest           # The default Puppet role (you may not want to set it here)
+      box: centos7           # The default Vagrant box to use (from the list under ```boxes```)
       puppet_apply: true     # If to provision with puppet apply executed on the local files
-      puppet_agent: false    # If to provision with puppet agent (you have to take care of setting up your Puppet Master)
+      puppet_agent: false    # If to provision with puppet agent (you have to take care of setting up your Puppet Master)
 
 Manage general network settings:
 
     network:
-      range: 10.42.43.0/24   # The network to use for VMs internal lan
-      ip_start_offset: 101   # The starting IP in the above range (if an ip_address is not explicitly set for a VM)
+      range: 10.42.43.0/24   # The network to use for VMs internal lan
+      ip_start_offset: 101   # The starting IP in the above range (if an ip_address is not explicitly set for a VM)
       domain: devel          # The DNS domain of your VMs
 
 Manage Puppet related settings:
@@ -127,21 +127,21 @@ Define the nodes list (as shown in ```vagrant status```):
 
     nodes:
       - role: log                    # Puppet role: log
-        count: 1                     # How many instances of log servers to list
+        count: 1                     # How many instances of log servers to list
       - role: mon                    # Another node, another role
         count: 1
       - role: docker_tp_build        # Role: docker_tp_build
-        hostname_base: docker-build  # Here the node name is overridden
+        hostname_base: docker-build  # Here the node name is overridden
         count: 1                  
         box: ubuntu1404              # Also the Vagrant box to use is different from the default one under vm
       - role: puppet                 # A puppet role for the Puppet Master
         count: 1
-        memory: 4096                 # More memory than default for this VM
-        cpu: 2                       # More vCPUS
+        memory: 4096                 # More memory than default for this VM
+        cpu: 2                       # More vCPUS
         box: ubuntu1604              # Specific box...
-        ip_address: 10.42.42.10      # Fixed IP address
-        puppet_apply: true           # Force provisioning via puppet apply
-        aliases:                     # Added aliases for Vagrant hostmanager plugin (if used)
+        ip_address: 10.42.42.10      # Fixed IP address
+        puppet_apply: true           # Force provisioning via puppet apply
+        aliases:                     # Added aliases for Vagrant hostmanager plugin (if used)
           - puppet
 
 Finally it's possible to define the Vagrant boxes to use for the different VMs:

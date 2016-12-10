@@ -83,7 +83,7 @@ To have a full working environment you might need to locally install some softwa
 
 You can simply run ```bin/setup.sh``` to install them via Puppet or just can do that manually, as follows.
 
-### Single Modules
+### Single Modules
 
 All the modules have a ```metadata.json``` file where dependencies are described.
 
@@ -106,7 +106,7 @@ The hiera-eyaml, r10k and deep_merge gems can be installed by the setup script o
     /opt/puppetlabs/puppet/bin/gem install r10k
     /opt/puppetlabs/puppet/bin/gem install deep_merge
 
-    # Gem installation in Puppet server environment (if present)
+    # Gem installation in Puppet server environment (if present)
     /opt/puppetlabs/server/apps/puppetserver/cli/apps/gem install hiera-eyaml
     /opt/puppetlabs/server/apps/puppetserver/cli/apps/gem install r10k
     /opt/puppetlabs/server/apps/puppetserver/cli/apps/gem install deep_merge
@@ -128,7 +128,7 @@ For a correct setup of the Vagrant environment you need Vagrant, VirtualBox and 
 
 These plugins, as Vagrant itself, can be installed by the setup script.
 
-### Docker
+### Docker
 
 Docker operations via Fabric or the command line require Docker to be locally installed.
 

@@ -72,19 +72,19 @@ The most important parameters (here written as configurable via Hiera with Yaml 
 
     # Set any option you may want to use in templates
     <%= metadata.name %>::options:
-      my_key: my_value # In an erb template this is accessed with \<\%= @options['my_key'] \%\>
+      my_key: my_value # In an erb template this is accessed with \<\%= @options['my_key'] \%\>
 
     # Define what module to use for Tiny Puppet data:
     <%= metadata.name %>::data_module: <%= metadata.name %> # Default
 
     # Restart service on change, by default, on all the module's classes and defines
-    <%= metadata.name %>::auto_restart: true # Default 
+    <%= metadata.name %>::auto_restart: true # Default 
 
     # Automatically add, in the main class and profiles, default configurations, if they are available
-    <%= metadata.name %>::auto_conf: false # Default 
+    <%= metadata.name %>::auto_conf: false # Default 
 
     # Automatically add prerequisites resources (packages, repos, users...) if they are defined
-    <%= metadata.name %>::auto_depend: false # Default 
+    <%= metadata.name %>::auto_depend: false # Default 
 
 
 ## Reference

@@ -74,7 +74,7 @@ define tools::lb::balance (
   } # end KeepAlived/LVS
 
   if $direct_response {
-    # Manage VIP on loopback interface
+    # Manage VIP on loopback interface
     # write helperfile for vip to bind on loopback
     tools::network::set_lo_ip { $vip: }
 

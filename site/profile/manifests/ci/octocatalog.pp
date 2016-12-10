@@ -6,7 +6,7 @@ class profile::ci::octocatalog (
   Hash             $options            = { },
   Optional[String] $git_repo           = undef,
   String           $git_repo_dir       = '/srv/control-repo',
-  String           $run_as_user        = 'root', # In CI setups set this to the CI user
+  String           $run_as_user        = 'root', # In CI setups set this to the CI user
 ) {
 
   if $run_as_user =='root' {

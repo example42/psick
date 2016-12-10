@@ -2,7 +2,7 @@
 
 This control-repo provides several tools that help Puppeteers in their daily work.
 
-### Remote puppet commands via Fabric
+### Remote puppet commands via Fabric
 
 Various Fabric tasks are available to executing on remote hosts. You will need access to them, possibly via ssh keys.
 
@@ -30,7 +30,7 @@ Setup on the remote node all the prequisites to run this control-repo in apply m
 Deploy this control-repo from upstream source:
 
     fab puppet.deploy_controlrepo
-    # bin/puppet_deploy_controlrepo.sh is executed on the remote node
+    # bin/puppet_deploy_controlrepo.sh is executed on the remote node
 
 Run puppet apply with or without noop on all the known hosts (expected control-repo in production environment):
 

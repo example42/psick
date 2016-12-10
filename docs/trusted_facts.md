@@ -1,4 +1,4 @@
-# Setting trusted facts
+# Setting trusted facts
 
 Extensions to a node certificate can de defined for each Puppet managed node in order to define informations that can't be changed unless the same node certificate is recreated.
 
