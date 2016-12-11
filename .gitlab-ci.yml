@@ -1,0 +1,11 @@
+# Puppet syntax checks
+syntax:
+  before_script:
+    - "bin/gitlab_before.sh"
+  script: "bin/puppet_check_syntax.sh"
+
+# Puppet catalog diff checks (WIP)
+catalog:
+  before_script:
+    - "bin/gitlab_before.sh"
+  script: "bin/gitlab_catalog_diff.sh"

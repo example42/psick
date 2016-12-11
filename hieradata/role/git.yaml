@@ -1,3 +1,4 @@
 ---
   profiles:
     - '::profile::git'
+    - '::profile::gitlab'

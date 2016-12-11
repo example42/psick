@@ -8,7 +8,7 @@ Edit ```config.yaml``` in this directory to customise the VMs to test, the Puppe
 
 To work in this Vagrant environment:
 
-    # You need the pe_build plugin
+    # You need the pe_build plugin (the hostmanager plugin may be also useful)
     vagrant plugin install vagrant-pe_build
 
     cd <your-control-repo-dir>
@@ -43,12 +43,15 @@ If the PE installation files are already in place when you vagrant up the puppet
     vagrant provision puppet # Do the real provisioning: it should install PE and run puppet agent with no errors
 
 
-Note 2: It's recommended to run this Vagrant environment on hosts that have at least 16 Gb or RAM. Edit ```config.yaml``` to tune the memory to allocate to the VM.
+Note 2: If you want to start all the default VMs of this environment you will need a *lot* of memory: at least 12 Gb of RAM. Edit ```config.yaml``` to tune the memory to allocate to the VM.
+
+
+### Usage
 
 To access the PE console from your host browse to **https://127.0.0.1:1443**
 
 Login: **admin**
 Password: **puppetlabs**
 
-
+To access the GitLab installation, browse to **http://127.0.0.1:1080**, insert your admin password, then register a new user.
 

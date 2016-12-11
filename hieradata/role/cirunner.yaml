@@ -1,0 +1,14 @@
+---
+  profiles:
+    - profile::puppet::gems
+    - profile::ci::gitlab_runner
+    - profile::git
+    - profile::ci::octocatalog
+
+#  profile::ci::octocatalog::git_repo: 'git@git.lan:dtt/control-repo.git'
+  profile::ci::octocatalog::run_as_user: 'gitlab-runner'
+  profile::ci::octocatalog::template: 'profile/ci/octocatalog/octocatalog-diff.cfg.rb.erb'
+  profile::ci::octocatalog::options:
+    puppetdb_url: 'https://puppet.lan:8081'
+    bootstrap_script: 'bin/puppet_install_puppetfile.sh'
+
