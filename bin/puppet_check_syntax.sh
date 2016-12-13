@@ -5,6 +5,7 @@ repo_dir="$(dirname $0)/.."
 PUPPET=$(which puppet)
 ERB=$(which erb)
 RUBY=$(which ruby)
+R10K=$(which r10k)
 global_exit=0
 filter='grep -v somethingtoskip'
 
@@ -72,5 +73,22 @@ if [ ! -z ${ERB} ] && [ ! -z ${RUBY} ]; then
 else
   echo_warning "erb not found."
 fi
+
+if [ ! -z ${R10K} ]; then
+  echo_title "Validating Puppetfile syntax"
+  echo -ne "Puppetfile - "
+  err=$(${R10K} puppetfile check 2>&1)
+  if [ $? = 0 ]; then
+    echo_success "OK"
+  else
+    echo_failure "ERROR"
+    echo $err
+    global_exit=1
+  fi
+else
+  echo_warning "r10k not found."
+fi
+
+echo
 
 exit $global_exit
