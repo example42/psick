@@ -3,7 +3,7 @@
 vm:
   memory: 1024                 # MB or RAM to assign
   cpu: 1                       # Number of vCPU to assign to the VM
-  box: centos7                 # Box used for the VM, from the boxes list below
+  box: ubuntu1604              # Box used for the VM, from the boxes list below
   puppet_apply: false          # Run puppet apply on the local control-repo during provisioning
   puppet_agent: true           # Run puppet agent during provisioning
   facter_external_facts: false # Create external facts in facts.d/$fact.txt. Note 1
@@ -18,7 +18,7 @@ vm:
 network:
   range: 10.42.42.0/24   # Network address and mask to use 
   ip_start_offset: 101   # Starting ip in the network for automatic assignement
-  domain: lan            # Name of DNS domain for the created machines
+  domain: vagrant        # Name of DNS domain for the created machines
 
 # Puppet related settings
 puppet:
@@ -28,12 +28,12 @@ puppet:
   datacenter: vagrant         # Setting for the datacenter fact (may be used in hiera.yaml)
   application: default        # Setting for the application fact (may be used in hiera.yaml)
   master_vm:  puppet          # Name of the VM which play as Puppet server for the others
-  master_fqdn: 'puppet.lan'   # FQDN of the Puppet server to use with puppet agent
+  master_fqdn: 'puppet.vagrant' # FQDN of the Puppet server to use with puppet agent
   link_controlrepo: true      # Create a link for for Puppet production environment to the locally mounted development control-repo 
 
 # Puppet Enterprise settings
-  pe_version: '2016.4.2'         # Version of PE to install on the puppet server. See Note 2
-  pe_download_root: 'https://s3.amazonaws.com/pe-builds/released/2016.4.2' # Download base url. See Note 2
+  pe_version: '2016.5.1'         # Version of PE to install on the puppet server. Change also below. See Note 2
+  pe_download_root: 'https://s3.amazonaws.com/pe-builds/released/2016.5.1' # Download base url. See Note 2
   pe_verbose: true               # If to show PE installation output 
   pe_relocate_manifests: false   # If to relocate manifests and module dir. Not needed in this setup.
 

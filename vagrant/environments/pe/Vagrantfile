@@ -37,6 +37,7 @@ if settings['nodes'].is_a?(Array)
       vm = node.clone
       vm['hostname_base'] = vm['hostname_base'] ? vm['hostname_base'] : vm['role']
       vm['hostname'] = "%s" % [vm['hostname_base']]
+      vm['fqdn'] = "%s.%s" % [vm['hostname_base'], settings['network']['domain']]
 
       if vm['ip_address']
         vm['ip'] = vm['ip_address']
@@ -86,6 +87,7 @@ Vagrant.configure("2") do |config|
   vms.each do |node|
     role = node['role'].clone
     hostname = node['hostname'].clone
+    fqdn = node['fqdn'].clone
     box = node['box'].clone
     aliases = node['aliases'].clone + node['aliases'] 
     env = settings['puppet']['env']
@@ -107,6 +109,7 @@ Vagrant.configure("2") do |config|
       node_config.vm.box = vm_box
       node_config.vm.hostname = hostname
       node_config.vm.network :private_network, ip: node['ip']
+      node_config.vm.provision "shell", path: '../../bin/vagrant-sethostname.sh', args: "#{fqdn}"
       node_config.vm.provision "shell", path: '../../bin/vagrant-setfacts.sh', args: "--role #{role} --env #{env} --zone #{zone} --datacenter #{datacenter} --application #{application}" if node['facter_external_facts']
       node_config.vm.provision "shell", path: '../../bin/vagrant-settrustedfacts.sh', args: "--role #{role} --env #{env} --zone #{zone} --datacenter #{datacenter} --application #{application}" if node['facter_trusted_facts']
 
