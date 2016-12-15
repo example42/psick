@@ -10,82 +10,105 @@ echo_title () {
   echo "${SETCOLOR_BOLD}###${SETCOLOR_NORMAL} ${SETCOLOR_TITLE}${1}${SETCOLOR_NORMAL} ${SETCOLOR_BOLD}###${SETCOLOR_NORMAL}"
 }
 
-echo_title "Checking Puppet installation"
-
-setup_puppetlabs-centos6() {
-#  echo_title "Installing Ruby 1.9.3
-#  yum install -y centos-release-SCL
-#  yum install -y ruby193
-#  echo "source /opt/rh/ruby193/enable" | sudo tee -a /etc/profile.d/ruby193.sh
-
-  echo_title "Cleaning up existing ruby and puppet installations"
-  yum erase -y ruby puppet
-
-  echo_title "Adding repo for Puppet 4"
-  rpm -Uvh https://yum.puppetlabs.com/puppetlabs-release-pc1-el-6.noarch.rpm
-
-  echo_title "Installing Puppet 4"
-  yum install -y puppet-agent
-}
-
-setup_redhat7() {
+setup_redhat() {
   echo_title "Uninstalling existing Puppet"
-  yum erase -y puppet >/dev/null 
+  yum erase -y puppet puppetlabs-release >/dev/null
 
   echo_title "Adding repo for Puppet 4"
-  rpm -ivh https://yum.puppetlabs.com/el/7/products/x86_64/puppetlabs-release-7-11.noarch.rpm >/dev/null # 2>&1
+  rpm -ivh https://yum.puppetlabs.com/puppetlabs-release-pc1-el-$1.noarch.rpm
 
   sleep 2
   echo_title "Installing Puppet"
-  yum install -y puppet >/dev/null 
+  yum install -y puppet-agent >/dev/null
 }
 
-setup_puppetlabs-ubuntu1204() {
-  echo_title "Running apt-get update"
-  apt-get update >/dev/null
+setup_apt() {
+  case $1 in
+    6) codename=squeeze ;;
+    7) codename=wheezy ;;
+    8) codename=jessie  ;;
+    9) codename=stretch  ;;
+    12.04) codename=precise ;;
+    14.04) codename=trusty  ;;
+    16.04) codename=xenial ;;
+    *) echo "Release not supported" ;;
+  esac
 
-  echo_title "Installing Ruby 1.9.3"
-  apt-get install -y ruby1.9.1 ruby1.9.1-dev rubygems1.9.1 irb1.9.1 ri1.9.1 rdoc1.9.1 build-essential libopenssl-ruby1.9.1 libssl-dev zlib1g-dev  >/dev/null
-  update-alternatives --install /usr/bin/ruby ruby /usr/bin/ruby1.9.1 400 \
-     --slave   /usr/share/man/man1/ruby.1.gz ruby.1.gz \
-               /usr/share/man/man1/ruby1.9.1.1.gz \
-     --slave   /usr/bin/ri ri /usr/bin/ri1.9.1 \
-     --slave   /usr/bin/irb irb /usr/bin/irb1.9.1 \
-     --slave   /usr/bin/rdoc rdoc /usr/bin/rdoc1.9.1
-
-  update-alternatives --config ruby
-  update-alternatives --config gem
-}
-
-setup_debian8() {
   echo_title "Adding repo for Puppet 4"
-  wget -q http://apt.puppetlabs.com/puppetlabs-release-jessie.deb >/dev/null
-  dpkg -i puppetlabs-release-jessie.deb >/dev/null
+  wget -q "http://apt.puppetlabs.com/puppetlabs-release-pc1-${codename}.deb" >/dev/null
+  dpkg -i "puppetlabs-release-pc1-${codename}.deb" >/dev/null
 
   echo_title "Running apt-get update"
   apt-get update >/dev/null 2>&1
 
   echo_title "Installing Puppet and its dependencies"
-  apt-get install puppet -y >/dev/null
+  apt-get install puppet-agent -y >/dev/null
   apt-get install apt-transport-https -y >/dev/null
 }
 
-setup_opensuse12(){
-  echo_title "Installing Puppet repository"
-  zypper addrepo -f http://download.opensuse.org/repositories/systemsmanagement:/puppet/SLE_11_SP4/ puppet
+setup_solaris() {
+  echo_title "Not yet supported"
+}
+setup_darwin() {
+  echo_title "Not yet supported"
+}
+setup_bsd() {
+  echo_title "Not yet supported"
+}
+setup_windows() {
+  echo_title "Not yet supported"
+}
+setup_linux() {
+  ARCH=$(uname -m | sed 's/x86_//;s/i[3-6]86/32/')
 
-  echo_title "Installing Puppet and its dependencies"
-  zypper install -y puppet
+  if [ -f /etc/lsb-release ]; then
+      . /etc/lsb-release
+      OS=$DISTRIB_ID
+      majver=$DISTRIB_RELEASE
+  elif [ -f /etc/os-release ]; then
+      . /etc/os-release
+      OS=$ID
+      majver=$VERSION_ID
+  elif [ -f /etc/debian_version ]; then
+      OS=Debian
+      majver=$(cat /etc/debian_version | cut -d '.' -f 1)
+  elif [ -f /etc/redhat-release ]; then
+      # TODO add code for Red Hat and CentOS here
+      ...
+  else
+      OS=$(uname -s)
+      majver=$(uname -r)
+  fi
+  distro=$(echo $OS | tr '[:upper:]' '[:lower:]')
+  echo_title "Detected Linux distro: ${distro} version ${majver} on arch ${ARCH}"
+  case "$distro" in
+    debian) setup_apt $majver ;;
+    ubuntu) setup_apt $majver ;;
+    redhat) setup_redhat $majver ;;
+    centos) setup_redhat $majver ;;
+    scientific) setup_redhat $majver ;;
+    amazon) setup_redhat $majver ;;
+    *) echo "Not supported distro: $distro" ;;
+  esac
 }
 
-setup_alpine() {
-  echo_title "Adding repo for Puppet 4"
-  echo http://dl-4.alpinelinux.org/alpine/edge/testing/ >> /etc/apk/repositories
-  apk update
-
-  echo_title "Installing Puppet and its dependencies"
-  apk add shadow ruby less bash
-  gem install puppet --no-rdoc -no-ri
+os_detect() {
+  case "$OSTYPE" in
+    solaris*) setup_solaris ;;
+    darwin*)  setup_darwin ;;
+    linux*)   setup_linux ;;
+    bsd*)     setup_bsd ;;
+    cygwin*)  setup_windows ;;
+    msys*)    setup_windows ;;
+    win*)     setup_windows ;;
+    *)        echo "unknown: $OSTYPE" ;;
+  esac
 }
 
-setup_$breed 
+if [ "x$breed" != "x" ]; then
+  setup_$breed
+else
+  os_detect
+fi
+ln -s /opt/puppetlabs/puppet/bin/puppet /usr/bin/puppet
+ln -s /opt/puppetlabs/puppet/bin/facter /usr/bin/facter
