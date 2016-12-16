@@ -22,6 +22,31 @@ setup_redhat() {
   yum install -y puppet-agent >/dev/null
 }
 
+setup_fedora() {
+  echo_title "Uninstalling existing Puppet"
+  yum erase -y puppet puppetlabs-release >/dev/null
+
+  echo_title "Adding repo for Puppet 4"
+  rpm -ivh https://yum.puppetlabs.com/puppetlabs-release-pc1-fedora-$1.noarch.rpm
+
+  sleep 2
+  echo_title "Installing Puppet"
+  yum install -y puppet-agent >/dev/null
+}
+
+setup_suse() {
+  version=$(echo $? | cut -d '.' -f 1)
+  echo_title "Uninstalling existing Puppet"
+  yum erase -y puppet puppetlabs-release >/dev/null
+
+  echo_title "Adding repo for Puppet 4"
+  rpm -ivh https://yum.puppetlabs.com/puppetlabs-release-pc1-sles-$version.noarch.rpm
+
+  sleep 2
+  echo_title "Installing Puppet"
+  yum install -y puppet-agent >/dev/null
+}
+
 setup_apt() {
   case $1 in
     6) codename=squeeze ;;
@@ -61,7 +86,13 @@ setup_windows() {
 setup_linux() {
   ARCH=$(uname -m | sed 's/x86_//;s/i[3-6]86/32/')
 
-  if [ -f /etc/lsb-release ]; then
+  if [ -f /etc/debian_version ]; then
+      OS=Debian
+      majver=$(cat /etc/debian_version | cut -d '.' -f 1)
+  elif [ -f /etc/redhat-release ]; then
+      OS=$(cat /etc/redhat-release | cut -d ' ' -f 1)
+      majver=$(cat /etc/redhat-release | cut -d ' ' -f 3 | cut -d '.' -f 1)
+  elif [ -f /etc/lsb-release ]; then
       . /etc/lsb-release
       OS=$DISTRIB_ID
       majver=$DISTRIB_RELEASE
@@ -69,12 +100,6 @@ setup_linux() {
       . /etc/os-release
       OS=$ID
       majver=$VERSION_ID
-  elif [ -f /etc/debian_version ]; then
-      OS=Debian
-      majver=$(cat /etc/debian_version | cut -d '.' -f 1)
-  elif [ -f /etc/redhat-release ]; then
-      # TODO add code for Red Hat and CentOS here
-      ...
   else
       OS=$(uname -s)
       majver=$(uname -r)
@@ -85,9 +110,11 @@ setup_linux() {
     debian) setup_apt $majver ;;
     ubuntu) setup_apt $majver ;;
     redhat) setup_redhat $majver ;;
+    fedora) setup_fedora $majver ;;
     centos) setup_redhat $majver ;;
     scientific) setup_redhat $majver ;;
     amazon) setup_redhat $majver ;;
+    sles) setup_suse $majver ;;
     *) echo "Not supported distro: $distro" ;;
   esac
 }

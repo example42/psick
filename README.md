@@ -16,7 +16,13 @@ Download this repository:
     git clone https://github.com/example42/control-repo
     cd control-repo
 
-To install the minimum prequequisites (hiera-eyaml, deep_merge, r10k gems) and populate the external modules directory via r10k, just run: 
+You need Puppet 4, possibly the latest release.
+
+To install Puppet official repos and the latest Puppet agent run:
+
+    bin/puppet_install.sh
+
+To setup the Puppet environment, install the prequequisite gems (hiera-eyaml, deep_merge, r10k) and populate the external modules directory via r10k, just run: 
 
     bin/puppet_setup.sh
 
@@ -26,7 +32,7 @@ If you also want to install the recommended (Fabric, Vagrant, Docker) tools that
 
 You will be asked to confirm or skip each component installation.
 
-NOTE: setup.sh currently does not fully work on Mac and Windows.
+NOTE: Scripts are mostly tested on Mac and Linux environments, support on Windows is WIP.
 
 For unattended setups (typically in CI pipelines) you can skip confirmation requests with:
 
