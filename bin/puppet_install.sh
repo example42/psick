@@ -37,14 +37,14 @@ setup_fedora() {
 setup_suse() {
   version=$(echo $? | cut -d '.' -f 1)
   echo_title "Uninstalling existing Puppet"
-  yum erase -y puppet puppetlabs-release >/dev/null
+  zypper remove -y puppet puppetlabs-release >/dev/null
 
   echo_title "Adding repo for Puppet 4"
   rpm -ivh https://yum.puppetlabs.com/puppetlabs-release-pc1-sles-$version.noarch.rpm
 
   sleep 2
   echo_title "Installing Puppet"
-  yum install -y puppet-agent >/dev/null
+  zypper install -y puppet-agent >/dev/null
 }
 
 setup_apt() {
