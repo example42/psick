@@ -45,8 +45,30 @@ nodes:
     box: suse11
   - hostname_base: alpine3
     box: alpine3
+  - hostname_base: fedora25
+    box: fedora25
+  - hostname_base: fedora24
+    box: fedora24
   - hostname_base: fedora23
     box: fedora23
+  - hostname_base: windows2012
+    box: windows2012
+  - hostname_base: windows2008
+    box: windows2008
+  - hostname_base: solaris11
+    box: solaris11
+  - hostname_base: solaris10
+    box: solaris10
+  - hostname_base: freebsd12
+    box: freebsd12
+  - hostname_base: freebsd11
+    box: freebsd11
+  - hostname_base: freebsd10
+    box: freebsd10
+  - hostname_base: osx1011
+    box: osx1011
+  - hostname_base: osx1010
+    box: osx1010
 
 
 boxes:
@@ -101,6 +123,39 @@ boxes:
   fedora23:
     box: fedora/23-cloud-base
     breed: redhat7
+  fedora24:
+    box: fedora/24-cloud-base
+    breed: redhat7
+  fedora25:
+    box: fedora/25-cloud-base
+    breed: redhat7
+  windows2008:
+    box: opentable/win-2008r2-standard-amd64-nocm
+    breed: win2008
+  windows2012:
+    box: opentable/win-2012r2-standard-amd64-nocm
+    breed: win2012
+  solaris10:
+    box: tnarik/solaris10-minimal
+    breed: solaris10
+  solaris11:
+    box: ruby-concurrency/oracle-solaris-11
+    breed: solaris11
+  freebsd10:
+    box: freebsd/FreeBSD-10.2-RELEASE
+    breed: freebsd
+  freebsd11:
+    box: freebsd/FreeBSD-11.0-RELEASE
+    breed: freebsd
+  freebsd12:
+    box: freebsd/FreeBSD-12.0-RELEASE
+    breed: freebsd
+  osx1010:
+    box: dhoer/macosx-10.10
+    breed: macos
+  osx1011:
+    box: carbon/osx-elcapitan-10.11
+    breed: macos
 
 # Image available for suse12 has issues. To setup correctly:
 # vagrant up suse12

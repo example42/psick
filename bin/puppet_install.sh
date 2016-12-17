@@ -24,27 +24,26 @@ setup_redhat() {
 
 setup_fedora() {
   echo_title "Uninstalling existing Puppet"
-  yum erase -y puppet puppetlabs-release >/dev/null
+  yum erase -y puppet puppetlabs-release 
 
   echo_title "Adding repo for Puppet 4"
   rpm -ivh https://yum.puppetlabs.com/puppetlabs-release-pc1-fedora-$1.noarch.rpm
 
   sleep 2
   echo_title "Installing Puppet"
-  yum install -y puppet-agent >/dev/null
+  yum install -y puppet-agent 
 }
 
 setup_suse() {
-  version=$(echo $? | cut -d '.' -f 1)
   echo_title "Uninstalling existing Puppet"
-  zypper remove -y puppet puppetlabs-release >/dev/null
+  zypper remove -y puppet puppetlabs-release 
 
   echo_title "Adding repo for Puppet 4"
-  rpm -ivh https://yum.puppetlabs.com/puppetlabs-release-pc1-sles-$version.noarch.rpm
+  rpm -ivh https://yum.puppetlabs.com/puppetlabs-release-pc1-sles-$1.noarch.rpm
 
   sleep 2
   echo_title "Installing Puppet"
-  zypper install -y puppet-agent >/dev/null
+  zypper --no-gpg-checks  --non-interactive install puppet-agent
 }
 
 setup_apt() {
@@ -92,6 +91,9 @@ setup_linux() {
   elif [ -f /etc/redhat-release ]; then
       OS=$(cat /etc/redhat-release | cut -d ' ' -f 1)
       majver=$(cat /etc/redhat-release | cut -d ' ' -f 3 | cut -d '.' -f 1)
+  elif [ -f /etc/SuSE-release ]; then
+      OS=sles
+      majver=$(cat /etc/SuSE-release | grep VERSION | cut -d '=' -f 2 | tr -d '[:space:]')
   elif [ -f /etc/lsb-release ]; then
       . /etc/lsb-release
       OS=$DISTRIB_ID
