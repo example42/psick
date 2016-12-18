@@ -67,8 +67,10 @@ nodes:
     box: freebsd10
   - hostname_base: osx1011
     box: osx1011
+    vagrant_mount: false
   - hostname_base: osx1010
     box: osx1010
+    vagrant_mount: false
 
 
 boxes:

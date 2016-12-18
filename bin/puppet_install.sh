@@ -36,10 +36,12 @@ setup_fedora() {
 
 setup_suse() {
   echo_title "Uninstalling existing Puppet"
-  zypper remove -y puppet puppetlabs-release 
+  zypper remove -y puppet >/dev/null 2>&1
+  zypper remove -y puppetlabs-release >/dev/null 2>&1
 
   echo_title "Adding repo for Puppet 4"
-  rpm -ivh https://yum.puppetlabs.com/puppetlabs-release-pc1-sles-$1.noarch.rpm
+  wget https://yum.puppetlabs.com/puppetlabs-release-pc1-sles-$1.noarch.rpm 2>&1
+  rpm -ivh puppetlabs-release-pc1-sles-$1.noarch.rpm 2>&1
 
   sleep 2
   echo_title "Installing Puppet"
@@ -74,7 +76,15 @@ setup_solaris() {
   echo_title "Not yet supported"
 }
 setup_darwin() {
-  echo_title "Not yet supported"
+  majver=$(sw_vers -productVersion | cut -d '.' -f 1-2)
+  echo_title "Downloading package for version ${majver}"
+  curl -s -o puppet-agent.dmg "https://downloads.puppetlabs.com/mac/${majver}/PC1/x86_64/puppet-agent-1.8.2-1.osx${majver}.dmg"
+
+  echo_title "Installing Puppet Agent"
+  hdiutil mount puppet-agent.dmg
+  package=$(find /Volumes/puppet-agent*  | grep pkg)
+  installer -pkg $package -target /
+  hdiutil unmount /Volumes/puppet-agent*
 }
 setup_bsd() {
   echo_title "Not yet supported"
@@ -84,8 +94,11 @@ setup_windows() {
 }
 setup_linux() {
   ARCH=$(uname -m | sed 's/x86_//;s/i[3-6]86/32/')
-
-  if [ -f /etc/debian_version ]; then
+  if [ -f /etc/os-release ]; then
+      . /etc/os-release
+      OS=$ID
+      majver=$VERSION_ID
+  elif [ -f /etc/debian_version ]; then
       OS=Debian
       majver=$(cat /etc/debian_version | cut -d '.' -f 1)
   elif [ -f /etc/redhat-release ]; then
@@ -139,5 +152,5 @@ if [ "x$breed" != "x" ]; then
 else
   os_detect
 fi
-ln -s /opt/puppetlabs/puppet/bin/puppet /usr/bin/puppet
-ln -s /opt/puppetlabs/puppet/bin/facter /usr/bin/facter
+[ -f /usr/bin/puppet ] || ln -s /opt/puppetlabs/puppet/bin/puppet /usr/bin/puppet
+[ -f /usr/bin/facter ] || ln -s /opt/puppetlabs/puppet/bin/facter /usr/bin/facter

@@ -92,6 +92,7 @@ Vagrant.configure("2") do |config|
       node_config.vm.box = vm_box
       node_config.vm.hostname = hostname
       node_config.vm.network :private_network, ip: node['ip']
+      node_config.vm.synced_folder ".", "/vagrant", disabled: true if node['vagrant_mount'] == false
       node_config.vm.provision "shell", path: '../../bin/vagrant-setup.sh', args: breed if settings['puppet']['setup']
       node_config.vm.provision "shell", path: '../../bin/vagrant-setfacts.sh', args: "--role #{role} --env #{env} --zone #{zone}" if node['facter_external_facts']
       node_config.vm.provision "shell", path: '../../bin/vagrant-settrustedfacts.sh', args: "--role #{role} --env #{env} --zone #{zone}" if node['facter_trusted_facts']
