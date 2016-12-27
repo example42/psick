@@ -42,8 +42,13 @@ mod "jdowning/rbenv", :latest
 mod "trlinkin/noop", :latest
 mod "puppetlabs/catalog_preview", :latest
 mod "puppet/archive", :latest
-mod "puppetlabs/dummy_service", :latest
 mod "puppetlabs/image_clone", :latest
+
+# Docker and Containers
+mod 'garethr/docker', :latest
+mod "puppetlabs/dummy_service", :latest
+mod 'puppetlabs/image_build', :latest
+mod 'puppetlabs/rkt', :latest
 
 # Used by profile::firewall::simple_nat
 # mod "example42/sysctl", :latest
