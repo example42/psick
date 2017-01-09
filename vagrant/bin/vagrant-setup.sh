@@ -14,7 +14,7 @@ setup_puppetlabs-centos7() {
 
 setup_puppetlabs-apt() {
   echo "## Running apt-get update"
-  apt-get update >/dev/null
+  apt-get update >/dev/null 2>&1
 
   echo "## Using an official Puppet vagrant box. Installation skipped."
 }
@@ -39,7 +39,7 @@ setup_centos5() {
   rpm -Uvh https://yum.puppetlabs.com/puppetlabs-release-pc1-el-5.noarch.rpm >/dev/null # 2>&1
 
   echo "## Installing Puppet"
-  yum install -y puppet-agent >/dev/null 
+  yum install -y puppet-agent >/dev/null 2>&1
 }
 
 setup_redhat6() {
@@ -50,7 +50,7 @@ setup_redhat6() {
   rpm -Uvh https://yum.puppetlabs.com/puppetlabs-release-pc1-el-6.noarch.rpm >/dev/null # 2>&1
 
   echo "## Installing Puppet"
-  yum install -y puppet-agent >/dev/null 
+  yum install -y puppet-agent >/dev/null 2>&1
 }
 
 setup_redhat7() {
@@ -61,7 +61,7 @@ setup_redhat7() {
   rpm -Uvh https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rpm >/dev/null # 2>&1
 
   echo "## Installing Puppet"
-  yum install -y puppet-agent >/dev/null 
+  yum install -y puppet-agent >/dev/null 2>&1
 }
 
 setup_puppetlabs-ubuntu1204() {
@@ -84,14 +84,14 @@ setup_puppetlabs-ubuntu1204() {
 setup_debian8() {
   echo "## Adding repo for Puppet 4"
   wget -q http://apt.puppetlabs.com/puppetlabs-release-pc1-jessie.deb >/dev/null
-  dpkg -i puppetlabs-release-pc1-jessie.deb >/dev/null
+  dpkg -i puppetlabs-release-pc1-jessie.deb >/dev/null 2>&1
 
   echo "## Running apt-get update"
   apt-get update >/dev/null 2>&1
 
   echo "## Installing Puppet and its dependencies"
-  apt-get install puppet-agent -y >/dev/null
-  apt-get install apt-transport-https -y >/dev/null
+  apt-get install puppet-agent -y >/dev/null 2>&1
+  apt-get install apt-transport-https -y >/dev/null 2>&1
 }
 
 setup_debian() {
@@ -107,15 +107,15 @@ setup_ubuntu() {
 deb_install() {
   dist=$1
   echo "## Adding repo for Puppet 4"
-  wget -q "http://apt.puppetlabs.com/puppetlabs-release-pc1-${dist}.deb" >/dev/null
-  dpkg -i "puppetlabs-release-pc1-${dist}.deb" >/dev/null
+  wget -q "http://apt.puppetlabs.com/puppetlabs-release-pc1-${dist}.deb" >/dev/null 2>&1
+  dpkg -i "puppetlabs-release-pc1-${dist}.deb" >/dev/null 2>&1
 
   echo "## Running apt-get update"
   apt-get update >/dev/null 2>&1
 
   echo "## Installing Puppet and its dependencies"
-  apt-get install puppet-agent -y >/dev/null
-  apt-get install apt-transport-https -y >/dev/null
+  apt-get install puppet-agent -y >/dev/null 2>&1
+  apt-get install apt-transport-https -y >/dev/null 2>&1
 }
 
 setup_opensuse12(){
@@ -131,7 +131,7 @@ setup_sles12(){
   rpm -Uvh https://yum.puppetlabs.com/puppetlabs-release-pc1-sles-12.noarch.rpm >/dev/null # 2>&1
 
   echo "## Installing Puppet"
-  yum install -y puppet-agent >/dev/null 
+  yum install -y puppet-agent >/dev/null 2>&1
 }
   
 setup_sles11(){
@@ -139,7 +139,7 @@ setup_sles11(){
   rpm -Uvh https://yum.puppetlabs.com/puppetlabs-release-pc1-sles-11.noarch.rpm >/dev/null # 2>&1
 
   echo "## Installing Puppet"
-  yum install -y puppet-agent >/dev/null 
+  yum install -y puppet-agent >/dev/null 2>&1
 }
   
 setup_alpine() {

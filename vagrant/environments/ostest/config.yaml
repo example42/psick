@@ -39,10 +39,17 @@ nodes:
     box: suse12
   - hostname_base: suse11
     box: suse11
+  - hostname_base: opensuse-tumbleweed
+    box: opensuse_tumbleweed
+  - hostname_base: opensuse-42-1
+    box: opensuse_42_1
   - hostname_base: alpine3
     box: alpine3
   - hostname_base: fedora23
     box: fedora23
+  - hostname_base: cumulus
+    box: cumulus
+
 
 
 boxes:
@@ -97,6 +104,10 @@ boxes:
   fedora23:
     box: fedora/23-cloud-base
     breed: redhat7
+  cumulus:
+    box: CumulusCommunity/cumulus-vx
+    breed: puppetlabs-apt
+
 
 # Image available for suse12 has issues. To setup correctly:
 # vagrant up suse12
@@ -109,4 +120,12 @@ boxes:
   suse11:
     box: suse/sles11sp3
     breed: suse11
+  opensuse_tumbleweed:
+    box: opensuse/openSUSE-Tumbleweed-x86_64
+    breed: none 
+  opensuse_42_1:
+    box: opensuse/openSUSE-42.1-x86_64
+    breed: none 
+
+
 

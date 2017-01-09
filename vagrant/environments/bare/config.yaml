@@ -4,7 +4,7 @@ vm:
   memory: 512
   cpu: 1
   role: ostest
-  puppet_apply: false
+  puppet_apply: true
   puppet_agent: false
   facter_external_facts: false
   facter_trusted_facts: false
@@ -21,7 +21,7 @@ puppet:
   setup: false
 
 vbguest:
-  auto_update: false
+  auto_update: true
 
 # Nodes shown in vagrant status 
 nodes:

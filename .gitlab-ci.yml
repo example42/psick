@@ -1,11 +1,42 @@
-# Puppet syntax checks
+stages:
+  - test
+  - deploy
+
 syntax:
+  stage: test
   before_script:
     - "bin/gitlab_before.sh"
-  script: "bin/puppet_check_syntax.sh"
+  script: "bin/puppet_check_syntax_fast.sh"
 
-# Puppet catalog diff checks (WIP)
 catalog:
+  stage: test
   before_script:
     - "bin/gitlab_before.sh"
   script: "bin/gitlab_catalog_diff.sh"
+
+vagrant:
+  stage: test
+  before_script:
+    - "bin/gitlab_before.sh"
+  script: "bin/vagrant_node_test.sh pe-centos7 pe"
+
+
+
+deploy_test:
+  stage: deploy
+  script:
+    - echo "Deploy to staging server"
+  environment:
+    name: staging
+    url: https://staging.example.com
+
+deploy_prod:
+  stage: deploy
+  script:
+    - echo "Deploy to production server"
+  environment:
+    name: production
+    url: https://example.com
+  when: manual
+  only:
+  - production

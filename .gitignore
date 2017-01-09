@@ -5,11 +5,15 @@ Session.vim
 spec/fixtures
 .*.sw[a-z]
 *.un~
+*.rpmsave
 .DS_Store
 .bundle
 modules/
-.vagrant/
-.pe_build
 /keys/private_key.pkcs7.pem
 *.pyc
-*-cloudimg-console.log
+
+# Vagrant artifacts
+vagrant/environments/*/ubuntu-xenial-16.04-cloudimg-console.log
+.vagrant/
+.pe_build
+tests/

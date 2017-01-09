@@ -4,20 +4,26 @@ repo_dir="$(dirname $0)/../.."
 
 action=$1
 vm=$2
+env=$3
 
-cd "${repo_dir}/vagrant/environments" 
-for v in $(ls); do
-  echo_title "vagrant/environments/${v}"
-  cd $v
-  if [ -d ".vagrant/machines/${vm}" ]; then
-    echo_subtitle "Running vagrant ${action} ${vm}"
-    vagrant $action $vm
-  else
-    if [ $action == 'status' ]; then
-      vagrant $action
+if [ "x${env}" != "" ]; then
+  cd "${repo_dir}/vagrant/environments/${env}"
+  vagrant $action $vm
+else
+  cd "${repo_dir}/vagrant/environments" 
+  for v in $(ls); do
+    echo_title "vagrant/environments/${v}"
+    cd $v
+    if [ -d ".vagrant/machines/${vm}" ]; then
+      echo_subtitle "Running vagrant ${action} ${vm}"
+      vagrant $action $vm
+    else
+      if [ $action == 'status' ]; then
+        vagrant $action
+      fi
+      true
     fi
-    true
-  fi
-  cd ../
-done
+    cd ../
+  done
+fi
 
