@@ -50,6 +50,7 @@ setup_suse() {
 
 setup_apt() {
   case $1 in
+    3*) codename=cumulus ;;
     6) codename=squeeze ;;
     7) codename=wheezy ;;
     8) codename=jessie  ;;
@@ -130,6 +131,7 @@ setup_linux() {
     scientific) setup_redhat $majver ;;
     amazon) setup_redhat $majver ;;
     sles) setup_suse $majver ;;
+    cumulus-linux) setup_apt $majver ;;
     *) echo "Not supported distro: $distro" ;;
   esac
 }
