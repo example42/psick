@@ -1,4 +1,5 @@
 # File Managed by Puppet
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:
 <% if @osfamily == 'RedHat' -%>
 yum update -y
 rm -f /etc/puppetlabs/facter/facts.d/upgradable_packages.yaml

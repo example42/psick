@@ -1,9 +1,21 @@
 # Generic class to manage sudo
 #
+# @param sudoers_template The erb template to use for /etc/sudoers If empty the
+#                         file is not managed
+# @param admins The array of the users to add to the admin group
+# @param sudoers_d_source The source (as used in source => ) to use to populate
+#                         the /etc/sudoers.d directory
+# @param purge_sudoers_dir If to purge all the files existing on the local node
+#                          and not present in sudoers_d_source
+# @parma directives An hash of sudo directives to pass to tools::sudo::directive
+#                   Note this is not a real class parameter but a key looked up
+#                   with hiera_hash('profile::sudo::directives', {})
+#
 class profile::sudo (
-  String                   $sudoers_template = '',
-  Array                    $admins           = [ ],
-  Variant[String[1],Undef] $sudoers_d_source = undef,
+  String                   $sudoers_template  = 'profile/sudo/sudoers.erb',
+  Array                    $admins            = [ ],
+  Variant[String[1],Undef] $sudoers_d_source  = undef,
+  Boolean                  $purge_sudoers_dir = true,
 ) {
 
   if $sudoers_template != '' {
@@ -26,11 +38,13 @@ class profile::sudo (
   }
 
   file { '/etc/sudoers.d':
-    ensure => directory,
-    mode   => '0440',
-    owner  => 'root',
-    group  => 'root',
-    source => $sudoers_d_source,
+    ensure  => directory,
+    mode    => '0440',
+    owner   => 'root',
+    group   => 'root',
+    source  => $sudoers_d_source,
+    recurse => true,
+    purge   => $purge_sudoers_dir,
   }
 
   $directives = hiera_hash('profile::sudo::directives', {})

@@ -10,7 +10,8 @@ These settings are defined trusted facts, for this reason and are the most secur
       extension_requests:
         pp_role: 'fe'
         pp_environment: 'devel'
-        pp_zone: 'dmz'
+        pp_datacenter: 'main'
+        pp_application: 'voicemail'
 
 The first Puppet run should be done after this file has been generated.
 
@@ -18,7 +19,15 @@ Once created trusted facts can be accessed in Puppet code with a syntax like: ``
 
 Note that once a trusted fact is set, that can't be changed unless the client's certificate is recreated. This means, for example, that before changing the environment of a server (if ever needed) a (eventually manual) client re-certification has to be done. 
 
+In case of SSL errors always usual procedures apply:
+
+  - Check times on client and server are synced
+  - Eventually clean old certs with same name on client and server
+  - Google
+
 For more information: [SSL configuration: CSR attributes and certificate extensions](https://docs.puppet.com/puppet/latest/reference/ssl_attributes_extensions.html)
+
+Note that once a trusted fact is set, that can't be changed unless the client's certificate is recreated. This means, for example, that before changing the environment of a server (if ever needed) a (eventually manual) client re-certification has to be done.
 
 In this control-repo if trusted facts such facts are defined, they are used to populate top scope variables which are then used in hiera.yaml hierachy.
 

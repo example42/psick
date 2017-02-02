@@ -25,86 +25,82 @@
 # sshkeys_content:  supply ssh keys via an array of 'key', 'comment' and 'type'
 define tools::user::managed(
   String $ensure       = present,
-  String $name_comment = 'absent',
+  String $comment       = '',
   String $uid          = 'absent',
   String $gid          = 'uid',
-  $groups              = [],
-  $manage_group        = true,
-  $membership          = 'minimum',
+  Array $groups              = [],
+  Boolean $manage_group        = true,
+  String $membership          = 'minimum',
   $homedir             = 'absent',
   $managehome          = true,
   $homedir_mode        = '0750',
   $sshkey              = 'absent',
-  $sshkey_source       = '',
+  $authorized_keys_source       = '',
   $bashprofile_source  = '',
   $known_hosts_source  = '',
   $password            = 'absent',
   $password_crypted    = true,
   $password_salt       = '',
-  $shell               = 'absent',
+  $shell               = '/bin/bash',
   $id_rsa_source       = '',
   $id_rsa_pub_source   = '',
-  $tag                 = undef,
   $sshkey_content      = {},
   $sshkeys_content     = []
 ){
 
   $real_homedir = $homedir ? {
-    'absent' => "/home/${name}",
+    'absent' => $name ? {
+      'root'  => '/root',
+      default => "/home/${name}",
+    },
     default  => $homedir
   }
 
-  $real_name_comment = $name_comment ? {
-    'absent' => $name,
-    default  => $name_comment,
+  $real_comment = $comment ? {
+    ''      => $name,
+    default => $comment,
   }
-
-  $real_shell = '/bin/bash'
 
   $dir_ensure = $ensure ? {
     'present' => 'directory',
     'absent'  => 'absent',
   }
 
+  File {
+    ensure  => $ensure,
+    owner   => $name,
+    group   => $name,
+  }
+
   user { $name:
     ensure     => $ensure,
     allowdupe  => false,
-    comment    => $real_name_comment,
+    comment    => $real_comment,
     home       => $real_homedir,
     managehome => $managehome,
-    shell      => $real_shell,
+    shell      => $shell,
     groups     => $groups,
     membership => $membership,
-    tag        => $tag,
   }
 
-  # Manage authorized keys if $sshkey_source exists
-
-  if $sshkey_source != ''
+  # Manage authorized keys if $authorized_keys_source exists
+  if $authorized_keys_source != ''
   or $id_rsa_source != ''
   or $id_rsa_pub_source != ''
   or $known_hosts_source != ''
   or !empty($sshkey_content)
   or !empty($sshkeys_content) {
     file { "${real_homedir}_ssh":
-      ensure  => $dir_ensure,
-      path    => "${real_homedir}/.ssh",
-      require => File[$real_homedir],
-      owner   => $name,
-      group   => $name,
-      mode    => $homedir_mode,
+      ensure => $dir_ensure,
+      path   => "${real_homedir}/.ssh",
+      mode   => $homedir_mode,
     }
   }
 
-  if $sshkey_source != '' {
-    file { "${real_homedir}_ssh_keys":
-      ensure  => $ensure,
-      path    => "${real_homedir}/.ssh/authorized_keys2",
-      require => File[$real_homedir],
-      owner   => $name,
-      group   => $name,
-      mode    => '0600',
-      source  => "puppet:///modules/${sshkey_source}",
+  if $authorized_keys_source != '' {
+    file { "${real_homedir}/.ssh/authorized_keys2":
+      mode   => '0600',
+      source => $authorized_keys_source,
     }
   }
 
@@ -128,56 +124,36 @@ define tools::user::managed(
   }
 
   if $id_rsa_source != '' {
-    file { "${real_homedir}_ssh_id_rsa":
-      ensure  => $ensure,
-      path    => "${real_homedir}/.ssh/id_rsa",
-      require => File[$real_homedir],
-      owner   => $name,
-      group   => $name,
-      mode    => '0600',
-      source  => "puppet:///modules/${id_rsa_source}",
+    file { "${real_homedir}/.ssh/id_rsa":
+      mode   => '0600',
+      source => $id_rsa_source,
     }
   }
 
   if $id_rsa_pub_source != '' {
-    file { "${real_homedir}_ssh_id_rsa_pub":
-      ensure  => $ensure,
-      path    => "${real_homedir}/.ssh/id_rsa.pub",
-      require => File[$real_homedir],
-      owner   => $name,
-      group   => $name,
-      mode    => '0644',
-      source  => "puppet:///modules/${id_rsa_pub_source}",
+    file { "${real_homedir}/.ssh/id_rsa.pub":
+      mode   => '0644',
+      source => $id_rsa_pub_source,
     }
   }
 
 
   if $known_hosts_source != '' {
-    file { "${real_homedir}_known_hosts":
-      ensure  => $ensure,
-      path    => "${real_homedir}/.ssh/known_hosts",
-      require => File[$real_homedir],
-      owner   => $name,
-      group   => $name,
-      mode    => '0600',
-      source  => "puppet:///modules/${known_hosts_source}",
+    file { "${real_homedir}/.ssh/known_hosts":
+      mode   => '0600',
+      source => $known_hosts_source,
     }
   }
 
   if $bashprofile_source != '' {
     file { "${real_homedir}/.bash_profile":
-      ensure  => $ensure,
-      path    => "${real_homedir}/.bash_profile",
-      require => File[$real_homedir],
-      owner   => $name,
-      group   => $name,
-      mode    => '0644',
-      source  => "puppet:///modules/${bashprofile_source}",
+      mode   => '0644',
+      source => $bashprofile_source,
     }
   }
 
   if $managehome {
-    file{$real_homedir: }
+    file{ $real_homedir: }
     if $ensure == 'absent' {
       File[$real_homedir]{
         ensure  => absent,
@@ -189,7 +165,8 @@ define tools::user::managed(
       File[$real_homedir]{
         ensure  => directory,
         require => User[$name],
-        owner   => $name, mode => $homedir_mode,
+        owner   => $name,
+        mode    => $homedir_mode,
       }
       case $gid {
         'absent','uid': {

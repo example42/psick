@@ -1,0 +1,27 @@
+---
+  profile::network::interfaces:
+    bond0:
+      defroute: yes
+      gateway: '10.108.84.129'
+      ipaddress: '10.108.84.165'
+      netmask: '255.255.255.128'
+    ethm1:
+      master: bond0
+      slave: 'yes'
+    p2p1:
+      master: bond0
+      slave: 'yes'
+
+  profile::network::routes:
+    bond0:
+      routes:
+        10.102.139.40/29: 10.108.84.129
+        10.108.84.128/25: 10.108.84.129
+
+  tp::install_hash:
+    vsftpd:
+      ensure: present
+    xinetd:
+      ensure: present
+    samba:
+      ensure: absent

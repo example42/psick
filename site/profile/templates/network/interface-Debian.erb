@@ -1,0 +1,198 @@
+# Interface <%= @name %>
+<% if @auto -%>
+auto <%= @interface %>
+<% end -%>
+<% if @allow_hotplug -%>
+allow-hotplug <%= @interface %>
+<% end -%>
+<%= @stanza %> <%= @interface %> <%= @family %> <%= @manage_method %>
+<% if @manage_address and ! @manage_address.empty? -%>
+    address <%= @manage_address %>
+<% end -%>
+<% if @manage_hwaddr -%>
+    hwaddress <%= @manage_hwaddr %>
+<% end -%>
+<% if @netmask -%>
+    netmask <%= @netmask %>
+<% end -%>
+<% if @network -%>
+    network <%= @network %>
+<% end -%>
+<% if @broadcast -%>
+    broadcast <%= @broadcast %>
+<% end -%>
+<% if @metric -%>
+    metric <%= @metric %>
+<% end -%>
+<% if @pointopoint -%>
+    pointopoint <%= @pointopoint %>
+<% end -%>
+<% if @mtu -%>
+    mtu <%= @mtu %>
+<% end -%>
+<% if @dns_nameservers -%>
+    dns-nameservers <%= @dns_nameservers %>
+<% end -%>
+<% if @dns_search -%>
+    dns-search <%= @dns_search %>
+<% end -%>
+<% if @gateway -%>
+    gateway <%= @gateway %>
+<% end -%>
+<% if @hostname -%>
+    hostname <%= @hostname %>
+<% end -%>
+<% if @leasehours -%>
+    leasehours <%= @leasehours %>
+<% end -%>
+<% if @leasetime -%>
+    leasetime <%= @leasetime %>
+<% end -%>
+<% if @client -%>
+    client <%= @client %>
+<% end -%>
+<% if @bootfile -%>
+    hostname <%= @bootfile %>
+<% end -%>
+<% if @server -%>
+    server <%= @server %>
+<% end -%>
+<% if @mode -%>
+    mode <%= @mode %>
+<% end -%>
+<% if @endpoint -%>
+    endpoint <%= @endpoint %>
+<% end -%>
+<% if @dstaddr -%>
+    dstaddr <%= @dstaddr %>
+<% end -%>
+<% if @local -%>
+    local <%= @local %>
+<% end -%>
+<% if @ttl -%>
+    ttl <%= @ttl %>
+<% end -%>
+<% if @provider -%>
+    provider <%= @provider %>
+<% end -%>
+<% if @unit -%>
+    unit <%= @unit %>
+<% end -%>
+<% if @options -%>
+    options <%= @options %>
+<% end -%>
+<% if @privext -%>
+    privext <%= @privext %>
+<% end -%>
+<% if @dhcp -%>
+    dhcp <%= @dhcp %>
+<% end -%>
+<% if @media -%>
+    media <%= @media %>
+<% end -%>
+<% if @accept_ra -%>
+    accept_ra <%= @accept_ra %>
+<% end -%>
+<% if @autoconf -%>
+    autoconf <%= @autoconf %>
+<% end -%>
+<% if @vlan_raw_device -%>
+    vlan-raw-device <%= @vlan_raw_device %>
+<% end -%>
+<% if @up.length > 0 then -%>
+<% @up.each do |script| -%>
+    up <%= script %>
+<% end -%>
+<% end -%>
+<% if @pre_up.length > 0 then -%>
+<% @pre_up.each do |script| -%>
+    pre-up <%= script %>
+<% end -%>
+<% end -%>
+<% if @post_up.length > 0 then -%>
+<% @post_up.each do |script| -%>
+    post-up <%= script %>
+<% end -%>
+<% end -%>
+<% if @down.length > 0 then -%>
+<% @down.each do |script| -%>
+    down <%= script %>
+<% end -%>
+<% end -%>
+<% if @pre_down.length > 0 then -%>
+<% @pre_down.each do |script| -%>
+    pre-down <%= script %>
+<% end -%>
+<% end -%>
+<% if @post_down.length > 0 then -%>
+<% @post_down.each do |script| -%>
+    post-down <%= script %>
+<% end -%>
+<% end -%>
+<% if @slaves.size > 0 then -%>
+    slaves <%= @slaves.join(' ') %>
+<% end -%>
+<% if @bond_mode -%>
+    bond-mode <%= @bond_mode %>
+<% end -%>
+<% if @bond_miimon -%>
+    bond-miimon <%= @bond_miimon %>
+<% end -%>
+<% if @bond_lacp_rate -%>
+    bond-lacp-rate <%= @bond_lacp_rate %>
+<% end -%>
+<% if @bond_num_grat_arp -%>
+    bond-num_grat_arp <%= @bond_num_grat_arp %>
+<% end -%>
+<% if @bond_downdelay -%>
+    bond-downdelay <%= @bond_downdelay %>
+<% end -%>
+<% if @bond_updelay -%>
+    bond-updelay <%= @bond_updelay %>
+<% end -%>
+<% if @bond_arp_all -%>
+    arp_all_targets <%= @bond_arp_all %>
+<% end -%>
+<% if @bond_arp_interval -%>
+    arp_interval <%= @bond_arp_interval %>
+<% end -%>
+<% if @bond_arp_iptarget -%>
+    arp_ip_target <%= @bond_arp_iptarget.join(',') %>
+<% end -%>
+<% if @bond_fail_over_mac -%>
+    fail_over_mac <%= @bond_fail_over_mac %>
+<% end -%>
+<% if @bond_master -%>
+    bond-master <%= @bond_master %>
+<% end -%>
+<% if @bond_primary -%>
+    bond-primary <%= @bond_primary %>
+<% end -%>
+<% if @bond_slaves.size > 0 then -%>
+    bond-slaves <%= @bond_slaves.join(' ') %>
+<% end -%>
+<% if @bridge_ports.size > 0 then -%>
+    bridge_ports <%= @bridge_ports.join(' ') %>
+<% end -%>
+<% if @bridge_stp -%>
+    bridge_stp <%= @bridge_stp %>
+<% end -%>
+<% if @bridge_fd -%>
+    bridge_fd <%= @bridge_fd %>
+<% end -%>
+<% if @bridge_maxwait -%>
+    bridge_maxwait <%= @bridge_maxwait %>
+<% end -%>
+<% if @bridge_waitport -%>
+    bridge_waitport <%= @bridge_waitport %>
+<% end -%>
+<% if @bond_xmit_hash_policy -%>
+    bond_xmit_hash_policy <%= @bond_xmit_hash_policy %>
+<% end -%>
+<% if @use_carrier -%>
+    use_carrier <%= @use_carrier %>
+<% end -%>
+<% if @primary_reselect -%>
+    primary_reselect <%= @primary_reselect %>
+<% end -%>
+

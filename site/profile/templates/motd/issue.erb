@@ -1,0 +1,7 @@
+System Managed by Puppet
+
+Role: <%= @role %>
+Environment: <%= @env %>
+<% if @motd_extratext and @motd_extratext != '' -%>
+Extra Infos: <%= @motd_extratext %>
+<% end -%>

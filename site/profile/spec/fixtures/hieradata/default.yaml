@@ -1,0 +1,120 @@
+---
+# Noop mode. Uncomment to enable nood mode globally
+#  noop_mode: true
+
+# Default tp behaviour
+  tp::test_enable: true
+  tp::puppi_enable: false
+  tp::debug: false
+
+# Default module to use for tp data:
+  tp::data_module: tinydata
+
+# Base profile settings for Linux servers
+  profile::base::linux::pre_class: '::profile::pre'
+  profile::base::linux::mail_class: '::profile::mail::postfix'
+  profile::base::linux::puppet_class: '::profile::puppet::peclient'
+  profile::base::linux::ssh_class: '::profile::ssh::openssh'
+  profile::base::linux::network_class: '::profile::network'
+  profile::base::linux::monitor_class: '::profile::monitor'
+  profile::base::linux::logs_class: '::profile::logs::rsyslog'
+  profile::base::linux::backup_class: '::profile::backup'
+  profile::base::linux::time_class: '::profile::time::ntp'
+  profile::base::linux::sysctl_class: '::profile::sysctl'
+  profile::base::linux::dns_class: ''
+  profile::base::linux::multipath_class: '::profile::multipath'
+  profile::base::linux::hardening_class: '::profile::hardening'
+  profile::base::linux::motd_class: '::profile::motd'
+  profile::base::linux::hosts_class: '::profile::hosts::file'
+  profile::base::linux::sysstat_class: '::profile::sar'
+  profile::base::linux::update_class: '::profile::update'
+  profile::base::linux::hardware_class: '::profile::hardware'
+  profile::base::linux::packages_class: '::profile::packages'
+  profile::base::linux::users_class: ''
+  profile::base::linux::sudo_class: '::profile::sudo'
+
+# Prerequisites class management
+  profile::pre::rpmgpg_class: ''
+  profile::pre::repo_class: ''
+
+# Hardening classes
+  profile::hardening::pam_class: '::profile::hardening::pam'
+  profile::hardening::packages_class: '::profile::hardening::packages'
+  profile::hardening::services_class: '::profile::hardening::services'
+  profile::hardening::tcpwrappers_class: '::profile::hardening::tcpwrappers'
+  profile::hardening::securetty_class: '::profile::hardening::securetty'
+  profile::hardening::network_class: '::profile::hardening::network'
+
+  profile::hardening::pam::login_defs_template: 'profile/hardening/pam/login.defs.erb'
+  profile::hardening::services::remove_default_services: true
+
+# Configure OpenSSH:
+  profile::ssh::openssh::banner_template: 'profile/ssh/openssh/banner.erb'
+  profile::ssh::openssh::config_file_template: 'profile/ssh/openssh/sshd_config.erb'
+  profile::ssh::openssh::hardened_configs: true
+
+# Monitor classes
+#  profile::monitor::ganglia_class: ''
+  profile::monitor::check_mk_class: ''
+  profile::monitor::snmp_class: ''
+
+# Backup classes
+  profile::backup::legato_class: ''
+
+  # DNS settings
+  dnsclient::nameservers:
+    - 8.8.8.8
+    - 8.8.4.4
+  dnsclient::options:
+    - rotate
+    - 'timeout:1'
+  dnsclient::search:
+    - my.domain
+
+  # Time settings
+  profile::time::ntp::servers:
+    - 'pool.ntp.org'
+    - '0.de.pool.ntp.org'
+
+  # Postfix
+  profile::mail::postfix::config_file_template: 'profile/mail/postfix/main.cf.erb'
+
+  # Common sysctl settings
+  profile::sysctl::settings:
+    net.ipv4.tcp_keepalive_time:
+      value: 900
+    net.ipv4.conf.default.arp_filter:
+      value: 1
+    net.ipv4.conf.all.rp_filter:
+      value: 1
+    net.ipv4.conf.default.arp_announce:
+      value: 1
+    net.ipv4.conf.all.arp_filter:
+      value: 1
+    net.ipv4.conf.all.arp_announce:
+      value: 1
+    net.ipv4.icmp_echo_ignore_broadcasts:
+      value: 1
+    net.ipv4.conf.all.log_martians:
+      value: 1
+    net.ipv6.conf.all.disable_ipv6:
+      value: 1
+    net.ipv4.conf.all.forwarding:
+      value: 0
+    net.ipv4.conf.default.forwarding:
+      value: 0
+    net.ipv4.conf.all.accept_source_route:
+      value: 0
+    net.ipv4.conf.default.accept_redirects:
+      value: 0
+    net.ipv4.conf.all.accept_redirects:
+      value: 0
+    net.ipv4.conf.all.send_redirects:
+      value: 0
+    net.ipv4.conf.all.secure_redirects:
+      value: 0
+    net.ipv4.tcp_rfc1337:
+      value: 0
+    #net.ipv4.icmp_echo_ignore_all:
+    #  value: 1 # !! no ICMP Request
+    #

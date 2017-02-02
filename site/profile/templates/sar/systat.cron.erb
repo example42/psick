@@ -1,0 +1,8 @@
+# File managed by Puppet
+PATH=/usr/lib64/sysstat:/usr/lib/sysstat:/usr/lib64/sa:/usr/lib/sa:/usr/sbin:/usr/sbin:/usr/bin:/sbin:/bin
+<% if @check_cron -%>
+<%= @check_cron %> root sa1 1 1
+<% end -%>
+<% if @summary_cron -%>
+<%= @summary_cron %> root sa2 -A
+<% end -%>

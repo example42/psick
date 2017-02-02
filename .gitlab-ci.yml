@@ -1,42 +1,78 @@
+# GitLab CI configuration
+# Example for public Gitlab workflow
+#
 stages:
-  - test
-  - deploy
+  - checks
+  - specs
+  - diffs
+  - integration
+  - live_runs
+  - merge_request
+  - promote
+  - rollout
+  - postcheck
 
+
+# Development branch
 syntax:
-  stage: test
+  stage: checks
   before_script:
     - "bin/gitlab_before.sh"
   script: "bin/puppet_check_syntax_fast.sh"
-
-catalog:
-  stage: test
-  before_script:
-    - "bin/gitlab_before.sh"
-  script: "bin/gitlab_catalog_diff.sh"
-
-vagrant:
-  stage: test
-  before_script:
-    - "bin/gitlab_before.sh"
-  script: "bin/vagrant_node_test.sh pe-centos7 pe"
-
-
-
-deploy_test:
-  stage: deploy
-  script:
-    - echo "Deploy to staging server"
-  environment:
-    name: staging
-    url: https://staging.example.com
-
-deploy_prod:
-  stage: deploy
-  script:
-    - echo "Deploy to production server"
-  environment:
-    name: production
-    url: https://example.com
-  when: manual
+  cache:
+    untracked: true
+    paths:
+    - modules/
+  tags:
+    - test_puppet
   only:
-  - production
+    - development
+  environment:
+    name: development
+    url: https://development.example.com
+
+lint:
+  stage: checks
+  before_script:
+    - "bin/gitlab_before.sh"
+  script: "bin/puppet_lint.sh"
+  cache:
+    untracked: true
+    paths:
+    - modules/
+  tags:
+    - test_puppet
+  only:
+    - development
+  allow_failure: true
+
+rake_site:
+  stage: specs
+  before_script:
+    - "bin/gitlab_before.sh"
+  script: "bin/puppet_check_rake.sh site"
+  cache:
+    untracked: true
+    paths:
+    - modules/
+  tags:
+    - test_puppet
+  only:
+    - development
+  allow_failure: true
+
+rake_modules:
+  stage: specs
+  before_script:
+    - "bin/gitlab_before.sh"
+  script: "bin/puppet_check_rake.sh modules"
+  cache:
+    untracked: true
+    paths:
+    - modules/
+  tags:
+    - test_puppet
+  only:
+    - development
+  allow_failure: true
+

@@ -1,8 +1,77 @@
-# Sample configuration for runners in pe Vagrant environment
-# Utl is the main address of the GitLab installation
-# Token is automatically generated on GitLab. Copy from Project settings > CI/CD Pipelines > Runner token
 ---
-  profile::ci::gitlab_runner::runners:
-    puppet:
-      url: 'http://git.lan'
-      token: 's2TBnxCg1uGwPrtFKiL1'
+  profiles:
+    - profile::virtualbox
+    - profile::puppet::pe_code_manager
+    - profile::gitlab::proxy
+    - profile::puppet::gems
+  
+  # Explicit list of required gems for CI runners for puppet testing
+  profile::puppet::gems::install_puppet_gems: false
+  profile::puppet::gems::install_options:
+    - '--ignore-dependencies'
+  # List complete to verify. Many are needed just for spec tests.
+  profile::puppet::gems::install_gems:
+    - r10k
+    - deep_merge
+    - hiera-eyaml
+    - puppet-lint
+    - bundler
+    - rake
+    - rspec-puppet
+    - puppetlabs_spec_helper
+    - puppet_facts
+    - rspec-puppet-facts
+    - facterdb
+    - jgrep
+    - mcollective-client
+    - simplecov
+    - simplecov-html
+    - docile
+    - minitest
+#    - beaker # requires Ruby version >= 2.2.5
+
+# Gitlab Server
+  profile::gitlab::proxy::server_name: git.lan
+  profile::gitlab::proxy::proxy_pass: 'https://git.lan:443'
+  profile::gitlab::proxy::auto_prerequisites: true
+
+  # Code manager
+  profile::puppet::pe_code_manager::pe_user: 'deployer'
+  profile::puppet::pe_code_manager::pe_password: 'Testonly.2Encrypt_n_change'
+  profile::puppet::pe_code_manager::lifetime: '5y'
+  profile::puppet::pe_code_manager::deploy_user: 'gitlab-runner'
+  profile::puppet::pe_code_manager::puppet_user: 'gitlab-runner'
+  profile::puppet::pe_code_manager::deploy_ssh_private_source: 'file:///home/deployer/.ssh/id_rsa'
+
+
+#  profile::ci::octocatalog::git_repo: 'git@git.lan:puppet/control-repo.git'
+# Options for profile::ci::octocatalog::template
+  profile::ci::octocatalog::options:
+    puppetdb_url: 'https://puppet.lan:8081'
+    bootstrap_script: 'bin/puppet_install_puppetfile.sh'
+
+  # Config for the GIT Runners
+  # Tokens change at every gitlab installation
+  profile::gitlab::runner::runners:
+    test_puppet:
+      url: 'https://git.lan'
+      token: 'N6kddUPw-Zn2LvAaiJe1' # TO CHANGE
+      tag_list: 'test_puppet'
+      tls_ca_file: '/etc/puppetlabs/puppet/ssl/certs/ca.pem'
+
+  # Config for gitlab cli. Tokens change at every gitlab installation
+  profile::gitlab::cli::private_token: '9C2xPzg9V22Ha3TdsQpx' # TO CHANGE
+  profile::gitlab::cli::api_endpoint: 'https://git.lan/api/v3'
+
+  # Configure the scripts used during Puppet CI
+  profile::gitlab::ci::default_nodes:
+    - puppet.lan
+  profile::gitlab::ci::always_nodes:
+    - git.lan
+    - cirunner.lan
+  profile::gitlab::ci::options:
+    catalog_preview_default_nodes: 'git.lab,test.lan'
+
+# Workaround to be able to use default Puppetfile in Vagrant ci runners
+  profile::hosts::file::extra_hosts:
+    - '192.30.253.113   git github.com'

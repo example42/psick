@@ -15,7 +15,7 @@ if [ ! -z $(which puppet-lint) ]; then
   do
     echo -ne "$i - "
     $PUPPETLINT $i
-    if [ $? = 0 ]; then
+    if [ $? == 0 ]; then
       echo_success "OK"
     else
       echo_failure "ERROR"

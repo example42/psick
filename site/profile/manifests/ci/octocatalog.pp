@@ -1,3 +1,20 @@
+# This class installs and configures via tp the octocatalog-diff tool, used to
+# compare Puppet catalogs from different sources
+#
+# @param ensure Define if to install (present), remote (absent) or the version
+#               of the octocatalog-diff gem
+# @param auto_prerequisites Define id to automatically install the prerequisites
+#                           needed by octocatalog-diff
+# @param template The path of the erb template (as used in template()) to use
+#                 as content for the octocatalog-diff configuration file
+# @param options An open hash of options you can use in your template. Note that
+#                this hash is merged with an hash of default options provided in
+#                the class
+# @param git_repo The url of a git repo to clone locally, in the git_repo_dir.
+#                 You ay not need it in CI pipelines where git operations are
+#                 automatically done
+# @param git_repo_dir The path of the directory where to clone the git_repo
+# @param run_as_user The user octocatalog-diff is supposed to be executed as
 #
 class profile::ci::octocatalog (
   String           $ensure             = 'present',

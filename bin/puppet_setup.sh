@@ -16,14 +16,14 @@ puppet resource package rubygems ensure=present
 which gem || echo "You need gem support! Install rubygems to continue successfully" 
 echo
 echo_subtitle "Installing with /bin/gem"
-gem install deep_merge --no-ri --no-doc
-gem install hiera-eyaml --no-ri --no-doc
-gem install r10k --no-ri --no-doc
+gem install deep_merge --no-ri --no-rdoc
+gem install hiera-eyaml --no-ri --no-rdoc
+gem install r10k --no-ri --no-rdoc
 if [ -x /opt/puppetlabs/puppet/bin/gem ]; then
   echo_subtitle "Installing with /opt/puppetlabs/puppet/bin/gem"
-  /opt/puppetlabs/puppet/bin/gem install deep_merge
-  /opt/puppetlabs/puppet/bin/gem install hiera-eyaml
-  /opt/puppetlabs/puppet/bin/gem install r10k
+  /opt/puppetlabs/puppet/bin/gem install deep_merge --no-ri --no-rdoc
+  /opt/puppetlabs/puppet/bin/gem install hiera-eyaml --no-ri --no-rdoc
+  /opt/puppetlabs/puppet/bin/gem install r10k --no-ri --no-rdoc
 fi
 if [ -x /opt/puppetlabs/server/apps/puppetserver/cli/apps/gem ]; then
   echo_subtitle "Installing with /opt/puppetlabs/server/apps/puppetserver/cli/apps/gem"

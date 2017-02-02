@@ -1,3 +1,11 @@
+## Release 0.0.6
+## This control repo has nothing to do with earlier
+## example42 puppet modules versions. Resetting versions.
+- Added profiles and tools
+- Added and improved scripts
+- Added wide GitLab integration
+- Added Puppet Enterprise integration and Vagrant environment
+
 ## Release 4.0.0.beta.3
 - Widely improved scripting
 - Aws role and relevant profiles and fab commands
@@ -10,9 +18,7 @@
 - Added Docker building or role images (WIP)
 - Several improvements
 
-
 ## Release 4.0.0.beta.1
-
 - Introduced hiera-eyaml
 - Hiera driven roles definition
 - Resource defaults for tp

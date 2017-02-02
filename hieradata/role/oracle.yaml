@@ -1,0 +1,29 @@
+---
+  # Oracle specific (confirmed on Rhel7)
+  profile::sysctl::settings:
+    kernel.shmmni:
+      value: 4096
+    kernel.sem:
+      value: 250 32000 100 128
+    fs.file-max:
+      value: 6815744
+    net.ipv4.ip_local_port_range:
+      value: 9000 65500
+    net.core.rmem_default:
+      value: 262144
+    net.core.wmem_default:
+      value: 262144
+    net.core.rmem_max:
+      value: 4194304
+    net.core.wmem_max:
+      value: 1048576
+    fs.aio-max-nr:
+      value: 1048576
+    net.ipv4.tcp_keepalive_time:
+      value: 900
+
+  # Sudo directive
+  profile::sudo::directives:
+    oracle:
+      source: 'puppet:///modules/profile/sudo/oracle'
+      order: 30
