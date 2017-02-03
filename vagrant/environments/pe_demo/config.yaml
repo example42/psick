@@ -42,6 +42,13 @@ puppet:
 #  custom one. For locally downloaded files, for example, you can place something like:
 #  pe_download_root: 'file:///Users/al/Downloads'
 
+# Vagrant settings
+vagrant:
+  # Update host's /etc/hosts if you have the hostmanager plugin.
+  # Needed for automatic decommissioning of nodes. If false, you've to manage
+  # manually ssl certs removal of reinstalled nodes.
+  hostmanager.manage_host: true # If true and you have the hostmanager plugin
+          
 # List of nodes shown in vagrant status
 # Node names are based on the defined role. Here can be overridden vm defaults,
 # it can be enforced a defined host name, added alieses, port forwarding and pe_role
