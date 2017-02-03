@@ -24,6 +24,7 @@ syntax:
     paths:
     - modules/
   tags:
+    - linux
     - test_puppet
   only:
     - development
@@ -41,6 +42,7 @@ lint:
     paths:
     - modules/
   tags:
+    - linux
     - test_puppet
   only:
     - development
@@ -56,6 +58,7 @@ rake_site:
     paths:
     - modules/
   tags:
+    - linux
     - test_puppet
   only:
     - development
@@ -71,6 +74,7 @@ rake_modules:
     paths:
     - modules/
   tags:
+    - linux
     - test_puppet
   only:
     - development
