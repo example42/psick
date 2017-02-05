@@ -37,10 +37,10 @@
   # You might need to do this after the first Puppet run for some
   # resources whose idepotency is not managed correctly and keep
   # on erroring or being apliead at each run
-# profile::aws::puppet::vpc::create_defaults: false
-# profile::aws::puppet::sg::create_defaults: false
-# profile::aws::puppet::ec2::create_defaults: false
-# profile::aws::puppet::rds::create_defaults: false
+  profile::aws::puppet::vpc::create_defaults: false
+  profile::aws::puppet::sg::create_defaults: false
+  profile::aws::puppet::ec2::create_defaults: false
+  profile::aws::puppet::rds::create_defaults: false
 
   # RDS - Default rds credentials
   profile::aws::puppet::rds::default_db_name: 'test'

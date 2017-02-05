@@ -16,7 +16,7 @@ vm:
 
 # A local network is created among the VM. Here is configured.
 network:
-  range: 10.42.42.0/24   # Network address and mask to use 
+  range: 10.42.45.0/24   # Network address and mask to use 
   ip_start_offset: 101   # Starting ip in the network for automatic assignement
   domain: demo           # Name of DNS domain for the created machines
 

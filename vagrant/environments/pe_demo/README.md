@@ -58,6 +58,13 @@ The PE username and password you've set have to be provided as parameters for th
   profile::puppet::pe_code_manager::pe_user: 'deployer'
   profile::puppet::pe_code_manager::pe_password: 'deployer'
 
+For testing purposes it makes sense to leave to all the clients the possibility to set their own environment.
+This can can done on PE gui clicking on Nodes -> Classification -> Production environment -> Remove on the rule than matches all names.
+Then a similar rule should be added for the Agent-specified environment, in this way we will be able, from within a Vagrant VM to test directly our local code with:
+
+    root@vm# puppet agent -t --environment=host
+
+
 
 #### Notes
 

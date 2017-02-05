@@ -12,7 +12,7 @@
 #                   with hiera_hash('profile::sudo::directives', {})
 #
 class profile::sudo (
-  String                   $sudoers_template  = 'profile/sudo/sudoers.erb',
+  String                   $sudoers_template  = '',
   Array                    $admins            = [ ],
   Variant[String[1],Undef] $sudoers_d_source  = undef,
   Boolean                  $purge_sudoers_dir = true,
