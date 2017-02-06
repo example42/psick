@@ -16,8 +16,8 @@
     - rspec-puppet
     - puppetlabs_spec_helper
     - puppet_facts
-    - rspec-puppet-facts
-    - facterdb
+      #    - rspec-puppet-facts
+      #    - facterdb
       #    - mcollective-client
     - simplecov
     - simplecov-html

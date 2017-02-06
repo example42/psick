@@ -43,7 +43,6 @@
     
   # Config for the GIT Runners for Puppet deployments
   # Tokens change at every gitlab installation
-  profile::gitlab::runner::auto_repo: true
   profile::gitlab::runner::runners:
     deploy_puppet:
       url: 'https://git.demo'
