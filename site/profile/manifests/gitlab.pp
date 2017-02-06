@@ -95,11 +95,6 @@ class profile::gitlab (
     }
   }
 
-  file { '/etc/ssh/auth_keys/git':
-    ensure => symlink,
-    target => '/var/opt/gitlab/.ssh/authorized_keys',
-  }
-
   # Create GitLab resources, if defined
   if $groups != {} {
     $groups.each |$k,$v| {

@@ -64,6 +64,9 @@ Then a similar rule should be added for the Agent-specified environment, in this
 
     root@vm# puppet agent -t --environment=host
 
+If you want to keep your nodes pointing to the host environment without switching back to production, you can do that via PE console or by running Puppet only on demans, from the local vm:
+
+    root@vm# puppet agent --enable ; puppet agent -t --environment=host ; puppet agent --disable
 
 
 #### Notes
@@ -86,8 +89,8 @@ Note 2: It's recommended to run this Vagrant environment on hosts that have at l
 
 #### Gitlab server setup
 
-
-    vagrant up puppet.demo # It fails if ```.pe_build``` doesn't contain the installation files for your PE version
+    Once the PE installation is up an running and you have completed the steps above
+    vagrant up git.demo
 
 This environments also provides a fairly evoluted integration with GitLab:
 

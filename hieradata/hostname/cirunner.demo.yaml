@@ -18,7 +18,7 @@
     - puppet_facts
     - rspec-puppet-facts
     - facterdb
-    - mcollective-client
+      #    - mcollective-client
     - simplecov
     - simplecov-html
     - minitest
@@ -30,7 +30,7 @@
   profile::puppet::pe_code_manager::lifetime: '5y'
   profile::puppet::pe_code_manager::deploy_user: 'gitlab-runner'
   profile::puppet::pe_code_manager::puppet_user: 'gitlab-runner'
-  profile::puppet::pe_code_manager::deploy_ssh_private_source: 'file:///home/deployer/.ssh/id_rsa'
+  profile::puppet::pe_code_manager::deploy_ssh_private_source: 'file:///home/gitlab-runner/.ssh/id_rsa'
 
 
 #  profile::ci::octocatalog::git_repo: 'git@git.demo:puppet/control-repo.git'
@@ -44,12 +44,12 @@
   profile::gitlab::runner::runners:
     test_puppet:
       url: 'https://git.demo'
-      token: '' # TO CHANGE
+      token: 'K3k3nPCzGTDpZhMspgdg' # TO CHANGE AT EVERY GITLAB INSTALLATION
       tag_list: 'test_puppet'
       tls_ca_file: '/etc/puppetlabs/puppet/ssl/certs/ca.pem'
 
   # Config for gitlab cli. Tokens change at every gitlab installation
-  profile::gitlab::cli::private_token: '9C2xPzg9V22Ha3TdsQpx' # TO CHANGE
+  profile::gitlab::cli::private_token: 'K3k3nPCzGTDpZhMspgdg' # TO CHANGE AT EVERY GITLAB INSTALLATION
   profile::gitlab::cli::api_endpoint: 'https://git.demo/api/v3'
 
   # Configure the scripts used during Puppet CI

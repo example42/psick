@@ -16,6 +16,8 @@ Install locally this repo and all its dependencies:
 
 If you want to manage AWS resources from your local computer, install the necessary packages:
 
+    bin/aws_setup.sh
+    # or
     fab aws.setup
 
 Alternatively you can use the VM ```dev-local-aws-01``` under ```vagrant/environments/puppetinfra``` which is preconfigured to use the **aws** role:

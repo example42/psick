@@ -9,6 +9,11 @@
   puppet_enterprise::profile::puppetdb::whitelisted_certnames:
     - cirunner.demo
     - git.demo
+    - puppet.demo
+  puppet_enterprise::profile::console::whitelisted_certnames:
+    - cirunner.demo
+    - git.demo
+    - puppet.demo
 
   puppet_enterprise::profile::master::r10k_remote: 'git@git.demo:puppet/control-repo.git'
   puppet_enterprise::profile::master::code_manager_auto_configure: true
@@ -21,9 +26,9 @@
 
   # Code manager
   profile::puppet::pe_code_manager::pe_user: 'deployer'       # A user you've created on PE
-  profile::puppet::pe_code_manager::pe_password: 'deployerPw' # PE user password. TO CHANGE
+  profile::puppet::pe_code_manager::pe_password: 'deployer'   # PE user password. TO CHANGE AT EVERY INSTALLATION
   profile::puppet::pe_code_manager::lifetime: '5y'            # Adapt as preferred
-  profile::puppet::pe_code_manager::deploy_ssh_private_source: 'file:///home/deployer/.ssh/id_rsa'        
+  profile::puppet::pe_code_manager::deploy_ssh_private_source: 'file:///home/gitlab-runner/.ssh/id_rsa'        
   profile::puppet::pe_code_manager::deploy_user: 'gitlab-runner' # This is intended to be run in GitLab CI
 
 # Configure the scripts used during Gitlab CI of the control repo
@@ -38,10 +43,11 @@
     
   # Config for the GIT Runners for Puppet deployments
   # Tokens change at every gitlab installation
+  profile::gitlab::runner::auto_repo: true
   profile::gitlab::runner::runners:
     deploy_puppet:
       url: 'https://git.demo'
-      token: 'N6kddUPw-Zn2LvAaiJe1' # TO CHANGE
+      token: 'K3k3nPCzGTDpZhMspgdg' # Private token of a GitLab user TO CHANGE AT EVERY INSTALLATION
       tag_list: 'deploy_puppet'
       tls_ca_file: '/etc/puppetlabs/puppet/ssl/certs/ca.pem'
 
@@ -53,6 +59,6 @@
 
 # This is needed for the gitlab_get_id function to catch GitLab data
   # Config for gitlab cli. Tokens change at every gitlab installation
-  profile::gitlab::cli::private_token: '9C2xPzg9V22Ha3TdsQpx' # TO CHANGE
+  profile::gitlab::cli::private_token: 'K3k3nPCzGTDpZhMspgdg' # TO CHANGE
   profile::gitlab::cli::api_endpoint: 'https://git.demo/api/v3'
 

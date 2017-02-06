@@ -1,10 +1,5 @@
 ---
-  profile::base::linux::dns_class: '::dnsclient'
-  dnsclient::search:
-    - demo
-
 # Defaults would break Vagrant
-  profile::sudo::sudoers_template: ''
   profile::ssh::openssh::hardened_configs: false
 
   profile::hosts::file::ipaddress: "%{::ipaddress}"
@@ -17,6 +12,7 @@
   profile::gitlab::manage_installation: true
 
   # Enforce vagrant sudo
+  profile::sudo::sudoers_template: ''
   profile::sudo::directives:
     vagrant:
       source: 'puppet:///modules/profile/sudo/vagrant'

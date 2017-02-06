@@ -93,6 +93,9 @@ The control repo provides some class and defines to work with GitLab:
 
 ## Puppet CI integration on Gitlab
 
+Setup of a fully integrated CI pipeline for Puppet deployments via GitLab is possible using local profiles, tools and scripts.
+At the moment this setup is not completely automated, some steps (user creation on PE and GitLab, secrets setting and configuration).
+
 
 ### GitLab Merge Resquests and approvals
 
