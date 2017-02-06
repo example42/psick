@@ -45,7 +45,7 @@ class profile::monitor (
   if $nrpe_class != '' {
     include $nrpe_class
   }
- 
+
   if $newrelic_class != '' {
     include $newrelic_class
   }

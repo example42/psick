@@ -18,10 +18,10 @@ define tools::puppet::access (
 
   $command_params="--username ${title} ${lifetime_option}"
   exec { "puppet-access ${title}":
-    command   => "echo '${deploy_password}' | /opt/puppetlabs/bin/puppet-access login ${command_params}",
-    creates   => "${user_home}/.puppetlabs/token",
-    user      => $run_as_user,
-    cwd       => $user_home,
+    command => "echo '${deploy_password}' | /opt/puppetlabs/bin/puppet-access login ${command_params}",
+    creates => "${user_home}/.puppetlabs/token",
+    user    => $run_as_user,
+    cwd     => $user_home,
     #   logoutput => false,
   }
 }

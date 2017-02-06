@@ -21,13 +21,13 @@ class profile::puppet::pe_code_manager (
     run_as_user     => $deploy_user,
     lifetime        => $lifetime,
   }
-  file { "/home/$puppet_user/.ssh":
+  file { "/home/${puppet_user}/.ssh":
     ensure => directory,
     owner  => $puppet_user,
   }
   tools::ssh_keygen { $deploy_user:
     comment => $deploy_comment,
-    require => File["/home/$puppet_user/.ssh"]
+    require => File["/home/${puppet_user}/.ssh"],
   }
   file { $deploy_ssh_private_key_path:
     ensure => present,
