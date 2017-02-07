@@ -27,7 +27,7 @@ class profile::puppet::pe_code_manager (
 
   $real_deploy_user_home = $deploy_user ? {
     'root'  => '/root',
-    default => "/home/${deploy_user}/.ssh",
+    default => "/home/${deploy_user}",
   }
   tools::ssh_keygen { $deploy_user:
     comment => $deploy_comment,
