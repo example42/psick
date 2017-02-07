@@ -14,7 +14,7 @@ class profile::logs::rsyslog (
   Enum['present','absent'] $ensure                     = 'present',
 
   Variant[String[1],Undef] $config_dir_source          = undef,
-  String                   $config_file_template       = "profile/logs/rsyslog/rsyslog.conf-${::osfamily}.erb",
+  String                   $config_file_template       = '',
   Array                    $server_ip                  = [],
 ) {
 

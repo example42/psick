@@ -27,7 +27,7 @@ class profile::gitlab (
   Variant[Undef,String] $template    = undef,
   Hash                  $options     = { },
 
-  Boolean $manage_installation       = false,
+  Boolean $manage_installation       = true,
 
   Boolean $use_https                 = true,
   String $server_name                = $::fqdn,
