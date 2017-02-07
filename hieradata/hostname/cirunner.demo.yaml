@@ -57,7 +57,6 @@
     - puppet.demo
   profile::gitlab::ci::always_nodes:
     - git.demo
-    - cirunner.demo
   profile::gitlab::ci::options:
     catalog_preview_default_nodes: 'git.demo,test.demo'
 
