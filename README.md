@@ -155,14 +155,18 @@ It's based on a nodeless classification, driven by 3 top scope variables:
   - ```$::env``` - Defines the nodes' operational environment
   - ```$::zone``` - Defines the datacenter or region or segment of an infrastructure (optional)
 
-These variables are used in the Hiera's hierarchy (check ```hiera.yaml```) and should be enough to classify univocally any node in a averagely complex infrastructure. Here they are set as external facts (you'll need to set them when provisioning your nodes, as it's done in the Vagrant environment).
+These variables are used in the Hiera's hierarchy (check ```docs/hiera.yaml```) and should be enough to classify univocally any node in a averagely complex infrastructure. Here they are set as external facts (you'll need to set them when provisioning your nodes, as it's done in the Vagrant environment).
 
 Such an approach can be easily adapted to any other logic and environment, for example, you can use an External Node Classifier (ENC) like Puppet Enterprise or The Foreman and manage there how your nodes are classified.
 
 The manifests file, ```manifests/site.pp``` sets some resource defaults, includes a baseline profile according to the underlying OS and uses hiera to define what profiles have to be included in each role (a more traditional alternative, based on role classes, is possible).
 
-All the Hiera data is in ```hieradata``` , the file ```hiera.yaml``` shows a possible hierarchy design and uses ```hiera-eyaml``` as backend for keys encryption (no key is currently encrypted, because we are not shipping the generated private key (it's in .gitignore).
+All the Hiera data is in ```hieradata``` , the file ```docs/hiera.yaml``` shows a possible hierarchy design and uses ```hiera-eyaml``` as backend for keys encryption (no key is currently encrypted, because we are not shipping the generated private key (it's in .gitignore).
 You will have to regenerate your hiera-eyaml keys (run, from the main repo dir, ```eyaml createkeys```).
+
+On your Puppet server, if you want to keep hiera.yaml information in the control-repo you have to link it:
+
+    ln -sf /etc/puppetlabs/code/environments/production/docs/hiera.yaml /etc/puppetlabs/code/hiera.yaml
 
 In the ```site``` directory there are local "not public" modules. Basically our profiles and some role examples.
 

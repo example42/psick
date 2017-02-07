@@ -1,6 +1,6 @@
 #!/bin/bash
 env=${1:production}
-mount_dir=${2:'/etc/puppetlabs/code/environments/host'}
+mount_dir=${2:'/vagrant_puppet'}
 
 link_controlrepo() {
   echo "### Linking Puppet ${1} environment to local development directory."

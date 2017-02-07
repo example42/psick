@@ -17,7 +17,7 @@ echo_title "Running tp::install { ${app}: }. Puppet version $(puppet --version)"
 puppet apply --verbose --report --show_diff --summarize \
 	--modulepath "${repo_dir}/site:${repo_dir}/modules:/etc/puppetlabs/code/modules" \
 	--environmentpath "${repo_dir}" \
-	--hiera_config="${repo_dir}/hiera.yaml" \
+	--hiera_config="${repo_dir}/docs/hiera.yaml" \
 	--detailed-exitcodes -e "tp::install { $app: auto_prerequisites => true }" 
 
 

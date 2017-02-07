@@ -24,7 +24,7 @@ puppet_environment = settings['puppet']['environment']
 # We mount this directory on the VMs and then link puppet_environment to it
 # This is needed to avoid Puppet installation issues complaining about limited space 
 # under production
-puppet_code_dir = '/etc/puppetlabs/code/environments/host'
+puppet_code_dir = '/vagrant_puppet'
 
 
 # Define vms settings

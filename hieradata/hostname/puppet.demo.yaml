@@ -29,8 +29,9 @@
   profile::puppet::pe_code_manager::pe_user: 'deployer'       # A user you've created on PE
   profile::puppet::pe_code_manager::pe_password: 'deployer'   # PE user password. TO CHANGE AT EVERY INSTALLATION
   profile::puppet::pe_code_manager::lifetime: '5y'            # Adapt as preferred
-  profile::puppet::pe_code_manager::deploy_ssh_private_source: 'file:///home/gitlab-runner/.ssh/id_rsa'        
-  profile::puppet::pe_code_manager::deploy_user: 'gitlab-runner' # This is intended to be run in GitLab CI
+  profile::puppet::pe_code_manager::puppet_user_home: '/opt/puppetlabs/server/data/puppetserver'
+  profile::puppet::pe_code_manager::deploy_ssh_private_source: 'file:///opt/puppetlabs/server/data/puppetserver/.ssh/id_rsa'
+  profile::puppet::pe_code_manager::deploy_ssh_public_source: 'file:///opt/puppetlabs/server/data/puppetserver/.ssh/id_rsa.pub'
 
 # Configure the scripts used during Gitlab CI of the control repo
   profile::gitlab::ci::default_nodes:

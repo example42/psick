@@ -29,8 +29,8 @@ puppet:
   application: default        # Setting for the application fact (may be used in hiera.yaml)
   master_vm:  puppet          # Name of the VM which play as Puppet server for the others
   master_fqdn: 'puppet.lan'   # FQDN of the Puppet server to use with puppet agent
-  link_controlrepo: false     # Add a link for a Puppet environment to the development control-repo 
-  environment: production     # Puppet environment to link to local control-repo
+  link_controlrepo: true      # Add a link for a Puppet environment to the development control-repo 
+  environment: host           # Puppet environment to link to local control-repo
 
 # Puppet Enterprise settings
   pe_version: '2016.5.1'         # Version of PE to install on the puppet server. See Note 2

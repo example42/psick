@@ -17,4 +17,4 @@ git clone git://github.com/example42/control-repo.git /etc/puppetlabs/code/envir
 cd /etc/puppetlabs/code/environments/production
 r10k puppetfile install -v
 
-ln -sf /etc/puppetlabs/code/environments/production/hiera.yaml /etc/puppetlabs/code/hiera.yaml
+ln -sf /etc/puppetlabs/code/environments/production/docs/hiera.yaml /etc/puppetlabs/code/hiera.yaml

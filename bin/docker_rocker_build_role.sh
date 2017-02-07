@@ -15,7 +15,7 @@ dockerize() {
   echo_title "Building role ${r} on image ${i}"
   echo_subtitle "Running puppet apply on ::docker::profile::rocker_builder"
   puppet apply -t --basemodulepath "${repo_dir}/modules" \
-               --hiera_config "${repo_dir}/hiera.yaml" \
+               --hiera_config "${repo_dir}/docs/hiera.yaml" \
                -e "\$role = ${r} ; hiera_include('profiles')" 
 
 }
