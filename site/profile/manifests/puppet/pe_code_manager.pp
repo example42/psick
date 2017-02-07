@@ -47,7 +47,6 @@ class profile::puppet::pe_code_manager (
     source => pick($deploy_ssh_public_source,"file:///${real_deploy_user_home}/.ssh/id_rsa.pub"),
   }
 
-
   #  tools::gitlab::deploy_key { :
   #    sshkey => $deploy_ssh_public_key
   #}
