@@ -11,7 +11,7 @@ current_branch='production'
 global_exit=0
 node=$1
 env=$2
-
+action=${3:-all}
 exit_manage() {
   error=$1
   file=$2
@@ -31,20 +31,22 @@ exit_manage() {
 run_vagrant() {
   echo_title "Running vagrant ${1} on node ${2} in env ${3} - Step ${4}"
   output_file="${2}_${3}-$(date +%H%M%S)-${1}-${4}"
-  $repo_dir/vagrant/bin/vm.sh $1 $2 $3 > "${results_dir}/${output_file}" 2>&1
+  
+  $repo_dir/vagrant/bin/vm.sh $1 $2 $3 | tee "${results_dir}/${output_file}" 
   exit_manage $? $output_file
 }
 
 # Testing sequence
-run_vagrant up $node $env "1-setup"
+if [ $action == 'setup' ] || [ $action == 'all' ]; then
+  run_vagrant up $node $env "1-setup"
+  git checkout -f $current_branch
+  run_vagrant provision $node $env "2-run-current"
+fi
 
-git checkout $current_branch
-run_vagrant provision $node $env "2-run-current"
-# run_vagrant provision $node $env "2-current_bis"
-
-git checkout $testing_branch
-run_vagrant provision $node $env "3-run-testing"
-# run_vagrant provision $node $env "4-testing_bis"
+if [ $action == 'drift' ] || [ $action == 'all' ]; then
+  git checkout -f $testing_branch
+  run_vagrant provision $node $env "3-run-testing"
+fi
 
 exit $global_exit
 

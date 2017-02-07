@@ -15,3 +15,4 @@ class profile::vagrant::plugins (
     }
   }
 }
+

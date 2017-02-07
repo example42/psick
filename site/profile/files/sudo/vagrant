@@ -1,0 +1,2 @@
+# File Managed by Puppet
+%vagrant ALL=(ALL) NOPASSWD: ALL

@@ -163,8 +163,6 @@ It's also possible to provide an hash of custom sudo directives to pass to the `
       oracle:
         template: 'profile/sudo/oracle.erb'
         order: 30
-      itex:
-        content: "Cmnd_Alias    SUITEX = /bin/su - itex, /usr/bin/su - itex\n"
        
 The ```::tools::sudo::directive``` define accepts these params (template, content and source are ALTERNATIVE way to manage the content of the sudo file):
 

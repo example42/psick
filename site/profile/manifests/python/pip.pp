@@ -1,4 +1,3 @@
-# PIP installation
 #
 class profile::python::pip (
   $ensure = 'present',

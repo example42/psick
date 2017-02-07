@@ -1,6 +1,12 @@
-# Common linux profile
-#
-# Use _class params for exceptions and alternatives.
+# This profile is included in all the Linux servers which are managed by Puppet.
+# It exposes a list of parameters which define the name of the class to use for
+# different common tasks. If the name is empty (as by default in most of the
+# cases) no class is included.
+# A special class name, customisable with the parameter pre_class defines the
+# name of a class to include before all the others. This is the only case where
+# a non empty class name must be defined.
+# In the pre class you should define resources that are prerequisites for all
+# the others, such as package repositories definition.
 #
 class profile::base::linux (
 
@@ -31,8 +37,10 @@ class profile::base::linux (
 
 ) {
 
-  if $pre_class != '' and $enable {
+  if $enable {
+    contain ::profile::settings
     contain $pre_class
+    Class['::profile::settings'] -> Class[$pre_class]
   }
 
   if $network_class != '' and $enable {

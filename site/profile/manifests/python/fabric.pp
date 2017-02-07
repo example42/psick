@@ -1,9 +1,9 @@
-# Fabric installation
+# This class installs fabric
 #
 class profile::python::fabric (
   $ensure = 'present',
 ) {
-  tp::install { 'fabric':
+  package { 'fabric':
     ensure => $ensure,
   }
 }

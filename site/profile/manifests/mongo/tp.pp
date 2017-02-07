@@ -53,8 +53,8 @@ class profile::mongo::tp (
   }
 
   tools::create_dir { $all_options['dbPath']:
-    owner   => $all_settings['process_user'],
-    group   => $all_settings['process_group'],
+    owner => $all_settings['process_user'],
+    group => $all_settings['process_group'],
   }
 
   if $template != '' {
@@ -66,11 +66,11 @@ class profile::mongo::tp (
   }
   if $key {
     ::tp::conf { 'mongodb::key':
-      path    => '/etc/mongo.key',
-      content => $key,
-      mode    => '0400',
-      owner   => $all_settings['process_user'],
-      group   => $all_settings['process_group'],
+      path          => '/etc/mongo.key',
+      content       => $key,
+      mode          => '0400',
+      owner         => $all_settings['process_user'],
+      group         => $all_settings['process_group'],
       settings_hash => $all_settings,
     }
   }
@@ -89,8 +89,8 @@ class profile::mongo::tp (
   if $all_options['replSetName'] != '' and $initial_master and $replset_members != [] {
     # Replica Setup
     tools::mongo::command { 'initiate_replicaset':
-      template    => 'profile/mongo/initiate_replicaset.js.erb',
-      options     => {
+      template => 'profile/mongo/initiate_replicaset.js.erb',
+      options  => {
         replSetName => $all_options['replSetName'],
         firstMember => $replset_members[0],
       },
@@ -101,9 +101,9 @@ class profile::mongo::tp (
     # Replica members add
     $additional_members=$replset_members - $replset_members[0]
     $additional_members.each |$member| {
-      tools::mongo::command { "add_member_$member":
-        template    => 'profile/mongo/add_member.js.erb',
-        options     => {
+      tools::mongo::command { "add_member_${member}":
+        template => 'profile/mongo/add_member.js.erb',
+        options  => {
           member => $member,
         },
       }
@@ -113,8 +113,8 @@ class profile::mongo::tp (
   if $all_options['replSetName'] != '' and $initial_master and $replset_arbiter != '' {
     # Arbiter add
     tools::mongo::command { 'add_arbiter':
-      template    => 'profile/mongo/add_arbiter.js.erb',
-      options     => { 'arbiter' => $replset_arbiter } ,
+      template => 'profile/mongo/add_arbiter.js.erb',
+      options  => { 'arbiter' => $replset_arbiter } ,
     }
   }
 
@@ -122,9 +122,9 @@ class profile::mongo::tp (
     # Replica members add
     $shards.each |String $shard| {
       $safe_shard=regsubst($shard, '/', '_', 'G')
-      tools::mongo::command { "add_shard_$safe_shard":
-        template    => 'profile/mongo/add_shard.js.erb',
-        options     => {
+      tools::mongo::command { "add_shard_${safe_shard}":
+        template => 'profile/mongo/add_shard.js.erb',
+        options  => {
           shard => $shard,
         },
       }
@@ -160,6 +160,6 @@ class profile::mongo::tp (
     file { '/lib/systemd/system/mongos.service':
       ensure  => $ensure,
       content => template($mongos_template),
-    }  
+    }
   }
 }

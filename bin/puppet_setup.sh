@@ -8,7 +8,10 @@ if [ "$1" = "auto" ]; then
   auto=true
 fi
 
-[ "$auto" = "true" ] || ask_interactive "Going to install the needed gems and, via r10k, the modules listed in Puppetfile."
+echo_title "This scripts setups the Puppet environment"
+echo "It asks to install the required Ruby gems: r10k, hiera-eyaml, deep_merge"
+echo "Then it runs: r10k puppetfile install -v"
+[ "$auto" = "true" ] || ask_interactive "Install the needed gems and then, via r10k, the modules listed in Puppetfile?"
 [ "$?" = 0 ] || exit 1
 
 echo_title "Installing gems"
@@ -16,14 +19,14 @@ puppet resource package rubygems ensure=present
 which gem || echo "You need gem support! Install rubygems to continue successfully" 
 echo
 echo_subtitle "Installing with /bin/gem"
-gem install deep_merge --no-ri --no-doc
-gem install hiera-eyaml --no-ri --no-doc
-gem install r10k --no-ri --no-doc
+gem install deep_merge --no-ri --no-rdoc
+gem install hiera-eyaml --no-ri --no-rdoc
+gem install r10k --no-ri --no-rdoc
 if [ -x /opt/puppetlabs/puppet/bin/gem ]; then
   echo_subtitle "Installing with /opt/puppetlabs/puppet/bin/gem"
-  /opt/puppetlabs/puppet/bin/gem install deep_merge
-  /opt/puppetlabs/puppet/bin/gem install hiera-eyaml
-  /opt/puppetlabs/puppet/bin/gem install r10k
+  /opt/puppetlabs/puppet/bin/gem install deep_merge --no-ri --no-rdoc
+  /opt/puppetlabs/puppet/bin/gem install hiera-eyaml --no-ri --no-rdoc
+  /opt/puppetlabs/puppet/bin/gem install r10k --no-ri --no-rdoc
 fi
 if [ -x /opt/puppetlabs/server/apps/puppetserver/cli/apps/gem ]; then
   echo_subtitle "Installing with /opt/puppetlabs/server/apps/puppetserver/cli/apps/gem"

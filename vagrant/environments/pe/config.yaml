@@ -29,7 +29,8 @@ puppet:
   application: default        # Setting for the application fact (may be used in hiera.yaml)
   master_vm:  puppet          # Name of the VM which play as Puppet server for the others
   master_fqdn: 'puppet.lan'   # FQDN of the Puppet server to use with puppet agent
-  link_controlrepo: true      # Create a link for for Puppet production environment to the locally mounted development control-repo 
+  link_controlrepo: false     # Add a link for a Puppet environment to the development control-repo 
+  environment: production     # Puppet environment to link to local control-repo
 
 # Puppet Enterprise settings
   pe_version: '2016.5.1'         # Version of PE to install on the puppet server. See Note 2
@@ -48,7 +49,7 @@ nodes:
   - role: puppet
     application: puppetinfra  
     pe_role: master
-    memory: 4096
+    memory: 6192
     cpu: 2
     aliases:
       - puppet
@@ -59,8 +60,8 @@ nodes:
     application: puppetinfra  
     memory: 2048
     forwarded_port:
-      guest: 80
-      host: 1080
+      guest: 443
+      host: 1444
     puppet_agent: false
   - role: cirunner
     application: puppetinfra  
@@ -85,11 +86,11 @@ nodes:
     hostname_base: pe-ubuntu1604
     count: 1
     box: ubuntu1604
-  - role: cirunner
+  - role: ostest
     hostname_base: pe-suse12
     count: 1
     box: suse12
-  - role: cirunner
+  - role: ostest
     hostname_base: pe-suse11
     count: 1
     box: suse11

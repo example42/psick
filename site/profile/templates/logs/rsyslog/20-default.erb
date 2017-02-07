@@ -1,0 +1,5 @@
+# File managed by Puppet
+# Log kernel generated UFW log messages to file
+:msg,contains,"[UFW " /var/log/ufw.log
+& stop
+

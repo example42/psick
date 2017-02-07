@@ -1,0 +1,283 @@
+# GitLab CI configuration
+# Example for a complete Puppet deployment workflow
+# with separated pipelines for development, testing and production
+# braches. Requires a fully configured PE-GitLab-CI runners
+# environment to work.
+#
+stages:
+  - checks
+  - specs
+  - diffs
+  - integration
+  - live_runs
+  - merge_request
+  - promote
+  - rollout
+  - postcheck
+
+
+# Development branch
+syntax:
+  stage: checks
+  before_script:
+    - "bin/gitlab_before.sh"
+  script: "bin/puppet_check_syntax_fast.sh"
+  cache:
+    untracked: true
+    paths:
+    - modules/
+    - vagrant/environments/ci/.vagrant/
+  tags:
+    - test_puppet
+  only:
+    - development
+  environment:
+    name: development
+    url: https://development.example.com
+
+lint:
+  stage: checks
+  before_script:
+    - "bin/gitlab_before.sh"
+  script: "bin/puppet_lint.sh"
+  cache:
+    untracked: true
+    paths:
+    - modules/
+    - vagrant/environments/ci/.vagrant/
+  tags:
+    - test_puppet
+  only:
+    - development
+  allow_failure: true
+
+rake_site:
+  stage: specs
+  before_script:
+    - "bin/gitlab_before.sh"
+  script: "bin/puppet_check_rake.sh site"
+  cache:
+    untracked: true
+    paths:
+    - modules/
+    - vagrant/environments/ci/.vagrant/
+  tags:
+    - test_puppet
+  only:
+    - development
+  allow_failure: true
+
+rake_modules:
+  stage: specs
+  before_script:
+    - "bin/gitlab_before.sh"
+  script: "bin/puppet_check_rake.sh modules"
+  cache:
+    untracked: true
+    paths:
+    - modules/
+    - vagrant/environments/ci/.vagrant/
+  tags:
+    - test_puppet
+  only:
+    - development
+  allow_failure: true
+
+catalog_diff:
+  stage: diffs
+  before_script:
+    - "bin/gitlab_before.sh"
+  script: "bin/gitlab_catalog_diff.sh development"
+  cache:
+    untracked: true
+    paths:
+    - modules/
+  tags:
+    - deploy_puppet
+  only:
+    - development
+  allow_failure: true
+
+catalog_preview:
+  stage: diffs
+  before_script:
+    - "bin/gitlab_before.sh"
+  script: "bin/gitlab_catalog_preview.sh development"
+  cache:
+    untracked: true
+    paths:
+    - modules/
+  tags:
+    - deploy_puppet # We run this on Puppet Server to  compile catalogs
+  only:
+    - development
+  allow_failure: true
+
+vagrant_setup:
+  stage: integration
+  before_script:
+    - "bin/gitlab_before.sh"
+  script: "bin/vagrant_node_test.sh oracle ci setup"
+  cache:
+    untracked: true
+    paths:
+    - modules/
+    - tests/
+  allow_failure: true
+  tags:
+    - test_puppet
+  only:
+    - development
+
+vagrant_drift:
+  stage: integration
+  before_script:
+    - "bin/gitlab_before.sh"
+  script: "bin/vagrant_node_test.sh oracle ci drift"
+  cache:
+    untracked: true
+    paths:
+    - modules/
+    - tests/
+  tags:
+    - test_puppet
+  only:
+    - development
+
+tp_test:
+  stage: integration
+  before_script:
+    - "bin/gitlab_before.sh"
+  script: "bin/gitlab_tp_test.sh development"
+  cache:
+    untracked: true
+    paths:
+    - modules/
+    - tests/
+  tags:
+    - test_puppet
+  only:
+    - development
+  allow_failure: true
+
+verify_code_deploy_development:
+  stage: promote
+  script:
+    - "bin/codemanager_check_deploy.sh development"
+  tags:
+    - deploy_puppet
+  when: on_success
+  only:
+    - development
+
+deploy_to_testing:
+  stage: promote
+  script:
+    - "bin/gitlab_create_merge_request.rb development testing"
+    - "bin/gitlab_accept_merge_request.rb development testing"
+  tags:
+    - deploy_puppet
+  when: on_success
+  only:
+    - development
+  environment:
+    name: testing
+    url: https://staging.example.com
+
+# On testing branch
+run_puppet_on_testing:
+  stage: live_runs
+  before_script:
+    - "bin/puppet_job_run.sh testing"
+  script:
+    - "bin/puppetdb_env_query.sh testing"
+  tags:
+    - deploy_puppet
+  when: on_success
+  only:
+    - testing
+  allow_failure: true
+
+verify_code_deploy_testing:
+  stage: live_runs
+  script:
+    - "bin/codemanager_check_deploy.sh testing"
+  tags:
+    - deploy_puppet
+  when: on_success
+  only:
+    - testing
+  allow_failure: true # TOREMOVE when fixed
+
+merge_request_production:
+  stage: merge_request
+  script:
+    - "bin/gitlab_create_merge_request.rb testing production"
+  when: on_success
+  tags:
+    - deploy_puppet
+  only:
+    - testing
+
+merge_accept_production:
+  stage: promote
+  script:
+    - "bin/gitlab_accept_merge_request.rb testing production"
+  tags:
+    - deploy_puppet
+  when: manual
+  only:
+    - testing
+  environment:
+    name: production
+
+# Production
+canary_run_on_production:
+  stage: live_runs
+  before_script:
+    - "bin/puppet_job_run.sh production"
+  script:
+    - "bin/puppetdb_env_query.sh production"
+  tags:
+    - deploy_puppet
+  when: on_success
+  only:
+    - production
+  allow_failure: true # TOREMOVE when fixed
+
+verify_code_deploy_production:
+  stage: live_runs
+  script:
+    - "bin/codemanager_check_deploy.sh production"
+  tags:
+    - deploy_puppet
+  when: on_success
+  only:
+    - production
+  allow_failure: true # TOREMOVE when fixed
+
+run_puppet_on_production:
+  stage: rollout
+  before_script:
+    - "bin/puppet_job_run.sh production"
+  script:
+    - "bin/puppetdb_env_query.sh production"
+  tags:
+    - deploy_puppet
+  when: on_success
+  only:
+    - production
+  allow_failure: true # TOREMOVE when fixed
+
+
+test_post_run_on_production:
+  stage: postcheck
+  script:
+    - "bin/puppetdb_env_query.sh production"
+  tags:
+    - deploy_puppet
+  only:
+    - production
+  allow_failure: true # TOREMOVE when fixed
+
+

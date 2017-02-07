@@ -42,7 +42,7 @@ mod "jdowning/rbenv", :latest
 mod "trlinkin/noop", :latest
 mod "puppetlabs/catalog_preview", :latest
 mod "puppet/archive", :latest
-mod "puppetlabs/image_clone", :latest
+mod "puppetlabs/image_build", :latest
 
 # Docker and Containers
 mod 'garethr/docker', :latest

@@ -1,0 +1,121 @@
+# File Managed by Puppet
+DEVICE=<%= @interface %>
+BOOTPROTO=<%= @manage_bootproto %>
+ONBOOT=<%= @manage_onboot %>
+TYPE=<%= @type %>
+IPV4_FAILURE_FATAL=<%= @options['IPV4_FAILURE_FATAL'] %>
+IPV6INIT=<%= @options['IPV6INIT'] %>
+NAME=<%= @interface %>
+USERCTL=<%= @userctl %>
+PEERDNS=<%= @manage_peerdns %>
+PEERNTP=<%= @manage_peerntp %>
+<% if @uuid -%>
+UUID=<%= @uuid %>
+<% end -%>
+<% if @ethtool_opts -%>
+ETHTOOL_OPTS=<%= @ethtool_opts %>
+<% end -%>
+<% if @subchannels -%>
+SUBCHANNELS=<%= @subchannels.sort.join(',') %>
+<% end -%>
+<% if @layer2 -%>
+LAYER2=<%= @layer2 %>
+<% end -%>
+<% if @nettype -%>
+NETTYPE=<%= @nettype %>
+<% end -%>
+<% if @manage_ipaddr and @manage_ipaddr != '' -%>
+IPADDR=<%= @manage_ipaddr %>
+<% end -%>
+<% if @netmask -%>
+NETMASK=<%= @netmask %>
+<% end -%>
+<% if @broadcast -%>
+BROADCAST=<%= @broadcast %>
+<% end -%>
+<% if @gateway -%>
+GATEWAY=<%= @gateway %>
+<% end -%>
+<% if @manage_defroute -%>
+DEFROUTE=<%= @manage_defroute %>
+<% end -%>
+<% if @manage_hwaddr -%>
+HWADDR=<%= @manage_hwaddr %>
+<% end -%>
+<% if @ipv6init -%>
+IPV6INIT=<%= @ipv6init %>
+<% end -%>
+<% if @dhcp_hostname -%>
+DHCP_HOSTNAME=<%= @dhcp_hostname %>
+<% end -%>
+<% if @srcaddr -%>
+SRCADDR=<%= @srcaddr %>
+<% end -%>
+<% if @dns1 -%>
+DNS1=<%= @dns1 %>
+<% end -%>
+<% if @dns2 -%>
+DNS2=<%= @dns2 %>
+<% end -%>
+<% if @domain -%>
+DOMAIN=<%= @domain %>
+<% end -%>
+<% if @nm_controlled -%>
+NM_CONTROLLED=<%= @nm_controlled %>
+<% end -%>
+<% if @master -%>
+MASTER=<%= @master %>
+<% end -%>
+<% if @slave  -%>
+SLAVE=<%= @slave %>
+<% end -%>
+<% if @bonding_opts -%>
+BONDING_OPTS="<%= @bonding_opts %>"
+<% end -%>
+<% if @mtu -%>
+MTU=<%= @mtu %>
+<% end -%>
+<% if @vlan -%>
+VLAN=<%= @vlan %>
+<% end -%>
+<% if @vlan_name_type -%>
+VLAN_NAME_TYPE=<%= @vlan_name_type %>
+<% end -%>
+<% if @physdev -%>
+PHYSDEV=<%= @physdev %>
+<% end -%>
+<% if @bridge -%>
+BRIDGE=<%= @bridge %>
+<% end -%>
+<% if @bridge_stp -%>
+STP=<%= @bridge_stp %>
+<% end -%>
+<% if @arpcheck -%>
+ARPCHECK=<%= @arpcheck %>
+<% end -%>
+<% if @arp -%>
+ARP=<%= @arp %>
+<% end -%>
+<% if @zone -%>
+ZONE=<%= @zone %>
+<% end -%>
+<% if @nozeroconf -%>
+NOZEROCONF=<%= @nozeroconf %>
+<% end -%>
+<% if @linkdelay -%>
+LINKDELAY=<%= @linkdelay %>
+<% end -%>
+<% if @hotplug -%>
+HOTPLUG=<%= @hotplug %>
+<% end -%>
+<% if @devicetype -%>
+DEVICETYPE=<%= @devicetype %>
+<% end -%>
+<% if @bond_ifaces -%>
+BOND_IFACES=<%= @bond_ifaces %>
+<% end -%>
+<% if @check_link_down == true -%>
+check_link_down() {
+   return 1;
+}
+<% end -%>

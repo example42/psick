@@ -15,7 +15,13 @@ if $trusted['extensions']['pp_environment'] {
   $env = $trusted['extensions']['pp_environment']
 }
 if $trusted['extensions']['pp_datacenter'] {
-  $zone = $trusted['extensions']['pp_datacenter']
+  $datacenter = $trusted['extensions']['pp_datacenter']
+}
+if $trusted['extensions']['pp_zone'] {
+  $zone = $trusted['extensions']['pp_zone']
+}
+if $trusted['extensions']['pp_application'] {
+  $application = $trusted['extensions']['pp_application']
 }
 
 # Some resource defaults for Files, Execs and Tiny Puppet
