@@ -8,7 +8,10 @@ if [ "$1" = "auto" ]; then
   auto=true
 fi
 
-[ "$auto" = "true" ] || ask_interactive "Going to install the needed gems and, via r10k, the modules listed in Puppetfile."
+echo_title "This scripts setups the Puppet environment"
+echo "It asks to install the required Ruby gems: r10k, hiera-eyaml, deep_merge"
+echo "Then it runs: r10k puppetfile install -v"
+[ "$auto" = "true" ] || ask_interactive "Install the needed gems and then, via r10k, the modules listed in Puppetfile?"
 [ "$?" = 0 ] || exit 1
 
 echo_title "Installing gems"

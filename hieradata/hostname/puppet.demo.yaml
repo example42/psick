@@ -58,6 +58,6 @@
 
 # This is needed for the gitlab_get_id function to catch GitLab data
   # Config for gitlab cli. Tokens change at every gitlab installation
-  profile::gitlab::cli::private_token: 'K3k3nPCzGTDpZhMspgdg' # TO CHANGE
+  profile::gitlab::cli::private_token: 'Zo5zPyMZGKhxxo2EhQBM' # TO CHANGE
   profile::gitlab::cli::api_endpoint: 'https://git.demo/api/v3'
 
