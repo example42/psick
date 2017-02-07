@@ -5,6 +5,7 @@
     - profile::gitlab::ci
     - profile::puppet::pe_code_manager
     - profile::gitlab::runner
+    - profile::ci::octocatalog
 
   puppet_enterprise::profile::puppetdb::whitelisted_certnames:
     - cirunner.demo
@@ -61,3 +62,5 @@
   profile::gitlab::cli::private_token: 'Zo5zPyMZGKhxxo2EhQBM' # TO CHANGE
   profile::gitlab::cli::api_endpoint: 'https://git.demo/api/v3'
 
+  profile::ci::octocatalog::run_as_user: 'gitlab-runner'
+  profile::ci::octocatalog::template: 'profile/ci/octocatalog/octocatalog-diff.cfg.rb.erb'
