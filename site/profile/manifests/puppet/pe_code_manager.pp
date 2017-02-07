@@ -45,7 +45,6 @@ class profile::puppet::pe_code_manager (
     ensure => present,
     owner  => $puppet_user,
     mode   => '0400',
-    source => $deploy_ssh_public_source,
     source => pick($deploy_ssh_public_source,"file:///home/${puppet_user}/.ssh/id_rsa.pub"),
   }
 
