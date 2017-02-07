@@ -1,4 +1,4 @@
-## Release 0.0.6
+## Release 0.4.6
 ## This control repo has nothing to do with earlier
 ## example42 puppet modules versions. Resetting versions.
 - Added profiles and tools
