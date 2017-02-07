@@ -29,10 +29,6 @@ class profile::puppet::pe_code_manager (
     'root'  => '/root',
     default => "/home/${deploy_user}/.ssh",
   }
-  file { $real_puppet_user_home:
-    ensure => directory,
-    owner  => $puppet_user,
-  }
   tools::ssh_keygen { $deploy_user:
     comment => $deploy_comment,
     require => File[$real_puppet_user_home],
