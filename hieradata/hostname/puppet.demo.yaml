@@ -29,6 +29,7 @@
   profile::puppet::pe_code_manager::pe_user: 'deployer'       # A user you've created on PE
   profile::puppet::pe_code_manager::pe_password: 'deployer'   # PE user password. TO CHANGE AT EVERY INSTALLATION
   profile::puppet::pe_code_manager::lifetime: '5y'            # Adapt as preferred
+  profile::puppet::pe_code_manager::puppet_user_home: '/opt/puppetlabs/server/data/puppetserver'
 
 # Configure the scripts used during Gitlab CI of the control repo
   profile::gitlab::ci::default_nodes:
