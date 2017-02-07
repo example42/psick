@@ -17,7 +17,7 @@
 
   puppet_enterprise::profile::master::r10k_remote: 'git@git.demo:puppet/control-repo.git'
   puppet_enterprise::profile::master::code_manager_auto_configure: true
-  puppet_enterprise::profile::master::r10k_private_key: '/etc/puppetlabs/puppetserver/ssh/id-control_repo.rsa'
+  puppet_enterprise::profile::master::r10k_private_key: '/etc/puppetlabs/ssh/id-control_repo.rsa'
   # setup code_manager to update classes in the console after environment code deployment 
   puppet_enterprise::master::code_manager::post_environment_hooks: 
     - url: 'https://puppet.demo:4433/classifier-api/v1/update-classes'    
