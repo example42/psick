@@ -17,3 +17,6 @@
     vagrant:
       source: 'puppet:///modules/profile/sudo/vagrant'
       order: 30
+
+  # In demo we leave DNS unmanaged
+  profile::base::linux::dns_class: ''
