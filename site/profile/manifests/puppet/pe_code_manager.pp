@@ -25,7 +25,10 @@ class profile::puppet::pe_code_manager (
     lifetime        => $lifetime,
   }
 
-  $real_puppet_user_home = pick($puppet_user_home,"/home/${puppet_user}/.ssh")
+  $real_deploy_user_home = $deploy_user ? {
+    'root'  => '/root',
+    default => "/home/${deploy_user}/.ssh",
+  }
   file { $real_puppet_user_home:
     ensure => directory,
     owner  => $puppet_user,
@@ -39,13 +42,13 @@ class profile::puppet::pe_code_manager (
     ensure => present,
     owner  => $puppet_user,
     mode   => '0400',
-    source => pick($deploy_ssh_private_source,"file:///home/${puppet_user}/.ssh/id_rsa"),
+    source => pick($deploy_ssh_private_source,"file:///${real_puppet_user_home}/.ssh/id_rsa"),
   }
   file { $deploy_ssh_public_key_path:
     ensure => present,
     owner  => $puppet_user,
     mode   => '0400',
-    source => pick($deploy_ssh_public_source,"file:///home/${puppet_user}/.ssh/id_rsa.pub"),
+    source => pick($deploy_ssh_public_source,"file:///home/${real_puppet_user_home}/.ssh/id_rsa.pub"),
   }
 
 
