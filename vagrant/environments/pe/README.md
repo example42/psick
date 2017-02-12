@@ -23,7 +23,7 @@ To work in this Vagrant environment:
     # Start the puppet. It will download PE tarball, install it and run puppet agent 
     vagrant up puppet
     vagrant reload puppet   # In case of errors. See Note 1
-    vagrant provison puppet # See Note 1
+    vagrant provision puppet # See Note 1
 
     # Then start the other VM you want to test.
     # They will run puppet agent pointing to the puppet vm
