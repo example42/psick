@@ -66,23 +66,24 @@ class profile::timezone(
     default                => 'root',
   }
 
-  file { 'timezone':
-    ensure  => present,
-    path    => $config_file,
-    mode    => '0644',
-    owner   => 'root',
-    group   => $config_file_group,
-    content => template($template),
-  }
+  if $::virtual != 'docker' {
+    file { 'timezone':
+      ensure  => present,
+      path    => $config_file,
+      mode    => '0644',
+      owner   => 'root',
+      group   => $config_file_group,
+      content => template($template),
+    }
 
-  if $::hardwareisa != 'sparc' and $::kernel != 'SunOS' {
-    exec { 'set-timezone':
-      command     => $real_set_timezone_command,
-      path        => '/usr/bin:/usr/sbin:/bin:/sbin',
-      require     => File['timezone'],
-      subscribe   => File['timezone'],
-      refreshonly => true,
+    if $::hardwareisa != 'sparc' and $::kernel != 'SunOS' {
+      exec { 'set-timezone':
+        command     => $real_set_timezone_command,
+        path        => '/usr/bin:/usr/sbin:/bin:/sbin',
+        require     => File['timezone'],
+        subscribe   => File['timezone'],
+        refreshonly => true,
+      }
     }
   }
-
 }
