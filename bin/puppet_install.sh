@@ -97,7 +97,7 @@ setup_linux() {
   ARCH=$(uname -m | sed 's/x86_//;s/i[3-6]86/32/')
   if [ -f /etc/redhat-release ]; then
       OS=$(cat /etc/redhat-release | cut -d ' ' -f 1)
-      majver=$(cat /etc/redhat-release | sed 's/[A-Za-z]*//g' | sed 's/ //g' | cut -d '.' -f 1)
+      majver=$(cat /etc/redhat-release | sed 's/[^0-9\.]*//g' | sed 's/ //g' | cut -d '.' -f 1)
   elif [ -f /etc/SuSE-release ]; then
       OS=sles
       majver=$(cat /etc/SuSE-release | grep VERSION | cut -d '=' -f 2 | tr -d '[:space:]')
