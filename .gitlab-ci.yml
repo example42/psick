@@ -30,6 +30,7 @@ syntax:
     - vagrant/environments/ci/.vagrant/
   tags:
     - test_puppet
+    - docker
   only:
     - development
   environment:
@@ -48,6 +49,7 @@ lint:
     - vagrant/environments/ci/.vagrant/
   tags:
     - test_puppet
+    - docker
   only:
     - development
   allow_failure: true
@@ -64,6 +66,7 @@ rake_site:
     - vagrant/environments/ci/.vagrant/
   tags:
     - test_puppet
+    - docker
   only:
     - development
   allow_failure: true
@@ -80,6 +83,7 @@ rake_modules:
     - vagrant/environments/ci/.vagrant/
   tags:
     - test_puppet
+    - docker
   only:
     - development
   allow_failure: true
@@ -95,6 +99,7 @@ catalog_diff:
     - modules/
   tags:
     - deploy_puppet
+    - docker
   only:
     - development
   allow_failure: true
@@ -110,6 +115,7 @@ catalog_preview:
     - modules/
   tags:
     - deploy_puppet # We run this on Puppet Server to  compile catalogs
+    - docker
   only:
     - development
   allow_failure: true
@@ -127,6 +133,7 @@ vagrant_setup:
   allow_failure: true
   tags:
     - test_puppet
+    - docker
   only:
     - development
 
@@ -142,6 +149,7 @@ vagrant_drift:
     - tests/
   tags:
     - test_puppet
+    - docker
   only:
     - development
 
@@ -157,6 +165,7 @@ tp_test:
     - tests/
   tags:
     - test_puppet
+    - docker
   only:
     - development
   allow_failure: true
@@ -167,6 +176,7 @@ verify_code_deploy_development:
     - "bin/codemanager_check_deploy.sh development"
   tags:
     - deploy_puppet
+    - docker
   when: on_success
   only:
     - development
@@ -178,6 +188,7 @@ deploy_to_testing:
     - "bin/gitlab_accept_merge_request.rb development testing"
   tags:
     - deploy_puppet
+    - docker
   when: on_success
   only:
     - development
@@ -194,6 +205,7 @@ run_puppet_on_testing:
     - "bin/puppetdb_env_query.sh testing"
   tags:
     - deploy_puppet
+    - docker
   when: on_success
   only:
     - testing
@@ -205,6 +217,7 @@ verify_code_deploy_testing:
     - "bin/codemanager_check_deploy.sh testing"
   tags:
     - deploy_puppet
+    - docker
   when: on_success
   only:
     - testing
@@ -217,6 +230,7 @@ merge_request_production:
   when: on_success
   tags:
     - deploy_puppet
+    - docker
   only:
     - testing
 
@@ -226,6 +240,7 @@ merge_accept_production:
     - "bin/gitlab_accept_merge_request.rb testing production"
   tags:
     - deploy_puppet
+    - docker
   when: manual
   only:
     - testing
@@ -241,6 +256,7 @@ canary_run_on_production:
     - "bin/puppetdb_env_query.sh production"
   tags:
     - deploy_puppet
+    - docker
   when: on_success
   only:
     - production
@@ -252,6 +268,7 @@ verify_code_deploy_production:
     - "bin/codemanager_check_deploy.sh production"
   tags:
     - deploy_puppet
+    - docker
   when: on_success
   only:
     - production
@@ -265,6 +282,7 @@ run_puppet_on_production:
     - "bin/puppetdb_env_query.sh production"
   tags:
     - deploy_puppet
+    - docker
   when: on_success
   only:
     - production
@@ -277,6 +295,7 @@ test_post_run_on_production:
     - "bin/puppetdb_env_query.sh production"
   tags:
     - deploy_puppet
+    - docker
   only:
     - production
   allow_failure: true # TOREMOVE when fixed
