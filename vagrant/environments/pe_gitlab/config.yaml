@@ -16,19 +16,19 @@ vm:
 
 # A local network is created among the VM. Here is configured.
 network:
-  range: 10.42.46.0/24   # Network address and mask to use 
+  range: 10.42.47.0/24   # Network address and mask to use 
   ip_start_offset: 101   # Starting ip in the network for automatic assignement
-  domain: lan            # Name of DNS domain for the created machines
+  domain: demo           # Name of DNS domain for the created machines
 
 # Puppet related settings
 puppet:
   version: latest             # Version to use for OSS
-  env: dev                    # Setting for the env fact (may be used in hiera.yaml)
-  zone: local                 # Setting for the zone fact (may be used in hiera.yaml)
+  env: demo                   # Setting for the env fact (may be used in hiera.yaml)
+  zone: demo                  # Setting for the zone fact (may be used in hiera.yaml)
   datacenter: vagrant         # Setting for the datacenter fact (may be used in hiera.yaml)
   application: default        # Setting for the application fact (may be used in hiera.yaml)
-  master_vm:  puppet          # Name of the VM which play as Puppet server for the others
-  master_fqdn: 'puppet.lan'   # FQDN of the Puppet server to use with puppet agent
+  master_vm:  puppet.demo     # Name of the VM which play as Puppet server for the others
+  master_fqdn: 'puppet.demo'  # FQDN of the Puppet server to use with puppet agent
   link_controlrepo: true      # Add a link for a Puppet environment to the development control-repo 
   environment: host           # Puppet environment to link to local control-repo
 
@@ -42,12 +42,18 @@ puppet:
 #  custom one. For locally downloaded files, for example, you can place something like:
 #  pe_download_root: 'file:///Users/al/Downloads'
 
+# Vagrant settings
+vagrant:
+  # Update host's /etc/hosts if you have the hostmanager plugin.
+  # Needed for automatic decommissioning of nodes. If false, you've to manage
+  # manually ssl certs removal of reinstalled nodes.
+  hostmanager.manage_host: true # If true and you have the hostmanager plugin
+          
 # List of nodes shown in vagrant status
 # Node names are based on the defined role. Here can be overridden vm defaults,
 # it can be enforced a defined host name, added alieses, port forwarding and pe_role
 nodes:
   - role: puppet
-    application: puppetinfra  
     pe_role: master
     memory: 6192
     cpu: 2
@@ -56,6 +62,14 @@ nodes:
     forwarded_port:
       guest: 443
       host: 1443
+  - role: git
+    memory: 2048
+    forwarded_port:
+      guest: 443
+      host: 1444
+    puppet_agent: false
+  - role: cirunner
+    count: 1
   - role: docker_tp_build
     hostname_base: docker-build
     count: 1

@@ -10,7 +10,7 @@ vm:
   facter_trusted_facts: false
 
 network:
-  range: 10.42.44.0/24
+  range: 10.42.40.0/24
   ip_start_offset: 101
   domain: bare
 

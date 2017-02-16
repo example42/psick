@@ -29,7 +29,7 @@ if settings['nodes'].is_a?(Array)
 
     (1..count).each do |vm_index|
       vm = node.clone
-      vm['hostname'] = vm['hostname_base']
+      vm['hostname'] = "#{vm['hostname_base']}.#{settings['network']['domain']}"
       vm['role'] = node['role'] ? node['role'] : settings['vm']['role']
       if vm['ip_address']
         vm['ip'] = vm['ip_address']
@@ -74,6 +74,7 @@ Vagrant.configure("2") do |config|
   vms.each do |node|
     role = node['role'].clone
     hostname = node['hostname'].clone
+    fqdn = hostname = node['hostname'].clone
     box = node['box'].clone
     aliases = node['aliases'].clone + node['aliases'] 
     env = settings['puppet']['env']
@@ -82,7 +83,7 @@ Vagrant.configure("2") do |config|
     breed = settings['boxes']["#{box}"]['breed'] 
     vm_box = settings['boxes']["#{box}"]['box']
 
-    config.vm.define hostname do |node_config|
+    config.vm.define fqdn do |node_config|
       node_config.vm.box = vm_box
       node_config.vm.hostname = hostname
       node_config.vm.network :private_network, ip: node['ip']

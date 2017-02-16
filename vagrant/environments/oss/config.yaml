@@ -8,9 +8,9 @@ vm:
   puppet_agent: false
 
 network:
-  range: 10.42.42.0/24
+  range: 10.42.44.0/24
   ip_start_offset: 101
-  domain: example42.dev
+  domain: dev.psick.io
 
 puppet:
   version: latest
