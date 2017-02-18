@@ -1,0 +1,61 @@
+---
+  profiles:
+    - profile::puppet::pe_code_manager
+    - profile::puppet::gems
+  
+  # Explicit list of required gems for CI runners for puppet testing
+  profile::puppet::gems::install_puppet_gems: true
+  # List complete to verify. Many are needed just for spec tests.
+  profile::puppet::gems::install_gems:
+    - r10k
+    - deep_merge
+    - hiera-eyaml
+    - puppet-lint
+    - bundler
+    - rake
+    - rspec-puppet
+    - puppetlabs_spec_helper
+    - puppet_facts
+      #    - rspec-puppet-facts
+      #    - facterdb
+      #    - mcollective-client
+    - simplecov
+    - simplecov-html
+    - minitest
+#    - beaker # requires Ruby version >= 2.2.5
+
+  # Code manager
+  profile::puppet::pe_code_manager::pe_user: 'deployer'
+  profile::puppet::pe_code_manager::pe_password: 'deployer'
+  profile::puppet::pe_code_manager::lifetime: '5y'
+  profile::puppet::pe_code_manager::deploy_user: 'gitlab-runner'
+  profile::puppet::pe_code_manager::puppet_user: 'gitlab-runner'
+  profile::puppet::pe_code_manager::deploy_ssh_private_source: 'file:///home/gitlab-runner/.ssh/id_rsa'
+
+
+# Options for profile::ci::octocatalog::template
+  profile::ci::octocatalog::options:
+    puppetdb_url: 'https://puppet.lab.psick.io:8081'
+    bootstrap_script: 'bin/puppet_install_puppetfile.sh'
+
+  # Config for the GIT Runners
+  # Tokens change at every gitlab installation
+  profile::gitlab::runner::runners:
+    test_puppet:
+      url: 'https://git.lab.psick.io'
+      token: 'LZKGDP8bAy8mTUiU88vD' # TO CHANGE AT EVERY GITLAB INSTALLATION
+      tag_list: 'test_puppet'
+      tls_ca_file: '/etc/puppetlabs/puppet/ssl/certs/ca.pem'
+
+  # Config for gitlab cli. Tokens change at every gitlab installation
+  profile::gitlab::cli::private_token: 'K3k3nPCzGTDpZhMspgdg' # TO CHANGE AT EVERY GITLAB INSTALLATION
+  profile::gitlab::cli::api_endpoint: 'https://git.lab.psick.io/api/v3'
+
+  # Configure the scripts used during Puppet CI
+  profile::gitlab::ci::default_nodes:
+    - puppet.lab.psick.io
+  profile::gitlab::ci::always_nodes:
+    - git.lab.psick.io
+  profile::gitlab::ci::options:
+    catalog_preview_default_nodes: 'git.lab.psick.io,log.lab.psick.io'
+

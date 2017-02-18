@@ -47,7 +47,7 @@ vagrant:
   # Update host's /etc/hosts if you have the hostmanager plugin.
   # Needed for automatic decommissioning of nodes. If false, you've to manage
   # manually ssl certs removal of reinstalled nodes.
-  hostmanager.manage_host: true # If true and you have the hostmanager plugin
+  hostmanager.manage_host: false # If true and you have the hostmanager plugin
           
 # List of nodes shown in vagrant status
 # Node names are based on the defined role. Here can be overridden vm defaults,
@@ -73,11 +73,10 @@ nodes:
   - role: docker_tp_build
     hostname_base: docker-build
     count: 1
-    box: centos7_puppet
   - role: docker_host
     hostname_base: docker-host
     count: 1
-    box: ubuntu1404
+    box: ubuntu1604
   - role: monitor
     count: 1
     box: centos7
@@ -86,7 +85,6 @@ nodes:
     box: centos7
   - role: psick
     count: 1
-    box: centos7
   - role: ostest
     hostname_base: pe-suse12
     count: 1

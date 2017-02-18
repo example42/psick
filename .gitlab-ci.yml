@@ -34,7 +34,7 @@ syntax:
     - development
   environment:
     name: development
-    url: https://development.example.com
+    url: https://lab.psick.io
 
 lint:
   stage: checks

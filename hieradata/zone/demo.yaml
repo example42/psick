@@ -11,12 +11,5 @@
 # We actually want to install gitlab on Vagrant env
   profile::gitlab::manage_installation: true
 
-  # Enforce vagrant sudo
-  profile::sudo::sudoers_template: ''
-  profile::sudo::directives:
-    vagrant:
-      source: 'puppet:///modules/profile/sudo/vagrant'
-      order: 30
-
   # In demo we leave DNS unmanaged
   profile::base::linux::dns_class: ''
