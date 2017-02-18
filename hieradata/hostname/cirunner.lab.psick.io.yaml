@@ -48,7 +48,7 @@
       tls_ca_file: '/etc/puppetlabs/puppet/ssl/certs/ca.pem'
 
   # Config for gitlab cli. Tokens change at every gitlab installation
-  profile::gitlab::cli::private_token: 'K3k3nPCzGTDpZhMspgdg' # TO CHANGE AT EVERY GITLAB INSTALLATION
+  profile::gitlab::cli::private_token: 'EbCApya5qgkrVdajEW33'
   profile::gitlab::cli::api_endpoint: 'https://git.lab.psick.io/api/v3'
 
   # Configure the scripts used during Puppet CI
