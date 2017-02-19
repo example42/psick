@@ -1,4 +1,10 @@
 ---
+  profiles:
+    - profile::gitlab
+
+  profile::gitlab::template: 'profile/gitlab/gitlab.rb.erb'
+  profile::gitlab::manage_installation: true
+
   ppprofile::gitlab::groups: # TODO
     puppet:
       path: 'puppet'

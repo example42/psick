@@ -61,7 +61,7 @@ To create a token of a local system user we can use the ```puppet-access``` comm
 
 It's configuration file is in ```/etc/puppetlabs/client-tools/puppet-access.conf``` a sample command to request an authentication token (which lasts 5 years) is:
 
-    puppet-access login --lifetime 5h
+    puppet-access login --lifetime 5y
 
 You are asked to introduce a login and a password, use the credentials of the PE user for which you want to create the token (which will have the access privileges of the username used in puppet-access).
 
