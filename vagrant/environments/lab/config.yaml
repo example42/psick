@@ -16,19 +16,19 @@ vm:
 
 # A local network is created among the VM. Here is configured.
 network:
-  range: 10.42.45.0/24   # Network address and mask to use 
+  range: 10.42.43.0/24   # Network address and mask to use 
   ip_start_offset: 101   # Starting ip in the network for automatic assignement
-  domain: demo           # Name of DNS domain for the created machines
+  domain: lab.psick.io   # Name of DNS domain for the created machines
 
 # Puppet related settings
 puppet:
   version: latest             # Version to use for OSS
-  env: demo                   # Setting for the env fact (may be used in hiera.yaml)
-  zone: demo                  # Setting for the zone fact (may be used in hiera.yaml)
-  datacenter: vagrant         # Setting for the datacenter fact (may be used in hiera.yaml)
-  application: default        # Setting for the application fact (may be used in hiera.yaml)
-  master_vm:  puppet.demo     # Name of the VM which play as Puppet server for the others
-  master_fqdn: 'puppet.demo'  # FQDN of the Puppet server to use with puppet agent
+  env: lab                    # Setting for the env fact (may be used in hiera.yaml)
+  zone: lab                   # Setting for the zone fact (may be used in hiera.yaml)
+  datacenter: hetzner         # Setting for the datacenter fact (may be used in hiera.yaml)
+  application: puppet         # Setting for the application fact (may be used in hiera.yaml)
+  master_vm:  puppet.lab.psick.io    # Name of the VM which play as Puppet server for the others
+  master_fqdn: 'puppet.lab.psick.io' # FQDN of the Puppet server to use with puppet agent
   link_controlrepo: true      # Add a link for a Puppet environment to the development control-repo 
   environment: host           # Puppet environment to link to local control-repo
 
@@ -47,7 +47,7 @@ vagrant:
   # Update host's /etc/hosts if you have the hostmanager plugin.
   # Needed for automatic decommissioning of nodes. If false, you've to manage
   # manually ssl certs removal of reinstalled nodes.
-  hostmanager.manage_host: true # If true and you have the hostmanager plugin
+  hostmanager.manage_host: false # If true and you have the hostmanager plugin
           
 # List of nodes shown in vagrant status
 # Node names are based on the defined role. Here can be overridden vm defaults,
@@ -73,23 +73,18 @@ nodes:
   - role: docker_tp_build
     hostname_base: docker-build
     count: 1
-    box: centos7_puppet
   - role: docker_host
     hostname_base: docker-host
     count: 1
-    box: ubuntu1404
-  - role: cirunner
-    hostname_base: pe-centos7
+    box: ubuntu1604
+  - role: monitor
     count: 1
     box: centos7
-  - role: cirunner
-    hostname_base: pe-centos6
+  - role: log
     count: 1
-    box: centos6
-  - role: cirunner
-    hostname_base: pe-ubuntu1604
+    box: centos7
+  - role: psick
     count: 1
-    box: ubuntu1604
   - role: ostest
     hostname_base: pe-suse12
     count: 1

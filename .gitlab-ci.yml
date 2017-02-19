@@ -34,7 +34,7 @@ syntax:
     - development
   environment:
     name: development
-    url: https://development.example.com
+    url: https://lab.psick.io
 
 lint:
   stage: checks
@@ -56,7 +56,7 @@ rake_site:
   stage: specs
   before_script:
     - "bin/gitlab_before.sh"
-  script: "bin/puppet_check_rake.sh site"
+  script: "bin/puppet_check_rake.sh site bundle"
   cache:
     untracked: true
     paths:
@@ -72,7 +72,7 @@ rake_modules:
   stage: specs
   before_script:
     - "bin/gitlab_before.sh"
-  script: "bin/puppet_check_rake.sh modules"
+  script: "bin/puppet_check_rake.sh modules bundle"
   cache:
     untracked: true
     paths:

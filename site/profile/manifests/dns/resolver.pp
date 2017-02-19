@@ -10,12 +10,13 @@ class profile::dns::resolver (
   String $resolver_template    = 'profile/dns/resolver/resolv.conf.erb',
 ) {
 
-  file { $resolver_path:
-    ensure  => present,
-    content => template($resolver_template),
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0644',
+  if $::virtual != 'docker' {
+    file { $resolver_path:
+      ensure  => present,
+      content => template($resolver_template),
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0644',
+    }
   }
-
 }

@@ -71,10 +71,12 @@ class profile::gitlab (
 
     if $use_https {
       file { '/etc/gitlab/ssl':
-        ensure => directory, # tp::ensure2dir($ensure),
+        ensure  => directory, # tp::ensure2dir($ensure),
+        require => Package['gitlab-ce'],
       }
       file { '/etc/gitlab/trusted-certs':
-        ensure => directory, # tp::ensure2dir($ensure),
+        ensure  => directory, # tp::ensure2dir($ensure),
+        require => Package['gitlab-ce'],
       }
       file { "/etc/gitlab/ssl/${server_name}.crt":
         ensure => $ensure,

@@ -1,0 +1,9 @@
+---
+  profile::hosts::file::ipaddress: "%{::ipaddress}"
+  profile::hosts::file::extra_hosts:
+    - '10.42.43.101 puppet puppet.lab.psick.io'
+    - '10.42.43.102 git git.lab.psick.io'
+    - '10.42.43.103 cirunner cirunner.lab.psick.io'
+
+  # In demo we leave DNS unmanaged
+  profile::base::linux::dns_class: ''

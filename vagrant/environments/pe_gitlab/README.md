@@ -87,10 +87,11 @@ If the PE installation files are already in place when you vagrant up the puppet
 Note 2: It's recommended to run this Vagrant environment on hosts that have at least 16 Gb or RAM. Edit ```config.yaml``` to tune the memory to allocate to the VM.
 
 
-#### Gitlab server setup
+### Gitlab server setup
 
-    Once the PE installation is up an running and you have completed the steps above
-    vagrant up git.demo
+    Once the PE installation is up an running and you have completed the steps above you can start the GitLab VM:
+
+    vagrant up git.lab.psick.io
 
 This environments also provides a fairly evoluted integration with GitLab:
 
@@ -101,11 +102,12 @@ This environments also provides a fairly evoluted integration with GitLab:
 
 You can setup, more or less manually, a fully automated CI with Pipelines on GitLab trigger Puppet code deployments.
 
-In such environments you can configure, via PE console, nodues to run with agent specified environment and then test the code you are currently working on, on your host, directly via the PE Puppet master VM, using the specifal ```host``` environment:
+In such environments you can configure, via PE console, nodes to run with agent specified environment and then test the code you are currently working on, on your host, directly via the PE Puppet master VM, using the specifal ```host``` environment:
 
     # Run Puppet agent using the control-repo environment on your host
     agent# puppet agent -t --environment=host
 
     # Run Puppet using any other branch named environment deployed via Code Manager
     agent# puppet agent -t --environment=$branch
+
 

@@ -33,30 +33,29 @@
   profile::puppet::pe_code_manager::deploy_ssh_private_source: 'file:///home/gitlab-runner/.ssh/id_rsa'
 
 
-#  profile::ci::octocatalog::git_repo: 'git@git.demo:puppet/control-repo.git'
 # Options for profile::ci::octocatalog::template
   profile::ci::octocatalog::options:
-    puppetdb_url: 'https://puppet.demo:8081'
+    puppetdb_url: 'https://puppet.lab.psick.io:8081'
     bootstrap_script: 'bin/puppet_install_puppetfile.sh'
 
   # Config for the GIT Runners
   # Tokens change at every gitlab installation
   profile::gitlab::runner::runners:
     test_puppet:
-      url: 'https://git.demo'
-      token: 'K3k3nPCzGTDpZhMspgdg' # TO CHANGE AT EVERY GITLAB INSTALLATION
+      url: 'https://git.lab.psick.io'
+      token: 'LZKGDP8bAy8mTUiU88vD' # TO CHANGE AT EVERY GITLAB INSTALLATION
       tag_list: 'test_puppet'
       tls_ca_file: '/etc/puppetlabs/puppet/ssl/certs/ca.pem'
 
   # Config for gitlab cli. Tokens change at every gitlab installation
-  profile::gitlab::cli::private_token: 'K3k3nPCzGTDpZhMspgdg' # TO CHANGE AT EVERY GITLAB INSTALLATION
-  profile::gitlab::cli::api_endpoint: 'https://git.demo/api/v3'
+  profile::gitlab::cli::private_token: 'EbCApya5qgkrVdajEW33'
+  profile::gitlab::cli::api_endpoint: 'https://git.lab.psick.io/api/v3'
 
   # Configure the scripts used during Puppet CI
   profile::gitlab::ci::default_nodes:
-    - puppet.demo
+    - puppet.lab.psick.io
   profile::gitlab::ci::always_nodes:
-    - git.demo
+    - git.lab.psick.io
   profile::gitlab::ci::options:
-    catalog_preview_default_nodes: 'git.demo,test.demo'
+    catalog_preview_default_nodes: 'git.lab.psick.io,log.lab.psick.io'
 

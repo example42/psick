@@ -32,7 +32,8 @@ if settings['nodes'].is_a?(Array)
     (1..count).each do |vm_index|
       vm = node.clone
       vm['hostname_base'] = vm['hostname_base'] ? vm['hostname_base'] : vm['role']
-      vm['hostname'] = "%s-%s-%s-%02d" % [settings['puppet']['env'], settings['puppet']['zone'], vm['hostname_base'], vm_index]
+      vm['hostname'] = "%s.%s" % [vm['hostname_base'], settings['network']['domain']]
+      # vm['hostname'] = "%s-%s-%s-%02d" % [settings['puppet']['env'], settings['puppet']['zone'], vm['hostname_base'], vm_index]
 
       if vm['ip_address']
         vm['ip'] = vm['ip_address']

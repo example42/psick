@@ -7,7 +7,8 @@ PUPPET=$(which puppet)
 ERB=$(which erb)
 RUBY=$(which ruby)
 RAKE=$(which rake)
-mods=${1:site}
+mods=${1:-site}
+run=${2:-none}
 
 global_exit=0
 
@@ -17,8 +18,11 @@ if [ ! -z ${RAKE} ] && [ ! -z ${RUBY} ] ; then
   do
     echo -ne "$i - "
     cd "${repo_dir}/${mods}/${i}"
+    if [ "${run}" == "bundle" ]; then
+      bundle
+    fi
     rake spec
-    if [ $? = 0 ]; then
+    if [ $? == 0 ]; then
       echo_success "OK"
     else
       echo_failure "ERROR"

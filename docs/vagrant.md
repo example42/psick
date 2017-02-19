@@ -25,21 +25,21 @@ Here you can see a multi VM ```Vagrantfile``` and its ```config.yaml``` file.
 
 This configuration file provides a quite flexible way to customise the nodes you want to see with your ```vagrant status``` (*Only this feature would deserve a dedicated Project*). Read below for more details on how to customise it.
 
-Basic vagrant commands (here used a sample VM called dev-local-puppet-01):
+Basic vagrant commands (here used a sample VM called centos7.devel):
 
-    cd vagrant/environments/puppetinfra
+    cd vagrant/environments/ostest
     vagrant status
-    vagrant up dev-local-puppet-01
+    vagrant up centos7.devel
 
 If you change your Puppet manifests or data in the control-repo you can immediately test their effect:
 
 To provision Puppet using your current local copy of the control-repo:
 
-    vagrant provision dev-local-puppet-01
+    vagrant provision centos7.devel
 
 To do the same from the local vm:
 
-    vagrant ssh dev-local-puppet-01
+    vagrant ssh centos7.devel
     vm $ sudo su -
     vm # /etc/puppetlabs/code/environments/production/bin/papply.sh
 
@@ -66,21 +66,21 @@ Run vagrant status on a specific Vagrant environment
 
 Run vagrant provision on all the running vm of a Vagrant environment:
 
-    fab vagrant.provision:env=puppetinfra
+    fab vagrant.provision:env=pe
 
 Run vagrant up on the given vm (the following 2 commands are equivalent):
 
-    fab vagrant.up:vm=dev-local-docker-build-01
-    fab vagrant.up:dev-local-docker-build-01
+    fab vagrant.up:vm=centos7.devel
+    fab vagrant.up:centos7.devel
 
 Run, respectively, vagrant provision, reload, halt, suspend, resume, destroy on a given vm:
 
-    fab vagrant.provision:dev-local-docker-build-01
-    fab vagrant.reload:dev-local-docker-build-01
-    fab vagrant.halt:dev-local-docker-build-01
-    fab vagrant.suspend:dev-local-docker-build-01
-    fab vagrant.resume:dev-local-docker-build-01
-    fab vagrant.destroy:dev-local-docker-build-01
+    fab vagrant.provision:centos7.devel
+    fab vagrant.reload:centos7.devel
+    fab vagrant.halt:centos7.devel
+    fab vagrant.suspend:centos7.devel
+    fab vagrant.resume:centos7.devel
+    fab vagrant.destroy:centos7.devel
 
 
 ## Customisations
@@ -186,6 +186,8 @@ For a correct setup of the Vagrant environment you need:
         vagrant plugin install vagrant-vbguest
         vagrant plugin install vagrant-hostmanager
         vagrant plugin install vagrant-triggers
+        vagrant plugin install pe_build # On Vagrant environments where Puppet Enterprise is used
+
 
 The Vagrant steps are basically what's done by the setup script (you may have to run it as privileged used):
 

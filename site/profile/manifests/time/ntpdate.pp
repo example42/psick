@@ -13,7 +13,7 @@ class profile::time::ntpdate (
     subscribe   => Tp::Install['ntpdate'],
     refreshonly => true,
   }
-  if $crontab != '' {
+  if $crontab != '' and $::virtual != 'docker' {
     file { '/etc/cron.d/ntpdate':
       content => "${crontab} root ntpdate -s ${ntp_server}\n",
     }

@@ -1,20 +1,23 @@
 ---
-:backends:
-  - eyaml
+version: 5
 
-:hierarchy:
-  - "hostname/%{::trusted.certname}"
-  - "role/%{::role}-%{::env}"
-  - "role/%{::role}"
-  - "zone/%{::zone}"
-  - common
+defaults:
+  datadir: data
+  data_hash: yaml_data
 
-:eyaml:
-  :datadir: "hieradata"
+hierarchy:
+  - name: "Nodes"
+    path: "hieradata/hostname/%{trusted.certname}.yaml"
 
-  :pkcs7_private_key: keys/private_key.pkcs7.pem
-  :pkcs7_public_key:  keys/public_key.pkcs7.pem
-  :extension: 'yaml'
+  - name: "Role and env"
+    path: "hieradata/role/%{::role}-%{::env}.yaml"
 
-:merge_behavior: deeper
+  - name: "Role"
+    path: "hieradata/role/%{::role}.yaml"
+
+  - name: "Zone"
+    path: "hieradata/zone/%{::zone}.yaml"
+
+  - name: "Common defaults"
+    path: "common.yaml"
 

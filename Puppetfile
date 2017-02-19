@@ -18,6 +18,8 @@ mod "example42/puppi", :latest
 # Example42 v4.x modules (Used in various profiles)
 mod'example42/docker',
   :git => 'https://github.com/example42/puppet-docker'
+mod'example42/network',
+  :git => 'https://github.com/example42/puppet-network'
 mod'example42/apache',
   :git    => 'https://github.com/example42/puppet-apache',
   :branch => '4.x'

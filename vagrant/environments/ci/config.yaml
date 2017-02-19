@@ -8,9 +8,9 @@ vm:
   puppet_agent: false
 
 network:
-  range: 10.42.44.0/24
+  range: 10.42.41.0/24
   ip_start_offset: 101
-  domain: puppet.ci
+  domain: ci.psick.io
 
 puppet:
   version: latest
@@ -30,8 +30,6 @@ nodes:
   - role: compilemaster
     count: 1
     memory: 2048
-  - role: oracle
-    count: 1
   - role: puppet_db
     hostname_base: puppet-db
     count: 1

@@ -14,8 +14,7 @@
 #
 class profile::gitlab::runner (
   String                $ensure      = 'present',
-  Boolean               $auto_prerequisites = false,
-  Boolean               $auto_repo   = false,
+  Boolean               $auto_prerequisites = true,
   Optional[String]      $template    = undef, # 'profile/ci/gitlab/runner/config.toml.erb',
   Hash                  $options     = { },
   Hash                  $runners     = { },
@@ -27,7 +26,6 @@ class profile::gitlab::runner (
   ::tp::install { 'gitlab-runner' :
     ensure             => $ensure,
     auto_prerequisites => $auto_prerequisites,
-    auto_repo          => $auto_repo,
   }
 
   if $template {
