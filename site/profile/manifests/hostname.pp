@@ -26,12 +26,12 @@ class profile::hostname (
       content => "${calc_fqdn}\n",
       notify  => Exec['apply_hostname'],
     }
-
+  
     exec { 'apply_hostname':
       command => '/bin/hostname -F /etc/hostname',
       unless  => '/usr/bin/test `hostname` = `/bin/cat /etc/hostname`',
     }
-
+  
     if $update_host_entry {
       host { $host:
         ensure       => present,
@@ -39,7 +39,7 @@ class profile::hostname (
         ip           => $ip,
       }
     }
-
+  
     if $update_network_entry {
       case $::osfamily {
         'RedHat': {
@@ -60,5 +60,6 @@ class profile::hostname (
         notify  => Exec['apply_hostname'],
       }
     }
+
   }
 }
