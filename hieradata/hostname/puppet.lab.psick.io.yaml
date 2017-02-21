@@ -49,12 +49,6 @@
       tag_list: 'deploy_puppet'
       tls_ca_file: '/etc/puppetlabs/puppet/ssl/certs/ca.pem'
 
-  # SUDO for gitlab-runner
-  profile::sudo::directives:
-    gitlab-runner:
-      source: 'puppet:///modules/profile/sudo/gitlab-runner'
-      order: 30
-
   # Config for gitlab cli. Tokens change at every gitlab installation
   # Use the Private token of a user with merge request and accept privileges
   profile::gitlab::cli::private_token: 'EbCApya5qgkrVdajEW33' # TO CHANGE AT EVERY INSTALLATION

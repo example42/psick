@@ -11,13 +11,16 @@
 # @param runners An hash which is used to create one or more runners instances.
 #                It should be an array of hashes which is passed to the define
 #                tools::gitlab::runner
+# @param sudo_template The path to the erb template to use for gitlab runner
+#                      sudoers file. If undef file is not managed
 #
 class profile::gitlab::runner (
-  String                $ensure      = 'present',
+  String                $ensure        = 'present',
   Boolean               $auto_prerequisites = true,
-  Optional[String]      $template    = undef, # 'profile/ci/gitlab/runner/config.toml.erb',
-  Hash                  $options     = { },
-  Hash                  $runners     = { },
+  Optional[String]      $template      = undef, # 'profile/gitlab/runner/config.toml.erb',
+  Hash                  $options       = { },
+  Hash                  $runners       = { },
+  String                $sudo_template = 'profile/gitlab/runner/sudo.erb',
 ) {
 
   $options_default = {
@@ -41,6 +44,12 @@ class profile::gitlab::runner (
       tools::gitlab::runner { $k:
         * => $v,
       }
+    }
+  }
+
+  if $sudo_template {
+    tools::sudo::directive { 'gitlab-runner':
+      template => $sudo_template,
     }
   }
 }
