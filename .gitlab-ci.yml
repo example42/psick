@@ -6,11 +6,11 @@
 #
 stages:
   - checks
+  - version_check
   - specs
   - diffs
   - integration
   - live_runs
-  - version_check
   - merge_request
   - promote
   - rollout
@@ -162,7 +162,7 @@ tp_test:
   allow_failure: true
 
 verify_code_deploy_development:
-  stage: promote
+  stage: version_check
   script:
     - "bin/codemanager_check_deploy.sh development"
   tags:
@@ -170,6 +170,7 @@ verify_code_deploy_development:
   when: on_success
   only:
     - development
+  allow_failure: true
 
 deploy_to_testing:
   stage: promote

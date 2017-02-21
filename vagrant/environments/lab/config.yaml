@@ -70,6 +70,14 @@ nodes:
     puppet_agent: false
   - role: cirunner
     count: 1
+  - role: manageiq
+    count: 1
+    memory: 6192
+    cpu: 2
+    box: manageiq_euwe
+    forwarded_port:
+      guest: 443
+      host: 1445
   - role: docker_tp_build
     hostname_base: docker-build
     count: 1
@@ -93,6 +101,7 @@ nodes:
     hostname_base: pe-suse11
     count: 1
     box: suse11
+
 
 
 # List of available Vagrant boxes with different OS to test on
@@ -142,4 +151,7 @@ boxes:
   suse11:
     box: suse/sles11sp3
     breed: puppetlabs
+  manageiq_euwe:
+    box: manageiq/euwe
+    breed: other
 
