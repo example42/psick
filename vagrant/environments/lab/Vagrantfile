@@ -111,7 +111,7 @@ Vagrant.configure("2") do |config|
       node_config.vm.hostname = fqdn
       node_config.vm.network :private_network, ip: node['ip']
 #      node_config.vm.network :private_network, ip: node['ipv6'] if node['ipv6']
-      node_config.vm.provision "shell", inline: "/sbin/ifconfig eth1 && sudo ifup eth1 || exit 0" # Workaround for https://github.com/mitchellh/vagrant/issues/8166
+      node_config.vm.provision "shell", path: '../../bin/vagrant-network.sh'
       node_config.vm.provision "shell", path: '../../bin/vagrant-sethostname.sh', args: "#{fqdn}"
       node_config.vm.provision "shell", path: '../../bin/vagrant-setfacts.sh', args: "--role #{role} --env #{env} --zone #{zone} --datacenter #{datacenter} --application #{application}" if node['facter_external_facts']
       node_config.vm.provision "shell", path: '../../bin/vagrant-settrustedfacts.sh', args: "--role #{role} --env #{env} --zone #{zone} --datacenter #{datacenter} --application #{application}" if node['facter_trusted_facts']

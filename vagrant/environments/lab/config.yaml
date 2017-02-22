@@ -78,16 +78,24 @@ nodes:
     forwarded_port:
       guest: 443
       host: 1445
-  - role: docker_tp_build
-    hostname_base: docker-build
+  - role: rundeck
     count: 1
-  - role: docker_host
-    hostname_base: docker-host
+    memory: 2048
+    cpu: 1
+    box: centos7
+    forwarded_port:
+      guest: 4440
+      host: 1446
+  - role: build
     count: 1
-    box: ubuntu1604
+  - role: docker
+    count: 2
   - role: monitor
     count: 1
     box: centos7
+    forwarded_port:
+      guest: 4440
+      host: 1447
   - role: log
     count: 1
     box: centos7
