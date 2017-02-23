@@ -26,7 +26,7 @@ class profile::oracle::install::tnsnames (
                               host     => $tnsnames_host,
                               port     => $db_port,
                               protocol => 'TCP',
-                            }
+                            },
                           },
     connectServiceName => $tnsnames_service_name,
     connectServer      => $connectserver,

@@ -1,5 +1,6 @@
 #!/bin/bash
 lock_file='/var/tmp/vagrant-setup_papply.lock'
+puppet_env=${1:-production}
 
 setup() {
   if [ $(facter osfamily) == 'Debian' ]; then
@@ -23,7 +24,7 @@ setup() {
     puppetserver gem install deep_merge
     service pe-puppetserver restart
   fi
-  ln -sf /etc/puppetlabs/code/environments/development/hiera.yaml /etc/puppetlabs/puppet/hiera.yaml
+  ln -sf /etc/puppetlabs/code/environments/$puppet_env/hiera.yaml /etc/puppetlabs/puppet/hiera.yaml
 }
 
 # Run setup only the first time

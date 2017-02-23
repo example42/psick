@@ -60,7 +60,7 @@ define tools::oracle::instance (
   $default_init_params = {
     'open_cursors'        => '1000',
     'processes'           => '600',
-    'job_queue_processes' => '4'
+    'job_queue_processes' => '4',
   }
 
   $init_params=merge($default_init_params, $init_params_hash)

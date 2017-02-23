@@ -46,7 +46,7 @@ class profile::oracle::prerequisites::packages (
           'xorg-x11-libxcb-32bit',
           'xorg-x11-libxcb',
           'xorg-x11-libXext-32bit',
-          'xorg-x11-libXext'
+          'xorg-x11-libXext',
         ]
       }
       'RedHat': {
@@ -86,7 +86,7 @@ class profile::oracle::prerequisites::packages (
           'libXi.i686',
           'make.x86_64',
           'sysstat.x86_64',
-          'unixODBC-devel'
+          'unixODBC-devel',
         ]
       }
       'Debian': {
@@ -132,7 +132,7 @@ class profile::oracle::prerequisites::packages (
           'sysstat',
           'unixodbc',
           'unixodbc-dev',
-          'libc6-dev-i386'
+          'libc6-dev-i386',
         ]
       }
       default: { notice("Unsupported ${::osfamily} in profile::oracle::prerequisites::packages") }

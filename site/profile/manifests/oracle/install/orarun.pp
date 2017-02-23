@@ -24,5 +24,5 @@ class profile::oracle::install::orarun (
     content => template($profile_template),
   }
 
-  include profile::oracle::prerequisites::users
+  include $profile::oracle::prerequisites::users_class
 }
