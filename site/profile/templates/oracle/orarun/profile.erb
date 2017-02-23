@@ -1,0 +1,85 @@
+## FILE MANAGED BY PUPPET - Do not edit directly
+#
+# Set your ORACLE environment variable here 
+# ORACLE_HOME - Used here and in /etc/init.d/oracle (ora_environment())
+# ORACLE_SID - Your Oracle System Identifier 
+#
+  ORACLE_BASE=<%= @oracle_base %>
+  ORACLE_HOME=$ORACLE_BASE/product/<%= @version_short %>/db
+  ORACLE_SID=<%= @oracle_sid %> 
+  export ORACLE_BASE ORACLE_HOME ORACLE_SID
+
+# For RAC
+#  export ORA_CRS_HOME=$ORACLE_BASE/product/12cR1/crs
+#  export ORA_ASM_HOME=$ORACLE_BASE/product/12cR1/asm
+
+
+#
+# Login environment variable settings for Oracle
+# The code below is done ONLY if the user is "oracle": 
+# 
+
+if [ `id -un` == "oracle" ]; then
+
+  # Get settings, if file(s) exist(s). If not, we simply use defaults.
+  if test -f /etc/sysconfig/oracle; then
+    # new location as of SL 8.0 is directory /etc/sysconfig/
+    . /etc/sysconfig/oracle
+  else
+    if test -f /etc/rc.config.d/oracle.rc.config; then
+      # location is directory /etc/rc.config.d/
+      . /etc/rc.config.d/oracle.rc.config
+    else
+      if test -f /etc/rc.config; then
+      # old SuSE location was to have everything in one file
+      . /etc/rc.config
+      fi
+    fi
+  fi
+
+# Grid Control Agent Home
+  AGENT_HOME=$ORACLE_BASE/product/12.1/agent
+
+  TNS_ADMIN=$ORACLE_HOME/network/admin
+  # Set ORA_NLSxx depending on 9i or 10g
+  test -d $ORACLE_HOME/ocommon/nls/admin/data && export ORA_NLS33=$ORACLE_HOME/ocommon/nls/admin/data
+  test -d $ORACLE_HOME/nls/data && export ORA_NLS10=$ORACLE_HOME/nls/data
+
+  PATH=$PATH:$ORACLE_HOME/bin
+  LD_LIBRARY_PATH=${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}$ORACLE_HOME/lib:$ORACLE_HOME/ctx/lib
+  CLASSPATH=$ORACLE_HOME/JRE:$ORACLE_HOME/jlib:$ORACLE_HOME/rdbms/jlib:$ORACLE_HOME/network/jlib
+
+  export AGENT_HOME PATH LD_LIBRARY_PATH CLASSPATH TNS_ADMIN
+
+  # ORACLE_TERM=xterm; export ORACLE_TERM
+  # NLS_LANG=AMERICAN_AMERICA.UTF8; export NLS_LANG
+
+  # 
+  # This requires the limits to have been increased by root
+  # e.g. at boot time by the /etc/rc.d/oracle script, both
+  # ulimit and kernel parameters.
+  #
+
+  # RAC (cluster) component GSD commands don't run when this is
+  # set - which it is if a SuSE Java package is installed.
+  unset JAVA_BINDIR JAVA_HOME
+
+  # Set ulimits:
+  #
+  # We suppress any warning messages, so if the hard limits have not been
+  # increased by root and the commands don't work we keep silent... 
+  # This is because the only one who needs it is the shell that starts
+  # the DB server processes, and the number of warning messages created 
+  # here is potentially way too much and confusing
+
+  # core dump file size
+  ulimit -c ${MAX_CORE_FILE_SIZE_SHELL:-0} 2>/dev/null
+
+  # max number of processes for user
+  ulimit -u ${PROCESSES_MAX_SHELL:-16384} 2>/dev/null
+
+  # max number of open files for user
+  ulimit -n ${FILE_MAX_SHELL:-65536} 2>/dev/null
+
+fi
+

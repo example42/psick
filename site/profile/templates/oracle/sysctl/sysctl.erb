@@ -1,0 +1,23 @@
+# File Managed by Puppet
+kernel.msgmnb                 = <%= @sysctl_options['kernel.msgmnb'] %>
+kernel.msgmax                 = <%= @sysctl_options['kernel.msgmax'] %>
+kernel.shmall                 = <%= @sysctl_options['kernel.shmall'] %>
+kernel.shmmax                 = <%= @sysctl_options['kernel.shmmax'] %>
+kernel.sem                    = <%= @sysctl_options['kernel.sem'] %>
+kernel.shmmni                 = <%= @sysctl_options['kernel.shmmni'] %>
+fs.file-max                   = <%= @sysctl_options['fs.file-max'] %>
+fs.aio-max-nr                 = <%= @sysctl_options['fs.aio-max-nr'] %>
+net.ipv4.tcp_keepalive_time   = <%= @sysctl_options['net.ipv4.tcp_keepalive_time'] %>
+net.ipv4.tcp_keepalive_intvl  = <%= @sysctl_options['net.ipv4.tcp_keepalive_intvl'] %>
+net.ipv4.tcp_keepalive_probes = <%= @sysctl_options['net.ipv4.tcp_keepalive_probes'] %>
+net.ipv4.tcp_fin_timeout      = <%= @sysctl_options['net.ipv4.tcp_fin_timeout'] %>
+net.ipv4.ip_local_port_range  = <%= @sysctl_options['net.ipv4.ip_local_port_range'] %>
+net.core.rmem_default         = <%= @sysctl_options['net.core.rmem_default'] %>
+net.core.rmem_max             = <%= @sysctl_options['net.core.rmem_max'] %>
+net.core.wmem_default         = <%= @sysctl_options['net.core.wmem_default'] %>
+net.core.wmem_max             = <%= @sysctl_options['net.core.wmem_max'] %>
+# vm.hugetlb_shm_group          = <%= @sysctl_options['vm.hugetlb_shm_group'] %>
+# vm.nr_hugepages               = <%= @sysctl_options['vm.nr_hugepages'] %>
+# kernel.semmsl                 = <%= @sysctl_options['kernel.semmsl'] %>
+# kernel.semmns                 = <%= @sysctl_options['kernel.semmns'] %>
+# kernel.semopm                 = <%= @sysctl_options['kernel.semopm'] %>
