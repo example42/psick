@@ -3,8 +3,6 @@ repo_dir=$(git rev-parse --show-toplevel)
 # repo_dir="$(dirname $0)/.."
 . "${repo_dir}/bin/functions"
 
-PUPPET=$(which puppet)
-ERB=$(which erb)
 RUBY=$(which ruby)
 RAKE=$(which rake)
 mods=${1:-site}

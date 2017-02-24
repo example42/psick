@@ -6,7 +6,6 @@ test -f /etc/gitlab-ci.conf && . /etc/gitlab-ci.conf
 env=$1
 default_nodes=$(eval echo "${env}_query_default_nodes")
 always_nodes=$(eval echo "${env}_query_always_nodes")
-ts_number=1
 nodes=0
 global_exit=0
 

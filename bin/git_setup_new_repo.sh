@@ -2,7 +2,7 @@
 repo_dir=$(git rev-parse --show-toplevel)
 . "${repo_dir}/bin/functions"
 git_remote=$(git remote get-url origin)
-parent_dir=`cd $repo_dir ; cd .. ; pwd`
+parent_dir=$(cd $repo_dir ; cd .. ; pwd)
 
 echo_title "Creating a brand new control-repo based on this one"
 echo

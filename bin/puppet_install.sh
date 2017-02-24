@@ -3,7 +3,6 @@ breed=$1
 
 SETCOLOR_NORMAL=$(tput sgr0)
 SETCOLOR_TITLE=$(tput setaf 6)
-SETCOLOR_SUBTITLE=$(tput setaf 14)
 SETCOLOR_BOLD=$(tput setaf 15)
 echo_title () {
   echo
@@ -96,26 +95,22 @@ setup_windows() {
 setup_linux() {
   ARCH=$(uname -m | sed 's/x86_//;s/i[3-6]86/32/')
   if [ -f /etc/redhat-release ]; then
-      OS=$(cat /etc/redhat-release | cut -d ' ' -f 1)
+      OS=$(cut -d ' ' -f 1 /etc/redhat-release)
       majver=$(cat /etc/redhat-release | sed 's/[^0-9\.]*//g' | sed 's/ //g' | cut -d '.' -f 1)
   elif [ -f /etc/SuSE-release ]; then
       OS=sles
-      majver=$(cat /etc/SuSE-release | grep VERSION | cut -d '=' -f 2 | tr -d '[:space:]')
+      majver=$(grep VERSION /etc/SuSE-release | cut -d '=' -f 2 | tr -d '[:space:]')
   elif [ -f /etc/os-release ]; then
       . /etc/os-release
       OS=$ID
       majver=$VERSION_ID
   elif [ -f /etc/debian_version ]; then
       OS=Debian
-      majver=$(cat /etc/debian_version | cut -d '.' -f 1)
+      majver=$(cut -d '.' -f 1 /etc/debian_version)
   elif [ -f /etc/lsb-release ]; then
       . /etc/lsb-release
       OS=$DISTRIB_ID
       majver=$DISTRIB_RELEASE
-  elif [ -f /etc/os-release ]; then
-      . /etc/os-release
-      OS=$ID
-      majver=$VERSION_ID
   else
       OS=$(uname -s)
       majver=$(uname -r)
