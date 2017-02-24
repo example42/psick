@@ -1,7 +1,6 @@
 #!/bin/bash
 repo_dir="$(dirname $0)/.."
 . "${repo_dir}/bin/functions"
-work_dir=/tmp/puppet-publish
 
 showhelp () {
 cat << EOF
@@ -18,23 +17,19 @@ Available OPTIONS
 [-f|--force] [-nf|--no-force]        Default: disabled - Enable/Disable forcing of the publising even with test errors
 [-b|--bump] [-nb|--no-bump]                            - Enable/Disable bumping of the module version
 [-t|--tag] [-nt|--no-tag]                              - Enable/Disable tagging of the module
-[-fx|--fix] [-nofx|--no-fix]                           - Enable/Disable removal of optional dependencies for the Forge version
 [-c|--check] [-nc|--no-check]                          - Enable/Disable module testing before any operation
-[-s|--sync-master] [-ns|--no-sync-master]              - Enable/Disable merging of version branch on master
-[-u|--update-collection] [-nu|--no-update-collection]  - Enable/Disable automatic update of gitsubmodule on the containing modules collection
+[-s|--sync-master] [-ns|--no-sync-master]              - Enable/Disable push to origin
 
+Default options are: $0 --no-force --bump --tag --check --sync-master 
 EOF
 }
 
 force=false
 bump=true
 tag=true
-fix=true
 check=true
 forge=true
-github=true
 syncmaster=true
-updatecollection=true
 
 while [ $# -gt 0 ]; do
   case "$1" in
@@ -59,12 +54,6 @@ while [ $# -gt 0 ]; do
     -nt|--no-tag)
       tag=false
       shift ;;
-    -fx|--fix)
-      fix=true
-      shift ;;
-    -nfx|--no-fix)
-      fix=false
-      shift ;;
     -c|--check)
       check=true
       shift ;;
@@ -77,12 +66,6 @@ while [ $# -gt 0 ]; do
     -ns|--no-sync-master)
       syncmaster=false
       shift ;;
-    -u|--update-collection)
-      updatecollection=true
-      shift ;;
-    -nu|--no-update-collection)
-      updatecollection=false
-      shift ;;
   esac
 done
 
@@ -92,7 +75,7 @@ if [ $module ] ; then
   cd $module
 fi
 
-modulename=$(basename `pwd`)
+modulename=$(basename $(pwd))
 branch=$(git branch --no-column | grep '*' | cut -c 3-)
 
 if [ ! -f metadata.json ] ; then
@@ -138,30 +121,12 @@ fi
 
 if [ $forge == 'true' ] ; then
   echo_title "PUBLISH TO THE FORGE"
-
   rake -f ../../bin/Rakefile_blacksmith module:push || exit 1
-
 fi
 
-if [ $github == 'true' ] ; then
+if [ $syncmaster == 'true' ] ; then
   echo_title "PUBLISH TO GITHUB"
   git push origin $branch
   git push origin $branch --tags
 fi
 
-if [ $syncmaster == 'true' ] ; then
-  if [ "x$branch" != "xmaster" ] ; then
-    echo_title "MERGING $branch to master"
-    read -p "Do you want to merge $branch on master? (Y/n) " answer
-    answer=${answer:-y}
-    if [ $answer != 'y' ] ; then
-      git checkout master
-      git merge $branch master
-      read -p "Do you want to merge $branch on master? (Y/n) " answer
-      answer=${answer:-y}
-      if [ $answer != 'y' ] ; then
-        git push origin master
-      fi
-    fi
-  fi
-fi
