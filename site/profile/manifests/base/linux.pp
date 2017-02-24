@@ -34,6 +34,7 @@ class profile::base::linux (
   String $hostname_class    = '',
   String $hosts_class       = '',
   String $update_class      = '',
+  String $motd_class        = '',
 
 ) {
 
@@ -138,4 +139,8 @@ class profile::base::linux (
     Class[$pre_class] -> Class[$update_class]
   }
 
+  if $motd_class != '' and $enable {
+    contain $motd_class
+    Class[$pre_class] -> Class[$motd_class]
+  }
 }
