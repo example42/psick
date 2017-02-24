@@ -94,7 +94,7 @@ nodes:
     count: 1
     box: centos7
     forwarded_port:
-      guest: 4440
+      guest: 80
       host: 1447
   - role: log
     count: 1
