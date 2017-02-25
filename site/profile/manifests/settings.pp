@@ -12,6 +12,8 @@ class profile::settings (
   String  $primary_ip_address   = '',
   String  $mgmt_interface       = $facts['networking']['primary'],
 
+  Optional[String] $timezone    = undef,
+
   Optional[String] $https_proxy = undef,
   Optional[String] $http_proxy  = undef,
   Optional[String] $ftp_proxy   = undef,

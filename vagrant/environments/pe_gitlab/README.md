@@ -42,7 +42,7 @@ This demo environment provides:
 
 Now you should be able to access the PE console from your host.
 
-Browse to **https://127.0.0.1:1443**
+Browse to **https://127.0.0.1:1743**
 Login: **admin**
 Password: **puppetlabs**
 
@@ -95,7 +95,7 @@ Note 2: It's recommended to run this Vagrant environment on hosts that have at l
 
 This environments also provides a fairly evoluted integration with GitLab:
 
-  - The VM git is provisioned with an all-in-one installation of Gitlab. To access it, once the machine is provisioned, browse to **https://localhost:1444** (use a hostname different that the one used for PE to avoid certs errors on your browser when trying to reach two different sites, with different, self signed, certs, for the same hostname) errors on your browser when trying to reach two different sites, with different, self signed, certs, for the same hostname).
+  - The VM git is provisioned with an all-in-one installation of Gitlab. To access it, once the machine is provisioned, browse to **https://localhost:1744** (use a hostname different that the one used for PE to avoid certs errors on your browser when trying to reach two different sites, with different, self signed, certs, for the same hostname) errors on your browser when trying to reach two different sites, with different, self signed, certs, for the same hostname).
     You have to make your first login and create your user.
 
   - The VM cirunner is provisioned with GitLab runner and the tools needed to run the automated tests defined in the ```.gitlab-ci.yml``` file of this project.

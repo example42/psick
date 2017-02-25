@@ -2,7 +2,7 @@
 version: 5
 
 defaults:
-  datadir: data
+  datadir: hieradata
   data_hash: yaml_data
 
 hierarchy:
@@ -19,5 +19,5 @@ hierarchy:
     path: "hieradata/zone/%{::zone}.yaml"
 
   - name: "Common defaults"
-    path: "common.yaml"
+    path: "hieradata/common.yaml"
 

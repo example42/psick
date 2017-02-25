@@ -24,7 +24,7 @@ setup() {
     puppetserver gem install deep_merge
     service pe-puppetserver restart
   fi
-  ln -sf /etc/puppetlabs/code/environments/$puppet_env/hiera.yaml /etc/puppetlabs/puppet/hiera.yaml
+  ln -sf /etc/puppetlabs/code/environments/$puppet_env/bin/hiera.yaml /etc/puppetlabs/puppet/hiera.yaml
 }
 
 # Run setup only the first time

@@ -13,7 +13,6 @@
 profiles:
   - '::profile::repo::generic'
   - '::profile::ostest'
-  - '::profile::foreman'
 
 # For quicker tests we don't want to include all the
 # base profile classes which are by default added to 

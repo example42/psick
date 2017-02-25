@@ -1,4 +1,5 @@
 # File managed by Puppet
+# Proxy environment variables are set here, if proxy is configured
 
 <% if scope['profile::settings::https_proxy'] -%>
 export https_proxy=<%= scope['profile::settings::https_proxy'] %>

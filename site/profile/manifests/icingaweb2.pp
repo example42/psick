@@ -10,13 +10,16 @@
 # @param options An open hash of options you may use in your template
 #
 class profile::icingaweb2 (
-  String                $ensure      = 'present',
+  String                $ensure          = 'present',
   Optional[String]      $webserver_class = '::profile::apache::tp',
   Optional[String]      $dbserver_class  = '::profile::mariadb::tp',
   Boolean               $auto_prerequisites = true,
-  Optional[String]      $template    = undef,
-  Hash                  $options     = { },
+  Optional[String]      $template        = undef,
+  Hash                  $options          = { },
   Optional[Enum['mysql','pgsql']] $db_backend = 'mysql',
+  Boolean $fix_php_timezone = true,
+
+
 ) {
 
   if $webserver_class and $webserver_class != '' {
@@ -44,7 +47,24 @@ class profile::icingaweb2 (
   }
 
   if $db_backend {
+    $camel_db_backend = $db_backend ? {
+      'mysql' => 'Mysql',
+      'pgsql' => 'Pgsql',
+    }
     package { "icinga2-ido-${db_backend}": }
+    package { "php-ZendFramework-Db-Adapter-Pdo-${camel_db_backend}": }
+  }
+
+  if $fix_php_timezone {
+    augeas { 'php_date_timezone':
+      context => '/files/etc/php.ini/DATE',
+      changes => [
+        "set date.timezone ${::profile::settings::timezone}"
+      ],
+    }
+  }
+  if $::selinux {
+    package { 'icingaweb2-selinux': }
   }
 
 }

@@ -5,7 +5,7 @@ script_dir="$(dirname $0)"
 
 [ "$1" = "auto" ] && auto=true || auto=false
 
-puppet_options="--modulepath ${repo_dir}/site:${repo_dir}/modules:/etc/puppet/modules --environmentpath ${repo_dir} --hiera_config ${repo_dir}/bin/hiera-local.yaml"
+puppet_options="--modulepath ${repo_dir}/site:${repo_dir}/modules:/etc/puppet/modules --environmentpath ${repo_dir} --hiera_config ${repo_dir}/bin/hiera5.yaml"
 
 setup_puppet() {
   echo_title "Setting up Puppet environment"

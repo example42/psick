@@ -42,7 +42,7 @@
   profile::time::ntpdate::ntp_server: 'pool.ntp.org'
 
 # Timezone settings
-  profile::timezone::timezone: 'Europe/Berlin'
+  profile::settings::timezone: 'Europe/Berlin'
 
 # Sample monitor settings
 #  profile::monitor::nrpe_class: '::profile::monitor::nrpe'

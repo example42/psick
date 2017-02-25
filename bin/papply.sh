@@ -29,7 +29,7 @@ fi
 puppet apply --verbose --report --show_diff --summarize \
 	--modulepath "${repo_dir}/site:${repo_dir}/modules:/etc/puppetlabs/code/modules" \
 	--environmentpath "${repo_dir}" \
-	--hiera_config="${repo_dir}/docs/hiera.yaml" \
+	--hiera_config="${repo_dir}/bin/hiera5.yaml" \
 	--config_version="${config_version}" \
 	--detailed-exitcodes $manifest_option $extra_options $manifest
 

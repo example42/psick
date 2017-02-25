@@ -23,6 +23,8 @@ network:
 # Puppet related settings
 puppet:
   version: latest             # Version to use for OSS
+  install_oss: false          # If to install Puppet OSS agent on the VMS
+  install_pe: true            # If to install Puppet Enterprise agent on the VMS
   env: lab                    # Setting for the env fact (may be used in hiera.yaml)
   zone: lab                   # Setting for the zone fact (may be used in hiera.yaml)
   datacenter: hetzner         # Setting for the datacenter fact (may be used in hiera.yaml)

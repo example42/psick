@@ -23,11 +23,13 @@ network:
 # Puppet related settings
 puppet:
   version: latest             # Version to use for OSS
+  install_oss: false          # If to install Puppet OSS agent on the VMS
+  install_pe: true            # If to install Puppet Enterprise agent on the VMS
   env: dev                    # Setting for the env fact (may be used in hiera.yaml)
   zone: local                 # Setting for the zone fact (may be used in hiera.yaml)
   datacenter: vagrant         # Setting for the datacenter fact (may be used in hiera.yaml)
   application: default        # Setting for the application fact (may be used in hiera.yaml)
-  master_vm:  puppet          # Name of the VM which play as Puppet server for the others
+  master_vm:  puppet.lan      # Name of the VM which play as Puppet server for the others
   master_fqdn: 'puppet.lan'   # FQDN of the Puppet server to use with puppet agent
   link_controlrepo: true      # Add a link for a Puppet environment to the development control-repo 
   environment: production     # Puppet environment to link to local control-repo
@@ -42,6 +44,10 @@ puppet:
 #  custom one. For locally downloaded files, for example, you can place something like:
 #  pe_download_root: 'file:///Users/al/Downloads'
 
+# Vagrant settings
+vagrant:
+  hostmanager.manage_host: false # If true and you have the hostmanager plugin
+
 # List of nodes shown in vagrant status
 # Node names are based on the defined role. Here can be overridden vm defaults,
 # it can be enforced a defined host name, added alieses, port forwarding and pe_role
@@ -55,7 +61,7 @@ nodes:
       - puppet
     forwarded_port:
       guest: 443
-      host: 1443
+      host: 1643
   - role: docker_tp_build
     hostname_base: docker-build
     count: 1

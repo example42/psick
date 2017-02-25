@@ -29,9 +29,9 @@ class profile::puppet::pe_code_manager (
     'root'  => '/root',
     default => "/home/${deploy_user}",
   }
+
   tools::ssh_keygen { $deploy_user:
     comment => $deploy_comment,
-    require => File[$real_puppet_user_home],
   }
 
   file { $deploy_ssh_private_key_path:
