@@ -1,4 +1,5 @@
-# Sample role data used in Vagrant ostest environment.
+# Sample role data used in Vagrant ostest environment
+# and in any host with role ostest
 # Useful for testing a set of profiles on different OS
 
 ---
@@ -12,6 +13,7 @@
 profiles:
   - '::profile::repo::generic'
   - '::profile::ostest'
+  - '::profile::foreman'
 
 # For quicker tests we don't want to include all the
 # base profile classes which are by default added to 

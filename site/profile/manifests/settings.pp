@@ -8,9 +8,15 @@
 # @param mgmt_interface # The management interface of the server.
 #
 class profile::settings (
-  Boolean $is_cluster         = false,
-  String  $primary_ip_address = '',
-  String  $mgmt_interface     = $facts['networking']['primary'],
+  Boolean $is_cluster           = false,
+  String  $primary_ip_address   = '',
+  String  $mgmt_interface       = $facts['networking']['primary'],
+
+  Optional[String] $https_proxy = undef,
+  Optional[String] $http_proxy  = undef,
+  Optional[String] $ftp_proxy   = undef,
+  Optional[String] $rsync_proxy = undef,
+  Optional[String] $no_proxy    = undef,
 ) {
 
   $primary_ip = $primary_ip_address ? {

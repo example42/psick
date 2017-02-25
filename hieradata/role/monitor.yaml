@@ -1,4 +1,1 @@
 ---
-  profiles:
-    - profile::icinga2
-    - profile::icingaweb2

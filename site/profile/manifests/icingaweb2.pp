@@ -11,14 +11,19 @@
 #
 class profile::icingaweb2 (
   String                $ensure      = 'present',
-  Optional[String]      $webserver_class = '::profile::apache',
+  Optional[String]      $webserver_class = '::profile::apache::tp',
+  Optional[String]      $dbserver_class  = '::profile::mariadb::tp',
   Boolean               $auto_prerequisites = true,
   Optional[String]      $template    = undef,
   Hash                  $options     = { },
+  Optional[Enum['mysql','pgsql']] $db_backend = 'mysql',
 ) {
 
   if $webserver_class and $webserver_class != '' {
     contain $webserver_class
+  }
+  if $dbserver_class and $dbserver_class != '' {
+    contain $dbserver_class
   }
 
   $options_default = {
@@ -36,6 +41,10 @@ class profile::icingaweb2 (
       base_dir     => 'conf',
       options_hash => $real_options,
     }
+  }
+
+  if $db_backend {
+    package { "icinga2-ido-${db_backend}": }
   }
 
 }

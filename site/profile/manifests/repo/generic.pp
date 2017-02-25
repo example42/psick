@@ -13,7 +13,7 @@ class profile::repo::generic (
   if $add_defaults {
     case $::osfamily {
       'RedHat': {
-        tp::repo { 'epel': }
+        tp::install { 'epel': auto_prerequisites => true }
       }
       'Debian': {
       }
