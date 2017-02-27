@@ -1,8 +1,8 @@
 license_key=<%= @options['license_key'] %>
 loglevel=<%= @options['license_key'] ||= '' %>
 logfile=<%= @settings['log_file_path'] %>
-<% if @proxy_host != '' -%>
-proxy=<%= @proxy_host %>:<%= @proxy_port %>
+<% if @proxy != '' -%>
+proxy=<%= @proxy %>
 <% else -%>
 <% end -%>
 ssl=true

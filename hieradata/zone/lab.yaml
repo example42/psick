@@ -5,5 +5,11 @@
     - '10.42.43.102 git git.lab.psick.io'
     - '10.42.43.103 cirunner cirunner.lab.psick.io'
 
-  # In demo we leave DNS unmanaged
+# In lab we leave DNS unmanaged
   profile::base::linux::dns_class: ''
+
+# Enable automatic updates on lab nodes and set schedule:
+  profile::update::cron_schedule: '42 4 * * *'
+
+# Monitoring
+  profile::monitor::nagiosplugins_class: '::profile::monitor::nagiosplugins'

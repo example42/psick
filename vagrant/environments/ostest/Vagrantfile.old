@@ -10,7 +10,6 @@ if !File.exist?(config_file)
   throw("File config.yaml not found. Must be in same dir of Vagrantfile")
 end
 
- 
 settings = YAML::load_file config_file
 
 # Network and Puppet basics
@@ -21,7 +20,6 @@ puppet_master_hostname = settings['puppet']['master_hostname'] ? settings['puppe
 puppet_master_ip = settings['puppet']['master_ip']
 puppet_code_dir = '/etc/puppetlabs/code/environments/development'
 
-
 # Define vms settings
 vms = []
 if settings['nodes'].is_a?(Array)
@@ -31,10 +29,8 @@ if settings['nodes'].is_a?(Array)
 
     (1..count).each do |vm_index|
       vm = node.clone
-      vm['hostname_base'] = vm['hostname_base'] ? vm['hostname_base'] : vm['role']
-      vm['hostname'] = "%s.%s" % [vm['hostname_base'], settings['network']['domain']]
-      # vm['hostname'] = "%s-%s-%s-%02d" % [settings['puppet']['env'], settings['puppet']['zone'], vm['hostname_base'], vm_index]
-
+      vm['hostname'] = "#{vm['hostname_base']}.#{settings['network']['domain']}"
+      vm['role'] = node['role'] ? node['role'] : settings['vm']['role']
       if vm['ip_address']
         vm['ip'] = vm['ip_address']
       else
@@ -52,6 +48,8 @@ if settings['nodes'].is_a?(Array)
       vm['memory'] = node['memory'] ? node['memory'] : settings['vm']['memory']
       vm['puppet_agent'] = node['puppet_agent'] ? node['puppet_agent'] : settings['vm']['puppet_agent']
       vm['puppet_apply'] = node['puppet_apply'] ? node['puppet_apply'] : settings['vm']['puppet_apply']
+      vm['facter_external_facts'] = node['facter_external_facts'] ? node['facter_external_facts'] : settings['vm']['facter_external_facts']
+      vm['facter_trusted_facts'] = node['facter_trusted_facts'] ? node['facter_trusted_facts'] : settings['vm']['facter_trusted_facts']
 
       vms.push(vm)
     end
@@ -76,6 +74,7 @@ Vagrant.configure("2") do |config|
   vms.each do |node|
     role = node['role'].clone
     hostname = node['hostname'].clone
+    fqdn = hostname = node['hostname'].clone
     box = node['box'].clone
     aliases = node['aliases'].clone + node['aliases'] 
     env = settings['puppet']['env']
@@ -84,19 +83,20 @@ Vagrant.configure("2") do |config|
     breed = settings['boxes']["#{box}"]['breed'] 
     vm_box = settings['boxes']["#{box}"]['box']
 
-    config.vm.define hostname do |node_config|
+    config.vm.define fqdn do |node_config|
       node_config.vm.box = vm_box
       node_config.vm.hostname = hostname
       node_config.vm.network :private_network, ip: node['ip']
       node_config.vm.provision "shell", path: '../../bin/vagrant-setup.sh', args: breed
-      node_config.vm.provision "shell", path: '../../bin/vagrant-setfacts.sh', args: "--role #{role} --env #{env} --zone #{zone}"
+      node_config.vm.provision "shell", path: '../../bin/vagrant-setfacts.sh', args: "--role #{role} --env #{env} --zone #{zone}" if node['facter_external_facts']
+      node_config.vm.provision "shell", path: '../../bin/vagrant-settrustedfacts.sh', args: "--role #{role} --env #{env} --zone #{zone}" if node['facter_trusted_facts']
 
       if Vagrant.has_plugin?("vagrant-hostmanager")
         node_config.hostmanager.aliases = aliases
       end
-  
+
       if role != 'puppet'
-      if Vagrant.has_plugin?("vagrant-hostmanager") and Vagrant.has_plugin?('vagrant-triggers')
+        if Vagrant.has_plugin?("vagrant-hostmanager") and Vagrant.has_plugin?('vagrant-triggers')
           # register destroy trigger to remove the node from puppet master
           node_config.trigger.after :destroy do
             node_name = @machine.name.to_s

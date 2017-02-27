@@ -20,7 +20,7 @@
 #   Default is autocalculated for each supported OS
 #
 class profile::timezone(
-  String $timezone             = '',
+  String $timezone             = $::profile::settings::timezone,
   Boolean $hw_utc              = false,
   String $set_timezone_command = '',
   String $template             = "profile/timezone/timezone-${::operatingsystem}",

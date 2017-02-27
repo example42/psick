@@ -14,6 +14,8 @@ class profile::icinga2 (
   Boolean               $auto_prerequisites = true,
   Optional[String]      $template    = undef,
   Hash                  $options     = { },
+  Boolean        $install_icinga_cli = true,
+  Boolean        $install_classic_ui = true,
 ) {
 
   $options_default = {
@@ -33,4 +35,14 @@ class profile::icinga2 (
     }
   }
 
+  if $install_icinga_cli {
+    package { 'icingacli':
+      ensure => $ensure,
+    }
+  }
+  if $install_classic_ui {
+    package { 'icinga2-classicui-config':
+      ensure => $ensure,
+    }
+  }
 }

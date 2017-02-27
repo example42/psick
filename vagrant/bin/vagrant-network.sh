@@ -8,5 +8,5 @@ else
 fi
 
 if [ "x$restart" == "xyes" ]; then
-  sudo ifup eth1
+  sudo ifup eth1 2>/dev/null
 fi
