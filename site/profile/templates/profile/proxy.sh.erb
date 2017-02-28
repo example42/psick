@@ -1,0 +1,18 @@
+# File managed by Puppet
+# Proxy environment variables are set here, if proxy is configured
+
+<% if scope['profile::settings::https_proxy'] -%>
+export https_proxy=<%= scope['profile::settings::https_proxy'] %>
+<% end -%>
+<% if scope['profile::settings::http_proxy'] -%>
+export http_proxy=<%= scope['profile::settings::http_proxy'] %>
+<% end -%>
+<% if scope['profile::settings::ftp_proxy'] -%>
+export ftp_proxy=<%= scope['profile::settings::ftp_proxy'] %>
+<% end -%>
+<% if scope['profile::settings::rsync_proxy'] -%>
+export rsync_proxy=<%= scope['profile::settings::rsync_proxy'] %>
+<% end -%>
+<% if scope['profile::settings::no_proxy'] -%>
+export no_proxy=<%= scope['profile::settings::no_proxy'] %>
+<% end -%>

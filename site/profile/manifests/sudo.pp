@@ -15,7 +15,7 @@ class profile::sudo (
   String                   $sudoers_template  = '',
   Array                    $admins            = [ ],
   Variant[String[1],Undef] $sudoers_d_source  = undef,
-  Boolean                  $purge_sudoers_dir = true,
+  Boolean                  $purge_sudoers_dir = false,
 ) {
 
   if $sudoers_template != '' {
@@ -54,7 +54,7 @@ class profile::sudo (
     }
   }
 
-  if $::virtual == 'virtualbox' {
+  if $::virtual == 'virtualbox' and $purge_sudoers_dir {
     tools::sudo::directive { 'vagrant':
       source => 'puppet:///modules/profile/sudo/vagrant',
       order  => 30,

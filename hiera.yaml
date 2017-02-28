@@ -1,0 +1,23 @@
+---
+version: 5
+
+defaults:
+  datadir: hieradata
+  data_hash: yaml_data
+
+hierarchy:
+  - name: "Nodes"
+    path: "hieradata/hostname/%{trusted.certname}.yaml"
+
+  - name: "Role and env"
+    path: "hieradata/role/%{::role}-%{::env}.yaml"
+
+  - name: "Role"
+    path: "hieradata/role/%{::role}.yaml"
+
+  - name: "Zone"
+    path: "hieradata/zone/%{::zone}.yaml"
+
+  - name: "Common defaults"
+    path: "hieradata/common.yaml"
+

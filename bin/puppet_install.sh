@@ -1,10 +1,18 @@
 #!/usr/bin/env bash
 breed=$1
 
-SETCOLOR_NORMAL=$(tput sgr0)
-SETCOLOR_TITLE=$(tput setaf 6)
-SETCOLOR_SUBTITLE=$(tput setaf 14)
-SETCOLOR_BOLD=$(tput setaf 15)
+which tput >/dev/null 2>&1
+if [ "x${?}" == "x0" ]; then
+  SETCOLOR_NORMAL=$(tput sgr0)
+  SETCOLOR_TITLE=$(tput setaf 6)
+  SETCOLOR_SUBTITLE=$(tput setaf 14)
+  SETCOLOR_BOLD=$(tput setaf 15)
+else
+  SETCOLOR_NORMAL=""
+  SETCOLOR_TITLE=""
+  SETCOLOR_SUBTITLE=""
+  SETCOLOR_BOLD=""
+fi
 echo_title () {
   echo
   echo "${SETCOLOR_BOLD}###${SETCOLOR_NORMAL} ${SETCOLOR_TITLE}${1}${SETCOLOR_NORMAL} ${SETCOLOR_BOLD}###${SETCOLOR_NORMAL}"
@@ -24,14 +32,14 @@ setup_redhat() {
 
 setup_fedora() {
   echo_title "Uninstalling existing Puppet"
-  yum erase -y puppet puppetlabs-release 
+  yum erase -y puppet puppetlabs-release
 
   echo_title "Adding repo for Puppet 4"
   rpm -ivh https://yum.puppetlabs.com/puppetlabs-release-pc1-fedora-$1.noarch.rpm
 
   sleep 2
   echo_title "Installing Puppet"
-  yum install -y puppet-agent 
+  yum install -y puppet-agent
 }
 
 setup_suse() {
@@ -72,7 +80,16 @@ setup_apt() {
   apt-get install puppet-agent -y >/dev/null
   apt-get install apt-transport-https -y >/dev/null
 }
+setup_alpine() {
+  echo "## Adding repo for Puppet 4 to /etc/apk/repositories"
+  echo http://dl-4.alpinelinux.org/alpine/edge/testing/ >> /etc/apk/repositories
+  echo "## Running apk update"
+  apk update
 
+  echo "## Installing Puppet and its dependencies"
+  apk add shadow ruby less bash
+  gem install puppet --no-rdoc -no-ri
+}
 setup_solaris() {
   echo_title "Not yet supported"
 }
@@ -101,6 +118,9 @@ setup_linux() {
   elif [ -f /etc/SuSE-release ]; then
       OS=sles
       majver=$(cat /etc/SuSE-release | grep VERSION | cut -d '=' -f 2 | tr -d '[:space:]')
+  elif [ -f /etc/alpine-release ]; then
+      OS=alpine
+      majver=$(cat /etc/alpine-release | cut -d '.' -f 1)
   elif [ -f /etc/os-release ]; then
       . /etc/os-release
       OS=$ID
@@ -132,6 +152,7 @@ setup_linux() {
     amazon) setup_redhat $majver ;;
     sles) setup_suse $majver ;;
     cumulus-linux) setup_apt $majver ;;
+    alpine) setup_alpine $majver ;;
     *) echo "Not supported distro: $distro" ;;
   esac
 }
@@ -145,7 +166,7 @@ os_detect() {
     cygwin*)  setup_windows ;;
     msys*)    setup_windows ;;
     win*)     setup_windows ;;
-    *)        echo "unknown: $OSTYPE" ;;
+    *)        setup_linux ;; # For alpine
   esac
 }
 
@@ -154,5 +175,6 @@ if [ "x$breed" != "x" ]; then
 else
   os_detect
 fi
-[ -f /usr/bin/puppet ] || ln -s /opt/puppetlabs/puppet/bin/puppet /usr/bin/puppet
-[ -f /usr/bin/facter ] || ln -s /opt/puppetlabs/puppet/bin/facter /usr/bin/facter
+[ -e /usr/bin/puppet ] || ln -fs /opt/puppetlabs/puppet/bin/puppet /usr/bin/puppet
+[ -e /usr/bin/facter ] || ln -fs /opt/puppetlabs/puppet/bin/facter /usr/bin/facter
+

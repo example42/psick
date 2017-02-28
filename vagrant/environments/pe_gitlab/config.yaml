@@ -23,6 +23,8 @@ network:
 # Puppet related settings
 puppet:
   version: latest             # Version to use for OSS
+  install_oss: false          # If to install Puppet OSS agent on the VMS
+  install_pe: true            # If to install Puppet Enterprise agent on the VMS
   env: demo                   # Setting for the env fact (may be used in hiera.yaml)
   zone: demo                  # Setting for the zone fact (may be used in hiera.yaml)
   datacenter: vagrant         # Setting for the datacenter fact (may be used in hiera.yaml)
@@ -61,12 +63,12 @@ nodes:
       - puppet
     forwarded_port:
       guest: 443
-      host: 1443
+      host: 1743
   - role: git
     memory: 2048
     forwarded_port:
       guest: 443
-      host: 1444
+      host: 1744
     puppet_agent: false
   - role: cirunner
     count: 1

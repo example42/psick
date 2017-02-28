@@ -52,7 +52,7 @@ class profile::hostname (
         default: {}
       }
     }
-  
+
     if $update_cloud_cfg {
       file { '/etc/cloud/cloud.cfg.d/99_preserve_hostname.cfg':
         ensure  => present,
@@ -60,5 +60,6 @@ class profile::hostname (
         notify  => Exec['apply_hostname'],
       }
     }
+
   }
 }

@@ -1,16 +1,7 @@
 #!/bin/bash
-
-if [ -d /vagrant/manifests ]; then
-  base_dir='/vagrant'
-else
-  base_dir='/etc/puppetlabs/code/environments/development'
-fi
-
-if [ $1  ]; then
-  manifest=$1
-else
-  manifest="${base_dir}/manifests/site.pp"
-fi
+environment='host'
+base_dir="/etc/puppetlabs/code/environments/${environment}"
+manifest=${1:-"${base_dir}/manifests/site.pp"}
 
 PATH=$PATH:/opt/puppetlabs/bin
 
@@ -26,8 +17,8 @@ fi
 puppet apply --test --report --summarize \
 	--modulepath "${base_dir}/site:${base_dir}/modules:/etc/puppet/modules" \
 	--environmentpath "${base_dir}/.." \
-	--environment development \
-	--hiera_config "${base_dir}/hiera.yaml" \
+	--environment $environment \
+	--hiera_config "${base_dir}/docs/hiera.yaml" \
 	--detailed-exitcodes $manifest_option $manifest
 
 result=$?

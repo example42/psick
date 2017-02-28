@@ -266,3 +266,59 @@ To remove these files:
     profile::motd::motd_file_ensure: 'absent'
     profile::motd::issue_file_ensure: 'absent'
 
+
+# Profiles not in baseline
+
+## ::profile::oracle - Manages prerequisites and installation
+
+This profile should be added to oracle servers. By default it does nothing, but, activating the relevant parameters, it allows
+the configuration of all the prerequisites for Oracle 12 installation and, if installation files are available, it can automate the installation of Oracle products (via the biemond/oradb external module).
+
+Main use case is the configuration for prerequisites. This can be done with:
+
+    profiles:
+      profile::oracle
+
+    # Activate the prerequisites class that manages /etc/limits
+    profile::oracle::prerequisites::limits_class: 'profile::oracle::prerequisites::limits'
+
+    # Activate the prerequisites class that manages packages
+    profile::oracle::prerequisites::packages_class: 'profile::oracle::prerequisites::packages'
+
+
+    # Activate the prerequisites class that manages users
+    profile::oracle::prerequisites::users_class: 'profile::oracle::prerequisites::users'
+    profile::oracle::prerequisites::users::has_asm: true # Set this on servers with asm
+
+    # Activate the prerequisites class that manages sysctl
+    profile::oracle::prerequisites::sysctl_class: 'profile::oracle::prerequisites::sysctl'
+    profile::base::linux::sysctl_class: '' # The base default sysctl class conflicts with the above
+
+    # Activate the prerequisites class that cretaes a swap file (needs petems/swap_file module)
+    # profile::oracle::prerequisites::swap_class: 'profile::oracle::prerequisites::swap'
+
+    # Activate the dirs class and create a set of dirs for Oracle data
+    profile::oracle::prerequisites::dirs_class: 'profile::oracle::prerequisites::dirs'
+    profile::oracle::prerequisites::dirs::base_dir: '/data/oracle' # Default value
+    profile::oracle::prerequisites::dirs::owner: 'oracle'          # Default value
+    profile::oracle::prerequisites::dirs::group: 'dba'             # Default value
+    profile::oracle::prerequisites::dirs::dirs:
+     app1:
+       - 'db1'
+       - 'db2'
+     app2:
+       - 'db1'
+   profile::oracle::prerequisites::dirs::suffixes:   # Default value is ''
+     - '_DATA'
+     - '_FRA'
+
+with the above settings the following directories are created:
+
+    /data/oracle/app1_DATA/db1
+    /data/oracle/app1_DATA/db2
+    /data/oracle/app1_FRA/db1
+    /data/oracle/app1_FRA/db2
+    /data/oracle/app2_DATA/db1
+    /data/oracle/app2_FRA/db1
+
+

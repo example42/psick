@@ -1,9 +1,22 @@
 ---
-  profile::hosts::file::ipaddress: "%{::ipaddress}"
-  profile::hosts::file::extra_hosts:
-    - '10.42.43.101 puppet puppet.lab.psick.io'
-    - '10.42.43.102 git git.lab.psick.io'
-    - '10.42.43.103 cirunner cirunner.lab.psick.io'
+# With few nodes automatic hosts sync may make sense
+  profile::base::linux::hosts_class: '::profile::hosts::dynamic'
+  profile::hosts::dynamic::dynamic_magicvar: 'zone'
+  profile::hosts::dynamic::extra_hosts:
+    'puppet.lab.psick.io':
+      ip: '10.42.43.101'
+      host_aliases:
+        - puppet
 
-  # In demo we leave DNS unmanaged
+# In lab we leave DNS unmanaged
   profile::base::linux::dns_class: ''
+
+# Enable automatic updates on lab nodes and set schedule:
+  profile::update::cron_schedule: '42 4 * * *'
+
+# Monitoring based on icinga
+  profile::monitor::icinga_class: '::profile::icinga2'
+  profile::monitor::nagiosplugins_class: '::profile::monitor::nagiosplugins'
+  profile::icinga2::master: 'icinga.lab.psick.io'
+  profile::icinga2::is_client: true
+  profile::icinga2::install_cli: true

@@ -49,12 +49,6 @@
       tag_list: 'deploy_puppet'
       tls_ca_file: '/etc/puppetlabs/puppet/ssl/certs/ca.pem'
 
-  # SUDO for gitlab-runner
-  profile::sudo::directives:
-    gitlab-runner:
-      source: 'puppet:///modules/profile/sudo/gitlab-runner'
-      order: 30
-
 # This is needed for the gitlab_get_id function to catch GitLab data
   # Config for gitlab cli. Tokens change at every gitlab installation
   profile::gitlab::cli::private_token: 'Zo5zPyMZGKhxxo2EhQBM' # TO CHANGE

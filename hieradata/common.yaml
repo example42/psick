@@ -31,6 +31,8 @@
   profile::base::linux::hostname_class: '::profile::hostname'
 #  profile::base::linux::hosts_class: '::profile::hosts::file'
   profile::base::linux::update_class: '::profile::update'
+  profile::base::linux::motd_class: '::profile::motd'
+  profile::base::linux::profile_class: '::profile::profile'
 
 # Repo settings
   profile::repo::generic::add_defaults: true
@@ -40,13 +42,14 @@
   profile::time::ntpdate::ntp_server: 'pool.ntp.org'
 
 # Timezone settings
-  profile::timezone::timezone: 'Europe/Berlin'
+  profile::settings::timezone: 'Europe/Berlin'
 
 # Sample monitor settings
 #  profile::monitor::nrpe_class: '::profile::monitor::nrpe'
-#  profile::monitor::icinga_class: '::profile::monitor::icinga'
+#  profile::monitor::icinga_class: '::profile::icinga2'
 #  profile::monitor::nagiosplugins_class: '::profile::monitor::nagiosplugins'
   profile::monitor::systat_class: '::profile::monitor::sar'
+
 
 # Sample ansible settings
 #  ansible::install_class: tp

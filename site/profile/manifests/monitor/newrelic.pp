@@ -10,6 +10,7 @@ class profile::monitor::newrelic (
 
   $options_default = {
     license_key => 'CHANGEME',
+    proxy       => $::profile::settings::http_proxy,
   }
   #
   $options_user=hiera_hash('newrelic_options', {} )

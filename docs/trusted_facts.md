@@ -43,7 +43,7 @@ The top scope variables are defined in ```manifests/site.pp``` as follows:
       $zone = $trusted['extensions']['pp_datacenter']
     }
 
-In ```docs/hiera.yaml``` are then used these variables in the sample hierarchy:
+In ```bin/hiera.yaml``` are then used these variables in the sample hierarchy:
 
     :hierarchy:
       - "hostname/%{::trusted.certname}"

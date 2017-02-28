@@ -23,6 +23,8 @@ network:
 # Puppet related settings
 puppet:
   version: latest             # Version to use for OSS
+  install_oss: false          # If to install Puppet OSS agent on the VMS
+  install_pe: true            # If to install Puppet Enterprise agent on the VMS
   env: lab                    # Setting for the env fact (may be used in hiera.yaml)
   zone: lab                   # Setting for the zone fact (may be used in hiera.yaml)
   datacenter: hetzner         # Setting for the datacenter fact (may be used in hiera.yaml)
@@ -47,7 +49,8 @@ vagrant:
   # Update host's /etc/hosts if you have the hostmanager plugin.
   # Needed for automatic decommissioning of nodes. If false, you've to manage
   # manually ssl certs removal of reinstalled nodes.
-  hostmanager.manage_host: false # If true and you have the hostmanager plugin
+  hostmanager.enable: false # If to enable hostmanager plugin
+  hostmanager.manage_host: false # If to manage also the main host's hosts
           
 # List of nodes shown in vagrant status
 # Node names are based on the defined role. Here can be overridden vm defaults,
@@ -70,29 +73,77 @@ nodes:
     puppet_agent: false
   - role: cirunner
     count: 1
-  - role: docker_tp_build
-    hostname_base: docker-build
+  - role: manageiq
     count: 1
-  - role: docker_host
-    hostname_base: docker-host
+    memory: 6192
+    cpu: 2
+    box: manageiq_euwe
+    forwarded_port:
+      guest: 443
+      host: 1445
+  - role: rundeck
     count: 1
-    box: ubuntu1604
-  - role: monitor
+    memory: 2048
+    cpu: 1
+    box: centos7
+    forwarded_port:
+      guest: 4440
+      host: 1446
+  - role: build
+    count: 1
+  - role: docker
+    memory: 2048
+    count: 2
+  - role: aws
+    count: 1
+  - role: icinga
+    memory: 2048
     count: 1
     box: centos7
+    forwarded_port:
+      guest: 80
+      host: 1447
+  - role: foreman
+    memory: 4096
+    count: 1
+    box: centos7
+    forwarded_port:
+      guest: 443
+      host: 1448
+    puppet_agent: false
+    puppet_apply: false
   - role: log
     count: 1
     box: centos7
-  - role: psick
-    count: 1
   - role: ostest
-    hostname_base: pe-suse12
+    hostname_base: ostest-suse12
     count: 1
     box: suse12
   - role: ostest
-    hostname_base: pe-suse11
-    count: 1
+    hostname_base: ostest-suse11
     box: suse11
+  - role: ostest
+    hostname_base: ostest-ubuntu1604
+    memory: 4096
+    box: ubuntu1604
+  - role: ostest
+    hostname_base: ostest-ubuntu1604
+    box: ubuntu1604
+  - role: ostest
+    hostname_base: ostest-debian8
+    box: debian8
+  - role: ostest
+    hostname_base: ostest-alpine3
+    box: alpine3
+  - role: ostest
+    hostname_base: ostest-windows2012
+    box: windows2012
+  - role: ostest
+    hostname_base: ostest-solaris11
+    box: solaris11
+  - role: ostest
+    hostname_base: ostest-freebsd12
+    box: freebsd12
 
 
 # List of available Vagrant boxes with different OS to test on
@@ -142,4 +193,36 @@ boxes:
   suse11:
     box: suse/sles11sp3
     breed: puppetlabs
-
+  manageiq_euwe:
+    box: manageiq/euwe
+    breed: other
+  fedora25:
+    box: fedora/25-cloud-base
+    breed: redhat7
+  windows2008:
+    box: opentable/win-2008r2-standard-amd64-nocm
+    breed: win2008
+  windows2012:
+    box: opentable/win-2012r2-standard-amd64-nocm
+    breed: win2012
+  solaris10:
+    box: tnarik/solaris10-minimal
+    breed: solaris10
+  solaris11:
+    box: ruby-concurrency/oracle-solaris-11
+    breed: solaris11
+  freebsd10:
+    box: freebsd/FreeBSD-10.2-RELEASE
+    breed: freebsd
+  freebsd11:
+    box: freebsd/FreeBSD-11.0-RELEASE
+    breed: freebsd
+  freebsd12:
+    box: freebsd/FreeBSD-12.0-RELEASE
+    breed: freebsd
+  osx1010:
+    box: dhoer/macosx-10.10
+    breed: macos
+  osx1011:
+    box: carbon/osx-elcapitan-10.11
+    breed: macos

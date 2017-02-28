@@ -1,9 +1,0 @@
-    user              <%= @settings['process_user'] %> <%= @settings['process_group'] %>;
-    worker_processes  <%= @options['worker_processes'] %>;
-    pid               /var/run/nginx.pid;
-
-    events {
-      use epoll;
-      worker_connections <%= @options['worker_connections'] %>;
-      multi_accept on;
-    }

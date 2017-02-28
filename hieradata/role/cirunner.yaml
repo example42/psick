@@ -16,11 +16,9 @@
     - vagrant-cachier
     - vagrant-vbguest
 
-  profile::sudo::directives:
-    gitlab-runner:
-      source: 'puppet:///modules/profile/sudo/gitlab-runner'
-      order: 30
-
   # By default profile::gitlab::runner doesn NOT create the gitlab-runner repo
   # Reason: Data is broken. Uncomment below to enable (currently broken) repo management
   # profile::gitlab::runner::auto_repo: true
+
+  # To avoid management of a sudoers file for gitlab-runner
+  # profile::gitlab::runner::sudo_source: ''

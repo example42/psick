@@ -1,29 +1,76 @@
----
-  # Oracle specific (confirmed on Rhel7)
-  profile::sysctl::settings:
-    kernel.shmmni:
-      value: 4096
-    kernel.sem:
-      value: 250 32000 100 128
-    fs.file-max:
-      value: 6815744
-    net.ipv4.ip_local_port_range:
-      value: 9000 65500
-    net.core.rmem_default:
-      value: 262144
-    net.core.wmem_default:
-      value: 262144
-    net.core.rmem_max:
-      value: 4194304
-    net.core.wmem_max:
-      value: 1048576
-    fs.aio-max-nr:
-      value: 1048576
-    net.ipv4.tcp_keepalive_time:
-      value: 900
+# Included profiles and relevant data for oracle role
 
-  # Sudo directive
-  profile::sudo::directives:
-    oracle:
-      source: 'puppet:///modules/profile/sudo/oracle'
-      order: 30
+---
+  profiles:
+    - profile::oracle
+
+### profile::oracle
+# By default profile::oracle does nothing, besides includig a common settings
+# class and exposing params to include the classes that manage oracle prerequisites,
+# installation and generation of databases and other resources.
+# Here only prerequisites resources are managed check profile::oracle::install
+  profile::oracle::prerequisites_class: '::profile::oracle::prerequisites'
+  profile::oracle::install_class: ''
+  profile::oracle::resources_class: ''
+
+# It's possible to pass an hash of oracle instances to create via tools::oracle::instance:
+# profile::oracle::instances: ...
+
+### profile::oracle::prerequisites and subclasses
+# Also profile::oracle::prerequisites does noting unless instructed explicitly.
+
+# Set the class that manages /etc/limits and use the default settings with the default template
+  profile::oracle::prerequisites::limits_class: 'profile::oracle::prerequisites::limits'
+  profile::oracle::prerequisites::limits::use_defaults: true
+# Optional extra custom options and/or template can be defined:
+# profile::oracle::prerequisites::limits::template: 'profile/oracle/limits/oracle.erb'
+# profile::oracle::prerequisites::limits::options:
+#   all.nofile.soft = '2048'
+
+# Set the class that manages packages and use default packages list
+  profile::oracle::prerequisites::packages_class: 'profile::oracle::prerequisites::packages'
+  profile::oracle::prerequisites::packages::use_defaults: true
+
+# Set the class that manages sysctl and override the default sysctl_class conflicting class
+  profile::oracle::prerequisites::sysctl_class: 'profile::oracle::prerequisites::sysctl'
+  profile::base::linux::sysctl_class: '' # The base default sysctl class conflicts with the above
+# Use default settings and template, optionally tune settings based on RAM
+  profile::oracle::prerequisites::sysctl::use_defaults: true
+  profile::oracle::prerequisites::sysctl::auto_tune: false
+# Optional extra custom options and/or template can be defined:
+# profile::oracle::prerequisites::sysctl::template: 'profile/oracle/sysctl/my_oracle.erb'
+# profile::oracle::prerequisites::sysctl::options:
+#   shmmax = '536870912'
+#   shmall = '2097152'
+
+# Set the prerequisites class that cretaes a swap file (needs petems/swap_file module)
+  # profile::oracle::prerequisites::swap_class: 'profile::oracle::prerequisites::swap'
+
+# Set the dirs class and create a set of dirs for Oracle data
+  profile::oracle::prerequisites::dirs_class: 'profile::oracle::prerequisites::dirs'
+  profile::oracle::prerequisites::dirs::base_dir: '/data/oracle' # Default value
+  profile::oracle::prerequisites::dirs::owner: 'oracle'          # Default value
+  profile::oracle::prerequisites::dirs::group: 'dba'             # Default value
+# Sample data for dirs to create for specific oracle instances with custom suffixes
+# profile::oracle::prerequisites::dirs::suffixes:   # Default value is ''
+#   - '_DATA'
+#   - '_FRA'
+# profile::oracle::prerequisites::dirs::dirs:
+#   app:
+#     - 'db1'
+#     - 'db2'
+#   app2:
+#     - 'db1'
+
+# Set the prerequisites class that manages users
+  profile::oracle::prerequisites::users_class: 'profile::oracle::prerequisites::users'
+  profile::oracle::prerequisites::users::has_asm: false # Set true on servers with asm
+  profile::oracle::prerequisites::use_defaults: true # Create the default users
+# Sample data for custom extra users
+# profile::oracle::prerequisites::users::users:
+#   dbmon:
+#     uid: '5570'
+#     gid: '100'
+#     home: '/home/dbmon'
+#     groups: [ 'sshd' ]
+

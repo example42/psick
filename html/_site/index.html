@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="PSICK: Puppet Systems Intrastructure Construction Kit" />
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/angular-wizard.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <title>PSICK: Puppet Systems Intrastructure Construction Kit</title>
+  </head>
+  <body>
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/example42/psick">View on GitHub</a>
+          <h1 id="project_title">PSICK Setup</h1>
+          <h2 id="project_tagline">Create your Puppet control-repo step by step</h2>
+        </header>
+    </div>
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner main-inner" ng-app="wizard-sample" ng-controller="WizardCtrl">
+        <h2>Building a Puppet control repo</h2>
+        <p>A single [git] repository that contains all you need to setup a Puppet infrastructure: code, data, references to external modules.</p>
+        <p>An essential skeleton .</p>
+        <button ng-click="stepToggle()">Toggle</button>
+        <wizard on-finish="finished()" indicators-position="bottom" name="topWizard">
+          <wz-step wz-title="manifest" canexit="exitWithAPromise">
+            <h3>Everything starts from the manifest dir</h3>
+            <p>It's the first place where Puppet starts to evaluate our code.</p>
+            <p>Historically the main manifest here has always been <code>site.pp</code>It's the first place where Puppet starts to evaluate our code.</p>
+            <input type="submit" wz-next value="NEXT"/>
+          </wz-step>
+          <wz-step wz-title="hiera" canexit="exitValidation">
+            <h3>Hiera, data, hierarchies, and everything</h3>
+            <p>Hiera remains the choice of reference for managing Puppet data, and in any case is the choice we currently prefer.</p>
+            <input type="button" wz-previous="logStep()" value="BACK" />
+            <input type="button" wz-next="logStep()" value="NEXT" />
+          </wz-step>
+          <wz-step wz-title="profiles" canexit="exitValidation">
+            <h3>Our site profiles [and tools]</h3>
+            <p>You're now in the second step of this wizard.</p>
+            <input type="button" wz-previous="logStep()" value="BACK" />
+            <input type="button" wz-next="logStep()" value="NEXT" />
+          </wz-step>
+          <wz-step wz-title="modules">
+            <h3>The Puppetfile and all the modules we need</h3>
+            <input type="button" wz-previous="logStep()" value="BACK" />
+            <input type="button" wz-next="logStep()" value="NEXT" />
+          </wz-step>
+          <wz-step wz-title="extra">
+            <h3>Integrations with tools and technologies</h3>
+            <p>The full PSICK setup has integrations with third party tools. We recommended them all, but you can pick only the ones you prefer.</p>
+            <p>Fabric</p>
+            <p>Vagrant</p>
+            <p>Docker</p>
+            <input type="button" wz-previous="logStep()" value="BACK" />
+            <input type="button" wz-next="logStep()" value="NEXT" />
+          </wz-step>
+          <wz-step wz-title="finish">
+            <h3>Good. Let's review how your new control repo looks like</h3>
+            <input type="button" wz-previous="logStep()" value="BACK" />
+            <input type="button" wz-next="logStep()" value="END" />
+            <input type="button" ng-click="goBack()" value="Click here to start again" />
+            <input type="button" wz-reset value="Click here to reset" />
+          </wz-step>
+        </wizard>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Angular-wizard maintained by <a href="https://github.com/mgonto">mgonto</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    <script type="text/javascript" src="javascripts/angular.js"></script>
+    <script type="text/javascript" src="javascripts/angular-wizard.js"></script>
+    <script type="text/javascript" src="javascripts/main.js"></script>
+    
+
+  </body>
+</html>

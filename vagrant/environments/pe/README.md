@@ -45,7 +45,7 @@ If the PE installation files are already in place when you vagrant up the puppet
 
 Note 2: It's recommended to run this Vagrant environment on hosts that have at least 8 Gb of RAM. Edit ```config.yaml``` to tune the memory to allocate to the VM.
 
-To access the PE console from your host browse to **https://127.0.0.1:1443**
+To access the PE console from your host browse to **https://127.0.0.1:1643**
 
 Login: **admin**
 Password: **puppetlabs**

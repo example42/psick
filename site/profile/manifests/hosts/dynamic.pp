@@ -7,6 +7,7 @@ class profile::hosts::dynamic (
   Boolean $dynamic_exclude = false,
   String  $dynamic_ip      = $::ipaddress,
   Array  $dynamic_alias    = [ $::hostname ],
+  Hash  $extra_hosts       = { },
 ) {
   $magic_tag = get_magicvar($dynamic_magicvar)
 
@@ -23,7 +24,14 @@ class profile::hosts::dynamic (
 
   Host <<| tag == "env-${magic_tag}" |>> {
     ensure  => present,
-    require => File['hosts.conf'],
+  }
+
+  if $extra_hosts != {} {
+    $extra_hosts.each | $k,$v | {
+      host { $k:
+        * => $v,
+      }
+    }
   }
 
 }
