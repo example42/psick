@@ -1,3 +1,8 @@
+## Release 0.5.0
+- Consolidated Vagrant 
+- Added oracle and other profiles
+- Bug fixes and improvements
+- Preparation for Puppet 4.9 hiera.yaml file converted to version 5
 ## Release 0.4.6
 ## This control repo has nothing to do with earlier
 ## example42 puppet modules versions. Resetting versions.
