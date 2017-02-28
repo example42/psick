@@ -49,7 +49,8 @@ vagrant:
   # Update host's /etc/hosts if you have the hostmanager plugin.
   # Needed for automatic decommissioning of nodes. If false, you've to manage
   # manually ssl certs removal of reinstalled nodes.
-  hostmanager.manage_host: false # If true and you have the hostmanager plugin
+  hostmanager.enable: false # If to enable hostmanager plugin
+  hostmanager.manage_host: false # If to manage also the main host's hosts
           
 # List of nodes shown in vagrant status
 # Node names are based on the defined role. Here can be overridden vm defaults,

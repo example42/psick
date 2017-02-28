@@ -46,9 +46,10 @@
 
 # Sample monitor settings
 #  profile::monitor::nrpe_class: '::profile::monitor::nrpe'
-#  profile::monitor::icinga_class: '::profile::monitor::icinga'
+#  profile::monitor::icinga_class: '::profile::icinga2'
 #  profile::monitor::nagiosplugins_class: '::profile::monitor::nagiosplugins'
   profile::monitor::systat_class: '::profile::monitor::sar'
+
 
 # Sample ansible settings
 #  ansible::install_class: tp

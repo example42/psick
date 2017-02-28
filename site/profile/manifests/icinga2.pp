@@ -14,8 +14,12 @@ class profile::icinga2 (
   Boolean               $auto_prerequisites = true,
   Optional[String]      $template    = undef,
   Hash                  $options     = { },
-  Boolean        $install_icinga_cli = true,
-  Boolean        $install_classic_ui = true,
+  Boolean        $install_icinga_cli = false,
+  Boolean        $install_classic_ui = false,
+
+  String         $master             = "icinga.${::domain}",
+  Boolean        $is_client          = true,
+  Boolean        $is_server          = false,
 ) {
 
   $options_default = {

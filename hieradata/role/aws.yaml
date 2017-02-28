@@ -16,14 +16,14 @@
 
   # Name of vpc to create by default, if create_defaults: true
   profile::aws::default_vpc_name: 'test'
-  profile::aws::default_cidr_block_prefix: '10.42'
+  profile::aws::default_cidr_block_prefix: '10.100'
 
   # Name of the classes to use forconfiguring awscli and setting up aws resources
   profile::aws::cli_class: '::profile::aws::cli'
   profile::aws::vpc_class: '::profile::aws::puppet::vpc'
   profile::aws::sg_class: '::profile::aws::puppet::sg'
   profile::aws::ec2_class: '::profile::aws::puppet::ec2'
-  profile::aws::rds_class: '::profile::aws::puppet::rds'
+  # profile::aws::rds_class: '::profile::aws::puppet::rds'
   
   # VPC - Prefix of the IPs of the default VPC (if create_defaults: true)
   #  profile::aws::cli::vpc::default_cidr_block_prefix: '10.43'

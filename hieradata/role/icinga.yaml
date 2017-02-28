@@ -1,4 +1,6 @@
 ---
   profiles:
-    - profile::icinga2
     - profile::icingaweb2
+
+  profile::icinga2::is_server: true
+
