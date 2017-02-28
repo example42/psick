@@ -193,6 +193,8 @@ define tools::user::managed(
     if $gid == 'uid' {
       if $uid != 'absent' {
         $real_gid = $uid
+      } else {
+        $real_gid = undef
       }
     } else {
       $real_gid = $gid
