@@ -50,7 +50,6 @@
 
 # Configure OpenSSH:
   profile::ssh::openssh::banner_template: 'profile/ssh/openssh/banner.erb'
-  profile::ssh::openssh::config_file_template: 'profile/ssh/openssh/sshd_config.erb'
   profile::ssh::openssh::hardened_configs: true
 
 # Monitor classes
