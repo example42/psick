@@ -18,6 +18,6 @@ fixtures:
     "archive": "https://github.com/voxpupuli/puppet-archive"
     "vagrant": "https://github.com/unibet/puppet-vagrant"
   symlinks:
-    "profile": "#{source_dir}/site/profile"
-    "tools": "#{source_dir}/site/tools"
+    "profile": "#{source_dir}"
+    "tools": "#{source_dir}/../tools"
     "my_data": "#{source_dir}/hieradata"
