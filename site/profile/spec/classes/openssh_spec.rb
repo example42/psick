@@ -12,9 +12,10 @@ describe 'profile::ssh::openssh', :type => :class do
         facts.merge(super())
       end
       it { pp catalogue.resources }
+      it { is_expected.to compile.with_all_deps }
+      it { is_expected.to contain_class('profile::ssh::openssh') }
 
-      describe 'with hieradata defaults' do
-        it { is_expected.to compile.with_all_deps }
+      context 'with defaults' do
         it { is_expected.not_to contain_tp__conf('openssh') }
         it { is_expected.to contain_tp__dir('openssh').with(
             'ensure' => 'present',
@@ -23,8 +24,38 @@ describe 'profile::ssh::openssh', :type => :class do
         it { is_expected.to contain_tp__install('openssh').with(
             'ensure' => 'present'
         ) }
-       end
+      end
+
+      context 'ensure parameter specified' do
+        let :default_params do
+          {
+              :config_dir_source => 'test_config_dir_source',
+              :config_file_template => '/dev/null',
+          }
+        end
+
+        context 'with ensure parameter set to absent' do
+          let :params do
+            default_params.merge({:ensure => 'absent'})
+          end
+
+          it { is_expected.to contain_tp__install('openssh').with(
+              'ensure' => 'absent'
+          ) }
+          it { is_expected.to contain_tp__dir('openssh').with(
+              'ensure' => 'absent',
+              'source' => 'test_config_dir_source'
+          ) }
+          it { is_expected.to contain_tp__conf('openssh').with(
+              'ensure'       => 'absent',
+              'template'     => '/dev/null',
+              'options_hash' => { 'option1' => 'option1_value',
+                                  'option2' => 'option2_value'}
+          ) }
+        end
+      end
     end
   end
 end
+
 
