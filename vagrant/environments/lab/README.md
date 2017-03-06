@@ -98,8 +98,8 @@ You can setup, more or less manually, a fully automated CI with Pipelines on Git
 In such environments you can configure, via PE console, nodues to run with agent specified environment and then test the code you are currently working on, on your host, directly via the PE Puppet master VM, using the specifal ```host``` environment:
 
     # Run Puppet agent using the control-repo environment on your host
-    agent# puppet agent -t --environment=host
+    agent# puppet agent -t --environment=host
 
-    # Run Puppet using any other branch named environment deployed via Code Manager
-    agent# puppet agent -t --environment=$branch
+    # Run Puppet using any other branch named environment deployed via Code Manager
+    agent# puppet agent -t --environment=$branch
 

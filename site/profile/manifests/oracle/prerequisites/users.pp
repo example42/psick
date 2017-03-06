@@ -55,7 +55,7 @@ class profile::oracle::prerequisites::users (
         gid => '708',
       }
     },
-    false => { },
+    false => { },
   }
 
   $all_groups = $use_defaults ? {

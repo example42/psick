@@ -1,19 +1,21 @@
 #
 class profile::nginx (
-  Enum['present','absent'] $ensure                     = 'present',
+  Enum['present','absent'] $ensure       = 'present',
 
-  Variant[String[1],Undef] $config_dir_source          = undef,
-  String                   $config_file_template       = 'profile/nginx/nginx.conf.erb',
+  Optional[String[1]] $config_dir_source = undef,
+  Optional[String] $config_file_template = undef,
 ) {
 
-  tp::install('nginx', { ensure => $ensure })
+  tp_install('nginx', { ensure => $ensure })
   $nginx_options = {
     'worker_processes'   => '12',
     'worker_connections' => '512',
   }
-  tp::conf { 'nginx':
-    template     => $config_file_template,
-    options_hash => $nginx_options,
+  if $config_file_template {
+    tp::conf { 'nginx':
+      template     => $config_file_template,
+      options_hash => $nginx_options,
+    }
   }
 
 }

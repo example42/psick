@@ -1,13 +1,13 @@
 #
 class profile::oracle::install::db (
-  # Full Oracle version (Default: 12.1.0.1)
+  # Full Oracle version (Default: 12.1.0.1)
   $version           = $::profile::oracle::params::version,
 
-  # Short Oracle version (Default: 12.1)
+  # Short Oracle version (Default: 12.1)
   $version_short     = $::profile::oracle::params::version_short,
 
-  # Base name of the installation zips (excluded _XofX.zip suffix)
-  # Must macth the used Oracle version (Default: linuxamd64_12c_database)
+  # Base name of the installation zips (excluded _XofX.zip suffix)
+  # Must macth the used Oracle version (Default: linuxamd64_12c_database)
   $containing_folder = $::profile::oracle::params::containing_folder,
 
   # Base Url from where to retrieve the installation zips (file names excluded)
@@ -25,7 +25,7 @@ class profile::oracle::install::db (
   $install_group     = $::profile::oracle::params::install_group,
   $oper_group        = $::profile::oracle::params::oper_group,
 
-  # Where to download / copy the files used for installation
+  # Where to download / copy the files used for installation
   $download_dir      = $::profile::oracle::params::download_dir,
 
   # The Oracle database product to install. Default: SE
@@ -35,8 +35,8 @@ class profile::oracle::install::db (
   # SEONE  : Standard Edition One
   $database_type     = $::profile::oracle::params::database_type,
 
-  # Set to true to remove installation files (zips and exploded dir)
-  # after installation
+  # Set to true to remove installation files (zips and exploded dir)
+  # after installation
   $cleanup_installfiles = false,
 
 ) inherits ::profile::oracle::params {
