@@ -11,7 +11,9 @@ describe 'profile::ssh::openssh', :type => :class do
       let (:facts) do
         facts.merge(super())
       end
-      # it { pp catalogue.resources }
+
+      # it { pp catalogue.resources }  # Uncomment to dump the catalogue
+
       it { is_expected.to compile.with_all_deps }
       it { is_expected.to contain_class('profile::ssh::openssh') }
 
@@ -26,7 +28,7 @@ describe 'profile::ssh::openssh', :type => :class do
         ) }
       end
 
-      context ':ensure parameter specified' do
+      context 'with :ensure parameter specified' do
         let :default_params do
           {
               :config_dir_source => 'test_config_dir_source',
@@ -49,10 +51,10 @@ describe 'profile::ssh::openssh', :type => :class do
           ) }
 
           it { is_expected.to contain_tp__conf('openssh').with(
-              'ensure'       => 'absent',
-              'template'     => '/dev/null',
-              'options_hash' => { 'option1' => 'option1_value',
-                                  'option2' => 'option2_value'}
+              'ensure' => 'absent',
+              'template' => '/dev/null',
+              'options_hash' => {'option1' => 'option1_value',
+                                 'option2' => 'option2_value'}
           ) }
         end
 
@@ -66,10 +68,10 @@ describe 'profile::ssh::openssh', :type => :class do
           ) }
 
           it { is_expected.to contain_tp__conf('openssh').with(
-              'ensure'       => 'present',
-              'template'     => '/dev/null',
-              'options_hash' => { 'option1' => 'option1_value',
-                                  'option2' => 'option2_value'}
+              'ensure' => 'present',
+              'template' => '/dev/null',
+              'options_hash' => {'option1' => 'option1_value',
+                                 'option2' => 'option2_value'}
           ) }
 
           it { is_expected.to contain_tp__dir('openssh').with(
@@ -78,13 +80,36 @@ describe 'profile::ssh::openssh', :type => :class do
           ) }
         end
 
-        describe 'with invalid :ensure not equal to "present" or "absent"' do
+      end
+
+      context 'with invalid parameter values' do
+        describe 'with :ensure not equal to "present" or "absent"' do
           let :params do
             {
-                :ensure => 'invalid value'
+                :ensure => 'invalid'
             }
           end
-          it {is_expected.to raise_error(Puppet::PreformattedError, /^Evaluation Error.* got \'invalid value\'.*/)}
+          it { is_expected.to raise_error(Puppet::PreformattedError, /^Evaluation Error.* got \'invalid\'.*/) }
+        end
+
+        describe 'with :config_dir_source set to empty string' do
+          let :params do
+            {
+                :ensure             => 'present',
+                :config_dir_source  => ''
+            }
+          end
+          it { is_expected.to raise_error(Puppet::PreformattedError, /^Evaluation Error:.*/) }
+        end
+
+        describe 'with :config_dir_source not a string' do
+          let :params do
+            {
+                :ensure             => 'present',
+                :config_dir_source  => 1
+            }
+          end
+          it { is_expected.to raise_error(Puppet::PreformattedError, /^Evaluation Error:.*/) }
         end
 
       end
