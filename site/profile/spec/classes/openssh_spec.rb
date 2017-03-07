@@ -17,7 +17,7 @@ describe 'profile::ssh::openssh', :type => :class do
       it { is_expected.to compile.with_all_deps }
       it { is_expected.to contain_class('profile::ssh::openssh') }
 
-      context 'with defaults' do
+      context 'with defaults values' do
         it { is_expected.not_to contain_tp__conf('openssh') }
         it { is_expected.to contain_tp__dir('openssh').with(
             'ensure' => 'present',
