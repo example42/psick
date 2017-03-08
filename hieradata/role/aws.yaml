@@ -8,8 +8,8 @@
     - '::profile::python::fabric'
     - '::profile::git'
 
-  # The aws region to use as default in all the aws profiles
-  profile::aws::region: 'eu-central-1'
+  # The aws region to use as default in all the aws profiles: REQUIRED
+  # profile::aws::region: 'eu-west-1'
 
   # If to create a default set of resources for a basic aws setup
   profile::aws::create_defaults: false
