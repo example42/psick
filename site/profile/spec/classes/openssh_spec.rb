@@ -19,10 +19,12 @@ describe 'profile::ssh::openssh', :type => :class do
 
       context 'with defaults values' do
         it { is_expected.not_to contain_tp__conf('openssh') }
+
         it { is_expected.to contain_tp__dir('openssh').with(
             'ensure' => 'present',
             'source' => nil
         ) }
+
         it { is_expected.to contain_tp__install('openssh').with(
             'ensure' => 'present'
         ) }
@@ -36,7 +38,7 @@ describe 'profile::ssh::openssh', :type => :class do
           }
         end
 
-        describe 'with parameter: ensure parameter set to absent' do
+        describe 'with parameter: ensure set to absent' do
           let :params do
             default_params.merge({:ensure => 'absent'})
           end
