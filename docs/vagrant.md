@@ -186,7 +186,7 @@ For a correct setup of the Vagrant environment you need:
         vagrant plugin install vagrant-vbguest
         vagrant plugin install vagrant-hostmanager
         vagrant plugin install vagrant-triggers
-        vagrant plugin install pe_build # On Vagrant environments where Puppet Enterprise is used
+        vagrant plugin install pe_build # On Vagrant environments where Puppet Enterprise is used
 
 
 The Vagrant steps are basically what's done by the setup script (you may have to run it as privileged used):

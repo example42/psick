@@ -32,7 +32,7 @@ class profile::aws::puppet::ec2 (
 
   # Default settings
   String  $default_instance_type              = 't2.nano',
-  String  $default_autoscaling_instance_type  = 't2.medium',
+  String  $default_autoscaling_instance_type  = 't2.nano',
   Integer $default_autoscaling_max_size       = 2,
   Integer $default_autoscaling_min_size       = 1,
 
@@ -71,23 +71,9 @@ class profile::aws::puppet::ec2 (
         associate_public_ip_address => true,
         security_groups             => [ 'public-ssh' ],
       },
-      "${default_vpc_name}-mongo-01" => {
-        subnet          => "${default_vpc_name}_mongo_a",
-        security_groups => [ 'private-ssh' , 'private-mongo' ],
-      },
-      "${default_vpc_name}-mongo-02" => {
-        subnet            => "${default_vpc_name}_mongo_b",
-        availability_zone => "${region}b",
-        security_groups   => [ 'private-ssh' , 'private-mongo' ],
-      },
-      "${default_vpc_name}-mongo-03" => {
-        subnet          => "${default_vpc_name}_mongo_a",
-        security_groups => [ 'private-ssh' , 'private-mongo' ],
-      },
       "${default_vpc_name}-ci" => {
         subnet          => "${default_vpc_name}_mgmt_a",
         security_groups => [ 'private-ssh' , 'private-ci' ],
-        instance_type   => 't2.medium',
       },
       "${default_vpc_name}-mon" => {
         subnet          => "${default_vpc_name}_mgmt_a",

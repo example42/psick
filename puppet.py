@@ -30,7 +30,7 @@ def sync_and_apply(role='UNDEFINED',proxy='UNDEFINED',options='',fqdn='UNDEFINED
     sshoptions = ""
   else:
     sshoptions = "-o \"ProxyCommand ssh -A -x -W %h:%p " + proxy + "\""
-  rsync_project(extra_opts='--delete', ssh_opts='' + str(sshoptions) + '',local_dir='.', remote_dir='/home/' + env.user + '/puppet-controlrepo', exclude='.git')
+  rsync_project(extra_opts='--delete', ssh_opts='' + str(sshoptions) + '',local_dir='.', remote_dir='/home/' + env.user + '/puppet-controlrepo', exclude='.git .pe_build .vagrant')
   sudo( 'rm /etc/puppetlabs/code/environments/fabric_test && ln -sf /home/' + env.user + '/puppet-controlrepo/ /etc/puppetlabs/code/environments/fabric_test')
   sudo( 'ln -sf /home/' + env.user + '/puppet-controlrepo /home/' + env.user + '/puppet-controlrepo/fabric_test')
   if role == "UNDEFINED":
@@ -83,8 +83,8 @@ def deploy_controlrepo():
 @task
 def install(os=''):
   """[remote] Install Puppet 4 on a node (for Puppet official repos)"""
-  put( "bin/puppet4_install.sh","/var/tmp/puppet4_install.sh",mode=755 )
-  sudo ( "/var/tmp/puppet4_install.sh " + str(os) )
+  put( "bin/puppet_install.sh","/var/tmp/puppet_install.sh",mode=755 )
+  sudo ( "/var/tmp/puppet_install.sh" )
   
 @task
 def module_generate(module=''):

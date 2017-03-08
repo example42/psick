@@ -10,7 +10,7 @@ RSpec.configure do |c|
   c.manifest_dir = File.join(fixture_path, 'manifests')
   c.manifest = File.join(fixture_path, 'manifests', 'site.pp')
   c.hiera_config = File.expand_path(File.join(__FILE__, '../fixtures/hiera.yaml'))
-  # c.hiera_config = File.expand_path(File.join(__FILE__, '..', 'fixture', 'hiera.yaml'))
+  # c.hiera_config = File.expand_path(File.join(__FILE__, '..', 'fixture', 'hiera.yaml'))
   # c.environmentpath = base_dir
 
   # Coverage generation

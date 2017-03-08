@@ -63,18 +63,6 @@ class profile::aws::puppet::sg (
           'Name' => "${default_vpc_name}-private-mysql",
         },
       },
-      'private-mongo' => {
-        description  => 'Private access access to Mongo 27017',
-        ingress      => [{
-          'cidr'      => "${default_cidr_block_prefix}.0.0/16",
-          'from_port' => '27017',
-          'protocol'  => 'tcp',
-          'to_port'   => '27017',
-        }],
-        tags         => {
-          'Name' => "${default_vpc_name}-private-mongo",
-        },
-      },
       'private-ci' => {
         description  => 'Access to CI from internal nodes',
         ingress      => [{

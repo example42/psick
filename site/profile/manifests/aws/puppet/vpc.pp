@@ -67,14 +67,6 @@ class profile::aws::puppet::vpc (
         availability_zone => "${region}b",
         route_table       => "${default_vpc_name}-public",
       },
-      "${default_vpc_name}_mongo_a" => {
-        cidr_block        => "${default_cidr_block_prefix}.31.0/24",
-        availability_zone => "${region}a",
-      },
-      "${default_vpc_name}_mongo_b" => {
-        cidr_block        => "${default_cidr_block_prefix}.32.0/24",
-        availability_zone => "${region}b",
-      },
       "${default_vpc_name}_rds_a" => {
         cidr_block        => "${default_cidr_block_prefix}.41.0/24",
         availability_zone => "${region}a",

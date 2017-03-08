@@ -1,0 +1,7 @@
+---
+  profiles:
+    - profile::nginx
+
+#  profile::time::ntpdate::ntp_server: '0.europe.pool.ntp.org'
+
+#  profile::base::linux::hardening_class: 'profile::hardening'

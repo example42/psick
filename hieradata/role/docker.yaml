@@ -1,0 +1,9 @@
+---
+profiles:
+  - '::docker'
+  - '::docker::profile::host'
+  - '::docker::profile::compose'
+#  - '::docker::profile::run_examples'
+
+docker::username: example42
+docker::profile::run_examples::ensure: present
