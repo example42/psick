@@ -37,6 +37,7 @@ mod'example42/icinga',
 # Third Party modules
 mod "puppetlabs/concat", :latest
 mod "puppetlabs/stdlib", :latest
+mod "puppetlabs/apt", :latest
 mod "puppetlabs/vcsrepo", :latest
 mod "puppetlabs/firewall", :latest
 mod "puppetlabs/aws", :latest
