@@ -33,6 +33,20 @@ describe 'profile::users::static', :type => :class do
             'password' => 'test_rootpw'
         ) }
       end
+
+      context 'with :delete_unmanaged set to true' do
+        it { pp catalogue.resources }  # Uncomment to dump the catalogue
+        let :params do
+          {
+              :delete_unmanaged => true
+          }
+        end
+        it {is_expected.to contain_resources('user').with(
+            'purge'              => true,
+            'unless_system_user' => true
+        )}
+      end
+
     end
   end
 end
