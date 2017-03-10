@@ -1,5 +1,16 @@
 # This class installs and configures openssh
 #
+# @param ensure                 Default: present
+#   If openssh should be present or absent: present (default value) or absent
+#
+# @param configure_dir_source   Default: undef
+#   The source content.
+#
+# @param config_file_template   Default ''
+#   The path to an erb template to use to populate the openssh configuration file:
+#   If the value is set to the empty string no openssh configuration file will be created.
+#
+
 class profile::ssh::openssh (
   Enum['present','absent'] $ensure                     = 'present',
 
