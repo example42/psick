@@ -47,7 +47,6 @@ mod "puppet/archive", :latest
 mod "puppetlabs/image_build", :latest
 
 # Docker and Containers
-mod 'garethr/docker', :latest
 mod "puppetlabs/dummy_service", :latest
 mod 'puppetlabs/image_build', :latest
 mod 'puppetlabs/rkt', :latest
