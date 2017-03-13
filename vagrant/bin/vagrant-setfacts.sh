@@ -20,8 +20,8 @@ while [ $# -gt 0 ]; do
       datacenter=$2
       shift 2
     ;;
-    --app)
-      app=$2
+    --application)
+      application=$2
       shift 2
     ;;
     *)

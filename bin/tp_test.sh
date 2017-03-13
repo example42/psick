@@ -39,13 +39,9 @@ if [ "x$3" == "x" ]; then
 else
   mode=$3
 fi
-case $mode in 
-    acceptance) mode_param="test_enable => true," ;;
-    puppi) mode_param="puppi_enable => true," ;;
-esac
 
-puppet_options="$PUPPET_OPTIONS --verbose --report --show_diff --pluginsync --summarize --modulepath '/vagrant/modules_local:/vagrant/modules:/etc/puppet/modules' "
-puppet_command="sudo -i $envs puppet apply"
+# puppet_options="$PUPPET_OPTIONS --verbose --report --show_diff --pluginsync --summarize --modulepath '/vagrant/modules_local:/vagrant/modules:/etc/puppet/modules' "
+# puppet_command="sudo -i $envs puppet apply"
 tp_command="sudo -i tp "
 
 install() {
