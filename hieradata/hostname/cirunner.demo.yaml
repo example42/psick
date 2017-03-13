@@ -3,7 +3,7 @@
     - profile::puppet::pe_code_manager
     - profile::puppet::gems
   
-  # Explicit list of required gems for CI runners for puppet testing
+  # Explicit list of required gems for CI runners for puppet testing
   profile::puppet::gems::install_puppet_gems: true
   # List complete to verify. Many are needed just for spec tests.
   profile::puppet::gems::install_gems:
