@@ -32,7 +32,7 @@
 #  profile::base::linux::hosts_class: '::profile::hosts::file'
   profile::base::linux::update_class: '::profile::update'
   profile::base::linux::motd_class: '::profile::motd'
-##  profile::base::linux::profile_class: '::profile::profile'
+  profile::base::linux::profile_class: '::profile::profile'
 
 # Repo settings
   profile::repo::generic::add_defaults: true
