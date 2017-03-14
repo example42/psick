@@ -8,19 +8,19 @@
 # More info: https://docs.puppet.com/puppet/latest/reference/ssl_attributes_extensions.html
 # You may need to change and adapt them according to your hiera.yaml
 # You can keep them also if you don't set extended trusted facts.
-if $trusted['extensions']['pp_role'] {
+if $trusted['extensions']['pp_role'] and !defined('$::role') {
   $role = $trusted['extensions']['pp_role']
 }
-if $trusted['extensions']['pp_environment'] {
+if $trusted['extensions']['pp_environment'] and !defined('$::env') {
   $env = $trusted['extensions']['pp_environment']
 }
-if $trusted['extensions']['pp_datacenter'] {
+if $trusted['extensions']['pp_datacenter'] and !defined('$::datacenter') {
   $datacenter = $trusted['extensions']['pp_datacenter']
 }
-if $trusted['extensions']['pp_zone'] {
+if $trusted['extensions']['pp_zone'] and !defined('$::zone') {
   $zone = $trusted['extensions']['pp_zone']
 }
-if $trusted['extensions']['pp_application'] {
+if $trusted['extensions']['pp_application'] and !defined('$::application') {
   $application = $trusted['extensions']['pp_application']
 }
 
