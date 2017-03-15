@@ -35,8 +35,8 @@ puppet:
   environment: production     # Puppet environment to link to local control-repo
 
 # Puppet Enterprise settings
-  pe_version: '2016.5.1'         # Version of PE to install on the puppet server. See Note 2
-  pe_download_root: 'https://s3.amazonaws.com/pe-builds/released/2016.5.1' # Download base url. See Note 2
+  pe_version: '2017.1.0'         # Version of PE to install on the puppet server. See Note 2
+  pe_download_root: 'https://s3.amazonaws.com/pe-builds/released/2017.1.0' # Download base url. See Note 2
   pe_verbose: true               # If to show PE installation output 
   pe_relocate_manifests: false   # If to relocate manifests and module dir. Not needed in this setup.
 
