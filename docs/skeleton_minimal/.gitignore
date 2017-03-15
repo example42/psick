@@ -1,0 +1,16 @@
+/.rvmrc
+build
+pkg/
+Session.vim
+spec/fixtures
+.*.sw[a-z]
+*.un~
+*.rpmsave
+.DS_Store
+.bundle
+modules/
+keys/
+*.pyc
+*Gemfile.lock
+.vagrant/
+.pe_build

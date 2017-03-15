@@ -75,7 +75,6 @@ if [ $module ] ; then
   cd $module
 fi
 
-modulename=$(basename $(pwd))
 branch=$(git branch --no-column | grep '*' | cut -c 3-)
 
 if [ ! -f metadata.json ] ; then

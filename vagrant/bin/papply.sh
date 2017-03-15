@@ -18,7 +18,7 @@ puppet apply --test --report --summarize \
 	--modulepath "${base_dir}/site:${base_dir}/modules:/etc/puppet/modules" \
 	--environmentpath "${base_dir}/.." \
 	--environment $environment \
-	--hiera_config "${base_dir}/docs/hiera.yaml" \
+	--hiera_config "${base_dir}/bin/hiera3.yaml" \
 	--detailed-exitcodes $manifest_option $manifest
 
 result=$?

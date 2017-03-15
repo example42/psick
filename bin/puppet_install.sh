@@ -5,12 +5,10 @@ which tput >/dev/null 2>&1
 if [ "x${?}" == "x0" ]; then
   SETCOLOR_NORMAL=$(tput sgr0)
   SETCOLOR_TITLE=$(tput setaf 6)
-  SETCOLOR_SUBTITLE=$(tput setaf 14)
   SETCOLOR_BOLD=$(tput setaf 15)
 else
   SETCOLOR_NORMAL=""
   SETCOLOR_TITLE=""
-  SETCOLOR_SUBTITLE=""
   SETCOLOR_BOLD=""
 fi
 echo_title () {

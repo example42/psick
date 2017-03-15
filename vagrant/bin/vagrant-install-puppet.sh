@@ -1,6 +1,5 @@
 #!/bin/bash
 lock_file=/var/tmp/vagrant-setup.lock
-repo_dir="$(dirname $0)/../.."
 
 # Run setup only the first time
 if [ -f $lock_file ]; then

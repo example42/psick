@@ -6,7 +6,7 @@ if [ "x$1" == "x" ]; then
 else
   fullmodule=$1 
 fi
-author=$(echo $fullmodule | cut -d '-' -f 1)
+# author=$(echo $fullmodule | cut -d '-' -f 1)
 module=$(echo $fullmodule | cut -d '-' -f 2)
 install_dir=$(puppet apply --configprint module_working_dir)
 skeleton_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/../skeleton"

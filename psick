@@ -1,0 +1,48 @@
+#!/usr/bin/env ruby
+
+require 'yaml'
+$action = ARGV[0] ? ARGV[0] : 'none'
+$subaction = ARGV[1] ? ARGV[1] : 'none'
+
+PSICK_DIR = File.dirname(__FILE__)
+PSICK_SETTINGS = File.exists?(PSICK_DIR + '/Psickfile') ? YAML.load_file(PSICK_DIR + '/Psickfile') : 'none'
+
+# Trap CTRL+C cleanly (in psick diff)
+trap("INT") { puts 'Exiting...'; exit }
+
+def usage
+  print <<EOF
+Puppet Systems Infrastructure Construction Kit
+
+Usage: psick <action> [object]
+
+Available actions:
+create: Create a new Puppet control-repo
+add: Add profiles or integrations to control-repo [TODO]
+remove: Remove profiles or integrations from control-repo [TODO]
+diff: Show diff between current PSICK and your control-repo [TODO]
+list: List the files managed by Psickfile [TODO]
+EOF
+end
+
+
+
+case $action
+when 'create'
+  exec ("bin/git_setup_new_repo.sh")
+when 'add'
+  puts 'TODO'
+when 'remove'
+  puts 'TODO'
+when 'diff'
+  #files = []
+  #system("diff . " + PSICK_SETTINGS[''])
+  puts 'TODO'
+when 'list'
+  # files = Dir.entries(TINYDATA_DIR).sort.reject { |f| File.directory?(f) }
+  puts 'TODO'
+ 
+else
+  usage
+
+end

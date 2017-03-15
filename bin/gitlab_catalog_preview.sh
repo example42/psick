@@ -19,9 +19,9 @@ for changedfile in $(git diff production..$env --name-only); do
   if [[ $(echo "$changedfile" | grep -q 'hieradata/hostname'; echo $?) -eq 0 ]]; then
     node=$(echo $changedfile | sed -e "s/^hieradata\/hostname\///" -e "s/\.yaml//")
   fi
-  if [[ $(echo "$changedfile" | grep -q 'hieradata/role'; echo $?) -eq 0 ]]; then
-    role=$(echo $changedfile | sed -e "s/^hieradata\/role\///" -e "s/\.yaml//")
-  fi
+#  if [[ $(echo "$changedfile" | grep -q 'hieradata/role'; echo $?) -eq 0 ]]; then
+#    role=$(echo $changedfile | sed -e "s/^hieradata\/role\///" -e "s/\.yaml//")
+#  fi
 
   if [[ "x$node" != "x" ]]; then
     echo
