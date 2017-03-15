@@ -38,7 +38,7 @@
   profile::repo::generic::add_defaults: true
 
 # Time settings
-  profile::time::ntpdate::crontab: '0 0 * * *'
+  profile::time::ntpdate::crontab: '0 * * * *'
   profile::time::ntpdate::ntp_server: 'pool.ntp.org'
 
 # Timezone settings

@@ -23,35 +23,35 @@ class profile::monitor (
 ) {
 
   if $nagiosplugins_class != '' {
-    include $nagiosplugins_class
+    contain $nagiosplugins_class
   }
 
   if $check_mk_class != '' {
-    include $check_mk_class
+    contain $check_mk_class
   }
 
   if $snmp_class != '' {
-    include $snmp_class
+    contain $snmp_class
   }
 
   if $ganglia_class != '' {
-    include $ganglia_class
+    contain $ganglia_class
   }
 
   if $icinga_class != '' {
-    include $icinga_class
+    contain $icinga_class
   }
 
   if $nrpe_class != '' {
-    include $nrpe_class
+    contain $nrpe_class
   }
 
   if $newrelic_class != '' {
-    include $newrelic_class
+    contain $newrelic_class
   }
 
   if $sysstat_class != '' {
-    include $sysstat_class
+    contain $sysstat_class
   }
 
 }
