@@ -5,7 +5,7 @@ defaults:
   datadir: hieradata
 
 hierarchy:
-  - name: "Full hierarchy"
+  - name: "Eyaml hierarchy"
     lookup_key: eyaml_lookup_key # eyaml backend
     paths:
       - "hostname/%{trusted.certname}.yaml"
