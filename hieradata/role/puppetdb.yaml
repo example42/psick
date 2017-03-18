@@ -1,0 +1,4 @@
+---
+profiles:
+  - '::puppet::profile::puppetdb'
+

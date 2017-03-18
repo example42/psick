@@ -1,0 +1,4 @@
+# File is managed by Puppet
+Cmnd_Alias ALLOWED_COMMANDS_ROOT = /opt/puppetlabs/bin/puppet preview *, /usr/bin/cat /etc/puppetlabs/code/environments/*/.r10k-deploy.json, /opt/puppetlabs/bin/puppet-query *
+gitlab-runner ALL=(root) NOPASSWD: ALLOWED_COMMANDS_ROOT
+Defaults!ALLOWED_COMMANDS_ROOT !requiretty

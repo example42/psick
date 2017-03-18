@@ -1,0 +1,10 @@
+# File managed by Puppet
+
+virtual_server <%= $vip %> <%= $vip_port %> {
+  delay_loop <%= $options['virtual_server.delay_loop'] %>
+  lb_algo <%= $options['virtual_server.lb_algo'] %>
+  lb_kind <%= $options['virtual_server.lb_kind'] %>
+  persistence_timeout <%= $options['virtual_server.persistence_timeout'] %>
+  protocol <%= $options['virtual_server.protocol'] %>
+  sorry_server <%= $options['virtual_server.sorry_server'] %> <%= $vip_port %>
+

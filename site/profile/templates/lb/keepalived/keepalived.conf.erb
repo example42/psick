@@ -1,0 +1,11 @@
+# File Managed by Puppet
+
+global_defs {
+        notification_email_from <%= @options['notification_email_from'] %>
+        smtp_server <%= @options['smtp_server'] %>
+	smtp_connect_timeout <%= @options['smtp_connect_timeout'] %>
+	lvs_id <%= @options['lvs_id'] %>
+}
+
+include /etc/keepalived/services/*.conf
+

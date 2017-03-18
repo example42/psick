@@ -1,0 +1,446 @@
+## Path:	Productivity/Databases/Tools/Oracle
+## Description:	Settings for running Oracle products - see text file /usr/share/doc/packages/orarun/README for details.
+## FILE MANAGED BY PUPPET
+
+## Path:	Productivity/Databases/Tools/Oracle
+## Type:        string(oracle)
+## Default:     "oracle"
+# 
+# Owner of Oracle installation; Oracle is installed and run under 
+# this user id. 
+# 
+ORACLE_OWNER="<%= @oracle_user %>"
+
+## Path:	Productivity/Databases/Tools/Oracle
+## Type:        string("/opt/oracle","/oracle","")
+## Default:     "/opt/oracle"
+# 
+# ORACLE_BASE: The base directory where Oracle puts ALL files, the 
+# product(s) as well the JRE, the Oracle Universal Installer (OUI),
+# documentation - everything. Exceptions: /etc/oraInst.loc which tells
+# the OUI where its repository is located, /etc/oratab which lists
+# ORACLE_HOMEs and ORACLE_SIDs, and the three shell scripts "dbhome"
+# and "[c]oraenv" which can be put anywhere (recommendation:
+# put them in /usr/local/bin/, the user is prompted for their
+# desired location during Oracle product installation. 
+# If you install multiple products they (should/usually) share this
+# common base directory. Leave empty if you do not want to set this
+# variable at all. 
+# 
+ORACLE_BASE=<%= @oracle_base %>
+
+
+## Path:	Productivity/Databases/Tools/Oracle/DB
+## Type:        yesno
+## Default:     no
+# 
+# Start Oracle Database? Set to "yes" to enable database
+# startup automatically at system boot. 
+# 
+START_ORACLE_DB="yes"
+
+## Path:	Productivity/Databases/Tools/Oracle/DB
+## Type:        yesno
+## Default:     no
+# 
+# Enable clients on other computers to connect to the database
+# 
+START_ORACLE_DB_LISTENER="no"
+
+## Path:	Productivity/Databases/Tools/Oracle/DB
+## Type:        yesno
+## Default:     no
+# 
+# Start Oracle Intelligent Agent (if installed)
+# 
+START_ORACLE_DB_AGENT="no"
+
+## Path:	Productivity/Databases/Tools/Oracle/DB
+## Type:        yesno
+## Default:     no
+# 
+# Start the Apache that comes bundled with Oracle
+# 
+START_ORACLE_DB_APACHE="no"
+
+## Path:	Productivity/Databases/Tools/Oracle/DB
+## Type:        yesno
+## Default:     no
+#
+# Should Apache be started with SSL support
+#
+ORACLE_DB_APACHE_USE_SSL="no"
+
+## Path:        Productivity/Databases/Tools/Oracle/DB
+## Type:        yesno
+## Default:     no
+#
+# Start Enterprise Manager to allow remote database management 
+#
+START_ORACLE_DB_EMANAGER="no"
+
+## Path:        Productivity/Databases/Tools/Oracle/DB
+## Type:        yesno
+## Default:     no
+#
+# Start iSQLPlus Manager to allow remote SQL 
+#
+START_ORACLE_DB_ISQLPLUS="no"
+
+## Path:	Productivity/Databases/Tools/Oracle/DB
+## Type:        yesno
+## Default:     no
+# 
+# Start Oracle Internet Directory service
+# 
+START_ORACLE_DB_OID="no"
+
+
+## Path:	Productivity/Databases/Tools/Oracle/DB/RAC
+## Description:	Settings for the cluster database (RAC)
+
+
+## Path:	Productivity/Databases/Tools/Oracle/DB/RAC
+## Type:        yesno
+## Default:     no
+# 
+# Start Oracle Cluster Filesystem (for RAC)
+# 
+START_ORACLE_RAC_OCFS2="no"
+
+## Path:        Productivity/Databases/Tools/Oracle/DB/RAC
+## Type:        yesno
+## Default:     no
+#
+# Start Oracle Clusterware (for RAC)
+#
+START_ORACLE_RAC_CRS="no"
+
+## Path:        Productivity/ApplicationServer/Tools/Oracle/AS
+## Type:        yesno
+## Default:     no
+#
+# Start all application server components mainly OC4Js
+#
+START_ORACLE_AS_ALL="no"
+
+
+## Path:        Productivity/ApplicationServer/Tools/Oracle/AS
+## Type:        yesno
+## Default:     no
+#
+# Start application Server Web console
+#
+START_ORACLE_AS_CONSOLE="no"
+
+
+## Path:	Productivity/Databases/Tools/Oracle/System
+## Description:	Global Oracle related system settings
+
+
+## Path:	Productivity/Databases/Tools/Oracle/System
+## Type:        yesno
+## Default:     yes
+# 
+# Set the KERNEL PARAMETERS for Oracle. Requires at least a 2.4 kernel.
+# 
+# DO NOT CHANGE ANY VALUES unless you KNOW what you are doing!
+# 
+# Have a look at the Oracle ReleaseNotes for the Oracle product you are
+# using for what values to set these variables to. If you do not set them
+# we will assume some reasonable defaults for a medium Oracle 9i database
+# system (that's a pretty big and busy one!). 
+# 
+# The /proc filesystem provides access to kernel parameters and statistics
+# and the /proc/sys/ system allows one to change some kernel settings
+# during runtime.
+# If you have the kernel sources installed (package "kernel-source")
+# You can find more information here: 
+#   /usr/src/linux/Documentation/sysctl/ (directory)
+#   /usr/src/linux/Documentation/filesystems/proc.txt
+#   /usr/src/linux/Documentation/networking/ip-sysctl.txt
+# 
+# In the end all these variables are set via the /proc/sys/ system,
+# but there may be conflicts: The agreed-upon "Linux" standard method 
+# to store and set values under /proc/sys/ is via "sysctl(8)" which
+# uses /etc/sysctl.conf to store these values. This may conflict with
+# our values here which are stored in /etc/sysconfig/oracle. Our 
+# Oracle startup script /etc/init.d/oracle (/usr/sbin/rcoracle) which 
+# uses the values in /etc/sysconfig/oracle checks for and warns you
+# about such a conflict should one exist. 
+# 
+SET_ORACLE_KERNEL_PARAMETERS="yes"
+
+## Path:	Productivity/Databases/Tools/Oracle/System/Memory
+## Type:        integer
+# 
+# Max. shared memory segment size that can be allocated.
+# The ONLY parameter you should touch at all (and only if you have more than
+# 4 GB of physical memory) is SHMMAX. It does not make any sense to change
+# the others for Oracle!
+# Recommended: SHMMAX = 0.5*(physical memory). Higher values are okay,
+# since this parameter only sets the OS maximum:
+# This setting does not affect how much shared memory is needed or used by
+# Oracle8i or the operating system. It is used only to indicate the maximum
+# allowable size. This setting also does not impact operating system
+# kernel resources. 
+# The values for SHMSEG and SHMMIN cannot be changed via the proc-interface,
+# but there is no need to change anything anyway!
+# SHMSEG (default: 4096): max. number of shared segments per process
+# SHMMIN (default: 1): min. size of a shared mem. segment in bytes
+# 
+# SHMMAX max. size of a shared memory segment in bytes
+#
+# Max. size of the SGA on 32bit Intel is less than 3 GB - even if you
+# have 16 GB of physical RAM! That's because the processor can only
+# address 4 GB directly, and a little of that is lost (1 GB actually)
+# for other uses. If you want more than ca. 2.7 GB of SGA for Oracle
+# on 32bit Intel, you MUST use SHMFS. See Oracle documentation for how
+# to do that. 
+# Also, by default the Oracle binary does not support more than 1.7 GB
+# of SGA. If you want more (up to ca. 2.7 GB) you have to relink the
+# Oracle binary - again, see Oracle documentation for what to do! 
+# 
+SHMMAX=3294967296
+
+## Path:	Productivity/Databases/Tools/Oracle/System/Memory
+## Type:        integer
+# 
+# SHMMNI (default: 4096): max. number of shared segments system wide
+# No change is needed for running Oracle!
+# 
+SHMMNI=4096
+
+## Path:	Productivity/Databases/Tools/Oracle/System/Memory
+## Type:        integer
+# 
+# SHMALL (default: 8G [2097152]): max. shm system wide (pages)
+# No change is needed for running Oracle!
+# 
+SHMALL=2097152
+
+## Path:	Productivity/Databases/Tools/Oracle/System/Semaphores
+## Type:        integer(100:8000)
+# 
+# Sempahore values
+# Kernel sources header file: /usr/src/linux/include/linux/sem.h
+# Just FYI: SEMVMX: semaphore maximum value. Oracle recommends a value of 32767,
+# which is the default in SuSE *and* the maximum value possible.
+# This value CANNOT be changed during runtime via the /proc interface,
+# but there is no need to do so anyway!
+# 
+# SEMMSL: max. number of semaphores per id. Set to 10 plus the largest
+# PROCESSES parameter of any Oracle database on the system (see init.ora).
+# Max. value possible is 8000.
+# 
+SEMMSL=1250
+
+## Path:	Productivity/Databases/Tools/Oracle/System/Semaphores
+## Type:        integer
+# 
+# SEMMNS: max. number of semaphores system wide. Set to the sum of the
+# PROCESSES parameter for each Oracle database, adding the largest one
+# twice, then add an additional 10 for each database (see init.ora).
+# Max. value possible is INT_MAX (largest INTEGER value on this
+# architecture, on 32-bit systems: 2147483647).
+# 
+SEMMNS=32000
+
+## Path:	Productivity/Databases/Tools/Oracle/System/Semaphores
+## Type:        integer(10:1000)
+# 
+# SEMOPM: max. number of operations per semop call. Oracle recommends
+# a value of 100. Max. value possible is 1000.
+# 
+SEMOPM=100
+
+## Path:	Productivity/Databases/Tools/Oracle/System/Semaphores
+## Type:        integer(100:32768)
+# 
+# SEMMNI: max. number of semaphore identifiers. Oracle recommends a 
+# a value of (at least) 100. Max. value possible is 32768 (defined
+# in include/linux/ipc.h: IPCMNI)
+# 
+SEMMNI=256
+
+## Path:	Productivity/Databases/Tools/Oracle/System/Network
+## Type:        string
+## Default:     "1024 65000"
+#
+# Defines the local port range that is used by TCP and UDP to
+# choose the local port. The first number is the first, the
+# second the last local port number. Default value depends on
+# amount of memory available on the system:
+# > 128Mb 32768-61000
+# < 128Mb 1024-4999 or even less.
+# This number defines number of active connections, which this
+# system can issue simultaneously to systems not supporting
+# TCP extensions (timestamps). With tcp_tw_recycle enabled
+# (i.e. by default) range 1024-4999 is enough to issue up to
+# 2000 connections per second to systems supporting timestamps.
+#
+IP_LOCAL_PORT_RANGE="9000 65500"
+
+## Path:	Productivity/Databases/Tools/Oracle/System/Network
+## Type:        integer
+## Default:     "262144"
+# 
+# For internal cluster communication in RAC: Maximum receive window
+# 
+RMEM_MAX=4194304
+
+## Path:	Productivity/Databases/Tools/Oracle/System/Network
+## Type:        integer
+## Default:     "262144"
+# 
+# For internal cluster communication in RAC: Default receive window
+# 
+RMEM_DEFAULT=262144
+
+## Path:	Productivity/Databases/Tools/Oracle/System/Network
+## Type:        integer
+## Default:     "262144"
+# 
+# For internal cluster communication in RAC: Maximum send window
+# 
+WMEM_MAX=1048586
+
+## Path:	Productivity/Databases/Tools/Oracle/System/Network
+## Type:        integer
+## Default:     "262144"
+# 
+# For internal cluster communication in RAC: Default send window
+# 
+WMEM_DEFAULT=262144
+
+## Path:	Productivity/Databases/Tools/Oracle/System/Files
+## Type:        integer
+#
+# How many files can be opened (global setting). 
+#
+FILE_MAX_KERNEL=6815744
+
+## Path:	Productivity/Databases/Tools/Oracle/System/Files
+## Type:        integer
+#
+# The *_SHELL settings are for the Oracle startup script (/etc/rc.d/oracle
+# and 'rcoracle') *ONLY*, it does NOT have any influence on the
+# limits if you login as user 'oracle' and start Oracle from there!!!
+# This sets the limits for the number of open files per process.
+# FILE_MAX_SHELL *MUST* be lower than FILE_MAX_KERNEL, obviously
+#
+FILE_MAX_SHELL=65536
+
+## Path:	Productivity/Databases/Tools/Oracle/System/Processes
+## Type:        integer
+#
+# The  maximum  number  of  open file descriptors in the current shell.
+# The *_SHELL settings are for the Oracle startup script (/etc/rc.d/oracle
+# and 'rcoracle') *ONLY*, it does NOT have any influence on the
+# limits if you login as user 'oracle' and start Oracle from there!!!
+# FILE_MAX_SHELL *MUST* be lower than FILE_MAX_KERNEL, obviously.
+#
+PROCESSES_MAX_SHELL=16384
+
+## Path:	Productivity/Databases/Tools/Oracle/System/Files
+## Type:        string(unlimited)
+#
+# The *_SHELL settings are for the Oracle startup script (/etc/rc.d/oracle
+# and 'rcoracle') *ONLY*, it does NOT have any influence on the
+# limits if you login as user 'oracle' and start Oracle from there!!!
+#
+MAX_CORE_FILE_SIZE_SHELL=unlimited
+
+## Path:	Productivity/Databases/Tools/Oracle/System/Memory
+## Type:        integer(10:10000)
+#
+# By Andrea Arcangeli, SuSE:
+# This decreases the swappiness of the kernel. It will tend to swap less. It
+# will shrink the pagecache more, before falling back into swap. So
+# increasing the mapped ratio will result in less cache and less swap.
+# On a lowmemory machine reducing the cache, and the swap can decrease
+# performance.
+# On a database machine with plenty of ram, swapping some hundred mbyte
+# instead may not be necessary, better to shrink the cache, in particular
+# because having that much shm allocated tends to fool the VM. The VM
+# can't know if the shm is fs cache too (the shm in Oracle is mostly cache
+# for the filesystem).
+# So going to 1000 is probably a good idea for high end servers with
+# plenty of memory. Using "1000" make sense where you really know swapping
+# is going to be not necessary during all the important workloads because
+# you tune the machine in a way that it has enough ram to succeed w/o the
+# need of swap. Using 1000 tells the VM to swap less.
+# 
+VM_MAPPED_RATIO=100
+
+## Path:	Productivity/Databases/Tools/Oracle/System/IO
+## Type:        integer(256:536870912)
+#
+# Max. size of an async I/O request (in Bytes). This setting
+# has no influence over the size of the actual physical I/O since
+# this depends on the device! 
+# The maximum is 512K but any value above 128K, 256K at best, 
+# is not going to make a difference - the physical I/O to the
+# device has much lower limits so the I/O is split into smaller
+# pieces than specified here anyway. 
+#
+AIO_MAX_SIZE=1048576
+
+## Path:        Productivity/Databases/Tools/Oracle/System/Memory
+## Type:        integer
+## Default:     "0"
+#
+# This support is built on top of multiple page size support
+# that is provided by most of modern architectures.  For example, IA-32
+# architecture supports 4K and 4M (2M in PAE mode) page sizes, IA-64
+# architecture supports multiple page sizes 4K, 8K, 64K, 256K, 1M, 4M, 16M,
+# 256M.  A TLB is a cache of virtual-to-physical translations.  Typically this
+# is a very scarce resource on processor.  Operating systems try to make best
+# use of limited number of TLB resources.  This optimization is more critical
+# now as bigger and bigger physical memories (several GBs) are more readily
+# available.
+# /proc/meminfo provides information about the total number of hugetlb
+# pages configured in the kernel.  It also displays information about the
+# number of free hugetlb pages at any time.  It also displays information about
+# the configured hugepage size - this is needed for generating the proper
+# alignment and size of the arguments to the above system calls.
+#
+# /proc/sys/vm/nr_hugepages indicates the current number of configured hugetlb
+# pages in the kernel.  Super user can dynamically request more (or free some
+# pre-configured) hugepages.
+# The allocation( or deallocation) of hugetlb pages is posible only if there are
+# enough physically contiguous free pages in system (freeing of hugepages is
+# possible only if there are enough hugetlb pages free that can be transfered
+# back to regular memory pool).
+# Pages that are used as hugetlb pages are reserved inside the kernel and can
+# not be used for other purposes.
+# If the user applications are going to request hugepages using mmap system
+# call, then it is required that system administrator mount a file system of
+# type hugetlbfs:
+#
+#         mount none /mnt/huge -t hugetlbfs <uid=value> <gid=value> <mode=value>
+#                  <size=value> <nr_inodes=value>
+#
+# This command mounts a (pseudo) filesystem of type hugetlbfs on the directory
+# /mnt/huge.  Any files created on /mnt/huge uses hugepages.  The uid and gid
+# options sets the owner and group of the root of the file system.  By default
+# the uid and gid of the current process are taken.  The mode option sets the
+# mode of root of file system to value & 0777.  This value is given in octal.
+# By default the value 0755 is picked. The size option sets the maximum value of
+# memory (huge pages) allowed for that filesystem (/mnt/huge). The size is
+# rounded down to HPAGE_SIZE.  The option nr_inode sets the maximum number of
+# inodes that /mnt/huge can use.  If the size or nr_inode options are not
+# provided on command line then no limits are set.  For size and nr_inodes
+# options, you can use [G|g]/[M|m]/[K|k] to represent giga/mega/kilo. For
+# example, size=2K has the same meaning as size=2048.
+#
+NR_HUGE_PAGES=0
+
+## Path:        Productivity/Databases/Tools/Oracle/System/Memory
+## Type:        string
+## Default:     "dba"
+#
+# Used from SLES10 on. It specifiy the group name which can access the hugepages.
+#
+#
+SHM_GROUP="dba"

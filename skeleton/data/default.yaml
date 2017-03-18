@@ -1,0 +1,13 @@
+---
+  default::settings:
+    package_ensure: 'present'
+    service_ensure: 'running'
+    service_enable: true
+    config_file_owner: 'root'
+    config_file_group: 'root'
+    config_file_mode: '0644'
+    config_dir_owner: 'root'
+    config_dir_group: 'root'
+    config_dir_mode: '0755'
+    config_dir_purge: false
+    config_dir_recurse: true

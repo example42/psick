@@ -1,0 +1,8 @@
+---
+  environment: production
+  classes:
+    - profile::git
+  parameters:
+    env: development
+    role: ostest
+

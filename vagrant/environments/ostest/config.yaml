@@ -1,0 +1,151 @@
+---
+# Default settings for all vms (they can be overridden on each node)
+vm:
+  memory: 1024                 # MB or RAM to assign
+  cpu: 1                       # Number of vCPU to assign to the VM
+  role: ostest                 # Default role
+  box: centos7                 # Box used for the VM, from the boxes list below
+  puppet_apply: true           # Run puppet apply on the local control-repo during provisioning
+  puppet_agent: false          # Run puppet agent during provisioning
+  facter_external_facts: true  # Create external facts in facts.d/$fact.txt. Note 1
+  facter_trusted_facts: false  # Create csr_attributes.yaml. Note 1
+
+# A local network is created among the VM. Here is configured.
+network:
+  range: 10.42.45.0/24        # Network address and mask to use
+  ip_start_offset: 101        # Starting ip in the network for automatic assignement
+  domain: ostest.psick.io     # Name of DNS domain for the created machines
+
+# Puppet related settings
+puppet:
+  version: latest             # Version to use for OSS
+  install_oss: true           # If to install Puppet OSS agent on the VMS
+  install_pe: false           # If to install Puppet Enterprise agent on the VMS
+  env: devel                  # Setting for the env fact (may be used in hiera.yaml)
+  zone: ostest                # Setting for the zone fact (may be used in hiera.yaml)
+  datacenter: vagrant         # Setting for the datacenter fact (may be used in hiera.yaml)
+  application: puppet         # Setting for the application fact (may be used in hiera.yaml)
+  master_vm:  foreman.fab.psick.io    # Name of the VM which play as Puppet server for the others
+  master_fqdn: 'foreman.fab.psick.io' # FQDN of the Puppet server to use with puppet agent
+  link_controlrepo: true      # Add a link for a Puppet environment to the development control-repo
+  environment: host           # Puppet environment to link to local control-repo
+
+# Puppet Enterprise settings
+#  pe_version: '2016.5.1'         # Version of PE to install on the puppet server. See Note 2
+#  pe_download_root: 'https://s3.amazonaws.com/pe-builds/released/2016.5.1' # Download base url. See Note 2
+#  pe_verbose: true               # If to show PE installation output
+#  pe_relocate_manifests: false   # If to relocate manifests and module dir. Not needed in this setup.
+
+vagrant:
+  hostmanager.manage_host: false
+
+# Nodes shown in vagrant status 
+nodes:
+  - hostname_base: centos7
+    box: centos7
+  - hostname_base: centos6
+    box: centos6
+  - hostname_base: ubuntu1604
+    box: ubuntu1604 
+  - hostname_base: ubuntu1404
+    box: ubuntu1404 
+  - hostname_base: ubuntu1204
+    box: ubuntu1204 
+  - hostname_base: debian8
+    box: debian8
+  - hostname_base: debian7
+    box: debian7
+  - hostname_base: suse12
+    box: suse12
+  - hostname_base: suse11
+    box: suse11
+  - hostname_base: opensuse-tumbleweed
+    box: opensuse_tumbleweed
+  - hostname_base: opensuse-42-1
+    box: opensuse_42_1
+  - hostname_base: alpine3
+    box: alpine3
+  - hostname_base: fedora23
+    box: fedora23
+  - hostname_base: cumulus
+    box: cumulus
+
+
+
+boxes:
+  centos7:
+    box: centos/7
+    breed: redhat7
+  centos6:
+    box: centos/6
+    breed: redhat6
+  centos7_puppet:
+    box: puppetlabs/centos-7.2-64-puppet
+    breed: puppetlabs-centos7
+  centos6_puppet:
+    box: puppetlabs/centos-6.6-64-puppet
+    breed: puppetlabs
+  ubuntu1604:
+    box: ubuntu/xenial64
+    breed: ubuntu
+  ubuntu1404:
+    box: ubuntu/trusty64
+    breed: ubuntu
+  ubuntu1204:
+    box: ubuntu/precise64
+    breed: ubuntu
+  ubuntu1604_puppet:
+    box: puppetlabs/ubuntu-16.04-64-puppet
+    breed: puppetlabs-apt
+  ubuntu1404_puppet:
+    box: puppetlabs/ubuntu-14.04-64-puppet
+    breed: puppetlabs-apt
+  ubuntu1204_puppet:
+    box: puppetlabs/ubuntu-12.04-64-puppet
+    breed: puppetlabs-ubuntu1204
+  debian8:
+    box: debian/jessie64
+    breed: debian
+  debian7:
+    box: debian/wheezy64
+    breed: debian
+  debian8_puppet:
+    box: puppetlabs/debian-8.2-64-puppet
+    breed: puppetlabs-apt
+  debian7_puppet:
+    box: puppetlabs/debian-7.8-64-puppet
+    breed: puppetlabs-apt
+  debian6_puppet:
+    box: puppetlabs/debian-6.0.10-64-puppet
+    breed: puppetlabs-apt
+  alpine3:
+    box: maier/alpine-3.3.1-x86_64
+    breed: alpine
+  fedora23:
+    box: fedora/23-cloud-base
+    breed: redhat7
+  cumulus:
+    box: CumulusCommunity/cumulus-vx
+    breed: puppetlabs-apt
+
+
+# Image available for suse12 has issues. To setup correctly:
+# vagrant up suse12
+# vagrant provision suse12
+# vagrant reload suse12
+# vagrant provision suse12
+  suse12:
+    box: suse/sles12sp1
+    breed: suse12
+  suse11:
+    box: suse/sles11sp3
+    breed: suse11
+  opensuse_tumbleweed:
+    box: opensuse/openSUSE-Tumbleweed-x86_64
+    breed: none 
+  opensuse_42_1:
+    box: opensuse/openSUSE-42.1-x86_64
+    breed: none 
+
+
+

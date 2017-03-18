@@ -1,0 +1,23 @@
+# File Managed by Puppet
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:
+<% if @osfamily == 'RedHat' -%>
+yum update -y
+rm -f /etc/puppetlabs/facter/facts.d/upgradable_packages.yaml
+<% if @reboot_after_update -%>
+LAST_KERNEL=$(rpm -q --last kernel | perl -pe 's/^kernel-(\S+).*/$1/' | head -1)
+CURRENT_KERNEL=$(uname -r)
+test $LAST_KERNEL = $CURRENT_KERNEL || shutdown -r now
+<% end -%>
+<% elsif @osfamily == 'Debian' -%>
+apt-get update -y
+DEBIAN_FRONTEND=noninteractive apt-get upgrade -y 
+rm -f /etc/puppetlabs/facter/facts.d/upgradable_packages.yaml
+<% if @reboot_after_update -%>
+[ -f /var/run/reboot-required ] && shutdown -r now
+<% end -%>
+<% elsif @osfamily == 'Suse' -%>
+zypper --non-interactive update
+rm -f /etc/puppetlabs/facter/facts.d/upgradable_packages.yaml
+<% if @reboot_after_update -%>
+<% end -%>
+<% end -%>

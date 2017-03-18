@@ -1,0 +1,31 @@
+---
+# We use hiera-eyaml to encrypt data. Customise as needed.
+:backends:
+  - eyaml
+
+# Sample hierarchy. Sane for common use cases.
+# Keep %{::trusted.certname} and common as edges, then customise
+# layers as needed.
+:hierarchy:
+  - "nodes/%{::trusted.certname}"
+  - "role/%{::role}-%{::env}"
+  - "role/%{::role}"
+  - "zone/%{::zone}"
+  - common
+
+# Configuration for hiera-eyaml
+:eyaml:
+  :datadir: "/etc/puppetlabs/code/environments/%{environment}/hieradata"
+  :extension: 'yaml'
+  # Where keys are placed. Can be a relative path.
+  # You need these files wherever you have to compile the catalog when encrypted data is used. 
+  # :pkcs7_private_key: /etc/puppetlabs/code/environments/%{environment}/keys/private_key.pkcs7.pem
+  # :pkcs7_public_key:  /etc/puppetlabs/code/environments/%{environment}/keys/public_key.pkcs7.pem
+  # Alternative with keys placed in a not environment dependent directory
+  :pkcs7_private_key: /etc/puppetlabs/code/keys/private_key.pkcs7.pem
+  :pkcs7_public_key:  /etc/puppetlabs/code/keys/public_key.pkcs7.pem
+
+# How you want hashes to be merged when using hiera_hash.
+# This setting is probably the sanest one. It requires the deep_merge gem.
+:merge_behavior: deeper
+

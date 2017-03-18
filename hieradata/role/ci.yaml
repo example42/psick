@@ -1,0 +1,4 @@
+---
+  profiles:
+    - '::profile::ci::jenkins'
+    - '::profile::gitlab'

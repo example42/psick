@@ -1,0 +1,229 @@
+---
+# Default settings for all vms (they can be overridden on each node)
+vm:
+  memory: 1024                 # MB or RAM to assign
+  cpu: 1                       # Number of vCPU to assign to the VM
+  box: centos7                 # Box used for the VM, from the boxes list below
+  puppet_apply: false          # Run puppet apply on the local control-repo during provisioning
+  puppet_agent: true           # Run puppet agent during provisioning
+  facter_external_facts: true # Create external facts in facts.d/$fact.txt. Note 1
+  facter_trusted_facts: true   # Create csr_attributes.yaml. Note 1
+
+# Note 1: Some facts are used in default hiera.yaml and needed for
+# nodes classification. So it's better to set them, once.
+# If you enable both external and trusted facts and keep the
+# default manifests/site.pp you'll have a variable declaration error 
+
+# A local network is created among the VM. Here is configured.
+network:
+  range: 10.42.43.0/24   # Network address and mask to use 
+  ip_start_offset: 101   # Starting ip in the network for automatic assignement
+  domain: lab.psick.io   # Name of DNS domain for the created machines
+
+# Puppet related settings
+puppet:
+  version: latest             # Version to use for OSS
+  install_oss: false          # If to install Puppet OSS agent on the VMS
+  install_pe: true            # If to install Puppet Enterprise agent on the VMS
+  env: lab                    # Setting for the env fact (may be used in hiera.yaml)
+  zone: lab                   # Setting for the zone fact (may be used in hiera.yaml)
+  datacenter: hetzner         # Setting for the datacenter fact (may be used in hiera.yaml)
+  application: puppet         # Setting for the application fact (may be used in hiera.yaml)
+  master_vm:  puppet.lab.psick.io    # Name of the VM which play as Puppet server for the others
+  master_fqdn: 'puppet.lab.psick.io' # FQDN of the Puppet server to use with puppet agent
+  link_controlrepo: true      # Add a link for a Puppet environment to the development control-repo 
+  environment: host           # Puppet environment to link to local control-repo
+
+# Puppet Enterprise settings
+  pe_version: '2017.1.0'         # Version of PE to install on the puppet server. See Note 2
+  pe_download_root: 'https://s3.amazonaws.com/pe-builds/released/2017.1.0' # Download base url. See Note 2
+  pe_verbose: true               # If to show PE installation output 
+  pe_relocate_manifests: false   # If to relocate manifests and module dir. Not needed in this setup.
+
+#  Note 2: when changing the version, change also the download_root unless you have a
+#  custom one. For locally downloaded files, for example, you can place something like:
+#  pe_download_root: 'file:///Users/al/Downloads'
+
+# Vagrant settings
+vagrant:
+  # Update host's /etc/hosts if you have the hostmanager plugin.
+  # Needed for automatic decommissioning of nodes. If false, you've to manage
+  # manually ssl certs removal of reinstalled nodes.
+  hostmanager.enable: false # If to enable hostmanager plugin
+  hostmanager.manage_host: false # If to manage also the main host's hosts
+          
+# List of nodes shown in vagrant status
+# Node names are based on the defined role. Here can be overridden vm defaults,
+# it can be enforced a defined host name, added alieses, port forwarding and pe_role
+nodes:
+  - role: puppet
+    pe_role: master
+    memory: 6192
+    cpu: 2
+    aliases:
+      - puppet
+    forwarded_port:
+      guest: 443
+      host: 1443
+  - role: git
+    memory: 2048
+    forwarded_port:
+      guest: 443
+      host: 1444
+    puppet_agent: false
+  - role: cirunner
+    count: 1
+  - role: manageiq
+    count: 1
+    memory: 6192
+    cpu: 2
+    box: manageiq_euwe
+    forwarded_port:
+      guest: 443
+      host: 1445
+  - role: rundeck
+    count: 1
+    memory: 2048
+    cpu: 1
+    box: centos7
+    forwarded_port:
+      guest: 4440
+      host: 1446
+  - role: build
+    count: 1
+    puppet_apply: true
+  - role: docker
+    memory: 2048
+    count: 2
+  - role: aws
+    count: 1
+  - role: icinga
+    memory: 2048
+    count: 1
+    box: centos7
+    forwarded_port:
+      guest: 80
+      host: 1447
+  - role: foreman
+    memory: 4096
+    count: 1
+    box: centos7
+    forwarded_port:
+      guest: 443
+      host: 1448
+    puppet_agent: false
+    puppet_apply: false
+  - role: log
+    count: 1
+    box: centos7
+  - role: ostest
+    hostname_base: ostest-suse12
+    count: 1
+    box: suse12
+  - role: ostest
+    hostname_base: ostest-suse11
+    box: suse11
+  - role: ostest
+    hostname_base: ostest-ubuntu1604
+    memory: 4096
+    box: ubuntu1604
+  - role: ostest
+    hostname_base: ostest-ubuntu1604
+    box: ubuntu1604
+  - role: ostest
+    hostname_base: ostest-debian8
+    box: debian8
+  - role: ostest
+    hostname_base: ostest-alpine3
+    box: alpine3
+  - role: ostest
+    hostname_base: ostest-windows2012
+    box: windows2012
+  - role: ostest
+    hostname_base: ostest-solaris11
+    box: solaris11
+  - role: ostest
+    hostname_base: ostest-freebsd12
+    box: freebsd12
+
+
+# List of available Vagrant boxes with different OS to test on
+boxes:
+  centos7:
+    box: centos/7
+    breed: puppetlabs
+  centos6:
+    box: centos/6
+    breed: puppetlabs
+  centos7_puppet:
+    box: puppetlabs/centos-7.2-64-nocm
+    breed: puppetlabs
+  centos6_puppet:
+    box: puppetlabs/centos-6.6-64-nocm
+    breed: puppetlabs
+  ubuntu1604:
+    box: ubuntu/xenial64
+    breed: puppetlabs
+  ubuntu1404:
+    box: ubuntu/trusty64
+    breed: puppetlabs
+  ubuntu1204:
+    box: ubuntu/precise64
+    breed: puppetlabs
+  debian8:
+    box: debian/jessie64
+    breed: puppetlabs
+  debian7:
+    box: debian/wheezy64
+    breed: puppetlabs
+  alpine3:
+    box: maier/alpine-3.3.1-x86_64
+    breed: puppetlabs
+  fedora23:
+    box: fedora/23-cloud-base
+    breed: puppetlabs
+
+# Image available for suse12 has issues. To setup correctly:
+# vagrant up suse12
+# vagrant provision suse12
+# vagrant reload suse12
+# vagrant provision suse12
+  suse12:
+    box: suse/sles12sp1
+    breed: puppetlabs
+  suse11:
+    box: suse/sles11sp3
+    breed: puppetlabs
+  manageiq_euwe:
+    box: manageiq/euwe
+    breed: other
+  fedora25:
+    box: fedora/25-cloud-base
+    breed: redhat7
+  windows2008:
+    box: opentable/win-2008r2-standard-amd64-nocm
+    breed: win2008
+  windows2012:
+    box: opentable/win-2012r2-standard-amd64-nocm
+    breed: win2012
+  solaris10:
+    box: tnarik/solaris10-minimal
+    breed: solaris10
+  solaris11:
+    box: ruby-concurrency/oracle-solaris-11
+    breed: solaris11
+  freebsd10:
+    box: freebsd/FreeBSD-10.2-RELEASE
+    breed: freebsd
+  freebsd11:
+    box: freebsd/FreeBSD-11.0-RELEASE
+    breed: freebsd
+  freebsd12:
+    box: freebsd/FreeBSD-12.0-RELEASE
+    breed: freebsd
+  osx1010:
+    box: dhoer/macosx-10.10
+    breed: macos
+  osx1011:
+    box: carbon/osx-elcapitan-10.11
+    breed: macos

@@ -1,0 +1,2 @@
+# This file is created by Puppet 
+# On this system the timezone is set to <%= @timezone %>"

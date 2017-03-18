@@ -1,0 +1,4 @@
+# File Managed by Puppet
+Cmnd_Alias 	SUORACLE = /bin/su - oracle, /usr/bin/su - oracle
+
+%su2oracle       ALL=(ALL)  NOPASSWD:SUORACLE

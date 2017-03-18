@@ -1,0 +1,54 @@
+# This role example is for a node where aws tools are
+# installed and used to provision via Puppet AWS setup,
+# based on ::profile::aws
+
+---
+  profiles:
+    - '::profile::aws'
+    - '::profile::python::fabric'
+    - '::profile::git'
+
+  # The aws region to use as default in all the aws profiles: REQUIRED
+  # profile::aws::region: 'eu-west-1'
+
+  # If to create a default set of resources for a basic aws setup
+  profile::aws::create_defaults: false
+
+  # Name of vpc to create by default, if create_defaults: true
+  profile::aws::default_vpc_name: 'test'
+  profile::aws::default_cidr_block_prefix: '10.100'
+
+  # Name of the classes to use forconfiguring awscli and setting up aws resources
+  profile::aws::cli_class: '::profile::aws::cli'
+  profile::aws::vpc_class: '::profile::aws::puppet::vpc'
+  profile::aws::sg_class: '::profile::aws::puppet::sg'
+  profile::aws::ec2_class: '::profile::aws::puppet::ec2'
+  # profile::aws::rds_class: '::profile::aws::puppet::rds'
+  
+  # VPC - Prefix of the IPs of the default VPC (if create_defaults: true)
+  #  profile::aws::cli::vpc::default_cidr_block_prefix: '10.43'
+  #  profile::aws::cli::vpc::default_vpc_name: 'test-cli'
+
+  # EC2 - Default name of the ssh key to use for access to ec2 instances
+  # Note: Key must be created manually (TODO: Automate ssh key creation)
+  profile::aws::puppet::ec2::default_key_name: 'puppet'
+
+  # Uncomment to avoid creating some specific kind of aws resources
+  # You might need to do this after the first Puppet run for some
+  # resources whose idepotency is not managed correctly and keep
+  # on erroring or being apliead at each run
+  profile::aws::puppet::vpc::create_defaults: false
+  profile::aws::puppet::sg::create_defaults: false
+  profile::aws::puppet::ec2::create_defaults: false
+  profile::aws::puppet::rds::create_defaults: false
+
+  # RDS - Default rds credentials
+  profile::aws::puppet::rds::default_db_name: 'test'
+  profile::aws::puppet::rds::db_instance_class: 'db.t2.micro'
+  profile::aws::puppet::rds::default_allocated_storage: '100'
+  profile::aws::puppet::rds::default_master_username: 'admin'
+
+# profile::aws::puppet::rds::default_master_user_password: # Set here (possibly encrypted with hiera-eyaml) rds master pw
+# profile::aws::cli::aws_access_key_id: # Set here (possibly encrypted with hiera-eyaml) your aws_access_key_id
+# profile::aws::cli::aws_secret_access_key: # Set here (possibly encrypted with hiera-eyaml) your aws_secret_access_key
+

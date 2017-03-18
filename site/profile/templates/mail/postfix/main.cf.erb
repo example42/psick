@@ -1,0 +1,61 @@
+# File managed by Puppet
+
+#soft_bounce = no
+queue_directory = <%= @settings['queue_dir_path'] %>
+command_directory = /usr/sbin
+daemon_directory = <%= @settings['daemon_dir_path'] %>
+data_directory = /var/lib/postfix
+mail_owner = <%= @settings['process_user'] %>
+#default_privs = nobody
+<% if @options['myhostname'] -%>
+myhostname = <%= @options['myhostname'] %>
+<% end -%>
+mydomain = <%= @options['mydomain'] %>
+<% if @options['myorigin'] -%>
+myorigin = <%= @options['myorigin'] %>
+<% end -%>
+inet_interfaces = <%= @options['inet_interfaces'] %>
+inet_protocols = <%= @options['inet_protocols'] %>
+#proxy_interfaces = 1.2.3.4
+mydestination = <%= @options['mydestination'] %>
+#local_recipient_maps =
+unknown_local_recipient_reject_code = 550
+#mynetworks_style = host
+<% if @options['mynetworks'] -%>
+mynetworks = [<%= @options['mynetworks'] %>]
+<% end -%>
+<% if @options['relayhost'] -%>
+relayhost = [<%= @options['relayhost'] %>]
+<% end -%>
+#relay_recipient_maps = hash:/etc/postfix/relay_recipients
+#in_flow_delay = 1s
+alias_maps = hash:/etc/aliases
+alias_database = hash:/etc/aliases
+#recipient_delimiter = +
+#home_mailbox = Maildir/
+#mail_spool_directory = /var/spool/mail
+#mailbox_command = /some/where/procmail -a "$EXTENSION"
+#mailbox_transport = lmtp:unix:/var/lib/imap/socket/lmtp
+# local_destination_recipient_limit = 300
+# local_destination_concurrency_limit = 5
+#mailbox_transport = cyrus
+#fallback_transport = lmtp:unix:/var/lib/imap/socket/lmtp
+#luser_relay = admin+$local
+#header_checks = regexp:/etc/postfix/header_checks
+#fast_flush_domains = $relay_domains
+#smtpd_banner = $myhostname ESMTP $mail_name
+#local_destination_concurrency_limit = 2
+#default_destination_concurrency_limit = 20
+debug_peer_level = 2
+#debug_peer_list = 127.0.0.1
+debugger_command =
+	 PATH=/bin:/usr/bin:/usr/local/bin:/usr/X11R6/bin
+	 ddd $daemon_directory/$process_name $process_id & sleep 5
+sendmail_path = <%= @settings['sendmail_path'] %>
+newaliases_path = <%= @settings['sendmail_path'] %>
+mailq_path = <%= @settings['mailq_path'] %>
+setgid_group = <%= @settings['setgid_group'] %>
+html_directory = no
+manpage_directory = /usr/share/man
+#sample_directory = /usr/share/doc/postfix-2.10.1/samples
+#readme_directory = /usr/share/doc/postfix-2.10.1/README_FILES

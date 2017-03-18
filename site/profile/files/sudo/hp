@@ -1,0 +1,4 @@
+# File Managed by Puppet
+%hpsmh ALL=NOPASSWD: /etc/init.d/snmpd
+%hpsmh ALL=NOPASSWD: /usr/bin/snmptrap
+root ALL=NOPASSWD: /usr/sbin/hpacucli

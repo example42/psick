@@ -1,0 +1,7 @@
+# Alpine3 facts
+export FACTER_docker_os=alpine
+export FACTER_docker_osversion=3.3
+export FACTER_osfamily=Linux
+export FACTER_operatingsystem=Alpine
+export FACTER_operatingsystemmajrelease=3.3
+

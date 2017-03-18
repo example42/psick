@@ -1,0 +1,7 @@
+# Configurations here are done setting Puppet facts via environment variables:
+
+# Working directory (where dockerfiles are generated)
+export FACTER_docker_workdir="$(pwd)/dockerfiles"
+
+# Docker config dir
+export FACTER_docker_config="${HOME}/.docker"

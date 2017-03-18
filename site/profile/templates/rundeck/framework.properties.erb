@@ -1,0 +1,42 @@
+# File managed by Puppet
+# framework.properties -
+#
+
+# ----------------------------------------------------------------
+# Rundeck server connection information
+# ----------------------------------------------------------------
+
+framework.server.name = <%= @options['framework.server.name'] %>
+framework.server.hostname = <%= @options['framework.server.hostname'] %>
+framework.server.port = <%= @options['framework.server.port'] %>
+framework.server.url = <%= @options['framework.server.url'] %>
+
+# ----------------------------------------------------------------
+# Installation locations
+# ----------------------------------------------------------------
+
+rdeck.base=/var/lib/rundeck
+
+framework.projects.dir=/var/rundeck/projects
+framework.etc.dir=/etc/rundeck
+framework.var.dir=/var/lib/rundeck/var
+framework.tmp.dir=/var/lib/rundeck/var/tmp
+framework.logs.dir=/var/lib/rundeck/logs
+framework.libext.dir=/var/lib/rundeck/libext
+
+# ----------------------------------------------------------------
+# SSH defaults for node executor and file copier
+# ----------------------------------------------------------------
+
+framework.ssh.keypath = <%= @options['framework.ssh.keypath'] %>
+framework.ssh.user = <%= @options['framework.ssh.user'] %>
+
+# ssh connection timeout after a specified number of milliseconds.
+# "0" value means wait forever.
+framework.ssh.timeout = <%= @options['framework.ssh.timeout'] %>
+
+# ----------------------------------------------------------------
+# Auto generated server UUID: <%= @options['rundeck.server.uuid'] %>
+# ----------------------------------------------------------------
+rundeck.server.uuid = <%= @options['rundeck.server.uuid'] %>
+

@@ -1,0 +1,17 @@
+# File Managed by Puppet
+#
+# Enter your API key - It can be found in the Ops Manager UI under Settings ->
+# Group Settings.
+#
+mmsApiKey=<%= @options['mmsApiKey'] %>
+
+#
+# Hostname of the Ops Manager web server. The hostname will match what is used
+# to access the Ops Manager UI. The default port for an Ops Manager install
+# is 8080.
+#
+# ex. http://opsmanaager.<company>.com:8080
+mmsBaseUrl=<%= @options['mmsBaseUrl'] %>
+
+# For additional optional settings, please see
+# https://docs.opsmanager.mongodb.com/current/reference/monitoring-agent/

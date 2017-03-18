@@ -1,0 +1,7 @@
+---
+  environment: production
+  classes:
+    - profile::base::pre
+  parameters:
+    env: development
+    role: default

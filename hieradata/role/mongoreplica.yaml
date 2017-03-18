@@ -1,0 +1,6 @@
+---
+  profiles:
+    - '::profile::mongo'
+
+  profile::mongo::replset: "replSet%{::extra_id}"
+

@@ -1,0 +1,86 @@
+#!/bin/bash
+# General functions for shell scripts in this directory
+
+if tty -s
+then
+  SETCOLOR_SUCCESS=$(tput setaf 2)
+  SETCOLOR_FAILURE=$(tput setaf 1)
+  SETCOLOR_WARNING=$(tput setaf 3)
+  SETCOLOR_ASK=$(tput setaf 13)
+  SETCOLOR_NORMAL=$(tput sgr0)
+  SETCOLOR_TITLE=$(tput setaf 6)
+  SETCOLOR_SUBTITLE=$(tput setaf 14)
+  SETCOLOR_BOLD=$(tput setaf 15)
+else
+  SETCOLOR_SUCCESS="-"
+  SETCOLOR_FAILURE="-"
+  SETCOLOR_WARNING="-"
+  SETCOLOR_ASK="-"
+  SETCOLOR_NORMAL="-"
+  SETCOLOR_TITLE="-"
+  SETCOLOR_SUBTITLE="-"
+  SETCOLOR_BOLD="-"
+fi
+echo_success() {
+  echo "${SETCOLOR_SUCCESS}${1}${SETCOLOR_NORMAL}"
+}
+
+echo_failure() {
+  echo "${SETCOLOR_FAILURE}${1}${SETCOLOR_NORMAL}"
+  return 1
+}
+
+echo_warning() {
+  echo "${SETCOLOR_WARNING}${1}${SETCOLOR_NORMAL}"
+  return 1
+}
+
+echo_title () {
+  echo
+  echo "${SETCOLOR_BOLD}###${SETCOLOR_NORMAL} ${SETCOLOR_TITLE}${1}${SETCOLOR_NORMAL} ${SETCOLOR_BOLD}###${SETCOLOR_NORMAL}"
+}
+echo_subtitle () {
+  echo "${SETCOLOR_BOLD}# ${SETCOLOR_NORMAL}${SETCOLOR_SUBTITLE}${1}${SETCOLOR_NORMAL}"
+}
+
+ask_interactive () {
+        echo "${SETCOLOR_ASK}${1}${SETCOLOR_NORMAL}"
+        echo "Press 'x' to skip or just return to go on"
+        read press
+        case $press in 
+            x) return 2 ;;
+            *) return
+        esac
+}
+
+ask_warning () {
+        echo "${SETCOLOR_WARNING}${1}${SETCOLOR_NORMAL}"
+        echo "Press 'y' to continue or anything else to skip."
+        read press
+        case $press in 
+            y) return ;;
+            *) return 2
+        esac
+}
+
+# Shows or executes a command
+show_command () {
+   echo
+   $SETCOLOR_BOLD ; echo "$HOSTNAME: $*" ; $SETCOLOR_NORMAL
+
+   bash -c "$*"
+}
+
+# Filtering out only:  $ ; ` | < >
+shell_filter () {
+    echo $1 | sed 's/\$//g' | sed 's/;//g' | sed 's/`//g' | sed 's/|//g' | sed 's/<//g' | sed 's/>//g'
+}
+
+shell_filter_strict () {
+# Filtering out:  $ ; ` | < > = ! { } [ ] / \ # &
+    echo $1 | sed 's/\$//g' | sed 's/;//g' | sed 's/`//g' | sed 's/|//g' | sed 's/<//g' | sed 's/>//g'  | sed 's/=//g' | sed 's/!//g' | sed 's/{//g' | sed 's/}//g' | sed 's/\[//g' | sed 's/\]//g' | sed 's/\///g' | sed 's/\\//g' | sed 's/#//g' | sed 's/&//g'
+
+# Filtering out: all but accepted chars
+#     echo $1 | sed "s/[^a-Z0-9_\-]//Ig"
+}
+

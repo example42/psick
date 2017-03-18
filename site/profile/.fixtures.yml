@@ -1,0 +1,23 @@
+fixtures:
+  repositories:
+    "stdlib": "https://github.com/puppetlabs/puppetlabs-stdlib.git"
+    "tp": "https://github.com/example42/puppet-tp"
+    "tinydata": "https://github.com/example42/tinydata"
+    "docker": "https://github.com/example42/puppet-docker"
+    "concat": "https://github.com/puppetlabs/puppetlabs-concat"
+    "vcsrepo": "https://github.com/puppetlabs/puppetlabs-vcsrepo"
+    "firewall": "https://github.com/puppetlabs/puppetlabs-firewall"
+    "noop": "https://github.com/trlinkin/trlinkin-noop"
+    "catalog_preview": "https://github.com/puppetlabs/puppetlabs-catalog_preview"
+    "sysctl": "https://github.com/duritong/puppet-sysctl"
+    "dnsclient": "https://github.com/ghoneycutt/puppet-module-dnsclient"
+    "network": "https://github.com/example42/puppet-network"
+    "chrony": "https://github.com/aboe76/puppet-chrony"
+    "ntp": "https://github.com/puppetlabs/puppetlabs-ntp"
+    "gpg_key": "https://github.com/treydock/puppet-gpg_key"
+    "archive": "https://github.com/voxpupuli/puppet-archive"
+    "vagrant": "https://github.com/unibet/puppet-vagrant"
+  symlinks:
+    "profile": "#{source_dir}"
+    "tools": "#{source_dir}/../tools"
+    "my_data": "#{source_dir}/hieradata"

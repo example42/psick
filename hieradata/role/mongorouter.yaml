@@ -1,0 +1,11 @@
+---
+  profiles:
+    - '::profile::mongo'
+
+  profile::mongo::tp::mongos_template: 'profile/mongo/mongos.service.erb'
+  profile::mongo::tp::options:
+    configDB: "configReplSet/%{::zone}-mongoconfig-1-%{::env}-01:27019,%{::zone}-mongoconfig-2-%{::env}-01:27019,%{::zone}-mongoconfig-3-%{::env}-01:27019"
+    storage: false
+    sharding: 'configDB'
+  profile::mongo::tp::settings:
+    service_name: 'mongos'

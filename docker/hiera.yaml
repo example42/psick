@@ -1,0 +1,12 @@
+---
+:backends:
+  - yaml
+
+:hierarchy:
+  - "role/%{::role}"
+    #  - common
+
+:yaml:
+  :datadir: "../hieradata"
+
+

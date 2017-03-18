@@ -1,0 +1,24 @@
+---
+  profiles:
+    - profile::git
+    - profile::puppet::gems
+    - profile::puppet::pe_client_tools
+    - profile::ci::octocatalog
+    - profile::gitlab::runner
+    - profile::gitlab::cli
+    - profile::gitlab::ci
+    - docker
+
+  profile::ci::octocatalog::run_as_user: 'gitlab-runner'
+  profile::ci::octocatalog::template: 'profile/ci/octocatalog/octocatalog-diff.cfg.rb.erb'
+
+  profile::vagrant::plugins::default_plugins:
+    - vagrant-cachier
+    - vagrant-vbguest
+
+  # By default profile::gitlab::runner doesn NOT create the gitlab-runner repo
+  # Reason: Data is broken. Uncomment below to enable (currently broken) repo management
+  # profile::gitlab::runner::auto_repo: true
+
+  # To avoid management of a sudoers file for gitlab-runner
+  # profile::gitlab::runner::sudo_source: ''

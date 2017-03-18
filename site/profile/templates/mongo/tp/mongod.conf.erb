@@ -1,0 +1,52 @@
+# File managed by Puppet
+# mongod.conf
+
+# for documentation of all options, see:
+#   http://docs.mongodb.org/manual/reference/configuration-options/
+
+# where to write logging data.
+systemLog:
+  destination: file
+  logAppend: true
+  path: <%= @settings['log_file_path'] %>
+
+# Where and how to store data.
+storage:
+  dbPath: <%= @settings['data_dir_path'] %>
+  journal:
+    enabled: true
+#  engine:
+#  mmapv1:
+#  wiredTiger:
+
+# how the process runs
+processManagement:
+  fork: true  # fork and run in background
+  pidFilePath: <%= @settings['pid_file_path'] %>
+
+# network interfaces
+net:
+  port: <%= @settings['tcp_port'] %>
+  bindIp: <%= @options['bindIp'] %>
+
+
+<% if @options['keyFile'] != '' -%>
+security:
+  keyFile: <%= @options['keyFile'] %>
+<% end -%>
+
+#operationProfiling:
+
+<% if @options['replSetName'] != '' -%>
+replication:
+  replSetName: <%= @options['replSetName'] %>
+<% end -%>
+
+#sharding:
+
+## Enterprise-Only Options
+
+#auditLog:
+
+#snmp:
+

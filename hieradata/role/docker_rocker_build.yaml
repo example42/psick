@@ -1,0 +1,32 @@
+---
+profiles:
+  - '::docker::profile::builder'
+  - '::docker::profile::rocker_builder'
+
+docker::username: example42
+docker::install_class: ''
+docker::profile::builder::maintainer: 'Example42 GmbH <info@example42.com>'
+docker::profile::builder::workdir: '/var/tmp/dockerfiles'
+docker::profile::builder::always_build: true
+docker::profile::builder::push: false
+docker::profile::builder::images:
+  puppet-agent:
+    ensure: present
+    append_lines:
+      - 'RUN /vagrant-setup_papply.sh'
+    conf_hash:
+      puppet-agent::setup:
+        path: /vagrant-setup_papply.sh
+        template: 'docker/setup_papply.sh'
+        mode: '0755'
+        group: 'wheel'      
+
+docker::profile::rocker_builder::maintainer: 'Example42 GmbH <info@example42.com>'
+docker::profile::rocker_builder::workdir: '/var/tmp/rockerfiles'
+docker::profile::rocker_builder::always_build: true
+docker::profile::rocker_builder::push: false
+docker::profile::rocker_builder::images:
+  tpweb:
+    ensure: present
+    puppet_facts:
+      role: tpweb

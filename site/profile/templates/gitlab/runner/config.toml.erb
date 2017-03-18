@@ -1,0 +1,11 @@
+# File Managed by Puppet
+concurrent = 1
+check_interval = 0
+
+[[runners]]
+  name = "<%= @options['runner_name'] %>"
+  url = "<%= @options['url'] %>"
+  token = "<%= @options['token'] %>"
+  executor = "<%= @options['executor'] %>"
+  [runners.cache]
+

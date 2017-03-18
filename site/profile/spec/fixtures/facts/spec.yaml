@@ -1,0 +1,54 @@
+networking:
+  dhcp: 10.0.2.2
+  domain: lan
+  fqdn: puppet.lan
+  hostname: puppet
+  interfaces:
+    docker0:
+      bindings:
+        - address: 172.17.0.1
+          netmask: 255.255.0.0
+          network: 172.17.0.0
+      ip: 172.17.0.1
+      mac: "02:42:8e:da:27:96"
+      mtu: 1500
+      netmask: 255.255.0.0
+      network: 172.17.0.0
+    eth0:
+      bindings:
+        - address: 10.0.2.15
+          netmask: 255.255.255.0
+          network: 10.0.2.0
+      dhcp: 10.0.2.2
+      ip: 10.0.2.15
+      mac: "52:54:00:22:5b:53"
+      mtu: 1500
+      netmask: 255.255.255.0
+      network: 10.0.2.0
+    eth1:
+      bindings:
+        - address: 10.42.42.101
+          netmask: 255.255.255.0
+          network: 10.42.42.0
+      ip: 10.42.42.101
+      mac: "08:00:27:e4:c8:bd"
+      mtu: 1500
+      netmask: 255.255.255.0
+      network: 10.42.42.0
+    lo:
+      bindings:
+        - address: 127.0.0.1
+          netmask: 255.0.0.0
+          network: 127.0.0.0
+      ip: 127.0.0.1
+      mtu: 65536
+      netmask: 255.0.0.0
+      network: 127.0.0.0
+  ip: 10.0.2.15
+  mac: "52:54:00:22:5b:53"
+  mtu: 1500
+  netmask: 255.255.255.0
+  network: 10.0.2.0
+  primary: eth0
+
+

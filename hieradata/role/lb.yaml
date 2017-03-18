@@ -1,0 +1,4 @@
+---
+ profiles:
+   - profile::lb::keepalived
+

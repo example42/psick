@@ -1,0 +1,79 @@
+---
+# Noop mode. Uncomment to enable nood mode globally
+#  noop_mode: true
+
+# Default tp behaviour
+  tp::test_enable: true
+  tp::puppi_enable: false
+  tp::debug: false
+
+# Default module to use for tp data:
+  tp::data_module: tinydata
+
+# Base profile settings
+  profile::base::linux::pre_class: '::profile::repo::generic'
+#  profile::base::linux::network_class: '::profile::network' # Requires: example42-network
+  profile::base::linux::mail_class: '::profile::mail::postfix'
+  profile::base::linux::puppet_class: '::puppet'
+  profile::base::linux::ssh_class: '::profile::ssh::openssh'
+  profile::base::linux::users_class: '::profile::users::static'
+  profile::base::linux::sudo_class: '::profile::sudo'
+  profile::base::linux::monitor_class: '::profile::monitor'
+  profile::base::linux::firewall_class: ''
+  profile::base::linux::logs_class: '::profile::logs::rsyslog'
+  profile::base::linux::backup_class: ''
+  profile::base::linux::time_class: '::profile::time::ntpdate'
+  profile::base::linux::timezone_class: '::profile::timezone'
+  profile::base::linux::sysctl_class: '::profile::sysctl'
+  profile::base::linux::dns_class: '::profile::dns::resolver'
+  profile::base::linux::hardening_class: ''
+  profile::base::linux::limits_class: ''
+  profile::base::linux::hostname_class: '::profile::hostname'
+#  profile::base::linux::hosts_class: '::profile::hosts::file'
+  profile::base::linux::update_class: '::profile::update'
+  profile::base::linux::motd_class: '::profile::motd'
+  profile::base::linux::profile_class: '::profile::profile'
+
+# Repo settings
+  profile::repo::generic::add_defaults: true
+
+# Time settings
+  profile::time::ntpdate::crontab: '0 * * * *'
+  profile::time::ntpdate::ntp_server: 'pool.ntp.org'
+
+# Timezone settings
+  profile::settings::timezone: 'Europe/Berlin'
+
+# Sample monitor settings
+#  profile::monitor::nrpe_class: '::profile::monitor::nrpe'
+#  profile::monitor::icinga_class: '::profile::icinga2'
+#  profile::monitor::nagiosplugins_class: '::profile::monitor::nagiosplugins'
+  profile::monitor::systat_class: '::profile::monitor::sar'
+
+
+# Sample ansible settings
+#  ansible::install_class: tp
+#  ansible::auto_conf: true
+
+# Sample user settings
+#  profile::users::static::rootpw: hash_as_in_etc_shadow
+#  profile::users::static::delete_unmanaged: false
+#  profile::users::static::managed_users:
+#    al:
+#      sshkey_content:
+#        key: AAAAB3NzaC1yc2E....
+#        type: ssh-rsa
+#        comment: al@macante.local
+
+# Sample sudo settings
+# profile::sudo::admins:
+#   - al
+# profile::sudo::sudoers_template: 'profile/sudo/sudoers.erb'
+
+# Sample sysctl settings
+  profile::sysctl::settings:
+    net.ipv4.conf.all.forwarding: 0
+
+# AWS region
+  profile::aws::region: eu-central-1
+
