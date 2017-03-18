@@ -26,8 +26,8 @@ Components can be:
 
 Download this repository:
 
-    git clone https://github.com/example42/control-repo
-    cd control-repo
+    git clone https://github.com/example42/psick
+    cd psick
     ./psick create
 
 The psick command allows you to create a new control-repo and populate it either with a bare

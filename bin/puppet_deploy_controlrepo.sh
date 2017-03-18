@@ -13,7 +13,7 @@ puppet resource package hiera-eyaml ensure=present provider=gem
 puppet resource package r10k ensure=present provider=gem
 
 mkdir -p /etc/puppetlabs/code/environments/
-git clone git://github.com/example42/control-repo.git /etc/puppetlabs/code/environments/$environment
+git clone git://github.com/example42/psick.git /etc/puppetlabs/code/environments/$environment
 cd /etc/puppetlabs/code/environments/$environment
 r10k puppetfile install -v
 

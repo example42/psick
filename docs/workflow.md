@@ -24,24 +24,24 @@ You can follow alternative approaches on how to play or work with this control r
 
 The quickest way to start to play around:
 
-    git clone https://github.com/example42/control-repo
-    cd control-repo
+    git clone https://github.com/example42/psick
+    cd psick
     bin/setup.sh
 
 #### Forking example42's control repo
 
-You can [fork](https://help.github.com/articles/fork-a-repo/) example42 [control-repo](https://github.com/example42/control-repo) on GitHub and then work on your fork as origin and add example42 repo as upstream, in order to ease (always welcomed) Pull Requests for issues of features:
+You can [fork](https://help.github.com/articles/fork-a-repo/) example42 [control-repo](https://github.com/example42/psick) on GitHub and then work on your fork as origin and add example42 repo as upstream, in order to ease (always welcomed) Pull Requests for issues of features:
 
     git clone https://github.com/<yourname>/control-repo
-    cd control-repo
-    git remote add upstream https://github.com/example42/control-repo
+    cd psick
+    git remote add upstream https://github.com/example42/psick
 
 #### Starting from scratch
 
 If you want to start a git repo from scratch, wiping out the history (and the ability to easily merge back) of example42 control-repo, you can:
 
-    git clone https://github.com/example42/control-repo
-    cd control-repo
+    git clone https://github.com/example42/psick
+    cd psick
     fab git.setup_new_repo
 
 You will be asked the name of the directory where to create the new git repository. It's placed on the same parent dir of the original control-repo.
@@ -54,7 +54,7 @@ Once done, you can move into the new directory, with only a branch, called **pro
 
 Select the files to keep or remove, then commit them all
 
-    git commit -a -m "Repo based on https://github.com/example42/control-repo"
+    git commit -a -m "Repo based on https://github.com/example42/psick"
 
 Now you can set the origin push your repo to an empty existing repo you have created on GitHub/Bitbucket/GitLab/... :
 
