@@ -1,4 +1,5 @@
 <img align="right" src="html/images/PSICK-logo-200x200.png" />
+<a href="https://twitter.com/psickio" class="twitter-follow-button" data-show-count="false">Follow @psickio</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 ## PSICK
 ## Puppet Systems Infrastructure Construction Kit
@@ -8,7 +9,7 @@ A **Puppet control-repo generator** on steroids, featuring:
   - A modern, opinionated, general purpose, full featured, reusable control-repo
   - Multiple ways to test local Puppet code (on Docker, Vagrant or directly remote hosts)
   - Gitlab CI pipeline to control Puppet code deployment
-  - Usable in any puppet setup, based on Puppet OSS, PE, Foreman...
+  - Usable in any Puppet setup, based on Puppet OSS, PE, Foreman...
   - Ready to use profiles for system baselines and common applications
   - Toolset to create and maintain a new control-repo based on PSICK
 

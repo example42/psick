@@ -14,8 +14,8 @@ diff_commits_number=$(git log production..$1 --pretty=oneline | wc -l)
 echo "Checking for files in the last $diff_commits_number commits"
 for changedfile in $(git diff HEAD~$diff_commits_number --name-only); do
   node=''
-  if [[ $(echo "$changedfile" | grep -q 'hieradata/hostname'; echo $?) -eq 0 ]]; then
-    node=$(echo $changedfile | sed -e "s/^hieradata\/hostname\///" -e "s/\.yaml//")
+  if [[ $(echo "$changedfile" | grep -q 'hieradata/nodes'; echo $?) -eq 0 ]]; then
+    node=$(echo $changedfile | sed -e "s/^hieradata\/nodes\///" -e "s/\.yaml//")
     nodes=$nodes+1
   fi
 
