@@ -75,10 +75,11 @@ def current_config():
   sudo( 'cat $(puppet config print lastrunfile) | grep "config: " | cut -d ":" -f 2- ' )
 
 @task
-def deploy_controlrepo():
+def deploy_controlrepo(puppet_env='production'):
   """[remote] Deploy this control repo on a node (Puppet has to be already installed)"""
+  put( "bin/functions","/var/tmp/functions",mode=755 )
   put( "bin/puppet_deploy_controlrepo.sh","/var/tmp/puppet_deploy_controlrepo.sh",mode=755 )
-  sudo ( "/var/tmp/puppet_deploy_controlrepo.sh" )
+  sudo ( "/var/tmp/puppet_deploy_controlrepo.sh " + str(puppet_env) )
 
 @task
 def install(os=''):
