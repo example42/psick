@@ -25,21 +25,21 @@ Here you can see a multi VM ```Vagrantfile``` and its ```config.yaml``` file.
 
 This configuration file provides a quite flexible way to customise the nodes you want to see with your ```vagrant status``` (*Only this feature would deserve a dedicated Project*). Read below for more details on how to customise it.
 
-Basic vagrant commands (here used a sample VM called centos7.devel):
+Basic vagrant commands (here used a sample VM called centos7.ostest.psick.io):
 
     cd vagrant/environments/ostest
     vagrant status
-    vagrant up centos7.devel
+    vagrant up centos7.ostest.psick.io
 
 If you change your Puppet manifests or data in the control-repo you can immediately test their effect:
 
 To provision Puppet using your current local copy of the control-repo:
 
-    vagrant provision centos7.devel
+    vagrant provision centos7.ostest.psick.io
 
 To do the same from the local vm:
 
-    vagrant ssh centos7.devel
+    vagrant ssh centos7.ostest.psick.io
     vm $ sudo su -
     vm # /etc/puppetlabs/code/environments/production/bin/papply.sh
 
@@ -70,17 +70,17 @@ Run vagrant provision on all the running vm of a Vagrant environment:
 
 Run vagrant up on the given vm (the following 2 commands are equivalent):
 
-    fab vagrant.up:vm=centos7.devel
-    fab vagrant.up:centos7.devel
+    fab vagrant.up:vm=centos7.ostest.psick.io
+    fab vagrant.up:centos7.ostest.psick.io
 
 Run, respectively, vagrant provision, reload, halt, suspend, resume, destroy on a given vm:
 
-    fab vagrant.provision:centos7.devel
-    fab vagrant.reload:centos7.devel
-    fab vagrant.halt:centos7.devel
-    fab vagrant.suspend:centos7.devel
-    fab vagrant.resume:centos7.devel
-    fab vagrant.destroy:centos7.devel
+    fab vagrant.provision:centos7.ostest.psick.io
+    fab vagrant.reload:centos7.ostest.psick.io
+    fab vagrant.halt:centos7.ostest.psick.io
+    fab vagrant.suspend:centos7.ostest.psick.io
+    fab vagrant.resume:centos7.ostest.psick.io
+    fab vagrant.destroy:centos7.ostest.psick.io
 
 
 ## Customisations
@@ -112,9 +112,9 @@ You can set the general settings valid for all the VM:
 Manage general network settings:
 
     network:
-      range: 10.42.43.0/24   # The network to use for VMs internal lan
+      range: 10.42.45.0/24   # The network to use for VMs internal lan
       ip_start_offset: 101   # The starting IP in the above range (if an ip_address is not explicitly set for a VM)
-      domain: devel          # The DNS domain of your VMs
+      domain: ostest.psick.io  # The DNS domain of your VMs
 
 Manage Puppet related settings:
 
