@@ -63,7 +63,8 @@ class profile::network (
   }
 
   if $::osfamily == 'RedHat'
-  and $network_template != '' {
+  and $network_template != ''
+  and $::profile::base::linux::hostname_class: != '' {
     file { '/etc/sysconfig/network':
       ensure  => 'present',
       content => template($network_template),
