@@ -30,9 +30,9 @@ def sync_and_apply(role='UNDEFINED',proxy='UNDEFINED',options='',fqdn='UNDEFINED
     sshoptions = ""
   else:
     sshoptions = "-o \"ProxyCommand ssh -A -x -W %h:%p " + proxy + "\""
-  rsync_project(extra_opts='--delete', ssh_opts='' + str(sshoptions) + '',local_dir='.', remote_dir='/home/' + env.user + '/puppet-controlrepo', exclude='.git .pe_build .vagrant')
-  sudo( 'rm /etc/puppetlabs/code/environments/fabric_test && ln -sf /home/' + env.user + '/puppet-controlrepo/ /etc/puppetlabs/code/environments/fabric_test')
-  sudo( 'ln -sf /home/' + env.user + '/puppet-controlrepo /home/' + env.user + '/puppet-controlrepo/fabric_test')
+  run( 'mkdir /home/' + env.user + '/puppet-environments')
+  rsync_project(extra_opts='--delete', ssh_opts='' + str(sshoptions) + '',local_dir='.', remote_dir='/home/' + env.user + '/puppet-environments/fabric_test', exclude=['.git','.pe_build','.vagrant'])
+  sudo( 'ln -sf /home/' + env.user + '/puppet-environments/fabric_test /etc/puppetlabs/code/environments/fabric_test')
   if role == "UNDEFINED":
     exportrole = "true"
   else:
