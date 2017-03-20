@@ -1,4 +1,5 @@
 <img align="right" src="html/images/PSICK-logo-200x200.png" />
+<a href="https://twitter.com/psickio" class="twitter-follow-button" data-show-count="false">Follow @psickio</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 ## PSICK
 ## Puppet Systems Infrastructure Construction Kit
