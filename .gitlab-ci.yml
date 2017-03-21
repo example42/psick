@@ -9,6 +9,7 @@ stages:
   - version_check
   - specs
   - diffs
+  - sitedoc
   - integration
   - live_runs
   - merge_request
@@ -282,4 +283,19 @@ test_post_run_on_production:
     - production
   allow_failure: true # TOREMOVE when fixed
 
+docs_generation:
+  stage: sitedoc
+  script:
+    - rm -rf doc public .yardoc
+    - puppet strings generate site/**/manifests/**/*.pp site/**/functions/**/*.pp manifests/*.pp
+    - mv doc public
+  tags:
+    - deploy_puppet
+  artifacts:
+    paths:
+    - public
+    expire_in: '30 day'
+  only:
+    - development
+# Switch to production after tests
 
