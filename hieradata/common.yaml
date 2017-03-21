@@ -1,6 +1,6 @@
 ---
 # Noop mode. Uncomment to enable nood mode globally
-#  noop_mode: true
+# noop_mode: true
 
 # Default tp behaviour
   tp::test_enable: true

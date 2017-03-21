@@ -40,6 +40,7 @@ class profile::base::linux (
 ) {
 
   if $enable {
+    contain ::tools
     contain ::profile::settings
     contain $pre_class
     Class['::profile::settings'] -> Class[$pre_class]
