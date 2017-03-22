@@ -2,7 +2,7 @@
 
 Here follows a list of useful Fabric tasks for git.
 
-Install useful git hooks for Puppet files checking. By default downloaded from (https://github.com/drwahl/puppet-git-hooks)[https://github.com/drwahl/puppet-git-hooks]:
+Install useful git hooks for Puppet files checking. By default downloaded from [https://github.com/drwahl/puppet-git-hooks](https://github.com/drwahl/puppet-git-hooks):
 
     fab git.install_hooks
 
