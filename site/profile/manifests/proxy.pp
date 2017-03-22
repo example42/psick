@@ -56,8 +56,8 @@ class profile::proxy (
   }
   if $configure_system and $proxy_server != {} {
     tools::profile::script { 'proxy':
-      ensure   => $ensure,
-      content  => epp('profile/proxy/proxy.sh.epp'),
+      ensure  => $ensure,
+      content => epp('profile/proxy/proxy.sh.epp'),
       # Template has to be evaluated here: it uses local scope vars
     }
   }

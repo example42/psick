@@ -43,7 +43,7 @@ class profile::base::linux (
     contain ::tools
     contain ::profile::settings
     contain $pre_class
-    Class['::tools'] -> Class['::profile::settings'] -> Class[$pre_class] 
+    Class['::tools'] -> Class['::profile::settings'] -> Class[$pre_class]
   }
 
   if $network_class != '' and $enable {
