@@ -7,12 +7,12 @@ define tools::puppet::module (
 
   $split_title = split($modulename,'-')
   $creates = $user ? {
-    'root'  => "/etc/puppetlabs/code/modules/$split_title[1]",
-    default => "/home/%{user}/.puppetlabs/etc/code/modules/$split_title[1]",
+    'root'  => "/etc/puppetlabs/code/modules/${split_title}[1]",
+    default => "/home/%{user}/.puppetlabs/etc/code/modules/${split_title}[1]",
   }
   exec { "puppet module install ${modulename}":
-    command     => "puppet module install ${modulename} ${arguments}",
-    user        => $user,
-    creates     => $creates,
+    command => "puppet module install ${modulename} ${arguments}",
+    user    => $user,
+    creates => $creates,
   }
 }
