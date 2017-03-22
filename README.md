@@ -92,7 +92,7 @@ For more information on specific topics:
 
   - [Trusted Facts](docs/trusted_facts.md) - How to set and use trusted facts in this control-repo
 
-  - [Hiera eyaml](bin/hiera_eyaml.md) - An overview on how to use hiera-eyaml
+  - [Hiera eyaml](docs/hiera_eyaml.md) - An overview on how to use hiera-eyaml
 
   - [Git tasks](docs/git.md) - A review of Git tasks available with Fabric
 
