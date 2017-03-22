@@ -6,19 +6,30 @@
 #                           address. The resulting variable, used in other
 #                           profiles is profile::settings::primary_ip
 # @param mgmt_interface # The management interface of the server.
+# @param timezone The timezone to set on the system
+# @param proxy_server An hash describing the proxy server to user. This data is
+#                     used by profile::proxy and any other class which needs
+#                     proxy information
+#
+# @example Sample data for proxy server hash
+# profile::settings::proxy_server:
+#   host: proxy.example.com
+#   port: 3128
+#   user: john    # Optional
+#   password: xxx # Optional
+#   no_proxy:
+#     - localhost
+#     - "%{::domain}"
+#   scheme: http
 #
 class profile::settings (
-  Boolean $is_cluster           = false,
-  String  $primary_ip_address   = '',
-  String  $mgmt_interface       = $facts['networking']['primary'],
+  Boolean $is_cluster,
+  String  $primary_ip_address,
+  String  $mgmt_interface,
 
-  Optional[String] $timezone    = undef,
+  Optional[String] $timezone,
 
-  Optional[String] $https_proxy = undef,
-  Optional[String] $http_proxy  = undef,
-  Optional[String] $ftp_proxy   = undef,
-  Optional[String] $rsync_proxy = undef,
-  Optional[String] $no_proxy    = undef,
+  Optional[Hash] $proxy_server,
 ) {
 
   $primary_ip = $primary_ip_address ? {

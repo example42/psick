@@ -57,6 +57,34 @@ This profile class is the only one included by default on the base profiles, so 
 
     profile::base::linux::pre_class: '::profile::pre'
 
+## ::profile::proxy - Proxy Management
+
+If your servers need a proxy to access the Internet you can include the ```profile::proxy``` class directly in:
+
+    profile::pre::proxy_class: 'profile::proxy'
+
+Proxy settings can be passed either to the global ```profile::settings``` class or directly in ```profile::proxy```. The ```proxy_server``` parameter is an Hash to be defines with:
+
+    profile::settings::proxy_server:
+      host: proxy.example.com
+      port: 3128
+      user: john    # Optional
+      password: xxx # Optional
+      no_proxy:
+        - localhost
+        - "%{::domain}"
+        - "%{::fqdn}"
+      scheme: http
+
+You can customise the components for which proxy should be configured, here are the default params:
+
+    profile::proxy::ensure: present
+    profile::proxy::configure_gem: true
+    profile::proxy::configure_puppet_gem: true
+    profile::proxy::configure_pip: true
+    profile::proxy::configure_system: true
+    profile::proxy::configure_repo: true
+
 
 ## ::profile::mail::postfix - Postfix management
 

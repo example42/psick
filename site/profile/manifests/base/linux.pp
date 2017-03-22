@@ -13,7 +13,7 @@ class profile::base::linux (
   # General switch. If false nothing is done.
   Boolean $enable           = true,
 
-  String $pre_class         = '::profile::repo::generic',
+  String $pre_class         = '::profile::pre',
 
   String $network_class     = '',
   String $mail_class        = '',
@@ -43,7 +43,7 @@ class profile::base::linux (
     contain ::tools
     contain ::profile::settings
     contain $pre_class
-    Class['::profile::settings'] -> Class[$pre_class]
+    Class['::tools'] -> Class['::profile::settings'] -> Class[$pre_class] 
   }
 
   if $network_class != '' and $enable {

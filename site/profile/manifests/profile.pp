@@ -9,7 +9,6 @@ class profile::profile (
   Hash $options     = {},
 
   Boolean $add_tz_optimisation = true,
-  Boolean $add_proxy_settings  = true,
 ) {
 
   if $template != '' {
@@ -20,9 +19,5 @@ class profile::profile (
   file { '/etc/profile.d/tz.sh':
     ensure  => bool2ensure($add_tz_optimisation),
     content => template('profile/profile/tz.sh.erb'),
-  }
-  file { '/etc/profile.d/proxy.sh':
-    ensure  => bool2ensure($add_proxy_settings),
-    content => template('profile/profile/proxy.sh.erb'),
   }
 }

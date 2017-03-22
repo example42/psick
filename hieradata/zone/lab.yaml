@@ -1,6 +1,6 @@
 ---
 # With few nodes automatic hosts sync may make sense
-  profile::base::linux::hosts_class: '::profile::hosts::dynamic'
+#  profile::base::linux::hosts_class: '::profile::hosts::dynamic'
   profile::hosts::dynamic::dynamic_magicvar: 'zone'
   profile::hosts::dynamic::extra_hosts:
     'puppet.lab.psick.io':
