@@ -1070,9 +1070,9 @@ nginx['ssl_certificate_key'] = "<%= @options['nginx_ssl_certificate_key'] %>"
 ################
 
 ## Define to enable GitLab Pages
-# pages_external_url "http://pages.example.com/"
+pages_external_url "http://pages.<%= @domain %>/"
 
-# gitlab_pages['enable'] = false
+gitlab_pages['enable'] = true
 # gitlab_pages['external_http'] = nil # Configure to expose GitLab Pages on external IP address, serving the HTTP
 # gitlab_pages['external_https'] = nil # Configure to expose GitLab Pages on external IP address, serving the HTTPS
 # gitlab_pages['listen_proxy'] = "localhost:8090"
@@ -1085,7 +1085,7 @@ nginx['ssl_certificate_key'] = "<%= @options['nginx_ssl_certificate_key'] %>"
 # GitLab Pages NGINX #
 ######################
 
-# pages_nginx['enable'] = false
+pages_nginx['enable'] = true
 # pages_nginx['redirect_http_to_https'] = false
 # pages_nginx['redirect_http_to_https_port'] = 80
 # pages_nginx['ssl_certificate'] = "/etc/gitlab/ssl/#{node['fqdn']}.crt"
