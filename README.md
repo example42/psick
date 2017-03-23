@@ -75,17 +75,17 @@ For unattended setups (typically in CI pipelines) you can skip confirmation requ
 
 PSICK has the common set of files and directories of a Puppet control-repo:
 
-  -  ```environment.conf``` - The Puppet environment configuration file
+  - ```environment.conf``` - The Puppet environment configuration file
 
-  -  ```manifests/``` - Directory with the main manifests. Here we have just ```site.pp```
+  - ```manifests/``` - Directory with the main manifests. Here we have just ```site.pp```
 
-  -  ```Puppetfile```` - File that defines the external modules to add via r10k
+  - ```Puppetfile```` - File that defines the external modules to add via r10k
 
-  -  ```modules/``` - Directory where modules defined in Puppetfile are placed (it's .gitignored)
+  - ```modules/``` - Directory where modules defined in Puppetfile are placed (it's .gitignored)
 
-  -  ```hiera.yaml``` - Hiera 5 environment configuration file. An equivalent Hiera 3 file is ```hiera3.yaml``` (was linked to ```/etc/puppetlabs/puppet/hiera.yaml```)   
+  - ```hiera.yaml``` - Hiera 5 environment configuration file. An equivalent Hiera 3 file is ```hiera3.yaml``` (was linked to ```/etc/puppetlabs/puppet/hiera.yaml```)   
 
-  -  ```hieradata/``` - Directory where Hiera data is stored, in Yaml files.
+  - ```hieradata/``` - Directory where Hiera data is stored, in Yaml files.
 
 Some extra directories are added in PSICK for integrations and tools:
 
