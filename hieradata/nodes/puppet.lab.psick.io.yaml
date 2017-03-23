@@ -53,7 +53,7 @@
   profile::gitlab::runner::runners:
     deploy_puppet:
       url: 'https://git.lab.psick.io'
-      token: 'LZKGDP8bAy8mTUiU88vD' # Private token of a GitLab user TO CHANGE AT EVERY INSTALLATION
+      token: 'WKkjkbbsyhFB-FFMosKe' # CI Runner token TO CHANGE AT EVERY INSTALLATION
       tag_list: 'deploy_puppet'
       tls_ca_file: '/etc/puppetlabs/puppet/ssl/certs/ca.pem'
 

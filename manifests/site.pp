@@ -84,7 +84,28 @@ if versioncmp($::puppetversion, '4.0.0') >= 0 {
 
   # With multi kernel clients better include dedicated base profiles.
   $kernel_down=downcase($::kernel)
+
+  # The tools module provides functions, types, providers, defines.
+  # We include here the dummy, empty, main class.
+  contain '::tools'
+
+  # Profile::settings does not provide resources.
+  # It's esclusively used to set variables (Hiera driven) available to
+  # all profile classes
+  contain '::profile::settings'
+
+  # This class is evaluated first and must always be present
+  # Should contain the minimal prerequisites for the base setup
+  contain '::profile::pre'
+
+  # General baseline classes are distinct for each OS kernel
   contain "::profile::base::${kernel_down}"
+
+  # Class ordering
+  Class['::tools'] ->
+  Class['::profile::settings'] ->
+  Class['::profile::pre'] ->
+  Class["::profile::base::${kernel_down}"]
 
   # Classification option 1 - Profiles defined in Hiera
   lookup('profiles', Array[String], 'unique', [] ).contain

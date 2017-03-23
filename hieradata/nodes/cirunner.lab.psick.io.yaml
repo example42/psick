@@ -43,7 +43,7 @@
   profile::gitlab::runner::runners:
     test_puppet:
       url: 'https://git.lab.psick.io'
-      token: 'LZKGDP8bAy8mTUiU88vD' # TO CHANGE AT EVERY GITLAB INSTALLATION
+      token: 'WKkjkbbsyhFB-FFMosKe' # TO CHANGE AT EVERY GITLAB INSTALLATION
       tag_list: 'test_puppet'
       tls_ca_file: '/etc/puppetlabs/puppet/ssl/certs/ca.pem'
 

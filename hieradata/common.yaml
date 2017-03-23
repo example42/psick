@@ -11,7 +11,6 @@
   tp::data_module: tinydata
 
 # Base profile settings
-  profile::base::linux::pre_class: '::profile::pre'
 #  profile::base::linux::network_class: '::profile::network' # Requires: example42-network
   profile::base::linux::mail_class: '::profile::mail::postfix'
   profile::base::linux::puppet_class: '::puppet'
