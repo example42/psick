@@ -57,6 +57,9 @@ build-iPhoneSimulator/
 /rdoc/
 .yardwarns
 
+# Gitlab pages
+public/
+
 ## Environment normalization:
 /.bundle/
 /vendor/bundle
