@@ -283,7 +283,7 @@ test_post_run_on_production:
     - production
   allow_failure: true # TOREMOVE when fixed
 
-docs_generation:
+pages:
   stage: sitedoc
   script:
     - rm -rf doc public .yardoc
