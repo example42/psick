@@ -6,6 +6,7 @@
     - profile::puppet::pe_code_manager
     - profile::gitlab::runner
     - profile::ci::octocatalog
+    - profile::puppet::gems
 
   puppet_enterprise::profile::puppetdb::whitelisted_certnames:
     - cirunner.lab.psick.io
@@ -22,8 +23,15 @@
   # setup code_manager to update classes in the console after environment code deployment 
   puppet_enterprise::master::code_manager::post_environment_hooks: 
     - url: 'https://puppet.lab.psick.io:4433/classifier-api/v1/update-classes'    
-      use-client-ssl: true 
+      use-client-ssl: true
 
+  # Gems needed
+  profile::puppet::gems::install_gems:
+    - r10k
+    - deep_merge
+    - hiera-eyaml
+    - yard
+    - puppet-strings
 
   # Code manager
   profile::puppet::pe_code_manager::pe_user: 'deployer'       # A user you've created on PE

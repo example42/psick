@@ -45,6 +45,9 @@ mod "trlinkin/noop", :latest
 mod "puppetlabs/catalog_preview", :latest
 mod "puppet/archive", :latest
 mod "puppetlabs/image_build", :latest
+mod'puppetlabs-inifile',
+  :git => 'https://github.com/puppetlabs/puppet-inifile'
+
 
 # Docker and Containers
 mod "puppetlabs/dummy_service", :latest

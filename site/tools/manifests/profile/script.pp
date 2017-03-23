@@ -3,26 +3,31 @@
 # This define creates a single script in /etc/profile.d
 #
 define tools::profile::script (
-  Integer $priority  = '10',
-  Boolean $autoexec  = false,
-  String $source     = '',
-  String $content    = '',
-  String $template   = '',
-  String $epp        = '',
-  String $config_dir = '/etc/profile.d',
-  String $owner      = 'root',
-  String $group      = 'root',
-  String $mode       = '0755' ) {
+  Enum['present','absent'] $ensure = 'present',
+  Boolean $autoexec                = false,
+  String $source                   = '',
+  String $content                  = '',
+  String $template                 = '',
+  String $config_dir               = '/etc/profile.d',
+  String $owner                    = 'root',
+  String $group                    = 'root',
+  String $mode                     = '0755' ) {
 
   $safe_name = regsubst($name, '/', '_', 'G')
   $manage_file_source = $source ? {
     ''        => undef,
     default   => $source,
   }
-  $manage_file_content = tp_content($content, $template, $epp)
 
-  file { "profile_${priority}_${safe_name}":
-    path    => "${config_dir}/${priority}-${safe_name}.sh",
+  if !empty($content) {
+    $manage_file_content = $content
+  } elsif !empty($template) {
+    $manage_file_content = tools::template($template)
+  }
+
+  file { "profile_${safe_name}":
+    ensure  => $ensure,
+    path    => "${config_dir}/${safe_name}.sh",
     mode    => $mode,
     owner   => $owner,
     group   => $group,
@@ -30,11 +35,11 @@ define tools::profile::script (
     source  => $manage_file_source,
   }
 
-  if $autoexec {
-    exec { "profile_${priority}_${safe_name}":
-      command     => "sh ${config_dir}/${priority}-${safe_name}.sh",
+  if $autoexec and $ensure == 'present' {
+    exec { "profile_${safe_name}":
+      command     => "sh ${config_dir}/${safe_name}.sh",
       refreshonly => true,
-      subscribe   => File[ "profile_${priority}_${safe_name}" ],
+      subscribe   => File[ "profile_${safe_name}" ],
       path        => '/usr/bin:/bin:/usr/sbin:/sbin',
     }
   }

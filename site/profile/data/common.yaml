@@ -1,19 +1,64 @@
 ---
+# profile::backup::legato
+profile::backup::legato::packages: []
+
+# profile::firewall::iptables
 profile::firewall::iptables::package_name: 'iptables'
 profile::firewall::iptables::service_name: 'iptables'
 profile::firewall::iptables::config_file_path: '/etc/sysconfig/iptables'
 
-profile::backup::legato::packages: []
-
+# profile::hardening::packages
 profile::hardening::packages::packages_to_remove: []
 profile::hardening::packages::packages_default: []
 profile::hardening::services::services_to_remove: []
 profile::hardening::services::services_default: []
 
+# profile::hardware::hp
 profile::hardware::hp::packages: []
 
+# profile::monitor::ganglia
+profile::monitor::ganglia::packages: []
+
+# profile::monitor::snmpd
 profile::monitor::snmpd::extra_packages: []
 
+# profile::packages
 profile::packages::packages_default: []
 
-profile::monitor::ganglia::packages: []
+# profile::pre
+profile::pre::include_defaults: true
+profile::pre::rpmgpg_class: ''
+profile::pre::rhn_class: ''
+profile::pre::repo_class: ''
+profile::pre::proxy_class: ''
+
+# profile::proxy
+profile::proxy::ensure: present
+profile::proxy::configure_gem: true
+profile::proxy::configure_puppet_gem: true
+profile::proxy::configure_pip: true
+profile::proxy::configure_system: true
+profile::proxy::configure_repo: true
+profile::proxy::force: false
+# This is set as class param as here it fails since String is returned
+# profile::proxy::proxy_server: "%{lookup('::profile::settings::proxy_server')}"
+
+# profile::repo::generic
+profile::repo::generic::add_defaults: true
+profile::repo::generic::yum_resource: yumrepo     # As native resource type
+profile::repo::generic::apt_resource: apt::source # As in puppetlabs-apt
+profile::repo::generic::zypper_resource: zypprepo # As in darin-zypprepo
+        
+# profile::settings
+profile::settings::is_cluster: false
+profile::settings::primary_ip_address: ''
+profile::settings::mgmt_interface: "%{facts.networking.primary}"
+profile::settings::timezone: ~
+profile::settings::proxy_server: ~
+
+
+# Special lookup options
+lookup_options:
+  profile::settings::proxy_server:
+    merge:
+      strategy: deep

@@ -1,6 +1,6 @@
 {
   "name": "example42-profile",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Example42",
   "summary": "Profile module.",
   "license": "Apache-2.0",
@@ -9,7 +9,6 @@
   "dependencies": [
     { "name":"puppetlabs/stdlib","version_requirement":">= 4.0.0 < 5.0.0" }
   ],
-  "data_provider": "hiera",
   "operatingsystem_support": [
     {
       "operatingsystem": "RedHat",
@@ -55,8 +54,8 @@
   "requirements": [
     {
       "name": "puppet",
-      "version_requirement": ">= 4.5.0 < 5.0.0"
+      "version_requirement": ">= 4.5.0 < 6.0.0"
     }
   ],
-  "description": "Sample example42 profile module."
+  "description": "PSICK profile module."
 }

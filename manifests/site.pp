@@ -71,7 +71,7 @@ if $virtual == 'docker' {
 
 # A useful trick to manage noop mode via hiera using the key: noop_mode
 # This needs the trlinklin-noop module
-$noop_mode = hiera('noop_mode', false)
+$noop_mode = lookup('noop_mode', Boolean, 'first', false)
 if $noop_mode == true {
   noop()
 }
@@ -87,12 +87,7 @@ if versioncmp($::puppetversion, '4.0.0') >= 0 {
   contain "::profile::base::${kernel_down}"
 
   # Classification option 1 - Profiles defined in Hiera
-  $profiles = hiera_array('profiles',[])
-
-  $profiles.each | $p | {
-    contain $p
-    Class["${::profile::base::linux::pre_class}"] -> Class[$p]
-  }
+  lookup('profiles', Array[String], 'unique', [] ).contain
 
   # Classification option 2 - Classic roles and profiles classes:
   #  if $::role and $::role != '' {

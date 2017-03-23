@@ -3,10 +3,10 @@
 # are looked up via hiera_hash
 #
 class profile::repo::generic (
-  Boolean $add_defaults = false,
-  String $yum_resource = 'yumrepo',     # As native resource type
-  String $apt_resource = 'apt::source', # As in puppetlabs-apt
-  String $zypper_resource = 'zypprepo', # As in darin-zypprepo
+  Boolean $add_defaults,
+  String $yum_resource,
+  String $apt_resource,
+  String $zypper_resource,
 ) {
 
   # Default repos

@@ -1,26 +1,17 @@
 ---
-version: 4
-datadir: data
+version: 5
+
+defaults:
+  datadir: data
+  data_hash: yaml_data
+
 hierarchy:
-  - name: "Virtualization"
-    backend: yaml
-    path: "%{facts.virtual}"
+  - name: "In module hierarchy"
+    paths:
+      - "%{facts.virtual}.yaml"
+      - "%{facts.os.name}-%{facts.os.release.major}.yaml"
+      - "%{facts.os.name}.yaml"
+      - "%{facts.os.family}-%{facts.os.release.major}.yaml"
+      - "%{facts.os.family}.yaml"
+      - "common.yaml"
 
-  - name: "Operating System Major Version"
-    backend: yaml
-    path: "%{facts.os.name}-%{facts.os.release.major}"
-
-  - name: "Operating System"
-    backend: yaml
-    path: "%{facts.os.name}"
-
-  - name: "Operating System Family Major Version"
-    backend: yaml
-    path: "%{facts.os.family}-%{facts.os.release.major}"
-
-  - name: "Operating System Family"
-    backend: yaml
-    path: "%{facts.os.family}"
-
-  - name: "common"
-    backend: yaml
