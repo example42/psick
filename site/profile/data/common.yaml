@@ -28,6 +28,7 @@ profile::packages::packages_default: []
 # profile::pre
 profile::pre::include_defaults: true
 profile::pre::rpmgpg_class: ''
+profile::pre::rhn_class: ''
 profile::pre::repo_class: ''
 profile::pre::proxy_class: ''
 
@@ -42,6 +43,12 @@ profile::proxy::force: false
 # This is set as class param as here it fails since String is returned
 # profile::proxy::proxy_server: "%{lookup('::profile::settings::proxy_server')}"
 
+# profile::repo::generic
+profile::repo::generic::add_defaults: true
+profile::repo::generic::yum_resource: yumrepo     # As native resource type
+profile::repo::generic::apt_resource: apt::source # As in puppetlabs-apt
+profile::repo::generic::zypper_resource: zypprepo # As in darin-zypprepo
+        
 # profile::settings
 profile::settings::is_cluster: false
 profile::settings::primary_ip_address: ''

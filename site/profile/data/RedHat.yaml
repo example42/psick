@@ -12,6 +12,8 @@ profile::hardware::hp::packages:
   - 'hp-snmp-agents'
   - 'hp-smh-templates'
 
+profile::pre::repo_class: '::profile::repo::generic'
+
 profile::monitor::snmpd::extra_packages:
   - 'net-snmp-conf-dtnp'
   - 'net-snmp-utils'
