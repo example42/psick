@@ -10,9 +10,9 @@ A **Puppet control-repo generator** on steroids, featuring:
   - Gitlab CI pipeline to control Puppet code deployment
   - Usable in any Puppet setup, based on Puppet OSS, PE, Foreman...
   - Ready to use profiles for system baselines and common applications
-  - Toolset to create and maintain a new control-repo based on PSICK
+  - Toolset to create and maintain a new control-repo based on PSICK (WIP)
 
-PSICK is a Puppet control-repo itself, you can use ths repository directly in a Puppet environment,
+PSICK is a Puppet control-repo itself, you can use this repository directly in a Puppet environment,
 and basically have a full PSICK setup, or run the **psick** command to generate a new Puppet
 control-repo based on the components you need.
 
@@ -30,7 +30,7 @@ Download this repository:
     cd psick
     ./psick create
 
-The psick command allows you to create a new control-repo and populate it either with a bare
+The psick command currently it just allows you to create a new control-repo and populate it either with a bare
 minimal skeleton, or with the full PSICK contents.
 In the future it will provide the possibility to pick single components (integrations, profiles...),
 see how they diff compared to your own control-repo and eventually update them on your local contro-repo.
@@ -38,16 +38,17 @@ see how they diff compared to your own control-repo and eventually update them o
 Once you have created your control-repo you can start to work with it.
 If you have chosen to copy the full PSICK contents in your control repo, you can run the following commands
 from your own control-repo directory, otherwise run them from the PSICK directory.
-This applies to all the scripts and paths referenced in the docs.
+This applies to all the scripts and paths referenced in the docs, just be aware that some of the scripts in bin/
+and other integrations might not work correctly in a not full PSICK setup.
 
 
 ### Setup of a Puppet environment
 
-This control-repo requires Puppet 4, it's not already installed install it with:
+This control-repo requires Puppet 4, if it's not already installed, you can install it with this cross OS Puppet 4 install script (it the official Puppet repos):
 
     bin/puppet_install.sh
 
-Before starting to use it, you have to populate the ```modules/``` directory.
+Before starting to use it, you have to populate the ```modules/``` directory of the control-repo.
 
 To install the prequequisite gems (hiera-eyaml, deep_merge, r10k) and populate the external modules directory via r10k, you can run: 
 
@@ -68,6 +69,41 @@ NOTE: Scripts are mostly tested on Mac and Linux environments.
 For unattended setups (typically in CI pipelines) you can skip confirmation requests with:
 
     bin/setup.sh auto
+
+
+### Directory structure
+
+PSICK has the common set of files and directories of a Puppet control-repo:
+
+  - ```environment.conf``` - The Puppet environment configuration file
+
+  - ```manifests/``` - Directory with the main manifests. Here we have just ```site.pp```
+
+  - ```Puppetfile```` - File that defines the external modules to add via r10k
+
+  - ```modules/``` - Directory where modules defined in Puppetfile are placed (it's .gitignored)
+
+  - ```hiera.yaml``` - Hiera 5 environment configuration file. An equivalent Hiera 3 file is ```hiera3.yaml``` (was linked to ```/etc/puppetlabs/puppet/hiera.yaml```)   
+
+  - ```hieradata/``` - Directory where Hiera data is stored, in Yaml files.
+
+Some extra directories are added in PSICK for integrations and tools:
+
+  - ```bin/``` - Directory containing tools and scripts for various Puppet related operations
+
+  - ```docs/``` - Directory with extra docs
+
+  - ```site/``` - An additional modules directory, with local profiles and tools.
+
+  - ```docker/``` - Files used for building Docker images for multiple OS
+
+  - ```vagrant/``` - Various Vagrant environments where is possible to test local Puppet code
+
+  - ```fabfile/``` - Fabric integration and scripts
+
+  - ```skeleton/``` - A skeleton of a Puppet 4 module, to use with ```puppet module generate```
+
+  - ```.gitlab-ci.yaml``` - (Sample) GitLab Continuous Integration pipeline for code testing and deployment
 
 
 ### Documentation
