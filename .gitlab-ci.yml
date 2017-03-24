@@ -134,7 +134,7 @@ catalog_preview:
     paths:
     - modules/
   tags:
-    - deploy_puppet # We run this on Puppet Server to  compile catalogs
+    - deploy_puppet
   only:
     - development
   allow_failure: true
@@ -253,8 +253,10 @@ merge_accept_testing:
 run_puppet_on_testing:
   stage: live_runs
   before_script:
-    - "bin/puppet_job_run.sh testing"   # Trigger remote Puppet runs via puppet job
-#    - "bin/rundeck_job_run.sh testing" # Trigger remote Puppet runs via Rundeck
+    # Trigger remote Puppet runs via puppet job
+    - "bin/puppet_job_run.sh testing"
+    # Trigger remote Puppet runs via Rundeck
+#    - "bin/rundeck_job_run.sh testing"
   script:
     - "bin/puppetdb_env_query.sh testing"
   tags:
