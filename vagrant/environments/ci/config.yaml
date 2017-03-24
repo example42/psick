@@ -10,7 +10,7 @@ vm:
 network:
   range: 10.42.41.0/24
   ip_start_offset: 101
-  domain: ci.psick.io
+  domain: ci
 
 puppet:
   version: latest
@@ -26,20 +26,25 @@ nodes:
   - role: ci
     count: 1
     memory: 2048
-  - role: compilemaster
+  - role: citest
+    hostname_base: centos7
     count: 1
-    memory: 2048
-  - role: puppet_db
-    hostname_base: puppet-db
+  - role: citest
+    hostname_base: suse12
+    box: suse12
     count: 1
-  - role: puppet_mom
-    hostname_base: puppet-mom
+  - role: citest
+    hostname_base: ubuntu1604
+    box: ubuntu1604
     count: 1
-    memory: 4096
-    ip_address: 10.42.42.10
-    puppet_apply: true
-    aliases:
-      - puppet
+  - role: citest
+    hostname_base: debian8
+    box: debian8
+    count: 1
+  - role: citest
+    hostname_base: alpine3
+    box: alpine3
+    count: 1
 
 boxes:
   centos7:
@@ -60,4 +65,14 @@ boxes:
   debian8:
     box: puppetlabs/debian-8.2-64-puppet
     breed: puppetlabs-apt
-
+  alpine3:
+    box: maier/alpine-3.3.1-x86_64
+    breed: puppetlabs
+# Image available for suse12 has issues. To setup correctly:
+# vagrant up suse12
+# vagrant provision suse12
+# vagrant reload suse12
+# vagrant provision suse12
+  suse12:
+    box: suse/sles12sp1
+    breed: puppetlabs

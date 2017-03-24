@@ -17,28 +17,23 @@ stages:
   - rollout
   - postcheck
 
-
-after_script:
-  - "bin/gitlab_after.sh"
-
 # Version Deploy check for every branch with environment creation
 # It will try by default 6 times with 10 second between each try
 # so that Puppet has time to get the new version of the repository
 verify_code_deploy:
   stage: version_check
-  script:
-    - "bin/codemanager_check_deploy.sh ${CI_BUILD_REF_NAME}"
+  script: "bin/codemanager_check_deploy.sh ${CI_BUILD_REF_NAME}"
   tags:
     - deploy_puppet
   when: on_success
   allow_failure: true
   environment:
     name: ${CI_BUILD_REF_NAME}
-    url: https://puppetmaster.domain.name/
+    url: https://puppet.lab.psick.io/
 
 # Run Syntax Checks on Feature/Personal Branch
 # and Development branch:
-# All branches exluded production and testing
+# All branches excluded production and testing
 syntax:
   stage: checks
   before_script:
@@ -134,7 +129,7 @@ catalog_preview:
     paths:
     - modules/
   tags:
-    - deploy_puppet # We run this on Puppet Server to  compile catalogs
+    - deploy_puppet
   only:
     - development
   allow_failure: true
@@ -145,8 +140,7 @@ docker_test:
   stage: integration
   before_script:
     - "bin/gitlab_before.sh"
-  script:
-    - "bin/docker_run.sh --image centos-7"
+  script: "bin/docker_run.sh --image centos-7"
   cache:
     untracked: true
     paths:
@@ -162,12 +156,10 @@ vagrant_destroy:
   stage: integration
   before_script:
     - "bin/gitlab_before.sh"
-  script:
-    - "bin/vagrant_node_test.sh centos7ci.domain.com ci destroy"
+  script: "bin/vagrant_node_test.sh centos7.ci ci destroy"
   cache:
     untracked: true
     paths:
-      #    - vagrant/environments/gitlabci/.vagrant/
     - modules/
     - tests/
   allow_failure: true
@@ -186,11 +178,11 @@ vagrant_checks:
   before_script:
     - "bin/gitlab_before.sh"
   script:
-    - "bin/vagrant_node_test.sh centos7ci.domain.com ci setup"
-    - "bin/vagrant_node_test.sh centos7ci.domain.com ci drift"
+    - "bin/vagrant_node_test.sh centos7.ci ci setup"
+    - "bin/vagrant_node_test.sh centos7.ci ci drift"
   after_script:
     - "bin/gitlab_after.sh"
-    - "bin/vagrant_node_test.sh centos7ci.domain.com ci halt"
+    - "bin/vagrant_node_test.sh centos7.ci ci halt"
   cache:
     untracked: true
     paths:
@@ -222,8 +214,7 @@ tp_test:
 # Development to testing merge request creation
 merge_request_testing:
   stage: merge_request
-  script:
-    - "bin/gitlab_create_merge_request.rb development testing"
+  script: "bin/gitlab_create_merge_request.rb development testing"
   tags:
     - deploy_puppet
   only:
@@ -232,34 +223,22 @@ merge_request_testing:
 # Automatic Accept merge request from Development to testing 
 merge_accept_testing:
   stage: promote
-  script:
-    - "bin/gitlab_accept_merge_request.rb development testing"
-  tags:
-    - deploy_puppet
+  script: "bin/gitlab_accept_merge_request.rb development testing"
   only:
     - development
-
-# Remotely Run a job on rundeck server via the Rundeck cli.
-# This will need a rundeck cli, a Rundeck Server and a 
-# job on rundeck server that will the puppet agent
-rundeck_puppet_on_testing:
-  stage: live_runs
-  before_script:
-    - "bin/rundeck_job_run.sh testing"
-  script:
-    - "bin/puppetdb_env_query.sh testing"
   tags:
     - deploy_puppet
   when: on_success
-  only:
-    - testing
   allow_failure: true
 
 # On testing branch
 run_puppet_on_testing:
   stage: live_runs
   before_script:
+    # Trigger remote Puppet runs via puppet job
     - "bin/puppet_job_run.sh testing"
+    # Trigger remote Puppet runs via Rundeck
+#    - "bin/rundeck_job_run.sh testing"
   script:
     - "bin/puppetdb_env_query.sh testing"
   tags:
@@ -285,8 +264,7 @@ merge_request_production:
 
 merge_accept_production:
   stage: promote
-  script:
-    - "bin/gitlab_accept_merge_request.rb testing production"
+  script: "bin/gitlab_accept_merge_request.rb testing production"
   tags:
     - deploy_puppet
   when: manual
@@ -295,30 +273,12 @@ merge_accept_production:
   environment:
     name: production
 
-# Remotely Run a job on rundeck server via the Rundeck cli.
-# This will need a rundeck cli, a Rundeck Server and a 
-# job on rundeck server that will the puppet agent
-rundeck_run_on_production:
-  stage: live_runs
-  before_script:
-    - "bin/rundeck_job_run.sh production"
-  script:
-    - "bin/puppetdb_env_query.sh production"
-  tags:
-    - deploy_puppet
-  when: on_success
-  only:
-    - production
-  allow_failure: true # TOREMOVE when fixed
-
-
 # Production
 canary_run_on_production:
   stage: live_runs
   before_script:
     - "bin/puppet_job_run.sh production"
-  script:
-    - "bin/puppetdb_env_query.sh production"
+  script: "bin/puppetdb_env_query.sh production"
   tags:
     - deploy_puppet
   when: on_success
@@ -330,8 +290,7 @@ run_puppet_on_production:
   stage: rollout
   before_script:
     - "bin/puppet_job_run.sh production"
-  script:
-    - "bin/puppetdb_env_query.sh production"
+  script: "bin/puppetdb_env_query.sh production"
   tags:
     - deploy_puppet
   when: on_success
@@ -342,8 +301,7 @@ run_puppet_on_production:
 
 test_post_run_on_production:
   stage: postcheck
-  script:
-    - "bin/puppetdb_env_query.sh production"
+  script: "bin/puppetdb_env_query.sh production"
   tags:
     - deploy_puppet
   only:
@@ -354,7 +312,7 @@ pages:
   stage: sitedoc
   script:
     - rm -rf doc public .yardoc
-    - puppet strings generate site/**/manifests/*.pp site/**/manifests/**/*.pp site/**/functions/**/*.pp manifests/*.pp
+    - puppet strings generate site/**/manifests/*.pp site/**/manifests/**/*.pp site/**/manifests/**/**/*.pp site/**/functions/**/*.pp manifests/*.pp
     - mv doc public
   tags:
     - deploy_puppet

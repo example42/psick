@@ -19,8 +19,8 @@ diff_commits_number=$(git log origin/production..$env --pretty=oneline | wc -l)
 echo "Checking for files in the last $diff_commits_number commits"
 for changedfile in $(git diff origin/production..$env --name-only); do
   node=''
-  if [[ $(echo "$changedfile" | grep -q 'data/nodes'; echo $?) -eq 0 ]]; then
-    node=$(echo $changedfile | sed -e "s/^data\/nodes\///" -e "s/\.yaml//")
+  if [[ $(echo "$changedfile" | grep -q 'hieradata/nodes'; echo $?) -eq 0 ]]; then
+    node=$(echo $changedfile | sed -e "s/^hieradata\/nodes\///" -e "s/\.yaml//")
   fi
 
   if [[ "x$node" != "x" ]]; then
