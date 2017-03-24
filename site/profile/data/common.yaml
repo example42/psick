@@ -25,6 +25,17 @@ profile::base::linux::update_class: ''
 profile::base::linux::motd_class: ''
 profile::base::linux::profile_class: ''
 
+# profile::base::darwin
+profile::base::darwin::enable: true
+profile::base::darwin::network_class: ''
+profile::base::darwin::mail_class: ''
+profile::base::darwin::puppet_class: ''
+profile::base::darwin::users_class: ''
+profile::base::darwin::monitor_class: ''
+profile::base::darwin::firewall_class: ''
+profile::base::darwin::logs_class: ''
+profile::base::darwin::backup_class: ''
+
 # profile::base::solaris
 profile::base::solaris::enable: true
 profile::base::solaris::network_class: ''
@@ -35,6 +46,17 @@ profile::base::solaris::monitor_class: ''
 profile::base::solaris::firewall_class: ''
 profile::base::solaris::logs_class: ''
 profile::base::solaris::backup_class: ''
+
+# profile::base::windows
+profile::base::windows::enable: true
+profile::base::windows::network_class: ''
+profile::base::windows::mail_class: ''
+profile::base::windows::puppet_class: ''
+profile::base::windows::users_class: ''
+profile::base::windows::monitor_class: ''
+profile::base::windows::firewall_class: ''
+profile::base::windows::logs_class: ''
+profile::base::windows::backup_class: ''
 
 # profile::firewall::iptables
 profile::firewall::iptables::package_name: 'iptables'
