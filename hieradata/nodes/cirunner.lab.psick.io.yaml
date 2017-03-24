@@ -1,6 +1,5 @@
 ---
   profiles:
-    - profile::puppet::pe_code_manager
     - profile::puppet::gems
   
   # Explicit list of required gems for CI runners for puppet testing
@@ -23,15 +22,6 @@
     - simplecov-html
     - minitest
 #    - beaker # requires Ruby version >= 2.2.5
-
-  # Code manager
-  profile::puppet::pe_code_manager::pe_user: 'deployer'
-  profile::puppet::pe_code_manager::pe_password: 'deployer'
-  profile::puppet::pe_code_manager::lifetime: '5y'
-  profile::puppet::pe_code_manager::deploy_user: 'gitlab-runner'
-  profile::puppet::pe_code_manager::puppet_user: 'gitlab-runner'
-  profile::puppet::pe_code_manager::deploy_ssh_private_source: 'file:///home/gitlab-runner/.ssh/id_rsa'
-
 
 # Options for profile::ci::octocatalog::template
   profile::ci::octocatalog::options:

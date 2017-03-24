@@ -2,7 +2,6 @@
   profiles:
     - profile::git
     - profile::puppet::gems
-    - profile::puppet::pe_client_tools
     - profile::ci::octocatalog
     - profile::gitlab::runner
     - profile::gitlab::cli
