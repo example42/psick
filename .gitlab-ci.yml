@@ -17,10 +17,6 @@ stages:
   - rollout
   - postcheck
 
-
-after_script:
-  - "bin/gitlab_after.sh"
-
 # Version Deploy check for every branch with environment creation
 # It will try by default 6 times with 10 second between each try
 # so that Puppet has time to get the new version of the repository
@@ -167,7 +163,6 @@ vagrant_destroy:
   cache:
     untracked: true
     paths:
-      #    - vagrant/environments/gitlabci/.vagrant/
     - modules/
     - tests/
   allow_failure: true
