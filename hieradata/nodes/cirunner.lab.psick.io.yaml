@@ -38,6 +38,7 @@
       tls_ca_file: '/etc/puppetlabs/puppet/ssl/certs/ca.pem'
 
   # Config for gitlab cli. Tokens change at every gitlab installation
+  # MR operations permissions are needed here
   profile::gitlab::cli::private_token: 'EbCApya5qgkrVdajEW33'
   profile::gitlab::cli::api_endpoint: 'https://git.lab.psick.io/api/v3'
 
