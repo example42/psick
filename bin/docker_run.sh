@@ -1,9 +1,11 @@
 #!/bin/bash
+# @!parse [text]
+# @!parse [text]
 repo_dir=$(git rev-parse --show-toplevel)
 . "${repo_dir}/bin/functions"
 . "${repo_dir}/bin/config/defaults"
 
-registry="myregistry.domain.name/puppet/"
+registry="itromdkr01.q8int.com/puppet/"
 image="centos-7"
 version="latest"
 
@@ -12,8 +14,10 @@ datacenter=$docker_dc
 zone=$docker_zone
 application=$docker_app
 role=$docker_role
-runcommand="bash -c /etc/puppetlabs/code/environments/production/bin/papply.sh --detailed-exitcodes"
+runcommand="bash -c "
+args="/etc/puppetlabs/code/environments/production/bin/papply.sh --detailed-exitcodes"
 custom=""
+tags=""
 options="--sysctl net.ipv6.conf.all.disable_ipv6=1"
 while [ $# -gt 0 ]; do
   CMD=$1
@@ -26,7 +30,7 @@ while [ $# -gt 0 ]; do
   fi
   case "$CMD" in 
     --tags)
-      runcommand="${runcommand} --tags ${PARAM}"
+      tags="--tags=${PARAM}"
     ;;
     --image)
       image=${PARAM:-$image}
@@ -36,6 +40,7 @@ while [ $# -gt 0 ]; do
     ;;
     --shell)
       runcommand=${PARAM:-bash}
+      args=""
       options="$options -it"
     ;;
     --role)
@@ -63,6 +68,9 @@ while [ $# -gt 0 ]; do
   esac
 done
 
+if [ ! -z "{$args}" ] && [ ! -z "${tags}" ]; then
+  args="${args} ${tags}"
+fi
 params="-e FACTER_pp_environment=${env} -e FACTER_pp_role=${role} -e FACTER_pp_datacenter=${datacenter} -e FACTER_pp_application=${application} -e FACTER_pp_zone=${zone} $custom"
 name="${image}_${version}-${role}-$(date +'%H%M%S')" 
 container="${registry}${image}:${version}" 
@@ -70,7 +78,7 @@ PATH=$PATH:/opt/puppetlabs/bin
 echo_title "## Running $runcommand on image ${image}:${version} from ${repo_dir}"
 echo_subtitle "Defined facts: $params"
 docker pull "${registry}${image}:${version}"
-docker run $options -v "${repo_dir}:/etc/puppetlabs/code/environments/production"  --name="${name}" $params "${container}" $runcommand
+docker run $options -v "${repo_dir}:/etc/puppetlabs/code/environments/production"  --name="${name}" $params "${container}" $runcommand "${args}"
 exitstatus=$? 
 docker rm -f "${name}"
 
