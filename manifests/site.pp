@@ -109,6 +109,9 @@ if versioncmp($::puppetversion, '4.0.0') >= 0 {
 
   # Classification option 1 - Profiles defined in Hiera
   lookup('profiles', Array[String], 'unique', [] ).contain
+  lookup('profiles', Array[String], 'unique', [] ).each | $p | {
+    Class["::profile::base::${kernel_down}"] -> Class[$p]
+  }
 
   # Classification option 2 - Classic roles and profiles classes:
   #  if $::role and $::role != '' {
