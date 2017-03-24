@@ -234,19 +234,11 @@ merge_accept_testing:
   stage: promote
   script:
     - "bin/gitlab_accept_merge_request.rb development testing"
-  tags:
-    - deploy_puppet
   only:
     - development
-
-    - "bin/rundeck_job_run.sh testing"
-  script:
-    - "bin/puppetdb_env_query.sh testing"
   tags:
     - deploy_puppet
   when: on_success
-  only:
-    - testing
   allow_failure: true
 
 # On testing branch
