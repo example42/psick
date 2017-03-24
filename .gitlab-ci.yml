@@ -34,11 +34,11 @@ verify_code_deploy:
   allow_failure: true
   environment:
     name: ${CI_BUILD_REF_NAME}
-    url: https://puppetmaster.domain.name/
+    url: https://puppet.lab.psick.io/
 
 # Run Syntax Checks on Feature/Personal Branch
 # and Development branch:
-# All branches exluded production and testing
+# All branches excluded production and testing
 syntax:
   stage: checks
   before_script:
@@ -163,7 +163,7 @@ vagrant_destroy:
   before_script:
     - "bin/gitlab_before.sh"
   script:
-    - "bin/vagrant_node_test.sh centos7ci.domain.com ci destroy"
+    - "bin/vagrant_node_test.sh centos7.ci ci destroy"
   cache:
     untracked: true
     paths:
@@ -186,11 +186,11 @@ vagrant_checks:
   before_script:
     - "bin/gitlab_before.sh"
   script:
-    - "bin/vagrant_node_test.sh centos7ci.domain.com ci setup"
-    - "bin/vagrant_node_test.sh centos7ci.domain.com ci drift"
+    - "bin/vagrant_node_test.sh centos7.ci ci setup"
+    - "bin/vagrant_node_test.sh centos7.ci ci drift"
   after_script:
     - "bin/gitlab_after.sh"
-    - "bin/vagrant_node_test.sh centos7ci.domain.com ci halt"
+    - "bin/vagrant_node_test.sh centos7.ci ci halt"
   cache:
     untracked: true
     paths:
@@ -239,12 +239,6 @@ merge_accept_testing:
   only:
     - development
 
-# Remotely Run a job on rundeck server via the Rundeck cli.
-# This will need a rundeck cli, a Rundeck Server and a 
-# job on rundeck server that will the puppet agent
-rundeck_puppet_on_testing:
-  stage: live_runs
-  before_script:
     - "bin/rundeck_job_run.sh testing"
   script:
     - "bin/puppetdb_env_query.sh testing"
@@ -259,7 +253,8 @@ rundeck_puppet_on_testing:
 run_puppet_on_testing:
   stage: live_runs
   before_script:
-    - "bin/puppet_job_run.sh testing"
+    - "bin/puppet_job_run.sh testing"   # Trigger remote Puppet runs via puppet job
+#    - "bin/rundeck_job_run.sh testing" # Trigger remote Puppet runs via Rundeck
   script:
     - "bin/puppetdb_env_query.sh testing"
   tags:
@@ -294,23 +289,6 @@ merge_accept_production:
     - testing
   environment:
     name: production
-
-# Remotely Run a job on rundeck server via the Rundeck cli.
-# This will need a rundeck cli, a Rundeck Server and a 
-# job on rundeck server that will the puppet agent
-rundeck_run_on_production:
-  stage: live_runs
-  before_script:
-    - "bin/rundeck_job_run.sh production"
-  script:
-    - "bin/puppetdb_env_query.sh production"
-  tags:
-    - deploy_puppet
-  when: on_success
-  only:
-    - production
-  allow_failure: true # TOREMOVE when fixed
-
 
 # Production
 canary_run_on_production:

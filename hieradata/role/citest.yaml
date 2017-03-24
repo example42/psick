@@ -1,0 +1,11 @@
+# Sample role data used in Vagrant citest environment
+# and in any host with role citest
+# Useful for testing a set of profiles on different OS
+
+---
+profiles:
+  - '::profile::ostest'
+
+# Uncomment below to avoid to include in the catalog all
+# the base profiles. Useful to test only specific profiles
+# profile::base::linux::enable: false
