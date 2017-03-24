@@ -135,3 +135,6 @@ lookup_options:
   profile::settings::proxy_server:
     merge:
       strategy: deep
+  profile::gitlab::cli::config_hash:
+    merge:
+      strategy: deep

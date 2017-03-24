@@ -48,10 +48,6 @@
       tag_list: 'test_puppet'
       tls_ca_file: '/etc/puppetlabs/puppet/ssl/certs/ca.pem'
 
-  # Config for gitlab cli. Tokens change at every gitlab installation
-  profile::gitlab::cli::private_token: 'K3k3nPCzGTDpZhMspgdg' # TO CHANGE AT EVERY GITLAB INSTALLATION
-  profile::gitlab::cli::api_endpoint: 'https://git.demo/api/v3'
-
   # Configure the scripts used during Puppet CI
   profile::gitlab::ci::default_nodes:
     - puppet.demo

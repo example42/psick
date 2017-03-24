@@ -4,7 +4,6 @@
     - profile::puppet::gems
     - profile::ci::octocatalog
     - profile::gitlab::runner
-    - profile::gitlab::cli
     - profile::gitlab::ci
     - docker
 
