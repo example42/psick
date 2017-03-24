@@ -32,21 +32,27 @@ run_vagrant() {
   echo_title "Running vagrant ${1} on node ${2} in env ${3} - Step ${4}"
   output_file="${2}_${3}-$(date +%H%M%S)-${1}-${4}"
   
-  $repo_dir/vagrant/bin/vm.sh $1 $2 $3 | tee "${results_dir}/${output_file}" 
-  exit_manage $? $output_file
+  $repo_dir/vagrant/bin/vm.sh "$1" "$2" "$3" | tee "${results_dir}/${output_file}" 
+  exit_manage $PIPESTATUS $output_file
 }
 
 # Testing sequence
-if [ $action == 'setup' ] || [ $action == 'all' ]; then
-  run_vagrant up $node $env "1-setup"
-  git checkout -f $current_branch
-  run_vagrant provision $node $env "2-run-current"
-fi
+if [ $action == 'destroy' ]; then
+  run_vagrant "destroy -f" $node $env "0-destroy"
+elif [ $action == 'halt' ]; then
+  run_vagrant "halt -f" $node $env "0-halt"
+else 
+  if [ $action == 'setup' ] || [ $action == 'all' ]; then
+    git checkout -f $current_branch
+    git pull
+    run_vagrant up $node $env "1-setup"
+    run_vagrant provision $node $env "2-run-current"
+  fi
 
-if [ $action == 'drift' ] || [ $action == 'all' ]; then
-  git checkout -f $testing_branch
-  run_vagrant provision $node $env "3-run-testing"
+  if [ $action == 'drift' ] || [ $action == 'all' ]; then
+    git checkout -f $testing_branch
+    run_vagrant provision $node $env "3-run-testing"
+  fi
 fi
-
 exit $global_exit
 
