@@ -1,0 +1,4 @@
+#!/bin/sh
+#export http_proxy="http://proxy.domain.com:80"
+#export https_proxy="http://proxy.domain.com:80"
+#export no_proxy="domain.com,127.0.0.1,localhost"
