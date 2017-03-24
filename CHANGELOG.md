@@ -1,3 +1,8 @@
+## Release 0.1.2
+- Started conversion to data in modules in profile classes
+- Improved CI scripts
+- Reorganised general class load ordering in manifests/site.pp
+- Added profile::proxy
 ## Release 0.1.1
 - Added critical missing lib files, not synced in initial mirror from control-repo
 - Smaller fixes in docs and scritps
