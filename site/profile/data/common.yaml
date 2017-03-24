@@ -1,4 +1,21 @@
 ---
+# profile::gitlab::cli
+profile::gitlab::cli::ensure: 'present'
+profile::gitlab::cli::auto_prerequisites: true
+profile::gitlab::cli::template: 'profile/gitlab/cli/gitlab-cli.conf.epp'
+profile::gitlab::cli::config_hash:
+  project_id: ''
+  private_token: ''
+  api_endpoint: "https://gitlab.%{facts.domain}/api/v3"
+  httparty_options: '{verify: false}'
+  assigned_user: ''
+  milestone: ''
+  labels: 'automerge'
+  add_target_label: false
+  add_source_label: false
+  prefix_target_label: 'TO_'
+  prefix_source_label: 'FROM_'
+
 # profile::backup::legato
 profile::backup::legato::packages: []
 

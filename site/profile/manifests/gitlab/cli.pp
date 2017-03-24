@@ -14,34 +14,23 @@
 #                the class
 #
 class profile::gitlab::cli (
-  String           $ensure             = 'present',
-  Boolean          $auto_prerequisites = true,
-  Optional[String] $template           = 'profile/gitlab/cli/gitlab-cli.conf.erb',
-  Hash             $extra_options      = { },
-
-  String           $private_token      = '',
-  String           $api_endpoint       = "https://gitlab.${::domain}/api/v3",
-  String           $project_id         = '1',
+  String           $ensure,
+  Boolean          $auto_prerequisites,
+  Optional[String] $template,
+  Hash             $config_hash,
 
 ) {
 
-  $options_default = {
-    'GITLAB_API_ENDPOINT' => $api_endpoint,
-    'GITLAB_API_PRIVATE_TOKEN' => $private_token,
-    'GITLAB_API_HTTPARTY_OPTIONS' => '{verify: false}', # Need for self signed https
-    'GITLAB_API_PROJECT_ID' => $project_id,
-  }
-  $options = $options_default + $extra_options
   ::tp::install { 'gitlab-cli' :
     ensure             => $ensure,
     auto_prerequisites => $auto_prerequisites,
   }
-
   if $template {
     file { '/etc/gitlab-cli.conf':
       ensure  => $ensure,
-      content => template($template),
+      content => epp($template),
     }
   }
 
 }
+

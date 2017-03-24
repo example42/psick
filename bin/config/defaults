@@ -1,0 +1,13 @@
+vagrant_env="prod"
+vagrant_dc="docker"
+vagrant_zone="testzone"
+vagrant_app="puppet"
+vagrant_role="test"
+vagrant_host_env='ostest'
+
+docker_env="prod"
+docker_dc="docker"
+docker_zone="testzone"
+docker_app="puppet"
+docker_role="test"
+

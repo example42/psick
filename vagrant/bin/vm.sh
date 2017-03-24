@@ -1,10 +1,15 @@
 #!/bin/bash
 repo_dir="$(dirname $0)/../.."
 . "${repo_dir}/bin/functions"
+. "${repo_dir}/bin/config/proxysetup"
+. "${repo_dir}/bin/config/defaults"
 
 action=$1
 vm=$2
-env=$3
+env=${3-$vagrantenv}
+
+export VAGRANT_DOTFILE_PATH=$HOME/.vagrant
+mkdir -p $VAGRANT_DOTFILE_PATH
 
 if [ "x${env}" != "" ]; then
   cd "${repo_dir}/vagrant/environments/${env}"

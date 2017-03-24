@@ -1,15 +1,21 @@
 #!/usr/bin/env bash
 test -f /etc/gitlab-ci.conf && . /etc/gitlab-ci.conf
 env=$1
-default_nodes=$(eval echo "${env}_query_default_nodes")
-always_nodes=$(eval echo "${env}_query_always_nodes")
+#default_nodes=$(eval echo "${env}_query_default_nodes")
+#always_nodes=$(eval echo "${env}_query_always_nodes")
+default=${env}_query_default_nodes
+always=${env}_query_always_nodes
+default_nodes=${!default}
+always_nodes=${!always}
+
 diff_commits_number=1
 nodes=0
 global_exit=0
 certname=$(puppet config print certname)
-#if [[ "x$1" != "x" ]]; then
-#  git checkout $1
-#fi
+if [[ "x$1" != "x" ]]; then
+  git checkout $1
+  git pull
+fi
 diff_commits_number=$(git log origin/production..$1 --pretty=oneline | wc -l)
 
 check_node() {
@@ -39,7 +45,7 @@ done
 
 # Default nodes to check if none found from the commit
 if [[ $nodes == 0 ]]; then
-  for node in $default_nodes; do
+  for node in ${default_nodes//,/ }; do
     echo
     echo "Check last report status of ${node} - Default node"
     check_node $node
@@ -47,7 +53,7 @@ if [[ $nodes == 0 ]]; then
 fi
 
 # Nodes to check always
-for node in $always_nodes; do
+for node in ${always_nodes//,/ }; do
   echo
   echo "Check last report status of ${node} - Node always checked"
   check_node $node
