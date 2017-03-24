@@ -1,6 +1,5 @@
 ---
   profiles:
-    - profile::puppet::pe_code_manager
     - profile::puppet::gems
   
   # Explicit list of required gems for CI runners for puppet testing
@@ -24,15 +23,6 @@
     - minitest
 #    - beaker # requires Ruby version >= 2.2.5
 
-  # Code manager
-  profile::puppet::pe_code_manager::pe_user: 'deployer'
-  profile::puppet::pe_code_manager::pe_password: 'deployer'
-  profile::puppet::pe_code_manager::lifetime: '5y'
-  profile::puppet::pe_code_manager::deploy_user: 'gitlab-runner'
-  profile::puppet::pe_code_manager::puppet_user: 'gitlab-runner'
-  profile::puppet::pe_code_manager::deploy_ssh_private_source: 'file:///home/gitlab-runner/.ssh/id_rsa'
-
-
 # Options for profile::ci::octocatalog::template
   profile::ci::octocatalog::options:
     puppetdb_url: 'https://puppet.lab.psick.io:8081'
@@ -43,13 +33,9 @@
   profile::gitlab::runner::runners:
     test_puppet:
       url: 'https://git.lab.psick.io'
-      token: 'LZKGDP8bAy8mTUiU88vD' # TO CHANGE AT EVERY GITLAB INSTALLATION
+      token: 'WKkjkbbsyhFB-FFMosKe' # TO CHANGE AT EVERY GITLAB INSTALLATION
       tag_list: 'test_puppet'
       tls_ca_file: '/etc/puppetlabs/puppet/ssl/certs/ca.pem'
-
-  # Config for gitlab cli. Tokens change at every gitlab installation
-  profile::gitlab::cli::private_token: 'EbCApya5qgkrVdajEW33'
-  profile::gitlab::cli::api_endpoint: 'https://git.lab.psick.io/api/v3'
 
   # Configure the scripts used during Puppet CI
   profile::gitlab::ci::default_nodes:

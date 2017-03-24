@@ -1,6 +1,79 @@
 ---
+# profile::gitlab::cli
+profile::gitlab::cli::ensure: 'present'
+profile::gitlab::cli::auto_prerequisites: true
+profile::gitlab::cli::template: 'profile/gitlab/cli/gitlab-cli.conf.epp'
+profile::gitlab::cli::config_hash:
+  project_id: ''
+  private_token: ''
+  api_endpoint: "https://gitlab.%{facts.domain}/api/v3"
+  httparty_options: '{verify: false}'
+  assigned_user: ''
+  milestone: ''
+  labels: 'automerge'
+  add_target_label: false
+  add_source_label: false
+  prefix_target_label: 'TO_'
+  prefix_source_label: 'FROM_'
+
 # profile::backup::legato
 profile::backup::legato::packages: []
+
+# profile::base::linux
+profile::base::linux::enable: true
+profile::base::linux::network_class: ''
+profile::base::linux::mail_class: ''
+profile::base::linux::puppet_class: ''
+profile::base::linux::ssh_class: ''
+profile::base::linux::users_class: ''
+profile::base::linux::sudo_class: ''
+profile::base::linux::monitor_class: ''
+profile::base::linux::firewall_class: ''
+profile::base::linux::logs_class: ''
+profile::base::linux::backup_class: ''
+profile::base::linux::time_class: ''
+profile::base::linux::timezone_class: ''
+profile::base::linux::sysctl_class: ''
+profile::base::linux::dns_class: ''
+profile::base::linux::hardening_class: ''
+profile::base::linux::hostname_class: ''
+profile::base::linux::hosts_class: ''
+profile::base::linux::update_class: ''
+profile::base::linux::motd_class: ''
+profile::base::linux::profile_class: ''
+
+# profile::base::darwin
+profile::base::darwin::enable: true
+profile::base::darwin::network_class: ''
+profile::base::darwin::mail_class: ''
+profile::base::darwin::puppet_class: ''
+profile::base::darwin::users_class: ''
+profile::base::darwin::monitor_class: ''
+profile::base::darwin::firewall_class: ''
+profile::base::darwin::logs_class: ''
+profile::base::darwin::backup_class: ''
+
+# profile::base::solaris
+profile::base::solaris::enable: true
+profile::base::solaris::network_class: ''
+profile::base::solaris::mail_class: ''
+profile::base::solaris::puppet_class: ''
+profile::base::solaris::users_class: ''
+profile::base::solaris::monitor_class: ''
+profile::base::solaris::firewall_class: ''
+profile::base::solaris::logs_class: ''
+profile::base::solaris::backup_class: ''
+
+# profile::base::windows
+profile::base::windows::enable: true
+profile::base::windows::network_class: ''
+profile::base::windows::mail_class: ''
+profile::base::windows::puppet_class: ''
+profile::base::windows::users_class: ''
+profile::base::windows::monitor_class: ''
+profile::base::windows::firewall_class: ''
+profile::base::windows::logs_class: ''
+profile::base::windows::backup_class: ''
 
 # profile::firewall::iptables
 profile::firewall::iptables::package_name: 'iptables'
@@ -60,5 +133,8 @@ profile::settings::proxy_server: ~
 # Special lookup options
 lookup_options:
   profile::settings::proxy_server:
+    merge:
+      strategy: deep
+  profile::gitlab::cli::config_hash:
     merge:
       strategy: deep

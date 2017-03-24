@@ -53,12 +53,14 @@
   profile::gitlab::runner::runners:
     deploy_puppet:
       url: 'https://git.lab.psick.io'
-      token: 'LZKGDP8bAy8mTUiU88vD' # Private token of a GitLab user TO CHANGE AT EVERY INSTALLATION
+      token: 'WKkjkbbsyhFB-FFMosKe' # CI Runner token TO CHANGE AT EVERY INSTALLATION
       tag_list: 'deploy_puppet'
       tls_ca_file: '/etc/puppetlabs/puppet/ssl/certs/ca.pem'
 
   # Config for gitlab cli. Tokens change at every gitlab installation
   # Use the Private token of a user with merge request and accept privileges
-  profile::gitlab::cli::private_token: 'EbCApya5qgkrVdajEW33' # TO CHANGE AT EVERY INSTALLATION
-  profile::gitlab::cli::api_endpoint: 'https://git.lab.psick.io/api/v3'
+  profile::gitlab::cli::config_hash:
+    private_token: 'EbCApya5qgkrVdajEW33' # TO CHANGE AT EVERY INSTALLATION
+    project_id: 2 # Control-repo project ID on GITLAB
+    api_endpoint: 'https://git.lab.psick.io/api/v3'
 

@@ -17,8 +17,23 @@ stages:
   - rollout
   - postcheck
 
+# Version Deploy check for every branch with environment creation
+# It will try by default 6 times with 10 second between each try
+# so that Puppet has time to get the new version of the repository
+verify_code_deploy:
+  stage: version_check
+  script: "bin/codemanager_check_deploy.sh ${CI_BUILD_REF_NAME}"
+  tags:
+    - deploy_puppet
+  when: on_success
+  allow_failure: true
+  environment:
+    name: ${CI_BUILD_REF_NAME}
+    url: https://puppet.lab.psick.io/
 
-# Development branch
+# Run Syntax Checks on Feature/Personal Branch
+# and Development branch:
+# All branches excluded production and testing
 syntax:
   stage: checks
   before_script:
@@ -28,15 +43,17 @@ syntax:
     untracked: true
     paths:
     - modules/
-    - vagrant/environments/ci/.vagrant/
   tags:
     - test_puppet
+  except:
+    - testing
+    - production
   only:
-    - development
-  environment:
-    name: development
-    url: https://lab.psick.io
+    - branches
 
+# Run Syntax Checks on Feature/Personal Branch
+# and Development branch:
+# All branches exluded production and testing
 lint:
   stage: checks
   before_script:
@@ -46,11 +63,13 @@ lint:
     untracked: true
     paths:
     - modules/
-    - vagrant/environments/ci/.vagrant/
   tags:
     - test_puppet
+  except:
+    - testing
+    - production
   only:
-    - development
+    - branches
   allow_failure: true
 
 rake_site:
@@ -110,16 +129,34 @@ catalog_preview:
     paths:
     - modules/
   tags:
-    - deploy_puppet # We run this on Puppet Server to  compile catalogs
+    - deploy_puppet
   only:
     - development
   allow_failure: true
 
-vagrant_setup:
+# Can be duplicated to use different images (using different --image)
+# or with custom facts --facts. Check docker_run.sh for all the options.
+docker_test:
   stage: integration
   before_script:
     - "bin/gitlab_before.sh"
-  script: "bin/vagrant_node_test.sh oracle ci setup"
+  script: "bin/docker_run.sh --image centos-7"
+  cache:
+    untracked: true
+    paths:
+    - modules/
+  allow_failure: true
+  tags:
+    - test_puppet
+  only:
+    - development
+
+# Destroy a vagrant machine completely.
+vagrant_destroy:
+  stage: integration
+  before_script:
+    - "bin/gitlab_before.sh"
+  script: "bin/vagrant_node_test.sh centos7.ci ci destroy"
   cache:
     untracked: true
     paths:
@@ -130,21 +167,33 @@ vagrant_setup:
     - test_puppet
   only:
     - development
+  when: manual
 
-vagrant_drift:
+
+# Do Vagrant run. Start the machine, run the tests, halt the machine.
+# This will use a .vagrant dir under $HOME of the users so that 
+# it will not be deleted accidentally  by gitlab-runner
+vagrant_checks:
   stage: integration
   before_script:
     - "bin/gitlab_before.sh"
-  script: "bin/vagrant_node_test.sh oracle ci drift"
+  script:
+    - "bin/vagrant_node_test.sh centos7.ci ci setup"
+    - "bin/vagrant_node_test.sh centos7.ci ci drift"
+  after_script:
+    - "bin/gitlab_after.sh"
+    - "bin/vagrant_node_test.sh centos7.ci ci halt"
   cache:
     untracked: true
     paths:
     - modules/
     - tests/
+  allow_failure: true
   tags:
     - test_puppet
   only:
     - development
+  when: manual
 
 tp_test:
   stage: integration
@@ -162,36 +211,34 @@ tp_test:
     - development
   allow_failure: true
 
-verify_code_deploy_development:
-  stage: version_check
-  script:
-    - "bin/codemanager_check_deploy.sh development"
+# Development to testing merge request creation
+merge_request_testing:
+  stage: merge_request
+  script: "bin/gitlab_create_merge_request.rb development testing"
   tags:
     - deploy_puppet
-  when: on_success
   only:
     - development
-  allow_failure: true
 
-deploy_to_testing:
+# Automatic Accept merge request from Development to testing 
+merge_accept_testing:
   stage: promote
-  script:
-    - "bin/gitlab_create_merge_request.rb development testing"
-    - "bin/gitlab_accept_merge_request.rb development testing"
+  script: "bin/gitlab_accept_merge_request.rb development testing"
+  only:
+    - development
   tags:
     - deploy_puppet
   when: on_success
-  only:
-    - development
-  environment:
-    name: testing
-    url: https://staging.example.com
+  allow_failure: true
 
 # On testing branch
 run_puppet_on_testing:
   stage: live_runs
   before_script:
+    # Trigger remote Puppet runs via puppet job
     - "bin/puppet_job_run.sh testing"
+    # Trigger remote Puppet runs via Rundeck
+#    - "bin/rundeck_job_run.sh testing"
   script:
     - "bin/puppetdb_env_query.sh testing"
   tags:
@@ -201,17 +248,9 @@ run_puppet_on_testing:
     - testing
   allow_failure: true
 
-verify_code_deploy_testing:
-  stage: version_check
-  script:
-    - "bin/codemanager_check_deploy.sh testing"
-  tags:
-    - deploy_puppet
-  when: on_success
-  only:
-    - testing
-  allow_failure: true # TOREMOVE when fixed
-
+# Allow Merge Request to fail as it can happen that there's
+# already a merge request from testing to production ready to
+# be merged
 merge_request_production:
   stage: merge_request
   script:
@@ -221,11 +260,11 @@ merge_request_production:
     - deploy_puppet
   only:
     - testing
+  allow_failure: true
 
 merge_accept_production:
   stage: promote
-  script:
-    - "bin/gitlab_accept_merge_request.rb testing production"
+  script: "bin/gitlab_accept_merge_request.rb testing production"
   tags:
     - deploy_puppet
   when: manual
@@ -239,19 +278,7 @@ canary_run_on_production:
   stage: live_runs
   before_script:
     - "bin/puppet_job_run.sh production"
-  script:
-    - "bin/puppetdb_env_query.sh production"
-  tags:
-    - deploy_puppet
-  when: on_success
-  only:
-    - production
-  allow_failure: true # TOREMOVE when fixed
-
-verify_code_deploy_production:
-  stage: version_check
-  script:
-    - "bin/codemanager_check_deploy.sh production"
+  script: "bin/puppetdb_env_query.sh production"
   tags:
     - deploy_puppet
   when: on_success
@@ -263,8 +290,7 @@ run_puppet_on_production:
   stage: rollout
   before_script:
     - "bin/puppet_job_run.sh production"
-  script:
-    - "bin/puppetdb_env_query.sh production"
+  script: "bin/puppetdb_env_query.sh production"
   tags:
     - deploy_puppet
   when: on_success
@@ -275,8 +301,7 @@ run_puppet_on_production:
 
 test_post_run_on_production:
   stage: postcheck
-  script:
-    - "bin/puppetdb_env_query.sh production"
+  script: "bin/puppetdb_env_query.sh production"
   tags:
     - deploy_puppet
   only:
@@ -287,7 +312,7 @@ pages:
   stage: sitedoc
   script:
     - rm -rf doc public .yardoc
-    - puppet strings generate site/**/manifests/*.pp site/**/manifests/**/*.pp site/**/functions/**/*.pp manifests/*.pp
+    - puppet strings generate site/**/manifests/*.pp site/**/manifests/**/*.pp site/**/manifests/**/**/*.pp site/**/functions/**/*.pp manifests/*.pp
     - mv doc public
   tags:
     - deploy_puppet

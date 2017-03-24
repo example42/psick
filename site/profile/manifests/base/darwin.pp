@@ -4,61 +4,49 @@
 #
 class profile::base::darwin (
 
-  String $pre_class         = '',
+  Boolean $enable,
 
-  String $puppet_class      = '',
-  String $mail_class        = '',
-  String $network_class     = '',
-  String $users_class       = '',
-  String $monitor_class     = '',
-  String $firewall_class    = '',
-  String $logs_class        = '',
-  String $backup_class      = '',
+  String $puppet_class,
+  String $mail_class,
+  String $network_class,
+  String $users_class,
+  String $monitor_class,
+  String $firewall_class,
+  String $logs_class,
+  String $backup_class,
 
 ) {
 
-  if $pre_class != '' {
-    contain $pre_class
-  }
-
-  if $network_class != '' {
+  if $network_class != '' and $enable {
     contain $network_class
-    Class[$pre_class] -> Class[$network_class]
   }
 
-  if $mail_class != '' {
+  if $mail_class != '' and $enable {
     contain $mail_class
-    Class[$pre_class] -> Class[$mail_class]
   }
 
-  if $puppet_class != '' {
+  if $puppet_class != '' and $enable {
     contain $puppet_class
-    Class[$pre_class] -> Class[$puppet_class]
   }
 
-  if $monitor_class != '' {
+  if $monitor_class != '' and $enable {
     contain $monitor_class
-    Class[$pre_class] -> Class[$monitor_class]
   }
 
-  if $backup_class != '' {
+  if $backup_class != '' and $enable {
     contain $backup_class
-    Class[$pre_class] -> Class[$backup_class]
   }
 
-  if $users_class != '' {
+  if $users_class != '' and $enable {
     contain $users_class
-    Class[$pre_class] -> Class[$users_class]
   }
 
-  if $firewall_class != '' {
+  if $firewall_class != '' and $enable {
     contain $firewall_class
-    Class[$pre_class] -> Class[$firewall_class]
   }
 
-  if $logs_class != '' {
+  if $logs_class != '' and $enable {
     contain $logs_class
-    Class[$pre_class] -> Class[$logs_class]
   }
 
 }
