@@ -46,7 +46,7 @@ and other integrations might not work correctly in a not full PSICK setup.
 
 This control-repo requires Puppet 4, if it's not already installed, you can install it with this cross OS Puppet 4 install script (it the official Puppet repos):
 
-    bin/puppet_install.sh
+    sudo bin/puppet_install.sh
 
 Before starting to use it, you have to populate the ```modules/``` directory of the control-repo.
 
@@ -62,7 +62,8 @@ If you also want to install the recommended (Fabric, Vagrant, Docker) tools that
 
     bin/setup.sh
 
-The script, installs and runs r10k and then uses Puppet to install the other software. You will be asked to confirm or skip each step.
+The script, installs and runs r10k and then uses Puppet to install the other software. You will be asked to confirm or skip each step. The script will use ```sudo``` for the operations that need root privileges.
+
 
 NOTE: Scripts are mostly tested on Mac and Linux environments.
 
