@@ -46,18 +46,6 @@ Browse to **https://127.0.0.1:1743**
 Login: **admin**
 Password: **puppetlabs**
 
-Now you can create a user dedicated to Puppet deployments:
-
-  - Click: Access Control -> Users -> Add local user (Specify Full Name and login. Here we used: deployer)
-  - Click: User -> Edit user -> Generate Password reset
-  - Copy the link for password reset and open it with a browser to the the user password.
-  - To assign at least deployment permissions to the user click User Roles -> Code Deployers -> Add user (Select from menu the User name)
-
-The PE username and password you've set have to be provided as parameters for the profile::puppet::pe_code_manager class, which has se classes:
-
-  profile::puppet::pe_code_manager::pe_user: 'deployer'
-  profile::puppet::pe_code_manager::pe_password: 'deployer'
-
 For testing purposes it makes sense to leave to all the clients the possibility to set their own environment.
 This can can done on PE gui clicking on Nodes -> Classification -> Production environment -> Remove on the rule than matches all names.
 Then a similar rule should be added for the Agent-specified environment, in this way we will be able, from within a Vagrant VM to test directly our local code with:
@@ -77,7 +65,7 @@ Note 1: The first time a new PE tarball is downloaded from the net you may have 
 
 It looks like the newly downloaded PE tarball, placed in the ```.pe_build``` directory of this Vagrant environment, is not immediately available on the VM under its ```/vagrant``` directory.
 
-If the PE installation files are already in place when you vagrant up the puppet, you won't have this error, so the quick solution is (the very first time you use a new PE version):
+If the PE installation files are already in place when you vagrant up the puppet, you won't have this error, so the quick solution is (the first time you create the puppet.demo vm):
 
     vagrant up puppet.demo # It fails if ```.pe_build``` doesn't contain the installation files for your PE version
     vagrant reload puppet.demo # Machines reloads and this times mounts ```/vagrant``` with all the expected files
@@ -91,7 +79,7 @@ Note 2: It's recommended to run this Vagrant environment on hosts that have at l
 
     Once the PE installation is up an running and you have completed the steps above you can start the GitLab VM:
 
-    vagrant up git.lab.psick.io
+    vagrant up git.demo
 
 This environments also provides a fairly evoluted integration with GitLab:
 

@@ -2,7 +2,7 @@
 
 ## Setup
 
-This demo environment provides:
+This lab.psick.io environment provides:
 
   - a Puppet Enterprise server
   - a GitLab server
@@ -17,7 +17,7 @@ This demo environment provides:
     # For PE setup you need the pe_build plugin
     vagrant plugin install vagrant-pe_build
 
-    cd vagrant/environment/pe_demo
+    cd vagrant/environment/pe_lab.psick.io
 
     # Show available Vagrant machines
     vagrant status
@@ -30,9 +30,9 @@ This demo environment provides:
 
     # Start the PE all in one server. The first time, take a coffe, it .
     # It will download PE tarball, install it and run puppet agent 
-    vagrant up puppet.demo
-    vagrant reload puppet.demo   # In case of errors. See Note 1
-    vagrant provision puppet.demo # See Notes
+    vagrant up puppet.lab.psick.io
+    vagrant reload puppet.lab.psick.io   # In case of errors. See Note 1
+    vagrant provision puppet.lab.psick.io # See Notes
 
 Now you should be able to access the PE console from your host.
 
@@ -73,9 +73,9 @@ It looks like the newly downloaded PE tarball, placed in the ```.pe_build``` dir
 
 If the PE installation files are already in place when you vagrant up the puppet, you won't have this error, so the quick solution is (the very first time you use a new PE version):
 
-    vagrant up puppet.demo # It fails if ```.pe_build``` doesn't contain the installation files for your PE version
-    vagrant reload puppet.demo # Machines reloads and this times mounts ```/vagrant``` with all the expected files
-    vagrant provision puppet.demo # Do the real provisioning: it should install PE and run puppet agent with no errors
+    vagrant up puppet.lab.psick.io # It fails if ```.pe_build``` doesn't contain the installation files for your PE version
+    vagrant reload puppet.lab.psick.io # Machines reloads and this times mounts ```/vagrant``` with all the expected files
+    vagrant provision puppet.lab.psick.io # Do the real provisioning: it should install PE and run puppet agent with no errors
 
 
 Note 2: It's recommended to run this Vagrant environment on hosts that have at least 16 Gb or RAM. Edit ```config.yaml``` to tune the memory to allocate to the VM.
@@ -84,7 +84,7 @@ Note 2: It's recommended to run this Vagrant environment on hosts that have at l
 #### Gitlab server setup
 
     Once the PE installation is up an running and you have completed the steps above
-    vagrant up git.demo
+    vagrant up git.lab.psick.io
 
 This environments also provides a fairly evoluted integration with GitLab:
 
