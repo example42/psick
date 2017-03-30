@@ -80,7 +80,7 @@ PSICK has the common set of files and directories of a Puppet control-repo:
 
   - ```manifests/``` - Directory with the main manifests. Here we have just ```site.pp```
 
-  - ```Puppetfile```` - File that defines the external modules to add via r10k
+  - ```Puppetfile``` - File that defines the external modules to add via r10k
 
   - ```modules/``` - Directory where modules defined in Puppetfile are placed (it's .gitignored)
 
