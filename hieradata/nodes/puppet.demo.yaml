@@ -26,8 +26,9 @@
 
 
   # Code manager
-  profile::puppet::pe_code_manager::pe_user: 'deployer'       # A user you've created on PE
-  profile::puppet::pe_code_manager::pe_password: 'deployer'   # PE user password. TO CHANGE AT EVERY INSTALLATION
+  profile::puppet::pe_code_manager::pe_user: 'deployer'        # A user you've created on PE
+  profile::puppet::pe_code_manager::pe_password: 'deployer'    # PE user password. TOCRYPT. Here in cleartext for demo only.
+  profile::puppet::pe_code_manager::pe_email: 'root@localhost' # PE user email.
   profile::puppet::pe_code_manager::lifetime: '5y'            # Adapt as preferred
 
 # Configure the scripts used during Gitlab CI of the control repo
