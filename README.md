@@ -44,15 +44,17 @@ and other integrations might not work correctly in a not full PSICK setup.
 
 ### Setup of a Puppet environment
 
-This control-repo requires Puppet 4, if it's not already installed, you can install it with this cross OS Puppet 4 install script (it the official Puppet repos):
+This control-repo requires Puppet 4, if it's not already installed, you can install it with this cross OS Puppet 4 install script (it uses the official Puppet repos):
 
-    sudo bin/puppet_install.sh
+    sudo bin/puppet_install.sh # Only if you don't have Puppet 4 installed
 
 Before starting to use it, you have to populate the ```modules/``` directory of the control-repo.
 
+You need to do this both on your **development** workstation, and on your **Puppet server** (after having placed your control-repo the ```/etc/puppetlabs/code/environments/``` directory).
+
 To install the prequequisite gems (hiera-eyaml, deep_merge, r10k) and populate the external modules directory via r10k, you can run: 
 
-    bin/puppet_setup.sh
+    bin/puppet_setup.sh        # Only if you don't have the prerequisites gems
 
 If you have already r10k and the prerequisite gems, just run:
 
@@ -60,16 +62,24 @@ If you have already r10k and the prerequisite gems, just run:
 
 If you also want to install the recommended (Fabric, Vagrant, Docker) tools that can be used with the repo, run:
 
-    bin/setup.sh
+    bin/setup.sh               # Only if you want to install Fabric, Vagrant and Docker
 
-The script, installs and runs r10k and then uses Puppet to install the other software. You will be asked to confirm or skip each step. The script will use ```sudo``` for the operations that need root privileges.
+The script, installs and runs r10k and then uses Puppet to install the other software.
 
+Notes:
 
-NOTE: Scripts are mostly tested on Mac and Linux environments.
+  - You will be always asked to confirm or skip each step.
 
-For unattended setups (typically in CI pipelines) you can skip confirmation requests with:
+  - The script will use ```sudo``` for the operations that need root privileges.
 
-    bin/setup.sh auto
+  - Scripts are mostly tested on Mac and Linux environments. On Mac some packages installations don't work.
+
+  - You can safely interrupt the scripts with CTRL+C at any time
+
+  - For unattended setups (typically in CI pipelines) you can skip confirmation requests passing the argument auto:
+
+        bin/puppet_setup.sh auto
+        bin/setup.sh auto
 
 
 ### Directory structure

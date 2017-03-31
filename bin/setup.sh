@@ -21,7 +21,7 @@ install_fabric() {
   [ "$?" = 0 ] || return
   echo_title "Installing Fabric"
   echo_subtitle "Executing: sudo puppet apply -e 'include ::profile::python::fabric'"
-  sudo puppet apply $puppet_options -e 'include ::profile::python::fabric'
+  sudo -E puppet apply $puppet_options -e 'include ::profile::python::fabric'
 }
 
 install_vagrant() {  
@@ -29,9 +29,9 @@ install_vagrant() {
   [ "$?" = 0 ] || return
   echo_title "Installing Vagrant"
   echo_subtitle "Executing: sudo puppet apply -e 'include ::profile::vagrant'"
-  sudo puppet apply $puppet_options -e 'include ::profile::vagrant'
+  sudo -E puppet apply $puppet_options -e 'include ::profile::vagrant'
   echo_subtitle "Executing: puppet apply -e 'include ::profile::vagrant::plugins'"
-  puppet apply $puppet_options -e 'include ::profile::vagrant::plugins'
+  sudo -E puppet apply $puppet_options -e 'include ::profile::vagrant::plugins'
 }
 
 install_docker() { 
@@ -39,7 +39,7 @@ install_docker() {
   [ "$?" = 0 ] || return
   echo_title "Installing Docker"
   echo_subtitle "Executing: sudo puppet apply -e 'include ::docker'"
-  sudo puppet apply $puppet_options -e 'include ::docker'
+  sudo -E puppet apply $puppet_options -e 'include ::docker'
 }
 
 setup_puppet
