@@ -46,7 +46,8 @@ mod "puppetlabs/catalog_preview", :latest
 mod "puppet/archive", :latest
 mod "puppetlabs/image_build", :latest
 mod "puppetlabs/inifile", :latest
-
+#mod "pltraining/rbac", :0.0.5
+mod "pltraining/rbac", '0.0.5'
 
 # Docker and Containers
 mod "puppetlabs/dummy_service", :latest

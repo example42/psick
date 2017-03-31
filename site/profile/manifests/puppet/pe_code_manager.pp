@@ -7,6 +7,7 @@ class profile::puppet::pe_code_manager (
   Optional[String] $deploy_ssh_public_source = undef,
   Optional[String] $pe_user                 = undef,
   Optional[String] $pe_password             = undef,
+  Optional[String] $pe_email                = 'root@localhost',
   Optional[String] $deploy_comment          = undef,
   Optional[String] $deploy_user             = 'root',
   Optional[String] $puppet_user             = 'pe-puppet',
@@ -14,15 +15,26 @@ class profile::puppet::pe_code_manager (
   Optional[String] $lifetime                = '5y',
 ) {
 
+  if $pe_user and $pe_password {
+    rbac_user { $pe_user:
+      ensure       => 'present',
+      name         => $pe_user,
+      display_name => 'Puppet code deploy user',
+      email        => $pe_email,
+      password     => $pe_password,
+      roles        => [ 'Code Deployers' ],
+      before       => Tools::Puppet::Access[$pe_user],
+    }
+    tools::puppet::access { $pe_user:
+      deploy_password => $pe_password,
+      run_as_user     => $deploy_user,
+      lifetime        => $lifetime,
+    }
+  }
+
   file { '/etc/puppetlabs/ssh':
     ensure => directory,
     owner  => $puppet_user,
-  }
-
-  tools::puppet::access { $pe_user:
-    deploy_password => $pe_password,
-    run_as_user     => $deploy_user,
-    lifetime        => $lifetime,
   }
 
   $real_deploy_user_home = $deploy_user ? {
