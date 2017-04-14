@@ -6,8 +6,8 @@ class profile::windows::features (
 ) {
 
   $features = $use_defaults ? {
-    true  => $use + $defaults,
-    false => $use,
+    true  => $install + $defaults,
+    false => $install,
   }
 
   $features.each |$k,$v| {

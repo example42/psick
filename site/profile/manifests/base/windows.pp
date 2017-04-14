@@ -15,8 +15,10 @@ class profile::base::windows (
 
   String $puppet_class,
   String $features_class,
+  String $registry_class,
   String $network_class,
   String $users_class,
+  String $hosts_class,
   String $monitor_class,
   String $firewall_class,
   String $antivirus_class,
@@ -30,6 +32,10 @@ class profile::base::windows (
 
   if $features_class != '' and $enable {
     contain $features_class
+  }
+
+  if $registry_class != '' and $enable {
+    contain $registry_class
   }
 
   if $puppet_class != '' and $enable {
@@ -46,6 +52,10 @@ class profile::base::windows (
 
   if $users_class != '' and $enable {
     contain $users_class
+  }
+
+  if $hosts_class != '' and $enable {
+    contain $hosts_class
   }
 
   if $firewall_class != '' and $enable {

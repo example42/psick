@@ -10,7 +10,7 @@
 # Default module to use for tp data:
   tp::data_module: tinydata
 
-# Base profile settings
+# Base profile settings Linux
 #  profile::base::linux::network_class: '::profile::network' # Requires: example42-network
   profile::base::linux::mail_class: '::profile::mail::postfix'
   profile::base::linux::puppet_class: '::puppet'
@@ -28,10 +28,22 @@
   profile::base::linux::hardening_class: ''
   profile::base::linux::limits_class: ''
   profile::base::linux::hostname_class: '::profile::hostname'
-#  profile::base::linux::hosts_class: '::profile::hosts::file'
+  profile::base::linux::hosts_class: '::profile::hosts::resource'
   profile::base::linux::update_class: '::profile::update'
   profile::base::linux::motd_class: '::profile::motd'
   profile::base::linux::profile_class: '::profile::profile'
+
+# Base profile settings Windows
+profile::base::windows::puppet_class: ''
+profile::base::windows::features_class: '::profile::windows::features'
+profile::base::windows::registry_class: '::profile::windows::registry'
+profile::base::windows::network_class: ''
+profile::base::windows::users_class: ''
+profile::base::windows::hosts_class: '::profile::hosts::resource'
+profile::base::windows::monitor_class: ''
+profile::base::windows::firewall_class: ''
+profile::base::windows::antivirus_class: ''
+profile::base::windows::backup_class: ''
 
 # Repo settings
   profile::repo::generic::add_defaults: true

@@ -140,6 +140,9 @@ nodes:
     hostname_base: ostest-windows2012
     fqdn: ostest-windows2012-lab-psick-io
     box: windows2012
+    forwarded_port:
+      guest: 3389
+      host: 33895
   - role: ostest
     hostname_base: ostest-solaris11
     box: solaris11
