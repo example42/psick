@@ -1,0 +1,33 @@
+---
+#profiles:
+#  - iis
+profile::base::windows::features_class: profile::windows::features
+profile::base::windows::registry_class: profile::windows::registry
+profile::base::windows::hosts_class: profile::hosts::resource
+profile::windows::features::use_defaults: true
+profile::windows::features::install:
+  UpdateServices-RSAT:
+    ensure: present
+  UpdateServices-UI:
+    ensure: present
+
+# Useful registry keys: http://www.jasinskionline.com/TechnicalWiki/Useful-Windows-Registry-Keys.ashx?AspxAutoDetectCookieSupport=1
+# Windows registry: http://www.forensicswiki.org/wiki/Windows_Registry
+# Registry Guide for Windows: http://www.pctools.com/guides/registry/
+#
+profile::windows::registry::use_defaults: true
+profile::windows::registry::keys:
+  'Open With Notepad':
+    key: 'HKEY_CLASSES_ROOT\*\shell\Open with Notepad\command'
+    data: 'notepad.exe %1'
+  'Disable IPv6':
+    key: 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip6\Parameters'
+    value: 'DisabledComponents'
+    data: '0x000000ff'
+    type: 'dword'
+
+profile::hosts::resource::hosts:
+  'puppet':
+    ip: '10.42.43.101'
+    host_aliases:
+      - 'puppet.lab.psick.io'

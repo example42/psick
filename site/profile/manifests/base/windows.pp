@@ -14,12 +14,14 @@ class profile::base::windows (
   Boolean $enable,
 
   String $puppet_class,
-  String $mail_class,
+  String $features_class,
+  String $registry_class,
   String $network_class,
   String $users_class,
+  String $hosts_class,
   String $monitor_class,
   String $firewall_class,
-  String $logs_class,
+  String $antivirus_class,
   String $backup_class,
 
 ) {
@@ -28,8 +30,12 @@ class profile::base::windows (
     contain $network_class
   }
 
-  if $mail_class != '' and $enable {
-    contain $mail_class
+  if $features_class != '' and $enable {
+    contain $features_class
+  }
+
+  if $registry_class != '' and $enable {
+    contain $registry_class
   }
 
   if $puppet_class != '' and $enable {
@@ -48,12 +54,16 @@ class profile::base::windows (
     contain $users_class
   }
 
+  if $hosts_class != '' and $enable {
+    contain $hosts_class
+  }
+
   if $firewall_class != '' and $enable {
     contain $firewall_class
   }
 
-  if $logs_class != '' and $enable {
-    contain $logs_class
+  if $antivirus_class != '' and $enable {
+    contain $antivirus_class
   }
 
 }

@@ -66,13 +66,15 @@ profile::base::solaris::backup_class: ''
 
 # profile::base::windows
 profile::base::windows::enable: true
-profile::base::windows::network_class: ''
-profile::base::windows::mail_class: ''
 profile::base::windows::puppet_class: ''
+profile::base::windows::features_class: ''
+profile::base::windows::registry_class: ''
+profile::base::windows::network_class: ''
 profile::base::windows::users_class: ''
+profile::base::windows::hosts_class: ''
 profile::base::windows::monitor_class: ''
 profile::base::windows::firewall_class: ''
-profile::base::windows::logs_class: ''
+profile::base::windows::antivirus_class: ''
 profile::base::windows::backup_class: ''
 
 # profile::firewall::iptables
@@ -88,6 +90,11 @@ profile::hardening::services::services_default: []
 
 # profile::hardware::hp
 profile::hardware::hp::packages: []
+
+# profile::hosts::resource
+profile::hosts::resource::hosts: {}
+profile::hosts::resource::defaults: {}
+profile::hosts::resource::use_defaults: true
 
 # profile::monitor::ganglia
 profile::monitor::ganglia::packages: []
@@ -129,6 +136,15 @@ profile::settings::mgmt_interface: "%{facts.networking.primary}"
 profile::settings::timezone: ~
 profile::settings::proxy_server: ~
 
+# profile::windows::features
+profile::windows::features::install: {}
+profile::windows::features::defaults: {}
+profile::windows::features::use_defaults: true
+
+# profile::windows::registry
+profile::windows::registry::keys: {}
+profile::windows::registry::defaults: {}
+profile::windows::registry::use_defaults: true
 
 # Special lookup options
 lookup_options:
@@ -136,5 +152,17 @@ lookup_options:
     merge:
       strategy: deep
   profile::gitlab::cli::config_hash:
+    merge:
+      strategy: deep
+  profile::windows::features::install:
+    merge:
+      strategy: deep
+  profile::windows::features::defaults:
+    merge:
+      strategy: deep
+  profile::windows::registry::keys:
+    merge:
+      strategy: deep
+  profile::windows::registry::defaults:
     merge:
       strategy: deep
