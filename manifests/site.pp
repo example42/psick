@@ -33,6 +33,16 @@ case $::kernel {
       mode  => '0644',
     }
   }
+  'Windows': {
+    File {
+      owner => 'Administrator',
+      group => 'Administrators',
+      mode  => '0644',
+    }
+#    Exec {
+#      path => '%SystemRoot%\system32;%SystemRoot%;%SystemRoot%\System32\Wbem;%SYSTEMROOT%\System32\WindowsPowerShell\v1.0\',
+#    } 
+  }  
   default: {
     File {
       owner => 'root',

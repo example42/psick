@@ -67,12 +67,12 @@ profile::base::solaris::backup_class: ''
 # profile::base::windows
 profile::base::windows::enable: true
 profile::base::windows::network_class: ''
-profile::base::windows::mail_class: ''
+profile::base::windows::features_class: ''
 profile::base::windows::puppet_class: ''
 profile::base::windows::users_class: ''
 profile::base::windows::monitor_class: ''
 profile::base::windows::firewall_class: ''
-profile::base::windows::logs_class: ''
+profile::base::windows::antivirus_class: ''
 profile::base::windows::backup_class: ''
 
 # profile::firewall::iptables
@@ -129,6 +129,17 @@ profile::settings::mgmt_interface: "%{facts.networking.primary}"
 profile::settings::timezone: ~
 profile::settings::proxy_server: ~
 
+# profile::windows::features
+profile::windows::features::install: ~
+profile::windows::features::defaults:
+  MicrosoftWindowsPowerShellV2:
+    ensure: present
+profile::windows::features::use_defaults: false
+
+# profile::windows::registry
+profile::windows::registry::install: ~
+profile::windows::registry::defaults: ~
+profile::windows::registry::use_defaults: false
 
 # Special lookup options
 lookup_options:

@@ -106,7 +106,9 @@ setup_bsd() {
   echo_title "Not yet supported"
 }
 setup_windows() {
-  echo_title "Not yet supported"
+  curl -s -o puppet-agent.msi "https://downloads.puppetlabs.com/windows/puppet-agent-x64-latest.msi"
+  msiexec /qn /norestart /i puppet-agent.msi
+  # msiexec /qn /norestart /i puppet-agent.msi PUPPET_AGENT_CERTNAME=me.example.com PUPPET_MASTER_SERVER=puppet.example.com \
 }
 setup_linux() {
   ARCH=$(uname -m | sed 's/x86_//;s/i[3-6]86/32/')

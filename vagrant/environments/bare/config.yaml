@@ -59,9 +59,17 @@ nodes:
   - hostname_base: fedora23
     box: fedora23
   - hostname_base: windows2012
+    fqdn: windows2012-bare
     box: windows2012
+    forwarded_port:
+      guest: 3389
+      host: 33891
   - hostname_base: windows2008
+    fqdn: windows2008-bare
     box: windows2008
+    forwarded_port:
+      guest: 3389
+      host: 33892
   - hostname_base: solaris11
     box: solaris11
   - hostname_base: solaris10

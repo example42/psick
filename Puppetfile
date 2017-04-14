@@ -4,16 +4,9 @@
 
 
 # Example42 extra modules
-
-# GitHub source is updated from frequently than on the Forge.
-#mod'example42/tp',
-#  :git => 'https://github.com/example42/puppet-tp'
-#mod'example42/tinydata',
-#  :git => 'https://github.com/example42/tinydata'
-
 mod "example42/tp", :latest
 mod "example42/tinydata", :latest
-mod "example42/puppi", :latest
+# mod "example42/puppi", :latest
  
 # Example42 v4.x modules (Used in various profiles)
 mod'example42/docker',
@@ -44,15 +37,15 @@ mod "jdowning/rbenv", :latest
 mod "trlinkin/noop", :latest
 mod "puppetlabs/catalog_preview", :latest
 mod "puppet/archive", :latest
-mod "puppetlabs/image_build", :latest
 mod "puppetlabs/inifile", :latest
-#mod "pltraining/rbac", :0.0.5
+
+# Used by profile::puppet::pe_code_manager
 mod "pltraining/rbac", '0.0.5'
 
 # Docker and Containers
 mod "puppetlabs/dummy_service", :latest
-mod 'puppetlabs/image_build', :latest
-mod 'puppetlabs/rkt', :latest
+#mod 'puppetlabs/image_build', :latest
+#mod 'puppetlabs/rkt', :latest
 
 # Used by profile::firewall::simple_nat
 # mod "example42/sysctl", :latest
@@ -70,4 +63,18 @@ mod 'puppetlabs/rkt', :latest
 
 # Used by profile::vagrant
 mod 'unibet/vagrant', :latest
+
+# Used by profile::windows 
+# mod 'puppet/windowsfeature', :latest # :git => 'https://forge.puppet.com/voxpupuli/puppet-windowsfeature'
+# mod 'puppet/windows_firewall', :latest # :git => 'https://forge.puppet.com/voxpupuli/puppet-windows_firewall'
+# mod 'puppetlabs/registry', :latest
+# mod 'puppetlabs/chocolatey', :latest
+# mod 'puppetlabs/acl', :latest
+# mod 'puppetlabs/dsc', :latest
+# mod 'puppetlabs/powershell', :latest
+# mod 'puppetlabs/reboot', :latest
+# mod 'puppetlabs/wsus_client', :latest
+# mod 'counsyl/windows', :git => 'https://github.com/counsyl/puppet-windows'
+# mod 'trlinkin/domain_membership', :git => 'https://forge.puppet.com/trlinkin/domain_membership'
+
 

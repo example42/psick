@@ -69,7 +69,18 @@ nodes:
     box: fedora23
   - hostname_base: cumulus
     box: cumulus
-
+  - hostname_base: windows2012
+    fqdn: windows2012-ostest
+    box: windows2012
+    forwarded_port:
+      guest: 3389
+      host: 33893
+  - hostname_base: windows2008
+    fqdn: windows2008-ostest
+    box: windows2008
+    forwarded_port:
+      guest: 3389
+      host: 33894
 
 
 boxes:
@@ -146,6 +157,11 @@ boxes:
   opensuse_42_1:
     box: opensuse/openSUSE-42.1-x86_64
     breed: none 
-
+  windows2008:
+    box: opentable/win-2008r2-standard-amd64-nocm
+    breed: win2008
+  windows2012:
+    box: opentable/win-2012r2-standard-amd64-nocm
+    breed: win2012
 
 
