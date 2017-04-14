@@ -34,16 +34,16 @@
   profile::base::linux::profile_class: '::profile::profile'
 
 # Base profile settings Windows
-profile::base::windows::puppet_class: ''
-profile::base::windows::features_class: '::profile::windows::features'
-profile::base::windows::registry_class: '::profile::windows::registry'
-profile::base::windows::network_class: ''
-profile::base::windows::users_class: ''
-profile::base::windows::hosts_class: '::profile::hosts::resource'
-profile::base::windows::monitor_class: ''
-profile::base::windows::firewall_class: ''
-profile::base::windows::antivirus_class: ''
-profile::base::windows::backup_class: ''
+  profile::base::windows::puppet_class: ''
+  profile::base::windows::features_class: '::profile::windows::features'
+  profile::base::windows::registry_class: '::profile::windows::registry'
+  profile::base::windows::network_class: ''
+  profile::base::windows::users_class: ''
+  profile::base::windows::hosts_class: '::profile::hosts::resource'
+  profile::base::windows::monitor_class: ''
+  profile::base::windows::firewall_class: ''
+  profile::base::windows::antivirus_class: ''
+  profile::base::windows::backup_class: ''
 
 # Repo settings
   profile::repo::generic::add_defaults: true
