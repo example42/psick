@@ -321,7 +321,5 @@ pages:
     paths:
     - public
     expire_in: '30 day'
-  only:
-    - development
 # Switch to production after tests
 
