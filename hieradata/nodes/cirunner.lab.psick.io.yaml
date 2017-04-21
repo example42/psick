@@ -1,6 +1,7 @@
 ---
   profiles:
     - profile::puppet::gems
+    - docker
   
   # Explicit list of required gems for CI runners for puppet testing
   profile::puppet::gems::install_puppet_gems: true
