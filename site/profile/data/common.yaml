@@ -133,8 +133,12 @@ profile::repo::generic::zypper_resource: zypprepo # As in darin-zypprepo
 profile::settings::is_cluster: false
 profile::settings::primary_ip_address: ''
 profile::settings::mgmt_interface: "%{facts.networking.primary}"
-profile::settings::timezone: ~
 profile::settings::proxy_server: ~
+
+# profile::time
+profile::time::servers: []
+profile::time::method: 'ntpdate'
+profile::time::timezone: ~
 
 # profile::windows::features
 profile::windows::features::install: {}
@@ -145,6 +149,11 @@ profile::windows::features::use_defaults: true
 profile::windows::registry::keys: {}
 profile::windows::registry::defaults: {}
 profile::windows::registry::use_defaults: true
+
+# profile::time::windows
+# profile::time::windows::ntp_servers: %{lookup('profile::time::servers')}
+# profile::time::windows::timezone: %{lookup('profile::time::timezone')}
+profile::time::windows::fallback_servers: []
 
 # Special lookup options
 lookup_options:
