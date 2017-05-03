@@ -4,4 +4,7 @@ class tools (
   Boolean $bogus = true,
 ) {
 
+  if ! $bogus {
+    notify { 'Not Bogus': }
+  }
 }

@@ -29,11 +29,13 @@ class profile::settings (
 
   Optional[String] $timezone,
 
-  Optional[Hash] $proxy_server,
+  Optional[Profile::Serverhash] $proxy_server,
+
 ) {
 
   $primary_ip = $primary_ip_address ? {
     ''      => $facts['networking']['interfaces'][$mgmt_interface]['ip'],
     default => $primary_ip_address,
   }
+
 }

@@ -20,3 +20,7 @@
   profile::icinga2::master: 'icinga.lab.psick.io'
   profile::icinga2::is_client: true
   profile::icinga2::install_cli: true
+
+# Timezone
+profile::settings::timezone: 'CEST'
+profile::time::windows::timezone: 'Central European Standard Time'
