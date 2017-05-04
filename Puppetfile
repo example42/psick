@@ -18,7 +18,7 @@ mod'example42/apache',
   :branch => '4.x'
 mod'example42/puppet',
   :git => 'https://github.com/example42/puppet-puppet',
-  :branch => '4.x'
+  :branch => 'master'
 mod'example42/rails',
   :git => 'https://github.com/example42/puppet-rails'
 mod'example42/ansible',
