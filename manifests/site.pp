@@ -55,22 +55,22 @@ Exec {
   path => '/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin',
 }
 Tp::Install {
-  test_enable  => hiera('tp::test_enable', false),
-  puppi_enable => hiera('tp::puppi_enable', false),
-  debug => hiera('tp::debug', false),
-  data_module  => hiera('tp::data_module', 'tinydata'),
+  test_enable  => lookup('tp::test_enable', Boolean, 'first', false),
+  puppi_enable => lookup('tp::puppi_enable', Boolean, 'first', false),
+  debug => lookup('tp::debug', Boolean, 'first', false),
+  data_module  => lookup('tp::data_module', String, 'first', 'tinydata'),
 }
 Tp::Conf {
-  config_file_notify => hiera('tp::config_file_notify', true),
-  config_file_require => hiera('tp::config_file_require', true),
-  debug => hiera('tp::debug', false),
-  data_module  => hiera('tp::data_module', 'tinydata'),
+  config_file_notify => lookup('tp::config_file_notify', Boolean, 'first', true),
+  config_file_require => lookup('tp::config_file_require', Boolean, 'first', true),
+  debug => lookup('tp::debug', Boolean, 'first', false),
+  data_module  => lookup('tp::data_module', String, 'first', 'tinydata'),
 }
 Tp::Dir {
-  config_dir_notify => hiera('tp::config_dir_notify', true),
-  config_dir_require => hiera('tp::config_dir_require', true),
-  debug  => hiera('tp::debug', false),
-  data_module  => hiera('tp::data_module', 'tinydata'),
+  config_dir_notify => lookup('tp::config_dir_notify', Boolean, 'first', true),
+  config_dir_require => lookup('tp::config_dir_require', Boolean, 'first', true),
+  debug  => lookup('tp::debug', Boolean, 'first', false),
+  data_module  => lookup('tp::data_module', String, 'first', 'tinydata'),
 }
 
 # Building Docker container support
