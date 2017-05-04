@@ -57,6 +57,13 @@
       tag_list: 'deploy_puppet'
       tls_ca_file: '/etc/puppetlabs/puppet/ssl/certs/ca.pem'
 
+  # Manage puppet agennt grants. PE User must be already existing
+  # If using PE. it must have permission to trigger remote puppet agents
+  profile::gitlab::runner::pe_user: 'deployer'       # A user you've created on PE
+  profile::gitlab::runner::pe_password: 'deployer'   # PE user password. TO CHANGE AT EVERY INSTALLATION
+  profile::gitlab::runner::pe_token_lifetime: '5y'            # Adapt as preferred
+
+
   # Config for gitlab cli. Tokens change at every gitlab installation
   # Use the Private token of a user with merge request and accept privileges
   profile::gitlab::cli::config_hash:

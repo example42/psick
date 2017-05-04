@@ -1,8 +1,9 @@
 # Run Puppet access to create an authentication token
 define tools::puppet::access (
   String $run_as_user               = 'root',
-  Optional[String] $deploy_password = undef,
   Optional[String] $lifetime        = '',
+  String $pe_user                   = $title,
+  Optional[String] $pe_password     = undef,
   String $pe_console                = $servername,
 ) {
 
@@ -21,10 +22,10 @@ define tools::puppet::access (
     owner   => $run_as_user,
     group   => $run_as_user,
     mode    => '0400',
-    content => $deploy_password,
+    content => $pe_password,
     before  => Exec["puppet-access ${title}"],
   }
-  $command_params="--username ${title} ${lifetime_option} --service-url https://${pe_console}:4433/rbac-api"
+  $command_params="--username ${pe_user} ${lifetime_option} --service-url https://${pe_console}:4433/rbac-api"
   exec { "puppet-access ${title}":
     command     => "cat ${user_home}/.puppetaccess | /opt/puppetlabs/bin/puppet-access login ${command_params}",
     creates     => "${user_home}/.puppetlabs/token",
