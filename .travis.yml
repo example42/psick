@@ -3,6 +3,8 @@ sudo: false
 language: ruby
 cache: bundler
 script: "bin/travis_check.sh"
+before_install:
+  - gem update bundler
 matrix:
   fast_finish: true
   include:
@@ -16,5 +18,4 @@ matrix:
     bundler_args: --without system_tests
     env: PUPPET_GEM_VERSION="~> 3.0" FUTURE_PARSER="yes"
 notifications:
-  email:
-    - al@example42.com
+  email: false
