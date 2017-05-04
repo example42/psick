@@ -25,4 +25,5 @@ Tp::Dir {
   debug  => hiera('tp::debug', false),
   data_module  => hiera('tp::data_module', 'tinydata'),
 }
-
+contain '::tools'
+contain '::profile::settings'

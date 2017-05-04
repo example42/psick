@@ -92,9 +92,6 @@ if $noop_mode == true {
 
 if versioncmp($::puppetversion, '4.0.0') >= 0 {
 
-  # With multi kernel clients better include dedicated base profiles.
-  $kernel_down=downcase($::kernel)
-
   # The tools module provides functions, types, providers, defines.
   # We include here the dummy, empty, main class.
   contain '::tools'
@@ -109,6 +106,8 @@ if versioncmp($::puppetversion, '4.0.0') >= 0 {
   contain '::profile::pre'
 
   # General baseline classes are distinct for each OS kernel
+  # With multi kernel clients better include dedicated base profiles.
+  $kernel_down=downcase($::kernel)
   contain "::profile::base::${kernel_down}"
 
   # Class ordering
@@ -118,12 +117,14 @@ if versioncmp($::puppetversion, '4.0.0') >= 0 {
   Class["::profile::base::${kernel_down}"]
 
   # Classification option 1 - Profiles defined in Hiera
+  # We contain all the classes defined on Hiera key: 'profiles'
   lookup('profiles', Array[String], 'unique', [] ).contain
   lookup('profiles', Array[String], 'unique', [] ).each | $p | {
     Class["::profile::base::${kernel_down}"] -> Class[$p]
   }
 
-  # Classification option 2 - Classic roles and profiles classes:
+  # Classification option 2 - Classic roles and profiles classes
+  # We contain role classes based on the $::role variable.
   #  if $::role and $::role != '' {
   #    contain "::role::${::role}"
   #    Class["::profile::base::${kernel_down}"] -> Class["::role::${::role}"]

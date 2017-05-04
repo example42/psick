@@ -19,13 +19,13 @@
   profile::base::linux::monitor_class: '::profile::monitor'
   profile::base::linux::logs_class: '::profile::logs::rsyslog'
   profile::base::linux::backup_class: '::profile::backup'
-  profile::base::linux::time_class: '::profile::time::ntp'
+  profile::base::linux::time_class: '::profile::time'
   profile::base::linux::sysctl_class: '::profile::sysctl'
   profile::base::linux::dns_class: ''
   profile::base::linux::multipath_class: '::profile::multipath'
   profile::base::linux::hardening_class: '::profile::hardening'
   profile::base::linux::motd_class: '::profile::motd'
-  profile::base::linux::hosts_class: '::profile::hosts::file'
+  profile::base::linux::hosts_class: '::profile::hosts::resource'
   profile::base::linux::sysstat_class: '::profile::sar'
   profile::base::linux::update_class: '::profile::update'
   profile::base::linux::hardware_class: '::profile::hardware'
@@ -71,7 +71,7 @@
     - my.domain
 
   # Time settings
-  profile::time::ntp::servers:
+  profile::time::servers:
     - 'pool.ntp.org'
     - '0.de.pool.ntp.org'
 
