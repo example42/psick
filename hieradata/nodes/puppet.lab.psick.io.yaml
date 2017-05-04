@@ -25,7 +25,7 @@
     - url: 'https://puppet.lab.psick.io:4433/classifier-api/v1/update-classes'    
       use-client-ssl: true
 
-  # Gems needed
+  # Gems needed
   profile::puppet::gems::install_gems:
     - r10k
     - deep_merge
