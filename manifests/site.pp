@@ -1,8 +1,15 @@
-# This is the default manifest used in Vagrant and PuppetMaster
-# environments.
-# Here we have a sample $::role driven nodeless setup with a common base profile
-# Feel free to modify and adapt to your case.
+# This is the default manifest used in Vagrant and PuppetMaster environments.
 
+# Here we have a sample $::role driven nodeless setup with a common base profile
+# a additional classes (profiles) set on Hiera.
+# The $::role variable, useful for classification in Hiera, can be set in different ways:
+# - As an external fact defined during provisioning
+# - Via a ENC like The Foreman or Puppet Enterprise
+# - In this same site.pp, extracting the role information from the hostname
+# - In this same site.pp, setting the $role var based on pp_role trusted fact
+# The latter choice is what is used here, feel free to modify and adapt to your case.
+
+### SETTING TOP SCOPE VARIABLES USED IN HIERA.YAML
 # The following lines are used to assign to top-scope variables (used in
 # hiera.yaml) the values of eventual trusted facts.
 # More info: https://docs.puppet.com/puppet/latest/reference/ssl_attributes_extensions.html
@@ -24,6 +31,7 @@ if $trusted['extensions']['pp_application'] and !has_key($facts,'application') {
   $application = $trusted['extensions']['pp_application']
 }
 
+### RESOURCE DEFAULTS
 # Some resource defaults for Files, Execs and Tiny Puppet
 case $::kernel {
   'Darwin': {
@@ -73,6 +81,7 @@ Tp::Dir {
   data_module  => lookup('tp::data_module', String, 'first', 'tinydata'),
 }
 
+### ADDITIONS FOR RUNS INSIDE DOCKER IMAGES AND NOOP MODE
 # Building Docker container support
 # This has a fix for service provider on docker
 if $virtual == 'docker' {
@@ -86,7 +95,10 @@ if $noop_mode == true {
   noop()
 }
 
+### ACTUAL CLASSES INCLUDED IN NODES
+
 # Workaround to permit compilation via puppet job run command
+# The $facts variable is always present in normal conditions.
 if defined('$facts') {
 
   # The tools module provides functions, types, providers, defines.
