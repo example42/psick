@@ -41,6 +41,7 @@ profile::base::linux::hosts_class: ''
 profile::base::linux::update_class: ''
 profile::base::linux::motd_class: ''
 profile::base::linux::profile_class: ''
+profile::base::linux::limits_class: ''
 
 # profile::base::darwin
 profile::base::darwin::enable: true

@@ -5,8 +5,9 @@ repo_dir="$(dirname $0)/.."
 global_exit=0
 
 run_script() {
+  status=${2:-'required'}
   $1
-  if ([ $? = 0 ] || [ $2 != 'required' ]); then
+  if ([ $? = 0 ] || [ $status != 'required' ]); then
     echo_success "OK"
   else
     echo_failure "ERROR"
