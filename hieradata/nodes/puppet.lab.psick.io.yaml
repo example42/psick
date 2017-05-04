@@ -17,7 +17,7 @@
     - git.lab.psick.io
     - puppet.lab.psick.io
 
-  puppet_enterprise::profile::master::r10k_remote: 'git@git.lab.psick.io:puppet/control-repo.git'
+  puppet_enterprise::profile::master::r10k_remote: 'git@git.lab.psick.io:puppet/psick.git'
   puppet_enterprise::profile::master::code_manager_auto_configure: true
   puppet_enterprise::profile::master::r10k_private_key: '/etc/puppetlabs/ssh/id-control_repo.rsa'
   # setup code_manager to update classes in the console after environment code deployment 
