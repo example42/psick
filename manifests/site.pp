@@ -86,11 +86,8 @@ if $noop_mode == true {
   noop()
 }
 
-# This is a Puppet 4 only control-repo, if Puppet is already 4.x
-# we include the OS base profile and look for profiles on Hiera
-# otherwise we install the Puppet 4 agent
-
-if versioncmp($::puppetversion, '4.0.0') >= 0 {
+# Workaround to permit compilation via puppet job run command
+if defined('$facts') {
 
   # The tools module provides functions, types, providers, defines.
   # We include here the dummy, empty, main class.
@@ -131,8 +128,7 @@ if versioncmp($::puppetversion, '4.0.0') >= 0 {
   #  }
 
 } else {
-  # All the code here is Puppet 4 only compliant.
-  # Nodes with Puppet 3 are upgraded
-  include ::puppet::profile::upgradeto4
+  # notify {"Executed via puppet orchestrator\n":}
+  notice ("Executed via puppet orchestrator\n")
 }
 
