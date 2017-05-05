@@ -313,7 +313,7 @@ pages:
   script:
     - rm -rf doc public .yardoc
     - puppet strings generate site/**/manifests/*.pp site/**/manifests/**/*.pp site/**/manifests/**/**/*.pp site/**/functions/**/*.pp manifests/*.pp
-    - /use/bin/docker run -v `pwd`:/source jagregory/pandoc -f markdown README.md -o doc/puppet.pdf --latex-engine=xelatex -s  --toc
+    - /usr/bin/docker run -v `pwd`:/source jagregory/pandoc -f markdown README.md -o doc/puppet.pdf --latex-engine=xelatex -s  --toc
     - mv doc public
   tags:
     - deploy_puppet
