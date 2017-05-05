@@ -1,7 +1,6 @@
 ---
   profiles:
     - profile::puppet::gems
-    - docker
   
   # Explicit list of required gems for CI runners for puppet testing
   profile::puppet::gems::install_puppet_gems: true
@@ -31,6 +30,7 @@
 
   # Config for the GIT Runners
   # Tokens change at every gitlab installation
+  profile::gitlab::runner::use_docker: true
   profile::gitlab::runner::runners:
     test_puppet:
       url: 'https://git.lab.psick.io'

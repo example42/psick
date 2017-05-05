@@ -323,10 +323,11 @@ pages:
     expire_in: '30 day'
 # Switch to production after tests
 
-pdf:
+generate_pdf:
   stage: pdf
+  image: 'jagregory/pandoc'
   script:
-    - /usr/bin/docker run -v `pwd`:/source jagregory/pandoc -f markdown README.md -o doc/puppet.pdf --latex-engine=xelatex -s  --toc
+    - pandoc -f markdown README.md -o public/PuppetControlRepoManual.pdf --latex-engine=xelatex -s  --toc
   tags:
     - docker
   artifacts:

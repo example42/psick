@@ -21,8 +21,17 @@ class profile::gitlab::runner (
   Hash                  $options       = { },
   Hash                  $runners       = { },
   String                $sudo_template = 'profile/gitlab/runner/sudo.erb',
+  Boolean               $use_docker    = false,
 ) {
 
+  if $use_docker {
+    include ::docker
+    # Quick and very dirty
+    exec { "usermod -a -G docker gitlab-runner":
+      refreshonly => true,
+      subscribe   => Class['docker'],
+    }
+  }
   $options_default = {
   }
   $gitlab_runner_options = $options_default + $options
