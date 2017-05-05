@@ -49,7 +49,7 @@ Managing changes:
 
 
 
-## <a name="introduction"></a>Introduction to Puppet
+## Introduction to Puppet
 
 Puppet features a declarative Domain Specific Language (DSL), which expresses the desired state and properties of the managed resources.
 Resources can be any component of a system, for example, packages to install, services to start, files to manage, users to create, and also custom and specic resources such as MySQL grants, Apache virtual hosts, and so on.
@@ -104,7 +104,7 @@ A typical Puppet run is composed of different phases. It's important to know the
 
 
 
-## <a name="hiera"></a>Hiera
+## Hiera
 
 [Hiera](https://docs.puppet.com/hiera/) is Puppet's builtin key/value data lookup system, where we can store the data we use to configure our system. It has some peculiar characteristics:
 
@@ -280,7 +280,7 @@ Some examples:
 Check the [official reference](https://docs.puppet.com/puppet/latest/function.html#lookup) for all the options available for the lookup function.
 
 
-## <a name="hieraeyaml"></a>Hiera Eyaml
+## Hiera Eyaml
 
 Hiera-eyaml is an additional Hiera backend which can be used to encrypt single keys in Hiera yaml files.
 
@@ -354,7 +354,7 @@ Since hiera-eyaml manages both clear text and encrypted values, we can use it as
 
 
 
-## <a name="externalfacts"></a>Puppet external facts
+## Puppet external facts
 
 There are 3 ways to add our own facts in Puppet:
 
@@ -421,7 +421,7 @@ External facts are a very easy way to set custon facts on nodes, just consider t
 
 
 
-## <a name="trustedfacts"></a>Setting trusted facts
+## Trusted facts
 
 Extensions to a node certificate can de defined for each Puppet managed node in order to define informations that can't be changed unless the same node certificate is recreated.
 
@@ -498,13 +498,13 @@ For example if we have nodes with a naming pattern like: $role-$id-$env.$::domai
 
 
 
-## <a name="noop"></a>Puppet noop mode
+## Puppet noop mode
 
 It's possible to run Puppet in **noop mode** which shows what are the changes that Puppet would do on the system without actually doing them.
 
 There are various ways we can enforce noop mode: let's review them.
 
-## Setting noop from the command line
+### Setting noop from the command line
 
 In any Puppet installation it's possible to run Puppet in noop mode specifying the ```--noop``` option in the command line:
 
@@ -514,7 +514,7 @@ This applies only for that specific Puppet run, so if there's a Puppet agent ser
 
 Also note that this approach is triggered and managed from the client.
 
-## Setting noop via Hiera
+### Setting noop via Hiera
 
 In this control-repo we are using the trlinkin-noop module with provides a function called ```noop()``` which adds the noop metaparameter to each resource.
 
@@ -539,7 +539,7 @@ For example when pushing to production particularly critical changes it's possib
 In other cases it may make sense to add this setting to more specific layers of the hierarchy.
 
 
-## <a name="controlrepo"></a>Using and understanding this control-repo
+## Using and understanding this control-repo
 
 The control-repo you find here is what we consider a starting point for a state of the art general purpose Puppet setup.
 
@@ -557,14 +557,6 @@ The manifests file, ```manifests/site.pp``` sets some resource defaults, include
 
 All the Hiera data is in ```hieradata``` , the file ```bin/hiera3.yaml``` shows a possible hierarchy design and uses ```hiera-eyaml``` as backend for keys encryption (no key is currently encrypted, because we are not shipping the generated private key (it's in .gitignore).
 You will have to regenerate your hiera-eyaml keys (run, from the main repo dir, ```eyaml createkeys```).
-
-On your Puppet server, if you want to keep hiera.yaml information in the control-repo you have to link it:
-
-    # For hiera 3 format (classic)
-    ln -sf /etc/puppetlabs/code/environments/production/bin/hiera3.yaml /etc/puppetlabs/puppet/hiera.yaml
-    # For hiera 5 format
-    ln -sf /etc/puppetlabs/code/environments/production/bin/hiera5.yaml /etc/puppetlabs/puppet/hiera.yaml
-
 
 In the ```site``` directory there are local "not public" modules. Basically our profiles and some role examples.
 
@@ -584,7 +576,7 @@ The ```skeleton``` directory contains a module skeleton you can use, and modify,
 Documentation is stored under ```docs```, while the ```bin``` directory contains several scirpts fot various purposes. Most of them can be invoked via Fabric, as configured in the ```*.py``` files in the main directory.
 
 
-## <a name="prerequisites"></a>Prerequisites
+## Prerequisites
 
 To have a full working environment you might need to locally install some software for specific activities.
 
@@ -647,7 +639,7 @@ Also Docker can be installed by the setup script.
 
 
 
-## <a name="vagrant"></a>Vagrant integration
+## Vagrant integration
 
 This control-repo contains different customizable Vagrant environments that can be used for different purposes at different stages of your Puppet workflow: local testing during development, continuous integration testings, semi-permanent test environments...
 
@@ -733,7 +725,7 @@ Run, respectively, vagrant provision, reload, halt, suspend, resume, destroy on 
 
 
 
-## <a name="docker"></a>Docker integration
+## Docker integration
 
 This control repo provides various ways to use, configure and work with Docker.
 
@@ -849,7 +841,7 @@ You'll need to run ```docker login``` before trying any operation that involves 
 
 
 
-## <a name="fabric"></a>Fabric
+## Fabric
 
 This control-repo provides several tools that help Puppeteers in their daily work.
 
@@ -915,7 +907,9 @@ Set external facts
     fab facter.set_external_facts
 
     fab facter.set_trusted_facts
-# Git works
+
+
+## Git works
 
 This control-repo is stored in a [Git](https://git-scm.com) repository.
 
@@ -923,7 +917,7 @@ Different workflows can be followed in the Puppet code development process.
 
 
 
-## <a name="git"></a>Git essential reference
+### Git essential reference
 
 Here is a very brief overview of Git essentials. There are many online resources where to learn more about it, here is a brief list:
 
@@ -1080,13 +1074,13 @@ When working on your control repo, besides it's own git repository, you may have
 
 
 
-## <a name="change"></a>Puppet change process
+## Puppet change process
 
 In this document we will review the process to follow to manage Puppet changes.
 
 By Puppet changes we mean, any modification, addition or deletion in this Git repository which may involve changes on real server, once the change has been deployed to the Puppet Server.
 
-## Changes overview: summary of involved files and impact
+### Changes overview: summary of involved files and impact
 
 This repository contains various files and directories, changing their contents may or may not affect your servers in different ways. We identify the following risks level, from lower to higher:
 
@@ -1255,7 +1249,11 @@ In the above picture we can see that we have 3 nodes where Puppet is always runn
 In the same screen you can see the number of nodes where Puppet has run with some failures, the ones where Puppet re-established a configuration in its expected state ("corrective changes", here they might have been manual changes since the previous Puppet run which have been reverted by Puppet)  and the ones where Puppet make intentional changes, as the ones you can see when you modify your code or data in order to modify some system's resource.
 
 
-## <a name="profiles"></a>Profiles list
+## Used classes and profiles
+
+The best way to understand the logic of this control-repo and know what classes are used by what nodes is to start 
+ are used by nodes
+ </a>Profiles list
 
 | Class                          | Ready | Cfged | Imple | Force | Description                                                      |
 |--------------------------------|-------|-------|-------|-------|------------------------------------------------------------------|
