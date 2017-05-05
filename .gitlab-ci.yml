@@ -325,11 +325,10 @@ pages:
 
 generate_pdf:
   stage: pdf
-  image: 'jagregory/pandoc'
   script:
-    - -f markdown README.md -o public/PuppetControlRepoManual.pdf --latex-engine=xelatex -s  --toc
+    - docker run -v $(pwd):/puppet -i jagregory/pandoc -f markdown /puppet/README.md -o /puppet/public/PuppetControlRepoManual.pdf --latex-engine=xelatex -s  --toc
   tags:
-    - docker
+    - deploy_puppet
   artifacts:
     paths:
     - public
