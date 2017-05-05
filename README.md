@@ -1,6 +1,6 @@
-# Control-repo documentation
+# Puppet Control-repo documentation
 
-This Puppet control repo contains all the resources needed to fully manage an infrastructure with Puppet:
+This Puppet control repo contains all the resources needed to fully manage our infrastructure with Puppet:
 
   - Local Puppet code in ```site/``` directory
   - Local Puppet data in ```data/``` directory
