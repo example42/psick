@@ -327,7 +327,7 @@ generate_pdf:
   stage: pdf
   image: 'jagregory/pandoc'
   script:
-    - pandoc -f markdown README.md -o public/PuppetControlRepoManual.pdf --latex-engine=xelatex -s  --toc
+    - -f markdown README.md -o public/PuppetControlRepoManual.pdf --latex-engine=xelatex -s  --toc
   tags:
     - docker
   artifacts:
