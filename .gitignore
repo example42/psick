@@ -211,3 +211,5 @@ ENV/
 .ropeproject
 .idea/
 control-repo.iml
+/site/profile/.vendor/
+/site/profile/coverage/
