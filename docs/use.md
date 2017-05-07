@@ -20,9 +20,9 @@ You will have to regenerate your hiera-eyaml keys (run, from the main repo dir, 
 On your Puppet server, if you want to keep hiera.yaml information in the control-repo you have to link it:
 
     # For hiera 3 format (classic)
-    ln -sf /etc/puppetlabs/code/environments/production/bin/hiera3.yaml /etc/puppetlabs/puppet/hiera.yaml
+    ln -sf /etc/puppetlabs/code/environments/production/hiera3.yaml /etc/puppetlabs/puppet/hiera.yaml
     # For hiera 5 format
-    ln -sf /etc/puppetlabs/code/environments/production/bin/hiera5.yaml /etc/puppetlabs/puppet/hiera.yaml
+    ln -sf /etc/puppetlabs/code/environments/production/hiera.yaml /etc/puppetlabs/puppet/hiera.yaml
 
 
 In the ```site``` directory there are local "not public" modules. Basically our profiles and some role examples.
