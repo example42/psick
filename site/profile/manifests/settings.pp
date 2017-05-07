@@ -16,7 +16,7 @@
 #   host: proxy.example.com
 #   port: 3128
 #   user: john    # Optional
-#   password: xxx # Optional
+#   password: xxx # Optional
 #   no_proxy:
 #     - localhost
 #     - "%{::domain}"

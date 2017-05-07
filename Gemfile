@@ -1,5 +1,4 @@
 # Derived from puppetlabs-ntp
-
 source ENV['GEM_SOURCE'] || "https://rubygems.org"
 
 # Determines what type of gem is requested based on place_or_version.
@@ -29,25 +28,28 @@ end
 
 # Used for gem conditionals
 supports_windows = false
+ruby_version_segments = Gem::Version.new(RUBY_VERSION.dup).segments
+minor_version = "#{ruby_version_segments[0]}.#{ruby_version_segments[1]}"
 
-gem 'puppet-lint',                        :require => false
-gem 'metadata-json-lint',                 :require => false, :platforms => 'ruby'
-gem 'puppet_facts',                       :require => false
-gem 'puppetlabs_spec_helper', '>= 1.2.1', :require => false
-gem 'rspec-puppet', '>= 2.3.2',           :require => false
-gem 'rspec-puppet-facts',                 :require => false, :platforms => 'ruby'
-gem 'mocha', '< 1.2.0',                   :require => false
-gem 'simplecov',                          :require => false, :platforms => 'ruby'
-gem 'parallel_tests', '< 2.10.0',         :require => false if Gem::Version.new(RUBY_VERSION.dup) < Gem::Version.new('2.0.0')
-gem 'parallel_tests',                     :require => false if Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.0.0')
-gem 'rubocop', '0.41.2',                  :require => false if Gem::Version.new(RUBY_VERSION.dup) < Gem::Version.new('2.0.0')
-gem 'rubocop',                            :require => false if Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.0.0')
-gem 'rubocop-rspec', '~> 1.6',            :require => false if Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.3.0')
-gem 'pry',                                :require => false
-gem 'json_pure', '<= 2.0.1',              :require => false if Gem::Version.new(RUBY_VERSION.dup) < Gem::Version.new('2.0.0')
-gem 'fast_gettext', '1.1.0',              :require => false if Gem::Version.new(RUBY_VERSION.dup) < Gem::Version.new('2.1.0')
-gem 'fast_gettext',                       :require => false if Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.1.0')
-gem 'rainbow', '< 2.2.0',                 :require => false
+group :development do
+  gem "puppet-module-posix-default-r#{minor_version}", :require => false, :platforms => "ruby"
+  gem "puppet-module-win-default-r#{minor_version}",   :require => false, :platforms => ["mswin", "mingw", "x64_mingw"]
+  gem "puppet-module-posix-dev-r#{minor_version}",     :require => false, :platforms => "ruby"
+  gem "puppet-module-win-dev-r#{minor_version}",       :require => false, :platforms => ["mswin", "mingw", "x64_mingw"]
+  gem "json_pure", '<= 2.0.1',                         :require => false if Gem::Version.new(RUBY_VERSION.dup) < Gem::Version.new('2.0.0')
+  gem "fast_gettext", '1.1.0',                         :require => false if Gem::Version.new(RUBY_VERSION.dup) < Gem::Version.new('2.1.0')
+  gem "fast_gettext",                                  :require => false if Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.1.0')
+end
+
+group :system_tests do
+  gem "puppet-module-posix-system-r#{minor_version}",                            :require => false, :platforms => "ruby"
+  gem "puppet-module-win-system-r#{minor_version}",                              :require => false, :platforms => ["mswin", "mingw", "x64_mingw"]
+  gem "beaker", *location_for(ENV['BEAKER_VERSION'] || '>= 3')                  
+  gem "beaker-pe",                                                               :require => false
+  gem "beaker-rspec", *location_for(ENV['BEAKER_RSPEC_VERSION'])                
+  gem "beaker-hostgenerator", *location_for(ENV['BEAKER_HOSTGENERATOR_VERSION'])
+  gem "beaker-abs", *location_for(ENV['BEAKER_ABS_VERSION'] || '~> 0.1')        
+end
 
 gem 'puppet', *location_for(ENV['PUPPET_GEM_VERSION'])
 
@@ -68,4 +70,5 @@ end
 if File.exists?(File.join(Dir.home, '.gemfile'))
   eval(File.read(File.join(Dir.home, '.gemfile')), binding)
 end
+
 

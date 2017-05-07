@@ -26,9 +26,9 @@ class profile::puppet::pe_code_manager (
       before       => Tools::Puppet::Access[$pe_user],
     }
     tools::puppet::access { $pe_user:
-      deploy_password => $pe_password,
-      run_as_user     => $deploy_user,
-      lifetime        => $lifetime,
+      pe_password => $pe_password,
+      run_as_user => $deploy_user,
+      lifetime    => $lifetime,
     }
   }
 

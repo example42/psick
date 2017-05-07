@@ -15,12 +15,16 @@
 #                      sudoers file. If undef file is not managed
 #
 class profile::gitlab::runner (
-  String                $ensure        = 'present',
-  Boolean               $auto_prerequisites = true,
-  Optional[String]      $template      = undef, # 'profile/gitlab/runner/config.toml.erb',
-  Hash                  $options       = { },
-  Hash                  $runners       = { },
-  String                $sudo_template = 'profile/gitlab/runner/sudo.erb',
+  String           $ensure        = 'present',
+  Boolean          $auto_prerequisites = true,
+  Optional[String] $template      = undef, # 'profile/gitlab/runner/config.toml.erb',
+  Hash             $options       = { },
+  Hash             $runners       = { },
+  String           $sudo_template = 'profile/gitlab/runner/sudo.erb',
+  Optional[String] $pe_user                 = undef,
+  Optional[String] $pe_password             = undef,
+  Optional[String] $runner_user             = 'gitlab-runner',
+  Optional[String] $pe_token_lifetime                = '5y',
 ) {
 
   $options_default = {
@@ -50,6 +54,15 @@ class profile::gitlab::runner (
   if $sudo_template {
     tools::sudo::directive { 'gitlab-runner':
       template => $sudo_template,
+    }
+  }
+
+  if $pe_user and $pe_password {
+    tools::puppet::access { 'gitlab-runner':
+      pe_user         => $pe_user,
+      pe_password     => $pe_password,
+      run_as_user     => $runner_user,
+      lifetime        => $pe_token_lifetime,
     }
   }
 }

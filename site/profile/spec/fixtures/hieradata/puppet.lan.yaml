@@ -20,7 +20,7 @@
 
   # Code manager
   profile::puppet::pe_code_manager::deploy_user: 'deployer'        
-  profile::puppet::pe_code_manager::deploy_password: 'Testonly.2Encrypt_n_change'        
+  profile::puppet::pe_code_manager::pe_password: 'Testonly.2Encrypt_n_change'        
   profile::puppet::pe_code_manager::lifetime: '5y'        
   profile::puppet::pe_code_manager::deploy_ssh_private_source: 'file:///home/deployer/.ssh/id_rsa'        
 

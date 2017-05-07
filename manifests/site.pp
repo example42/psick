@@ -1,8 +1,15 @@
-# This is the default manifest used in Vagrant and PuppetMaster
-# environments.
-# Here we have a sample $::role driven nodeless setup with a common base profile
-# Feel free to modify and adapt to your case.
+# This is the default manifest used in Vagrant and PuppetMaster environments.
 
+# Here we have a sample $::role driven nodeless setup with a common base profile
+# a additional classes (profiles) set on Hiera.
+# The $::role variable, useful for classification in Hiera, can be set in different ways:
+# - As an external fact defined during provisioning
+# - Via a ENC like The Foreman or Puppet Enterprise
+# - In this same site.pp, extracting the role information from the hostname
+# - In this same site.pp, setting the $role var based on pp_role trusted fact
+# The latter choice is what is used here, feel free to modify and adapt to your case.
+
+### SETTING TOP SCOPE VARIABLES USED IN HIERA.YAML
 # The following lines are used to assign to top-scope variables (used in
 # hiera.yaml) the values of eventual trusted facts.
 # More info: https://docs.puppet.com/puppet/latest/reference/ssl_attributes_extensions.html
@@ -24,6 +31,7 @@ if $trusted['extensions']['pp_application'] and !has_key($facts,'application') {
   $application = $trusted['extensions']['pp_application']
 }
 
+### RESOURCE DEFAULTS
 # Some resource defaults for Files, Execs and Tiny Puppet
 case $::kernel {
   'Darwin': {
@@ -55,24 +63,25 @@ Exec {
   path => '/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin',
 }
 Tp::Install {
-  test_enable  => hiera('tp::test_enable', false),
-  puppi_enable => hiera('tp::puppi_enable', false),
-  debug => hiera('tp::debug', false),
-  data_module  => hiera('tp::data_module', 'tinydata'),
+  test_enable  => lookup('tp::test_enable', Boolean, 'first', false),
+  puppi_enable => lookup('tp::puppi_enable', Boolean, 'first', false),
+  debug => lookup('tp::debug', Boolean, 'first', false),
+  data_module  => lookup('tp::data_module', String, 'first', 'tinydata'),
 }
 Tp::Conf {
-  config_file_notify => hiera('tp::config_file_notify', true),
-  config_file_require => hiera('tp::config_file_require', true),
-  debug => hiera('tp::debug', false),
-  data_module  => hiera('tp::data_module', 'tinydata'),
+  config_file_notify => lookup('tp::config_file_notify', Boolean, 'first', true),
+  config_file_require => lookup('tp::config_file_require', Boolean, 'first', true),
+  debug => lookup('tp::debug', Boolean, 'first', false),
+  data_module  => lookup('tp::data_module', String, 'first', 'tinydata'),
 }
 Tp::Dir {
-  config_dir_notify => hiera('tp::config_dir_notify', true),
-  config_dir_require => hiera('tp::config_dir_require', true),
-  debug  => hiera('tp::debug', false),
-  data_module  => hiera('tp::data_module', 'tinydata'),
+  config_dir_notify => lookup('tp::config_dir_notify', Boolean, 'first', true),
+  config_dir_require => lookup('tp::config_dir_require', Boolean, 'first', true),
+  debug  => lookup('tp::debug', Boolean, 'first', false),
+  data_module  => lookup('tp::data_module', String, 'first', 'tinydata'),
 }
 
+### ADDITIONS FOR RUNS INSIDE DOCKER IMAGES AND NOOP MODE
 # Building Docker container support
 # This has a fix for service provider on docker
 if $virtual == 'docker' {
@@ -86,14 +95,11 @@ if $noop_mode == true {
   noop()
 }
 
-# This is a Puppet 4 only control-repo, if Puppet is already 4.x
-# we include the OS base profile and look for profiles on Hiera
-# otherwise we install the Puppet 4 agent
+### ACTUAL CLASSES INCLUDED IN NODES
 
-if versioncmp($::puppetversion, '4.0.0') >= 0 {
-
-  # With multi kernel clients better include dedicated base profiles.
-  $kernel_down=downcase($::kernel)
+# Workaround to permit compilation via puppet job run command
+# The $facts variable is always present in normal conditions.
+if defined('$facts') {
 
   # The tools module provides functions, types, providers, defines.
   # We include here the dummy, empty, main class.
@@ -109,6 +115,8 @@ if versioncmp($::puppetversion, '4.0.0') >= 0 {
   contain '::profile::pre'
 
   # General baseline classes are distinct for each OS kernel
+  # With multi kernel clients better include dedicated base profiles.
+  $kernel_down=downcase($::kernel)
   contain "::profile::base::${kernel_down}"
 
   # Class ordering
@@ -118,20 +126,21 @@ if versioncmp($::puppetversion, '4.0.0') >= 0 {
   Class["::profile::base::${kernel_down}"]
 
   # Classification option 1 - Profiles defined in Hiera
+  # We contain all the classes defined on Hiera key: 'profiles'
   lookup('profiles', Array[String], 'unique', [] ).contain
   lookup('profiles', Array[String], 'unique', [] ).each | $p | {
     Class["::profile::base::${kernel_down}"] -> Class[$p]
   }
 
-  # Classification option 2 - Classic roles and profiles classes:
+  # Classification option 2 - Classic roles and profiles classes
+  # We contain role classes based on the $::role variable.
   #  if $::role and $::role != '' {
   #    contain "::role::${::role}"
   #    Class["::profile::base::${kernel_down}"] -> Class["::role::${::role}"]
   #  }
 
 } else {
-  # All the code here is Puppet 4 only compliant.
-  # Nodes with Puppet 3 are upgraded
-  include ::puppet::profile::upgradeto4
+  # notify {"Executed via puppet orchestrator\n":}
+  notice ("Executed via puppet orchestrator\n")
 }
 

@@ -41,6 +41,7 @@ profile::base::linux::hosts_class: ''
 profile::base::linux::update_class: ''
 profile::base::linux::motd_class: ''
 profile::base::linux::profile_class: ''
+profile::base::linux::limits_class: ''
 
 # profile::base::darwin
 profile::base::darwin::enable: true
@@ -122,6 +123,10 @@ profile::proxy::configure_repo: true
 profile::proxy::force: false
 # This is set as class param as here it fails since String is returned
 # profile::proxy::proxy_server: "%{lookup('::profile::settings::proxy_server')}"
+
+# profile::puppet::pe_agent
+profile::puppet::pe_agent::test_enable: false
+profile::puppet::pe_agent::settings: {}
 
 # profile::repo::generic
 profile::repo::generic::add_defaults: true

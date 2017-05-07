@@ -17,7 +17,7 @@
     - git.lab.psick.io
     - puppet.lab.psick.io
 
-  puppet_enterprise::profile::master::r10k_remote: 'git@git.lab.psick.io:puppet/control-repo.git'
+  puppet_enterprise::profile::master::r10k_remote: 'git@git.lab.psick.io:puppet/psick.git'
   puppet_enterprise::profile::master::code_manager_auto_configure: true
   puppet_enterprise::profile::master::r10k_private_key: '/etc/puppetlabs/ssh/id-control_repo.rsa'
   # setup code_manager to update classes in the console after environment code deployment 
@@ -25,7 +25,7 @@
     - url: 'https://puppet.lab.psick.io:4433/classifier-api/v1/update-classes'    
       use-client-ssl: true
 
-  # Gems needed
+  # Gems needed
   profile::puppet::gems::install_gems:
     - r10k
     - deep_merge
@@ -56,6 +56,13 @@
       token: 'WKkjkbbsyhFB-FFMosKe' # CI Runner token TO CHANGE AT EVERY INSTALLATION
       tag_list: 'deploy_puppet'
       tls_ca_file: '/etc/puppetlabs/puppet/ssl/certs/ca.pem'
+
+  # Manage puppet agennt grants. PE User must be already existing
+  # If using PE. it must have permission to trigger remote puppet agents
+  profile::gitlab::runner::pe_user: 'deployer'       # A user you've created on PE
+  profile::gitlab::runner::pe_password: 'deployer'   # PE user password. TO CHANGE AT EVERY INSTALLATION
+  profile::gitlab::runner::pe_token_lifetime: '5y'            # Adapt as preferred
+
 
   # Config for gitlab cli. Tokens change at every gitlab installation
   # Use the Private token of a user with merge request and accept privileges
