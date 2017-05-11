@@ -50,7 +50,7 @@ This control-repo requires Puppet 4, if it's not already installed, you can inst
 
 Before starting to use it, you have to populate the ```modules/``` directory of the control-repo.
 
-You need to do this both on your **development** workstation, and on your **Puppet server** (after having placed your control-repo the ```/etc/puppetlabs/code/environments/``` directory).
+You need to do this both on your **development** workstation, and on your **Puppet server** (after having placed your control-repo into the ```/etc/puppetlabs/code/environments/``` directory).
 
 To install the prequequisite gems (hiera-eyaml, deep_merge, r10k) and populate the external modules directory via r10k, you can run: 
 
