@@ -4,8 +4,10 @@ repo_dir="$(dirname $0)/.."
 
 test -f /etc/gitlab-ci.conf && . /etc/gitlab-ci.conf
 env=$1
-default_nodes=$(eval echo "${env}_query_default_nodes")
-always_nodes=$(eval echo "${env}_query_always_nodes")
+default=${env}_query_default_nodes
+always=${env}_query_always_nodes
+default_nodes=${!default}
+always_nodes=${!always}
 nodes=0
 global_exit=0
 
