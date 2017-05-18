@@ -26,7 +26,7 @@ for changedfile in $(git diff origin/production..$env --name-only); do
   if [[ "x$node" != "x" ]]; then
     echo
     echo "Puppet preview diff on ${node} - Check based on commits"
-    sudo /opt/puppetlabs/bin/puppet preview --baseline_environment production --preview_environment $env $node
+    sudo /opt/puppetlabs/bin/puppet preview --view overview --assert equal --baseline_environment production --preview_environment $env $node
     global_exit=$(($global_exit + $?))
     nodes=$nodes+1
   fi 
@@ -36,7 +36,7 @@ if [[ $nodes == 0 ]]; then
     for node in ${default_nodes//,/ }; do
       echo
       echo "Catalog preview on ${node} - Default check"
-      sudo /opt/puppetlabs/bin/puppet preview --baseline_environment production --preview_environment $env $node
+      sudo /opt/puppetlabs/bin/puppet preview --view overview --assert equal --baseline_environment production --preview_environment $env $node
       global_exit=$(($global_exit + $?))
     done
 fi
@@ -44,7 +44,7 @@ fi
 for node in ${always_nodes//,/ }; do
   echo
   echo "Catalog preview on ${node} - Check always done"
-  sudo /opt/puppetlabs/bin/puppet preview --baseline_environment production --preview_environment $env $node
+  sudo /opt/puppetlabs/bin/puppet preview --view overview --assert equal --baseline_environment production --preview_environment $env $node
   global_exit=$(($global_exit + $?))
 done
 exit $global_exit
