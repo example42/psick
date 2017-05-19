@@ -124,6 +124,10 @@ profile::proxy::force: false
 # This is set as class param as here it fails since String is returned
 # profile::proxy::proxy_server: "%{lookup('::profile::settings::proxy_server')}"
 
+# profile::puppet::pe_agent
+profile::puppet::pe_agent::test_enable: false
+profile::puppet::pe_agent::settings: {}
+
 # profile::repo::generic
 profile::repo::generic::add_defaults: true
 profile::repo::generic::yum_resource: yumrepo     # As native resource type

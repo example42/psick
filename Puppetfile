@@ -70,7 +70,7 @@ mod "puppetlabs/dummy_service", :latest
 # mod 'puppetlabs/mongodb', :latest
 
 # Used by profile::sudo::sudoers
-# mod 'saz/sudo', :3.1.0
+# mod 'saz/sudo', :'3.1.0'
 
 # Used by profile::vagrant
 mod 'unibet/vagrant', :latest
