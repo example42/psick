@@ -28,7 +28,7 @@ mod'example42/icinga',
   :branch => '4.x'
 
 # Third Party modules
-mod "puppetlabs/concat", :latest
+mod "puppetlabs/concat", '3.0.0' # postgresql requires concat < 3.0.0
 mod "puppetlabs/stdlib", :latest
 mod "puppetlabs/vcsrepo", :latest
 mod "puppetlabs/firewall", :latest
