@@ -1,4 +1,4 @@
-# Class profile::puppet::pos_master
+# Class profile::puppet::foss_master
 #
 # this class bootstraps a Puppet Open Source master
 #
@@ -7,9 +7,9 @@
 # @param enable_puppetdb (default true)
 #
 # example usage:
-#   contain profile::puppet::pos_master
+#   contain profile::puppet::foss_master
 #
-#   class { 'profile::puppet::pos_master':
+#   class { 'profile::puppet::foss_master':
 #     r10k_repmote_repo = 'https://github.com/example42/psick.git'
 #   }
 #
@@ -22,7 +22,7 @@
 # - allow multi master setup
 # - allow multiple control-repos
 #
-class profile::puppet::pos_master (
+class profile::puppet::foss_master (
   Optional[String]  $r10k_remote_repo     = undef,
   Boolean           $manage_puppetdb_repo = true,
   Boolean           $enable_puppetdb      = true,
