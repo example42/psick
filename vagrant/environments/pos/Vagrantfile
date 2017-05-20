@@ -1,0 +1,166 @@
+# This Vagrantfile is shared by different Vagrant environments.
+# Handle with care. For customisation remove the link to
+# the shared vagrant/Vagrantfile and create a new Vagrantfile
+# under vagran/environments/$your_environment/
+require 'yaml'
+require 'ipaddr'
+
+# Nodes configuration is defined in config.yaml
+vagrantfile_dir = File.expand_path File.dirname(__FILE__)
+config_file = File.join(vagrantfile_dir, 'config.yaml')
+
+if !File.exist?(config_file)
+  throw("File config.yaml not found. Must be in same dir of Vagrantfile")
+end
+
+ 
+settings = YAML::load_file config_file
+
+# Network and Puppet basics
+network_obj = IPAddr.new settings['network']['range']
+network_ip_range = network_obj.to_range.to_a
+range_start_offset = settings['network']['ip_start_offset'] ? settings['network']['ip_start_offset'] : 101
+puppet_master_hostname = settings['puppet']['master_fqdn'] ? settings['puppet']['master_fqdn'] : 'puppet'
+puppet_environment = settings['puppet']['environment']
+
+# We mount this directory on the VMs and then link puppet_environment to it
+# This is needed to avoid Puppet installation issues complaining about limited space 
+# under production
+puppet_code_dir = '/vagrant_puppet'
+
+
+# Define vms settings
+vms = []
+if settings['nodes'].is_a?(Array)
+  ip_index = range_start_offset
+  settings['nodes'].each_with_index do |node, _role_index|
+    count = node['count'] ? node['count'] : 1
+
+    (1..count).each do |vm_index|
+      vm = node.clone
+      vm['hostname_base'] = vm['hostname_base'] ? vm['hostname_base'] : vm['role']
+      vm['hostname'] = "%s" % [vm['hostname_base']]
+      vm['fqdn'] = vm['fqdn'] ? vm['fqdn'] : "%s.%s" % [vm['hostname_base'], settings['network']['domain']]
+
+      if vm['ip_address']
+        vm['ip'] = vm['ip_address']
+      else
+        vm['ip'] = network_ip_range[ip_index].to_s
+        ip_index+=1
+      end
+
+      vm['aliases'] = [
+          "%s.%s" % [vm['hostname'], settings['network']['domain']],
+          "%s-%02d" % [vm['hostname_base'], vm_index]
+      ]
+
+      vm['box'] = node['box'] ? node['box'] : settings['vm']['box']
+      vm['cpu'] = node['cpu'] ? node['cpu'] : settings['vm']['cpu']
+      vm['memory'] = node['memory'] ? node['memory'] : settings['vm']['memory']
+      vm['puppet_agent'] = node['puppet_agent'] ? node['puppet_agent'] : settings['vm']['puppet_agent']
+      vm['puppet_apply'] = node['puppet_apply'] ? node['puppet_apply'] : settings['vm']['puppet_apply']
+      vm['facter_external_facts'] = node['facter_external_facts'] ? node['facter_external_facts'] : settings['vm']['facter_external_facts']
+      vm['facter_trusted_facts'] = node['facter_trusted_facts'] ? node['facter_trusted_facts'] : settings['vm']['facter_trusted_facts']
+
+      vm['role'] = node['role'] ? node['role'] : settings['vm']['role']
+      vm['pos_role'] = node['pos_role'] ? node['pos_role'] : nil
+      vm['forwarded_port'] = node['forwarded_port'] ? node['forwarded_port'] : nil
+      vm['application'] = node['application'] ? node['application'] : settings['puppet']['application']
+
+      vms.push(vm)
+    end
+  end
+end
+
+
+# Vagrant configuration
+Vagrant.configure("2") do |config|
+
+  # hostmanager config
+  if Vagrant.has_plugin?("vagrant-hostmanager")
+    config.hostmanager.enabled = settings['vagrant']['hostmanager.enabled'] ? settings['vagrant']['hostmanager.enabled'] : true
+    config.hostmanager.manage_host = settings['vagrant']['hostmanager.manage_host'] ? settings['vagrant']['hostmanager.manage_host'] : false
+    config.hostmanager.ignore_private_ip = settings['vagrant']['hostmanager.ignore_private_ip'] ? settings['vagrant']['hostmanager.ignore_private_ip'] : false
+    config.hostmanager.include_offline = settings['vagrant']['hostmanager.include_offline'] ? settings['vagrant']['hostmanager.include_offline'] : true
+  end
+
+  # See https://github.com/mitchellh/vagrant/issues/1673
+  config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
+
+  vms.each do |node|
+    role = node['role'].clone
+    hostname = node['hostname'].clone
+    fqdn = node['fqdn'].clone
+    box = node['box'].clone
+    aliases = node['aliases'].clone + node['aliases'] 
+    env = settings['puppet']['env']
+    datacenter = settings['puppet']['datacenter']
+    zone = settings['puppet']['zone']
+    application = node['application']
+    pos_role = node['pos_role'] if node['pos_role']
+    pos_verbose = settings['puppet']['pos_verbose'] ? settings['puppet']['pos_verbose'] : true
+    #pos_version = settings['puppet']['pos_version'] 
+    pos_relocate_manifests = settings['puppet']['pos_relocate_manifests'] 
+    master_vm = settings['puppet']['master_vm'] if settings['puppet']['master_vm']
+    forwarded_port = node['forwarded_port']
+    vm_box = settings['boxes']["#{box}"]['box']
+    link_controlrepo = settings['puppet']['link_controlrepo'] ? settings['puppet']['link_controlrepo'] : false
+
+    config.vm.define fqdn do |node_config|
+      node_config.vm.box = vm_box
+      node_config.vm.hostname = fqdn
+      node_config.vm.network :private_network, ip: node['ip']
+      node_config.vm.network :private_network, ip: node['ipv6'] if node['ipv6']
+
+      node_config.vm.provision "shell", path: '../../bin/vagrant-sethostname.sh', args: "#{fqdn}"
+      node_config.vm.provision "shell", path: '../../bin/vagrant-setfacts.sh', args: "--role #{role} --env #{env} --zone #{zone} --datacenter #{datacenter} --application #{application}" if node['facter_external_facts']
+      node_config.vm.provision "shell", path: '../../bin/vagrant-settrustedfacts.sh', args: "--role #{role} --env #{env} --zone #{zone} --datacenter #{datacenter} --application #{application}" if node['facter_trusted_facts']
+      node_config.vm.provision "shell", path: '../../../bin/puppet_install.sh' if settings['puppet']['install_oss']
+
+      if Vagrant.has_plugin?("vagrant-hostmanager")
+        node_config.hostmanager.aliases = aliases
+        node_config.hostmanager.manage_host = settings['vagrant']['hostmanager.manage_host']
+      end
+
+      if role != 'puppet'
+        if Vagrant.has_plugin?("vagrant-hostmanager") and Vagrant.has_plugin?('vagrant-triggers')
+          # register destroy trigger to remove the node from puppet master
+          node_config.trigger.after :destroy do
+            node_name = @machine.name.to_s
+            puts "Cleaning #{node_name} certificate from puppet"
+            `vagrant ssh #{master_vm} -- -t 'sudo puppet cert clean #{hostname}'`
+            puts "Deactivating #{node_name} from puppet"
+            `vagrant ssh #{master_vm} -- -t 'sudo puppet node deactivate #{hostname}'`
+          end
+        end
+      end
+
+      if node['puppet_apply'] == true
+        node_config.vm.synced_folder "../../../", puppet_code_dir, mount_options: ["ro"]
+        node_config.vm.provision "shell", path: '../../bin/vagrant-linkcontrolrepo.sh', args: "#{puppet_environment} #{puppet_code_dir}" if link_controlrepo
+        node_config.vm.provision "shell", path: '../../bin/vagrant-setup_papply.sh', args: "#{puppet_environment}"
+        node_config.vm.provision "shell", path: '../../bin/papply.sh'
+      end
+
+      if node['pos_role'] == 'master'
+        node_config.vm.synced_folder "../../../", puppet_code_dir, mount_options: ["ro"]
+        node_config.vm.provision "shell", path: '../../bin/vagrant-linkcontrolrepo.sh', args: "#{puppet_environment} #{puppet_code_dir}" if link_controlrepo
+        node_config.vm.provision "shell", path: '../../bin/vagrant-setup_papply.sh', args: "#{puppet_environment}"
+      end
+
+      if node['puppet_agent'] == true
+        node_config.vm.provision "shell", path: "../../bin/pagent.sh", args: "--server #{puppet_master_hostname}"
+      end
+
+      if node['forwarded_port']
+        node_config.vm.network "forwarded_port", guest: node['forwarded_port']['guest'], host: node['forwarded_port']['host']
+      end
+
+      node_config.vm.provider "virtualbox" do |v|
+        v.customize ['modifyvm', :id, '--name', fqdn]
+        v.customize ['modifyvm', :id, '--cpus', node['cpu'].to_s]
+        v.customize ['modifyvm', :id, '--memory', node['memory'].to_s]
+      end
+    end
+  end
+end
