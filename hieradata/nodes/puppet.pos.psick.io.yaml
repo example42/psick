@@ -1,3 +1,0 @@
----
-  profiles:
-    - profile::puppet::foss_master
