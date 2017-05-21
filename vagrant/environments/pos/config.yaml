@@ -32,7 +32,7 @@ puppet:
   master_vm:  puppet.foss.psick.io      # Name of the VM which play as Puppet server for the others
   master_fqdn: 'puppet.foss.psick.io'   # FQDN of the Puppet server to use with puppet agent
   link_controlrepo: true      # Add a link for a Puppet environment to the development control-repo 
-  environment: production     # Puppet environment to link to local control-repo
+  environment: host           # Puppet environment to link to local control-repo
 
 # Vagrant settings
 vagrant:
