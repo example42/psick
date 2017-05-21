@@ -64,7 +64,7 @@ class profile::puppet::foss_master (
     # needed for puppetdb ssl setup
     exec { '/sbin/service puppetserver start':
       command => 'puppet resource service puppetserver ensure=running',
-      path    => '/opt/puppetlabs/bin:/usr/bin:/bin:/usr/sbin:/sbin'
+      path    => '/opt/puppetlabs/bin:/usr/bin:/bin:/usr/sbin:/sbin',
       creates => '/etc/puppetlabs/puppet/ssl/certs/ca.pem',
       require => Package['puppetserver'],
     }
