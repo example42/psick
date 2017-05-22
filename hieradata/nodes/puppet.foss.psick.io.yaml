@@ -1,0 +1,6 @@
+---
+profiles:
+  - profile::puppet::gems
+  - profile::puppet::foss_master
+
+profile::puppet::gems::install_puppetserver_gems: true

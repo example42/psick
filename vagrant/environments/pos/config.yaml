@@ -1,0 +1,110 @@
+---
+# Default settings for all vms (they can be overridden on each node)
+vm:
+  memory: 1024                 # MB or RAM to assign
+  cpu: 1                       # Number of vCPU to assign to the VM
+  box: centos7                 # Box used for the VM, from the boxes list below
+  puppet_apply: false          # Run puppet apply on the local control-repo during provisioning
+  puppet_agent: true           # Run puppet agent during provisioning
+  facter_external_facts: false # Create external facts in facts.d/$fact.txt. Note 1
+  facter_trusted_facts: true   # Create csr_attributes.yaml. Note 1
+
+# Note 1: Some facts are used in default hiera.yaml and needed for
+# nodes classification. So it's better to set them, once.
+# If you enable both external and trusted facts and keep the
+# default manifests/site.pp you'll have a variable declaration error 
+
+# A local network is created among the VM. Here is configured.
+network:
+  range: 10.42.49.0/24   # Network address and mask to use 
+  ip_start_offset: 101   # Starting ip in the network for automatic assignement
+  domain: foss.psick.io    # Name of DNS domain for the created machines
+
+# Puppet related settings
+puppet:
+  version: latest             # Version to use for OSS
+  install_oss: true          # If to install Puppet OSS agent on the VMS
+  install_pe: false            # If to install Puppet Enterprise agent on the VMS
+  env: devel                  # Setting for the env fact (may be used in hiera.yaml)
+  zone: foss                  # Setting for the zone fact (may be used in hiera.yaml)
+  datacenter: vagrant         # Setting for the datacenter fact (may be used in hiera.yaml)
+  application: default        # Setting for the application fact (may be used in hiera.yaml)
+  master_vm:  puppet.foss.psick.io      # Name of the VM which play as Puppet server for the others
+  master_fqdn: 'puppet.foss.psick.io'   # FQDN of the Puppet server to use with puppet agent
+  link_controlrepo: true      # Add a link for a Puppet environment to the development control-repo 
+  environment: host           # Puppet environment to link to local control-repo
+
+# Vagrant settings
+vagrant:
+  hostmanager.manage_host: false # If true and you have the hostmanager plugin
+
+# List of nodes shown in vagrant status
+# Node names are based on the defined role. Here can be overridden vm defaults,
+# it can be enforced a defined host name, added alieses, port forwarding and foss_role
+nodes:
+  - role: puppet
+    application: puppetinfra  
+    foss_role: master
+    puppet_apply: true
+    memory: 6192
+    cpu: 2
+    aliases:
+      - puppet
+    forwarded_port:
+      guest: 443
+      host: 1943
+  - role: build
+    count: 1
+    box: centos7
+  - role: docker
+    count: 1
+    box: ubuntu1604
+  - role: mon
+    count: 1
+    box: centos7
+  - role: ostest
+    hostname_base: centos6
+    count: 1
+    box: centos6
+  - role: ostest
+    hostname_base: ubuntu1604
+    count: 1
+    box: ubuntu1604
+
+
+# List of available Vagrant boxes with different OS to test on
+boxes:
+  centos7:
+    box: centos/7
+    breed: puppetlabs
+  centos6:
+    box: centos/6
+    breed: puppetlabs
+  centos7_puppet:
+    box: puppetlabs/centos-7.2-64-nocm
+    breed: puppetlabs
+  centos6_puppet:
+    box: puppetlabs/centos-6.6-64-nocm
+    breed: puppetlabs
+  ubuntu1604:
+    box: ubuntu/xenial64
+    breed: puppetlabs
+  ubuntu1404:
+    box: ubuntu/trusty64
+    breed: puppetlabs
+  ubuntu1204:
+    box: ubuntu/precise64
+    breed: puppetlabs
+  debian8:
+    box: debian/jessie64
+    breed: puppetlabs
+  debian7:
+    box: debian/wheezy64
+    breed: puppetlabs
+  alpine3:
+    box: maier/alpine-3.3.1-x86_64
+    breed: puppetlabs
+  fedora23:
+    box: fedora/23-cloud-base
+    breed: puppetlabs
+

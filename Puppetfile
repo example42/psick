@@ -28,7 +28,7 @@ mod'example42/icinga',
   :branch => '4.x'
 
 # Third Party modules
-mod "puppetlabs/concat", :latest
+mod "puppetlabs/concat", '3.0.0' # postgresql requires concat < 3.0.0
 mod "puppetlabs/stdlib", :latest
 mod "puppetlabs/vcsrepo", :latest
 mod "puppetlabs/firewall", :latest
@@ -38,6 +38,16 @@ mod "trlinkin/noop", :latest
 mod "puppetlabs/catalog_preview", :latest
 mod "puppet/archive", :latest
 mod "puppetlabs/inifile", :latest
+
+# Used by profile::puppet::pos_server
+mod 'puppetlabs/postgresql', :latest
+mod 'puppetlabs/puppetdb', :latest
+mod 'puppet/puppetserver',
+  :git => "https://github.com/voxpupuli/puppet-puppetserver.git",
+  :tag => '2.1.0'
+mod 'puppetlabs/puppetserver_gem', :latest
+mod 'puppet/r10k', :latest
+# mod 'puppet/puppetboard', :latest
 
 # Used by profile::puppet::pe_code_manager
 mod "pltraining/rbac", '0.0.5'

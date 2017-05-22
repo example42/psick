@@ -52,6 +52,7 @@ group :system_tests do
 end
 
 gem 'puppet', *location_for(ENV['PUPPET_GEM_VERSION'])
+gem 'r10k', *location_for(ENV['R10K_GEM_VERSION'])
 
 # Only explicitly specify Facter/Hiera if a version has been specified.
 # Otherwise it can lead to strange bundler behavior. If you are seeing weird
