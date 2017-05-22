@@ -1,5 +1,5 @@
 #!/bin/bash
-environment='production'
+environment='host'
 base_dir="/etc/puppetlabs/code/environments/${environment}"
 manifest=${1:-"${base_dir}/manifests/site.pp"}
 

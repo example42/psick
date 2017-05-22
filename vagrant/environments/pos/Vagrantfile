@@ -63,7 +63,7 @@ if settings['nodes'].is_a?(Array)
       vm['facter_trusted_facts'] = node['facter_trusted_facts'] ? node['facter_trusted_facts'] : settings['vm']['facter_trusted_facts']
 
       vm['role'] = node['role'] ? node['role'] : settings['vm']['role']
-      vm['pos_role'] = node['pos_role'] ? node['pos_role'] : nil
+      vm['foss_role'] = node['foss_role'] ? node['foss_role'] : nil
       vm['forwarded_port'] = node['forwarded_port'] ? node['forwarded_port'] : nil
       vm['application'] = node['application'] ? node['application'] : settings['puppet']['application']
 
@@ -97,10 +97,10 @@ Vagrant.configure("2") do |config|
     datacenter = settings['puppet']['datacenter']
     zone = settings['puppet']['zone']
     application = node['application']
-    pos_role = node['pos_role'] if node['pos_role']
-    pos_verbose = settings['puppet']['pos_verbose'] ? settings['puppet']['pos_verbose'] : true
-    #pos_version = settings['puppet']['pos_version'] 
-    pos_relocate_manifests = settings['puppet']['pos_relocate_manifests'] 
+    foss_role = node['foss_role'] if node['foss_role']
+    foss_verbose = settings['puppet']['foss_verbose'] ? settings['puppet']['foss_verbose'] : true
+    #foss_version = settings['puppet']['foss_version'] 
+    foss_relocate_manifests = settings['puppet']['foss_relocate_manifests'] 
     master_vm = settings['puppet']['master_vm'] if settings['puppet']['master_vm']
     forwarded_port = node['forwarded_port']
     vm_box = settings['boxes']["#{box}"]['box']
@@ -142,7 +142,7 @@ Vagrant.configure("2") do |config|
         node_config.vm.provision "shell", path: '../../bin/papply.sh'
       end
 
-      if node['pos_role'] == 'master'
+      if node['foss_role'] == 'master'
         node_config.vm.synced_folder "../../../", puppet_code_dir, mount_options: ["ro"]
         node_config.vm.provision "shell", path: '../../bin/vagrant-linkcontrolrepo.sh', args: "#{puppet_environment} #{puppet_code_dir}" if link_controlrepo
         node_config.vm.provision "shell", path: '../../bin/vagrant-setup_papply.sh', args: "#{puppet_environment}"

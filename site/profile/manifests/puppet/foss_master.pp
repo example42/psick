@@ -27,14 +27,14 @@ class profile::puppet::foss_master (
   Boolean           $manage_puppetdb_repo = true,
   Boolean           $enable_puppetdb      = true,
 ){
-  contain git
+  contain ::profile::git
   contain puppetserver
 
   if $r10k_remote_repo {
     class { 'r10k':
       remote   => $r10k_remote_repo,
       provider => 'puppet_gem',
-      require  => Class['git'],
+      require  => Class['profile::git'],
     }
     class {'r10k::webhook::config':
       enable_ssl      => false,
@@ -63,6 +63,8 @@ class profile::puppet::foss_master (
     # Workflow: create puppetserver ssl ca and certificates
     # needed for puppetdb ssl setup
     exec { '/sbin/service puppetserver start':
+      command => 'puppet resource service puppetserver ensure=running',
+      path    => '/opt/puppetlabs/bin:/usr/bin:/bin:/usr/sbin:/sbin',
       creates => '/etc/puppetlabs/puppet/ssl/certs/ca.pem',
       require => Package['puppetserver'],
     }

@@ -14,7 +14,7 @@ Use bundle to install the modules from Puppetfile:
 
     bundle exec r10k puppetfile install -v
 
-Now change to ```vagrant/environments/pos``` directory and run ```vagrant up puppet.pos.psick.io```.
+Now change to ```vagrant/environments/pos``` directory and run ```vagrant up puppet.foss.psick.io```.
 
 ## Base OS installation
 
@@ -37,8 +37,10 @@ Now we can install modules by using the r10k command to install required modules
 Afterwards one needs to change the hiera node data to add the profile classification information:
 
       ---
-        profiles:
-          - profile::puppet::foss_server
+      profiles:
+        - profile::puppet::gems
+        - profile::puppet::foss_master
+      profile::puppet::gems::install_puppetserver_gems: true
 
 Last step is to use puppet apply for getting the setup done automatically. Just run ```bin/papply.sh```.
 

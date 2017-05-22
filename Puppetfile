@@ -38,7 +38,6 @@ mod "trlinkin/noop", :latest
 mod "puppetlabs/catalog_preview", :latest
 mod "puppet/archive", :latest
 mod "puppetlabs/inifile", :latest
-mod "puppetlabs/git", :latest
 
 # Used by profile::puppet::pos_server
 mod 'puppetlabs/postgresql', :latest

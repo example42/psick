@@ -16,9 +16,9 @@ vm:
 
 # A local network is created among the VM. Here is configured.
 network:
-  range: 10.42.46.0/24   # Network address and mask to use 
+  range: 10.42.49.0/24   # Network address and mask to use 
   ip_start_offset: 101   # Starting ip in the network for automatic assignement
-  domain: pos.psick.io    # Name of DNS domain for the created machines
+  domain: foss.psick.io    # Name of DNS domain for the created machines
 
 # Puppet related settings
 puppet:
@@ -26,13 +26,13 @@ puppet:
   install_oss: true          # If to install Puppet OSS agent on the VMS
   install_pe: false            # If to install Puppet Enterprise agent on the VMS
   env: devel                  # Setting for the env fact (may be used in hiera.yaml)
-  zone: pos                    # Setting for the zone fact (may be used in hiera.yaml)
+  zone: foss                  # Setting for the zone fact (may be used in hiera.yaml)
   datacenter: vagrant         # Setting for the datacenter fact (may be used in hiera.yaml)
   application: default        # Setting for the application fact (may be used in hiera.yaml)
-  master_vm:  puppet.pos.psick.io      # Name of the VM which play as Puppet server for the others
-  master_fqdn: 'puppet.pos.psick.io'   # FQDN of the Puppet server to use with puppet agent
+  master_vm:  puppet.foss.psick.io      # Name of the VM which play as Puppet server for the others
+  master_fqdn: 'puppet.foss.psick.io'   # FQDN of the Puppet server to use with puppet agent
   link_controlrepo: true      # Add a link for a Puppet environment to the development control-repo 
-  environment: production     # Puppet environment to link to local control-repo
+  environment: host           # Puppet environment to link to local control-repo
 
 # Vagrant settings
 vagrant:
@@ -40,11 +40,11 @@ vagrant:
 
 # List of nodes shown in vagrant status
 # Node names are based on the defined role. Here can be overridden vm defaults,
-# it can be enforced a defined host name, added alieses, port forwarding and pos_role
+# it can be enforced a defined host name, added alieses, port forwarding and foss_role
 nodes:
   - role: puppet
     application: puppetinfra  
-    pos_role: master
+    foss_role: master
     puppet_apply: true
     memory: 6192
     cpu: 2
@@ -52,7 +52,7 @@ nodes:
       - puppet
     forwarded_port:
       guest: 443
-      host: 1643
+      host: 1943
   - role: build
     count: 1
     box: centos7
