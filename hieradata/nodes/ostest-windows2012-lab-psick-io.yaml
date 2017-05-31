@@ -4,6 +4,8 @@
 profile::base::windows::features_class: profile::windows::features
 profile::base::windows::registry_class: profile::windows::registry
 profile::base::windows::hosts_class: profile::hosts::resource
+profile::base::windows::services_class: profile::windows::services
+profile::base::windows::firewall_class: windows_firewall
 profile::windows::features::use_defaults: true
 profile::windows::features::install:
   UpdateServices-RSAT:
@@ -31,3 +33,68 @@ profile::hosts::resource::hosts:
     ip: '10.42.43.101'
     host_aliases:
       - 'puppet.lab.psick.io'
+
+profile::windows::features::use_defaults: true
+profile::windows::features::install:
+  'Web-WebServer':
+    installsubfeatures: true
+  'RDS-RD-Server':
+    ensure: present
+    restart: false # If true server is restarted
+  'NET-Framework-Core':
+    ensure: present
+
+profile::windows::services::use_defaults: true
+profile::windows::services::managed:
+  'RemoteRegistry':
+    ensure: 'stopped'
+    enable: 'manual'
+  'Spooler':
+    ensure: 'running'
+    enable: 'true'
+  'TCPIP6':
+    ensure: 'stopped'
+    enable: 'manual'
+
+# Windows firewall settings. Basied on 
+windows_firewall::profile_state: 'on'
+windows_firewall::in_policy: 'AllowInbound'
+# windows_firewall::in_policy: 'BlockInbound'
+windows_firewall::out_policy: 'AllowOutbound'
+windows_firewall::rule_key: 'windows_networks'
+# Purge unmanaged firewall rules 
+windows_firewall::purge_rules: false
+
+# Sample rules
+windows_networks:
+  Remote Desktop - User Mode (TCP-In):
+    description: Inbound rule for the Remote Desktop service to allow RDP traffic.
+      [TCP 3389]
+    application_name: C:\Windows\system32\svchost.exe
+    service_name: termservice
+    protocol: 6
+    local_ports: '3389'
+    remote_ports: "*"
+    local_addresses: "*"
+    remote_addresses: "*"
+    direction: 1
+    interface_types: All
+    enabled: true
+    grouping: "@FirewallAPI.dll,-28752"
+    profiles: 7
+    edge_traversal: false
+    action: 1
+    edge_traversal_options: 0
+  Remote Desktop - User Mode (UDP-In):
+    description: Inbound rule for the Remote Desktop service to allow RDP traffic.
+      [UDP 3389]
+    application_name: C:\Windows\system32\svchost.exe
+    service_name: termservice
+    protocol: 6
+    local_ports: '33891'
+    remote_ports: "*"
+    local_addresses: "*"
+    remote_addresses: "*"
+    direction: 1
+    interface_types: All
+    enabled: true

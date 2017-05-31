@@ -77,6 +77,8 @@ profile::base::windows::monitor_class: ''
 profile::base::windows::firewall_class: ''
 profile::base::windows::antivirus_class: ''
 profile::base::windows::backup_class: ''
+profile::base::windows::time_class: ''
+profile::base::windows::services_class: ''
 
 # profile::firewall::iptables
 profile::firewall::iptables::package_name: 'iptables'
@@ -150,7 +152,12 @@ profile::windows::features::install: {}
 profile::windows::features::defaults: {}
 profile::windows::features::use_defaults: true
 
-# profile::windows::registry
+# profile::windows::services
+profile::windows::services::managed: {}
+profile::windows::services::defaults: {}
+profile::windows::services::use_defaults: true
+
+        # profile::windows::registry
 profile::windows::registry::keys: {}
 profile::windows::registry::defaults: {}
 profile::windows::registry::use_defaults: true

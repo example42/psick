@@ -24,6 +24,7 @@ class profile::base::windows (
   String $antivirus_class,
   String $backup_class,
   String $time_class,
+  String $services_class,
 
 ) {
 
@@ -70,4 +71,9 @@ class profile::base::windows (
   if $time_class != '' and $enable {
     contain $time_class
   }
+
+  if $services_class != '' and $enable {
+    contain $services_class
+  }
+
 }
