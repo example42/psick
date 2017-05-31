@@ -329,7 +329,7 @@ generate_pdf:
     - rm -rf public/*
     - for f in $(cat docs/toc-puppet.txt); do cat docs/$f >> public/Guide-Puppet.md ; done 
     - for f in $(cat docs/toc-use.txt); do cat docs/$f >> public/Guide-Use.md ; done 
-    - for f in $(cat docs/toc-process.txt); do docs/cat $f >> public/Guide-Change.md ; done 
+    - for f in $(cat docs/toc-process.txt); do cat docs/$f >> public/Guide-Change.md ; done 
   script:
     - docker run -v $(pwd):/puppet -i jagregory/pandoc -f markdown /puppet/public/Guide-Puppet.md -o /puppet/public/Guide-Puppet.pdf --latex-engine=xelatex -s  --toc
     - docker run -v $(pwd):/puppet -i jagregory/pandoc -f markdown /puppet/public/Guide-Use.md -o /puppet/public/Guide-Use.pdf --latex-engine=xelatex -s  --toc
