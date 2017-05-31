@@ -1,8 +1,8 @@
 ## Prerequisites
 
-To have a full working environment you might need to locally install some software for specific activities.
+To have a full working environment we might need to locally install some software for specific activities.
 
-You can simply run ```bin/setup.sh``` to install them via Puppet or just can do that manually, as follows.
+We can simply run ```bin/setup.sh``` to install them via Puppet or just can do that manually, as follows.
 
 ### Single Modules
 
@@ -41,7 +41,7 @@ The above steps can be accomplished by simply running ```bin/puppet_setup.sh```.
 
 ### Vagrant
 
-For a correct setup of the Vagrant environment you need Vagrant, VirtualBox and some extra plugins:
+For a correct setup of the Vagrant environment we need Vagrant, VirtualBox and some extra plugins:
 
     vagrant plugin install vagrant-cachier
     vagrant plugin install vagrant-vbguest
@@ -53,9 +53,9 @@ These plugins, as Vagrant itself, can be installed by the setup script.
 
 Docker operations via Fabric or the command line require Docker to be locally installed.
 
-If you use Mac or Windows you need the newer native client, things won't work when using Docker running inside a Virtualbox VM.
+If we use Mac or Windows we need the newer native client, things won't work when using Docker running inside a Virtualbox VM.
 
-You'll need to run ```docker login``` before trying any operation that involves pushing your images to Docker registry.
+You'll need to run ```docker login``` before trying any operation that involves pushing our images to Docker registry.
 
 Also Docker can be installed by the setup script.
 

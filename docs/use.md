@@ -44,26 +44,3 @@ On your Puppet server, if you want to keep hiera.yaml information in the control
     # For hiera 5 format
     ln -sf /etc/puppetlabs/code/environments/production/hiera.yaml /etc/puppetlabs/puppet/hiera.yaml
 
-### Setting and customise variables used in Hiera hierarchy
-
-Feel free to adapt these variables names and kind to our own needs: we may want to define different variable names to use in Hier
-
-  - As *trusted facts*, as outlined here
-
-  - As *external facts*, writing the relevant files under ```/etc/puppetlabs/facter/facts.d```
-
-  - As global parameters set in a ```ENC``` (such as Puppet Enterprise or The Foreman).
-
-  - In *manifests/site.pp* as result of the parsing of the hostname.
-
-The latter case is possible when we have hostnames with a fixed pattern which contains information about the role, env, zone or w
-
-For example if we have nodes with a naming pattern like: $role-$id-$env.$::domain (ie: fe-01-test.example42.com) we can have set
-
-    $node_array = split($::hostname,'-')
-    $role = $node_array[0]
-    $id = $node_array[1]
-    $env = $node_array[2]
-
-
-

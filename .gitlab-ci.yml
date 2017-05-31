@@ -325,8 +325,14 @@ pages:
 
 generate_pdf:
   stage: pdf
+  before:
+    - for f in docs/toc-puppet.txt; do cat $f >> /puppet/Puppet.md ; done 
+    - for f in docs/toc-use.txt; do cat $f >> /puppet/Use.md ; done 
+    - for f in docs/toc-process.txt; do cat $f >> /puppet/Change.md ; done 
   script:
-    - docker run -v $(pwd):/puppet -i jagregory/pandoc -f markdown /puppet/README.md -o /puppet/public/PuppetControlRepoManual.pdf --latex-engine=xelatex -s  --toc
+    - docker run -v $(pwd):/puppet -i jagregory/pandoc -f markdown /puppet/Puppet.md -o /puppet/public/PuppetManual.pdf --latex-engine=xelatex -s  --toc
+    - docker run -v $(pwd):/puppet -i jagregory/pandoc -f markdown /puppet/Use.md -o /puppet/public/ControlRepoManual.pdf --latex-engine=xelatex -s  --toc
+    - docker run -v $(pwd):/puppet -i jagregory/pandoc -f markdown /puppet/Change.md -o /puppet/public/ChangeProcessManual.pdf --latex-engine=xelatex -s  --toc
   tags:
     - deploy_puppet
   artifacts:

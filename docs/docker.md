@@ -1,17 +1,17 @@
-# example42 control-repo Docker integration
+## Docker integration
 
-The control repo provides various ways to use, configure and work with Docker.
+This control repo provides various ways to use, configure and work with Docker.
 
 They are available via Fabric or shell commands, we are going to show them both.
 
-### Docker for testing (WIP)
+### Docker for testing
 
-You can try to test a Puppet run for a role in a Docker container.
+We can try to test a Puppet run for a role in a Docker container.
 
 To run Puppet for the default docker_test_role on the default image (centos-7):
 
     fab docker.test_role
-    bin/docker_test_role.sh 
+    bin/docker_test_role.sh
 
 To test another role (define the profiles to use and the relevant data in ```hieradata/role/$role.yaml```
 
@@ -29,12 +29,12 @@ Available images are: ubuntu-12.04, ubuntu-14.04, ubuntu-16.04, centos-7, debian
 Note that the base images used for the different OS are by default downloaded from [https://hub.docker.com/r/example42/puppet-agent/tags/](https://hub.docker.com/r/example42/puppet-agent/tags/).
 
 It's possible to use custom ones by:
- 
+
  - Setting on Hiera in the role yaml files the parameter ```docker::username``` (example42 by default)
 
  - Build custom (with ```fab docker.tp_build_role:puppet-agent```) puppet-agent images
 
- - Push them to your registry for use outside your local machine
+ - Push them to our registry for use outside our local machine
 
 
 ### Building Docker images
@@ -47,23 +47,22 @@ They follow different approaches and have their own limitations. Work is progres
 
 Dockerize a role entirely based on tp defines for one or multiple OS Docker images.
 
-In this approach, Puppet is executed on your local machine, you might need root privileges to set file permissions.
+In this approach, Puppet is executed on our local machine, we might need root privileges to set file permissions.
 
     fab docker.tp_build_role
 
 The above command uses the data in hieradata/role/docker_tp_build.yaml
 
-    fab docker.tp_build_role:webserver
-    bin/docker_tp_build_role.sh webserver
 
-The default commands:
+To specify a different role to build for:
 
     fab docker.tp_build_role:webserver
     bin/docker_tp_build_role.sh webserver
+
 
 #### Using tp::rocker (WIP)
 
-To build an image with Rocker, without leaving traces of Puppet inside the image, you can run the following command.
+To build an image with Rocker, without leaving traces of Puppet inside the image, we can run the following command.
 
 Data used for the image is in hieradata/role/$puppetrole.yaml
 
@@ -85,7 +84,7 @@ To show general Docker information (version, containers and images):
     fab docker.status
     bin/docker_status.sh
 
-#### Docker files cleanup 
+#### Docker files cleanup
 
 To remove all local images and containers (WARNING: have no important data there).
 
@@ -104,7 +103,12 @@ To run in unattended mode (useful for cleanups in CI pipelines):
 
 Docker operations via Fabric or using the command line require Docker to be locally installed.
 
-If you use Mac or Windows you need the newer native client, things won't work when using Docker running inside a Virtualbox VM.
+If we use Mac or Windows we need the newer native client.
 
-You'll need to run ```docker login``` before trying any operation that involves pushing your images to Docker registry.
- 
+To install docker we can run one of these commands:
+
+    fab docker.setup
+    bin/docker_setup.sh
+
+You'll need to run ```docker login``` before trying any operation that involves pushing our images to Docker registry.
+
