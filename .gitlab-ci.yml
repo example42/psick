@@ -334,7 +334,7 @@ generate_pdf:
     - docker run -v $(pwd):/puppet -i jagregory/pandoc -f markdown /puppet/public/Guide-Use.md -o /puppet/public/Guide-Use.pdf --latex-engine=xelatex -s  --toc
     - docker run -v $(pwd):/puppet -i jagregory/pandoc -f markdown /puppet/public/Guide-Change.md -o /puppet/public/Guide-Change.pdf --latex-engine=xelatex -s  --toc
   tags:
-    - deploy_puppet
+    - test_puppet
   artifacts:
     paths:
     - public
