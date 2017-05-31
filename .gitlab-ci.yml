@@ -325,7 +325,7 @@ pages:
 
 generate_pdf:
   stage: pdf
-  before:
+  before_script:
     - for f in docs/toc-puppet.txt; do cat $f >> /puppet/Puppet.md ; done 
     - for f in docs/toc-use.txt; do cat $f >> /puppet/Use.md ; done 
     - for f in docs/toc-process.txt; do cat $f >> /puppet/Change.md ; done 
