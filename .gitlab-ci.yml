@@ -331,9 +331,9 @@ generate_pdf:
     - for f in $(cat docs/toc-use.txt); do cat docs/$f >> public/Guide-Use.md ; done 
     - for f in $(cat docs/toc-process.txt); do cat docs/$f >> public/Guide-Change.md ; done 
   script:
-    - docker run -v $(pwd):/puppet -i jagregory/pandoc -f markdown /puppet/public/Guide-Puppet.md -o /puppet/public/Guide-Puppet.pdf --latex-engine=xelatex -s  --toc
-    - docker run -v $(pwd):/puppet -i jagregory/pandoc -f markdown /puppet/public/Guide-Use.md -o /puppet/public/Guide-Use.pdf --latex-engine=xelatex -s  --toc
-    - docker run -v $(pwd):/puppet -i jagregory/pandoc -f markdown /puppet/public/Guide-Change.md -o /puppet/public/Guide-Change.pdf --latex-engine=xelatex -s  --toc
+    - docker run -v $(pwd):/puppet -i jagregory/pandoc -f markdown /puppet/public/Guide-Puppet.md -o /puppet/public/Guide-Puppet.pdf --latex-engine=xelatex -s  --toc -V geometry:margin=2cm
+    - docker run -v $(pwd):/puppet -i jagregory/pandoc -f markdown /puppet/public/Guide-Use.md -o /puppet/public/Guide-Use.pdf --latex-engine=xelatex -s  --toc -V geometry:margin=2cm
+    - docker run -v $(pwd):/puppet -i jagregory/pandoc -f markdown /puppet/public/Guide-Change.md -o /puppet/public/Guide-Change.pdf --latex-engine=xelatex -s  --toc -V geometry:margin=2cm
   tags:
     - test_puppet
   artifacts:
