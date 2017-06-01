@@ -1,6 +1,8 @@
 ## Puppet change process
 
-In this document we will review the process to follow to manage Puppet changes.
+In this document we will review a possible process to follow to manage Puppet changes. It's based on the ```.gitlab-ci.yml``` file of this control repo and expects a setup where cose stays in a (local) GitLab instance and the Puppet server in based on Puppet Enterprise.
+
+This can be adapted to custom tools and needs, with variations in internal organisation and processes.
 
 By Puppet changes we mean, any modification, addition or deletion in this Git repository which may involve changes on real server, once the change has been deployed to the Puppet Server.
 
@@ -104,9 +106,7 @@ Finally push our local changes to the central git server:
 
 Once we push to a branch on GitLab the same branch is automatically deployed as Puppet environment on the Puppet Server, so, in our example, we'll have a new Puppet environment called "feature_22".
 
-In order to be able to use a custom environment on a node, we first need to be sure that this node belongs, on Puppet Enterprise console, to the node group "Agent-Specified environment" as in the following picture
-
-![Agent Specified Environment](images/pe_agentspecifiedenvironment.png)
+In order to be able to use a custom environment on a node, we first need to be sure that this node belongs, on Puppet Enterprise console, to the node group "Agent-Specified environment", if we use Puppet Enterprise.
 
 We can then test our environment, either directly from the managed node, as root. The first attempt should be done in noop mode to see what changes would be applied (NOTE: If servers run in noop mode by default, we don't need to specify it):
 
@@ -117,11 +117,7 @@ Then we can run Puppet in real mode, using our environment. The --no-noop option
     puppet agent -t --environment=feature_22 --no-noop
 
 
-Whenever we push changes to a feature branch, a set of basic syntax tests is automatically triggered by GitLab CI. We can check their status looking at the relevant pipeline, which looks like:
-
-![Feature Branch Pipeline](images/pipeline_featurebranch.png)
-
-In this scenario we optionally can test our code on docker images.
+Whenever we push changes to a feature branch, a set of basic syntax tests may be automatically triggered by our CI tool. We can check their status looking at the relevant pipeline.
 
 
 ##### Simplified Alternative using development branch
@@ -158,27 +154,13 @@ Note that such an approach prevents us from testing our code on Vagrant, but sti
 
 ##### 5 - PUPPET DEVELOPER: Merge Request [trivial skip] [express skip]
 
-Once we're satisfied with our change, we can submit, from GitLab web interface, a **Merge Request** from our feature branch to the **development** branch as in the following picture:
-
-![Merge Request to Development](images/gitlab-submit-mr.png)
+Once we're satisfied with our change, we can submit, from GitLab (or similar) web interface, a **Merge Request** from our feature branch to the **development** branch.
 
 We can accept the merge request immediately, and this automatically starts a new pipeline and deploys our changes to the Puppet development environment.
 
-The pipeline looks as in the following picture:
+If all checks in development pass (note some of them may be optional and could be configured to pass even in case of warnings/failures) then an automatic Merge Request is done from development to testing branch.
 
-![Development Branch Pipeline](images/pipeline_developmentbranch.png)
-
-here besides the common syntax and lint checks, are done some additional checks:
-
-  - A catalog diff on nodes which might be involved by the change. Here we can see how the catalog of the resources appliead to a node changes, with our commits, compared to the current status in production (note: sometimes changes are intended and wanted, but here we can evaluate if such changes affect also nodes where there should not be any change)
-
-  - Checks on multiple OS Docker images are also done, here we can evaluate what our changes do on a node when Puppet runs
-
-If all checks in development pass (note some of them are optional and could be configured to pass even in case of warnings/failures) then an automatic Merge Request is done from development to testing branch.
-
-The Merge Request (done in fast-forward mode: no new commit is introduced in the repo history) is automatically accepted and the change is promoted to testing, where another CI pipeline starts. It looks as this:
-
-![Testing Branch Pipeline](images/pipeline_testingbranch.png)
+The Merge Request is automatically accepted and the change is promoted to testing, where another CI pipeline starts.
 
 In this pipeline real Puppet runs are done on real servers (so called canary nodes, if something has to go wrong, they are supposed to be the first ones to "notice").
 
@@ -189,34 +171,5 @@ NOTE: If we have added the reference to a ticket (ie: #22) in our commit title, 
 
 ##### 6 - PUPPET DEVELOPER: Production rollout
 
-Once our change is pushed to the production branch, it's automatically deployed as Puppet production environment on our Puppet server.
+Once our change is pushed to the production branch, it's automatically deployed as Puppet production environment on our Puppet server and from here, by default, in 30 minutes, is rolled all over our infrastructure.
 
-![Production Branch Pipeline](images/pipeline_productionbranch.png)
-
-Most of the nodes run by default in noop mode, and check for Puppet changes every 30 minutes, so our changes are not going to be applied automatically, we have to use Rundeck (or run puppet from the command line with the --no-noop option) to propagate and apply changes for real.
-
-First login to [Rundeck](http://itromrundeck.q8int.com) and select the Puppet project from the available ones:
-
-![Rundeck list of projects](images/rundeck1.png)
-
-From the Puppet project we can see the available jobs:
-
-![Rundeck Puppet jobs](images/rundeck3.png)
-
-Select the "Execute Puppet Agent command", here we have a window where we can choose if to run Puppet in noop mode or not: we have to set noop to false if we want to trigger a real Puppet run.
-
-We can also select the nodes on which to run Puppet and the classes to apply (normally all the classes expected on a node are applied)
-
-![Rundeck Puppet Agent command](images/rundeck4.png)
-
-For each job we can see the output of the Puppet run and the exit status.
-
-![Rundeck job status](images/rundeck5.png)
-
-It's always a good idea to keep an eye on the Puppet Enteprise console and see the status of the nodes in our infrastructure:
-
-![Puppet Enterprise node status](images/pe-node-status.png)
-
-In the above picture we can see that we have 3 nodes where Puppet is always running "for real", and 257 nodes configured in Noop mode: here Puppet runs but does not make any change.
-
-In the same screen we can see the number of nodes where Puppet has run with some failures, the ones where Puppet re-established a configuration in its expected state ("corrective changes", here they might have been manual changes since the previous Puppet run which have been reverted by Puppet)  and the ones where Puppet make intentional changes, as the ones we can see when we modify our code or data in order to modify some system's resource.

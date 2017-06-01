@@ -311,9 +311,11 @@ test_post_run_on_production:
 
 pages:
   stage: sitedoc
-  script:
+  before_script:
     - rm -rf doc public .yardoc
-    - puppet strings generate site/**/manifests/*.pp site/**/manifests/**/*.pp site/**/manifests/**/**/*.pp site/**/functions/**/*.pp manifests/*.pp
+    - for f in $(cat docs/toc.txt); do cat docs/$f >> public/PsickGuide.md ; done 
+  script:
+    - puppet strings generate site/**/manifests/*.pp site/**/manifests/**/*.pp site/**/manifests/**/**/*.pp site/**/functions/**/*.pp manifests/*.pp -r docs/PsickGuide.md
     - mv doc public
   tags:
     - deploy_puppet
@@ -327,13 +329,9 @@ generate_pdf:
   stage: pdf
   before_script:
     - rm -rf public/*
-    - for f in $(cat docs/toc-puppet.txt); do cat docs/$f >> public/Guide-Puppet.md ; done 
-    - for f in $(cat docs/toc-use.txt); do cat docs/$f >> public/Guide-Use.md ; done 
-    - for f in $(cat docs/toc-process.txt); do cat docs/$f >> public/Guide-Change.md ; done 
+    - for f in $(cat docs/toc.txt); do cat docs/$f >> public/PsickGuide.md ; done 
   script:
-    - docker run -v $(pwd):/puppet -i jagregory/pandoc -f markdown /puppet/public/Guide-Puppet.md -o /puppet/public/Guide-Puppet.pdf --latex-engine=xelatex -s  --toc -V geometry:margin=2cm
-    - docker run -v $(pwd):/puppet -i jagregory/pandoc -f markdown /puppet/public/Guide-Use.md -o /puppet/public/Guide-Use.pdf --latex-engine=xelatex -s  --toc -V geometry:margin=2cm
-    - docker run -v $(pwd):/puppet -i jagregory/pandoc -f markdown /puppet/public/Guide-Change.md -o /puppet/public/Guide-Change.pdf --latex-engine=xelatex -s  --toc -V geometry:margin=2cm
+    - docker run -v $(pwd):/puppet -i jagregory/pandoc -f markdown /puppet/public/PsickGuide.md -o /puppet/public/PsickGuide.pdf --latex-engine=xelatex -s  --toc -V geometry:margin=2cm
   tags:
     - test_puppet
   artifacts:
