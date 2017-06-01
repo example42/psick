@@ -314,10 +314,9 @@ pages:
   before_script:
     - bundle
     - rm -rf doc public .yardoc
-    - mkdir public
-    - for f in $(cat docs/toc.txt); do cat docs/$f >> public/PsickGuide.md ; done 
+    - for f in $(cat docs/toc.txt); do cat docs/$f >> docs/PsickGuide.md ; done 
   script:
-    - rake strings:generate["site/**/**/*{.pp\,.rb} site/**/**/**/*{.pp\,.rb} manifests/site.pp, false, false, markdown,-r public/PsickGuide.md"]
+    - rake strings:generate["site/**/**/*{.pp\,.rb} site/**/**/**/*{.pp\,.rb} manifests/site.pp, false, false, markdown,-r docs/PsickGuide.md"]
     - mv doc public
   tags:
     - deploy_puppet
