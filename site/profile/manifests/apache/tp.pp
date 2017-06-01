@@ -14,6 +14,7 @@ class profile::apache::tp (
   Optional[String]      $epp         = undef,
   Hash                  $options     = { },
   Optional[String] $default_site_source = undef,
+  Boolean      $auto_prerequisites   = true,
 ) {
 
   $options_default = {

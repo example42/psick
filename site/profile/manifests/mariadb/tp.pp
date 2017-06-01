@@ -13,6 +13,7 @@ class profile::mariadb::tp (
   Optional[String]      $content     = undef,
   Optional[String]      $epp         = undef,
   Hash                  $options     = { },
+  Boolean               $auto_prerequisites = true,
 ) {
 
   $options_default = {

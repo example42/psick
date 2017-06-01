@@ -1,0 +1,6 @@
+puppet.md
+hiera.md
+hiera_eyaml.md
+trusted_facts.md
+external_facts.md
+pe_console.md

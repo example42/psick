@@ -11,7 +11,7 @@ global_exit=0
 if [ ! -z $(which puppet-lint) ]; then
   echo_title "Puppet linting manifests in site directory"
 
-  for i in $(find site -name '*.pp')
+  for i in $(find site -name '*.pp' | grep -v fixtures)
   do
     echo -ne "$i - "
     $PUPPETLINT $i

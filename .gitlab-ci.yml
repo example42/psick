@@ -10,6 +10,7 @@ stages:
   - specs
   - diffs
   - sitedoc
+  - pdf
   - integration
   - live_runs
   - merge_request
@@ -310,9 +311,13 @@ test_post_run_on_production:
 
 pages:
   stage: sitedoc
-  script:
+  before_script:
+    - bundle
     - rm -rf doc public .yardoc
-    - puppet strings generate site/**/manifests/*.pp site/**/manifests/**/*.pp site/**/manifests/**/**/*.pp site/**/functions/**/*.pp manifests/*.pp
+    - for f in $(cat docs/toc.txt); do cat docs/$f >> README.md ; done 
+  script:
+    - puppet strings generate site/**/**/*{.pp\,.rb} site/**/**/**/*{.pp\,.rb} manifests/site.pp
+    # - rake strings:generate["site/**/**/*{.pp\,.rb} site/**/**/**/*{.pp\,.rb} manifests/site.pp, false, false, markdown,-r docs/PsickGuide.md"]
     - mv doc public
   tags:
     - deploy_puppet
@@ -321,6 +326,20 @@ pages:
     - public
     expire_in: '30 day'
   only:
-    - development
-# Switch to production after tests
+    - production
 
+generate_pdf:
+  stage: pdf
+  before_script:
+    - rm -rf public/*
+    - for f in $(cat docs/toc.txt); do cat docs/$f >> public/PsickGuide.md ; done 
+  script:
+    - docker run -v $(pwd):/puppet -i jagregory/pandoc -f markdown /puppet/public/PsickGuide.md -o /puppet/public/PsickGuide.pdf --latex-engine=xelatex -s  --toc -V geometry:margin=2cm
+  tags:
+    - test_puppet
+  artifacts:
+    paths:
+    - public
+    expire_in: '30 day'
+  only:
+    - production

@@ -1,10 +1,10 @@
-# Puppet noop mode
+## Puppet noop mode
 
 It's possible to run Puppet in **noop mode** which shows what are the changes that Puppet would do on the system without actually doing them.
 
 There are various ways we can enforce noop mode: let's review them.
 
-## Setting noop from the command line
+### Setting noop from the command line
 
 In any Puppet installation it's possible to run Puppet in noop mode specifying the ```--noop``` option in the command line:
 
@@ -14,7 +14,7 @@ This applies only for that specific Puppet run, so if there's a Puppet agent ser
 
 Also note that this approach is triggered and managed from the client.
 
-## Setting noop via Hiera
+### Setting noop via Hiera
 
 In this control-repo we are using the trlinkin-noop module with provides a function called ```noop()``` which adds the noop metaparameter to each resource.
 

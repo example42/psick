@@ -32,6 +32,8 @@
     - hiera-eyaml
     - yard
     - puppet-strings
+    - bundle
+    - rake
 
   # Code manager
   profile::puppet::pe_code_manager::pe_user: 'deployer'       # A user you've created on PE

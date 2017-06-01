@@ -1,4 +1,4 @@
-# Hiera Eyaml
+## Hiera Eyaml
 
 Hiera-eyaml is an additional Hiera backend which can be used to encrypt single keys in Hiera yaml files.
 
@@ -32,7 +32,7 @@ Both of these file must be placed wherever Hiera files are evaluated: that means
 
 They would be needed also in Vagrant environments, but to avoid the profileration of places where keys should be shared, it's better to avoid to encrypt data in Hiera files used by machines running in Vagrant, so for examples, in the ```"datacenter/%{::datacenter}"``` layer.
 
-## Creating encrypted keys
+### Creating encrypted keys
 
 We can generate the encrypted value of any Hiera key with the following command:
 

@@ -25,8 +25,17 @@ class profile::gitlab::runner (
   Optional[String] $pe_password             = undef,
   Optional[String] $runner_user             = 'gitlab-runner',
   Optional[String] $pe_token_lifetime                = '5y',
+  Boolean          $use_docker    = false,
 ) {
 
+  if $use_docker {
+    include ::docker
+    # Quick and very dirty
+    exec { 'usermod -a -G docker gitlab-runner':
+      refreshonly => true,
+      subscribe   => Class['docker'],
+    }
+  }
   $options_default = {
   }
   $gitlab_runner_options = $options_default + $options
@@ -59,10 +68,10 @@ class profile::gitlab::runner (
 
   if $pe_user and $pe_password {
     tools::puppet::access { 'gitlab-runner':
-      pe_user         => $pe_user,
-      pe_password     => $pe_password,
-      run_as_user     => $runner_user,
-      lifetime        => $pe_token_lifetime,
+      pe_user     => $pe_user,
+      pe_password => $pe_password,
+      run_as_user => $runner_user,
+      lifetime    => $pe_token_lifetime,
     }
   }
 }
