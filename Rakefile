@@ -1,1 +1,0 @@
-require 'puppet-strings/tasks'

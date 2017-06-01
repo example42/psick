@@ -315,10 +315,9 @@ pages:
     - bundle
     - rm -rf doc public .yardoc
     - for f in $(cat docs/toc.txt); do cat docs/$f >> README.md ; done 
-      # - for f in $(cat docs/toc.txt); do cat docs/$f >> ocs/PsickGuide.md ; done 
   script:
     - puppet strings generate site/**/**/*{.pp\,.rb} site/**/**/**/*{.pp\,.rb} manifests/site.pp
-      # - rake strings:generate["site/**/**/*{.pp\,.rb} site/**/**/**/*{.pp\,.rb} manifests/site.pp, false, false, markdown,-r docs/PsickGuide.md"]
+    # - rake strings:generate["site/**/**/*{.pp\,.rb} site/**/**/**/*{.pp\,.rb} manifests/site.pp, false, false, markdown,-r docs/PsickGuide.md"]
     - mv doc public
   tags:
     - deploy_puppet
@@ -326,7 +325,8 @@ pages:
     paths:
     - public
     expire_in: '30 day'
-# Switch to production after tests
+  only:
+    - production
 
 generate_pdf:
   stage: pdf
@@ -341,3 +341,5 @@ generate_pdf:
     paths:
     - public
     expire_in: '30 day'
+  only:
+    - production
