@@ -1,3 +1,5 @@
+gem 'puppet-strings'
+
 # puppet lint plugins
 # https://puppet.community/plugins/#puppet-lint
 gem 'puppet-lint-appends-check',

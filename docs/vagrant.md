@@ -82,4 +82,88 @@ Run, respectively, vagrant provision, reload, halt, suspend, resume, destroy on 
     fab vagrant.resume:centos7.devel
     fab vagrant.destroy:centos7.devel
 
+### Customisations
+
+We can customise the vagrant environments in various ways:
+
+  - Remove the vagrant/environments/ directories we don't use or need.
+
+  - Add one or more custom environments for different use cases, such as Applications developers stations, Puppet developers stations, semi-permanent test environments, continuous integration environments...
+
+  - Customise the ```config.yaml``` file to define size, OS, role, number of each vagrant vm.
+
+  - Customise eventually the same ```Vagrantfile``` for our own needs. 
+
+#### Editing config.yaml
+
+The ```config.yaml``` file is used by the local Vagrantfile to customise easily the VMs we want to use.
+
+Here we can set the general settings valid for all the VM:
+
+    vm:
+      memory: 512            # Memory in MB of the VM
+      cpu: 1                 # vCPUs of the VM
+      role: ostest           # The default Puppet role (you may not want to set it here)
+      box: centos7           # The default Vagrant box to use (from the list under ```boxes```)
+      puppet_apply: true     # If to provision with puppet apply executed on the local files
+      puppet_agent: false    # If to provision with puppet agent (you have to take care of setting up your Puppet Master)
+
+Manage general network settings:
+
+    network:
+      range: 10.42.45.0/24   # The network to use for VMs internal lan
+      ip_start_offset: 101   # The starting IP in the above range (if an ip_address is not explicitly set for a VM)
+      domain: ostest.psick.io  # The DNS domain of your VMs
+
+Manage Puppet related settings:
+
+    puppet:
+      version: latest        # Which version of Puppet to use (WIP)
+      env: test              # Adds a fact called env to the VM with the given value
+      zone: local            # Adds a fact called zone to the VM with the given value
+
+Define the nodes list (as shown in ```vagrant status```):
+
+    nodes:
+      - role: log                    # Puppet role: log
+        count: 1                     # How many instances of log servers to list
+      - role: mon                    # Another node, another role
+        count: 1
+      - role: docker_tp_build        # Role: docker_tp_build
+        hostname_base: docker-build  # Here the node name is overridden
+        count: 1                  
+        box: ubuntu1404              # Also the Vagrant box to use is different from the default one under vm
+      - role: puppet                 # A puppet role for the Puppet Master
+        count: 1
+        memory: 4096                 # More memory than default for this VM
+        cpu: 2                       # More vCPUS
+        box: ubuntu1604              # Specific box...
+        ip_address: 10.42.42.10      # Fixed IP address
+        puppet_apply: true           # Force provisioning via puppet apply
+        aliases:                     # Added aliases for Vagrant hostmanager plugin (if used)
+          - puppet
+
+Finally it's possible to define the Vagrant boxes to use for the different VMs:
+
+    boxes:
+      centos7:                                # Box name as referenced under ```vm``` or ```nodes```
+        box: puppetlabs/centos-7.2-64-puppet  # Name of Vagrant box on Atlas
+        breed: puppetlabs-centos7             # Breed of the OS. Read later for more info.
+      centos6:                                # Another box to select from...
+        box: puppetlabs/centos-6.6-64-puppet
+        breed: puppetlabs
+      ubuntu1604:                             # Another box
+        box: puppetlabs/ubuntu-16.04-64-puppet
+        breed: puppetlabs-apt
+      ubuntu1404:                             # Another box
+        box: puppetlabs/ubuntu-14.04-64-puppet
+        breed: puppetlabs-apt
+    
+
+#### Customising the Vagrantfile and the relevant scripts
+
+Most of the existing vagrant environments share the same ```Vagrantfile```, but we may need to create a custom one, even if just by editing the ```config.yaml``` file we should be able to manage most of the common use cases.
+
+Here we have full freedom, just notice that when changing the Vagrantfile we may break some of the ```config.yaml``` functionality, and that the scripts used during provisioning or in Vagrant related activities are under ```vagrant/bin/``` and we might need to edit them too.
+
 
