@@ -31,7 +31,7 @@ class profile::gitlab::runner (
   if $use_docker {
     include ::docker
     # Quick and very dirty
-    exec { "usermod -a -G docker gitlab-runner":
+    exec { 'usermod -a -G docker gitlab-runner':
       refreshonly => true,
       subscribe   => Class['docker'],
     }
@@ -68,10 +68,10 @@ class profile::gitlab::runner (
 
   if $pe_user and $pe_password {
     tools::puppet::access { 'gitlab-runner':
-      pe_user         => $pe_user,
-      pe_password     => $pe_password,
-      run_as_user     => $runner_user,
-      lifetime        => $pe_token_lifetime,
+      pe_user     => $pe_user,
+      pe_password => $pe_password,
+      run_as_user => $runner_user,
+      lifetime    => $pe_token_lifetime,
     }
   }
 }
