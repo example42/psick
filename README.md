@@ -159,4 +159,5 @@ Managing changes:
 
   - [Change Process](docs/change_process.md) - A step by step guide on how to manage changes in Puppet code
 
+For the complete documentation of the local classes and defines check the [puppet strings generated docs](http://puppet.pages.lab.psick.io/psick/), automatically generated in PSICK CI pipeline.
 
