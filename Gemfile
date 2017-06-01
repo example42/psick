@@ -1,3 +1,4 @@
+gem 'rake'
 gem 'puppet-strings'
 
 # puppet lint plugins
