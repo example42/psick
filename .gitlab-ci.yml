@@ -312,7 +312,8 @@ test_post_run_on_production:
 pages:
   stage: sitedoc
   before_script:
-    - rm -rf doc public/* .yardoc
+    - rm -rf doc public .yardoc
+    - mkdir public
     - for f in $(cat docs/toc.txt); do cat docs/$f >> public/PsickGuide.md ; done 
   script:
     - puppet strings generate site/**/manifests/*.pp site/**/manifests/**/*.pp site/**/manifests/**/**/*.pp site/**/functions/**/*.pp manifests/*.pp -r docs/PsickGuide.md
