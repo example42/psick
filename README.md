@@ -119,33 +119,44 @@ Some extra directories are added in PSICK for integrations and tools:
 
 ### Documentation
 
-PSICK is full of more or less hidden stuff, which ease a lot Puppet code development, testing and deployment.
+PSICK is full of more or less hidden stuff, which ease a lot Puppet code development, testing and deployment.  Here is where you can find more info:
 
-For more information on specific topics:
+General Puppet documentation:
 
-  - [Using and understanding the control-repo](docs/use.md) - An overview of the control-repo and how to understand, use and customise it
-  
-  - [Prerequisites](docs/prerequisites.md) - A more detailed view of the prerequisites needed to fully use the control-repo
+  - [Introduction to Puppet](docs/puppet.md) - A very basic introduction to Puppet
 
-  - [Development Workflow](docs/workflow.md) - An introduction of possible commands and workflows for Puppet code management
-
-  - [Vagrant Integration](docs/vagrant.md) - How to use Vagrant to test the control-repo while deployment
-
-  - [Docker Integration](docs/docker.md) - How to use Docker to test Puppet code and to build images based on the existing Puppet code
-
-  - [AWS Integration](docs/aws.md) - How to use Puppet to query and configure AWS resources from the control-repo
-
-  - [Noop Mode](docs/noop_mode.md) - An overview on how to enforce noop mode server side with this repo
-
-  - [Trusted Facts](docs/trusted_facts.md) - How to set and use trusted facts in this control-repo
+  - [Hiera essentials](docs/hiera.md) - Basic Hiera concepts
 
   - [Hiera eyaml](docs/hiera_eyaml.md) - An overview on how to use hiera-eyaml
 
-  - [Git tasks](docs/git.md) - A review of Git tasks available with Fabric
+  - [Trusted Facts](docs/trusted_facts.md) - How to set and use trusted facts
 
-  - [Puppet tasks](docs/puppet.md) - A review of Puppet tasks available with Fabric
+  - [External Facts](docs/external_facts.md) - How to set and use external facts
 
-  - [Tiny Puppet Integrations](docs/tp.md) - Learn about Tiny Puppet and the integrations in this control-repo
+  - [Puppet Enterprise Console](docs/pe_console.md) - An overview on the Puppet Enterprise console
 
-  - [example42 history](docs/example42.md) - A summary of the evolution of example42 modules and control-repo
+
+About this control-repo:
+
+  - [Control-repo structure](docs/structure.md) - A description of the control-repo structure and most important paths
+
+  - [Control-repo logic](docs/use.md) - An overview of the design choices and the logic of this control repo.
+
+  - [Prerequisites](docs/prerequisites.md) - A more detailed view of the prerequisites needed to fully use the control-repo
+
+  - [Noop Mode](docs/noop_mode.md) - An overview on how to enforce noop mode server side with this repo
+
+  - [Vagrant Integration](docs/vagrant.md) - How to use Vagrant to test the control-repo during development
+
+  - [Docker Integration](docs/docker.md) - How to use Docker to test Puppet code and to build images based on the existing Puppet code
+
+  - [Fabric](docs/fabric.md) - A review of Puppet tasks available with Fabric
+
+
+Managing changes:
+
+  - [Git tasks](docs/git.md) - An overview on how to use Git
+
+  - [Change Process](docs/change_process.md) - A step by step guide on how to manage changes in Puppet code
+
 

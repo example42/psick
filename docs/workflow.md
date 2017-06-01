@@ -1,4 +1,4 @@
-# Puppet code management workflow
+## Puppet code management workflow
 
 All the .py files in the main directory of this control-repo are Fabric configuration files.
 
