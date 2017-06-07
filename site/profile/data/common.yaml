@@ -187,3 +187,32 @@ lookup_options:
   profile::windows::registry::defaults:
     merge:
       strategy: deep
+  profile::users::static::users:
+    merge:
+      strategy: deep
+  profile::users::static::managed_users:
+    merge:
+      strategy: deep
+  profile::users::static::accounts_users:
+    merge:
+      strategy: deep
+  "^profile::(.*)::(.*)_hash$":
+    merge:
+      strategy: deep
+      knockout_prefix: "--"
+      sort_merge_arrays: true
+  "^profile::(.*)::(.*)::(.*)_hash$":
+    merge:
+      strategy: deep
+      knockout_prefix: "--"
+      sort_merge_arrays: true
+  "^profile::(.*)::(.*)_list$":
+    merge:
+      strategy: deep
+      knockout_prefix: "--"
+      sort_merge_arrays: true
+  "^profile::(.*)::(.*)::(.*)_list$":
+    merge:
+      strategy: deep
+      knockout_prefix: "--"
+      sort_merge_arrays: true

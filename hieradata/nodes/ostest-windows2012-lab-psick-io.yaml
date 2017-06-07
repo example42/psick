@@ -1,6 +1,7 @@
 ---
 #profiles:
 #  - iis
+profile::base::windows::users_class: profile::users::static
 profile::base::windows::features_class: profile::windows::features
 profile::base::windows::registry_class: profile::windows::registry
 profile::base::windows::hosts_class: profile::hosts::resource
@@ -64,6 +65,12 @@ windows_firewall::out_policy: 'AllowOutbound'
 windows_firewall::rule_key: 'windows_networks'
 # Purge unmanaged firewall rules 
 windows_firewall::purge_rules: false
+
+# Testing users
+profile::users::static::users_hash:
+  al:
+    ensure: present
+    comment: 'All'
 
 # Sample rules
 windows_networks:
