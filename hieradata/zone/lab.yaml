@@ -26,7 +26,7 @@ profile::settings::timezone: 'CEST'
 profile::time::windows::timezone: 'Central European Standard Time'
 
 # Users
-# profile::users::static::rootpw: hash_as_in_etc_shadow
+# profile::users::static::root_pw: hash_as_in_etc_shadow
 profile::users::static::delete_unmanaged: false
 profile::users::static::accounts_users_hash:
   al:
