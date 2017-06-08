@@ -22,7 +22,6 @@ class profile::aws::cli (
     if $install_system_gems {
       package { $gem:
         ensure          => $ensure,
-        install_options => $install_options,
         provider        => 'gem',
         require         => Class['profile::ruby'],
       }
@@ -31,7 +30,6 @@ class profile::aws::cli (
       package { "puppet_${gem}":
         ensure          => $ensure,
         name            => $gem,
-        install_options => $install_options,
         provider        => 'puppet_gem',
         require         => Class['profile::ruby'],
       }

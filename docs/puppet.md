@@ -1,66 +1,98 @@
-# example42 control-repo: Puppet tasks
+## Introduction to Puppet
 
-This control-repo provides several tools that help Puppeteers in their daily work.
+Puppet features a **declarative Domain Specific Language (DSL)**, which expresses the **desired state** and properties of the managed resources.
 
-### Remote puppet commands via Fabric
+**Resources** can be any component of a system, for example, packages to install, services to start, files to manage, users to create, and also custom and specific resources such as MySQL grants, Apache virtual hosts, but also Network interfaces, AWS instances, Storage volumes and so on.
 
-Various Fabric tasks are available to executing on remote hosts. You will need access to them, possibly via ssh keys.
+Puppet code is written in **manifests**, which are simple text files with a **.pp** extension.
 
-Install Puppet 4 on the remote host(s). Use any Fabric method to define hosts to work on.
+Resources can be grouped in **classes** (do not consider them as classes as in OOP; they aren't). Classes and all the files needed to define the required configurations are generally placed in **modules**, which are directories structured in a standard way that are supposed to manage specific applications or a system's features (there are modules to manage Apache, MySQL, sudo, sysctl, networking, and so on).
 
-    fab puppet.install -H host1,host2
+When Puppet is executed, it first runs **facter**, a companion application, which gathers a series of variables about the system (the IP address, the hostname, the operating system, the MAC address, and so on), which are called **facts***, and are sent to the Master.
 
-Run puppet agent in noop mode on all the known hosts:
+Facts and user defined variables can be used in manifests to manage how and what resources to provide to the clients.
 
-    fab puppet.agent_noop
+When the Master receives a connection, then it looks in its manifests (starting from the the files in ```/etc/puppetlabs/code/environments/production/manifests/site.pp```) what resources have to be applied for that client host, also called a node.
 
-Run puppet agent in a specific node:
+The Master parses all the DSL code and produces a **catalog** that is sent back to the client (in JSON PSON format). The production of the catalog is often referred to as catalog **compilation**.
 
-    fab puppet.agent:host=web01.example.test
+Once the client receives the catalog, it starts to apply all the resources declared there, irrespective of whether packages are installed (or removed), services have started, configuration  files are created or changed, and so on. The same catalog can be applied multiple times; if there are changes on a managed resource (for example, a manual modification of a configuration file), they are reverted to the state defined by Puppet; if the system's resources are already at the desired state, nothing happens.
+This property is called **idempotence** and is at the root of the Puppet declarative model. Since it defines the desired state of a system, it must operate in a way that ensures that this state is obtained wherever the starting conditions and the number of times Puppet is applied.
 
-Show the current version of deployed Puppet code on all nodes:
 
-    fab puppet.current_config
+### Anatomy of a Puppet run
 
-Setup on the remote node all the prequisites to run this control-repo in apply mode:
+In normal setups Puppet follows a Client-Server paradigm, on clients it runs, as ```root``` the **Puppet Agent** service, which connects to the **Puppet Master**. All the communication is done using REST-like API calls on an SSL socket; basically, it's all **HTTPS** traffic from clients to the server's port **8140/TCP**.
 
-    fab puppet.remote_setup
-    # bin/puppet_setup.sh is executed on the remote node
- 
-Deploy this control-repo from upstream source:
+The first time we execute Puppet on a node, a x509 **certificate** is created and then the Puppet Master is contacted in order to retrieve the node's catalog. The client's certificate has to be accepted (signed) by the server, using its own local Certification Authority.
 
-    fab puppet.deploy_controlrepo
-    # bin/puppet_deploy_controlrepo.sh is executed on the remote node
+A typical Puppet run is composed of different phases. It's important to know them in order to troubleshoot problems:
 
-Run puppet apply with or without noop on all the known hosts (expected control-repo in production environment):
+  - Execute Puppet on a root shell on the client:
 
-    fab puppet.apply
-    fab puppet.apply_noop
+        client# puppet agent -t
 
-Run in apply mode the local code on a remote node (code is rsynced and then compiled on the remote node.
+  - Modules' plugins (whatever is present in the ```lib``` dir of a module) are synced to the node. We will see a message like:
 
-    fab puppet.sync_and_apply 
+        [client] Info: Retrieving plugin
 
-### Local Puppet activities 
+  - The client runs facter and sends its facts to the Master. The client output looks like:
 
-The following activities can be done locally during development, publishing and deployment of Puppet code.
+        [client] Info: Loading facts in /var/lib/puppet/lib/facter/... [...]
 
-Check the syntax of all .pp .yaml .epp .erb files in your control-repo:
+  - The Master looks for the client's certname (by default the fqdn) in its nodes' list.
 
-    fab puppet.check_syntax
+  - The Master compiles the catalog for the client using its facts and the Puppet code and data it. On Puppet Master logs an entry like this will be added:
 
-Generate a new module based on the format of the ```skeleton``` directory.
+        [server] Compiled catalog for <client> in environment production in 8.22 seconds
 
-    fab puppet.module_generate
+  If there are syntax errors in the processed Puppet code, they are exposed here, and the process terminates; otherwise, the server sends the catalog to the client. On the client a text like this will be displayed:
 
-Publish the local version of a module in modules/ dir to Forge and GitHub (puppet-blacksmith setup and access to remote git repo required):
+        [client] Info: Caching catalog for <client>
 
-     fab puppet.module_publish:tinydata
+  The client receives the catalog and starts to apply it locally. If there are dependency loops, the catalog can't be applied and the whole run fails. If not the client will start to apply the resources present in the catalog, beginning with a message like:
 
-### Facter tasks (WIP)
+        [client] Info: Applying configuration version '1355353107'
 
-Set external facts 
+  - All changes to the system are shown on stdout or in logs. If there are errors they are relevant to specific resources but do not block the application of other resources (unless they depend on the failed ones, in those cases a message mentioning ```Skipping because of failed dependencies``` will be shown.
 
-    fab facter.set_external_facts
-   
-    fab facter.set_trusted_facts
+  - At the end of the Puppet run, the client sends to the server a report of what has been changed. Client output:
+
+        [client] Finished catalog run in 13.78 seconds
+
+  - The server sends the report to a report collector (typically PuppetDB) for storage and later querying.
+
+### Learning resources
+
+Useful resources to start learning Puppet:
+
+  - The website of [Puppet](http://puppet.com), the company behind
+  - The official [Puppet Documentation site](http://docs.puppet.com/) -
+  - [The Learning VM](https://puppet.com/download-learning-vm), based on Puppet Enterprise, for a guided tour in Puppet world
+  - A list of the available [Puppet Books](https://puppet.com/resources/books)
+
+If we have questions to ask about Puppet usage we can use these:
+
+  - All the [Puppet Community](http://puppet.com/community/overview/) references
+  - [Ask Puppet](http://ask.puppet.com/), the official Q&A site
+  - The discussion groups on Google Groups: [puppet-users](https://groups.google.com/forum/#!forum/puppet-users), [puppet-dev](https://groups.google.com/forum/#!forum/puppet-dev), [puppet-security-announce](https://groups.google.com/forum/#!forum/puppet-security-announce)
+  - The IRC #puppet channel on [Freenode](http://webchat.freenode.net/?channels=puppet)
+  - The [Slack](https://slack.puppet.com/) Puppet channels
+
+To explore and use existing Puppet code:
+
+  - Puppet modules on [Module Forge](http://forge.puppet.com)
+  - Puppet modules on [GitHub](https://github.com/search?q=puppet)
+
+To inform ourselves about what happens in Puppet World
+
+  - [Planet Puppet](http://www.planetpuppet.org/) - Puppet blogosphere
+  - The [PuppetConf](http://www.puppetconf.com) website
+  - The ongoing [PuppetCamps]() all over the world
+
+To find more and deeper information:
+
+  - [Puppet Labs tickets](https://tickets.puppet.com) - The official ticketing system
+  - [Developer reference](http://docs.puppet.com/references/latest/developer/) - The commented Puppet code
+  - [Puppet Stats](https://puppet.biterg.io) - Puppet related metrics and stats
+

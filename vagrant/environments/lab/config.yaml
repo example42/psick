@@ -70,6 +70,10 @@ nodes:
     forwarded_port:
       guest: 443
       host: 1444
+    forwarded_port2:
+      guest: 80
+      host: 1480
+    puppet_agent: false
     puppet_agent: false
   - role: cirunner
     count: 1

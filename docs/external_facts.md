@@ -1,4 +1,4 @@
-# Puppet external facts
+## Puppet external facts
 
 There are 3 ways to add our own facts in Puppet:
 
@@ -49,7 +49,7 @@ They are simple files that can have different formats:
         echo "env=prod"
         echo "zone=berlin"
 
-The files you create in the facts.d directory can provide one or more facts values, and they can have any name. Typically for data files that provide just one fact, the file name is the name of the fact:
+The files we create in the facts.d directory can provide one or more facts values, and they can have any name. Typically for data files that provide just one fact, the file name is the name of the fact:
 
     cat /etc/puppetlabs/facter/facts.d/role.txt
     role=webserver
@@ -58,10 +58,9 @@ External facts can be deployed during provisioning of the server or can be place
 
 External facts are a very easy way to set custon facts on nodes, just consider the following points:
 
-  - They can be potentially changed on the client just by editing the relevant fact. You may prefer to use trusted facts when you want their values to be immutable.
+  - They can be potentially changed on the client just by editing the relevant fact. We may prefer to use trusted facts when we want their values to be immutable.
 
-  - If you use the pluginsync functionality to distribute them note that they are copied as is, from Puppet server to clients, so you don't have a way to distribute different facts to different clients.
-    For this reason you'll probably find yourself adding facts that just contain data (.txt, .yaml, .json) in some alternative way (typically during the node's provisioning) and use pluginsync only for the ones that compute the result in some way (as executables ones do).
+  - If we use the pluginsync functionality to distribute them note that they are copied as is, from Puppet server to clients, so we don't have a way to distribute different facts to different clients.
+    For this reason we'll probably find ourselves adding facts that just contain data (.txt, .yaml, .json) in some alternative way (typically during the node's provisioning) and use pluginsync only for the ones that compute the result in some way (as executables ones do).
 
 
-      

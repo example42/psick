@@ -12,9 +12,9 @@ class profile::mongo::puppetlabs (
   Variant[Undef,Hash]    $hostnames        = $::profile::mongo::hostnames,
 ) {
 
-  class { '::mongodb::globals': manage_package_repo => true } ->
-  class { '::mongodb::client': } ->
-  class { '::mongodb::server':
+  class { '::mongodb::globals': manage_package_repo => true }
+  -> class { '::mongodb::client': }
+  -> class { '::mongodb::server':
     shardsvr        => $shardsvr,
     replset         => $replset,
     replset_members => $replset_members,

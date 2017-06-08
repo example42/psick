@@ -1,60 +1,60 @@
-# example42 control-repo and Vagrant
+## Vagrant integration
 
-This contro-repo contains different customisable Vagrant environments that can be used for different purposes ad different stages of your Puppet workflow: local testing during development, continuous integration testings, semi-permanent test environments...
+This control-repo contains different customizable Vagrant environments that can be used for different purposes at different stages of our Puppet workflow: local testing during development, continuous integration testings, semi-permanent test environments...
 
 This control-repo is by default shipped as self contained:
 
   - It provides all the Puppet code and data needed to provision different roles.
-  
-  - It manages nodes classification with a nodeless approach based on roles (or however is customised ```manifests/site.pp```.
- 
+
+  - It manages nodes classification with a nodeless approach based on roles (or however is customized ```manifests/site.pp```.
+
   - It doesn't use exported resources (at least in common roles) or any other data provided by PuppetDB
-  
-  - It doesn't rely on an ENC for nodes classification
 
-Being self contained the catalog for each node can be compiled locally via Puppet apply, and is the same method used, by default, in the provided Vagrant environments.
+  - It doesn't rely on an External Node Classifier (ENC) for nodes classification
 
-You can work with them directly issuing ```vagrant``` commands in ```vagrant/environments/<env_name>``` or via Fabric from the main repo dir.
+Being self contained the catalog for each node can be compiled locally via Puppet apply, and is the same method used, by default, in most of the provided Vagrant environments.
+
+We can work with them directly issuing ```vagrant``` commands in ```vagrant/environments/<env_name>``` or via Fabric from the main repo dir.
 
 
 ### Vagrant commands
 
-You can use normal vagrant commands by moving in the relevant environment (where a ```Vagrantfile``` is placed) under the ```vagrant/environments/``` directory.
+We can use normal vagrant commands by moving in the relevant environment (where a ```Vagrantfile``` is placed) under the ```vagrant/environments/``` directory.
 
-Here you can see a multi VM ```Vagrantfile``` and its ```config.yaml``` file.
+Here we can see a multi VM ```Vagrantfile``` and its ```config.yaml``` file.
 
-This configuration file provides a quite flexible way to customise the nodes you want to see with your ```vagrant status``` (*Only this feature would deserve a dedicated Project*). Read below for more details on how to customise it.
+This configuration file provides a quite flexible way to customize the nodes we want to see with our ```vagrant status``` (*Only this feature would deserve a dedicated Project*). Read below for more details on how to work with it.
 
-Basic vagrant commands (here used a sample VM called centos7.ostest.psick.io):
+Basic vagrant commands (here used a sample VM called centos7.devel):
 
     cd vagrant/environments/ostest
     vagrant status
-    vagrant up centos7.ostest.psick.io
+    vagrant up centos7.devel
 
-If you change your Puppet manifests or data in the control-repo you can immediately test their effect:
+If we change our Puppet manifests or data in the control-repo we can immediately test their effect:
 
-To provision Puppet using your current local copy of the control-repo:
+To provision Puppet using our current local copy of the control-repo:
 
-    vagrant provision centos7.ostest.psick.io
+    vagrant provision centos7.devel
 
 To do the same from the local vm:
 
-    vagrant ssh centos7.ostest.psick.io
+    vagrant ssh centos7.devel
     vm $ sudo su -
     vm # /etc/puppetlabs/code/environments/production/bin/papply.sh
 
-If you want to use a Puppet Master for Puppet provisioning on the VM:
+If we want to use a Puppet Master for Puppet provisioning on the VM:
 
-    vm # puppet agent -t 
+    vm # puppet agent -t
 
-Note that by default a puppet apply is used and so it can work on the local control-repo files (mounted on the Vagrant VM). If you use a Puppet Master which is not in your Vagrant environment you will test the code present on the Master itself.
+Note that by default a puppet apply is used and so it can work on the local control-repo files (mounted on the Vagrant VM). If we use a Puppet Master which is not in our Vagrant environment we will test the code present on the Master itself.
 
 
-### Vagrant Frabric tasks
+### Vagrant Fabric tasks
 
 Vagrant commands can be invoked by Fabric too.
 
-Generally it's handier to use direct vagrant commands from the relevant Vagrant environment directories, but you may prefer in some cases where automation is involved to use Fabric.
+Generally it's handier to use direct vagrant commands from the relevant Vagrant environment directories, but we may prefer in some cases where automation is involved to use Fabric.
 
 Run vagrant status on all the available Vagrant environments
 
@@ -70,36 +70,35 @@ Run vagrant provision on all the running vm of a Vagrant environment:
 
 Run vagrant up on the given vm (the following 2 commands are equivalent):
 
-    fab vagrant.up:vm=centos7.ostest.psick.io
-    fab vagrant.up:centos7.ostest.psick.io
+    fab vagrant.up:vm=centos7.devel
+    fab vagrant.up:centos7.devel
 
 Run, respectively, vagrant provision, reload, halt, suspend, resume, destroy on a given vm:
 
-    fab vagrant.provision:centos7.ostest.psick.io
-    fab vagrant.reload:centos7.ostest.psick.io
-    fab vagrant.halt:centos7.ostest.psick.io
-    fab vagrant.suspend:centos7.ostest.psick.io
-    fab vagrant.resume:centos7.ostest.psick.io
-    fab vagrant.destroy:centos7.ostest.psick.io
+    fab vagrant.provision:centos7.devel
+    fab vagrant.reload:centos7.devel
+    fab vagrant.halt:centos7.devel
+    fab vagrant.suspend:centos7.devel
+    fab vagrant.resume:centos7.devel
+    fab vagrant.destroy:centos7.devel
 
+### Customisations
 
-## Customisations
+We can customise the vagrant environments in various ways:
 
-In your own control-repo evolution you may want to:
-
-  - Remove the vagrant/environments/ directories you don't use or need.
+  - Remove the vagrant/environments/ directories we don't use or need.
 
   - Add one or more custom environments for different use cases, such as Applications developers stations, Puppet developers stations, semi-permanent test environments, continuous integration environments...
 
   - Customise the ```config.yaml``` file to define size, OS, role, number of each vagrant vm.
 
-  - Customise eventually the same ```Vagrantfile``` for your own needs. 
+  - Customise eventually the same ```Vagrantfile``` for our own needs. 
 
-### Editing config.yaml
+#### Editing config.yaml
 
 The ```config.yaml``` file is used by the local Vagrantfile to customise easily the VMs we want to use.
 
-You can set the general settings valid for all the VM:
+Here we can set the general settings valid for all the VM:
 
     vm:
       memory: 512            # Memory in MB of the VM
@@ -160,41 +159,11 @@ Finally it's possible to define the Vagrant boxes to use for the different VMs:
         box: puppetlabs/ubuntu-14.04-64-puppet
         breed: puppetlabs-apt
     
-The ```breed``` string defined for each box is passed during Vagrant provisioning for the local installation of Puppet (where needed) to the script ```vagrant/bin/vagrant-setup.sh```.
 
-You may want to edit this script to add support for new breeds (if VMs of not listed Vagrant boxes (note that the above list is a subset of the current ones).
+#### Customising the Vagrantfile and the relevant scripts
 
+Most of the existing vagrant environments share the same ```Vagrantfile```, but we may need to create a custom one, even if just by editing the ```config.yaml``` file we should be able to manage most of the common use cases.
 
-### Customising the Vagrantfile and the relevant scripts
-
-Even if just by editing the ```config.yaml``` file you should be able to manage most of the common use cases, you may need to customise the ```Vagrantfile``` of an environment. 
-
-Here you have full freedom, just notice that when changing it you may break some of the ```config.yaml``` functionality, and that the scripts used during provisioning or in Vagrant related activities are under ```vagrant/bin/``` and you might need to edit them too.
-
-
-## Prerequisites: 
-
-For a correct setup of the Vagrant environment you need:
-
-  - Vagrant locally installed
-
-  - Virtual Box locally installed
-
-  - Possibly some extra Vagrant plugins:
-
-        vagrant plugin install vagrant-cachier
-        vagrant plugin install vagrant-vbguest
-        vagrant plugin install vagrant-hostmanager
-        vagrant plugin install vagrant-triggers
-        vagrant plugin install pe_build # On Vagrant environments where Puppet Enterprise is used
-
-
-The Vagrant steps are basically what's done by the setup script (you may have to run it as privileged used):
-
-    bin/vagrant_setup.sh
-
-Also this one can be invoked by Fabric:
-
-    fab vagrant.setup
+Here we have full freedom, just notice that when changing the Vagrantfile we may break some of the ```config.yaml``` functionality, and that the scripts used during provisioning or in Vagrant related activities are under ```vagrant/bin/``` and we might need to edit them too.
 
 

@@ -1,3 +1,7 @@
+## Release 0.1.3
+- Wider Windows support
+- Enhanced documentation
+- Oracle profiles
 ## Release 0.1.2
 - Started conversion to data in modules in profile classes
 - Improved CI scripts

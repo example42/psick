@@ -31,8 +31,8 @@ class profile::aws::puppet::rds (
 ) {
 
   if $ensure == 'absent' {
-    Rds_db_securitygroup<|name == $title|> ->
-    Rds_instance<|name == $title|>
+    Rds_db_securitygroup<|name == $title|>
+    -> Rds_instance<|name == $title|>
   }
 
   # Default resources, if enabled

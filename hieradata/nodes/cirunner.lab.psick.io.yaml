@@ -30,12 +30,19 @@
 
   # Config for the GIT Runners
   # Tokens change at every gitlab installation
+  profile::gitlab::runner::use_docker: true
   profile::gitlab::runner::runners:
     test_puppet:
       url: 'https://git.lab.psick.io'
       token: 'WKkjkbbsyhFB-FFMosKe' # TO CHANGE AT EVERY GITLAB INSTALLATION
       tag_list: 'test_puppet'
       tls_ca_file: '/etc/puppetlabs/puppet/ssl/certs/ca.pem'
+    docker:
+      url: 'https://git.lab.psick.io'
+      token: 'WKkjkbbsyhFB-FFMosKe' # TO CHANGE AT EVERY GITLAB INSTALLATION
+      tag_list: 'docker'
+      tls_ca_file: '/etc/puppetlabs/puppet/ssl/certs/ca.pem'
+
 
   # Configure the scripts used during Puppet CI
   profile::gitlab::ci::default_nodes:
