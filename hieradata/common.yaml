@@ -68,7 +68,7 @@ profile::monitor::systat_class: '::profile::monitor::sar'
 #  ansible::auto_conf: true
 
 # Sample user settings
-#  profile::users::static::rootpw: hash_as_in_etc_shadow
+#  profile::users::static::root_pw: hash_as_in_etc_shadow
 #  profile::users::static::delete_unmanaged: false
 #  profile::users::static::managed_users:
 #    al:

@@ -28,14 +28,14 @@ describe 'profile::users::static', :type => :class do
         it { is_expected.to have_tools__user__managed_resource_count(0) }
       end
 
-      context 'with rootpw: set' do
+      context 'with root_pw: set' do
         let(:params) do
-          {:rootpw => 'test_rootpw'}
+          {:root_pw => 'test_root_pw'}
         end
 
         describe 'Root user is created'
         it { is_expected.to contain_user('root').with(
-            'password' => 'test_rootpw'
+            'password' => 'test_root_pw'
         ) }
       end
 
@@ -83,9 +83,9 @@ describe 'profile::users::static', :type => :class do
       }
 
       context 'with invalid parameter values' do
-        describe ':rootpw cannot be empty string'
+        describe ':root_pw cannot be empty string'
           let(:params) do
-            {:rootpw => ''}
+            {:root_pw => ''}
           end
           it { is_expected.to raise_error(Puppet::PreformattedError, /^Evaluation Error:.*/) }
       end

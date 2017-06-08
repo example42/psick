@@ -1,75 +1,75 @@
 ---
-  profiles:
-    - profile::puppet::pe_aio_server
-    - profile::gitlab::cli
-    - profile::gitlab::ci
-    - profile::puppet::pe_code_manager
-    - profile::gitlab::runner
-    - profile::ci::octocatalog
-    - profile::puppet::gems
+profiles:
+  - profile::puppet::pe_aio_server
+  - profile::gitlab::cli
+  - profile::gitlab::ci
+  - profile::puppet::pe_code_manager
+  - profile::gitlab::runner
+  - profile::ci::octocatalog
+  - profile::puppet::gems
 
-  puppet_enterprise::profile::puppetdb::whitelisted_certnames:
-    - cirunner.lab.psick.io
-    - git.lab.psick.io
-    - puppet.lab.psick.io
-  puppet_enterprise::profile::console::whitelisted_certnames:
-    - cirunner.lab.psick.io
-    - git.lab.psick.io
-    - puppet.lab.psick.io
+puppet_enterprise::profile::puppetdb::whitelisted_certnames:
+  - cirunner.lab.psick.io
+  - git.lab.psick.io
+  - puppet.lab.psick.io
+puppet_enterprise::profile::console::whitelisted_certnames:
+  - cirunner.lab.psick.io
+  - git.lab.psick.io
+  - puppet.lab.psick.io
 
-  puppet_enterprise::profile::master::r10k_remote: 'git@git.lab.psick.io:puppet/psick.git'
-  puppet_enterprise::profile::master::code_manager_auto_configure: true
-  puppet_enterprise::profile::master::r10k_private_key: '/etc/puppetlabs/ssh/id-control_repo.rsa'
-  # setup code_manager to update classes in the console after environment code deployment 
-  puppet_enterprise::master::code_manager::post_environment_hooks: 
-    - url: 'https://puppet.lab.psick.io:4433/classifier-api/v1/update-classes'    
-      use-client-ssl: true
+puppet_enterprise::profile::master::r10k_remote: 'git@git.lab.psick.io:puppet/psick.git'
+puppet_enterprise::profile::master::code_manager_auto_configure: true
+puppet_enterprise::profile::master::r10k_private_key: '/etc/puppetlabs/ssh/id-control_repo.rsa'
+# setup code_manager to update classes in the console after environment code deployment 
+puppet_enterprise::master::code_manager::post_environment_hooks: 
+  - url: 'https://puppet.lab.psick.io:4433/classifier-api/v1/update-classes'    
+    use-client-ssl: true
 
-  # Gems needed
-  profile::puppet::gems::install_gems:
-    - r10k
-    - deep_merge
-    - hiera-eyaml
-    - yard
-    - puppet-strings
-    - bundle
-    - rake
+# Gems needed
+profile::puppet::gems::install_gems:
+  - r10k
+  - deep_merge
+  - hiera-eyaml
+  - yard
+  - puppet-strings
+  - bundle
+  - rake
 
-  # Code manager
-  profile::puppet::pe_code_manager::pe_user: 'deployer'       # A user you've created on PE
-  profile::puppet::pe_code_manager::pe_password: 'deployer'   # PE user password. TO CHANGE AT EVERY INSTALLATION
-  profile::puppet::pe_code_manager::lifetime: '5y'            # Adapt as preferred
+# Code manager
+profile::puppet::pe_code_manager::pe_user: 'deployer'       # A user you've created on PE
+profile::puppet::pe_code_manager::pe_password: 'deployer'   # PE user password. TO CHANGE AT EVERY INSTALLATION
+profile::puppet::pe_code_manager::lifetime: '5y'            # Adapt as preferred
 
 # Configure the scripts used during Gitlab CI of the control repo
-  profile::gitlab::ci::default_nodes:
-    - puppet.lab.psick.io
-  profile::gitlab::ci::always_nodes:
-    - git.lab.psick.io
-    - cirunner.lab.psick.io
+profile::gitlab::ci::default_nodes:
+  - puppet.lab.psick.io
+profile::gitlab::ci::always_nodes:
+  - git.lab.psick.io
+  - cirunner.lab.psick.io
 
-  profile::ci::octocatalog::run_as_user: 'gitlab-runner'
-  profile::ci::octocatalog::template: 'profile/ci/octocatalog/octocatalog-diff.cfg.rb.erb'
-    
-  # Config for the GIT Runners for Puppet deployments
-  # Tokens change at every gitlab installation
-  profile::gitlab::runner::runners:
-    deploy_puppet:
-      url: 'https://git.lab.psick.io'
-      token: 'WKkjkbbsyhFB-FFMosKe' # CI Runner token TO CHANGE AT EVERY INSTALLATION
-      tag_list: 'deploy_puppet'
-      tls_ca_file: '/etc/puppetlabs/puppet/ssl/certs/ca.pem'
+profile::ci::octocatalog::run_as_user: 'gitlab-runner'
+profile::ci::octocatalog::template: 'profile/ci/octocatalog/octocatalog-diff.cfg.rb.erb'
+  
+# Config for the GIT Runners for Puppet deployments
+# Tokens change at every gitlab installation
+profile::gitlab::runner::runners:
+  deploy_puppet:
+    url: 'https://git.lab.psick.io'
+    token: 'WKkjkbbsyhFB-FFMosKe' # CI Runner token TO CHANGE AT EVERY INSTALLATION
+    tag_list: 'deploy_puppet'
+    tls_ca_file: '/etc/puppetlabs/puppet/ssl/certs/ca.pem'
 
-  # Manage puppet agennt grants. PE User must be already existing
-  # If using PE. it must have permission to trigger remote puppet agents
-  profile::gitlab::runner::pe_user: 'deployer'       # A user you've created on PE
-  profile::gitlab::runner::pe_password: 'deployer'   # PE user password. TO CHANGE AT EVERY INSTALLATION
-  profile::gitlab::runner::pe_token_lifetime: '5y'            # Adapt as preferred
+# Manage puppet agennt grants. PE User must be already existing
+# If using PE. it must have permission to trigger remote puppet agents
+profile::gitlab::runner::pe_user: 'deployer'       # A user you've created on PE
+profile::gitlab::runner::pe_password: 'deployer'   # PE user password. TO CHANGE AT EVERY INSTALLATION
+profile::gitlab::runner::pe_token_lifetime: '5y'            # Adapt as preferred
 
 
-  # Config for gitlab cli. Tokens change at every gitlab installation
-  # Use the Private token of a user with merge request and accept privileges
-  profile::gitlab::cli::config_hash:
-    private_token: 'EbCApya5qgkrVdajEW33' # TO CHANGE AT EVERY INSTALLATION
-    project_id: 2 # Control-repo project ID on GITLAB
-    api_endpoint: 'https://git.lab.psick.io/api/v3'
+# Config for gitlab cli. Tokens change at every gitlab installation
+# Use the Private token of a user with merge request and accept privileges
+profile::gitlab::cli::config_hash:
+  private_token: 'EbCApya5qgkrVdajEW33' # TO CHANGE AT EVERY INSTALLATION
+  project_id: 2 # Control-repo project ID on GITLAB
+  api_endpoint: 'https://git.lab.psick.io/api/v3'
 

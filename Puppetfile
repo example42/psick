@@ -88,4 +88,5 @@ mod 'unibet/vagrant', :latest
 # mod 'counsyl/windows', :git => 'https://github.com/counsyl/puppet-windows'
 # mod 'trlinkin/domain_membership', :git => 'https://forge.puppet.com/trlinkin/domain_membership'
 
-
+# Used by profile::users::static accounts_users_hash parameter
+# mod 'puppetlabs/accounts', :latest

@@ -1,26 +1,40 @@
 ---
 # With few nodes automatic hosts sync may make sense
 #  profile::base::linux::hosts_class: '::profile::hosts::dynamic'
-  profile::hosts::dynamic::dynamic_magicvar: 'zone'
-  profile::hosts::dynamic::extra_hosts:
-    'puppet.lab.psick.io':
-      ip: '10.42.43.101'
-      host_aliases:
-        - puppet
+profile::hosts::dynamic::dynamic_magicvar: 'zone'
+profile::hosts::dynamic::extra_hosts:
+  'puppet.lab.psick.io':
+    ip: '10.42.43.101'
+    host_aliases:
+      - puppet
 
 # In lab we leave DNS unmanaged
-  profile::base::linux::dns_class: ''
+profile::base::linux::dns_class: ''
 
 # Enable automatic updates on lab nodes and set schedule:
-  profile::update::cron_schedule: '42 4 * * *'
+profile::update::cron_schedule: '42 4 * * *'
 
 # Monitoring based on icinga
-  profile::monitor::icinga_class: '::profile::icinga2'
-  profile::monitor::nagiosplugins_class: '::profile::monitor::nagiosplugins'
-  profile::icinga2::master: 'icinga.lab.psick.io'
-  profile::icinga2::is_client: true
-  profile::icinga2::install_cli: true
+profile::monitor::icinga_class: '::profile::icinga2'
+profile::monitor::nagiosplugins_class: '::profile::monitor::nagiosplugins'
+profile::icinga2::master: 'icinga.lab.psick.io'
+profile::icinga2::is_client: true
+profile::icinga2::install_cli: true
 
 # Timezone
 profile::settings::timezone: 'CEST'
 profile::time::windows::timezone: 'Central European Standard Time'
+
+# Users
+# profile::users::static::root_pw: hash_as_in_etc_shadow
+profile::users::static::delete_unmanaged: false
+profile::users::static::accounts_users_hash:
+  al:
+    ensure: present
+    comment: 'Al'
+    groups:
+      - users
+      - wheel
+    sshkeys:
+      - 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC93uOkdIrvcA1ij6wxtL0wDKch7E2gFqID2xR1LnEVQRSP9OFmNQV+4B7fM/fAVpFs939qBDeDRabft1ZAP2hUIeKWxweNQ6wxxV3YhJbxt+g6RAqm37BI+/ynZnZ4vrQp3XHfxNFYGFqiaowiiQ3/0QLh8PHliDJroOUU7h2YNwKBWiqdgufLCrPgnalSZ3kfKa2Yd5sM+iyAYJ102sXcGIFjAXCmQU1y7aJXjrzXzPuugnHvVFPzAUjsvu0FAiE+m8EhfBiyy1+SjnMB838G3EwrqNW+sEZ6lXh637xensB2WJuH0lPooCgaeG6WCmYjVK9rblcOb3B0Pp8Vbhp5 al@lab.psick.io'
+
