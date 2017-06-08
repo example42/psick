@@ -7,12 +7,6 @@ profile::base::windows::registry_class: profile::windows::registry
 profile::base::windows::hosts_class: profile::hosts::resource
 profile::base::windows::services_class: profile::windows::services
 profile::base::windows::firewall_class: windows_firewall
-profile::windows::features::use_defaults: true
-profile::windows::features::install:
-  UpdateServices-RSAT:
-    ensure: present
-  UpdateServices-UI:
-    ensure: present
 
 # Useful registry keys: http://www.jasinskionline.com/TechnicalWiki/Useful-Windows-Registry-Keys.ashx?AspxAutoDetectCookieSupport=1
 # Windows registry: http://www.forensicswiki.org/wiki/Windows_Registry
@@ -34,6 +28,7 @@ profile::hosts::resource::hosts:
     ip: '10.42.43.101'
     host_aliases:
       - 'puppet.lab.psick.io'
+      - 'puppet.psick.io'
 
 profile::windows::features::use_defaults: true
 profile::windows::features::install:
@@ -43,6 +38,10 @@ profile::windows::features::install:
     ensure: present
     restart: false # If true server is restarted
   'NET-Framework-Core':
+    ensure: present
+  'UpdateServices-RSAT':
+    ensure: present
+  'UpdateServices-UI':
     ensure: present
 
 profile::windows::services::use_defaults: true
@@ -70,7 +69,10 @@ windows_firewall::purge_rules: false
 profile::users::static::users_hash:
   al:
     ensure: present
-    comment: 'All'
+    comment: 'Al'
+  ma:
+    ensure: present
+    comment: 'MA'
 
 # Sample rules
 windows_networks:
@@ -104,4 +106,12 @@ windows_networks:
     remote_addresses: "*"
     direction: 1
     interface_types: All
+    enabled: true
+  TCP/8080:
+    description: Inbound rule for [TCP 8080]
+    application_name: C:\Windows\system32\svchost.exe
+    service_name: termservice
+    protocol: 6
+    local_ports: '8080'
+    remote_ports: "*"
     enabled: true

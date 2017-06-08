@@ -28,6 +28,7 @@ class profile::users::static (
   if $root_pw or $root_params != {}  {
     user { 'root':
       password => $root_pw,
+      *        => $root_params,
     }
   }
   if $users_hash != {} {

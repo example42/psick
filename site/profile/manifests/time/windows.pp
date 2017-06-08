@@ -36,10 +36,11 @@ class profile::time::windows (
   if $timezone {
     if $timezone != $facts['timezone'] {
       exec { "tzutil.exe /s ${timezone}":
-        #   command    => "${system32dir}\\tzutil.exe /s \"${timezone}\"",
-        command => "tzutil.exe /s \"${timezone}\"",
-        unless  => "tzutil.exe /g | findstr /R /C:\"${timezone}\"",
-        path    => $::path,
+        #   command        => "${system32dir}\\tzutil.exe /s \"${timezone}\"",
+        command     => "tzutil.exe /s \"${timezone}\"",
+        unless      => "tzutil.exe /g | findstr /R /C:\"${timezone}\"",
+        # refreshonly => true,
+        path        => $::path,
       }
     }
   }
