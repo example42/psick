@@ -313,6 +313,7 @@ pages:
   stage: sitedoc
   before_script:
     - rm -rf doc public .yardoc README.md
+    - bin/docs_classlistgenerate.sh docs/classes.md
     - for f in $(cat docs/toc.txt); do cat docs/$f >> README.md ; done 
   script:
     - puppet strings generate site/**/**/*{.pp\,.rb} site/**/**/**/*{.pp\,.rb} manifests/site.pp
