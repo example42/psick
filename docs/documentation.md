@@ -34,5 +34,3 @@ Managing changes:
 
   - [Change Process](workflow.md) - A step by step guide on how to manage changes in Puppet code
 
-
-

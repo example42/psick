@@ -1,4 +1,4 @@
-## Puppet Enterprise Console
+## Puppet Enterprise Console
 
 Puppet Enterprise (PE) provides a web console which can be used for different purposes:
 
@@ -36,3 +36,4 @@ Clicking on a node name, we can see the detail page for that node, here, on the 
   - All the saved reports and events for the node
   - The list of classes and parameters which are used on the node (note: only the ones deriving from the classification on PE console are included, classes included in Puppet code, on via Hiera, are not listed here)
   - A graph with al the releationships among the node's resources
+
