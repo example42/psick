@@ -3,7 +3,7 @@ HOSTS:
     platform: el-7-x86_64
     hypervisor : docker
     image: centos:centos7
-    docker_preserve_image: false
+    docker_preserve_image: true
     mount_folders:
       controlrepo:
         host_path: .

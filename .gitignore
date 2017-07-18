@@ -213,3 +213,6 @@ ENV/
 control-repo.iml
 /site/profile/.vendor/
 /site/profile/coverage/
+
+# Beaker spec testing
+environment.conf.rpmnew
