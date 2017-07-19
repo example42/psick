@@ -1,4 +1,5 @@
 require 'beaker-rspec'
+require 'beaker-hiera'
 
 hosts.each do |host|
   # Install Puppet
@@ -13,6 +14,8 @@ RSpec.configure do |c|
   # Configure all nodes in nodeset
   c.before :suite do
     hosts.each do |host|
+      on(host, '/opt/puppetlabs/puppet/bin/gem install hiera-eyaml')
+      on(host, 'cd /etc/puppetlabs/puppet/ && /opt/puppetlabs/puppet/bin/eyaml createkeys')
     end
   end
 end

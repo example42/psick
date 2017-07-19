@@ -12,7 +12,6 @@ HOSTS:
     docker_image_commands:
       - 'yum -y swap -- remove fakesystemd -- install systemd systemd-libs'
       - 'yum -y install cronie initscripts which'
-      - 'yum -y update; yum clean all'
-      - 'rm -fr /var/cache/yum/x86_64/7/* /etc/yum.repos.d/*.repo'
+      - 'yum -y update; yum clean all; yum makecache'
 CONFIG:
   type: foss
