@@ -19,9 +19,9 @@ gem 'puppet-lint-file_ensure-check',
 gem 'puppet-lint-leading_zero-check',
     :git => 'https://github.com/voxpupuli/puppet-lint-leading_zero-check.git',
     :require => false
-gem 'puppet-lint-numericvariable',
-    :git => 'https://github.com/fiddyspence/puppetlint-numericvariable.git',
-    :require => false
+#gem 'puppet-lint-numericvariable',
+#    :git => 'https://github.com/fiddyspence/puppetlint-numericvariable.git',
+#    :require => false
 gem 'puppet-lint-resource_reference_syntax',
     :git => 'https://github.com/voxpupuli/puppet-lint-resource_reference_syntax.git',
     :require => false

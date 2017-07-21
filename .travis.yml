@@ -5,7 +5,8 @@ cache: bundler
 script: "bin/travis_check.sh"
 before_install:
   - gem update bundler
-  - bundle install --path vendor
+  - gem install r10k
+  - bundle exec r10k puppetfile install -v
 matrix:
   fast_finish: true
   include:
