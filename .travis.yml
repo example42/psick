@@ -5,6 +5,7 @@ cache: bundler
 script: "bin/travis_check.sh"
 before_install:
   - gem update bundler
+  - bundle install --path vendor
 matrix:
   fast_finish: true
   include:
