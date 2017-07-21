@@ -58,7 +58,7 @@ gem 'r10k', *location_for(ENV['R10K_GEM_VERSION'])
 # Otherwise it can lead to strange bundler behavior. If you are seeing weird
 # gem resolution behavior, try setting `DEBUG_RESOLVER` environment variable
 # to `1` and then run bundle install.
-gem 'facter', *location_for(ENV['FACTER_GEM_VERSION']) if ENV['FACTER_GEM_VERSION']
+gem 'facter', *location_for(ENV['FACTER_GEM_VERSION'] || '~> 2.4')
 gem 'hiera', *location_for(ENV['HIERA_GEM_VERSION']) if ENV['HIERA_GEM_VERSION']
 gem 'hiera-eyaml'
 gem 'rspec-puppet-facts'
