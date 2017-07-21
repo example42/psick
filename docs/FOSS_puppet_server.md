@@ -1,4 +1,4 @@
-# example42 PSICK Puppet Open Source Server automation
+## example42 PSICK Puppet Open Source Server automation
 
 The control-repo allows to spin up a Puppet Open Source Server in a fully automated way.
 
@@ -6,7 +6,7 @@ One can use vagrant or even use PSICK on a fresh base OS installation.
 
 First we need puppet-agent and r10k installed.
 
-## Vagrant installation
+### Vagrant installation
 
 For vagrant it is required to have a local ruby installation. Best option is to either use rvm or rbenv. Then run ```bundle install --path vendor/bundle```.
 

@@ -53,3 +53,4 @@ In ```bin/hiera3.yaml``` are then used these variables in the sample hierarchy:
       - "role/%{::role}"
       - "zone/%{::zone}"
       - common
+

@@ -1,4 +1,4 @@
-# example42 control-repo and Tiny Puppet
+## example42 control-repo and Tiny Puppet
 
 This Puppet contro-repo has various interesting integrations with [Tiny Puppet](http://tiny-puppet.com), even if they are totally optional, we strongly reccommend to give tp a try: it can same you a lot of time.
 
@@ -117,3 +117,4 @@ The following Fabric task (will) allow to test on a remote server if application
     fab tp.remote_test -H <hostname>
 
 You can test if tp installed applications are correctly running just by executing the scripts under ```/etc/tp/test``` on your servers.
+

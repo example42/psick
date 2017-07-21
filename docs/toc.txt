@@ -12,5 +12,6 @@ noop_mode.md
 vagrant.md
 docker.md
 fabric.md
+classes.md
 git.md
 change_process.md

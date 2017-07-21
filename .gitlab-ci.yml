@@ -313,7 +313,8 @@ pages:
   stage: sitedoc
   before_script:
     - rm -rf doc public .yardoc README.md
-    - for f in $(cat docs/toc.txt); do cat docs/$f >> README.md ; done 
+    - bin/docs_classlistgenerate.sh site/profile docs/classes.md
+    - for f in $(cat docs/toc.txt); do cat docs/$f >> README.md ; echo >> README.md ; done 
   script:
     - puppet strings generate site/**/**/*{.pp\,.rb} site/**/**/**/*{.pp\,.rb} manifests/site.pp
     # - rake strings:generate["site/**/**/*{.pp\,.rb} site/**/**/**/*{.pp\,.rb} manifests/site.pp, false, false, markdown,-r docs/PsickGuide.md"]
@@ -327,10 +328,31 @@ pages:
   only:
     - production
 
+pages_modules:
+  stage: sitedoc
+  before_script:
+    - bin/gitlab_before.sh
+    - rm -f README.md
+    - bin/docs_classlistgenerate.sh modules docs/classes_modules.md
+    - for f in $(cat docs/toc-modules.txt); do cat docs/$f >> README.md ; done 
+  script:
+    - puppet strings generate modules/**/**/*{.pp\,.rb} modules/**/**/**/*{.pp\,.rb}
+    # - rake strings:generate["modules/**/**/*{.pp\,.rb} modules/**/**/**/*{.pp\,.rb}, false, false, markdown,-r docs/PsickGuide.md"]
+    - mv doc public/modules
+  tags:
+    - deploy_puppet
+  artifacts:
+    paths:
+    - public
+    expire_in: '30 day'
+  when: manual
+
+generate_pdf:
+  stage: pdf
 generate_pdf:
   stage: pdf
   before_script:
-    - rm -rf public/*
+    - bin/docs_classlistgenerate.sh docs/classes.md
     - for f in $(cat docs/toc.txt); do cat docs/$f >> public/PsickGuide.md ; done 
   script:
     - docker run -v $(pwd):/puppet -i jagregory/pandoc -f markdown /puppet/public/PsickGuide.md -o /puppet/public/PsickGuide.pdf --latex-engine=xelatex -s  --toc -V geometry:margin=2cm

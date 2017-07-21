@@ -1,4 +1,4 @@
-# Puppet Enterprise and Gitlab integration
+## Puppet Enterprise and Gitlab integration
 
 Deep and powerful integrations are possible in this control-repo between Puppet (Enterprise) and GitLab.
 
@@ -9,7 +9,7 @@ Here we review what is done in this control-repo and the manual steps for a full
   - Gitlab CI integration with Puppet controlled via the ```.gitlab-ci.yml``` file.
   - PE based Vagrant environment where to test the full integration
 
-## Puppet Code Manager deployments automation
+### Puppet Code Manager deployments automation
 
 It's possible to configure PE's Code Manager to automatically deploy code on the Puppet server when any change occurs in a control-repo hosted on GitLab.
 
@@ -94,7 +94,7 @@ Urls added on gitlab has the following format:
     https://<pe_console_hostname>:8170/code-manager/v1/webhook?type=gitlab&token=<puppet_access_token>
 
 
-## Puppet profiles for GitLab components
+### Puppet profiles for GitLab components
 
 The control repo provides some class and defines to work with GitLab:
 
@@ -129,13 +129,13 @@ You configure it with something like:
 The GitLab private token is the one from a user that has, on GitLab, the permissions for the requested activities (such as MR management). Create a user with such privileges and then retrive it's Private token from:
 User Settings [Settings in the top right user icon] -> Account -> Private Token
 
-## PE/Gitlab demo Vagrant environment
+### PE/Gitlab demo Vagrant environment
 
 
 
 
 
-## Catalog preview
+### Catalog preview
 [PE cLient tools](https://docs.puppet.com/pe/latest/install_pe_client_tools.html)
 pe-client-tools package
 
@@ -145,7 +145,8 @@ pe-client-tools package
 
 [Orchestrator](https://docs.puppet.com/pe/latest/orchestrator_intro.html)
 
-Configural file ```/etc/puppetlabs/client-tools/orchestrator.conf```
+Configuration file ```/etc/puppetlabs/client-tools/orchestrator.conf```
 
 
 [Direct Puppet workflow](https://docs.puppet.com/pe/latest/direct_puppet_workflow.html)
+

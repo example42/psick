@@ -1,3 +1,5 @@
+# @summary Manages prerequisite classes. They are applied before the others
+#
 # This class manages prerequisites resources for all the other classes.
 # Basically package repositories, subscriptions and eventually proxy server to
 # use.

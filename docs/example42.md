@@ -1,4 +1,4 @@
-# example42. PSICK, control-repo and modules
+## example42. PSICK, control-repo and modules
 
 PSICK is the result of years of work on Puppet code and modules.
 
@@ -10,7 +10,7 @@ Even if PSICK itself is born in 2017 it's derived from Example42's original cont
 which was itself the evolution of example42 Puppet modules collection.
 
 
-## Example42 modules evolution
+### Example42 modules evolution
 
 Example42 original idea of making reusable te design of a whole infrastructure with Puppet
 has evolved through various iterations:
@@ -53,7 +53,7 @@ Why did we rename the control-repo to Psick *and* zeroed the whole ancient histo
   - Honestly, most of all, we wanted to preserve GitHub's stars on our historic Puppet modules repository.
 
 
-## Installing single example42 Puppet modules
+### Installing single example42 Puppet modules
 
 Use the Forge to install single example42 modules (be aware of the deprecated or old (2.x) ones):
 
@@ -76,7 +76,7 @@ You can retrieve the old lists of Example42 modules from other versions with:
 Note that earlier versions are based on git modules and have not a control-repo structure.
 
 
-### Single Modules
+#### Single Modules
 
 All the modules have a ```metadata.json``` file where dependencies are described.
 
