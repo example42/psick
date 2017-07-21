@@ -16,8 +16,8 @@ matrix:
   - rvm: 2.1.9
     bundler_args: --without system_tests
     env: PUPPET_GEM_VERSION="~> 4.0" STDLIB_LOG_DEPRECATIONS="false"
-  - rvm: 2.1.5
+  - rvm: 2.4.1
     bundler_args: --without system_tests
-    env: PUPPET_GEM_VERSION="~> 3.0" FUTURE_PARSER="yes"
+    env: PUPPET_GEM_VERSION="~> 5.0" STDLIB_LOG_DEPRECATIONS="false"
 notifications:
   email: false
