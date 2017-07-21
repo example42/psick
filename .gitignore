@@ -11,7 +11,6 @@ spec/fixtures
 modules/
 /keys/private_key.pkcs7.pem
 *.pyc
-*Gemfile.lock
 vendor
 
 # Vagrant artifacts

@@ -1,0 +1,568 @@
+GIT
+  remote: https://github.com/fiddyspence/puppetlint-variablecase.git
+  revision: 71a2e17e5db905d464026de1bb417c7255d245b4
+  specs:
+    puppet-lint-variable_contains_upcase (1.2.0)
+      puppet-lint (>= 1.0, < 3.0)
+
+GIT
+  remote: https://github.com/voxpupuli/puppet-lint-appends-check.git
+  revision: 8bc398cf9cb198631c7b3b4328b98a3eb2b2aa62
+  specs:
+    puppet-lint-appends-check (0.1.1)
+      puppet-lint (>= 1.0, < 3.0)
+
+GIT
+  remote: https://github.com/voxpupuli/puppet-lint-classes_and_types_beginning_with_digits-check.git
+  revision: ed04d3300a7cc63f408b215e3675200c682ffcd1
+  specs:
+    puppet-lint-classes_and_types_beginning_with_digits-check (0.1.2)
+      puppet-lint (>= 1.0, < 3.0)
+
+GIT
+  remote: https://github.com/voxpupuli/puppet-lint-empty_string-check.git
+  revision: 6671a2645340b211f04f32c0200434ac5a1b90d1
+  specs:
+    puppet-lint-empty_string-check (0.2.2)
+      puppet-lint (>= 1.0, < 3.0)
+
+GIT
+  remote: https://github.com/voxpupuli/puppet-lint-file_ensure-check.git
+  revision: bd33c74fc4908e345dbe039388d5f09a415b3a52
+  specs:
+    puppet-lint-file_ensure-check (0.3.1)
+      puppet-lint (>= 1.0, < 3.0)
+
+GIT
+  remote: https://github.com/voxpupuli/puppet-lint-leading_zero-check.git
+  revision: b3ea137a87f7d5d6addcd6fa61812c14af28e712
+  specs:
+    puppet-lint-leading_zero-check (0.1.1)
+      puppet-lint (>= 1.0, < 3.0)
+
+GIT
+  remote: https://github.com/voxpupuli/puppet-lint-resource_reference_syntax.git
+  revision: 399121653453178feb39365627104a07d3b4e54d
+  specs:
+    puppet-lint-resource_reference_syntax (1.0.10)
+      puppet-lint (>= 1.0, < 3.0)
+
+GIT
+  remote: https://github.com/voxpupuli/puppet-lint-spaceship_operator_without_tag-check.git
+  revision: b4cf5295d9c4a6834062ed9dfee925ace2c44ba6
+  specs:
+    puppet-lint-spaceship_operator_without_tag-check (0.1.1)
+      puppet-lint (>= 1.0, < 3.0)
+
+GIT
+  remote: https://github.com/voxpupuli/puppet-lint-trailing_comma-check.git
+  revision: e17f547a219dbfefa5d2e6c61e5b7b778695de23
+  specs:
+    puppet-lint-trailing_comma-check (0.3.2)
+      puppet-lint (>= 1.0, < 3.0)
+
+GIT
+  remote: https://github.com/voxpupuli/puppet-lint-undef_in_function-check.git
+  revision: f2be50353ddb22e4960267968ef4f0f8d9740beb
+  specs:
+    puppet-lint-undef_in_function-check (0.2.1)
+      puppet-lint (>= 1.0, < 3.0)
+
+GIT
+  remote: https://github.com/voxpupuli/puppet-lint-unquoted_string-check.git
+  revision: 19c7f4a003697bb27592a893f4c5b5ddd8f2be7e
+  specs:
+    puppet-lint-unquoted_string-check (0.3.0)
+      puppet-lint (>= 1.0, < 3.0)
+
+GIT
+  remote: https://github.com/voxpupuli/puppet-lint-version_comparison-check.git
+  revision: 630e72fd409f96859eddcaddf5f82cb01a9fa735
+  specs:
+    puppet-lint-version_comparison-check (0.2.1)
+      puppet-lint (>= 1.0, < 3.0)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    CFPropertyList (2.3.5)
+    addressable (2.5.1)
+      public_suffix (~> 2.0, >= 2.0.2)
+    ast (2.3.0)
+    aws-sdk-v1 (1.67.0)
+      json (~> 1.4)
+      nokogiri (~> 1)
+    beaker (3.20.0)
+      aws-sdk-v1 (~> 1.57)
+      beaker-hiera (~> 0.0)
+      beaker-hostgenerator
+      beaker-puppet (~> 0.0)
+      beaker-vmpooler (~> 0.1)
+      docker-api
+      fission (~> 0.4)
+      fog (~> 1.38)
+      google-api-client (~> 0.9)
+      hocon (~> 1.0)
+      in-parallel (~> 0.1)
+      inifile (~> 3.0)
+      minitar (~> 0.5.4)
+      minitest (~> 5.4)
+      net-scp (~> 1.2)
+      net-ssh (~> 4.0)
+      open_uri_redirections (~> 0.2.1)
+      rsync (~> 1.0.9)
+      stringify-hash (~> 0.0)
+      thor (~> 0.19)
+      unf (~> 0.1)
+    beaker-abs (0.2.0)
+      beaker (>= 2.9.0, < 4.0)
+    beaker-answers (0.17.0)
+      hocon (~> 1.0)
+      require_all (~> 1.3.2)
+      stringify-hash (~> 0.0.0)
+    beaker-hiera (0.1.1)
+      stringify-hash (~> 0.0.0)
+    beaker-hostgenerator (0.10.2)
+      deep_merge (~> 1.0)
+      stringify-hash (~> 0.0.0)
+    beaker-module_install_helper (0.1.4)
+      beaker (>= 2.0)
+    beaker-pe (1.21.0)
+      beaker-answers (~> 0.0)
+      stringify-hash (~> 0.0.0)
+    beaker-puppet (0.3.0)
+      in-parallel (~> 0.1)
+      stringify-hash (~> 0.0.0)
+    beaker-puppet_install_helper (0.7.1)
+      beaker (>= 2.0)
+    beaker-rspec (6.1.0)
+      beaker (~> 3.0)
+      rspec (~> 3.0)
+      serverspec (~> 2)
+      specinfra (~> 2)
+    beaker-vmpooler (0.2.0)
+      rbvmomi (~> 1.9)
+      stringify-hash (~> 0.0.0)
+    builder (3.2.3)
+    coderay (1.1.1)
+    colored (1.2)
+    cri (2.6.1)
+      colored (~> 1.2)
+    declarative (0.0.9)
+    declarative-option (0.1.0)
+    deep_merge (1.1.1)
+    diff-lcs (1.3)
+    docile (1.1.5)
+    docker-api (1.33.6)
+      excon (>= 0.38.0)
+      json
+    excon (0.57.1)
+    facter (2.4.0)
+    facterdb (0.3.11)
+      facter
+      jgrep
+    faraday (0.9.2)
+      multipart-post (>= 1.2, < 3)
+    faraday_middleware (0.10.1)
+      faraday (>= 0.7.4, < 1.0)
+    fast_gettext (1.1.0)
+    fission (0.5.0)
+      CFPropertyList (~> 2.2)
+    fog (1.40.0)
+      fog-aliyun (>= 0.1.0)
+      fog-atmos
+      fog-aws (>= 0.6.0)
+      fog-brightbox (~> 0.4)
+      fog-cloudatcost (~> 0.1.0)
+      fog-core (~> 1.43)
+      fog-digitalocean (>= 0.3.0)
+      fog-dnsimple (~> 1.0)
+      fog-dynect (~> 0.0.2)
+      fog-ecloud (~> 0.1)
+      fog-google (<= 0.1.0)
+      fog-json
+      fog-local
+      fog-openstack
+      fog-powerdns (>= 0.1.1)
+      fog-profitbricks
+      fog-rackspace
+      fog-radosgw (>= 0.0.2)
+      fog-riakcs
+      fog-sakuracloud (>= 0.0.4)
+      fog-serverlove
+      fog-softlayer
+      fog-storm_on_demand
+      fog-terremark
+      fog-vmfusion
+      fog-voxel
+      fog-vsphere (>= 0.4.0)
+      fog-xenserver
+      fog-xml (~> 0.1.1)
+      ipaddress (~> 0.5)
+      json (>= 1.8, < 2.0)
+    fog-aliyun (0.1.0)
+      fog-core (~> 1.27)
+      fog-json (~> 1.0)
+      ipaddress (~> 0.8)
+      xml-simple (~> 1.1)
+    fog-atmos (0.1.0)
+      fog-core
+      fog-xml
+    fog-aws (1.4.0)
+      fog-core (~> 1.38)
+      fog-json (~> 1.0)
+      fog-xml (~> 0.1)
+      ipaddress (~> 0.8)
+    fog-brightbox (0.12.0)
+      fog-core (~> 1.22)
+      fog-json
+      inflecto (~> 0.0.2)
+    fog-cloudatcost (0.1.2)
+      fog-core (~> 1.36)
+      fog-json (~> 1.0)
+      fog-xml (~> 0.1)
+      ipaddress (~> 0.8)
+    fog-core (1.44.3)
+      builder
+      excon (~> 0.49)
+      formatador (~> 0.2)
+    fog-digitalocean (0.3.0)
+      fog-core (~> 1.42)
+      fog-json (>= 1.0)
+      fog-xml (>= 0.1)
+      ipaddress (>= 0.5)
+    fog-dnsimple (1.0.0)
+      fog-core (~> 1.38)
+      fog-json (~> 1.0)
+    fog-dynect (0.0.3)
+      fog-core
+      fog-json
+      fog-xml
+    fog-ecloud (0.3.0)
+      fog-core
+      fog-xml
+    fog-google (0.1.0)
+      fog-core
+      fog-json
+      fog-xml
+    fog-json (1.0.2)
+      fog-core (~> 1.0)
+      multi_json (~> 1.10)
+    fog-local (0.3.1)
+      fog-core (~> 1.27)
+    fog-openstack (0.1.21)
+      fog-core (>= 1.40)
+      fog-json (>= 1.0)
+      ipaddress (>= 0.8)
+    fog-powerdns (0.1.1)
+      fog-core (~> 1.27)
+      fog-json (~> 1.0)
+      fog-xml (~> 0.1)
+    fog-profitbricks (3.0.0)
+      fog-core (~> 1.42)
+      fog-json (~> 1.0)
+    fog-rackspace (0.1.5)
+      fog-core (>= 1.35)
+      fog-json (>= 1.0)
+      fog-xml (>= 0.1)
+      ipaddress (>= 0.8)
+    fog-radosgw (0.0.5)
+      fog-core (>= 1.21.0)
+      fog-json
+      fog-xml (>= 0.0.1)
+    fog-riakcs (0.1.0)
+      fog-core
+      fog-json
+      fog-xml
+    fog-sakuracloud (1.7.5)
+      fog-core
+      fog-json
+    fog-serverlove (0.1.2)
+      fog-core
+      fog-json
+    fog-softlayer (1.1.4)
+      fog-core
+      fog-json
+    fog-storm_on_demand (0.1.1)
+      fog-core
+      fog-json
+    fog-terremark (0.1.0)
+      fog-core
+      fog-xml
+    fog-vmfusion (0.1.0)
+      fission
+      fog-core
+    fog-voxel (0.1.0)
+      fog-core
+      fog-xml
+    fog-vsphere (1.11.2)
+      fog-core
+      rbvmomi (~> 1.9)
+    fog-xenserver (0.3.0)
+      fog-core
+      fog-xml
+    fog-xml (0.1.3)
+      fog-core
+      nokogiri (>= 1.5.11, < 2.0.0)
+    formatador (0.2.5)
+    gettext (3.2.3)
+      locale (>= 2.0.5)
+      text (>= 1.3.0)
+    gettext-setup (0.26)
+      fast_gettext (~> 1.1.0)
+      gettext (>= 3.0.2)
+      locale
+    google-api-client (0.13.1)
+      addressable (~> 2.5, >= 2.5.1)
+      googleauth (~> 0.5)
+      httpclient (>= 2.8.1, < 3.0)
+      mime-types (~> 3.0)
+      representable (~> 3.0)
+      retriable (>= 2.0, < 4.0)
+    googleauth (0.5.1)
+      faraday (~> 0.9)
+      jwt (~> 1.4)
+      logging (~> 2.0)
+      memoist (~> 0.12)
+      multi_json (~> 1.11)
+      os (~> 0.9)
+      signet (~> 0.7)
+    hiera (3.4.0)
+    hiera-eyaml (2.1.0)
+      highline (~> 1.6.19)
+      trollop (~> 2.0)
+    highline (1.6.21)
+    hocon (1.2.5)
+    httpclient (2.8.3)
+    in-parallel (0.1.17)
+    inflecto (0.0.2)
+    inifile (3.0.0)
+    ipaddress (0.8.3)
+    jgrep (1.4.1)
+      json
+    json (1.8.6)
+    json-schema (2.8.0)
+      addressable (>= 2.4)
+    jwt (1.5.6)
+    little-plugger (1.1.4)
+    locale (2.1.2)
+    log4r (1.1.10)
+    logging (2.2.2)
+      little-plugger (~> 1.1)
+      multi_json (~> 1.10)
+    master_manipulator (2.1.1)
+      beaker (>= 2.7.0)
+      multi_json
+    mcollective-client (2.11.1)
+      json
+      stomp
+      systemu
+    memoist (0.16.0)
+    metaclass (0.0.4)
+    metadata-json-lint (2.0.1)
+      json-schema (~> 2.8)
+      puppet (>= 4.7.0, < 6.0.0)
+      spdx-licenses (~> 1.0)
+    method_source (0.8.2)
+    mime-types (3.1)
+      mime-types-data (~> 3.2015)
+    mime-types-data (3.2016.0521)
+    mini_portile2 (2.2.0)
+    minitar (0.5.4)
+    minitest (5.10.3)
+    mocha (1.1.0)
+      metaclass (~> 0.0.1)
+    multi_json (1.12.1)
+    multipart-post (2.0.0)
+    net-scp (1.2.1)
+      net-ssh (>= 2.6.5)
+    net-ssh (4.1.0)
+    net-telnet (0.1.1)
+    nokogiri (1.8.0)
+      mini_portile2 (~> 2.2.0)
+    open_uri_redirections (0.2.1)
+    os (0.9.6)
+    parallel (1.11.2)
+    parallel_tests (2.14.2)
+      parallel
+    parser (2.4.0.0)
+      ast (~> 2.2)
+    powerpack (0.1.1)
+    pry (0.10.4)
+      coderay (~> 1.1.0)
+      method_source (~> 0.8.1)
+      slop (~> 3.4)
+    public_suffix (2.0.5)
+    puppet (5.0.1)
+      facter (> 2.0, < 4)
+      gettext-setup (>= 0.10, < 1)
+      hiera (>= 3.2.1, < 4)
+      locale (~> 2.1)
+    puppet-lint (2.3.0)
+    puppet-module-posix-default-r2.1 (0.0.10)
+    puppet-module-posix-dev-r2.1 (0.0.10)
+      gettext-setup (~> 0.26)
+      metadata-json-lint (>= 2.0.1, < 3.0.0)
+      mocha (>= 1.0.0, < 1.2.0)
+      parallel_tests (>= 2.14.1, < 3.0.0)
+      pry (~> 0.10.4)
+      puppet-lint (>= 2.3.0, < 3.0.0)
+      puppet-syntax (>= 2.4.1, < 3.0.0)
+      puppetlabs_spec_helper (>= 2.2.0, < 3.0.0)
+      rainbow (>= 2.0.0, < 2.2.0)
+      rspec-puppet (>= 2.3.2, < 3.0.0)
+      rspec-puppet-facts (~> 1.8)
+      rspec_junit_formatter (~> 0.2)
+      rubocop (~> 0.49)
+      rubocop-rspec (~> 1.15)
+      simplecov (>= 0.14.1, < 1.0.0)
+      specinfra (= 2.67.3)
+    puppet-module-posix-system-r2.1 (0.0.10)
+      beaker-module_install_helper (>= 0.1.4, < 1.0.0)
+      beaker-puppet_install_helper (>= 0.7.1, < 1.0.0)
+      master_manipulator (>= 2.1.1, < 3.0.0)
+    puppet-syntax (2.4.1)
+      rake
+    puppet_forge (2.2.6)
+      faraday (~> 0.9.0)
+      faraday_middleware (>= 0.9.0, < 0.11.0)
+      gettext-setup (~> 0.11)
+      minitar
+      semantic_puppet (~> 0.1.0)
+    puppetlabs_spec_helper (2.3.0)
+      mocha (~> 1.0)
+      puppet-lint (~> 2.0)
+      puppet-syntax (~> 2.0)
+      rspec-puppet (~> 2.0)
+    r10k (2.5.5)
+      colored (= 1.2)
+      cri (~> 2.6.1)
+      gettext-setup (~> 0.5)
+      log4r (= 1.1.10)
+      multi_json (~> 1.10)
+      puppet_forge (~> 2.2)
+      semantic_puppet (~> 0.1.0)
+    rainbow (2.1.0)
+    rake (12.0.0)
+    rbvmomi (1.11.3)
+      builder (~> 3.0)
+      json (>= 1.8)
+      nokogiri (~> 1.5)
+      trollop (~> 2.1)
+    representable (3.0.4)
+      declarative (< 0.1.0)
+      declarative-option (< 0.2.0)
+      uber (< 0.2.0)
+    require_all (1.3.3)
+    retriable (3.0.2)
+    rspec (3.6.0)
+      rspec-core (~> 3.6.0)
+      rspec-expectations (~> 3.6.0)
+      rspec-mocks (~> 3.6.0)
+    rspec-core (3.6.0)
+      rspec-support (~> 3.6.0)
+    rspec-expectations (3.6.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.6.0)
+    rspec-its (1.2.0)
+      rspec-core (>= 3.0.0)
+      rspec-expectations (>= 3.0.0)
+    rspec-mocks (3.6.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.6.0)
+    rspec-puppet (2.6.4)
+      rspec
+    rspec-puppet-facts (1.8.0)
+      facter
+      facterdb (>= 0.3.0)
+      json
+      mcollective-client
+      puppet
+    rspec-support (3.6.0)
+    rspec_junit_formatter (0.3.0)
+      rspec-core (>= 2, < 4, != 2.12.0)
+    rsync (1.0.9)
+    rubocop (0.49.1)
+      parallel (~> 1.10)
+      parser (>= 2.3.3.1, < 3.0)
+      powerpack (~> 0.1)
+      rainbow (>= 1.99.1, < 3.0)
+      ruby-progressbar (~> 1.7)
+      unicode-display_width (~> 1.0, >= 1.0.1)
+    rubocop-rspec (1.15.1)
+      rubocop (>= 0.42.0)
+    ruby-progressbar (1.8.1)
+    semantic_puppet (0.1.4)
+      gettext-setup (>= 0.3)
+    serverspec (2.39.0)
+      multi_json
+      rspec (~> 3.0)
+      rspec-its
+      specinfra (~> 2.53)
+    sfl (2.3)
+    signet (0.7.3)
+      addressable (~> 2.3)
+      faraday (~> 0.9)
+      jwt (~> 1.5)
+      multi_json (~> 1.10)
+    simplecov (0.14.1)
+      docile (~> 1.1.0)
+      json (>= 1.8, < 3)
+      simplecov-html (~> 0.10.0)
+    simplecov-html (0.10.1)
+    slop (3.6.0)
+    spdx-licenses (1.1.0)
+    specinfra (2.67.3)
+      net-scp
+      net-ssh (>= 2.7, < 5.0)
+      net-telnet
+      sfl
+    stomp (1.4.4)
+    stringify-hash (0.0.2)
+    systemu (2.6.5)
+    text (1.3.1)
+    thor (0.19.4)
+    trollop (2.1.2)
+    uber (0.1.0)
+    unf (0.1.4)
+      unf_ext
+    unf_ext (0.0.7.4)
+    unicode-display_width (1.3.0)
+    xml-simple (1.1.5)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  beaker (>= 3)
+  beaker-abs (~> 0.1)
+  beaker-hostgenerator
+  beaker-pe
+  beaker-rspec
+  fast_gettext
+  hiera-eyaml
+  puppet
+  puppet-lint-appends-check!
+  puppet-lint-classes_and_types_beginning_with_digits-check!
+  puppet-lint-empty_string-check!
+  puppet-lint-file_ensure-check!
+  puppet-lint-leading_zero-check!
+  puppet-lint-resource_reference_syntax!
+  puppet-lint-spaceship_operator_without_tag-check!
+  puppet-lint-trailing_comma-check!
+  puppet-lint-undef_in_function-check!
+  puppet-lint-unquoted_string-check!
+  puppet-lint-variable_contains_upcase!
+  puppet-lint-version_comparison-check!
+  puppet-module-posix-default-r2.1
+  puppet-module-posix-dev-r2.1
+  puppet-module-posix-system-r2.1
+  puppet-module-win-default-r2.1
+  puppet-module-win-dev-r2.1
+  puppet-module-win-system-r2.1
+  puppetlabs_spec_helper
+  r10k
+  rspec-puppet-facts
+
+BUNDLED WITH
+   1.15.1
