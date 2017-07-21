@@ -15,8 +15,12 @@ run_script() {
   fi
 }
 
-run_script bin/puppet_check_syntax_fast.sh
-run_script bin/puppet_lint.sh optional
-run_script "bin/puppet_check_rake.sh site bundle"
+bundle exec rake validate
+bundle exec rake lint
+bundle exec rake spec
 
-exit $global_exit
+#run_script bin/puppet_check_syntax_fast.sh
+#run_script bin/puppet_lint.sh optional
+#run_script "bin/puppet_check_rake.sh site bundle"
+
+#exit $global_exit

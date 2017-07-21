@@ -50,7 +50,7 @@ case $::kernel {
 #    Exec {
 #      path => '%SystemRoot%\system32;%SystemRoot%;%SystemRoot%\System32\Wbem;%SYSTEMROOT%\System32\WindowsPowerShell\v1.0\',
 #    } 
-  }  
+  }
   default: {
     File {
       owner => 'root',
@@ -120,9 +120,9 @@ if defined('$facts') {
   contain "::profile::base::${kernel_down}"
 
   # Class ordering
-  Class['::tools'] ->
-  Class['::profile::settings'] ->
-  Class['::profile::pre'] ->
+  Class['::tools'] -> # lint:ignore:arrow_on_right_operand_line
+  Class['::profile::settings'] -> # lint:ignore:arrow_on_right_operand_line
+  Class['::profile::pre'] -> # lint:ignore:arrow_on_right_operand_line
   Class["::profile::base::${kernel_down}"]
 
   # Classification option 1 - Profiles defined in Hiera
