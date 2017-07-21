@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+PATH=$PATH:/opt/puppetlabs/server/bin
 repo_dir="$(dirname $0)/.."
 # repo_dir=$(git rev-parse --show-toplevel)
 . "${repo_dir}/bin/functions"
@@ -11,7 +12,7 @@ PATH=$PATH:/opt/puppetlabs/puppet/bin
 echo_title "Running Puppet version $(puppet --version) apply on ${manifest}" 
 echo_subtitle "Role: ${FACTER_role} - $(facter -p role)"  
 
-puppet --version | grep "^4" > /dev/null
+puppet --version | grep "^[4|5]" > /dev/null
 if [ "x$?" == "x0" ] ; then
   manifest_option=''
 else
