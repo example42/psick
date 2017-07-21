@@ -50,6 +50,7 @@ group :system_tests do
   gem "beaker-abs", *location_for(ENV['BEAKER_ABS_VERSION'] || '~> 0.1')
 end
 
+gem 'puppetlabs_spec_helper'
 gem 'puppet', *location_for(ENV['PUPPET_GEM_VERSION'])
 gem 'r10k', *location_for(ENV['R10K_GEM_VERSION'])
 
