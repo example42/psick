@@ -23,7 +23,7 @@ if [ ! -z $(which puppet-lint) ]; then
     fi
   done
 else
-  echo_warning "puppet command not found"
+  echo_warning "puppet-lint command not found"
 fi
 
 exit $global_exit
