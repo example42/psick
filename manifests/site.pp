@@ -31,6 +31,14 @@ if $trusted['extensions']['pp_application'] and !has_key($facts,'application') {
   $application = $trusted['extensions']['pp_application']
 }
 
+# Puppet 4.10.4 and older had a typo in sort_merged_array lookup option
+# to allow functinonality we add a new hierarchy to profile hiera.yaml where we use the wrong name
+if versioncmp('4.10.4', $facts['puppetversion']) >= 0 {
+  $fix_sort_merge = '4'
+} else {
+  $fix_sort_merge = undef
+}
+
 ### RESOURCE DEFAULTS
 # Some resource defaults for Files, Execs and Tiny Puppet
 case $::kernel {
