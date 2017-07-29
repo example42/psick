@@ -49,11 +49,6 @@ class profile::puppet::foss_master (
     }
   }
   if $enable_puppetdb {
-    # Bug in puppetlabs-postgresql in combination with PuppetDB module
-    # postgresql-contrib package provides the pg_trgm extension
-    package { 'postgresql94-contrib':
-      ensure => present,
-    }
     class { 'puppetdb':
       manage_firewall     => false,
       manage_package_repo => $manage_puppetdb_repo,
