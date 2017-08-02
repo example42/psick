@@ -82,7 +82,7 @@ if [ ! -z ${ERB} ] && [ ! -z ${RUBY} ]; then
   for i in $(find site -name '*.erb')
   do
     echo -ne "$i - "
-    err=$(${ERB} -x -T - "${i}" | ${RUBY} -c 2>&1)
+    err=$(${ERB} -P -x -T - "${i}" | ${RUBY} -c 2>&1)
     if [ $? = 0 ]; then
       echo_success "OK"
     else
