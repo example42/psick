@@ -13,6 +13,5 @@ hierarchy:
       - "%{facts.os.name}.yaml"
       - "%{facts.os.family}-%{facts.os.release.major}.yaml"
       - "%{facts.os.family}.yaml"
-      - "common%{fix_sort_merge}.yaml"
       - "common.yaml"
 

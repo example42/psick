@@ -200,19 +200,15 @@ lookup_options:
     merge:
       strategy: deep
       knockout_prefix: "--"
-      sort_merged_arrays: true
   "^profile::(.*)::(.*)::(.*)_hash$":
     merge:
       strategy: deep
       knockout_prefix: "--"
-      sort_merged_arrays: true
   "^profile::(.*)::(.*)_list$":
     merge:
       strategy: deep
       knockout_prefix: "--"
-      sort_merged_arrays: true
   "^profile::(.*)::(.*)::(.*)_list$":
     merge:
       strategy: deep
       knockout_prefix: "--"
-      sort_merged_arrays: true
