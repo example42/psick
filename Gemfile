@@ -50,6 +50,7 @@ group :system_tests do
   gem "beaker-abs", *location_for(ENV['BEAKER_ABS_VERSION'] || '~> 0.1')
 end
 
+gem 'puppetlabs_spec_helper'
 gem 'puppet', *location_for(ENV['PUPPET_GEM_VERSION'])
 gem 'r10k', *location_for(ENV['R10K_GEM_VERSION'])
 
@@ -57,14 +58,22 @@ gem 'r10k', *location_for(ENV['R10K_GEM_VERSION'])
 # Otherwise it can lead to strange bundler behavior. If you are seeing weird
 # gem resolution behavior, try setting `DEBUG_RESOLVER` environment variable
 # to `1` and then run bundle install.
-gem 'facter', *location_for(ENV['FACTER_GEM_VERSION']) if ENV['FACTER_GEM_VERSION']
+gem 'facter', *location_for(ENV['FACTER_GEM_VERSION'] || '= 2.4.0')
 gem 'hiera', *location_for(ENV['HIERA_GEM_VERSION']) if ENV['HIERA_GEM_VERSION']
+gem 'hiera-eyaml'
+gem 'rspec-puppet-facts'
 
 
 # Evaluate Gemfile.local if it exists
 if File.exists? "#{__FILE__}.local"
   eval(File.read("#{__FILE__}.local"), binding)
 end
+
+# Evaluate Gemfile.puppetlint if it exists
+if File.exists? "#{__FILE__}.puppetlint"
+  eval(File.read("#{__FILE__}.puppetlint"), binding)
+end
+
 
 # Evaluate ~/.gemfile if it exists
 if File.exists?(File.join(Dir.home, '.gemfile'))

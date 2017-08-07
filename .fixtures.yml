@@ -1,0 +1,4 @@
+fixtures:
+  symlinks:
+    site: "#{source_dir}/site"
+    r10k: "#{source_dir}/modules"

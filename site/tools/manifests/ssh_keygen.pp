@@ -37,10 +37,10 @@ define tools::ssh_keygen (
   }
 
   $type_opt = " -t ${type_real}"
-  if $bits { $bits_opt = " -b ${bits}" }
+  if $bits { $bits_opt = " -b ${bits}" } else { $bits_opt = '' }
   $filename_opt = " -f '${filename_real}'"
   $n_passphrase_opt = " -N ''"
-  if $comment { $comment_opt = " -C '${comment}'" }
+  if $comment { $comment_opt = " -C '${comment}'" } else { $comment_opt = '' }
   $options_opt = $options ? {
     undef   => undef,
     default => " ${options}",

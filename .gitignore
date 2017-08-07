@@ -12,6 +12,7 @@ modules/
 /keys/private_key.pkcs7.pem
 *.pyc
 *Gemfile.lock
+vendor
 
 # Vagrant artifacts
 vagrant/environments/*/ubuntu-xenial-16.04-cloudimg-console.log
@@ -213,3 +214,6 @@ ENV/
 control-repo.iml
 /site/profile/.vendor/
 /site/profile/coverage/
+
+# Beaker spec testing
+environment.conf.rpmnew

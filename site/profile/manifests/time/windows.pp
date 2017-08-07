@@ -1,5 +1,5 @@
 # This profile manages ntp client on Windows
-# Derived from https://github.com/ncorrare/windowstime
+# Derived from https://github.com/ncorrare/windowstime
 class profile::time::windows (
   Array $ntp_servers = $::profile::time::servers,
   Array $fallback_servers = [],
@@ -36,10 +36,10 @@ class profile::time::windows (
   if $timezone {
     if $timezone != $facts['timezone'] {
       exec { "tzutil.exe /s ${timezone}":
-        command     => "tzutil.exe /s \"${timezone}\"",
-        unless      => "tzutil.exe /g | findstr /R /C:\"${timezone}\"",
+        command => "tzutil.exe /s \"${timezone}\"",
+        unless  => "tzutil.exe /g | findstr /R /C:\"${timezone}\"",
+        path    => $::path,
         # refreshonly => true,
-        path        => $::path,
       }
     }
   }
