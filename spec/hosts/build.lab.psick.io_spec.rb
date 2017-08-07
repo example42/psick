@@ -11,10 +11,10 @@ describe 'build.lab.psick.io' do
       let(:environment) { 'production' }
       let(:trusted_facts) do
         {
-        'env' => 'lab',
-        'zone' => 'lab',
-        'datacenter' => 'lab',
-        'role' => 'build'
+          'env' => 'lab',
+          'zone' => 'lab',
+          'datacenter' => 'lab',
+          'role' => 'build'
         }
       end
       it { is_expected.to compile.with_all_deps }

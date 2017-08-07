@@ -16,10 +16,10 @@ describe 'puppet.foss.psick.io' do
       let(:environment) { 'production' }
       let(:trusted_facts) do
         {
-        'env' => 'lab',
-        'zone' => 'lab',
-        'datacenter' => 'lab',
-        'role' => 'puppet'
+          'env' => 'lab',
+          'zone' => 'lab',
+          'datacenter' => 'lab',
+          'role' => 'puppet'
         }
       end
       it { is_expected.to compile.with_all_deps }
