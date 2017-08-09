@@ -24,7 +24,7 @@ PuppetLint::RakeTask.new(:lint) do |config|
   # Pattern of files to check, defaults to `**/*.pp`
   config.pattern = ['manifests/**/*.pp', 'site/**/*.pp']
   # List of checks to disable
-  config.disable_checks = ['140chars', 'relative', 'class_inherits_from_params_class']
+  config.disable_checks = ['140chars', 'relative', 'class_inherits_from_params_class','empty_string_assignment']
   # Should the task fail if there were any warnings, defaults to false
   config.fail_on_warnings = true
   # Print out the context for the problem, defaults to false
