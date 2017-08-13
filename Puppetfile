@@ -58,10 +58,6 @@ mod 'grafanadash',
   :git => 'https://github.com/tuxmea/puppet-grafanadash.git',
   :branch => 'master'
 mod 'dwerder/graphite', :latest
-mod 'stahnma/epel', :latest
-mod 'elastic-elasticsearch', :latest
-mod 'puppetlabs-java', :latest
-mod 'richardc-datacat', :latest
 
 # Docker and Containers
 mod "puppetlabs/dummy_service", :latest
