@@ -21,7 +21,7 @@ class profile::firewall::iptables (
   }
 
   file { $config_file_path:
-    ensure  => present,
+    ensure  => file,
     notify  => Service[$service_name],
     content => template($rules_template),
     mode    => '0640',
@@ -45,12 +45,12 @@ class profile::firewall::iptables (
     }
     'Suse': {
       file { '/usr/lib/systemd/system/iptables.service':
-        ensure  => present,
+        ensure  => file,
         content => template('profile/firewall/iptables.service.erb'),
         notify  => Service[$service_name],
       }
       file { '/etc/sysconfig/iptables.stop':
-        ensure  => present,
+        ensure  => file,
         content => template('profile/firewall/iptables.stop.erb'),
         notify  => Service[$service_name],
       }

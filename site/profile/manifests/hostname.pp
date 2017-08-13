@@ -19,7 +19,7 @@ class profile::hostname (
 
   if $::virtual != 'docker' {
     file { '/etc/hostname':
-      ensure  => present,
+      ensure  => file,
       owner   => 'root',
       group   => 'root',
       mode    => '0644',
@@ -44,7 +44,7 @@ class profile::hostname (
       case $::osfamily {
         'RedHat': {
           file { '/etc/sysconfig/network':
-            ensure  => present,
+            ensure  => file,
             content => "NETWORKING=yes\nNETWORKING_IPV6=no\nHOSTNAME=${calc_fqdn}\n",
             notify  => Exec['apply_hostname'],
           }
@@ -55,7 +55,7 @@ class profile::hostname (
 
     if $update_cloud_cfg {
       file { '/etc/cloud/cloud.cfg.d/99_preserve_hostname.cfg':
-        ensure  => present,
+        ensure  => file,
         content => "preserve_hostname: true\n",
         notify  => Exec['apply_hostname'],
       }

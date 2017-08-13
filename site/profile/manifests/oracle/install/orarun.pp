@@ -16,11 +16,11 @@ class profile::oracle::install::orarun (
 
   package { 'orarun': }
   file { '/etc/sysconfig/oracle':
-    ensure  => present,
+    ensure  => file,
     content => template($sysconfig_template),
   }
   file { '/etc/profile.d/oracle.sh':
-    ensure  => present,
+    ensure  => file,
     content => template($profile_template),
   }
 

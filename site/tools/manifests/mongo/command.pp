@@ -30,7 +30,7 @@ define tools::mongo::command (
     default => "/${db_name}",
   }
   file { $mongodb_script_user:
-    ensure  => present,
+    ensure  => file,
     mode    => '0600',
     owner   => 'root',
     group   => 'root',
