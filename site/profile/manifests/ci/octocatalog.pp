@@ -31,7 +31,7 @@ class profile::ci::octocatalog (
   } else {
     $private_key_path = "/home/${run_as_user}/${trusted['certname']}.pem"
     file { $private_key_path:
-      ensure => present,
+      ensure => file,
       owner  => $run_as_user,
       group  => $run_as_user,
       mode   => '0400',

@@ -20,7 +20,7 @@ class profile::sudo (
 
   if $sudoers_template != '' {
     file { '/etc/sudoers':
-      ensure  => present,
+      ensure  => file,
       mode    => '0440',
       owner   => 'root',
       group   => 'root',

@@ -12,7 +12,7 @@ class profile::hardening::securetty (
 ){
   $ttys = join( $root_ttys, "\n")
   file { '/etc/securetty':
-    ensure  => present,
+    ensure  => file,
     content => template( $securetty_template ),
     owner   => root,
     group   => root,

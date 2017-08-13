@@ -70,7 +70,7 @@ class profile::oracle::prerequisites::sysctl (
 
   if $template and $template != '' {
     file { '/etc/sysctl.conf':
-      ensure  => 'present',
+      ensure  => file,
       content => template($template),
     }
   }
