@@ -68,7 +68,7 @@ class profile::timezone(
 
   if $::virtual != 'docker' {
     file { 'timezone':
-      ensure  => present,
+      ensure  => file,
       path    => $config_file,
       mode    => '0644',
       owner   => 'root',

@@ -14,7 +14,7 @@ class profile::hardening::tcpwrappers (
 
   if $hosts_allow_template != '' {
     file { '/etc/hosts.allow':
-      ensure  => present,
+      ensure  => file,
       mode    => '0644',
       owner   => 'root',
       group   => 'root',
@@ -24,7 +24,7 @@ class profile::hardening::tcpwrappers (
 
   if $hosts_deny_template != '' {
     file { '/etc/hosts.deny':
-      ensure  => present,
+      ensure  => file,
       mode    => '0644',
       owner   => 'root',
       group   => 'root',

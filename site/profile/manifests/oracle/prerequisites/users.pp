@@ -40,20 +40,20 @@ class profile::oracle::prerequisites::users (
     },
     kmdba => {
       gid => '705',
-    }
+    },
   }
 
   $asm_groups = $has_asm ? {
     true => {
-      asmdba => {
-        gid => '706',
+      'asmdba' => {
+        'gid' => '706',
       },
-      asmadmin => {
-        gid => '707',
+      'asmadmin' => {
+        'gid' => '707',
       },
-      asmoper => {
-        gid => '708',
-      }
+      'asmoper' => {
+        'gid' => '708',
+      },
     },
     false => { },
   }
@@ -94,7 +94,7 @@ class profile::oracle::prerequisites::users (
       home    => '/home/gridora',
       require => Group['oinstall'],
       managehome => true,
-    }
+    },
   }
 
   $all_users = $use_defaults ? {

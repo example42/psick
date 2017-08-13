@@ -10,9 +10,9 @@ gem 'puppet-lint-appends-check',
 gem 'puppet-lint-classes_and_types_beginning_with_digits-check',
     :git => 'https://github.com/voxpupuli/puppet-lint-classes_and_types_beginning_with_digits-check.git',
     :require => false
-gem 'puppet-lint-empty_string-check',
-    :git => 'https://github.com/voxpupuli/puppet-lint-empty_string-check.git',
-    :require => false
+#gem 'puppet-lint-empty_string-check',
+#    :git => 'https://github.com/voxpupuli/puppet-lint-empty_string-check.git',
+#    :require => false
 gem 'puppet-lint-file_ensure-check',
     :git => 'https://github.com/voxpupuli/puppet-lint-file_ensure-check.git',
     :require => false
