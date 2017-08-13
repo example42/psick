@@ -21,7 +21,7 @@ class profile::network (
   include ::network
 
   file { '/etc/modprobe.d/bonding.conf':
-    ensure => present,
+    ensure => file,
   }
   $routes = hiera_hash('profile::network::routes', {})
   $routes.each |$r,$o| {
@@ -66,7 +66,7 @@ class profile::network (
   and $network_template != ''
   and $::profile::base::linux::hostname_class != '' {
     file { '/etc/sysconfig/network':
-      ensure  => 'present',
+      ensure  => file,
       content => template($network_template),
     }
   }

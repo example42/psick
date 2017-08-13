@@ -63,7 +63,7 @@ class profile::hardening::pam (
 
   if $login_defs_template != '' {
     file { '/etc/login.defs':
-      ensure  => present,
+      ensure  => file,
       content => template($login_defs_template),
       owner   => root,
       group   => root,

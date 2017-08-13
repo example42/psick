@@ -12,7 +12,7 @@ class profile::dns::resolver (
 
   if $::virtual != 'docker' {
     file { $resolver_path:
-      ensure  => present,
+      ensure  => file,
       content => template($resolver_template),
       owner   => 'root',
       group   => 'root',

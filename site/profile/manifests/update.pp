@@ -27,7 +27,7 @@ class profile::update (
     # Custom update script
     if $cron_schedule != '' {
       file { '/etc/cron.d/system_update':
-        ensure  => present,
+        ensure  => file,
         content => "# File managed by Puppet\n${cron_schedule} root ${update_script_path}\n",
       }
     } else {
@@ -37,7 +37,7 @@ class profile::update (
     }
 
     file { $update_script_path:
-      ensure  => present,
+      ensure  => file,
       mode    => '0750',
       content => template($update_template),
       before  => File['/etc/cron.d/system_update'],
