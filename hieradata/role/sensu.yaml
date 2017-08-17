@@ -1,0 +1,4 @@
+---
+  profile::monitor::sensu::is_server: true
+  profile::monitor::sensu::is_api: true
+
