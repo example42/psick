@@ -47,13 +47,13 @@ class profile::puppet::pe_code_manager (
   }
 
   file { $deploy_ssh_private_key_path:
-    ensure => present,
+    ensure => file,
     owner  => $puppet_user,
     mode   => '0400',
     source => pick($deploy_ssh_private_source,"file://${real_deploy_user_home}/.ssh/id_rsa"),
   }
   file { $deploy_ssh_public_key_path:
-    ensure => present,
+    ensure => file,
     owner  => $puppet_user,
     mode   => '0400',
     source => pick($deploy_ssh_public_source,"file:///${real_deploy_user_home}/.ssh/id_rsa.pub"),

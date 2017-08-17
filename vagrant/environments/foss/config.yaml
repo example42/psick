@@ -53,6 +53,9 @@ nodes:
     forwarded_port:
       guest: 443
       host: 1943
+  - role: grafana
+    count: 1
+    box: centos7
   - role: build
     count: 1
     box: centos7

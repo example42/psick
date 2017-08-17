@@ -173,3 +173,47 @@ NOTE: If we have added the reference to a ticket (ie: #22) in our commit title, 
 
 Once our change is pushed to the production branch, it's automatically deployed as Puppet production environment on our Puppet server and from here, by default, in 30 minutes, is rolled all over our infrastructure.
 
+
+### Simplified Change process using web interface
+
+A simpler and more direct approach is to use directly the web interface of GitLab (or any other online or local system used for git repos management) to edit the needed files.
+
+  - Open the relevant Issue page (or create the issue)
+  - Click on **Create Merge request**
+
+The Merge Request, even if with still no change has been made, triggers a CI pipeline and shows a page where is possible to change milestones, assignee and, especially, click on the newly created branch.
+
+From here we can:
+
+  - Click on the branch link after **Request to merge** to show its commits history
+  - Click on **Files**
+  - Browse to the file we have to change
+  - Click on **Edit**
+  - Make the desired changes from the web interface
+  - Click on **Commit changes** to commit your changes (a commit title and description can be added)
+
+A screen like this appears during online file editing:
+
+We can do the same online editing operation for all the files we have to change.
+
+It's important to be sure to always ensure we are working on our newly created feature branch, its name is always visible while browsing files:
+
+Once we have finished to edit our files (note that each time we change one file online, a new commit is created and a CI pipeline triggered), we can go back to the Merge Request page, here we can:
+
+  - Review the associated pipeline (note that the Verify Deploy step will always fail, see below for reasons, but the Lint and Syntax checks must be green)
+  - Review all our changes
+  - List our commits
+  - Click on **Edit** to remove the "WIP: " prefix from the Merge Request title, this allows us to actually accept the Merge request (to the development branch)
+  - Click on **Save changes**
+  - Click on **Merge** (ensure that the "Remove source branch" box is checked) to accept the Merge Request to development branch.
+  - The relevant issue is automatically closed.
+
+From now on the next steps are similar to Steps 5 (second part) and 6 of the previously described Change process.
+
+This web based approach should be followed only in these cases:
+
+  - We have just to edit a few files and we don't have to test locally (with Vagrant) our changes
+  - We are not proficient with git and its usage from the command line
+  - Change is trivial or we are in an extreme hurry
+
+Note that such an approach prevents us from testing our code on Vagrant, but still allows us to test it on real servers, using the environment matching the branch we have worked on.  Note, however, that the branches automatically created with this procedure have spaces in their name and they are not automatically deployed to the Puppet Master as environments. In order to deploy a feature branch on the Puppet Master (so that we can test it on selected nodes), we need to give it a name without spaces.

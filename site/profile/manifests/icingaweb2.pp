@@ -59,7 +59,7 @@ class profile::icingaweb2 (
     augeas { 'php_date_timezone':
       context => '/files/etc/php.ini/DATE',
       changes => [
-        "set date.timezone ${::profile::settings::timezone}"
+        "set date.timezone ${::profile::settings::timezone}",
       ],
     }
   }

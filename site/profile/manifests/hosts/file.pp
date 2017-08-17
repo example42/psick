@@ -20,7 +20,7 @@ class profile::hosts::file (
   $extra_hosts=hiera_array('profile::hosts::file::extra_hosts', [] )
 
   file { '/etc/hosts':
-    ensure  => present,
+    ensure  => file,
     content => template($template),
   }
 

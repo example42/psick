@@ -39,7 +39,7 @@ mod "puppetlabs/catalog_preview", :latest
 mod "puppet/archive", :latest
 mod "puppetlabs/inifile", :latest
 
-# Used by profile::puppet::pos_server
+# Used by profile::puppet::foss_server
 mod 'puppetlabs/postgresql', :latest
 mod 'puppetlabs/puppetdb', :latest
 mod 'puppet/puppetserver',
@@ -47,10 +47,17 @@ mod 'puppet/puppetserver',
   :tag => '2.1.0'
 mod 'puppetlabs/puppetserver_gem', :latest
 mod 'puppet/r10k', :latest
+mod 'puppetlabs/hocon', :latest
 # mod 'puppet/puppetboard', :latest
 
 # Used by profile::puppet::pe_code_manager
 mod "pltraining/rbac", '0.0.5'
+
+# Used by grafanadash server (puppet metrics)
+mod 'grafanadash',
+  :git => 'https://github.com/tuxmea/puppet-grafanadash.git',
+  :branch => 'master'
+mod 'dwerder/graphite', :latest
 
 # Docker and Containers
 mod "puppetlabs/dummy_service", :latest

@@ -20,19 +20,19 @@ class profile::hardening::network (
   if $::osfamily == 'RedHat' {
     if $modprobe_template != '' {
       file { '/etc/modprobe.d/hardening.conf':
-        ensure  => present,
+        ensure  => file,
         content => template($modprobe_template),
       }
     }
     if $blacklist_template != '' {
       file { '/etc/modprobe.d/blacklist-nouveau.conf':
-        ensure  => present,
+        ensure  => file,
         content => template($blacklist_template),
       }
     }
     if $netconfig_template != '' {
       file { '/etc/netconfig':
-        ensure  => present,
+        ensure  => file,
         content => template($netconfig_template),
       }
     }
@@ -40,7 +40,7 @@ class profile::hardening::network (
 
   if $services_template != '' {
     file { '/etc/services':
-      ensure  => present,
+      ensure  => file,
       content => template($services_template),
     }
   }

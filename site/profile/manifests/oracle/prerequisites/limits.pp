@@ -42,7 +42,7 @@ class profile::oracle::prerequisites::limits (
 
   if $template and $template != '' {
     file { '/etc/security/limits.conf':
-      ensure  => 'present',
+      ensure  => file,
       content => template($template),
     }
   }
