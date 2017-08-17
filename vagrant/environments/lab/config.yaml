@@ -108,6 +108,19 @@ nodes:
     forwarded_port:
       guest: 80
       host: 1447
+  - role: sensu
+    memory: 2048
+    count: 1
+    box: centos7
+    forwarded_port:
+      guest: 3000
+      host: 1449
+  - role: rabbitmq
+    count: 1
+    box: centos7
+    forwarded_port:
+      guest: 15672
+      host: 1441
   - role: foreman
     memory: 4096
     count: 1
