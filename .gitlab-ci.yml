@@ -23,6 +23,9 @@ stages:
 run_danger:
   stage: danger
   script: danger
+  tags:
+    - test_puppet
+  only:
   allow_failure: true
   except:
     - testing
