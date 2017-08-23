@@ -3,6 +3,7 @@
     - profile::git
     - profile::puppet::gems
     - profile::ci::octocatalog
+    - profile::ci::danger
     - profile::gitlab::runner
     - profile::gitlab::ci
     - docker
