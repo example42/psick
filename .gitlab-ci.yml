@@ -5,6 +5,7 @@
 # environment to work.
 #
 stages:
+  - danger
   - checks
   - version_check
   - specs
@@ -17,6 +18,17 @@ stages:
   - promote
   - rollout
   - postcheck
+
+# Run Danger based on Dangerfile rules
+run_danger:
+  stage: danger
+  script: danger
+  allow_failure: true
+  except:
+    - testing
+    - production
+  only:
+    - branches
 
 # Version Deploy check for every branch with environment creation
 # It will try by default 6 times with 10 second between each try
