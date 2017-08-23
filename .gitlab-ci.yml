@@ -30,7 +30,6 @@ run_danger:
   script: danger --verbose
   tags:
     - test_puppet
-  only:
   allow_failure: true
   except:
     - testing
