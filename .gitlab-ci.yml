@@ -26,7 +26,6 @@ variables:
 # Run Danger based on Dangerfile rules
 run_danger:
   stage: danger
-  before_script: export CI_MERGE_REQUEST_ID=$(git ls-remote -q origin merge-requests\*\head | grep $CI_COMMIT_SHA | sed 's/.*refs\/merge-requests\/\([0-9]*\)\/head/\1/g')
   script: danger --verbose
   tags:
     - test_puppet
