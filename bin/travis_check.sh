@@ -24,15 +24,15 @@ run_script "bundle exec rake lint"
 #run_script bin/puppet_lint.sh optional
 
 # Spec tests
-if [ $SKIP_SPEC_TESTS != "true" ]; then
+if [ "x$SKIP_SPEC_TESTS" == 'xtrue' ]; then
+  echo "Skipping spec tests"
+else
   # Control repo nodes spec tests
   run_script "bundle exec rake spec"
   # Site modules spec tests
   run_script "bin/puppet_check_rake.sh site"
   # Public modules spec tests
   # run_script "bin/puppet_check_rake.sh modules"
-else
-  echo "Skipping spec tests"
 fi
 
 exit $global_exit
