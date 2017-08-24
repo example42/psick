@@ -62,7 +62,7 @@ gem 'facter', *location_for(ENV['FACTER_GEM_VERSION'] || '= 2.4.0')
 gem 'hiera', *location_for(ENV['HIERA_GEM_VERSION']) if ENV['HIERA_GEM_VERSION']
 gem 'hiera-eyaml'
 gem 'rspec-puppet-facts'
-
+gem 'danger'
 
 # Evaluate Gemfile.local if it exists
 if File.exists? "#{__FILE__}.local"

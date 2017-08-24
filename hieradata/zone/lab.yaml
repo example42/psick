@@ -24,6 +24,7 @@ profile::icinga2::install_cli: true
 # Monitoring based on sensu
 profile::monitor::sensu_class: '::profile::monitor::sensu'
 profile::base::windows::monitor_class: '::profile::monitor::sensu'
+profile::monitor::sensu::rabbitmq_host: 'sensu.lab.psick.io'
 
 #Timezone
 profile::settings::timezone: 'CEST'
