@@ -121,7 +121,7 @@ Vagrant.configure('2') do |config|
         node_config.hostmanager.manage_host = settings['vagrant']['hostmanager.manage_host']
       end
 
-      if Vagrant.has_plugin?('vagrant-pe_build') and pe_role == 'master'
+      if Vagrant.has_plugin?('vagrant-pe_build') && pe_role == 'master'
         node_config.pe_build.version = pe_version if pe_version
         node_config.pe_build.download_root = pe_download_root if pe_download_root
 
@@ -135,7 +135,7 @@ Vagrant.configure('2') do |config|
       end
 
       if role != 'puppet'
-        if Vagrant.has_plugin?('vagrant-hostmanager') and Vagrant.has_plugin?('vagrant-triggers')
+        if Vagrant.has_plugin?('vagrant-hostmanager') && Vagrant.has_plugin?('vagrant-triggers')
           # register destroy trigger to remove the node from puppet master
           node_config.trigger.after :destroy do
             node_name = @machine.name.to_s

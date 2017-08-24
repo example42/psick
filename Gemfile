@@ -31,23 +31,22 @@ ruby_version_segments = Gem::Version.new(RUBY_VERSION.dup).segments
 minor_version = "#{ruby_version_segments[0]}.#{ruby_version_segments[1]}"
 
 group :development do
-  gem "puppet-module-posix-default-r#{minor_version}", require: false, platforms: 'ruby'
   gem "puppet-module-win-default-r#{minor_version}",   require: false, platforms: ['mswin', 'mingw', 'x64_mingw']
-  gem "puppet-module-posix-dev-r#{minor_version}",     require: false, platforms: 'ruby'
   gem "puppet-module-win-dev-r#{minor_version}",       require: false, platforms: ['mswin', 'mingw', 'x64_mingw']
+  gem "puppet-module-posix-dev-r#{minor_version}",     require: false, platforms: 'ruby'
+  gem "puppet-module-posix-default-r#{minor_version}", require: false, platforms: 'ruby'
   gem 'json_pure', '<= 2.0.1',                         require: false if Gem::Version.new(RUBY_VERSION.dup) < Gem::Version.new('2.0.0')
-  gem 'fast_gettext', '1.1.0',                         require: false if Gem::Version.new(RUBY_VERSION.dup) < Gem::Version.new('2.1.0')
-  gem 'fast_gettext',                                  require: false if Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.1.0')
+  gem 'fast_gettext',                                  require: false if Gem::Version.new(RUBY_VERSION.dup) < Gem::Version.new('2.1.0')
 end
 
 group :system_tests do
-  gem "puppet-module-posix-system-r#{minor_version}",                            require: false, platforms: 'ruby'
-  gem "puppet-module-win-system-r#{minor_version}",                              require: false, platforms: ['mswin', 'mingw', 'x64_mingw']
+  gem "puppet-module-posix-system-r#{minor_version}",          require: false, platforms: 'ruby'
+  gem "puppet-module-win-system-r#{minor_version}",            require: false, platforms: ['mswin', 'mingw', 'x64_mingw']
   gem 'beaker', *location_for(ENV['BEAKER_VERSION'] || '>= 3')
-  gem 'beaker-pe',                                                               require: false
-  gem 'beaker-rspec', *location_for(ENV['BEAKER_RSPEC_VERSION'])
-  gem 'beaker-hostgenerator', *location_for(ENV['BEAKER_HOSTGENERATOR_VERSION'])
   gem 'beaker-abs', *location_for(ENV['BEAKER_ABS_VERSION'] || '~> 0.1')
+  gem 'beaker-hostgenerator', *location_for(ENV['BEAKER_HOSTGENERATOR_VERSION'])
+  gem 'beaker-pe',                                             require: false
+  gem 'beaker-rspec', *location_for(ENV['BEAKER_RSPEC_VERSION'])
 end
 
 gem 'puppetlabs_spec_helper'
@@ -58,7 +57,7 @@ gem 'r10k', *location_for(ENV['R10K_GEM_VERSION'])
 # Otherwise it can lead to strange bundler behavior. If you are seeing weird
 # gem resolution behavior, try setting `DEBUG_RESOLVER` environment variable
 # to `1` and then run bundle install.
-gem 'facter', *location_for(ENV['FACTER_GEM_VERSION'] || '= 2.4.0')
+gem 'facter', *location_for(ENV['FACTER_GEM_VERSION']) if ENV['FACTER_GEM_VERSION']
 gem 'hiera', *location_for(ENV['HIERA_GEM_VERSION']) if ENV['HIERA_GEM_VERSION']
 gem 'hiera-eyaml'
 gem 'rspec-puppet-facts'
