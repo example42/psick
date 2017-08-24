@@ -2,7 +2,7 @@
 
 * Your contribution here.
 
-## Development
+## Release 0.2.0
 
 * Started Danger integration
 * Control repo spec tests
