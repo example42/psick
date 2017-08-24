@@ -14,11 +14,13 @@ class profile::aws::puppet::vpc (
 ) {
 
   if $ensure == 'absent' {
+    #lint:ignore:spaceship_operator_without_tag
     Ec2_vpc_routetable<||>
     -> Ec2_vpc_internet_gateway<||>
     -> Ec2_vpc_subnet<||>
     -> Ec2_vpc<|name == $default_vpc_name|>
     #   Ec2_vpc<||>
+    #lint:endignore 
   }
 
   # Default resources, if enabled
