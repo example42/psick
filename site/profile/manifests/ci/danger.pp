@@ -3,18 +3,25 @@
 # Danger homepage: http://danger.systems/
 #
 # @param ensure Define if to install (present), remote (absent) danger gems
-# @param install_gems The gems to install
+# @param use_gitlab If GitLab (and the relevant danger gem) is used
 # @param install_system_gems If to install danger gems on the system
 # @param install_puppet_gems If to install danger gems via puppet gem
 #
 class profile::ci::danger (
   String $ensure               = 'present',
-  Array $install_gems          = [ 'danger' , 'danger-gitlab' ],
+  Array $plugins               = [ ],
+  Boolean $use_gitlab          = false,
   Boolean $install_system_gems = true,
   Boolean $install_puppet_gems = true,
 ) {
   include ::profile::ruby
-  $install_gems.each | $gem | {
+
+  $all_gems = $use_gitlab ? {
+    true  => [ 'danger-gitlab' ] + $plugins,
+    false => [ 'danger' ] + $plugins,
+  }
+
+  $all_gems.each | $gem | {
     if $install_system_gems {
       package { $gem:
         ensure          => $ensure,
