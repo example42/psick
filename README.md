@@ -3,6 +3,10 @@
 ## PSICK
 ## Puppet Systems Infrastructure Construction Kit
 
+[![Build Status](https://travis-ci.org/example42/psick.png?branch=production)](https://travis-ci.org/example42/psick)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/503831d4ea6a470e864f1a3969449b78)](https://www.codacy.com/app/example42/psick?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=example42/psick&amp;utm_campaign=Badge_Grade)
+
+
 A **Puppet control-repo generator** on steroids, featuring:
 
   - A modern, opinionated, general purpose, full featured, reusable control-repo

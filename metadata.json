@@ -1,8 +1,8 @@
 {
   "name": "example42-psick",
-  "version": "0.0.2",
+  "version": "0.2.0",
   "author": "Example42",
-  "summary": "Control Repo.",
+  "summary": "PSICK Puppet Control Repo [Generator]",
   "license": "Apache-2.0",
   "source": "https://github.com/example42/psick",
   "project_page": "https://github.com/example42/psick",

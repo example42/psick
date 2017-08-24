@@ -9,7 +9,7 @@
 # @params check_mk_class Name of the class that manages Check MK
 # @params snmp_class Name of the class that manages SNMP
 # @params ganglia_class Name of the class that manages Ganglia
-# @params *_class Name of the class that manages the relevant monitoing tool
+# @params *_class Name of the class that manages the relevant monitoring tool
 #
 class profile::monitor (
   String $nagiosplugins_class = '',
@@ -17,6 +17,7 @@ class profile::monitor (
   String $snmp_class          = '',
   String $ganglia_class       = '',
   String $icinga_class        = '',
+  String $sensu_class         = '',
   String $nrpe_class          = '',
   String $newrelic_class      = '',
   String $sysstat_class       = '',
@@ -40,6 +41,10 @@ class profile::monitor (
 
   if $icinga_class != '' {
     contain $icinga_class
+  }
+
+  if $sensu_class != '' {
+    contain $sensu_class
   }
 
   if $nrpe_class != '' {
