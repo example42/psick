@@ -15,12 +15,24 @@ run_script() {
   fi
 }
 
-bundle exec rake validate
-bundle exec rake lint
-bundle exec rake spec
-
+# Syntax tests
+run_script "bundle exec rake validate"
 #run_script bin/puppet_check_syntax_fast.sh
-#run_script bin/puppet_lint.sh optional
-#run_script "bin/puppet_check_rake.sh site bundle"
 
-#exit $global_exit
+# Lint tests
+run_script "bundle exec rake lint"
+#run_script bin/puppet_lint.sh optional
+
+# Spec tests
+if $SKIP_SPEC_TESTS!="true" {
+  # Control repo nodes spec tests
+  run_script "bundle exec rake spec"
+  # Site modules spec tests
+  run_script "bin/puppet_check_rake.sh site"
+  # Public modules spec tests
+  # run_script "bin/puppet_check_rake.sh modules"
+} else {
+  echo "Skipping spec tests"
+}
+
+exit $global_exit

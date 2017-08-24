@@ -13,11 +13,11 @@ matrix:
   fast_finish: true
   include:
   - rvm: 2.1.9
-    env: PUPPET_GEM_VERSION="~> 4.6.0"
+    env: PUPPET_GEM_VERSION="~> 4.6.0" SKIP_SPEC_TESTS="true"
   - rvm: 2.1.9
-    env: PUPPET_GEM_VERSION="~> 4.7.0"
+    env: PUPPET_GEM_VERSION="~> 4.7.0" SKIP_SPEC_TESTS="true"
   - rvm: 2.1.9
-    env: PUPPET_GEM_VERSION="~> 4.8.0"
+    env: PUPPET_GEM_VERSION="~> 4.8.0" SKIP_SPEC_TESTS="true"
   - rvm: 2.1.9
     env: PUPPET_GEM_VERSION="~> 4.9.0"
   - rvm: 2.1.9
@@ -26,9 +26,6 @@ matrix:
     env: PUPPET_GEM_VERSION="~> 5.0.0"
   - rvm: 2.4.1
     env: PUPPET_GEM_VERSION="~> 5.1.0"
-  - rvm: 2.3.1
-    bundler_args: --without system_tests
-    env: PUPPET_GEM_VERSION="~> 4.0" STDLIB_LOG_DEPRECATIONS="false"
   - rvm: 2.4.1
     bundler_args: --without system_tests
     env: PUPPET_GEM_VERSION="~> 5.0" STDLIB_LOG_DEPRECATIONS="false"
