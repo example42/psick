@@ -15,17 +15,17 @@ class profile::aws::sdk (
   $install_gems.each | $gem | {
     if $install_system_gems {
       package { $gem:
-        ensure          => $ensure,
-        provider        => 'gem',
-        require         => Class['profile::ruby'],
+        ensure   => $ensure,
+        provider => 'gem',
+        require  => Class['profile::ruby'],
       }
     }
     if $install_puppet_gems {
       package { "puppet_${gem}":
-        ensure          => $ensure,
-        name            => $gem,
-        provider        => 'puppet_gem',
-        require         => Class['profile::ruby'],
+        ensure   => $ensure,
+        name     => $gem,
+        provider => 'puppet_gem',
+        require  => Class['profile::ruby'],
       }
     }
   }

@@ -1,21 +1,22 @@
 #
 class profile::monitor::sensu (
+  String $rabbitmq_host,
+  String $rabbitmq_user     = 'sensu',
+  String $rabbitmq_password = 'sensu',
+  String $rabbitmq_vhost    = '/sensu',
+  String $subscriptions     = 'all',
+  String $client_address    = $::ipaddress,
+
   Boolean $is_client    = true,
   Boolean $is_server    = false,
   Boolean $is_api       = false,
   Boolean $is_rabbitmq  = false,
   Boolean $is_dashboard = false,
-
-  String $subscriptions     = 'all',
-  String $client_address    = $::ipaddress,
-  String $rabbitmq_user     = 'sensu',
-  String $rabbitmq_password = 'sensu',
-  String $rabbitmq_vhost    = '/sensu',
 ) {
   class { '::sensu':
-    client => $is_client,
-    server => $is_server,
-    api    => $is_api,
+    client            => $is_client,
+    server            => $is_server,
+    api               => $is_api,
     rabbitmq_user     => $rabbitmq_user,
     rabbitmq_password => $rabbitmq_password,
     # rabbitmq_password => Sensitive($rabbitmq_password),
