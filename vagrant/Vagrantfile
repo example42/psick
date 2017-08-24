@@ -9,12 +9,11 @@ require 'ipaddr'
 vagrantfile_dir = File.expand_path File.dirname(__FILE__)
 config_file = File.join(vagrantfile_dir, 'config.yaml')
 
-if !File.exist?(config_file)
-  throw("File config.yaml not found. Must be in same dir of Vagrantfile")
+unless File.exist?(config_file)
+  throw('File config.yaml not found. Must be in same dir of Vagrantfile')
 end
 
- 
-settings = YAML::load_file config_file
+settings = YAML.load_file config_file
 
 # Network and Puppet basics
 network_obj = IPAddr.new settings['network']['range']
@@ -24,10 +23,9 @@ puppet_master_hostname = settings['puppet']['master_fqdn'] ? settings['puppet'][
 puppet_environment = settings['puppet']['environment']
 
 # We mount this directory on the VMs and then link puppet_environment to it
-# This is needed to avoid Puppet installation issues complaining about limited space 
+# This is needed to avoid Puppet installation issues complaining about limited space
 # under production
 puppet_code_dir = '/vagrant_puppet'
-
 
 # Define vms settings
 vms = []
@@ -73,12 +71,11 @@ if settings['nodes'].is_a?(Array)
   end
 end
 
-
 # Vagrant configuration
-Vagrant.configure("2") do |config|
+Vagrant.configure('2') do |config|
 
   # hostmanager config
-  if Vagrant.has_plugin?("vagrant-hostmanager")
+  if Vagrant.has_plugin?('vagrant-hostmanager')
     config.hostmanager.enabled = settings['vagrant']['hostmanager.enabled'] ? settings['vagrant']['hostmanager.enabled'] : true
     config.hostmanager.manage_host = settings['vagrant']['hostmanager.manage_host'] ? settings['vagrant']['hostmanager.manage_host'] : false
     config.hostmanager.ignore_private_ip = settings['vagrant']['hostmanager.ignore_private_ip'] ? settings['vagrant']['hostmanager.ignore_private_ip'] : false
@@ -93,15 +90,15 @@ Vagrant.configure("2") do |config|
     hostname = node['hostname'].clone
     fqdn = node['fqdn'].clone
     box = node['box'].clone
-    aliases = node['aliases'].clone + node['aliases'] 
+    aliases = node['aliases'].clone + node['aliases']
     env = settings['puppet']['env']
     datacenter = settings['puppet']['datacenter']
     zone = settings['puppet']['zone']
     application = node['application']
     pe_role = node['pe_role'] if node['pe_role']
     pe_verbose = settings['puppet']['pe_verbose'] ? settings['puppet']['pe_verbose'] : true
-    pe_version = settings['puppet']['pe_version'] 
-    pe_relocate_manifests = settings['puppet']['pe_relocate_manifests'] 
+    pe_version = settings['puppet']['pe_version']
+    pe_relocate_manifests = settings['puppet']['pe_relocate_manifests']
     pe_download_root = settings['puppet']['pe_download_root'] if settings['puppet']['pe_download_root']
     master_vm = settings['puppet']['master_vm'] if settings['puppet']['master_vm']
     # forwarded_port = node['forwarded_port']
@@ -114,17 +111,17 @@ Vagrant.configure("2") do |config|
       node_config.vm.network :private_network, ip: node['ip']
       node_config.vm.network :private_network, ip: node['ipv6'] if node['ipv6']
 
-      node_config.vm.provision "shell", path: '../../bin/vagrant-sethostname.sh', args: "#{fqdn}"
-      node_config.vm.provision "shell", path: '../../bin/vagrant-setfacts.sh', args: "--role #{role} --env #{env} --zone #{zone} --datacenter #{datacenter} --application #{application}" if node['facter_external_facts']
-      node_config.vm.provision "shell", path: '../../bin/vagrant-settrustedfacts.sh', args: "--role #{role} --env #{env} --zone #{zone} --datacenter #{datacenter} --application #{application}" if node['facter_trusted_facts']
-      node_config.vm.provision "shell", path: '../../../bin/puppet_install.sh' if settings['puppet']['install_oss']
+      node_config.vm.provision 'shell', path: '../../bin/vagrant-sethostname.sh', args: "#{fqdn}"
+      node_config.vm.provision 'shell', path: '../../bin/vagrant-setfacts.sh', args: "--role #{role} --env #{env} --zone #{zone} --datacenter #{datacenter} --application #{application}" if node['facter_external_facts']
+      node_config.vm.provision 'shell', path: '../../bin/vagrant-settrustedfacts.sh', args: "--role #{role} --env #{env} --zone #{zone} --datacenter #{datacenter} --application #{application}" if node['facter_trusted_facts']
+      node_config.vm.provision 'shell', path: '../../../bin/puppet_install.sh' if settings['puppet']['install_oss']
 
-      if Vagrant.has_plugin?("vagrant-hostmanager")
+      if Vagrant.has_plugin?('vagrant-hostmanager')
         node_config.hostmanager.aliases = aliases
         node_config.hostmanager.manage_host = settings['vagrant']['hostmanager.manage_host']
       end
 
-      if Vagrant.has_plugin?("vagrant-pe_build") and pe_role == 'master'
+      if Vagrant.has_plugin?('vagrant-pe_build') and pe_role == 'master'
         node_config.pe_build.version = pe_version if pe_version
         node_config.pe_build.download_root = pe_download_root if pe_download_root
 
@@ -138,7 +135,7 @@ Vagrant.configure("2") do |config|
       end
 
       if role != 'puppet'
-        if Vagrant.has_plugin?("vagrant-hostmanager") and Vagrant.has_plugin?('vagrant-triggers')
+        if Vagrant.has_plugin?('vagrant-hostmanager') and Vagrant.has_plugin?('vagrant-triggers')
           # register destroy trigger to remove the node from puppet master
           node_config.trigger.after :destroy do
             node_name = @machine.name.to_s
@@ -151,35 +148,35 @@ Vagrant.configure("2") do |config|
       end
 
       if node['puppet_apply'] == true
-        node_config.vm.synced_folder "../../../", puppet_code_dir, mount_options: ["ro"]
-        node_config.vm.provision "shell", path: '../../bin/vagrant-linkcontrolrepo.sh', args: "#{puppet_environment} #{puppet_code_dir}" if link_controlrepo
-        node_config.vm.provision "shell", path: '../../bin/vagrant-setup_papply.sh', args: "#{puppet_environment}"
-        node_config.vm.provision "shell", path: '../../bin/papply.sh'
+        node_config.vm.synced_folder '../../../', puppet_code_dir, mount_options: ['ro']
+        node_config.vm.provision 'shell', path: '../../bin/vagrant-linkcontrolrepo.sh', args: "#{puppet_environment} #{puppet_code_dir}" if link_controlrepo
+        node_config.vm.provision 'shell', path: '../../bin/vagrant-setup_papply.sh', args: "#{puppet_environment}"
+        node_config.vm.provision 'shell', path: '../../bin/papply.sh'
       end
 
       if node['pe_role'] == 'master'
         node_config.vm.synced_folder "../../../", puppet_code_dir, mount_options: ["ro"]
-        node_config.vm.provision "shell", path: '../../bin/vagrant-linkcontrolrepo.sh', args: "#{puppet_environment} #{puppet_code_dir}" if link_controlrepo
-        node_config.vm.provision "shell", path: '../../bin/vagrant-setup_papply.sh', args: "#{puppet_environment}"
+        node_config.vm.provision 'shell', path: '../../bin/vagrant-linkcontrolrepo.sh', args: "#{puppet_environment} #{puppet_code_dir}" if link_controlrepo
+        node_config.vm.provision 'shell', path: '../../bin/vagrant-setup_papply.sh', args: "#{puppet_environment}"
       end
 
       if node['puppet_agent'] == true
-        if Vagrant.has_plugin?("vagrant-pe_build") and settings['puppet']['install_pe']
+        if Vagrant.has_plugin?('vagrant-pe_build') and settings['puppet']['install_pe']
           node_config.vm.provision :pe_agent do |p|
             p.master_vm = master_vm
           end
         end
-        node_config.vm.provision "shell", path: "../../bin/pagent.sh", args: "--server #{puppet_master_hostname}"
+        node_config.vm.provision 'shell', path: '../../bin/pagent.sh', args: "--server #{puppet_master_hostname}"
       end
 
       if node['forwarded_port']
-        node_config.vm.network "forwarded_port", guest: node['forwarded_port']['guest'], host: node['forwarded_port']['host']
+        node_config.vm.network 'forwarded_port', guest: node['forwarded_port']['guest'], host: node['forwarded_port']['host']
       end
       if node['forwarded_port2']
-        node_config.vm.network "forwarded_port", guest: node['forwarded_port2']['guest'], host: node['forwarded_port2']['host']
+        node_config.vm.network 'forwarded_port', guest: node['forwarded_port2']['guest'], host: node['forwarded_port2']['host']
       end
  
-      node_config.vm.provider "virtualbox" do |v|
+      node_config.vm.provider 'virtualbox' do |v|
         v.customize ['modifyvm', :id, '--name', fqdn]
         v.customize ['modifyvm', :id, '--cpus', node['cpu'].to_s]
         v.customize ['modifyvm', :id, '--memory', node['memory'].to_s]
