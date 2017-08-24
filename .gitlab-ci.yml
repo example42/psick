@@ -19,13 +19,12 @@ stages:
   - rollout
   - postcheck
 
-variables:
-  DANGER_GITLAB_HOST: "git.lab.psick.io"
-  DANGER_GITLAB_API_BASE_URL: "https://git.lab.psick.io/api/v4"
-
 # Run Danger based on Dangerfile rules
 run_danger:
   stage: danger
+  before_pre:
+    - export DANGER_GITLAB_HOST=$CI_SERVER_NAME
+    - export DANGER_GITLAB_API_BASE_URL="https://${CI_SERVER_NAME}/api/v4"
   script: danger --verbose
   tags:
     - test_puppet
