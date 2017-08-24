@@ -1,0 +1,24 @@
+# Sample role data used in the Vagrant OS test environment
+# under vagrant/environments/ostest/
+# Useful for testingi a set of profiles on different OS
+# Here is a sample ostest.yaml file content.
+# Alternatively we use symlinks to test an existing role on
+# different Operting Systems.
+#
+#
+---
+# In this role we include two profiles:
+# - A simple generic profile for basic repo setup
+# - A profile dedicated to testing code on different OS
+#
+# Use ::profile::ostest for testing Puppet code
+# Add profiles to the list below to test whole profiles
+
+profiles:
+  - '::profile::ostest'
+
+# For quicker tests we don't want to include all the
+# base profile classes which are by default added to 
+# all the roles.
+# Uncomment below to enable the inclusion of base classes
+# profile::base::linux::enable: false

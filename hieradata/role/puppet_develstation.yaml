@@ -1,0 +1,12 @@
+---
+  profiles:
+    - profile::vagrant
+    - profile::git
+    - profile::puppet::gems
+    - docker
+    - profile::puppet::pdk
+
+  profile::vagrant::plugins::default_plugins:
+    - vagrant-cachier
+    - vagrant-vbguest
+
