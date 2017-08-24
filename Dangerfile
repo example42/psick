@@ -4,7 +4,7 @@
 # Identify changes type
 has_danger_changes = !git.modified_files.grep(/^manifests\/.pp$|^hieradata\/common.yaml$|^data\/common.yaml$/).empty?
 has_puppet_changes = !git.modified_files.grep(/.pp$/).empty?
-has_hiera_changes = !git.modified_files.grep(/^hieradata\/.yaml$/|^data\/.yaml$|.pp$/).empty?
+has_hiera_changes = !git.modified_files.grep(/^hieradata\/.yaml$|^data\/.yaml$|.pp$/).empty?
 has_spec_changes = !git.modified_files.grep(/spec/).empty?
 is_version_bump = git.modified_files.sort == ["metadata.json", "lib/danger/version.rb"].sort
 
