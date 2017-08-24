@@ -1,4 +1,5 @@
-
+# set the number of lines that must be changed before this classifies as a 'Big PR'
+@SDM_DANGER_BIG_PR_LINES = 50
 
 # Identify changes type
 has_danger_changes = !git.modified_files.grep(/^manifests\/.pp$|^hieradata\/common.yaml$/).empty?
