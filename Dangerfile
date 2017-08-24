@@ -2,7 +2,7 @@
 @SDM_DANGER_BIG_PR_LINES = 50
 
 # Identify changes type
-has_danger_changes = !git.modified_files.grep(/^manifests\/.pp$|^hieradata\/common.yaml$/|^data\/common.yaml$).empty?
+has_danger_changes = !git.modified_files.grep(/^manifests\/.pp$|^hieradata\/common.yaml$|^data\/common.yaml$/).empty?
 has_puppet_changes = !git.modified_files.grep(/.pp$/).empty?
 has_hiera_changes = !git.modified_files.grep(/^hieradata\/.yaml$/|^data\/.yaml$|.pp$/).empty?
 has_spec_changes = !git.modified_files.grep(/spec/).empty?
@@ -21,6 +21,16 @@ end
 # Hiera changes
 if !has_hiera_changes
   message('There are changes on Hiera files. They will probably affect one or more nodes.', sticky: false)
+end
+
+# hiera.yaml change
+unless git.modified_files.grep(/hiera.yaml/).empty?
+  messages('Oh, you are changing the environment hiera.yaml! Be careful if you are changing hierarchies')
+end
+
+# environment.conf change
+unless git.modified_files.grep(/environmnent.conf/).empty?
+  messages('Changing environment.conf settings? That is not something you do every day :-)')
 end
 
 # Changelog plugin
