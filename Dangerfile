@@ -2,8 +2,9 @@
 @SDM_DANGER_BIG_PR_LINES = 50
 
 # Identify changes type
-has_danger_changes = !git.modified_files.grep(/^manifests\/.pp$|^hieradata\/common.yaml$/).empty?
+has_danger_changes = !git.modified_files.grep(/^manifests\/.pp$|^hieradata\/common.yaml$/|^data\/common.yaml$).empty?
 has_puppet_changes = !git.modified_files.grep(/.pp$/).empty?
+has_hiera_changes = !git.modified_files.grep(/^hieradata\/.yaml$/|^data\/.yaml$|.pp$/).empty?
 has_spec_changes = !git.modified_files.grep(/spec/).empty?
 is_version_bump = git.modified_files.sort == ["metadata.json", "lib/danger/version.rb"].sort
 
@@ -14,10 +15,15 @@ end
 
 # Tests changes without code changes
 if !has_puppet_changes && has_spec_changes
-  message('We really puppetreciate pull requests that demonstrate issues, even without a fix. That said, the next step is to try and fix the failing tests!', sticky: false)
+  message('Changes in tests but not in manifests. If the affect tests resulat, in theory this should not happen.', sticky: false)
 end
 
-# Have you updated CHANGELOG.md?
+# Hiera changes
+if !has_hiera_changes
+  message('There are changes on Hiera files. They will probably affect one or more nodes.', sticky: false)
+end
+
+# Changelog plugin
 changelog.check
 
 # Add a CHANGELOG entry for puppet changes
@@ -38,7 +44,7 @@ if git.commits.any? { |c| c.message =~ /^Merge branch/ }
 end
 
 # Large PR
-warn('Big PR') if git.lines_of_code > @SDM_DANGER_BIG_PR_LINES
+warn('Big PR! Big changes, big things may happen! Check them.') if git.lines_of_code > @SDM_DANGER_BIG_PR_LINES
 
 
 # GitHub
