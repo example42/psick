@@ -111,6 +111,13 @@ elsif Gem.win_platform?
   gems['win32-service'] =  ['<= 0.8.8', require: false]
 end
 
+if puppet_older_than?('5.0.0')
+  # Hiera-eyaml is embedded in Hiera 5 / Puppet 5
+else
+  gems['hiera-eyaml'] = ['~> 2.0']
+end
+
+
 gems.each do |gem_name, gem_params|
   gem gem_name, *gem_params
 end
