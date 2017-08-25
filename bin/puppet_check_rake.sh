@@ -14,7 +14,7 @@ if [ ! -z ${RAKE} ] && [ ! -z ${RUBY} ] ; then
   echo_title "Running rspec tests on modules under ${mods} dir"
   for i in $(ls -1 "${repo_dir}/${mods}/")
   do
-    echo -ne "$i - "
+    echo_title "Running unit tests for $i"
     cd "${repo_dir}/${mods}/${i}"
     if [ "${run}" == "bundle" ]; then
       bundle

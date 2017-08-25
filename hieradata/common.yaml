@@ -70,7 +70,7 @@ profile::monitor::systat_class: '::profile::monitor::sar'
 # Sample user settings
 #  profile::users::static::root_pw: hash_as_in_etc_shadow
 #  profile::users::static::delete_unmanaged: false
-#  profile::users::static::managed_users:
+#  profile::users::static::managed_users_hash:
 #    al:
 #      sshkey_content:
 #        key: AAAAB3NzaC1yc2E....

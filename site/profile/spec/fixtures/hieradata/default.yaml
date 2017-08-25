@@ -11,7 +11,6 @@
   tp::data_module: tinydata
 
 # Base profile settings for Linux servers
-  profile::base::linux::pre_class: '::profile::pre'
   profile::base::linux::mail_class: '::profile::mail::postfix'
   profile::base::linux::puppet_class: '::profile::puppet::peclient'
   profile::base::linux::ssh_class: '::profile::ssh::openssh'
@@ -26,16 +25,10 @@
   profile::base::linux::hardening_class: '::profile::hardening'
   profile::base::linux::motd_class: '::profile::motd'
   profile::base::linux::hosts_class: '::profile::hosts::resource'
-  profile::base::linux::sysstat_class: '::profile::sar'
   profile::base::linux::update_class: '::profile::update'
   profile::base::linux::hardware_class: '::profile::hardware'
-  profile::base::linux::packages_class: '::profile::packages'
   profile::base::linux::users_class: ''
   profile::base::linux::sudo_class: '::profile::sudo'
-
-# Prerequisites class management
-  profile::pre::rpmgpg_class: ''
-  profile::pre::repo_class: ''
 
 # Hardening classes
   profile::hardening::pam_class: '::profile::hardening::pam'

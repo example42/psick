@@ -52,9 +52,9 @@ describe 'profile::users::static', :type => :class do
         ) }
       end
 
-      context 'with :users defined' do
+      context 'with :users_hash defined' do
         let(:params) { {
-            :users => {
+            :users_hash => {
                 'test_user1' => {
                     'name' => 'user1'
                 },
@@ -67,9 +67,9 @@ describe 'profile::users::static', :type => :class do
         it { is_expected.to have_user_resource_count(2) }
       end
 
-      context('with :managed_users defined') {
+      context('with :managed_users_hash defined') {
         let(:params) { {
-            managed_users: {
+            managed_users_hash: {
                 'testmanaged_user1' => {
                     'name' => 'managed_user1'
                 },

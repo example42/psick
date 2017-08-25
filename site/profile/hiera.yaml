@@ -14,4 +14,3 @@ hierarchy:
       - "%{facts.os.family}-%{facts.os.release.major}.yaml"
       - "%{facts.os.family}.yaml"
       - "common.yaml"
-
