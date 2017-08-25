@@ -217,3 +217,9 @@ control-repo.iml
 
 # Beaker spec testing
 environment.conf.rpmnew
+
+# PDK generated files
+bin/metadata-json-lint
+bin/puppet
+bin/rubocop
+bin/rake
