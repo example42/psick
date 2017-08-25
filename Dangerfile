@@ -25,12 +25,12 @@ end
 
 # hiera.yaml change
 unless git.modified_files.grep(/hiera.yaml/).empty?
-  messages('Oh, you are changing the environment hiera.yaml! Be careful if you are changing hierarchies')
+  message('Oh, you are changing the environment hiera.yaml! Be careful if you are changing hierarchies')
 end
 
 # environment.conf change
 unless git.modified_files.grep(/environmnent.conf/).empty?
-  messages('Changing environment.conf settings? That is not something you do every day :-)')
+  message('Changing environment.conf settings? That is not something you do every day :-)')
 end
 
 # Changelog plugin
