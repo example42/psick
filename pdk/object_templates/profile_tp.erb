@@ -1,0 +1,44 @@
+<% app_name = name.gsub("profile::", "") -%>
+# <%= name %>
+#
+# @summary This profile manages <%= app_name %>
+#
+# @example
+#   include <%= name %>
+#
+# @param ensure If to install or remove <%= app_name %>
+# @param config_file_template The erb template (as used in template()) to manage
+#   the content of <%= app_name %> application's main configuration file
+# @param options_hash An open hash of options to use in the provided template.
+#   It's looked up via a deep merge hash
+<%- if params -%>
+<%-   params.each do |param| -%>
+# @param <%= param[:name] %> <%= param[:description] %>.
+<%-   end -%>
+class <%= name %> (
+  Enum['present','absent'] $ensure                     = 'present',
+  String                   $config_file_template       = '',
+<%-   params.each do |param| -%>
+  <%= param[:type].ljust(max_type_length) %> $<%= param[:name] %>,
+<%-   end -%>
+) {
+<%- else -%>
+class <%= name %> (
+  Enum['present','absent'] $ensure                     = 'present',
+  String                   $config_file_template       = '',
+) {
+<%- end -%>
+
+  ::tp::install { '<%= app_name %>':
+    ensure => $ensure,
+  }
+
+  if $config_file_template != '' {
+    ::tp::conf { '<%= app_name %>':
+      ensure       => $ensure,
+      template     => $config_file_template,
+      options_hash => $options_hash,
+    }
+  }
+
+}
