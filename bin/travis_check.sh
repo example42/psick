@@ -30,7 +30,7 @@ else
   # Control repo nodes spec tests
   run_script "bundle exec rake spec"
   # Site modules spec tests
-  run_script "bin/puppet_check_rake.sh site"
+  run_script "bin/puppet_check_rake.sh site bundle"
   # Public modules spec tests
   # run_script "bin/puppet_check_rake.sh modules"
 fi

@@ -16,6 +16,7 @@ if [ ! -z ${RAKE} ] && [ ! -z ${RUBY} ] ; then
   do
     echo_title "Running unit tests for $i"
     cd "${repo_dir}/${mods}/${i}"
+    rm -f Gemfile.lock
     if [ "${run}" == "bundle" ]; then
       bundle
     fi
