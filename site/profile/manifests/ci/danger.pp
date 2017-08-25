@@ -17,8 +17,8 @@ class profile::ci::danger (
   include ::profile::ruby
 
   $all_gems = $use_gitlab ? {
-    true  => ['danger-gitlab'] + $plugins,
-    false => ['danger'] + $plugins,
+    true  => ['danger-gitlab'] + $plugins,
+    false => ['danger'] + $plugins,
   }
 
   $all_gems.each | $gem | {

@@ -19,7 +19,7 @@ run_script() {
 run_script "bundle exec rake validate"
 #run_script bin/puppet_check_syntax_fast.sh
 
-# Lint tests
+# Lint tests
 run_script "bundle exec rake lint"
 #run_script bin/puppet_lint.sh optional
 
@@ -27,7 +27,7 @@ run_script "bundle exec rake lint"
 if [ "x$SKIP_SPEC_TESTS" == 'xtrue' ]; then
   echo "Skipping spec tests"
 else
-  # Control repo nodes spec tests
+  # Control repo nodes spec tests
   run_script "bundle exec rake spec"
   # Site modules spec tests
   run_script "bin/puppet_check_rake.sh site"
