@@ -6,7 +6,6 @@ env=$1
 maxrun=${2:-6}
 sleeptime=${3:-10}
 numrun=1
-exitcode=1
 echo_title "Display of /etc/puppetlabs/code/environments/$env/.r10k-deploy.json"
 sudo cat /etc/puppetlabs/code/environments/$env/.r10k-deploy.json
 echo_title "Deployment status on ${env} - doing maximum ${maxrun} try every ${sleeptime} sec."
@@ -23,7 +22,6 @@ do
 	echo_title "----------------------------------------------------------------------------------"
 	if [[ "${deployed_commit}" == "${local_commit}" ]]; then
   		echo_success "Code correctly deployed to Puppet Server"
-		exitcode=0
 		exit 0
 	fi
 	sleep $sleeptime
