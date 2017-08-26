@@ -18,9 +18,9 @@ for changedfile in $(git diff HEAD~$diff_commits_number --name-only); do
   fi
 
   # Default nodes to check in common changes
-  if [[ $(echo "$changedfile" | grep -q 'hieradata/role'; echo $?) -eq 0 ]] \n
-  || [[ $(echo "$changedfile" | grep -q 'Puppetfile'; echo $?) -eq 0 ]] \n
-  || [[ $(echo "$changedfile" | grep -q 'site/'; echo $?) -eq 0 ]] \n
+  if [[ $(echo "$changedfile" | grep -q 'hieradata/role'; echo $?) -eq 0 ]] \
+  || [[ $(echo "$changedfile" | grep -q 'Puppetfile'; echo $?) -eq 0 ]] \
+  || [[ $(echo "$changedfile" | grep -q 'site/'; echo $?) -eq 0 ]] \
   || [[ $(echo "$changedfile" | grep -q 'manifests/'; echo $?) -eq 0 ]]; then
     for node in $default_nodes; do
       echo

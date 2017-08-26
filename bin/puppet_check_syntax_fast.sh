@@ -6,6 +6,7 @@ PUPPET=$(which puppet)
 ERB=$(which erb)
 RUBY=$(which ruby)
 R10K=$(which r10k)
+BASH=$(which bash)
 global_exit=0
 filter=' grep -v my_filter '
 
@@ -98,7 +99,7 @@ fi
 if [ ! -z ${R10K} ]; then
   echo_title "Validating Puppetfile syntax"
   echo -ne "Puppetfile - "
-  err=$(${R10K} puppetfile check 2>&1)
+  err=$(${BASH} -n puppetfile check 2>&1)
   if [ $? = 0 ]; then
     echo_success "OK"
   else
@@ -110,6 +111,23 @@ else
   echo_warning "r10k not found."
 fi
 
-echo
+if [ ! -z ${BASH} ]; then
+  echo_title "Validating bash scripts syntax"
+  for i in $(find bin/ -name '*.sh')
+  do
+    echo -ne "$i - "
+    err=$(${BASH} -n "${i}" | ${RUBY} -c 2>&1)
+    if [ $? = 0 ]; then
+      echo_success "OK"
+    else
+      echo_failure "ERROR"
+      echo $err
+      global_exit=1
+    fi
+  done
+else
+  echo_warning "bash not found ?!?"
+fi
+
 
 exit $global_exit
