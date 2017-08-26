@@ -6,7 +6,7 @@ facts = YAML.load_file(facts_yaml)
 describe 'profile::ssh::openssh', :type => :class do
   let(:facts) { facts }
 
-  on_supported_os.each do |os, facts|
+  on_supported_os(facterversion: '2.4').select { |k, _v| k == 'redhat-7-x86_64' || k == 'ubuntu-16.04-x86_64' }.each do |os, facts|
     context "on #{os}" do
       let (:facts) do
         facts.merge(super())
