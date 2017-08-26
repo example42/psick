@@ -15,6 +15,8 @@ run_script() {
   fi
 }
 
+cd $repo_dir
+
 # Syntax tests
 run_script "bundle exec rake validate"
 #run_script bin/puppet_check_syntax_fast.sh
@@ -30,7 +32,9 @@ else
   # Control repo nodes spec tests
   run_script "bundle exec rake spec"
   # Site modules spec tests
-  run_script "bin/puppet_check_rake.sh site bundle"
+  cd "${repo_dir}/site/profile" 
+  run_script "bundle exec rake spec"
+  cd $repo_dir
   # Public modules spec tests
   # run_script "bin/puppet_check_rake.sh modules"
 fi
