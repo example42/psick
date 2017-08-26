@@ -20,7 +20,7 @@ run_script "bundle exec rake validate"
 #run_script bin/puppet_check_syntax_fast.sh
 
 # Lint tests
-run_script "bundle exec rake lint"
+run_script "bundle exec rake lint" "optional"
 #run_script bin/puppet_lint.sh optional
 
 # Spec tests
@@ -35,4 +35,11 @@ else
   # run_script "bin/puppet_check_rake.sh modules"
 fi
 
+if [ $global_exit == 1 ]; then
+  echo_failure "Some checks have failed"
+else
+  echo_success "All checks successfull!"
+fi
+
 exit $global_exit
+
