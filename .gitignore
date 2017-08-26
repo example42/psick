@@ -223,3 +223,11 @@ bin/metadata-json-lint
 bin/puppet
 bin/rubocop
 bin/rake
+modules/**/bin/metadata-json-lint
+modules/**/bin/puppet
+modules/**/bin/rubocop
+modules/**/bin/rake
+site/**/bin/metadata-json-lint
+site/**/bin/puppet
+site/**/bin/rubocop
+site/**/bin/rake
