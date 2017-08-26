@@ -4,12 +4,12 @@
 
 ## Release 0.2.0
 
+* Started PDK integration - [@alvagante](https://github.com/alvagante)
 * Started Danger integration - [@alvagante](https://github.com/alvagante)
 * Control repo spec tests - [@tuxmea](https://github.com/tuxmea)
 * Initial Sensu integration - [@alvagante](https://github.com/alvagante)
 * Automatic docs generation - [@alvagante](https://github.com/alvagante)
 * Codacy cleaups - [@tuxmea](https://github.com/tuxmea), [@alvagante](https://github.com/alvagante)
-* Started PDK integration - [@alvagante](https://github.com/alvagante)
 * Added sample ec2_userdata scripts - [@alvagante](https://github.com/alvagante)
 
 ## Release 0.1.3
