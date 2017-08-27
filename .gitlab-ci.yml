@@ -5,6 +5,7 @@
 # environment to work.
 #
 stages:
+  - danger
   - checks
   - version_check
   - specs
@@ -17,6 +18,22 @@ stages:
   - promote
   - rollout
   - postcheck
+
+# Run Danger based on Dangerfile rules
+run_danger:
+  stage: danger
+  before_pre:
+    - export DANGER_GITLAB_HOST=$CI_SERVER_NAME
+    - export DANGER_GITLAB_API_BASE_URL="https://${CI_SERVER_NAME}/api/v4"
+  script: danger --verbose
+  tags:
+    - test_puppet
+  allow_failure: true
+  except:
+    - testing
+    - production
+  only:
+    - branches
 
 # Version Deploy check for every branch with environment creation
 # It will try by default 6 times with 10 second between each try

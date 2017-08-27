@@ -1,16 +1,18 @@
 ## Hiera Eyaml
 
-Hiera-eyaml is an additional Hiera backend which can be used to encrypt single keys in Hiera yaml files.
+[Hiera-eyaml](https://github.com/voxpupuli/hiera-eyaml) is a Hiera backend which can be used to encrypt single keys in Hiera yaml files.
 
-We can install it using the relevant gem:
+It has become the standard the facto to manage passwords, secrets and confidential data in Puppet.
+
+It's now included by default in Hiera 5, (shipped with Puppet version > 4.9), in earlier versions in can be installed as a gem:
 
     gem install hiera-eyaml
 
 On the Puppet server we need to do that also in Puppet environment:
 
-    /opt/puppetlabs/server/apps/puppetserver/cli/apps/gem install hiera-eyaml
+    puppetserver gem install hiera-eyaml
 
-To configure it we need to specify the backend in ```hiera.yaml``` and some the location of the keys used to encrypt the data:
+To configure it we need to specify the backend in ```hiera.yaml``` and the location of the keys used to encrypt the data. Syntax for Hiera < 5 is something like:
 
     ---
     :backends:
@@ -18,21 +20,43 @@ To configure it we need to specify the backend in ```hiera.yaml``` and some the 
 
     :eyaml:
       :datadir: "/etc/puppetlabs/code/environments/%{environment}/hieradata"
-      :pkcs7_private_key: /etc/puppetlabs/code/keys/private_key.pkcs7.pem
-      :pkcs7_public_key:  /etc/puppetlabs/code/keys/public_key.pkcs7.pem
+      :pkcs7_private_key: /etc/puppetlabs/puppet/keys/private_key.pkcs7.pem
+      :pkcs7_public_key:  /etc/puppetlabs/puppet/keys/public_key.pkcs7.pem
       :extension: 'yaml'
+
+Syntax for Hiera version 5 is like:
+
+    ---
+    version: 5
+    defaults:
+      datadir: hieradata
+      data_hash: yaml_data
+    hierarchy:
+      - name: "Eyaml hierarchy"
+        lookup_key: eyaml_lookup_key # eyaml backend
+        paths:
+          - "nodes/%{trusted.certname}.yaml"
+          - "common.yaml"
+        options:
+            pkcs7_private_key: "/etc/puppetlabs/puppet/keys/private_key.pkcs7.pem"
+            pkcs7_public_key: "/etc/puppetlabs/puppet/keys/public_key.pkcs7.pem"
+
+The gem provides the ```eyaml``` command, which can be used to perform any Hiera.eyaml related operation.
 
 Before starting to encrypt data a pair of public and private keys has to be created:
 
     eyaml createkeys
 
-This creates in the ```keys``` directory (relative to the current working directory) the ```private_key.pkcs7.pem``` and ```public_key.pkcs7.pem``` files. The first one should never be shared and must be managed in a safe way, for this reason the keys (at least the private one) should not be added to the control-repo git repository.
+This creates in the ```keys``` directory (relative to the current working directory) the ```private_key.pkcs7.pem``` and ```public_key.pkcs7.pem``` files. The first one should never be shared and must be managed in a safe way, for this reason the keys (at least the private one) should not be added to the control-repo git repository and must be readable by the user running the Puppet Server (```/etc/puppetlabs/puppet/keys``` is a sane path, but could be anything).
 
-Both of these file must be placed wherever Hiera files are evaluated: that means basically all the Puppet Servers. Since we use the same repository for different datacenters and environments, the Hiera eyaml keys should be manually copied, under the directory ```/etc/puppetlabs/code/keys```, on each new Puppet Server, both the Master of Masters and the Compile Masters.
+Both of these file must be placed wherever Hiera files are evaluated: that means basically all the Puppet Servers but also, eventually, on developers workstations, if Puppet code is tested locally via Vagrant.
 
-They would be needed also in Vagrant environments, but to avoid the profileration of places where keys should be shared, it's better to avoid to encrypt data in Hiera files used by machines running in Vagrant, so for examples, in the ```"datacenter/%{::datacenter}"``` layer.
+To avoid the need to share private keys to all developers, we recommend, anyway, to  avoid to encrypt data in Hiera files used by machines running in Vagrant.
 
-### Creating encrypted keys
+So for example, if we have a Hiera layer which represent a machine environment or tier, and for Vagrant nodes we use the ```devel``` tier, we can override eventually encrypted data in a general ```common.yaml``` with clear text entries in a Vagrant specific layer (like ```"tier/devel.yaml"```). Just know that we need the private key when encrypted data is looked for, if we manage to have no encrypted data for servers running under Vagrant, Hiera eyaml works flawlessly even if the public and private keys are not stored locally.
+
+
+### Creating encrypted Hiera values
 
 We can generate the encrypted value of any Hiera key with the following command:
 
@@ -68,5 +92,6 @@ To show the decrypted content of an eyaml file, we can use the following command
 
     eyaml decrypt -f hieradata/common.eyaml
 
-Since hiera-eyaml manages both clear text and encrypted values, we can use it as our only backend if we want to work only on yaml files, the configuration entry ```:extension: 'yaml'``` we have added to hiera.yaml instructs Hiera Eyaml to use files with ```.yaml``` extension, instead of the default ```.eyaml``` one.
+Since hiera-eyaml manages both clear text and encrypted values, we can use it as our only backend if we want to work only on yaml files, so it's pointless to use both yaml and eyaml backends.
+
 

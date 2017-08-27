@@ -3,7 +3,11 @@
 ## PSICK
 ## Puppet Systems Infrastructure Construction Kit
 
-A **Puppet control-repo generator** on steroids, featuring:
+[![Build Status](https://travis-ci.org/example42/psick.png?branch=production)](https://travis-ci.org/example42/psick)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/503831d4ea6a470e864f1a3969449b78)](https://www.codacy.com/app/example42/psick?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=example42/psick&amp;utm_campaign=Badge_Grade)
+
+
+A **Puppet control-repo** [generator] on steroids, featuring:
 
   - A modern, opinionated, general purpose, full featured, reusable control-repo
   - Multiple ways to test local Puppet code (on Docker, Vagrant or directly remote hosts)
@@ -115,6 +119,23 @@ Some extra directories are added in PSICK for integrations and tools:
   - ```skeleton/``` - A skeleton of a Puppet 4 module, to use with ```puppet module generate```
 
   - ```.gitlab-ci.yaml``` - (Sample) GitLab Continuous Integration pipeline for code testing and deployment
+
+
+### Compatibility
+
+PSICK uses cutting edge Puppet technology and all its components are expected to work on these versions:
+
+  - Puppet OSS 4.9 or later.
+  - Puppet Enterprise 2017.1.0 or later
+
+In particular the ```profile``` class uses data in modules and requires a relatively modern Puppet.
+
+For most of the other parts of the control repo you can use, at least:
+
+  - Puppet OSS >= 4.4 < 4.9
+  - Puppet Enterprise >= 2016.1.1 < 2017.1.0
+
+In order to fix the ```profile``` class for compatibility with these versions, add default values to the profiles params as curretly defined in the ```data``` directory.
 
 
 ### Documentation

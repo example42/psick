@@ -45,3 +45,4 @@ gem 'puppet-lint-version_comparison-check',
     :require => false
 
 # vim:ft=ruby
+

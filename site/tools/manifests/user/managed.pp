@@ -194,7 +194,9 @@ define tools::user::managed(
       if $uid != 'absent' {
         $real_gid = $uid
       } else {
+        #lint:ignore:undef_in_function_assignment
         $real_gid = undef
+        #lint:endignore
       }
     } else {
       $real_gid = $gid

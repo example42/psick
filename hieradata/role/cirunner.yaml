@@ -3,12 +3,17 @@
     - profile::git
     - profile::puppet::gems
     - profile::ci::octocatalog
+    - profile::ci::danger
     - profile::gitlab::runner
     - profile::gitlab::ci
     - docker
 
   profile::ci::octocatalog::run_as_user: 'gitlab-runner'
   profile::ci::octocatalog::template: 'profile/ci/octocatalog/octocatalog-diff.cfg.rb.erb'
+  profile::ci::danger::use_gitlab: true
+  profile::ci::danger::plugins:
+    - danger-mention
+    - danger-commit_lint
 
   profile::vagrant::plugins::default_plugins:
     - vagrant-cachier

@@ -35,6 +35,8 @@ class profile::base::linux (
   String $update_class,
   String $motd_class,
   String $profile_class,
+  String $hardware_class,
+  String $multipath_class,
 
 ) {
 
@@ -120,5 +122,13 @@ class profile::base::linux (
 
   if $profile_class != '' and $enable {
     contain $profile_class
+  }
+
+  if $hardware_class != '' and $enable {
+    contain $hardware_class
+  }
+
+  if $multipath_class != '' and $enable {
+    contain $multipath_class
   }
 }

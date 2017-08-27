@@ -36,12 +36,14 @@ profile::base::linux::timezone_class: ''
 profile::base::linux::sysctl_class: ''
 profile::base::linux::dns_class: ''
 profile::base::linux::hardening_class: ''
+profile::base::linux::limits_class: ''
 profile::base::linux::hostname_class: ''
 profile::base::linux::hosts_class: ''
 profile::base::linux::update_class: ''
 profile::base::linux::motd_class: ''
 profile::base::linux::profile_class: ''
-profile::base::linux::limits_class: ''
+profile::base::linux::hardware_class: ''
+profile::base::linux::multipath_class: ''
 
 # profile::base::darwin
 profile::base::darwin::enable: true
@@ -140,6 +142,7 @@ profile::repo::generic::zypper_resource: zypprepo # As in darin-zypprepo
 profile::settings::is_cluster: false
 profile::settings::primary_ip_address: ''
 profile::settings::mgmt_interface: "%{facts.networking.primary}"
+profile::settings::timezone: ~
 profile::settings::proxy_server: ~
 
 # profile::time
@@ -185,15 +188,6 @@ lookup_options:
     merge:
       strategy: deep
   profile::windows::registry::defaults:
-    merge:
-      strategy: deep
-  profile::users::static::users:
-    merge:
-      strategy: deep
-  profile::users::static::managed_users:
-    merge:
-      strategy: deep
-  profile::users::static::accounts_users:
     merge:
       strategy: deep
   "^profile::(.*)::(.*)_hash$":

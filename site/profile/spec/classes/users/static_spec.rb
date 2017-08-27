@@ -8,7 +8,7 @@ describe 'profile::users::static', :type => :class do
     facts
   end
 
-  on_supported_os.each do |os, facts|
+  on_supported_os(facterversion: '2.4').select { |k, _v| k == 'redhat-7-x86_64' || k == 'ubuntu-16.04-x86_64' }.each do |os, facts|
     context "on #{os}" do
       let((:facts)) do
         facts.merge(super())
@@ -52,9 +52,9 @@ describe 'profile::users::static', :type => :class do
         ) }
       end
 
-      context 'with :users defined' do
+      context 'with :users_hash defined' do
         let(:params) { {
-            :users => {
+            :users_hash => {
                 'test_user1' => {
                     'name' => 'user1'
                 },
@@ -67,9 +67,9 @@ describe 'profile::users::static', :type => :class do
         it { is_expected.to have_user_resource_count(2) }
       end
 
-      context('with :managed_users defined') {
+      context('with :managed_users_hash defined') {
         let(:params) { {
-            managed_users: {
+            managed_users_hash: {
                 'testmanaged_user1' => {
                     'name' => 'managed_user1'
                 },

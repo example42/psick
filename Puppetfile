@@ -81,6 +81,12 @@ mod "puppetlabs/dummy_service", :latest
 # Used by profile::vagrant
 mod 'unibet/vagrant', :latest
 
+# Used by profile::monitor::sensu
+# mod 'sensu/sensu', :latest
+# mod 'yelp/uchiwa', :latest
+# mod 'puppet/rabbitmq', :latest
+# mod 'puppet/staging', :latest
+
 # Used by profile::windows 
 # mod 'puppet/windowsfeature', :latest # :git => 'https://forge.puppet.com/voxpupuli/puppet-windowsfeature'
 # mod 'thoward-windows_firewall', '0.3.4'
