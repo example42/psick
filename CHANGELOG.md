@@ -7,6 +7,7 @@
 * Started PDK integration - [@alvagante](https://github.com/alvagante)
 * Started Danger integration - [@alvagante](https://github.com/alvagante)
 * Control repo spec tests - [@tuxmea](https://github.com/tuxmea)
+* Control repo integration tests - [@tuxmea](https://github.com/tuxmea)
 * Initial Sensu integration - [@alvagante](https://github.com/alvagante)
 * Automatic docs generation - [@alvagante](https://github.com/alvagante)
 * Codacy cleaups - [@tuxmea](https://github.com/tuxmea), [@alvagante](https://github.com/alvagante)
