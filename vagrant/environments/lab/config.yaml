@@ -3,7 +3,7 @@
 vm:
   memory: 1024                 # MB or RAM to assign
   cpu: 1                       # Number of vCPU to assign to the VM
-  box: centos7                 # Box used for the VM, from the boxes list below
+  box: centos7                 # Box used for the VM, from the box list in vagrant/boxes.yaml
   puppet_apply: false          # Run puppet apply on the local control-repo during provisioning
   puppet_agent: true           # Run puppet agent during provisioning
   facter_external_facts: true # Create external facts in facts.d/$fact.txt. Note 1
@@ -148,8 +148,8 @@ nodes:
     hostname_base: ostest-ubuntu1604
     box: ubuntu1604
   - role: ostest
-    hostname_base: ostest-debian8
-    box: debian8
+    hostname_base: ostest-debian9
+    box: debian9
   - role: ostest
     hostname_base: ostest-alpine3
     box: alpine3
@@ -166,85 +166,3 @@ nodes:
   - role: ostest
     hostname_base: ostest-freebsd12
     box: freebsd12
-
-
-# List of available Vagrant boxes with different OS to test on
-boxes:
-  centos7:
-    box: centos/7
-    breed: puppetlabs
-  centos6:
-    box: centos/6
-    breed: puppetlabs
-  centos7_puppet:
-    box: puppetlabs/centos-7.2-64-nocm
-    breed: puppetlabs
-  centos6_puppet:
-    box: puppetlabs/centos-6.6-64-nocm
-    breed: puppetlabs
-  ubuntu1604:
-    box: ubuntu/xenial64
-    breed: puppetlabs
-  ubuntu1404:
-    box: ubuntu/trusty64
-    breed: puppetlabs
-  ubuntu1204:
-    box: ubuntu/precise64
-    breed: puppetlabs
-  debian8:
-    box: debian/jessie64
-    breed: puppetlabs
-  debian7:
-    box: debian/wheezy64
-    breed: puppetlabs
-  alpine3:
-    box: maier/alpine-3.3.1-x86_64
-    breed: puppetlabs
-  fedora23:
-    box: fedora/23-cloud-base
-    breed: puppetlabs
-
-# Image available for suse12 has issues. To setup correctly:
-# vagrant up suse12
-# vagrant provision suse12
-# vagrant reload suse12
-# vagrant provision suse12
-  suse12:
-    box: suse/sles12sp1
-    breed: puppetlabs
-  suse11:
-    box: suse/sles11sp3
-    breed: puppetlabs
-  manageiq_euwe:
-    box: manageiq/euwe
-    breed: other
-  fedora25:
-    box: fedora/25-cloud-base
-    breed: redhat7
-  windows2008:
-    box: opentable/win-2008r2-standard-amd64-nocm
-    breed: win2008
-  windows2012:
-    box: opentable/win-2012r2-standard-amd64-nocm
-    breed: win2012
-  solaris10:
-    box: tnarik/solaris10-minimal
-    breed: solaris10
-  solaris11:
-    box: ruby-concurrency/oracle-solaris-11
-    breed: solaris11
-  freebsd10:
-    box: freebsd/FreeBSD-10.2-RELEASE
-    breed: freebsd
-  freebsd11:
-    box: freebsd/FreeBSD-11.0-RELEASE
-    breed: freebsd
-  freebsd12:
-    box: freebsd/FreeBSD-12.0-RELEASE
-    breed: freebsd
-  osx1010:
-    box: dhoer/macosx-10.10
-    breed: macos
-  osx1011:
-    box: carbon/osx-elcapitan-10.11
-    breed: macos

@@ -12,8 +12,10 @@ config_file = File.join(vagrantfile_dir, 'config.yaml')
 unless File.exist?(config_file)
   throw('File config.yaml not found. Must be in same dir of Vagrantfile')
 end
-
 settings = YAML.load_file config_file
+
+
+boxes = YAML.load_file File.join(vagrantfile_dir, '../../boxes.yaml')
 
 # Network and Puppet basics
 network_obj = IPAddr.new settings['network']['range']
@@ -102,7 +104,7 @@ Vagrant.configure('2') do |config|
     pe_download_root = settings['puppet']['pe_download_root'] if settings['puppet']['pe_download_root']
     master_vm = settings['puppet']['master_vm'] if settings['puppet']['master_vm']
     # forwarded_port = node['forwarded_port']
-    vm_box = settings['boxes']["#{box}"]['box']
+    vm_box = boxes['boxes']["#{box}"]['box']
     link_controlrepo = settings['puppet']['link_controlrepo'] ? settings['puppet']['link_controlrepo'] : false
 
     config.vm.define fqdn do |node_config|
