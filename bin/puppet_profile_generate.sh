@@ -10,6 +10,7 @@ cat << EOF
 This script wraps pdk (Puppet Development Kit) to create a new profile for a given application based on Tiny Puppet.
 It requires the pdk command from Puppet Development Kit (https://docs.puppet.com/pdk/)
 You must specify the name of the app for which to create a profile and an optional source git repo.
+The default template used is: https://github.com/example42/pdk-module-template-tp-profile
 
 Usage:
 $0 <app> [repo]

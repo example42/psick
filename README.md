@@ -17,14 +17,14 @@ A **Puppet control-repo** [generator] on steroids, featuring:
   - Toolset to create and maintain a new control-repo based on PSICK (WIP)
 
 PSICK is a Puppet control-repo itself, you can use this repository directly in a Puppet environment,
-and basically have a full PSICK setup, or run the **psick** command to generate a new Puppet
+and basically have a full PSICK setup, or run the ```psick``` command to generate a new Puppet
 control-repo based on the components you need.
 
 Components can be:
 
   - Profiles (and relevant tools and hiera data) for different applications
   - Integrations with Vagrant, Docket, GitLab, Fabric...
-  - Scripts, tools or addtional control-repo files
+  - Scripts, tools or additional control-repo files
 
 ### Setup of a new control-repo
 
