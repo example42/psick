@@ -3,7 +3,7 @@
 vm:
   memory: 1024                 # MB or RAM to assign
   cpu: 1                       # Number of vCPU to assign to the VM
-  box: centos7                 # Box used for the VM, from the boxes list below
+  box: centos7                 # Box used for the VM, from the box list in vagrant/boxes.yaml
   puppet_apply: false          # Run puppet apply on the local control-repo during provisioning
   puppet_agent: true           # Run puppet agent during provisioning
   facter_external_facts: false # Create external facts in facts.d/$fact.txt. Note 1
@@ -98,53 +98,3 @@ nodes:
     hostname_base: pe-suse11
     count: 1
     box: suse11
-
-
-# List of available Vagrant boxes with different OS to test on
-boxes:
-  centos7:
-    box: centos/7
-    breed: puppetlabs
-  centos6:
-    box: centos/6
-    breed: puppetlabs
-  centos7_puppet:
-    box: puppetlabs/centos-7.2-64-nocm
-    breed: puppetlabs
-  centos6_puppet:
-    box: puppetlabs/centos-6.6-64-nocm
-    breed: puppetlabs
-  ubuntu1604:
-    box: ubuntu/xenial64
-    breed: puppetlabs
-  ubuntu1404:
-    box: ubuntu/trusty64
-    breed: puppetlabs
-  ubuntu1204:
-    box: ubuntu/precise64
-    breed: puppetlabs
-  debian8:
-    box: debian/jessie64
-    breed: puppetlabs
-  debian7:
-    box: debian/wheezy64
-    breed: puppetlabs
-  alpine3:
-    box: maier/alpine-3.3.1-x86_64
-    breed: puppetlabs
-  fedora23:
-    box: fedora/23-cloud-base
-    breed: puppetlabs
-
-# Image available for suse12 has issues. To setup correctly:
-# vagrant up suse12
-# vagrant provision suse12
-# vagrant reload suse12
-# vagrant provision suse12
-  suse12:
-    box: suse/sles12sp1
-    breed: puppetlabs
-  suse11:
-    box: suse/sles11sp3
-    breed: puppetlabs
-

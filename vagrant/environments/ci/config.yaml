@@ -1,11 +1,11 @@
 ---
-# Default settings for vms
+# Default settings for all vms (they can be overridden on each node)
 vm:
-  memory: 1024
-  cpu: 1
-  box: centos7 # From boxes list below
-  puppet_apply: true
-  puppet_agent: false
+  memory: 1024                 # MB or RAM to assign
+  cpu: 1                       # Number of vCPU to assign to the VM
+  box: centos7                 # Box used for the VM, from the box list in vagrant/boxes.yaml
+  puppet_apply: false          # Run puppet apply on the local control-repo during provisioning
+  puppet_agent: true           # Run puppet agent during provisioning
 
 network:
   range: 10.42.41.0/24
@@ -17,6 +17,16 @@ puppet:
   env: test
   zone: ci
 #  master_hostname: dev-local-puppet-01
+
+# Vagrant settings
+vagrant:
+  # Update host's /etc/hosts if you have the hostmanager plugin.
+  # Needed for automatic decommissioning of nodes. If false, you've to manage
+  # manually ssl certs removal of reinstalled nodes.
+  hostmanager.enable: false # If to enable hostmanager plugin
+  hostmanager.manage_host: false # If to manage also the main host's hosts
+
+
 
 # Nodes shown in vagrant status 
 nodes:
@@ -46,33 +56,3 @@ nodes:
     box: alpine3
     count: 1
 
-boxes:
-  centos7:
-    box: puppetlabs/centos-7.2-64-puppet
-    breed: puppetlabs-centos7
-  centos7_pe:
-    box: puppetlabs/centos-7.0-64-puppet-enterprise
-    breed: puppetlabs
-  centos6:
-    box: puppetlabs/centos-6.6-64-puppet
-    breed: puppetlabs
-  ubuntu1604:
-    box: puppetlabs/ubuntu-16.04-64-puppet
-    breed: puppetlabs-apt
-  ubuntu1404:
-    box: puppetlabs/ubuntu-14.04-64-puppet
-    breed: puppetlabs-apt
-  debian8:
-    box: puppetlabs/debian-8.2-64-puppet
-    breed: puppetlabs-apt
-  alpine3:
-    box: maier/alpine-3.3.1-x86_64
-    breed: puppetlabs
-# Image available for suse12 has issues. To setup correctly:
-# vagrant up suse12
-# vagrant provision suse12
-# vagrant reload suse12
-# vagrant provision suse12
-  suse12:
-    box: suse/sles12sp1
-    breed: puppetlabs

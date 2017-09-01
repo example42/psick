@@ -38,7 +38,7 @@ class profile::mongo::puppetlabs (
       $default_options = {
         user          => "${db}_user",
         roles         => [ 'readWrite' ],
-        password_hash => mongodb_password("${db}_user",pick_undef($db_options['password'],$default_password)),
+        password_hash => mongodb_password("${db}_user",pick_default($db_options['password'],$default_password)),
         tries         => 10,
       }
       $real_options = $db_options + $default_options
