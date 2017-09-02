@@ -1,0 +1,7 @@
+---
+tp__install:
+  - ntpdate
+  - openssh
+  - puppet-agent
+  - postfix
+  - rsyslog
