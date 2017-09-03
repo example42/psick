@@ -10,5 +10,4 @@ docker::profile::run_examples::ensure: present
 
 
 profile::sensu::plugins_hash:
-  'sensu-plugin-docker': {}
   'sensu-plugin-docker-checks': {}
