@@ -73,3 +73,9 @@ profile::gitlab::cli::config_hash:
   project_id: 2 # Control-repo project ID on GITLAB
   api_endpoint: 'https://git.lab.psick.io/api/v3'
 
+# Monitoring 
+profile::sensu::checks_hash:
+  'check_whois42':
+    command: '/opt/sensu/embedded/bin/check-whois-domain-expiration-multi.rb -d example42.com,example42.de,example42.org,example42.info,example42.eu,example42.biz,example42.training,lab42.it -c 10 -w 90'
+    interval: 86400
+

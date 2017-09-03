@@ -5,6 +5,19 @@
 #   profile::monitor::check_mk_class: '::profile::monitor::check_mk'
 #   profile::monitor::snmp_class: '::profile::monitor::snmpd'
 #
+# @example Don't manage any monitor class or resource. (Default manage is true)
+#   profile::monitor::manage: false
+#
+# @params manage If to actually include classes and manage resources here.
+# @params hostname Entry point for the hostname to use as default by different
+#   monitoring profiles. What's configured here will be the hostname
+#   visible on manage monitoring tools (if they are included from here and honour
+#   profile::monitor::hostname as default)
+# @params ip Entry point for the IP to use as default by different
+#   monitoring profiles
+# @params ip Entry point for the interface to use as default by different
+#   monitoring profiles
+# @params nagiosplugins_class Name of the class that manages Nagios plugins
 # @params nagiosplugins_class Name of the class that manages Nagios plugins
 # @params check_mk_class Name of the class that manages Check MK
 # @params snmp_class Name of the class that manages SNMP
@@ -12,6 +25,12 @@
 # @params *_class Name of the class that manages the relevant monitoring tool
 #
 class profile::monitor (
+  Boolean $manage             = $::profile::settings::monitor_manage,
+  Boolean $enable             = $::profile::settings::monitor_enable,
+  String $hostname            = $facts['networking']['fqdn'],
+  String $ip                  = $facts['networking']['ip'],
+  String $interface           = $facts['networking']['primary'],
+
   String $nagiosplugins_class = '',
   String $check_mk_class      = '',
   String $snmp_class          = '',
@@ -23,39 +42,39 @@ class profile::monitor (
   String $sysstat_class       = '',
 ) {
 
-  if $nagiosplugins_class != '' {
+  if $manage and $nagiosplugins_class != '' {
     contain $nagiosplugins_class
   }
 
-  if $check_mk_class != '' {
+  if $manage and $check_mk_class != '' {
     contain $check_mk_class
   }
 
-  if $snmp_class != '' {
+  if $manage and $snmp_class != '' {
     contain $snmp_class
   }
 
-  if $ganglia_class != '' {
+  if $manage and $ganglia_class != '' {
     contain $ganglia_class
   }
 
-  if $icinga_class != '' {
+  if $manage and $icinga_class != '' {
     contain $icinga_class
   }
 
-  if $sensu_class != '' {
+  if $manage and $sensu_class != '' {
     contain $sensu_class
   }
 
-  if $nrpe_class != '' {
+  if $manage and $nrpe_class != '' {
     contain $nrpe_class
   }
 
-  if $newrelic_class != '' {
+  if $manage and $newrelic_class != '' {
     contain $newrelic_class
   }
 
-  if $sysstat_class != '' {
+  if $manage and $sysstat_class != '' {
     contain $sysstat_class
   }
 

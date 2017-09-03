@@ -2,6 +2,11 @@
 
 * Your contribution here.
 
+* Added links to lab services [@alvagante](https://github.com/alvagante)
+* Working Sensu integration [@alvagante](https://github.com/alvagante)
+* New tp profiles generated via pdk [@alvagante](https://github.com/alvagante)
+* Design consolidation of profile::settings and profile::monitor entrypoints [@alvagante](https://github.com/alvagante) 
+
 ## Release 0.2.0
 
 * Started PDK integration - [@alvagante](https://github.com/alvagante)

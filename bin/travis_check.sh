@@ -35,7 +35,6 @@ else
   # Profiles spec tests
   cd "${repo_dir}/site/profile" 
   run_script "bundle exec rake spec"
-  cd $repo_dir
 
   # Public modules spec tests
   # run_script "bin/puppet_check_rake.sh modules"

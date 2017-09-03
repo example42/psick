@@ -160,7 +160,7 @@ profile::windows::services::managed: {}
 profile::windows::services::defaults: {}
 profile::windows::services::use_defaults: true
 
-        # profile::windows::registry
+# profile::windows::registry
 profile::windows::registry::keys: {}
 profile::windows::registry::defaults: {}
 profile::windows::registry::use_defaults: true

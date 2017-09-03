@@ -31,6 +31,12 @@ class profile::settings (
 
   Optional[Profile::Serverhash] $proxy_server,
 
+  Boolean $tp_test = false,
+  Boolean $firewall_enable = false,
+  Boolean $firewall_manage = false,
+  Boolean $monitor_enable  = true,
+  Boolean $monitor_manage  = true,
+
 ) {
 
   $primary_ip = $primary_ip_address ? {
