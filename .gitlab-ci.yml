@@ -22,7 +22,7 @@ stages:
 # Run Danger based on Dangerfile rules
 run_danger:
   stage: danger
-  before_pre:
+  before_script:
     - export DANGER_GITLAB_HOST=$CI_SERVER_NAME
     - export DANGER_GITLAB_API_BASE_URL="https://${CI_SERVER_NAME}/api/v4"
   script: danger --verbose
