@@ -47,13 +47,6 @@ profile::monitor::snmpd::extra_packages: []
 # profile::packages
 profile::packages::packages_default: []
 
-# profile::pre
-profile::pre::include_defaults: true
-profile::pre::rpmgpg_class: ''
-profile::pre::rhn_class: ''
-profile::pre::repo_class: ''
-profile::pre::proxy_class: ''
-
 # profile::proxy
 profile::proxy::ensure: present
 profile::proxy::configure_gem: true

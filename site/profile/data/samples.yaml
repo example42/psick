@@ -114,12 +114,27 @@ profile::monitor::snmpd::extra_packages: []
 # profile::packages
 profile::packages::packages_default: []
 
-# profile::pre
-profile::pre::include_defaults: true
-profile::pre::rpmgpg_class: ''
-profile::pre::rhn_class: ''
-profile::pre::repo_class: ''
-profile::pre::proxy_class: ''
+# profile::pre::darwin
+profile::pre::darwin::manage: true
+profile::pre::darwin::proxy_class: ''
+profile::pre::darwin::repo_class: ''
+
+# profile::pre::linux
+profile::pre::linux::manage: true
+profile::pre::linux::rpmgpg_class: ''
+profile::pre::linux::rhn_class: ''
+profile::pre::linux::repo_class: ''
+profile::pre::linux::proxy_class: ''
+
+# profile::pre::solaris
+profile::pre::solaris::manage: true
+profile::pre::solaris::proxy_class: ''
+profile::pre::solaris::repo_class: ''
+
+# profile::pre::windows
+profile::pre::windows::manage: true
+profile::pre::windows::proxy_class: ''
+profile::pre::windows::repo_class: ''
 
 # profile::proxy
 profile::proxy::ensure: present
