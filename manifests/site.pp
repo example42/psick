@@ -30,6 +30,13 @@ if $trusted['extensions']['pp_zone'] and !has_key($facts,'zone') {
 if $trusted['extensions']['pp_application'] and !has_key($facts,'application') {
   $application = $trusted['extensions']['pp_application']
 }
+# Note: the above settings allow override or trusted factes by normal facts.
+# This is done here to adapt to different approaches, if you use trusted facts
+# you will probably want to change the above into something like:
+# if $trusted['extensions']['pp_role'] {
+#   $role = $trusted['extensions']['pp_role']
+# }
+
 
 ### RESOURCE DEFAULTS
 # Some resource defaults for Files, Execs and Tiny Puppet
@@ -39,6 +46,9 @@ case $::kernel {
       owner => 'root',
       group => 'wheel',
       mode  => '0644',
+    }
+    Exec {
+     path => '/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin',
     }
   }
   'Windows': {
@@ -57,10 +67,10 @@ case $::kernel {
       group => 'root',
       mode  => '0644',
     }
+    Exec {
+      path => '/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin',
+    }
   }
-}
-Exec {
-  path => '/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin',
 }
 Tp::Install {
   cli_enable  => lookup('tp::cli_enable', Boolean, 'first', false),
@@ -103,7 +113,8 @@ if $noop_mode == true {
 if defined('$facts') {
 
   # The tools module provides functions, types, providers, defines.
-  # We include here the dummy, empty, main class.
+  # We include here the dummy, empty, main class in order to be able
+  # to access to its components
   contain '::tools'
 
   # Profile::settings does not provide resources.
@@ -111,23 +122,22 @@ if defined('$facts') {
   # all profile classes
   contain '::profile::settings'
 
-  # This class is evaluated first and must always be present
-  # Should contain the minimal prerequisites for the base setup
-  contain '::profile::pre'
-
-  # General baseline classes are distinct for each OS kernel
-  # With multi kernel clients better include dedicated base profiles.
+  # General prerequisites and baseline classes are included in all the
+  # nodes. They are distinct for each OS kernel.
+  # pre class contains the resources we want to manage before anything else
+  # base class manages resources we want on all the nodes
   $kernel_down=downcase($::kernel)
+  contain "::profile::pre::${kernel_down}"
   contain "::profile::base::${kernel_down}"
 
-  # Class ordering
+  # Explicit class ordering
   Class['::tools'] -> # lint:ignore:arrow_on_right_operand_line
   Class['::profile::settings'] -> # lint:ignore:arrow_on_right_operand_line
-  Class['::profile::pre'] -> # lint:ignore:arrow_on_right_operand_line
+  Class["::profile::pre::${kernel_down}"] -> # lint:ignore:arrow_on_right_operand_line
   Class["::profile::base::${kernel_down}"]
 
-  # Classification option 1 - Profiles defined in Hiera
-  # We contain all the classes defined on Hiera key: 'profiles'
+  # Classification option 1 - Additional profiles defined in Hiera
+  # We contain and order all the classes defined on Hiera key: 'profiles'
   lookup('profiles', Array[String], 'unique', [] ).contain
   lookup('profiles', Array[String], 'unique', [] ).each | $p | {
     Class["::profile::base::${kernel_down}"] -> Class[$p]

@@ -19,69 +19,6 @@ profile::gitlab::cli::config_hash:
 # profile::backup::legato
 profile::backup::legato::packages: []
 
-# profile::base::linux
-profile::base::linux::enable: true
-profile::base::linux::network_class: ''
-profile::base::linux::mail_class: ''
-profile::base::linux::puppet_class: ''
-profile::base::linux::ssh_class: ''
-profile::base::linux::users_class: ''
-profile::base::linux::sudo_class: ''
-profile::base::linux::monitor_class: ''
-profile::base::linux::firewall_class: ''
-profile::base::linux::logs_class: ''
-profile::base::linux::backup_class: ''
-profile::base::linux::time_class: ''
-profile::base::linux::timezone_class: ''
-profile::base::linux::sysctl_class: ''
-profile::base::linux::dns_class: ''
-profile::base::linux::hardening_class: ''
-profile::base::linux::limits_class: ''
-profile::base::linux::hostname_class: ''
-profile::base::linux::hosts_class: ''
-profile::base::linux::update_class: ''
-profile::base::linux::motd_class: ''
-profile::base::linux::profile_class: ''
-profile::base::linux::hardware_class: ''
-profile::base::linux::multipath_class: ''
-
-# profile::base::darwin
-profile::base::darwin::enable: true
-profile::base::darwin::network_class: ''
-profile::base::darwin::mail_class: ''
-profile::base::darwin::puppet_class: ''
-profile::base::darwin::users_class: ''
-profile::base::darwin::monitor_class: ''
-profile::base::darwin::firewall_class: ''
-profile::base::darwin::logs_class: ''
-profile::base::darwin::backup_class: ''
-
-# profile::base::solaris
-profile::base::solaris::enable: true
-profile::base::solaris::network_class: ''
-profile::base::solaris::mail_class: ''
-profile::base::solaris::puppet_class: ''
-profile::base::solaris::users_class: ''
-profile::base::solaris::monitor_class: ''
-profile::base::solaris::firewall_class: ''
-profile::base::solaris::logs_class: ''
-profile::base::solaris::backup_class: ''
-
-# profile::base::windows
-profile::base::windows::enable: true
-profile::base::windows::puppet_class: ''
-profile::base::windows::features_class: ''
-profile::base::windows::registry_class: ''
-profile::base::windows::network_class: ''
-profile::base::windows::users_class: ''
-profile::base::windows::hosts_class: ''
-profile::base::windows::monitor_class: ''
-profile::base::windows::firewall_class: ''
-profile::base::windows::antivirus_class: ''
-profile::base::windows::backup_class: ''
-profile::base::windows::time_class: ''
-profile::base::windows::services_class: ''
-
 # profile::firewall::iptables
 profile::firewall::iptables::package_name: 'iptables'
 profile::firewall::iptables::service_name: 'iptables'
@@ -109,13 +46,6 @@ profile::monitor::snmpd::extra_packages: []
 
 # profile::packages
 profile::packages::packages_default: []
-
-# profile::pre
-profile::pre::include_defaults: true
-profile::pre::rpmgpg_class: ''
-profile::pre::rhn_class: ''
-profile::pre::repo_class: ''
-profile::pre::proxy_class: ''
 
 # profile::proxy
 profile::proxy::ensure: present

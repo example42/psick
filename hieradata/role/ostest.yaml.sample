@@ -20,5 +20,4 @@ profiles:
 # For quicker tests we don't want to include all the
 # base profile classes which are by default added to 
 # all the roles.
-# Uncomment below to enable the inclusion of base classes
-# profile::base::linux::enable: false
+profile::base::linux::manage: false
