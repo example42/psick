@@ -14,6 +14,9 @@ profile::base::linux::dns_class: ''
 # Enable automatic updates on lab nodes and set schedule:
 profile::update::cron_schedule: '42 4 * * *'
 
+# Monitoring defaults:
+profile::monitor::interface: 'eth1'
+
 # Monitoring based on icinga
 profile::monitor::icinga_class: '::profile::icinga2'
 profile::monitor::nagiosplugins_class: '::profile::monitor::nagiosplugins'
@@ -22,10 +25,110 @@ profile::icinga2::is_client: true
 profile::icinga2::install_cli: true
 
 # Monitoring based on sensu
-profile::monitor::sensu_class: '::profile::monitor::sensu'
-profile::base::windows::monitor_class: '::profile::monitor::sensu'
-profile::monitor::sensu::rabbitmq_host: 'sensu.lab.psick.io'
+profile::monitor::sensu_class: '::profile::sensu'
+profile::sensu::is_client: true
+profile::sensu::rabbitmq_host: 'sensu.lab.psick.io'
+profile::sensu::rabbitmq_password: 'hiera_encrypt_in_the_real_world'
+profile::sensu::rabbitmq_vhost: '/sensu'
+profile::sensu::api_user: 'admin'
+profile::sensu::api_password: 'sensu' # In real world encrypt with hiera eyaml
+#sensu::client_http_socket:
+#  bind: "%{facts.networking.ip}"
+#  port: 3031
+#  user: sensu
+#  password: sensu
+#sensu::client_servicenow:
+#  configuration_item:
+#    name: "%{::role} server"
+#    os_version: "%{facts.os.release.full}"
+#sensu::client_puppet:
+#  nodename: "%{facts.networking.fqdn}"
+#sensu::client_chef:
+#  nodename: "%{facts.networking.fqdn}"
+#sensu::client_ec2:
+#  instance-id: "%{facts.networking.fqdn}"
 
+
+
+profile::sensu::checks_params_hash:
+  handlers:
+    - 'graphite'
+    - 'mailer'
+  standalone: false
+  subscribers: 'base'
+profile::sensu::checks_hash:
+  'check_cpu':
+    command: '/opt/sensu/embedded/bin/check-cpu.rb'
+  'check_cron':
+    command: '/opt/sensu/embedded/bin/check-process.rb -p cron -C 1'
+  'check_disk':
+    command: '/opt/sensu/embedded/bin/check-disk-usage.rb -w 90 -c 95'
+    interval: 3600
+  'check_dns':
+    command: "/opt/sensu/embedded/bin/check-dns.rb -d %{facts.networking.domain} -s 8.8.8.8 "
+  'check_journal':
+    command: '/opt/sensu/embedded/bin/check-journal.rb -q fail --since=-60minutes -c 1'
+    interval: 3600
+  'check_mem':
+    command: '/opt/sensu/embedded/bin/check-memory-percent.rb -p -c 95 -w 90'
+  'check_last_puppet_run':
+    command: "/opt/sensu/embedded/bin/check-mtime.rb -f /opt/puppetlabs/puppet/cache/client_data/catalog/%{clientcert}.json -w 750 -c 1800"
+    ensure: 'absent'
+
+sensu::handlers:
+  'graphite-occurrences':
+    type: 'pipe'
+    command: '/etc/sensu/handlers/graphite-occurrences.rb'
+  'graphite':
+    type: 'tcp'
+    socket:
+      host: "graphite.%{facts.networking.domain}"
+      port: 2003
+    mutator: 'only_check_output'
+  'mailer':
+    type: 'pipe'
+    command: '/etc/sensu/handlers/mailer.rb'
+    config:
+      mail_from: "info@%{facts.networking.domain}"
+      mail_to: "info@%{facts.networking.domain}"
+      smtp_address: 'localhost'
+      smtp_port: 25
+      smtp_domain: "%{facts.networking.domain}"
+
+profile::sensu::plugins_params_hash:
+  pkg_provider: 'sensu_gem'
+  type: 'package'
+# gem_install_options: [{ '-p' => 'http://user:pass@myproxy.company.org:8080' }]          
+
+profile::sensu::plugins_hash:
+  'sensu-plugins-conntrack': {}
+  'sensu-plugins-cpu-checks': {}
+  'sensu-plugins-cpu-usage': {}
+  'sensu-plugins-dhcp': {}
+  'sensu-plugins-disk-checks': {}
+  'sensu-plugins-dns': {}
+  'sensu-plugins-dnslookup': {}
+  'sensu-plugins-disk-checks': {}
+  'sensu-plugins-filesystem-checks': {}
+  'sensu-plugins-filesize': {}
+  'sensu-plugins-fsmounts': {}
+#  'sensu-plugins-graphite': {}
+  'sensu-plugins-hardware': {}
+  'sensu-plugins-io-checks': {}
+  'sensu-plugins-load-checks': {}
+  'sensu-plugins-loadavg': {}
+  'sensu-plugins-logs': {}
+  'sensu-plugins-memory-checks': {}
+  'sensu-plugins-network-checks': {}
+  'sensu-plugins-ntp': {}
+  'sensu-plugins-process-checks': {}
+
+sensu::purge:
+  'plugins': true
+  'config': true
+  'handlers': true
+  'extensions': true
+  'mutators': true
 #Timezone
 profile::settings::timezone: 'CEST'
 profile::time::windows::timezone: 'Central European Standard Time'

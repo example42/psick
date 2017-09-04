@@ -24,17 +24,17 @@ if !has_hiera_changes
 end
 
 # hiera.yaml change
-unless git.modified_files.grep(/hiera.yaml/).empty?
+if git.modified_files.include?('hiera.yaml')
   message('Oh, you are changing the environment hiera.yaml! Be careful if you are changing hierarchies')
 end
 
 # environment.conf change
-unless git.modified_files.grep(/environmnent.conf/).empty?
+if git.modified_files.include?('environment.conf')
   message('Changing environment.conf settings? That is not something you do every day :-)')
 end
 
 # Changelog plugin
-changelog.check
+changelog.have_you_updated_changelog?
 
 # Add a CHANGELOG entry for puppet changes
 if !git.modified_files.include?("CHANGELOG.md") && has_puppet_changes && is_version_bump

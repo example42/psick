@@ -7,7 +7,7 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/503831d4ea6a470e864f1a3969449b78)](https://www.codacy.com/app/example42/psick?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=example42/psick&amp;utm_campaign=Badge_Grade)
 
 
-A **Puppet control-repo generator** on steroids, featuring:
+A **Puppet control-repo** [generator] on steroids, featuring:
 
   - A modern, opinionated, general purpose, full featured, reusable control-repo
   - Multiple ways to test local Puppet code (on Docker, Vagrant or directly remote hosts)
@@ -17,14 +17,38 @@ A **Puppet control-repo generator** on steroids, featuring:
   - Toolset to create and maintain a new control-repo based on PSICK (WIP)
 
 PSICK is a Puppet control-repo itself, you can use this repository directly in a Puppet environment,
-and basically have a full PSICK setup, or run the **psick** command to generate a new Puppet
+and basically have a full PSICK setup, or run the ```psick``` command to generate a new Puppet
 control-repo based on the components you need.
 
 Components can be:
 
   - Profiles (and relevant tools and hiera data) for different applications
   - Integrations with Vagrant, Docket, GitLab, Fabric...
-  - Scripts, tools or addtional control-repo files
+  - Scripts, tools or additional control-repo files
+
+### See PSICK in action
+
+You can see a sample PSICK based setup by accessing to Psick Lab servers.
+
+They are configured using this same repository. All the lab servers are Vagrant virtual machines running on a single physical server, where an NGINX proxies requests to the internal VMs.
+
+You can reproduce the same by running ```vagrant up``` under ```vagrant/environments/lab``` (well, some integrations between Puppet Enterprise and GitLab have been done manually):
+
+Note that this is a non High Available testing and development infrastructure, some of these services might not always be available (an NGINX bad bateway error implies that the backend server is down): 
+
+  - [Puppet Enterprise](https://puppet.lab.psick.io/) Login: guest:puppet. Is the Puppet Master of the lab environment nodes. There it runs directly our development code.
+  - [GitLab](https://git.lab.psick.io/puppet/psick/). A GitLab instance, integrated with Code Mabaner to automatically deploy code PE and run our CI pipelines
+  - [Sensu](https://sensu.lab.psick.io/). Login: sensu:sensu. An Uchiwa installation as frontend for the Sensu installation. 
+  - [Icinga](https://icinga.lab.psick.io/icingaweb2/). Login: guest:guest. An Icinga installation, with Icinga Web 2 interface.
+  - [Graphite](https://graphite.lab.psick.io/) - Graphite and grafana frontends.
+  - [ManageIQ](https://manageiq.lab.psick.io/) - A ManageIQ installation (not active by default).
+  - [RabbitMQ](https://rabbitmq.lab.psick.io/) - A RabbitMQ installation (not active by default).
+  - [Rundeck](https://rundeck.lab.psick.io/) - A Rundeck installation (not active by default).
+  - [Foreman](https://foreman.lab.psick.io/) - A Foreman installation (not active by default).
+  - [Docs](http://puppet.pages.lab.psick.io/psick/) - Automatically generated Control repo docs.
+
+Note: While the setup of the whole PSICK lab infrastructure is automated and may be restored from scratch, that's not something we would like to do frequently.
+We give you credentials and access to these services, please behave.
 
 ### Setup of a new control-repo
 
@@ -121,6 +145,23 @@ Some extra directories are added in PSICK for integrations and tools:
   - ```.gitlab-ci.yaml``` - (Sample) GitLab Continuous Integration pipeline for code testing and deployment
 
 
+### Compatibility
+
+PSICK uses cutting edge Puppet technology and all its components are expected to work on these versions:
+
+  - Puppet OSS 4.9 or later.
+  - Puppet Enterprise 2017.1.0 or later
+
+In particular the ```profile``` class uses data in modules and requires a relatively modern Puppet.
+
+For most of the other parts of the control repo you can use, compatibility is enlarged to:
+
+  - Puppet OSS >= 4.4 or later
+  - Puppet Enterprise >= 2016.1.1 or later
+
+In order to fix the ```profile``` class for compatibility with these versions, add default values to the profiles params as curretly defined in the ```data``` directory.
+
+
 ### Documentation
 
 PSICK is full of more or less hidden stuff, which ease a lot Puppet code development, testing and deployment.  Here is where you can find more info:
@@ -163,4 +204,3 @@ Managing changes:
 
   - [Change Process](docs/change_process.md) - A step by step guide on how to manage changes in Puppet code
 
-For the complete documentation of the local classes and defines check the [puppet strings generated docs](http://puppet.pages.lab.psick.io/psick/), automatically generated in PSICK CI pipeline.

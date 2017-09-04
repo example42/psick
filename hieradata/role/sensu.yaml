@@ -1,6 +1,7 @@
 ---
-  profile::monitor::sensu::is_server: true
-  profile::monitor::sensu::is_api: true
-  profile::monitor::sensu::is_rabbitmq: true
-  profile::monitor::sensu::is_dashboard: true
+profile::sensu::is_server: true
+profile::sensu::is_api: true
+profile::sensu::rabbitmq_class: '::profile::rabbitmq::tp'
+profile::sensu::redis_class: '::profile::redis::tp'
+profile::sensu::dashboard_class: '::profile::sensu::uchiwa'
 

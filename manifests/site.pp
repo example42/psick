@@ -63,6 +63,7 @@ Exec {
   path => '/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin',
 }
 Tp::Install {
+  cli_enable  => lookup('tp::cli_enable', Boolean, 'first', false),
   test_enable  => lookup('tp::test_enable', Boolean, 'first', false),
   puppi_enable => lookup('tp::puppi_enable', Boolean, 'first', false),
   debug => lookup('tp::debug', Boolean, 'first', false),
