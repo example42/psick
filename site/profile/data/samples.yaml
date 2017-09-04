@@ -1,4 +1,79 @@
+# This file is not used in hiera lookups.
+# Take it as reference of the namespace for all the available
+# parameters on this profile with their default values.
+
 ---
+# profile::backup::legato
+profile::backup::legato::packages: []
+
+# profile::base::linux
+profile::base::linux::manage: true
+profile::base::linux::network_class: ''
+profile::base::linux::mail_class: ''
+profile::base::linux::puppet_class: ''
+profile::base::linux::ssh_class: ''
+profile::base::linux::users_class: ''
+profile::base::linux::sudo_class: ''
+profile::base::linux::monitor_class: ''
+profile::base::linux::firewall_class: ''
+profile::base::linux::logs_class: ''
+profile::base::linux::backup_class: ''
+profile::base::linux::time_class: ''
+profile::base::linux::timezone_class: ''
+profile::base::linux::sysctl_class: ''
+profile::base::linux::dns_class: ''
+profile::base::linux::hardening_class: ''
+profile::base::linux::limits_class: ''
+profile::base::linux::hostname_class: ''
+profile::base::linux::hosts_class: ''
+profile::base::linux::update_class: ''
+profile::base::linux::motd_class: ''
+profile::base::linux::profile_class: ''
+profile::base::linux::hardware_class: ''
+profile::base::linux::multipath_class: ''
+
+# profile::base::darwin
+profile::base::darwin::manage: true
+profile::base::darwin::network_class: ''
+profile::base::darwin::mail_class: ''
+profile::base::darwin::puppet_class: ''
+profile::base::darwin::users_class: ''
+profile::base::darwin::monitor_class: ''
+profile::base::darwin::firewall_class: ''
+profile::base::darwin::logs_class: ''
+profile::base::darwin::backup_class: ''
+
+# profile::base::solaris
+profile::base::solaris::manage: true
+profile::base::solaris::network_class: ''
+profile::base::solaris::mail_class: ''
+profile::base::solaris::puppet_class: ''
+profile::base::solaris::users_class: ''
+profile::base::solaris::monitor_class: ''
+profile::base::solaris::firewall_class: ''
+profile::base::solaris::logs_class: ''
+profile::base::solaris::backup_class: ''
+
+# profile::base::windows
+profile::base::windows::manage: true
+profile::base::windows::puppet_class: ''
+profile::base::windows::features_class: ''
+profile::base::windows::registry_class: ''
+profile::base::windows::network_class: ''
+profile::base::windows::users_class: ''
+profile::base::windows::hosts_class: ''
+profile::base::windows::monitor_class: ''
+profile::base::windows::firewall_class: ''
+profile::base::windows::antivirus_class: ''
+profile::base::windows::backup_class: ''
+profile::base::windows::time_class: ''
+profile::base::windows::services_class: ''
+
+# profile::firewall::iptables
+profile::firewall::iptables::package_name: 'iptables'
+profile::firewall::iptables::service_name: 'iptables'
+profile::firewall::iptables::config_file_path: '/etc/sysconfig/iptables'
+
 # profile::gitlab::cli
 profile::gitlab::cli::ensure: 'present'
 profile::gitlab::cli::auto_prerequisites: true
@@ -15,14 +90,6 @@ profile::gitlab::cli::config_hash:
   add_source_label: false
   prefix_target_label: 'TO_'
   prefix_source_label: 'FROM_'
-
-# profile::backup::legato
-profile::backup::legato::packages: []
-
-# profile::firewall::iptables
-profile::firewall::iptables::package_name: 'iptables'
-profile::firewall::iptables::service_name: 'iptables'
-profile::firewall::iptables::config_file_path: '/etc/sysconfig/iptables'
 
 # profile::hardening::packages
 profile::hardening::packages::packages_to_remove: []
@@ -107,39 +174,3 @@ profile::windows::registry::use_defaults: true
 # profile::time::windows::timezone: %{lookup('profile::time::timezone')}
 profile::time::windows::fallback_servers: []
 
-# Special lookup options
-lookup_options:
-  profile::settings::proxy_server:
-    merge:
-      strategy: deep
-  profile::gitlab::cli::config_hash:
-    merge:
-      strategy: deep
-  profile::windows::features::install:
-    merge:
-      strategy: deep
-  profile::windows::features::defaults:
-    merge:
-      strategy: deep
-  profile::windows::registry::keys:
-    merge:
-      strategy: deep
-  profile::windows::registry::defaults:
-    merge:
-      strategy: deep
-  "^profile::(.*)::(.*)_hash$":
-    merge:
-      strategy: deep
-      knockout_prefix: "--"
-  "^profile::(.*)::(.*)::(.*)_hash$":
-    merge:
-      strategy: deep
-      knockout_prefix: "--"
-  "^profile::(.*)::(.*)_list$":
-    merge:
-      strategy: deep
-      knockout_prefix: "--"
-  "^profile::(.*)::(.*)::(.*)_list$":
-    merge:
-      strategy: deep
-      knockout_prefix: "--"

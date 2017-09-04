@@ -8,4 +8,4 @@ profiles:
 
 # Uncomment below to avoid to include in the catalog all
 # the base profiles. Useful to test only specific profiles
-# profile::base::linux::enable: false
+# profile::base::linux::manage: false
