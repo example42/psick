@@ -9,13 +9,15 @@
 #   profile::monitor::manage: false
 #
 # @params manage If to actually include classes and manage resources here.
+# @params enable If to enable or not montioring for the server (note: the profiles
+#   included  *_class params have to honour this variable)
 # @params hostname Entry point for the hostname to use as default by different
 #   monitoring profiles. What's configured here will be the hostname
 #   visible on manage monitoring tools (if they are included from here and honour
 #   profile::monitor::hostname as default)
 # @params ip Entry point for the IP to use as default by different
 #   monitoring profiles
-# @params ip Entry point for the interface to use as default by different
+# @params interface Entry point for the interface to use as default by different
 #   monitoring profiles
 # @params nagiosplugins_class Name of the class that manages Nagios plugins
 # @params nagiosplugins_class Name of the class that manages Nagios plugins
