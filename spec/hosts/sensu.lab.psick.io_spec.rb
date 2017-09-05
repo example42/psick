@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 @os_facts
-base_resources_yaml = File.dirname(__FILE__) + '/../resources/base_services.yaml'
 base_resources = YAML.load_file(File.dirname(__FILE__) + '/../resources/base_resources.yaml')
 tpinstalls = base_resources['tp__install']
 

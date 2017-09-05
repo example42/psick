@@ -1,13 +1,24 @@
+# Configures proxy settings on different package managers
+#
+# @param ensure If to add or remove the proxy configuration
+# @param configure_gem Configure proxy for gem
+# @param configure_puppet_gem Configure proxy for puppet gem
+# @param configure_pip Configure proxy for pip
+# @param configure_system Export proxy global vars on startup script
+# @param configure_repo Configure proxy on package repos
+# @param force Enforce resource apply even if noop is true
+# @param proxy_server Hash with the proxy server data. Default is based on
+#   profile::settings::proxy_server
 #
 class profile::proxy (
-  Enum['present','absent'] $ensure,
-  Boolean $configure_gem,
-  Boolean $configure_puppet_gem,
-  Boolean $configure_pip,
-  Boolean $configure_system,
-  Boolean $configure_repo,
-  Boolean $force,
-  Optional[Hash] $proxy_server = $::profile::settings::proxy_server,
+  Enum['present','absent'] $ensure = 'present',
+  Boolean $configure_gem           = true,
+  Boolean $configure_puppet_gem    = true,
+  Boolean $configure_pip           = true,
+  Boolean $configure_system        = true,
+  Boolean $configure_repo          = true,
+  Boolean $force                   = false,
+  Optional[Hash] $proxy_server     = $::profile::settings::proxy_server,
 ) {
 
   if $force {

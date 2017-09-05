@@ -1,8 +1,8 @@
 # Requires puppetlabs/registry module
 class profile::windows::registry (
-  Optional[Hash] $keys,
-  Optional[Hash] $defaults,
-  Boolean $use_defaults,
+  Optional[Hash] $keys     = {},
+  Optional[Hash] $defaults = {},
+  Boolean $use_defaults    = true,
 ) {
 
   $registry = $use_defaults ? {

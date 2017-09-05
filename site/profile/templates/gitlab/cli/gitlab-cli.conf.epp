@@ -1,5 +1,4 @@
 # File managed by Puppet
-<%- $options=$::profile::gitlab::cli::config_hash %>
 GITLAB_API_ENDPOINT=<%= $options['api_endpoint'] %>
 GITLAB_API_PRIVATE_TOKEN=<%= $options['private_token'] %>
 GITLAB_API_HTTPARTY_OPTIONS='<%= $options['httparty_options'] %>'

@@ -1,8 +1,8 @@
 # Manages Windows services using Puppet service type
 class profile::windows::services (
-  Optional[Hash] $managed,
-  Optional[Hash] $defaults,
-  Boolean $use_defaults,
+  Optional[Hash] $managed  = {},
+  Optional[Hash] $defaults = {},
+  Boolean $use_defaults    = true,
 ) {
 
   $services = $use_defaults ? {

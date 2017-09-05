@@ -6,7 +6,7 @@
 # @param packages_to_add An array of custom extra packages to install
 #
 class profile::packages (
-  Array $packages_default,
+  Array $packages_default       = [],
   Array $packages_to_add        = [],
   Boolean $add_default_packages = true,
 ) {

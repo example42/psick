@@ -1,21 +1,4 @@
 ---
-# profile::gitlab::cli
-profile::gitlab::cli::ensure: 'present'
-profile::gitlab::cli::auto_prerequisites: true
-profile::gitlab::cli::template: 'profile/gitlab/cli/gitlab-cli.conf.epp'
-profile::gitlab::cli::config_hash:
-  project_id: ''
-  private_token: ''
-  api_endpoint: "https://gitlab.%{facts.domain}/api/v3"
-  httparty_options: '{verify: false}'
-  assigned_user: ''
-  milestone: ''
-  labels: 'automerge'
-  add_target_label: false
-  add_source_label: false
-  prefix_target_label: 'TO_'
-  prefix_source_label: 'FROM_'
-
 # profile::backup::legato
 profile::backup::legato::packages: []
 
@@ -33,65 +16,11 @@ profile::hardening::services::services_default: []
 # profile::hardware::hp
 profile::hardware::hp::packages: []
 
-# profile::hosts::resource
-profile::hosts::resource::hosts: {}
-profile::hosts::resource::defaults: {}
-profile::hosts::resource::use_defaults: true
-
 # profile::monitor::ganglia
 profile::monitor::ganglia::packages: []
 
 # profile::monitor::snmpd
 profile::monitor::snmpd::extra_packages: []
-
-# profile::packages
-profile::packages::packages_default: []
-
-# profile::proxy
-profile::proxy::ensure: present
-profile::proxy::configure_gem: true
-profile::proxy::configure_puppet_gem: true
-profile::proxy::configure_pip: true
-profile::proxy::configure_system: true
-profile::proxy::configure_repo: true
-profile::proxy::force: false
-# This is set as class param as here it fails since String is returned
-# profile::proxy::proxy_server: "%{lookup('::profile::settings::proxy_server')}"
-
-# profile::puppet::pe_agent
-profile::puppet::pe_agent::test_enable: false
-profile::puppet::pe_agent::settings: {}
-
-# profile::repo::generic
-profile::repo::generic::add_defaults: true
-profile::repo::generic::yum_resource: yumrepo     # As native resource type
-profile::repo::generic::apt_resource: apt::source # As in puppetlabs-apt
-profile::repo::generic::zypper_resource: zypprepo # As in darin-zypprepo
-        
-# profile::time
-profile::time::servers: []
-profile::time::method: 'ntpdate'
-profile::time::timezone: ~
-
-# profile::windows::features
-profile::windows::features::install: {}
-profile::windows::features::defaults: {}
-profile::windows::features::use_defaults: true
-
-# profile::windows::services
-profile::windows::services::managed: {}
-profile::windows::services::defaults: {}
-profile::windows::services::use_defaults: true
-
-# profile::windows::registry
-profile::windows::registry::keys: {}
-profile::windows::registry::defaults: {}
-profile::windows::registry::use_defaults: true
-
-# profile::time::windows
-# profile::time::windows::ntp_servers: %{lookup('profile::time::servers')}
-# profile::time::windows::timezone: %{lookup('profile::time::timezone')}
-profile::time::windows::fallback_servers: []
 
 # Special lookup options
 lookup_options:
