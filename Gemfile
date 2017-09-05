@@ -112,7 +112,7 @@ elsif Gem.win_platform?
 end
 
 if puppet_older_than?('5.0.0')
-  # Hiera-eyaml is embedded in Hiera 5 / Puppet 5
+  # Hiera-eyaml is embedded in Hiera 5 / Puppet 5
 else
   gems['hiera-eyaml'] = ['~> 2.0']
 end

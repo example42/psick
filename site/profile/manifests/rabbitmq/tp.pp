@@ -39,7 +39,7 @@ class profile::rabbitmq::tp (
   Boolean                  $auto_prereq  = true,
 ) {
 
-  # tp::install rabbitmq
+  # tp::install rabbitmq
   $install_defaults = {
     ensure             => $ensure,
     options_hash       => $options_hash,

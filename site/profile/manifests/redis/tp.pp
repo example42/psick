@@ -39,7 +39,7 @@ class profile::redis::tp (
   Boolean                  $auto_prereq  = true,
 ) {
 
-  # tp::install redis
+  # tp::install redis
   $install_defaults = {
     ensure             => $ensure,
     options_hash       => $options_hash,
