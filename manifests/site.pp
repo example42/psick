@@ -30,7 +30,7 @@ if $trusted['extensions']['pp_zone'] and !has_key($facts,'zone') {
 if $trusted['extensions']['pp_application'] and !has_key($facts,'application') {
   $application = $trusted['extensions']['pp_application']
 }
-# Note: the above settings allow override or trusted factes by normal facts.
+# Note: with the above settings we allow override of our trusted factes by normal facts.
 # This is done here to adapt to different approaches, if you use trusted facts
 # you will probably want to change the above into something like:
 # if $trusted['extensions']['pp_role'] {
@@ -48,7 +48,7 @@ case $::kernel {
       mode  => '0644',
     }
     Exec {
-     path => '/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin',
+      path => '/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin',
     }
   }
   'Windows': {
@@ -59,7 +59,7 @@ case $::kernel {
     }
 #    Exec {
 #      path => '%SystemRoot%\system32;%SystemRoot%;%SystemRoot%\System32\Wbem;%SYSTEMROOT%\System32\WindowsPowerShell\v1.0\',
-#    } 
+#    }
   }
   default: {
     File {
@@ -106,20 +106,20 @@ if $noop_mode == true {
   noop()
 }
 
-### ACTUAL CLASSES INCLUDED IN NODES
-
+### NODES CLASSIFICATION
+#
 # Workaround to permit compilation via puppet job run command
 # The $facts variable is always present in normal conditions.
 if defined('$facts') {
 
   # The tools module provides functions, types, providers, defines.
   # We include here the dummy, empty, main class in order to be able
-  # to access to its components
+  # to access to its components such as Puppet DSL functions
   contain '::tools'
 
   # Profile::settings does not provide resources.
   # It's esclusively used to set variables (Hiera driven) available to
-  # all profile classes
+  # all profile classes. Used as entry point for shared variables.
   contain '::profile::settings'
 
   # General prerequisites and baseline classes are included in all the
@@ -131,10 +131,10 @@ if defined('$facts') {
   contain "::profile::base::${kernel_down}"
 
   # Explicit class ordering
-  Class['::tools'] -> # lint:ignore:arrow_on_right_operand_line
-  Class['::profile::settings'] -> # lint:ignore:arrow_on_right_operand_line
-  Class["::profile::pre::${kernel_down}"] -> # lint:ignore:arrow_on_right_operand_line
-  Class["::profile::base::${kernel_down}"]
+  Class['::tools']
+  -> Class['::profile::settings']
+  -> Class["::profile::pre::${kernel_down}"]
+  -> Class["::profile::base::${kernel_down}"]
 
   # Classification option 1 - Additional profiles defined in Hiera
   # We contain and order all the classes defined on Hiera key: 'profiles'

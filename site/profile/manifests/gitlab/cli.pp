@@ -1,9 +1,9 @@
 # This class installs and configures via tp the gitlab-cli tool, used to
 # compare Puppet catalogs from different sources
 #
-# @param ensure Define if to install (present), remote (absent) or the version
+# @param ensure Define if to install (present), remove (absent) or the version
 #               of the gitlab-cli gem
-# @param auto_prerequisites Define id to automatically install the prerequisites
+# @param auto_prerequisites Define if to automatically install the prerequisites
 #                           needed by gitlab-cli
 # @param template The path of the erb template (as used in template()) to use
 #                 as content for the gitlab-cli configuration file. Note that
@@ -33,4 +33,3 @@ class profile::gitlab::cli (
   }
 
 }
-

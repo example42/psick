@@ -68,13 +68,6 @@ profile::repo::generic::yum_resource: yumrepo     # As native resource type
 profile::repo::generic::apt_resource: apt::source # As in puppetlabs-apt
 profile::repo::generic::zypper_resource: zypprepo # As in darin-zypprepo
         
-# profile::settings
-profile::settings::is_cluster: false
-profile::settings::primary_ip_address: ''
-profile::settings::mgmt_interface: "%{facts.networking.primary}"
-profile::settings::timezone: ~
-profile::settings::proxy_server: ~
-
 # profile::time
 profile::time::servers: []
 profile::time::method: 'ntpdate'
