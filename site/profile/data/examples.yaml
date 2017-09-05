@@ -161,7 +161,7 @@ profile::repo::generic::zypper_resource: zypprepo # As in darin-zypprepo
 profile::settings::is_cluster: false
 profile::settings::primary_ip_address: ''
 profile::settings::mgmt_interface: "%{facts.networking.primary}"
-profile::settings::timezone: ~
+profile::settings::timezone: ''
 profile::settings::proxy_server: ~
 
 # profile::time
