@@ -48,6 +48,7 @@ mod 'puppet/puppetserver',
 mod 'puppetlabs/puppetserver_gem', :latest
 mod 'puppet/r10k', :latest
 mod 'puppetlabs/hocon', :latest
+mod 'puppetlabs/apt', :latest
 # mod 'puppet/puppetboard', :latest
 
 # Used by profile::puppet::pe_code_manager
