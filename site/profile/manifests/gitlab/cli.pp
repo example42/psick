@@ -2,7 +2,7 @@
 # compare Puppet catalogs from different sources
 #
 # @param ensure Define if to install (present), remove (absent) or the version
-#               of the gitlab-cli gem
+#   of the gitlab-cli gem
 # @param auto_prerequisites Define if to automatically install the prerequisites
 #   needed by gitlab-cli
 # @param epp The path of the epp template (as used in epp()) to use
@@ -11,6 +11,9 @@
 #   It's used by scripts executed in CI steps involving merge request and accept
 #   operations.
 #
+# @param template The path of the erb template (as used in template() to use
+#  as content for gitlab-cli config file. This is alternative to epp.
+#
 # @param config_hash An open hash of options you can use in your template. Note that
 #   this hash is merged with an hash of default options provided in the class
 #
@@ -18,6 +21,7 @@ class profile::gitlab::cli (
   String           $ensure             = 'present',
   Boolean          $auto_prerequisites = true,
   Optional[String] $epp                = 'profile/gitlab/cli/gitlab-cli.conf.epp',
+  Optional[String] $template           = undef,
   Hash             $config_hash        = {},
 ) {
 
@@ -40,10 +44,14 @@ class profile::gitlab::cli (
     ensure             => $ensure,
     auto_prerequisites => $auto_prerequisites,
   }
-  if $template {
+  if $template or $epp {
+    $file_content = $template ? {
+      undef   => epp($epp),
+      default => template($template),
+    }
     file { '/etc/gitlab-cli.conf':
       ensure  => $ensure,
-      content => epp($template),
+      content => $file_content,
     }
   }
 
