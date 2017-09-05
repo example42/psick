@@ -28,9 +28,9 @@ The hiera-eyaml, r10k and deep_merge gems can be installed by the setup script o
     /opt/puppetlabs/puppet/bin/gem install deep_merge
 
     # Gem installation in Puppet server environment (if present)
-    /opt/puppetlabs/server/apps/puppetserver/cli/apps/gem install hiera-eyaml
-    /opt/puppetlabs/server/apps/puppetserver/cli/apps/gem install r10k
-    /opt/puppetlabs/server/apps/puppetserver/cli/apps/gem install deep_merge
+    /opt/puppetlabs/bin/puppetserver gem install hiera-eyaml
+    /opt/puppetlabs/bin/puppetserver gem install r10k
+    /opt/puppetlabs/bin/puppetserver gem install deep_merge
 
 Population of the ```modules``` directory via r10k based on ```Puppetfile```:
 
