@@ -16,7 +16,7 @@
 class profile::pre::darwin (
   # General switch. If false nothing is done.
   Boolean $manage         = true,
-  
+
   String $proxy_class = '',
   String $repo_class  = '',
 ) {
