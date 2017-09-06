@@ -30,7 +30,6 @@ run_danger:
     - test_puppet
   allow_failure: true
   except:
-    - testing
     - production
   only:
     - branches
@@ -64,7 +63,6 @@ syntax:
   tags:
     - test_puppet
   except:
-    - testing
     - production
   only:
     - branches
@@ -84,7 +82,6 @@ lint:
   tags:
     - test_puppet
   except:
-    - testing
     - production
   only:
     - branches
@@ -102,8 +99,10 @@ rake_site:
     - vagrant/environments/ci/.vagrant/
   tags:
     - test_puppet
+  except:
+    - production
   only:
-    - development
+    - branches
   allow_failure: true
 
 rake_modules:
@@ -119,14 +118,15 @@ rake_modules:
   tags:
     - test_puppet
   only:
-    - development
+    - integration
   allow_failure: true
+  when: manual
 
 catalog_diff:
   stage: diffs
   before_script:
     - "bin/gitlab_before.sh"
-  script: "bin/gitlab_catalog_diff.sh development"
+  script: "bin/gitlab_catalog_diff.sh integration"
   cache:
     untracked: true
     paths:
@@ -134,14 +134,14 @@ catalog_diff:
   tags:
     - deploy_puppet
   only:
-    - development
+    - integration
   allow_failure: true
 
 catalog_preview:
   stage: diffs
   before_script:
     - "bin/gitlab_before.sh"
-  script: "bin/gitlab_catalog_preview.sh development"
+  script: "bin/gitlab_catalog_preview.sh integration"
   cache:
     untracked: true
     paths:
@@ -149,7 +149,7 @@ catalog_preview:
   tags:
     - deploy_puppet
   only:
-    - development
+    - integration
   allow_failure: true
 
 # Can be duplicated to use different images (using different --image)
@@ -167,103 +167,22 @@ docker_test:
   tags:
     - test_puppet
   only:
-    - development
+    - integration
 
-# Destroy a vagrant machine completely.
-vagrant_destroy:
-  stage: integration
-  before_script:
-    - "bin/gitlab_before.sh"
-  script: "bin/vagrant_node_test.sh centos7.ci ci destroy"
-  cache:
-    untracked: true
-    paths:
-    - modules/
-    - tests/
-  allow_failure: true
-  tags:
-    - test_puppet
-  only:
-    - development
-  when: manual
-
-
-# Do Vagrant run. Start the machine, run the tests, halt the machine.
-# This will use a .vagrant dir under $HOME of the users so that 
-# it will not be deleted accidentally  by gitlab-runner
-vagrant_checks:
-  stage: integration
-  before_script:
-    - "bin/gitlab_before.sh"
-  script:
-    - "bin/vagrant_node_test.sh centos7.ci ci setup"
-    - "bin/vagrant_node_test.sh centos7.ci ci drift"
-  after_script:
-    - "bin/gitlab_after.sh"
-    - "bin/vagrant_node_test.sh centos7.ci ci halt"
-  cache:
-    untracked: true
-    paths:
-    - modules/
-    - tests/
-  allow_failure: true
-  tags:
-    - test_puppet
-  only:
-    - development
-  when: manual
-
-tp_test:
-  stage: integration
-  before_script:
-    - "bin/gitlab_before.sh"
-  script: "bin/gitlab_tp_test.sh development"
-  cache:
-    untracked: true
-    paths:
-    - modules/
-    - tests/
-  tags:
-    - test_puppet
-  only:
-    - development
-  allow_failure: true
-
-# Development to testing merge request creation
-merge_request_testing:
-  stage: merge_request
-  script: "bin/gitlab_create_merge_request.rb development testing"
-  tags:
-    - deploy_puppet
-  only:
-    - development
-
-# Automatic Accept merge request from Development to testing 
-merge_accept_testing:
-  stage: promote
-  script: "bin/gitlab_accept_merge_request.rb development testing"
-  only:
-    - development
-  tags:
-    - deploy_puppet
-  when: on_success
-  allow_failure: true
-
-# On testing branch
-run_puppet_on_testing:
+run_puppet_on_integration:
   stage: live_runs
   before_script:
     # Trigger remote Puppet runs via puppet job
-    - "bin/puppet_job_run.sh testing"
+    - "bin/puppet_job_run.sh integration"
     # Trigger remote Puppet runs via Rundeck
 #    - "bin/rundeck_job_run.sh testing"
   script:
-    - "bin/puppetdb_env_query.sh testing"
+    - "bin/puppetdb_env_query.sh integration"
   tags:
     - deploy_puppet
   when: on_success
   only:
-    - testing
+    - integration
   allow_failure: true
 
 # Allow Merge Request to fail as it can happen that there's
@@ -272,22 +191,22 @@ run_puppet_on_testing:
 merge_request_production:
   stage: merge_request
   script:
-    - "bin/gitlab_create_merge_request.rb testing production"
+    - "bin/gitlab_create_merge_request.rb integration production"
   when: on_success
   tags:
     - deploy_puppet
   only:
-    - testing
+    - integration
   allow_failure: true
 
 merge_accept_production:
   stage: promote
-  script: "bin/gitlab_accept_merge_request.rb testing production"
+  script: "bin/gitlab_accept_merge_request.rb integration production"
   tags:
     - deploy_puppet
   when: manual
   only:
-    - testing
+    - integration
   environment:
     name: production
 
@@ -316,15 +235,6 @@ run_puppet_on_production:
     - production
   allow_failure: true # TOREMOVE when fixed
 
-
-test_post_run_on_production:
-  stage: postcheck
-  script: "bin/puppetdb_env_query.sh production"
-  tags:
-    - deploy_puppet
-  only:
-    - production
-  allow_failure: true # TOREMOVE when fixed
 
 pages:
   stage: sitedoc
