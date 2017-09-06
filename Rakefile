@@ -63,4 +63,10 @@ multitask :all_roles => all_roles
 
 PuppetSyntax.exclude_paths = exclude_paths
 
+# Blacksmith
+begin
+  require 'puppet_blacksmith/rake_tasks'
+rescue LoadError
+  puts "Blacksmith needed only to push to the Forge"
+end
 # vim: syntax=ruby

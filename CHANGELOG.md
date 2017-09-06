@@ -2,7 +2,7 @@
 
 * Your contribution here.
 
-## Release 0.2.1
+## Release 0.3.0
 
 * Added links to lab services [@alvagante](https://github.com/alvagante)
 * Working Sensu integration [@alvagante](https://github.com/alvagante)
@@ -10,6 +10,8 @@
 * Design consolidation of profile::settings and profile::monitor entrypoints [@alvagante](https://github.com/alvagante) 
 * Refactoring of profile::pre [@alvagante](https://github.com/alvagante)
 * Base profile classes refactored to do not use data in modules [@alvagante](https://github.com/alvagante)
+### CHANGED
+* Param enable renamed to manage on profile::base and profile::pre
 
 ## Release 0.2.0
 

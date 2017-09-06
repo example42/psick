@@ -140,4 +140,9 @@ gem 'danger-mention'
 # Required puppetlabs_spec_helper
 gem 'puppetlabs_spec_helper'
 
+# Semantic Puppet and Blacksmith
+gem 'semantic_puppet', require: false
+gem 'puppet-blacksmith', require: false
+gem 'puppet-module', require: false
+
 # vim: syntax=ruby
