@@ -66,14 +66,13 @@ nodes:
       guest: 443
       host: 1443
   - role: git
-    memory: 2048
+    memory: 3072
     forwarded_port:
       guest: 443
       host: 1444
     forwarded_port2:
       guest: 80
       host: 1480
-    puppet_agent: false
     puppet_agent: false
   - role: cirunner
     count: 1
@@ -133,6 +132,15 @@ nodes:
   - role: log
     count: 1
     box: centos7
+  - role: graphite
+    count: 1
+    box: centos7
+    forwarded_port:
+      guest: 80
+      host: 1442
+    forwarded_port2:
+      guest: 10000
+      host: 14421
   - role: ostest
     hostname_base: ostest-suse12
     count: 1

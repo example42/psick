@@ -1,8 +1,8 @@
 #
 class profile::hosts::resource (
-  Optional[Hash] $hosts,
-  Optional[Hash] $defaults,
-  Boolean $use_defaults,
+  Optional[Hash] $hosts    = {},
+  Optional[Hash] $defaults = {},
+  Boolean $use_defaults    = true,
 ) {
 
   $all_hosts = $use_defaults ? {

@@ -3,10 +3,10 @@
 # are looked up via hiera_hash
 #
 class profile::repo::generic (
-  Boolean $add_defaults,
-  String $yum_resource,
-  String $apt_resource,
-  String $zypper_resource,
+  Boolean $add_defaults   = false,
+  String $yum_resource    = 'yumrepo',     # Native resource type
+  String $apt_resource    = 'apt::source', # From puppetlabs-apt
+  String $zypper_resource = 'zypprepo',    # From darin-zypprepo
 ) {
 
   # Default repos
@@ -25,9 +25,9 @@ class profile::repo::generic (
   }
 
   # User repos via hiera
-  $yum_repos = hiera_hash('yum_repos', {})
-  $apt_repos = hiera_hash('apt_repos', {})
-  $zypper_repos = hiera_hash('zypper_repos', {})
+  $yum_repos = lookup('yum_repos', Hash, 'merge', {} )
+  $apt_repos = lookup('apt_repos', Hash, 'merge', {} )
+  $zypper_repos = lookup('zypper_repos', Hash, 'merge', {} )
 
   if $yum_repos != {} {
     create_resources($yum_resource, $yum_repos)

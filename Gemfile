@@ -27,10 +27,9 @@ ruby_version_segments = Gem::Version.new(RUBY_VERSION.dup).segments
 minor_version = ruby_version_segments[0..1].join('.')
 
 group :development do
-  gem "fast_gettext", '1.1.0',                         require: false if Gem::Version.new(RUBY_VERSION.dup) < Gem::Version.new('2.1.0')
-  gem "fast_gettext",                                  require: false if Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.1.0')
-  gem "json_pure", '<= 2.0.1',                         require: false if Gem::Version.new(RUBY_VERSION.dup) < Gem::Version.new('2.0.0')
-  gem "json", '= 1.8.1',                               require: false if Gem::Version.new(RUBY_VERSION.dup) == Gem::Version.new('2.1.9')
+  gem 'fast_gettext',                                  require: false if Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.1.0')
+  gem 'json', '= 1.8.1',                               require: false if Gem::Version.new(RUBY_VERSION.dup) == Gem::Version.new('2.1.9')
+  gem 'json_pure', '<= 2.0.1',                         require: false if Gem::Version.new(RUBY_VERSION.dup) < Gem::Version.new('2.0.0')
   gem "puppet-module-posix-default-r#{minor_version}", require: false, platforms: [:ruby]
   gem "puppet-module-posix-dev-r#{minor_version}",     require: false, platforms: [:ruby]
   gem "puppet-module-win-default-r#{minor_version}",   require: false, platforms: [:mswin, :mingw, :x64_mingw]
@@ -112,11 +111,10 @@ elsif Gem.win_platform?
 end
 
 if puppet_older_than?('5.0.0')
-  # Hiera-eyaml is embedded in Hiera 5 / Puppet 5
+  # Hiera-eyaml is embedded in Hiera 5 / Puppet 5
 else
   gems['hiera-eyaml'] = ['~> 2.0']
 end
-
 
 gems.each do |gem_name, gem_params|
   gem gem_name, *gem_params
@@ -139,7 +137,12 @@ gem 'danger'
 gem 'danger-changelog'
 gem 'danger-mention'
 
-# Required puppetlabs_spec_helper 
+# Required puppetlabs_spec_helper
 gem 'puppetlabs_spec_helper'
+
+# Semantic Puppet and Blacksmith
+gem 'semantic_puppet', require: false
+gem 'puppet-blacksmith', require: false
+gem 'puppet-module', require: false
 
 # vim: syntax=ruby

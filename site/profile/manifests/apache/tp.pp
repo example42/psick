@@ -39,7 +39,7 @@ class profile::apache::tp (
   Boolean                  $auto_prereq  = true,
 ) {
 
-  # tp::install apache
+  # tp::install apache
   $install_defaults = {
     ensure             => $ensure,
     options_hash       => $options_hash,

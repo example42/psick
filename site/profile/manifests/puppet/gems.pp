@@ -11,6 +11,7 @@ class profile::puppet::gems (
 
   $install_gems.each | $gem | {
     if $install_system_gems {
+      contain ::profile::ruby
       package { $gem:
         ensure          => $ensure,
         install_options => $install_options,

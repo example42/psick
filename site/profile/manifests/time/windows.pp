@@ -1,9 +1,9 @@
 # This profile manages ntp client on Windows
 # Derived from https://github.com/ncorrare/windowstime
 class profile::time::windows (
-  Array $ntp_servers = $::profile::time::servers,
+  Array $ntp_servers      = $::profile::time::servers,
   Array $fallback_servers = [],
-  String $timezone = $::profile::settings::timezone,
+  String $timezone        = $::profile::settings::timezone,
 ) {
 
   $servers_ntp = inline_template('<% @ntp_servers.each do |s| -%><%= s %>,0x01 <% end -%>')

@@ -7,3 +7,7 @@ profiles:
 
 docker::username: example42
 docker::profile::run_examples::ensure: present
+
+
+profile::sensu::plugins_hash:
+  'sensu-plugins-docker': {}

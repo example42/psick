@@ -10,9 +10,9 @@
 # On Windows the profile::windows::time class is used to set ntp.
 #
 class profile::time (
-  Array $servers,
-  Optional[String] $timezone,
-  Enum['chrony','ntpdate','ntp',''] $method,
+  Array $servers                            = [],
+  Optional[String] $timezone                = undef,
+  Enum['chrony','ntpdate','ntp',''] $method = 'ntpdate',
 ) {
 
   if $timezone {

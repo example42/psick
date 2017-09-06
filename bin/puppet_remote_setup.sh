@@ -29,11 +29,11 @@ if [ -x /opt/puppetlabs/puppet/bin/gem ]; then
   /opt/puppetlabs/puppet/bin/gem install hiera-eyaml --no-ri --no-rdoc
   /opt/puppetlabs/puppet/bin/gem install r10k --no-ri --no-rdoc
 fi
-if [ -x /opt/puppetlabs/server/apps/puppetserver/cli/apps/gem ]; then
-  echo_subtitle "Installing with /opt/puppetlabs/server/apps/puppetserver/cli/apps/gem"
-  /opt/puppetlabs/server/apps/puppetserver/cli/apps/gem install deep_merge
-  /opt/puppetlabs/server/apps/puppetserver/cli/apps/gem install hiera-eyaml
-  /opt/puppetlabs/server/apps/puppetserver/cli/apps/gem install r10k
+if [ -x /opt/puppetlabs/bin/puppetserver ]; then
+  echo_subtitle "Installing with /opt/puppetlabs/bin/puppetserver"
+  /opt/puppetlabs/bin/puppetserver gem install deep_merge
+  /opt/puppetlabs/bin/puppetserver gem install hiera-eyaml
+  /opt/puppetlabs/bin/puppetserver gem install r10k
 fi
 
 echo_title "Installing rsync"

@@ -86,7 +86,7 @@ def install(os=''):
   """[remote] Install Puppet 4 on a node (for Puppet official repos)"""
   put( "bin/puppet_install.sh","/var/tmp/puppet_install.sh",mode=755 )
   sudo ( "/var/tmp/puppet_install.sh" )
-  
+
 @task
 def module_generate(module=''):
   """[local] Generate a Puppet module based on skeleton"""

@@ -1,4 +1,7 @@
 ---
-  profiles:
-    - profile::elasticsearch
+profiles:
+  - profile::elasticsearch
 
+profile::sensu::plugins_hash:
+  'sensu-plugins-elasticsearch':
+    type: 'package'

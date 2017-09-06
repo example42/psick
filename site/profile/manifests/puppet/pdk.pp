@@ -2,7 +2,8 @@
 class profile::puppet::pdk (
   $ensure = 'present',
 ) {
-  package { 'pdk':
-    ensure => $ensure,
-  }
+  # Waiting for pdk repo
+  #  package { 'pdk':
+  #   ensure => $ensure,
+  #}
 }

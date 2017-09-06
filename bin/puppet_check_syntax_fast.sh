@@ -99,7 +99,7 @@ fi
 if [ ! -z ${R10K} ]; then
   echo_title "Validating Puppetfile syntax"
   echo -ne "Puppetfile - "
-  err=$(${BASH} -n puppetfile check 2>&1)
+  err=$(${R10K} puppetfile check 2>&1)
   if [ $? = 0 ]; then
     echo_success "OK"
   else

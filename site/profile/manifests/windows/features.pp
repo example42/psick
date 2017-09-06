@@ -1,8 +1,8 @@
 # Requires puppet/windowsfeature module
 class profile::windows::features (
-  Optional[Hash] $install,
-  Optional[Hash] $defaults,
-  Boolean $use_defaults,
+  Optional[Hash] $install  = {},
+  Optional[Hash] $defaults = {},
+  Boolean $use_defaults    = true,
 ) {
 
   $features = $use_defaults ? {
