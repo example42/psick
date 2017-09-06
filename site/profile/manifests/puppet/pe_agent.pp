@@ -1,7 +1,7 @@
 # This class manages tp::test for PE Agents
 #
 class profile::puppet::pe_agent (
-  Boolean $test_enable = true,
+  Boolean $test_enable = false,
   Hash $settings       = {},
 ) {
 
