@@ -14,12 +14,13 @@ profile::settings::tp_test: true
 tp::data_module: tinydata
 
 # First run optional settings
+# Uncomment the firstrun_enable line below to enable management of a special
+# First Run Puppet catalog, which reboots the system by default
 # firstrun_enable: true
-profile::firstrun::linux::reboot_class: profile::reboot
 profile::firstrun::linux::hostname_class: profile::hostname
 profile::firstrun::linux::package_class: profile::aws::sdk
-profile::firstrun::windows::reboot_class: profile::reboot
 profile::firstrun::windows::hostname_class: profile::hostname
+profile::firstrun::windows::package_class: profile::aws::sdk
 
 # Base profile settings Linux
 #  profile::base::linux::network_class: '::profile::network' # Requires: example42-network
@@ -44,7 +45,6 @@ profile::base::linux::motd_class: '::profile::motd'
 profile::base::linux::profile_class: '::profile::profile'
 
 # Pre and Base profile settings Windows
-profile::pre::windows::firstboot_class: '::profile::windows::hostreboot'
 profile::base::windows::puppet_class: ''
 profile::base::windows::features_class: '::profile::windows::features'
 profile::base::windows::registry_class: '::profile::windows::registry'
