@@ -17,6 +17,8 @@ fixtures:
     "gpg_key": "https://github.com/treydock/puppet-gpg_key"
     "archive": "https://github.com/voxpupuli/puppet-archive"
     "vagrant": "https://github.com/unibet/puppet-vagrant"
+    "puppet": "https://github.com/example42/puppet-puppet"
+    "reboot": "https://github.com/puppetlabs/puppetlabs-reboot"
   symlinks:
     "profile": "#{source_dir}"
     "tools": "#{source_dir}/../tools"

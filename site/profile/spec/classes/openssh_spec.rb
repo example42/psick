@@ -55,8 +55,6 @@ describe 'profile::ssh::openssh', :type => :class do
           it { is_expected.to contain_tp__conf('openssh').with(
               'ensure' => 'absent',
               'template' => '/dev/null',
-              'options_hash' => {'option1' => 'option1_value',
-                                 'option2' => 'option2_value'}
           ) }
         end
 
@@ -72,8 +70,6 @@ describe 'profile::ssh::openssh', :type => :class do
           it { is_expected.to contain_tp__conf('openssh').with(
               'ensure' => 'present',
               'template' => '/dev/null',
-              'options_hash' => {'option1' => 'option1_value',
-                                 'option2' => 'option2_value'}
           ) }
 
           it { is_expected.to contain_tp__dir('openssh').with(
