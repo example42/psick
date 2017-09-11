@@ -11,9 +11,9 @@ class profile::aws::sdk (
   Boolean $install_system_gems = true,
   Boolean $install_puppet_gems = true,
 ) {
-  include ::profile::ruby
   $install_gems.each | $gem | {
     if $install_system_gems {
+      include ::profile::ruby
       package { $gem:
         ensure   => $ensure,
         provider => 'gem',

@@ -47,7 +47,9 @@ profile::sensu::api_password: 'sensu' # In real world encrypt with hiera eyaml
 #  nodename: "%{facts.networking.fqdn}"
 #sensu::client_ec2:
 #  instance-id: "%{facts.networking.fqdn}"
-
+sensu::client_register: true
+sensu::client_registration:
+  handler: 'servicenow'
 
 
 profile::sensu::checks_params_hash:

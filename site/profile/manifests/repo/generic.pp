@@ -25,9 +25,9 @@ class profile::repo::generic (
   }
 
   # User repos via hiera
-  $yum_repos = lookup('yum_repos', Hash, 'merge', {} )
-  $apt_repos = lookup('apt_repos', Hash, 'merge', {} )
-  $zypper_repos = lookup('zypper_repos', Hash, 'merge', {} )
+  $yum_repos = lookup('yum_repos', Hash, 'hash', {} )
+  $apt_repos = lookup('apt_repos', Hash, 'hash', {} )
+  $zypper_repos = lookup('zypper_repos', Hash, 'hash', {} )
 
   if $yum_repos != {} {
     create_resources($yum_resource, $yum_repos)

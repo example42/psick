@@ -106,11 +106,24 @@ if $noop_mode == true {
   noop()
 }
 
+# We define if this is the first Puppet run and if we want to apply a 
+# special catalog only for this case
+$firstrun_enable = lookup('firstrun_enable', Boolean, 'first', false)
+$firstrun_fact = lookup('firstrun_fact', String, 'first', 'firstrun_done')
+$firstrun = $firstrun_enable ? {
+  true  => has_key($facts, $firstrun_fact) ? {
+    true  => 'done',
+    false => true,
+  },
+  false => 'done',
+}
+
 ### NODES CLASSIFICATION
 #
 # Workaround to permit compilation via puppet job run command
 # The $facts variable is always present in normal conditions.
-if defined('$facts') {
+# 
+if defined('$facts') and $firstrun == 'done' {
 
   # The tools module provides functions, types, providers, defines.
   # We include here the dummy, empty, main class in order to be able
@@ -151,7 +164,11 @@ if defined('$facts') {
   #  }
 
 } else {
-  # notify {"Executed via puppet orchestrator\n":}
-  notice ("Executed via puppet orchestrator\n")
+  # Special Puppet run, executed only at first boot
+  contain ::tools
+  contain ::profile::settings
+  $kernel_down=downcase($::kernel)
+  contain "::profile::firstrun::${kernel_down}"
+  notify { "This catalog should be applied only at the first Puppen run\n": }
 }
 

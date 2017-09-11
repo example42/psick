@@ -18,21 +18,20 @@ describe 'profile::base::linux', type: :class do
       describe 'with hieradata defaults' do
         it { is_expected.to compile.with_all_deps }
         it { is_expected.to contain_class('profile::mail::postfix') }
-        it { is_expected.to contain_class('profile::puppet::peclient') }
+        it { is_expected.to contain_class('puppet') }
         it { is_expected.to contain_class('profile::ssh::openssh') }
-        it { is_expected.to contain_class('profile::network') }
+        it { is_expected.to contain_class('profile::users::static') }
+        it { is_expected.to contain_class('profile::sudo') }
         it { is_expected.to contain_class('profile::monitor') }
         it { is_expected.to contain_class('profile::logs::rsyslog') }
-        it { is_expected.to contain_class('profile::backup') }
         it { is_expected.to contain_class('profile::time') }
         it { is_expected.to contain_class('profile::sysctl') }
-        it { is_expected.to contain_class('profile::multipath') }
-        it { is_expected.to contain_class('profile::hardening') }
-        it { is_expected.to contain_class('profile::motd') }
+        it { is_expected.to contain_class('profile::dns::resolver') }
+        it { is_expected.to contain_class('profile::hostname') }
         it { is_expected.to contain_class('profile::hosts::resource') }
         it { is_expected.to contain_class('profile::update') }
-        it { is_expected.to contain_class('profile::hardware') }
-        it { is_expected.to contain_class('profile::sudo') }
+        it { is_expected.to contain_class('profile::motd') }
+        it { is_expected.to contain_class('profile::profile') }
       end
 
       describe 'with manage => false' do
