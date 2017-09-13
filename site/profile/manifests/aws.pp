@@ -1,6 +1,6 @@
 #
 class profile::aws (
-  String $region,
+  String $region = chop($::ec2_placement_availability_zone),
 
   String $default_vpc_name = 'myvpc',
   String $default_cidr_block_prefix = '10.0',

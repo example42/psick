@@ -46,6 +46,7 @@ define tools::user::managed(
   $id_rsa_pub_source   = '',
   $sshkey_content      = {},
   $sshkeys_content     = []
+  $generate_ssh_keypair = false,
 ){
 
   $real_homedir = $homedir ? {
@@ -121,6 +122,17 @@ define tools::user::managed(
 
   if !empty($sshkeys_content) {
     create_resources(ssh_authorized_key, $sshkeys_content, $sshkey_defaults)
+  }
+
+  if $generate_ssh_keypair {
+    if $id_rsa_source == '' and $id_rsa_pub_source == '' {
+      tools::ssh_keygen { $name:
+        comment => $real_comment,
+        require => User[$name],
+      }
+    } else {
+      fail('You can set both generate_ssh_keypair to true and any of id_rsa_source or id_rsa_source')
+    }
   }
 
   if $id_rsa_source != '' {
