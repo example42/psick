@@ -61,7 +61,7 @@ class profile::firstrun::windows (
   String $repo_class     = '',
   String $proxy_class    = '',
   String $packages_class = '',
-  String $users_class = '',
+  String $users_class    = '',
   String $fact_value     = 'done',
   Boolean $reboot         = true,
   Enum['immediately','finished'] $reboot_apply = 'finished',
