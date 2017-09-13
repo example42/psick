@@ -45,7 +45,7 @@ define tools::user::managed(
   $id_rsa_source       = '',
   $id_rsa_pub_source   = '',
   $sshkey_content      = {},
-  $sshkeys_content     = []
+  $sshkeys_content     = [],
   $generate_ssh_keypair = false,
 ){
 

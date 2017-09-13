@@ -12,7 +12,7 @@ class profile::aws::sdk (
   Boolean $install_puppet_gems = true,
 ) {
   $install_gems.each | $gem | {
-    if $facts['os']['family'] != 'windows' { 
+    if $facts['os']['family'] != 'windows' {
       if $install_system_gems {
         include ::profile::ruby
         package { $gem:
