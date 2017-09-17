@@ -1,0 +1,10 @@
+# Server Managed by Puppet
+Role              : <%= @role %>
+Environment       : <%= @env %>
+Datacenter        : <%= @datacenter %>
+Zone              : <%= @zone %>
+Application       : <%= @application %>
+Puppet environment: <%= @environment %>
+<% if @motd_extratext and @motd_extratext != '' -%>
+Extra Infos: <%= @motd_extratext %>
+<% end -%>

@@ -1,0 +1,4 @@
+# File managed by Puppet
+<% @options['server_ip'].each do |s| -%>
+*.* @@<%= s %>:514
+<% end -%>

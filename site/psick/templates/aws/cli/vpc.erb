@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+cidr_block=<%= scope['::psick::aws::cli::vpc::default_cidr_block_prefix'] %>
+vpc_name=<%= scope['::psick::aws::cli::vpc::default_vpc_name'] %>
+
+
+vpc_command="aws ec2 create-vpc --cidr-block ${cidr_block}.0.0/16"
+command_options=""
+
+if [ $(aws ec2 describe-vpcs | jq '.Vpcs[].Tags[].Value' | grep $vpc_name) != 0 ]; then
+  vpc_id=$($vpc_command $command_options | jq '.Vpc.VpcId' | tr -d '"')
+  aws ec2 create-tags --resources $vpc_id --tags Key=Name,Value=$vpc_name
+fi
+
+subnet_dmz_a_id=$("aws ec2 create-subnet --vpc-id ${vpc_id} --cidr-block ${cidr_block}.1.0/24 ${command_options} | jq '.Subnet.SubnetId | tr -d '\"'")
+aws ec2 create-tags --resources $subnet_dmz_a_id --tags Key=Name,Value="${vpc_name}_dmz_a"
+

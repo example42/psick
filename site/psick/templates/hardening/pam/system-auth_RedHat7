@@ -1,0 +1,23 @@
+#%PAM-1.0
+# This file is managed by Puppet
+auth        required      pam_env.so
+#GIS#auth        sufficient    pam_fprintd.so
+auth        sufficient    pam_unix.so nullok try_first_pass
+auth        requisite     pam_succeed_if.so uid >= 500 quiet
+auth        required      pam_deny.so
+
+account     required      pam_unix.so
+account     sufficient    pam_localuser.so
+account     sufficient    pam_succeed_if.so uid < 500 quiet
+account     required      pam_permit.so
+
+#GIS#password    requisite     pam_cracklib.so try_first_pass retry=3 minlen=8 lcredit=-1 ucredit=-1 dcredit=-1 ocredit=-1
+password    requisite     pam_cracklib.so try_first_pass type= retry=3 minlen=8 lcredit=-1 ucredit=-1 dcredit=-1  ocredit=-1
+password    sufficient    pam_unix.so sha512 rounds=10000 shadow nullok try_first_pass use_authtok
+password    required      pam_deny.so
+
+session     optional      pam_keyinit.so revoke
+session     required      pam_limits.so
+session     [success=1 default=ignore] pam_succeed_if.so service in crond quiet use_uid
+session     required      pam_unix.so
+

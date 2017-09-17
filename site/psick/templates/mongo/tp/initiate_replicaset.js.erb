@@ -1,0 +1,10 @@
+rs.initiate(
+  {
+    _id : <%= @options['replset'] %>,
+    members: [
+<% @options['members'].each_with_index do |member,index| -%>
+      { _id : <%= index %>, host : "<%= member %>", priority: <%= 100 - index %>}<% if index != @options['members'].count - 1 %>,<%end%>
+<% end %>
+    ]
+  }
+)

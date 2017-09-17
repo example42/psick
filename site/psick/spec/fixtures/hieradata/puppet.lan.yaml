@@ -1,0 +1,51 @@
+---
+  psicks:
+    - psick::puppet::pe_aio_server
+    - psick::gitlab::cli
+    - psick::puppet::pe_code_manager
+    - psick::gitlab::runner
+
+  puppet_enterprise::psick::puppetdb::whitelisted_certnames:
+    - cirunner.lan
+    - git.lan
+
+  puppet_enterprise::psick::master::r10k_remote: 'git@git.lan:puppet/control-repo.git'
+  puppet_enterprise::psick::master::code_manager_auto_configure: true
+  puppet_enterprise::psick::master::r10k_private_key: '/etc/puppetlabs/puppetserver/ssh/id-control_repo.rsa'
+  #setup code_manager to update classes in the console after environment code deployment 
+  puppet_enterprise::master::code_manager::post_environment_hooks: 
+    - url: 'https://puppet.lan:4433/classifier-api/v1/update-classes'    
+      use-client-ssl: true 
+
+
+  # Code manager
+  psick::puppet::pe_code_manager::deploy_user: 'deployer'        
+  psick::puppet::pe_code_manager::pe_password: 'Testonly.2Encrypt_n_change'        
+  psick::puppet::pe_code_manager::lifetime: '5y'        
+  psick::puppet::pe_code_manager::deploy_ssh_private_source: 'file:///home/deployer/.ssh/id_rsa'        
+
+  # Config for the GIT Runners for Puppet deployments
+  # Tokens change at every gitlab installation
+  psick::gitlab::runner::runners:
+    deploy_puppet:
+      url: 'https://git.lan'
+      token: 'N6kddUPw-Zn2LvAaiJe1'
+      tag_list: 'deploy_puppet'
+      tls_ca_file: '/etc/puppetlabs/puppet/ssl/certs/ca.pem'
+
+  # SUDO for gitlab-runner
+  psick::sudo::directives:
+    gitlab-runner:
+      source: 'puppet:///modules/psick/sudo/gitlab-runner'
+      order: 30
+
+  psick::sudo::directives:
+    gitlab-runner:
+      source: 'puppet:///modules/psick/sudo/gitlab-runner'
+      order: 30
+
+# This is needed for the gitlab_get_id function to catch GitLab data
+  # Config for gitlab cli. Tokens change at every gitlab installation
+  psick::gitlab::cli::private_token: '9C2xPzg9V22Ha3TdsQpx'
+  psick::gitlab::cli::api_endpoint: 'https://git.lan/api/v3'
+

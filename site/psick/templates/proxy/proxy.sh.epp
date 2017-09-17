@@ -1,0 +1,13 @@
+# File managed by Puppet
+
+export https_proxy=<%= $::psick::proxy::proxy_url %>
+export HTTPS_PROXY=<%= $::psick::proxy::proxy_url %>
+export http_proxy=<%= $::psick::proxy::proxy_url %>
+export HTTP_PROXY=<%= $::psick::proxy::proxy_url %>
+export ftp_proxy=<%= $::psick::proxy::proxy_url %>
+export FTP_PROXY=<%= $::psick::proxy::proxy_url %>
+# export rsync_proxy=<%= $proxy_url %>
+<% if !empty($::psick::proxy::proxy_server) { -%>
+export no_proxy=<%= join($::psick::proxy::proxy_server['no_proxy'],',') %>
+export NO_PROXY=<%= join($::psick::proxy::proxy_server['no_proxy'],',') %>
+<% } -%>

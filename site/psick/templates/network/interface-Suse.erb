@@ -1,0 +1,73 @@
+# File Managed by Puppet
+BOOTPROTO="<%= @manage_bootproto %>"
+STARTMODE="<%= @manage_startmode %>"
+USERCONTROL="<%= @usercontrol %>"
+<% if @etherdevice -%>
+ETHERDEVICE="<%= @etherdevice %>"
+<% end -%>
+<% if @ethtool_opts -%>
+ETHTOOL_OPTIONS="<%= @ethtool_opts %>"
+<% end -%>
+<% if @manage_ipaddr -%>
+IPADDR="<%= @manage_ipaddr %>"
+<% end -%>
+<% if @netmask -%>
+NETMASK="<%= @netmask %>"
+<% end -%>
+<% if @network -%>
+NETWORK="<%= @network %>"
+<% end -%>
+<% if @broadcast -%>
+BROADCAST="<%= @broadcast %>"
+<% end -%>
+<% if @gateway -%>
+GATEWAY="<%= @gateway %>"
+<% end -%>
+<% if @mtu -%>
+MTU="<%= @mtu %>"
+<% end -%>
+<% if @vlan -%>
+VLAN_ID="<%= @vlan %>"
+<% end -%>
+<% if @bridge -%>
+BRIDGE="<%= @bridge %>"
+<% end -%>
+<% if @bridge_fwddelay -%>
+BRIDGE_FORWARDDELAY="<%= @bridge_fwddelay %>"
+<% end -%>
+<% if @bridge_ports.size > 0 then -%>
+BRIDGE_PORTS="<%= @bridge_ports.join(' ') %>"
+<% end -%>
+<% if @bridge_stp -%>
+BRIDGE_STP="<%= @bridge_stp %>"
+<% end -%>
+<% if @bond_master -%>
+BONDING_MASTER="<%= @bond_master %>"
+<% end -%>
+<% if @bond_moduleopts -%>
+BONDING_MODULE_OPTS="<%= @bond_moduleopts %>"
+<% end -%>
+<% if @bond_slaves -%>
+  <%- if @bond_slaves.is_a? Array -%>
+    <%- @bond_slaves.each_with_index do |slave,idx| -%>
+BONDING_SLAVE<%= idx %>="<%= slave %>"
+    <%- end -%>
+  <%- else -%>
+BONDING_SLAVE0="<%= @bond_slaves %>"
+  <%- end -%>
+<% end -%>
+<% if @aliases -%>
+  <%- if @aliases.is_a? Array -%>
+    <%- @aliases.each_with_index do |val,idx| -%>
+IPADDR_<%= idx %>="<%= val %>"
+    <%- end -%>
+  <%- else -%>
+IPADDR_0="<%= @aliases %>"
+  <%- end -%>
+<% end -%>
+<% if @firewall -%>
+FIREWALL="<%= @firewall %>"
+<% end -%>
+<% if @remote_ipaddr -%>
+REMOTE_IPADDR="<%= @remote_ipaddr %>"
+<% end -%>

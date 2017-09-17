@@ -1,0 +1,17 @@
+# File Managed by Puppet
+* soft nofile <%= @limits_options['all.nofile.soft'] %>
+* hard nofile <%= @limits_options['all.nofile.hard'] %>
+
+* soft stack <%= @limits_options['all.stack.soft'] %>
+
+oracle soft nproc <%= @limits_options['oracle.nproc.soft'] %>
+oracle hard nproc <%= @limits_options['oracle.nproc.hard'] %>
+
+oracle soft nofile <%= @limits_options['oracle.nofile.soft'] %>
+oracle hard nofile <%= @limits_options['oracle.nofile.hard'] %>
+
+oracle soft stack <%= @limits_options['oracle.stack.soft'] %>
+oracle hard stack <%= @limits_options['oracle.stack.hard'] %>
+
+oracle soft memlock <%= @limits_options['oracle.memlock.soft'] %>
+oracle hard memlock <%= @limits_options['oracle.memlock.hard'] %>

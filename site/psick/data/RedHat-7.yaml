@@ -1,0 +1,17 @@
+psick::firewall::iptables::package_name: 'iptables-services'
+
+psick::hardening::services::services_default:
+  - 'avahi-daemon'
+  - 'NetworkManager'
+  - 'cups'
+
+psick::packages::packages_default:
+  - 'lynx'
+  - 'lvm2'
+  - 'screen'
+  - 'selinux-policy-targeted'
+  - 'sysfsutils'
+  - 'libxslt'
+  - 'sg3_utils'
+  - 'lsscsi'
+

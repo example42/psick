@@ -1,0 +1,51 @@
+# File Managed by Puppet
+
+module OctocatalogDiff
+  class Config
+    def self.config
+      settings = {}
+
+      settings[:hiera_config] = '<%= @options['hiera_config'] %>'
+      settings[:hiera_path] = '<%= @options['hiera_path'] %>'
+<% if @options['hiera_path_strip'] -%>
+      settings[:hiera_path_strip] = '<%= @options['hiera_path_strip'] %>'
+<% end -%>
+      settings[:puppetdb_url] = '<%= @options['puppetdb_url'] %>'
+<% if @options['puppetdb_ssl_ca'] -%>
+      settings[:puppetdb_ssl_ca] = '<%= @options['puppetdb_ssl_ca'] %>'
+<% end -%>
+<% if @options['puppetdb_ssl_client_key_path'] -%>
+      settings[:puppetdb_ssl_client_key] = File.read("<%= @options['puppetdb_ssl_client_key_path'] %>")
+<% end -%>
+<% if @options['puppetdb_ssl_client_cert_path'] -%>
+      settings[:puppetdb_ssl_client_cert] = File.read("<%= @options['puppetdb_ssl_client_cert_path'] %>")
+<% end -%>
+<% if @options['puppetdb_ssl_client_password'] -%>
+      settings[:puppetdb_ssl_client_password] = '<%= @options['puppetdb_ssl_client_password'] %>'
+<% end -%>
+
+<% if @options['enc'] -%>
+      settings[:enc] = '<%= @options['enc'] %>'
+<% end -%>
+
+      settings[:storeconfigs] = <%= @options['storeconfigs'] %>
+<% if @options['bootstrap_script'] -%>
+      settings[:bootstrap_script] = '<%= @options['bootstrap_script'] %>'
+<% end -%>
+<% if @options['pass_env_vars'] %>
+      settings[:pass_env_vars] = <%= @options['pass_env_vars'] %>
+<% end %>
+
+      settings[:puppet_binary] = '<%= @options['puppet_binary'] %>'
+      settings[:from_env] = '<%= @options['from_env'] %>'
+
+      settings[:header] = <%= @options['header'] %>
+      settings[:cached_master_dir] = <%= @options['cached_master_dir'] %>
+      settings[:safe_to_delete_cached_master_dir] = <%= @options['safe_to_delete_cached_master_dir'] %>
+
+      settings[:basedir] = <%= @options['basedir'] %>
+      settings
+    end
+  end
+end
+
