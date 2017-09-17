@@ -2,10 +2,12 @@
 # Here mostly at latest version for sample purposes.
 # In working environments specific versions should be defined.
 
-
 # Example42 extra modules
 mod "example42/tp", :latest
 mod "example42/tinydata", :latest
+#mod "example42/psick", :latest
+mod'example42/psick',
+  :git => 'https://github.com/example42/puppet-psick'
 # mod "example42/puppi", :latest
  
 # Example42 v4.x modules (Used in various profiles)

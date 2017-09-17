@@ -1,11 +1,12 @@
 ---
-#profiles:
+#psick::linux::profiles
 #  - iis
-profile::base::windows::features_class: psick::windows::features
-profile::base::windows::registry_class: psick::windows::registry
-profile::base::windows::hosts_class: psick::hosts::resource
-profile::base::windows::services_class: psick::windows::services
-profile::base::windows::firewall_class: windows_firewall
+psick::windows::base_classes:
+  features_class: psick::windows::features
+  registry_class: psick::windows::registry
+  hosts_class: psick::hosts::resource
+  services_class: psick::windows::services
+  firewall_class: windows_firewall
 psick::windows::features::use_defaults: true
 psick::windows::features::install:
   UpdateServices-RSAT:

@@ -1,27 +1,27 @@
 ---
-  profiles:
-    - psick::git
-    - psick::puppet::gems
-    - psick::ci::octocatalog
-    - psick::ci::danger
-    - psick::gitlab::runner
-    - psick::gitlab::ci
-    - docker
+psick::linux::profiles:
+  - psick::git
+  - psick::puppet::gems
+  - psick::ci::octocatalog
+  - psick::ci::danger
+  - psick::gitlab::runner
+  - psick::gitlab::ci
+  - docker
 
-  psick::ci::octocatalog::run_as_user: 'gitlab-runner'
-  psick::ci::octocatalog::template: 'psick/ci/octocatalog/octocatalog-diff.cfg.rb.erb'
-  psick::ci::danger::use_gitlab: true
-  psick::ci::danger::plugins:
-    - danger-mention
-    - danger-commit_lint
+psick::ci::octocatalog::run_as_user: 'gitlab-runner'
+psick::ci::octocatalog::template: 'psick/ci/octocatalog/octocatalog-diff.cfg.rb.erb'
+psick::ci::danger::use_gitlab: true
+psick::ci::danger::plugins:
+  - danger-mention
+  - danger-commit_lint
 
-  psick::vagrant::plugins::default_plugins:
-    - vagrant-cachier
-    - vagrant-vbguest
+psick::vagrant::plugins::default_plugins:
+  - vagrant-cachier
+  - vagrant-vbguest
 
-  # By default psick::gitlab::runner doesn NOT create the gitlab-runner repo
-  # Reason: Data is broken. Uncomment below to enable (currently broken) repo management
-  # psick::gitlab::runner::auto_repo: true
+# By default psick::gitlab::runner doesn NOT create the gitlab-runner repo
+# Reason: Data is broken. Uncomment below to enable (currently broken) repo management
+# psick::gitlab::runner::auto_repo: true
 
-  # To avoid management of a sudoers file for gitlab-runner
-  # psick::gitlab::runner::sudo_source: ''
+# To avoid management of a sudoers file for gitlab-runner
+# psick::gitlab::runner::sudo_source: ''

@@ -1,4 +1,4 @@
 ---
- profiles:
-   - psick::lb::keepalived
+psick::linux::profiles:
+  - psick::lb::keepalived
 

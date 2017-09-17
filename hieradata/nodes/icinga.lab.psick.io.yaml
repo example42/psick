@@ -1,5 +1,4 @@
 ---
-
 psick::apache::conf_hash:
   test:
     base_dir: conf

@@ -1,5 +1,5 @@
 ---
-profiles:
+psick::linux::profiles:
   - psick::puppet::gems
   - psick::puppet::foss_master
   - psick::puppet::foss_server_metrics

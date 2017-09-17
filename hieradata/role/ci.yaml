@@ -1,4 +1,4 @@
 ---
-  profiles:
-    - '::psick::ci::jenkins'
-    - '::psick::gitlab'
+psick::linux::profiles:
+  - '::psick::ci::jenkins'
+  - '::psick::gitlab'

@@ -1,15 +1,15 @@
 ---
-profiles:
+psick::linux::profiles:
   - '::docker'
-  - '::docker::psick::builder'
-  - '::docker::psick::run_examples'
-  - '::docker::psick::build_examples'
+  - '::docker::profile::builder'
+  - '::docker::profile::run_examples'
+  - '::docker::profile::build_examples'
 
 docker::username: example42
 docker::install_class: '' # To allow operations from Mac. Docker has to be installed.
-docker::psick::run_examples::ensure: absent
-docker::psick::builder::maintainer: 'Example42 GmbH <info@example42.com>'
-docker::psick::builder::images:
+docker::profile::run_examples::ensure: absent
+docker::profile::builder::maintainer: 'Example42 GmbH <info@example42.com>'
+docker::profile::builder::images:
   apache:
     ensure: present
     conf_hash:

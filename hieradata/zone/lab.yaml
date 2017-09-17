@@ -1,6 +1,7 @@
 ---
 # With few nodes automatic hosts sync may make sense
-#  profile::base::linux::hosts_class: '::psick::hosts::dynamic'
+# psick::linux::pre_classes:
+#   hosts: '::psick::hosts::dynamic'
 psick::hosts::dynamic::dynamic_magicvar: 'zone'
 psick::hosts::dynamic::extra_hosts:
   'puppet.lab.psick.io':
@@ -9,7 +10,8 @@ psick::hosts::dynamic::extra_hosts:
       - puppet
 
 # In lab we leave DNS unmanaged
-profile::base::linux::dns_class: ''
+psick::linux::base_classes:
+  dns: ''
 
 # Enable automatic updates on lab nodes and set schedule:
 psick::update::cron_schedule: '42 4 * * *'
@@ -17,15 +19,16 @@ psick::update::cron_schedule: '42 4 * * *'
 # Monitoring defaults:
 psick::monitor::interface: 'eth1'
 
-# Monitoring based on icinga
-psick::monitor::icinga_class: '::psick::icinga2'
-psick::monitor::nagiosplugins_class: '::psick::monitor::nagiosplugins'
+# Monitoring with Icinga and sensu 
+psick::linux::monitor_classes:
+  icinga: '::psick::icinga2'
+  plugins: '::psick::monitor::nagiosplugins'
+  sensu: '::psick::sensu'
+
 psick::icinga2::master: 'icinga.lab.psick.io'
 psick::icinga2::is_client: true
 psick::icinga2::install_cli: true
 
-# Monitoring based on sensu
-psick::monitor::sensu_class: '::psick::sensu'
 psick::sensu::is_client: true
 psick::sensu::rabbitmq_host: 'sensu.lab.psick.io'
 psick::sensu::rabbitmq_password: 'hiera_encrypt_in_the_real_world'
@@ -131,9 +134,10 @@ sensu::purge:
   'handlers': true
   'extensions': true
   'mutators': true
+
 #Timezone
-psick::settings::timezone: 'CEST'
-psick::time::windows::timezone: 'Central European Standard Time'
+psick::timezone::timezone: 'CEST'
+psick::timezone::timezone_windows: 'Central European Standard Time'
 
 # Users
 # psick::users::static::root_pw: hash_as_in_etc_shadow

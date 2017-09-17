@@ -1,4 +1,4 @@
 ---
-  profiles:
-    - psick::postgresql
+psick::linux::profiles:
+  - psick::postgresql
 

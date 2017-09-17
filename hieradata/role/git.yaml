@@ -1,7 +1,6 @@
 ---
-  profiles:
-    - profile::gitlab
+psick::linux::profiles:
+  gitlab: psick::gitlab
 
-  profile::gitlab::template: 'profile/gitlab/gitlab.rb.erb'
-  profile::gitlab::manage_installation: true
-
+psick::gitlab::template: 'psick/gitlab/gitlab.rb.erb'
+psick::gitlab::manage_installation: true

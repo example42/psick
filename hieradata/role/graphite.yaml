@@ -1,4 +1,4 @@
 ---
-profiles:
+psick::linux::profiles:
   - '::psick::java'
   - '::grafanadash::dev'

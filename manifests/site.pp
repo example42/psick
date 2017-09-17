@@ -48,7 +48,7 @@ case $::kernel {
       mode  => '0644',
     }
     Exec {
-      path => '/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin',
+      path => $::path,
     }
   }
   'Windows': {
@@ -57,9 +57,9 @@ case $::kernel {
       group => 'Administrators',
       mode  => '0644',
     }
-#    Exec {
-#      path => '%SystemRoot%\system32;%SystemRoot%;%SystemRoot%\System32\Wbem;%SYSTEMROOT%\System32\WindowsPowerShell\v1.0\',
-#    }
+    Exec {
+      path => $::path,
+    }
   }
   default: {
     File {
@@ -71,25 +71,6 @@ case $::kernel {
       path => '/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin',
     }
   }
-}
-Tp::Install {
-  cli_enable  => lookup('tp::cli_enable', Boolean, 'first', false),
-  test_enable  => lookup('tp::test_enable', Boolean, 'first', false),
-  puppi_enable => lookup('tp::puppi_enable', Boolean, 'first', false),
-  debug => lookup('tp::debug', Boolean, 'first', false),
-  data_module  => lookup('tp::data_module', String, 'first', 'tinydata'),
-}
-Tp::Conf {
-  config_file_notify => lookup('tp::config_file_notify', Boolean, 'first', true),
-  config_file_require => lookup('tp::config_file_require', Boolean, 'first', true),
-  debug => lookup('tp::debug', Boolean, 'first', false),
-  data_module  => lookup('tp::data_module', String, 'first', 'tinydata'),
-}
-Tp::Dir {
-  config_dir_notify => lookup('tp::config_dir_notify', Boolean, 'first', true),
-  config_dir_require => lookup('tp::config_dir_require', Boolean, 'first', true),
-  debug  => lookup('tp::debug', Boolean, 'first', false),
-  data_module  => lookup('tp::data_module', String, 'first', 'tinydata'),
 }
 
 ### ADDITIONS FOR RUNS INSIDE DOCKER IMAGES AND NOOP MODE
@@ -106,69 +87,6 @@ if $noop_mode == true {
   noop()
 }
 
-# We define if this is the first Puppet run and if we want to apply a 
-# special catalog only for this case
-$firstrun_enable = lookup('firstrun_enable', Boolean, 'first', false)
-$firstrun_fact = lookup('firstrun_fact', String, 'first', 'firstrun_done')
-$firstrun = $firstrun_enable ? {
-  true  => has_key($facts, $firstrun_fact) ? {
-    true  => 'done',
-    false => true,
-  },
-  false => 'done',
-}
-
-### NODES CLASSIFICATION
-#
-# Workaround to permit compilation via puppet job run command
-# The $facts variable is always present in normal conditions.
-# 
-if defined('$facts') and $firstrun == 'done' {
-
-  # The tools module provides functions, types, providers, defines.
-  # We include here the dummy, empty, main class in order to be able
-  # to access to its components such as Puppet DSL functions
-  contain '::tools'
-
-  # Profile::settings does not provide resources.
-  # It's esclusively used to set variables (Hiera driven) available to
-  # all profile classes. Used as entry point for shared variables.
-  contain '::profile::settings'
-
-  # General prerequisites and baseline classes are included in all the
-  # nodes. They are distinct for each OS kernel.
-  # pre class contains the resources we want to manage before anything else
-  # base class manages resources we want on all the nodes
-  $kernel_down=downcase($::kernel)
-  contain "::profile::pre::${kernel_down}"
-  contain "::profile::base::${kernel_down}"
-
-  # Explicit class ordering
-  Class['::tools']
-  -> Class['::profile::settings']
-  -> Class["::profile::pre::${kernel_down}"]
-  -> Class["::profile::base::${kernel_down}"]
-
-  # Classification option 1 - Additional profiles defined in Hiera
-  # We contain and order all the classes defined on Hiera key: 'profiles'
-  lookup('profiles', Array[String], 'unique', [] ).contain
-  lookup('profiles', Array[String], 'unique', [] ).each | $p | {
-    Class["::profile::base::${kernel_down}"] -> Class[$p]
-  }
-
-  # Classification option 2 - Classic roles and profiles classes
-  # We contain role classes based on the $::role variable.
-  #  if $::role and $::role != '' {
-  #    contain "::role::${::role}"
-  #    Class["::profile::base::${kernel_down}"] -> Class["::role::${::role}"]
-  #  }
-
-} else {
-  # Special Puppet run, executed only at first boot
-  contain ::tools
-  contain ::profile::settings
-  $kernel_down=downcase($::kernel)
-  contain "::profile::firstrun::${kernel_down}"
-  notify { "This catalog should be applied only at the first Puppen run\n": }
-}
+# We just do everything in psick module
+contain '::psick'
 

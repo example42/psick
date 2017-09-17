@@ -1,6 +1,6 @@
 ---
-  profiles:
-    - psick::icingaweb2
+psick::linux::profiles:
+  - psick::icingaweb2
 
-  psick::icinga2::is_server: true
+psick::icinga2::is_server: true
 

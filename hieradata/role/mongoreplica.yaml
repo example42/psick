@@ -1,6 +1,6 @@
 ---
-  profiles:
-    - '::psick::mongo'
+psick::linux::profiles:
+  - '::psick::mongo'
 
-  psick::mongo::replset: "replSet%{::extra_id}"
+psick::mongo::replset: "replSet%{::extra_id}"
 

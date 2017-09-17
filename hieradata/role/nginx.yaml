@@ -1,4 +1,4 @@
 ---
-  profiles:
-    - psick::nginx
+psick::linux::profiles:
+  - psick::nginx
 

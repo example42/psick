@@ -1,12 +1,11 @@
 ---
-#profiles:
-#  - iis
-profile::base::windows::users_class: psick::users::static
-profile::base::windows::features_class: psick::windows::features
-profile::base::windows::registry_class: psick::windows::registry
-profile::base::windows::hosts_class: psick::hosts::resource
-profile::base::windows::services_class: psick::windows::services
-profile::base::windows::firewall_class: windows_firewall
+psick::windows::base_classes:
+  features: psick::windows::features
+  registry: psick::windows::registry
+  hosts: psick::hosts::resource
+  services: psick::windows::services
+  firewall: windows_firewall
+  users: psick::users::static
 
 # Useful registry keys: http://www.jasinskionline.com/TechnicalWiki/Useful-Windows-Registry-Keys.ashx?AspxAutoDetectCookieSupport=1
 # Windows registry: http://www.forensicswiki.org/wiki/Windows_Registry

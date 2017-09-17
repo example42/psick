@@ -1,58 +1,58 @@
 ---
-  profiles:
-    - psick::puppet::pe_code_manager
-    - psick::puppet::gems
-  
-  # Explicit list of required gems for CI runners for puppet testing
-  psick::puppet::gems::install_puppet_gems: true
-  # List complete to verify. Many are needed just for spec tests.
-  psick::puppet::gems::install_gems:
-    - r10k
-    - deep_merge
-    - hiera-eyaml
-    - puppet-lint
-    - bundler
-    - rake
-    - rspec-puppet
-    - puppetlabs_spec_helper
-    - puppet_facts
-      #    - rspec-puppet-facts
-      #    - facterdb
-      #    - mcollective-client
-    - simplecov
-    - simplecov-html
-    - minitest
+psick::linux::profiles:
+  - psick::puppet::pe_code_manager
+  - psick::puppet::gems
+
+# Explicit list of required gems for CI runners for puppet testing
+psick::puppet::gems::install_puppet_gems: true
+# List complete to verify. Many are needed just for spec tests.
+psick::puppet::gems::install_gems:
+  - r10k
+  - deep_merge
+  - hiera-eyaml
+  - puppet-lint
+  - bundler
+  - rake
+  - rspec-puppet
+  - puppetlabs_spec_helper
+  - puppet_facts
+    #    - rspec-puppet-facts
+    #    - facterdb
+    #    - mcollective-client
+  - simplecov
+  - simplecov-html
+  - minitest
 #    - beaker # requires Ruby version >= 2.2.5
 
-  # Code manager
-  psick::puppet::pe_code_manager::pe_user: 'deployer'
-  psick::puppet::pe_code_manager::pe_password: 'deployer'
-  psick::puppet::pe_code_manager::lifetime: '5y'
-  psick::puppet::pe_code_manager::deploy_user: 'gitlab-runner'
-  psick::puppet::pe_code_manager::puppet_user: 'gitlab-runner'
-  psick::puppet::pe_code_manager::deploy_ssh_private_source: 'file:///home/gitlab-runner/.ssh/id_rsa'
+# Code manager
+psick::puppet::pe_code_manager::pe_user: 'deployer'
+psick::puppet::pe_code_manager::pe_password: 'deployer'
+psick::puppet::pe_code_manager::lifetime: '5y'
+psick::puppet::pe_code_manager::deploy_user: 'gitlab-runner'
+psick::puppet::pe_code_manager::puppet_user: 'gitlab-runner'
+psick::puppet::pe_code_manager::deploy_ssh_private_source: 'file:///home/gitlab-runner/.ssh/id_rsa'
 
 
 #  psick::ci::octocatalog::git_repo: 'git@git.demo:puppet/control-repo.git'
 # Options for psick::ci::octocatalog::template
-  psick::ci::octocatalog::options:
-    puppetdb_url: 'https://puppet.demo:8081'
-    bootstrap_script: 'bin/puppet_install_puppetfile.sh'
+psick::ci::octocatalog::options:
+  puppetdb_url: 'https://puppet.demo:8081'
+  bootstrap_script: 'bin/puppet_install_puppetfile.sh'
 
-  # Config for the GIT Runners
-  # Tokens change at every gitlab installation
-  psick::gitlab::runner::runners:
-    test_puppet:
-      url: 'https://git.demo'
-      token: 'K3k3nPCzGTDpZhMspgdg' # TO CHANGE AT EVERY GITLAB INSTALLATION
-      tag_list: 'test_puppet'
-      tls_ca_file: '/etc/puppetlabs/puppet/ssl/certs/ca.pem'
+# Config for the GIT Runners
+# Tokens change at every gitlab installation
+psick::gitlab::runner::runners:
+  test_puppet:
+    url: 'https://git.demo'
+    token: 'K3k3nPCzGTDpZhMspgdg' # TO CHANGE AT EVERY GITLAB INSTALLATION
+    tag_list: 'test_puppet'
+    tls_ca_file: '/etc/puppetlabs/puppet/ssl/certs/ca.pem'
 
-  # Configure the scripts used during Puppet CI
-  psick::gitlab::ci::default_nodes:
-    - puppet.demo
-  psick::gitlab::ci::always_nodes:
-    - git.demo
-  psick::gitlab::ci::options:
-    catalog_preview_default_nodes: 'git.demo,test.demo'
+# Configure the scripts used during Puppet CI
+psick::gitlab::ci::default_nodes:
+  - puppet.demo
+psick::gitlab::ci::always_nodes:
+  - git.demo
+psick::gitlab::ci::options:
+  catalog_preview_default_nodes: 'git.demo,test.demo'
 

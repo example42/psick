@@ -1,4 +1,5 @@
-profiles:
+---
+psick::linux::profiles:
   - '::rails'
 
 rails::install_class: '::rails::install::rbenv'

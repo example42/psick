@@ -1,17 +1,17 @@
 # Included profiles and relevant data for oracle role
 
 ---
-  profiles:
-    - psick::oracle
+psick::linux::profiles:
+  - psick::oracle
 
 ### psick::oracle
 # By default psick::oracle does nothing, besides includig a common settings
 # class and exposing params to include the classes that manage oracle prerequisites,
 # installation and generation of databases and other resources.
 # Here only prerequisites resources are managed check psick::oracle::install
-  psick::oracle::prerequisites_class: '::psick::oracle::prerequisites'
-  psick::oracle::install_class: ''
-  psick::oracle::resources_class: ''
+psick::oracle::prerequisites_class: '::psick::oracle::prerequisites'
+psick::oracle::install_class: ''
+psick::oracle::resources_class: ''
 
 # It's possible to pass an hash of oracle instances to create via tools::oracle::instance:
 # psick::oracle::instances: ...
@@ -20,23 +20,25 @@
 # Also psick::oracle::prerequisites does noting unless instructed explicitly.
 
 # Set the class that manages /etc/limits and use the default settings with the default template
-  psick::oracle::prerequisites::limits_class: 'psick::oracle::prerequisites::limits'
-  psick::oracle::prerequisites::limits::use_defaults: true
+psick::oracle::prerequisites::limits_class: 'psick::oracle::prerequisites::limits'
+psick::oracle::prerequisites::limits::use_defaults: true
 # Optional extra custom options and/or template can be defined:
 # psick::oracle::prerequisites::limits::template: 'psick/oracle/limits/oracle.erb'
 # psick::oracle::prerequisites::limits::options:
 #   all.nofile.soft = '2048'
 
 # Set the class that manages packages and use default packages list
-  psick::oracle::prerequisites::packages_class: 'psick::oracle::prerequisites::packages'
-  psick::oracle::prerequisites::packages::use_defaults: true
+psick::oracle::prerequisites::packages_class: 'psick::oracle::prerequisites::packages'
+psick::oracle::prerequisites::packages::use_defaults: true
 
 # Set the class that manages sysctl and override the default sysctl_class conflicting class
-  psick::oracle::prerequisites::sysctl_class: 'psick::oracle::prerequisites::sysctl'
-  profile::base::linux::sysctl_class: '' # The base default sysctl class conflicts with the above
+psick::oracle::prerequisites::sysctl_class: 'psick::oracle::prerequisites::sysctl'
+psick::linux::base_classes:
+  sysctl: '' # The base default sysctl class conflicts with the above
+
 # Use default settings and template, optionally tune settings based on RAM
-  psick::oracle::prerequisites::sysctl::use_defaults: true
-  psick::oracle::prerequisites::sysctl::auto_tune: false
+psick::oracle::prerequisites::sysctl::use_defaults: true
+psick::oracle::prerequisites::sysctl::auto_tune: false
 # Optional extra custom options and/or template can be defined:
 # psick::oracle::prerequisites::sysctl::template: 'psick/oracle/sysctl/my_oracle.erb'
 # psick::oracle::prerequisites::sysctl::options:
@@ -44,13 +46,13 @@
 #   shmall = '2097152'
 
 # Set the prerequisites class that cretaes a swap file (needs petems/swap_file module)
-  # psick::oracle::prerequisites::swap_class: 'psick::oracle::prerequisites::swap'
+# psick::oracle::prerequisites::swap_class: 'psick::oracle::prerequisites::swap'
 
 # Set the dirs class and create a set of dirs for Oracle data
-  psick::oracle::prerequisites::dirs_class: 'psick::oracle::prerequisites::dirs'
-  psick::oracle::prerequisites::dirs::base_dir: '/data/oracle' # Default value
-  psick::oracle::prerequisites::dirs::owner: 'oracle'          # Default value
-  psick::oracle::prerequisites::dirs::group: 'dba'             # Default value
+psick::oracle::prerequisites::dirs_class: 'psick::oracle::prerequisites::dirs'
+psick::oracle::prerequisites::dirs::base_dir: '/data/oracle' # Default value
+psick::oracle::prerequisites::dirs::owner: 'oracle'          # Default value
+psick::oracle::prerequisites::dirs::group: 'dba'             # Default value
 # Sample data for dirs to create for specific oracle instances with custom suffixes
 # psick::oracle::prerequisites::dirs::suffixes:   # Default value is ''
 #   - '_DATA'
@@ -63,9 +65,9 @@
 #     - 'db1'
 
 # Set the prerequisites class that manages users
-  psick::oracle::prerequisites::users_class: 'psick::oracle::prerequisites::users'
-  psick::oracle::prerequisites::users::has_asm: false # Set true on servers with asm
-  psick::oracle::prerequisites::use_defaults: true # Create the default users
+psick::oracle::prerequisites::users_class: 'psick::oracle::prerequisites::users'
+psick::oracle::prerequisites::users::has_asm: false # Set true on servers with asm
+psick::oracle::prerequisites::use_defaults: true # Create the default users
 # Sample data for custom extra users
 # psick::oracle::prerequisites::users::users:
 #   dbmon:

@@ -1,13 +1,13 @@
 ---
-profiles:
+psick::linux::profiles:
   - '::docker'
-  - '::docker::psick::host'
-  - '::docker::psick::compose'
-  - '::docker::psick::run_examples'
+  - '::docker::profile::host'
+  - '::docker::profile::compose'
+  - '::docker::profile::run_examples'
 
 docker::username: example42
-docker::psick::run_examples::ensure: present
-docker::psick::host::instances:
+docker::profile::run_examples::ensure: present
+docker::profile::host::instances:
   mysql:
     ensure: present
   nginx:
