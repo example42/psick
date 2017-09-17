@@ -1,14 +1,14 @@
 ---
 
-profile::apache::conf_hash:
+psick::apache::conf_hash:
   test:
     base_dir: conf
     content: "# Sample"
   test2:
-    source: 'puppet:///modules/profile/sudo/oracle'
+    source: 'puppet:///modules/psick/sudo/oracle'
     base_dir: conf
   test3:
-    template: 'profile/motd/motd.erb'
+    template: 'psick/motd/motd.erb'
     base_dir: conf
   test4:
     content: 'proxy/proxy.sh.epp'

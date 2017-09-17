@@ -1,9 +1,9 @@
 ---
   profiles:
-    - '::profile::mongo'
+    - '::psick::mongo'
 
-  profile::mongo::replset: "replSet%{::extra_id}"
-  profile::mongo::tp::options:
+  psick::mongo::replset: "replSet%{::extra_id}"
+  psick::mongo::tp::options:
     port: '30000'
     dbPath: '/data/arb'
     journal_enabled: false

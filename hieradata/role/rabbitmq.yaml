@@ -1,7 +1,7 @@
 ---
 profiles:
-  - profile::rabbitmq
+  - psick::rabbitmq
 
-profile::sensu::plugins:
+psick::sensu::plugins:
   'sensu-plugins-rabbitmq':
     type: 'package'

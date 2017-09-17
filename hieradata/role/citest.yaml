@@ -4,7 +4,7 @@
 
 ---
 profiles:
-  - '::profile::ostest'
+  - '::psick::ostest'
 
 # Uncomment below to avoid to include in the catalog all
 # the base profiles. Useful to test only specific profiles

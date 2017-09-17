@@ -1,21 +1,21 @@
 ---
 profiles:
   - '::docker'
-  - '::docker::profile::builder'
-  - '::docker::profile::run_examples'
-  - '::docker::profile::build_examples'
+  - '::docker::psick::builder'
+  - '::docker::psick::run_examples'
+  - '::docker::psick::build_examples'
 
 docker::username: example42
 docker::install_class: '' # To allow operations from Mac. Docker has to be installed.
-docker::profile::run_examples::ensure: absent
-docker::profile::builder::maintainer: 'Example42 GmbH <info@example42.com>'
-docker::profile::builder::images:
+docker::psick::run_examples::ensure: absent
+docker::psick::builder::maintainer: 'Example42 GmbH <info@example42.com>'
+docker::psick::builder::images:
   apache:
     ensure: present
     conf_hash:
       apache::mysite:
         base_dir: 'conf'
-        template: 'profile/apache/sample.conf.erb'
+        template: 'psick/apache/sample.conf.erb'
         options:
           ServerName: 'www.example42.com'
           ServerAliases:

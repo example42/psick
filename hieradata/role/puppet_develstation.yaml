@@ -1,12 +1,12 @@
 ---
   profiles:
-    - profile::vagrant
-    - profile::git
-    - profile::puppet::gems
+    - psick::vagrant
+    - psick::git
+    - psick::puppet::gems
     - docker
-    - profile::puppet::pdk
+    - psick::puppet::pdk
 
-  profile::vagrant::plugins::default_plugins:
+  psick::vagrant::plugins::default_plugins:
     - vagrant-cachier
     - vagrant-vbguest
 

@@ -1,2 +1,2 @@
 profiles:
-  - 'profile::webserver::nginx'
+  - 'psick::webserver::nginx'

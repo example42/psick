@@ -1,12 +1,12 @@
 ---
   profiles:
-    - profile::puppet::pe_code_manager
-    - profile::puppet::gems
+    - psick::puppet::pe_code_manager
+    - psick::puppet::gems
   
   # Explicit list of required gems for CI runners for puppet testing
-  profile::puppet::gems::install_puppet_gems: true
+  psick::puppet::gems::install_puppet_gems: true
   # List complete to verify. Many are needed just for spec tests.
-  profile::puppet::gems::install_gems:
+  psick::puppet::gems::install_gems:
     - r10k
     - deep_merge
     - hiera-eyaml
@@ -25,23 +25,23 @@
 #    - beaker # requires Ruby version >= 2.2.5
 
   # Code manager
-  profile::puppet::pe_code_manager::pe_user: 'deployer'
-  profile::puppet::pe_code_manager::pe_password: 'deployer'
-  profile::puppet::pe_code_manager::lifetime: '5y'
-  profile::puppet::pe_code_manager::deploy_user: 'gitlab-runner'
-  profile::puppet::pe_code_manager::puppet_user: 'gitlab-runner'
-  profile::puppet::pe_code_manager::deploy_ssh_private_source: 'file:///home/gitlab-runner/.ssh/id_rsa'
+  psick::puppet::pe_code_manager::pe_user: 'deployer'
+  psick::puppet::pe_code_manager::pe_password: 'deployer'
+  psick::puppet::pe_code_manager::lifetime: '5y'
+  psick::puppet::pe_code_manager::deploy_user: 'gitlab-runner'
+  psick::puppet::pe_code_manager::puppet_user: 'gitlab-runner'
+  psick::puppet::pe_code_manager::deploy_ssh_private_source: 'file:///home/gitlab-runner/.ssh/id_rsa'
 
 
-#  profile::ci::octocatalog::git_repo: 'git@git.demo:puppet/control-repo.git'
-# Options for profile::ci::octocatalog::template
-  profile::ci::octocatalog::options:
+#  psick::ci::octocatalog::git_repo: 'git@git.demo:puppet/control-repo.git'
+# Options for psick::ci::octocatalog::template
+  psick::ci::octocatalog::options:
     puppetdb_url: 'https://puppet.demo:8081'
     bootstrap_script: 'bin/puppet_install_puppetfile.sh'
 
   # Config for the GIT Runners
   # Tokens change at every gitlab installation
-  profile::gitlab::runner::runners:
+  psick::gitlab::runner::runners:
     test_puppet:
       url: 'https://git.demo'
       token: 'K3k3nPCzGTDpZhMspgdg' # TO CHANGE AT EVERY GITLAB INSTALLATION
@@ -49,10 +49,10 @@
       tls_ca_file: '/etc/puppetlabs/puppet/ssl/certs/ca.pem'
 
   # Configure the scripts used during Puppet CI
-  profile::gitlab::ci::default_nodes:
+  psick::gitlab::ci::default_nodes:
     - puppet.demo
-  profile::gitlab::ci::always_nodes:
+  psick::gitlab::ci::always_nodes:
     - git.demo
-  profile::gitlab::ci::options:
+  psick::gitlab::ci::options:
     catalog_preview_default_nodes: 'git.demo,test.demo'
 

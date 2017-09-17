@@ -1,11 +1,11 @@
 ---
   profiles:
-    - profile::puppet::gems
+    - psick::puppet::gems
   
   # Explicit list of required gems for CI runners for puppet testing
-  profile::puppet::gems::install_puppet_gems: true
+  psick::puppet::gems::install_puppet_gems: true
   # List complete to verify. Many are needed just for spec tests.
-  profile::puppet::gems::install_gems:
+  psick::puppet::gems::install_gems:
     - r10k
     - deep_merge
     - hiera-eyaml
@@ -23,15 +23,15 @@
     - minitest
 #    - beaker # requires Ruby version >= 2.2.5
 
-# Options for profile::ci::octocatalog::template
-  profile::ci::octocatalog::options:
+# Options for psick::ci::octocatalog::template
+  psick::ci::octocatalog::options:
     puppetdb_url: 'https://puppet.lab.psick.io:8081'
     bootstrap_script: 'bin/puppet_install_puppetfile.sh'
 
   # Config for the GIT Runners
   # Tokens change at every gitlab installation
-  profile::gitlab::runner::use_docker: true
-  profile::gitlab::runner::runners:
+  psick::gitlab::runner::use_docker: true
+  psick::gitlab::runner::runners:
     test_puppet:
       url: 'https://git.lab.psick.io'
       token: 'WKkjkbbsyhFB-FFMosKe' # TO CHANGE AT EVERY GITLAB INSTALLATION
@@ -45,10 +45,10 @@
 
 
   # Configure the scripts used during Puppet CI
-  profile::gitlab::ci::default_nodes:
+  psick::gitlab::ci::default_nodes:
     - puppet.lab.psick.io
-  profile::gitlab::ci::always_nodes:
+  psick::gitlab::ci::always_nodes:
     - git.lab.psick.io
-  profile::gitlab::ci::options:
+  psick::gitlab::ci::options:
     catalog_preview_default_nodes: 'git.lab.psick.io,log.lab.psick.io'
 

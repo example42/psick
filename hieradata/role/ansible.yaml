@@ -1,6 +1,6 @@
 ---
 profiles:
-  - '::ansible::profile::master'
+  - '::ansible::psick::master'
 
 ansible::master: 'puppet'
 ansible::ssh_key: 'puppet'

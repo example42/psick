@@ -1,4 +1,4 @@
 ---
   profiles:
-    - profile::rundeck
+    - psick::rundeck
 

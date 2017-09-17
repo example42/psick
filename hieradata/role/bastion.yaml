@@ -1,3 +1,3 @@
 ---
-  profile::ssh::openssh::options:
+  psick::ssh::openssh::options:
     PermitTunnel: yes

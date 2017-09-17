@@ -8,16 +8,16 @@
 #
 ---
 # In this role we include two profiles:
-# - A simple generic profile for basic repo setup
-# - A profile dedicated to testing code on different OS
+# - A simple generic psick for basic repo setup
+# - A psick dedicated to testing code on different OS
 #
-# Use ::profile::ostest for testing Puppet code
+# Use ::psick::ostest for testing Puppet code
 # Add profiles to the list below to test whole profiles
 
 profiles:
-  - '::profile::ostest'
+  - '::psick::ostest'
 
 # For quicker tests we don't want to include all the
-# base profile classes which are by default added to 
+# base psick classes which are by default added to 
 # all the roles.
 profile::base::linux::manage: false

@@ -1,4 +1,4 @@
 ---
   profiles:
-    - profile::mariadb
+    - psick::mariadb
 
