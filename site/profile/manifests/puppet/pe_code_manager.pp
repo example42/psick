@@ -1,6 +1,7 @@
 # This class configures PE Code Manager for automatic deployments
 #
 class profile::puppet::pe_code_manager (
+  Boolean $generate_ssh_keys                = true,
   String $deploy_ssh_private_key_path = '/etc/puppetlabs/ssh/id-control_repo.rsa',
   Optional[String] $deploy_ssh_private_source = undef,
   String $deploy_ssh_public_key_path = '/etc/puppetlabs/ssh/id-control_repo.rsa.pub',
@@ -32,34 +33,39 @@ class profile::puppet::pe_code_manager (
     }
   }
 
-  file { '/etc/puppetlabs/ssh':
-    ensure => directory,
-    owner  => $puppet_user,
+  if $generate_ssh_keys {
+    file { '/etc/puppetlabs/ssh':
+      ensure => directory,
+      owner  => $puppet_user,
+    }
+
+    $real_deploy_user_home = $deploy_user ? {
+      'root'  => '/root',
+      default => "/home/${deploy_user}",
+    }
+
+    tools::ssh_keygen { $deploy_user:
+      comment => $deploy_comment,
+    }
+
+    file { $deploy_ssh_private_key_path:
+      ensure => file,
+      owner  => $puppet_user,
+      mode   => '0400',
+      source => pick($deploy_ssh_private_source,"file://${real_deploy_user_home}/.ssh/id_rsa"),
+    }
+    file { $deploy_ssh_public_key_path:
+      ensure => file,
+      owner  => $puppet_user,
+      mode   => '0400',
+      source => pick($deploy_ssh_public_source,"file:///${real_deploy_user_home}/.ssh/id_rsa.pub"),
+    }
+
   }
 
-  $real_deploy_user_home = $deploy_user ? {
-    'root'  => '/root',
-    default => "/home/${deploy_user}",
-  }
-
-  tools::ssh_keygen { $deploy_user:
-    comment => $deploy_comment,
-  }
-
-  file { $deploy_ssh_private_key_path:
-    ensure => file,
-    owner  => $puppet_user,
-    mode   => '0400',
-    source => pick($deploy_ssh_private_source,"file://${real_deploy_user_home}/.ssh/id_rsa"),
-  }
-  file { $deploy_ssh_public_key_path:
-    ensure => file,
-    owner  => $puppet_user,
-    mode   => '0400',
-    source => pick($deploy_ssh_public_source,"file:///${real_deploy_user_home}/.ssh/id_rsa.pub"),
-  }
-
+  # TODO Automate Upload of ssh public key to gitlab
   #  tools::gitlab::deploy_key { :
   #    sshkey => $deploy_ssh_public_key
-  #}
+  #  }
+
 }
