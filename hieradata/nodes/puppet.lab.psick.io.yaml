@@ -17,14 +17,6 @@ puppet_enterprise::profile::console::whitelisted_certnames:
   - git.lab.psick.io
   - puppet.lab.psick.io
 
-puppet_enterprise::profile::master::r10k_remote: 'git@git.lab.psick.io:puppet/psick.git'
-puppet_enterprise::profile::master::code_manager_auto_configure: true
-puppet_enterprise::profile::master::r10k_private_key: '/etc/puppetlabs/ssh/id-control_repo.rsa'
-# setup code_manager to update classes in the console after environment code deployment 
-puppet_enterprise::master::code_manager::post_environment_hooks: 
-  - url: 'https://puppet.lab.psick.io:4433/classifier-api/v1/update-classes'    
-    use-client-ssl: true
-
 # Gems needed
 profile::puppet::gems::install_gems:
   - r10k
@@ -35,10 +27,18 @@ profile::puppet::gems::install_gems:
   - bundle
   - rake
 
-# Code manager
+# Code manager setup
+puppet_enterprise::profile::master::r10k_remote: 'git@git.lab.psick.io:puppet/psick.git'
+puppet_enterprise::profile::master::code_manager_auto_configure: true
+puppet_enterprise::profile::master::r10k_private_key: '/etc/puppetlabs/ssh/id-control_repo.rsa'
+# setup code_manager to update classes in the console after environment code deployment 
+puppet_enterprise::master::code_manager::post_environment_hooks: 
+  - url: 'https://puppet.lab.psick.io:4433/classifier-api/v1/update-classes'    
+    use-client-ssl: true
 profile::puppet::pe_code_manager::pe_user: 'deployer'       # A user you've created on PE
 profile::puppet::pe_code_manager::pe_password: 'deployer'   # PE user password. TO CHANGE AT EVERY INSTALLATION
 profile::puppet::pe_code_manager::lifetime: '5y'            # Adapt as preferred
+profile::puppet::pe_code_manager::generate_ssh_keys: false  # Default breaks on code manager configured PE from 2017.2.x
 
 # Configure the scripts used during Gitlab CI of the control repo
 profile::gitlab::ci::default_nodes:
@@ -64,7 +64,6 @@ profile::gitlab::runner::runners:
 profile::gitlab::runner::pe_user: 'deployer'       # A user you've created on PE
 profile::gitlab::runner::pe_password: 'deployer'   # PE user password. TO CHANGE AT EVERY INSTALLATION
 profile::gitlab::runner::pe_token_lifetime: '5y'            # Adapt as preferred
-
 
 # Config for gitlab cli. Tokens change at every gitlab installation
 # Use the Private token of a user with merge request and accept privileges
