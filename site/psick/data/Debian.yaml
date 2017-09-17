@@ -1,3 +1,0 @@
-psick::firewall::iptables::package_name: 'iptables-persistent'
-psick::firewall::iptables::service_name: 'iptables-persistent'
-psick::firewall::iptables::config_file_path: '/etc/iptables/rules.v4'
