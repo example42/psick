@@ -67,8 +67,7 @@ mod "puppetlabs/dummy_service", :latest
 #mod 'puppetlabs/image_build', :latest
 #mod 'puppetlabs/rkt', :latest
 
-# Used by profile::firewall::simple_nat
-# mod "example42/sysctl", :latest
+# mod 'herculesteam-augeasproviders_sysctl', '2.2.0'
 # mod "puppetlabs/firewall", :latest
 
 # Used by profile::vpn::openvpn

@@ -30,7 +30,7 @@ if $trusted['extensions']['pp_zone'] and !has_key($facts,'zone') {
 if $trusted['extensions']['pp_application'] and !has_key($facts,'application') {
   $application = $trusted['extensions']['pp_application']
 }
-# Note: with the above settings we allow override of our trusted factes by normal facts.
+# Note: with the above settings we allow overriding of our trusted facts by normal facts.
 # This is done here to adapt to different approaches, if you use trusted facts
 # you will probably want to change the above into something like:
 # if $trusted['extensions']['pp_role'] {
@@ -88,5 +88,5 @@ if $noop_mode == true {
 }
 
 # We just do everything in psick module
-contain '::psick'
+include '::psick'
 

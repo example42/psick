@@ -2,57 +2,58 @@
 # Noop mode. Uncomment to enable nood mode globally
 noop_mode: true
 
+# General psick settings
+psick::manage: true
+psick::auto_conf: 'hardened'
+psick::auto_prereq: true
+
 # Tiny Puppet settings in psick module
 # By default tp integrations are not enabled. We want some of them:
 psick::tp:
   cli_enable: true
   test_enable: true
-  puppi_enable: false
-  debug: false
-  data_module: tinydata
-  config_file_notify: true
-  config_file_require: true
-  config_dir_notify: true
-  config_dir_require: true
 
 # First run optional settings
 psick::firstrun:
   enable: false
   fact_name: firstrun
   fact_value: done
-psick::firstrun::linux::classes:
+psick::firstrun::linux_classes:
   hostname: '::psick::hostname'
 #  packages: '::psick::aws::sdk'
-psick::firstrun::windows::classes:
+psick::firstrun::windows_classes:
   hostname: '::psick::hostname'
 #  packages: '::psick::aws::sdk'
 
-
-psick::linux::base_classes:
-  mail: '::psick::mail::postfix'
+# Common Linux classes
+psick::pre::linux_classes:
   puppet: '::puppet'
-  ssh: '::psick::ssh::openssh'
+  hostname: '::psick::hostname'
+  hosts: '::psick::hosts::resource'
+  dns: '::psick::dns::resolver'
+  repo: '::psick::repo'
+psick::base::linux_classes:
+  mail: '::psick::postfix::tp'
+  ssh: '::psick::openssh::tp'
   users: '::psick::users::static'
   sudo: '::psick::sudo'
-  monitor: '::psick::monitor'
   logs: '::psick::logs::rsyslog'
   time: '::psick::time'
   sysctl: '::psick::sysctl'
-  dns: '::psick::dns::resolver'
-  hostname: '::psick::hostname'
-  hosts: '::psick::hosts::resource'
   update: '::psick::update'
   motd: '::psick::motd'
   profile: '::psick::profile'
-#  network: '::psick::network'
+  network: '::network'
 
 # Pre and Base psick settings Windows
-psick::windows::base_classes:
+psick::pre::windows_classes:
+  hosts: '::psick::hosts::resource'
+psick::base::windows_classes:
   features: '::psick::windows::features'
   registry: '::psick::windows::registry'
-#   users: '::psick::users::ad'
-  hosts: '::psick::hosts::resource'
+  services: '::psick::windows::services'
   time: '::psick::time'
+#   users: '::psick::users::ad'
 
 # Repo settings
 psick::repo::add_defaults: true
@@ -64,12 +65,28 @@ psick::time::servers:
 # Timezone settings
 psick::timezone::timezone: 'UTC'
 
+# Hostname and network settings
+psick::hostname::update_network_entry: false # Avoid resource duplication when psick::network is used
+
 # Sample monitor settings
 psick::linux::monitor_classes:
 #    nrpe: '::psick::monitor::nrpe'
 #    icinga: '::psick::icinga2'
 #    nagiosplugins: '::psick::monitor::nagiosplugins'
     systat: '::psick::monitor::sar'
+
+# Postfix configuration
+psick::postfix::tp:
+  auto_conf: true
+  tp_hash:
+    tp::conf:
+      postfix:
+        template: 'psick/postfix/main.cf.erb'
+      postfix::sample:
+        content: sample
+    tp::dir:
+      postfix::dir:
+        owner: postfix
 
 # Sample user settings
 #  psick::users::static::root_pw: hash_as_in_etc_shadow
@@ -82,12 +99,12 @@ psick::linux::monitor_classes:
 #        comment: al@macante.local
 
 # Sample sudo settings
-# psick::sudo::admins:
-#   - al
-# psick::sudo::sudoers_template: 'psick/sudo/sudoers.erb'
+#psick::sudo::admins:
+#  - al
+#psick::sudo::sudoers_template: 'psick/sudo/sudoers.erb'
 
 # Sample sysctl settings
-psick::sysctl::settings:
+psick::sysctl::settings_hash:
   net.ipv4.conf.all.forwarding: 0
 
 # AWS region
