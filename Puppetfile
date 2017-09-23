@@ -2,7 +2,7 @@
 # Here mostly at latest version for sample purposes.
 # In working environments specific versions should be defined.
 
-# Example42 extra modules
+# Example42 modules
 mod "example42/tp", :latest
 mod "example42/tinydata", :latest
 #mod "example42/psick", :latest
