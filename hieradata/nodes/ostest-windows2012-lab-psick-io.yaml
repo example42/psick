@@ -1,5 +1,5 @@
 ---
-psick::windows::base_classes:
+psick::base::windows_classes:
   features: psick::windows::features
   registry: psick::windows::registry
   hosts: psick::hosts::resource

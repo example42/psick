@@ -1,6 +1,13 @@
 ---
+# Monitoring with Icinga and sensu 
+psick::base::linux_classes:
+  icinga: '::psick::icinga2'
+  monitor_plugins: '::psick::monitor::nagiosplugins'
+  sensu: '::psick::sensu'
+  dns: '' # In lab we leave DNS unmanaged
+
 # With few nodes automatic hosts sync may make sense
-# psick::linux::pre_classes:
+# psick::pre::linux_classes:
 #   hosts: '::psick::hosts::dynamic'
 psick::hosts::dynamic::dynamic_magicvar: 'zone'
 psick::hosts::dynamic::extra_hosts:
@@ -9,21 +16,12 @@ psick::hosts::dynamic::extra_hosts:
     host_aliases:
       - puppet
 
-# In lab we leave DNS unmanaged
-psick::linux::base_classes:
-  dns: ''
-
 # Enable automatic updates on lab nodes and set schedule:
 psick::update::cron_schedule: '42 4 * * *'
 
 # Monitoring defaults:
-psick::monitor::interface: 'eth1'
-
-# Monitoring with Icinga and sensu 
-psick::linux::monitor_classes:
-  icinga: '::psick::icinga2'
-  plugins: '::psick::monitor::nagiosplugins'
-  sensu: '::psick::sensu'
+psick::monitor:
+  interface: 'eth1'
 
 psick::icinga2::master: 'icinga.lab.psick.io'
 psick::icinga2::is_client: true

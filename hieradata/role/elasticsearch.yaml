@@ -1,6 +1,6 @@
 ---
-psick::linux::profiles:
-  - psick::elasticsearch
+psick::profiles::linux_classes:
+  elasticsearch: elasticsearch
 
 psick::sensu::plugins_hash:
   'sensu-plugins-elasticsearch':

@@ -1,5 +1,5 @@
 ---
-psick::linux::profiles:
+psick::profiles::linux_classes:
   - psick::rundeck
 
 psick::rundeck::template: 'psick/rundeck/framework.properties.erb'

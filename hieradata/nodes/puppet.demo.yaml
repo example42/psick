@@ -1,5 +1,5 @@
 ---
-psick::linux::profiles:
+psick::profiles::linux_classes:
   - psick::puppet::pe_aio_server
   - psick::gitlab::cli
   - psick::gitlab::ci

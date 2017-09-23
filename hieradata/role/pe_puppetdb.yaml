@@ -1,5 +1,5 @@
 ---
-psick::linux::profiles:
+psick::profiles::linux_classes:
   - psick::puppet::pe_agent
   - psick::puppet::pe_puppetdb
 psick::firewall::iptables::extra_rules:

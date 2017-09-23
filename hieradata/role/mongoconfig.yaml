@@ -1,6 +1,6 @@
 ---
-psick::linux::profiles:
-  - '::psick::mongo'
+psick::profiles::linux_classes:
+  mongo: '::psick::mongo'
 
 psick::mongo::replset: 'configReplSet'
 psick::mongo::tp::options:

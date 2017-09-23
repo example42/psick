@@ -1,19 +1,15 @@
 ---
-psick::linux::profiles:
-  - '::docker'
-  - '::docker::psick::builder'
-##  - '::docker::psick::run_examples'
-#  - '::docker::psick::build_examples'
-  - '::psick::python::fabric'
+psick::profiles::linux_classes:
+  docker: psick::docker
+  docker_builder: psick::docker::builder
+  fabric: psick::python::fabric
 
-psick::sysctl::settings:
+psick::sysctl::settings_hash:
   net.ipv4.conf.all.forwarding: 1
 
-docker::username: example42
-#docker::install_class: '' # To allow operations from Mac. Docker has to be installed.
-docker::psick::run_examples::ensure: absent
-docker::psick::builder::maintainer: 'Example42 GmbH <info@example42.com>'
-docker::psick::builder::images:
+psick::docker::username: example42
+psick::docker::builder::maintainer: 'Example42 GmbH <info@example42.com>'
+psick::docker::builder::images:
   puppet-agent:
     ensure: present
 

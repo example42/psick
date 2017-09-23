@@ -1,3 +1,0 @@
----
-psick::linux::profiles:
-  - '::rails::deploy::tpweb'

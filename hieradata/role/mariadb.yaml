@@ -1,4 +1,4 @@
 ---
-psick::linux::profiles:
-  - psick::mariadb
+psick::profiles::linux_classes:
+  db: psick::mariadb::tp
 

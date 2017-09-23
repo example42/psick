@@ -1,4 +1,4 @@
 ---
-psick::linux::profiles:
-  - psick::postgresql
+psick::profiles::linux_classes:
+  db: psick::postgresql::tp
 

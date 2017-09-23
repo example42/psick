@@ -1,12 +1,12 @@
 ---
-psick::linux::profiles:
-  - psick::git
-  - psick::puppet::gems
-  - psick::ci::octocatalog
-  - psick::ci::danger
-  - psick::gitlab::runner
-  - psick::gitlab::ci
-  - docker
+psick::profiles::linux_classes:
+  git: psick::git
+  puppet_gems: psick::puppet::gems
+  octocatalog: psick::ci::octocatalog
+  danger: psick::ci::danger
+  gitlab_runner: psick::gitlab::runner
+  gitlab_ci: psick::gitlab::ci
+  docker: docker
 
 psick::ci::octocatalog::run_as_user: 'gitlab-runner'
 psick::ci::octocatalog::template: 'psick/ci/octocatalog/octocatalog-diff.cfg.rb.erb'

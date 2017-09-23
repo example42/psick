@@ -3,12 +3,12 @@
 # based on ::psick::aws
 
 ---
-psick::linux::profiles:
-  - '::psick::aws'
-  - '::psick::python::fabric'
-  - '::psick::git'
+psick::profiles::linux_classes:
+  aws: '::psick::aws'
+  fabric: '::psick::python::fabric'
+  git: '::psick::git'
 
-# The aws region to use as default in all the aws psick::linux::profiles REQUIRED
+# The aws region to use as default in all the aws psick::profiles::linux_classes REQUIRED
 # psick::aws::region: 'eu-west-1'
 
 # If to create a default set of resources for a basic aws setup

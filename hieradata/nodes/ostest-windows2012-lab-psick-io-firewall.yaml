@@ -1,7 +1,7 @@
 ---
-#psick::linux::profiles
+#psick::profiles::windows_classes
 #  - iis
-psick::windows::base_classes:
+psick::base::windows_classes:
   features_class: psick::windows::features
   registry_class: psick::windows::registry
   hosts_class: psick::hosts::resource

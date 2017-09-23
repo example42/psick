@@ -1,8 +1,8 @@
 # Included profiles and relevant data for oracle role
 
 ---
-psick::linux::profiles:
-  - psick::oracle
+psick::profiles::linux_classes:
+  db: psick::oracle
 
 ### psick::oracle
 # By default psick::oracle does nothing, besides includig a common settings
@@ -33,7 +33,7 @@ psick::oracle::prerequisites::packages::use_defaults: true
 
 # Set the class that manages sysctl and override the default sysctl_class conflicting class
 psick::oracle::prerequisites::sysctl_class: 'psick::oracle::prerequisites::sysctl'
-psick::linux::base_classes:
+psick::base::linux_classes:
   sysctl: '' # The base default sysctl class conflicts with the above
 
 # Use default settings and template, optionally tune settings based on RAM

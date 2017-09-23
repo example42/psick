@@ -1,6 +1,6 @@
 ---
 # Noop mode. Uncomment to enable nood mode globally
-noop_mode: true
+# noop_mode: true
 
 # General psick settings
 psick::manage: true
@@ -44,6 +44,7 @@ psick::base::linux_classes:
   motd: '::psick::motd'
   profile: '::psick::profile'
   network: '::network'
+  systat: '::psick::monitor::sar'
 
 # Pre and Base psick settings Windows
 psick::pre::windows_classes:
@@ -67,13 +68,6 @@ psick::timezone::timezone: 'UTC'
 
 # Hostname and network settings
 psick::hostname::update_network_entry: false # Avoid resource duplication when psick::network is used
-
-# Sample monitor settings
-psick::linux::monitor_classes:
-#    nrpe: '::psick::monitor::nrpe'
-#    icinga: '::psick::icinga2'
-#    nagiosplugins: '::psick::monitor::nagiosplugins'
-    systat: '::psick::monitor::sar'
 
 # Postfix configuration
 psick::postfix::tp:

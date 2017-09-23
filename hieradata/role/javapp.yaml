@@ -1,4 +1,4 @@
 ---
-psick::linux::profiles:
-  - '::jboss'
+psick::profiles::linux_classes:
+  jboss: '::jboss'
 

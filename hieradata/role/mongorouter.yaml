@@ -1,6 +1,6 @@
 ---
-psick::linux::profiles:
-  - '::psick::mongo'
+psick::profiles::linux_classes:
+  mongo: '::psick::mongo'
 
 psick::mongo::tp::mongos_template: 'psick/mongo/mongos.service.erb'
 psick::mongo::tp::options:

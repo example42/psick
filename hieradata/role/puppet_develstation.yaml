@@ -1,10 +1,11 @@
 ---
-psick::linux::profiles:
-  - psick::vagrant
-  - psick::git
-  - psick::puppet::gems
-  - docker
-  - psick::puppet::pdk
+psick::profiles::linux_classes:
+  vagrant: psick::vagrant
+  vagrant_plugins: psick::vagrant::plugins
+  git: psick::git
+  puppet_gems: psick::puppet::gems
+  docker: psick::docker
+  puppet_pdk: psick::puppet::pdk
 
 psick::vagrant::plugins::default_plugins:
   - vagrant-cachier

@@ -3,7 +3,7 @@
 # Useful for testing a set of profiles on different OS
 
 ---
-psick::linux::profiles:
+psick::profiles::linux_classes:
   test: '::psick::ostest'
 
 # Uncomment below to avoid to include in the catalog all

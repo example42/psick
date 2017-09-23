@@ -12,5 +12,5 @@ psick::hosts::file::extra_hosts:
 psick::gitlab::manage_installation: true
 
 # In demo we leave DNS unmanaged
-psick::linux::base_classes:
+psick::base::linux_classes:
   dns: ''

@@ -1,7 +1,7 @@
 ---
-psick::linux::profiles:
-  - psick::puppet::pe_code_manager
-  - psick::puppet::gems
+psick::profiles::linux_classes:
+  'code_manager': psick::puppet::pe_code_manager
+  'puppet_gems': psick::puppet::gems
 
 # Explicit list of required gems for CI runners for puppet testing
 psick::puppet::gems::install_puppet_gems: true

@@ -7,17 +7,13 @@
 #
 #
 ---
-# In this role we include two psick::linux::profiles
-# - A simple generic psick for basic repo setup
-# - A psick dedicated to testing code on different OS
-#
 # Use ::psick::ostest for testing Puppet code
 # Add profiles to the list below to test whole profiles
 
-psick::linux::profiles:
+psick::profiles::linux_classes:
   - '::psick::ostest'
 
 # For quicker tests we don't want to include all the
 # base psick classes which are by default added to 
 # all the roles.
-psick::linux::base_manage: false
+psick::base::manage: false

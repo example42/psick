@@ -1,3 +1,5 @@
 ---
-psick::linux::profiles:
-  - 'psick::webserver::nginx'
+psick::profiles::linux_classes:
+  webserver: 'psick::apache::tp'
+psick::profiles::windows_classes:
+  webserver: 'iis'

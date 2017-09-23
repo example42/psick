@@ -1,6 +1,0 @@
----
-psick::linux::profiles:
-#    - '::psick::nginx'
-  - '::docker::psick::run_examples'
-
-psick::time::ntpdate::ntp_server: '0.europe.pool.ntp.org'
