@@ -1,6 +1,6 @@
 ---
 psick::profiles::linux_classes:
-  puppetserver: puppet::profile::server:
+  puppetserver: puppet::profile::server
 
 # Sample settings for a small footprint devel server
 # puppet::profile::server::options:
