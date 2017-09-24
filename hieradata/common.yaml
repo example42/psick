@@ -70,19 +70,18 @@ psick::timezone::timezone: 'UTC'
 psick::hostname::update_network_entry: false # Avoid resource duplication when psick::network is used
 
 # Postfix configuration
-psick::postfix::tp:
-  auto_conf: true
-  tp_hash:
-    tp::conf:
-      postfix:
-        template: 'psick/postfix/main.cf.erb'
-      postfix::sample:
-        content: sample
-    tp::dir:
-      postfix::dir:
-        owner: postfix
+psick::postfix::tp::resources_hash:
+  tp::conf:
+    postfix:
+      template: 'psick/postfix/main.cf.erb'
 
-# Sample user settings
+psick::postfix::tp::options_hash:
+  'mydomain': "%{facts.domain}"
+  'inet_interfaces': '127.0.0.1'
+  'inet_protocols': 'all'
+  'my_destination': '$myhostname, localhost.$mydomain, localhost'
+
+ # Sample user settings
 #  psick::users::static::root_pw: hash_as_in_etc_shadow
 #  psick::users::static::delete_unmanaged: false
 #  psick::users::static::managed_users_hash:
