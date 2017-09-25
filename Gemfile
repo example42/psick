@@ -116,6 +116,9 @@ else
   gems['hiera-eyaml'] = ['~> 2.0']
 end
 
+# r10k gem
+gems['r10k'] = [require: false]
+
 gems.each do |gem_name, gem_params|
   gem gem_name, *gem_params
 end
