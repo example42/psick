@@ -1,4 +1,4 @@
 ---
-profiles:
-  - '::profile::java'
-  - '::grafanadash::dev'
+psick::profiles::linux_classes:
+  java: '::psick::java'
+  grafana: '::grafanadash::dev'

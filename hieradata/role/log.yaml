@@ -1,5 +1,0 @@
-# This is a generic log server role
-# To be customised as needed
----
-#  profiles:
-#    - '::profile::elasticsearch'

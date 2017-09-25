@@ -1,0 +1,8 @@
+---
+psick::profiles::linux_classes:
+  - psick::puppet::pe_agent
+  - psick::puppet::pe_puppetdb
+psick::firewall::iptables::extra_rules:
+  - '-A RH-Firewall-1-INPUT -p tcp -m state --state NEW -m tcp --dport 8081 -j ACCEPT'
+  - '-A RH-Firewall-1-INPUT -p tcp -m state --state NEW -m tcp --dport 5432 -j ACCEPT'
+
