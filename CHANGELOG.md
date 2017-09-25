@@ -2,7 +2,7 @@
 
 * Your contribution here.
 
-## Release 1.0.0.alpha1
+## Release 1.0.0.alpha.1
 * FOSS setup [@tuxmea](https://github.com/tuxmea)
 * Data and site.pp refactored to use psick namespace [@alvagante](https://github.com/alvagante)
 * Removed default site profile and tools. Added separated psick module [@alvagante](https://github.com/alvagante)
