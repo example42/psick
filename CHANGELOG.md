@@ -2,7 +2,7 @@
 
 * Your contribution here.
 
-## Release 1.0.0.alpha.1
+## Release 0.9.1 - First alpha for version 1.0.0. Not compatible with 0.3.0 
 * FOSS setup [@tuxmea](https://github.com/tuxmea)
 * Data and site.pp refactored to use psick namespace [@alvagante](https://github.com/alvagante)
 * Removed default site profile and tools. Added separated psick module [@alvagante](https://github.com/alvagante)
