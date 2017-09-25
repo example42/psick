@@ -30,7 +30,7 @@ if $trusted['extensions']['pp_zone'] and !has_key($facts,'zone') {
 if $trusted['extensions']['pp_application'] and !has_key($facts,'application') {
   $application = $trusted['extensions']['pp_application']
 }
-# Note: with the above settings we allow override of our trusted factes by normal facts.
+# Note: with the above settings we allow overriding of our trusted facts by normal facts.
 # This is done here to adapt to different approaches, if you use trusted facts
 # you will probably want to change the above into something like:
 # if $trusted['extensions']['pp_role'] {
@@ -48,7 +48,7 @@ case $::kernel {
       mode  => '0644',
     }
     Exec {
-      path => '/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin',
+      path => $::path,
     }
   }
   'Windows': {
@@ -57,9 +57,9 @@ case $::kernel {
       group => 'Administrators',
       mode  => '0644',
     }
-#    Exec {
-#      path => '%SystemRoot%\system32;%SystemRoot%;%SystemRoot%\System32\Wbem;%SYSTEMROOT%\System32\WindowsPowerShell\v1.0\',
-#    }
+    Exec {
+      path => $::path,
+    }
   }
   default: {
     File {
@@ -71,25 +71,6 @@ case $::kernel {
       path => '/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin',
     }
   }
-}
-Tp::Install {
-  cli_enable  => lookup('tp::cli_enable', Boolean, 'first', false),
-  test_enable  => lookup('tp::test_enable', Boolean, 'first', false),
-  puppi_enable => lookup('tp::puppi_enable', Boolean, 'first', false),
-  debug => lookup('tp::debug', Boolean, 'first', false),
-  data_module  => lookup('tp::data_module', String, 'first', 'tinydata'),
-}
-Tp::Conf {
-  config_file_notify => lookup('tp::config_file_notify', Boolean, 'first', true),
-  config_file_require => lookup('tp::config_file_require', Boolean, 'first', true),
-  debug => lookup('tp::debug', Boolean, 'first', false),
-  data_module  => lookup('tp::data_module', String, 'first', 'tinydata'),
-}
-Tp::Dir {
-  config_dir_notify => lookup('tp::config_dir_notify', Boolean, 'first', true),
-  config_dir_require => lookup('tp::config_dir_require', Boolean, 'first', true),
-  debug  => lookup('tp::debug', Boolean, 'first', false),
-  data_module  => lookup('tp::data_module', String, 'first', 'tinydata'),
 }
 
 ### ADDITIONS FOR RUNS INSIDE DOCKER IMAGES AND NOOP MODE
@@ -106,52 +87,6 @@ if $noop_mode == true {
   noop()
 }
 
-### NODES CLASSIFICATION
-#
-# Workaround to permit compilation via puppet job run command
-# The $facts variable is always present in normal conditions.
-if defined('$facts') {
-
-  # The tools module provides functions, types, providers, defines.
-  # We include here the dummy, empty, main class in order to be able
-  # to access to its components such as Puppet DSL functions
-  contain '::tools'
-
-  # Profile::settings does not provide resources.
-  # It's esclusively used to set variables (Hiera driven) available to
-  # all profile classes. Used as entry point for shared variables.
-  contain '::profile::settings'
-
-  # General prerequisites and baseline classes are included in all the
-  # nodes. They are distinct for each OS kernel.
-  # pre class contains the resources we want to manage before anything else
-  # base class manages resources we want on all the nodes
-  $kernel_down=downcase($::kernel)
-  contain "::profile::pre::${kernel_down}"
-  contain "::profile::base::${kernel_down}"
-
-  # Explicit class ordering
-  Class['::tools']
-  -> Class['::profile::settings']
-  -> Class["::profile::pre::${kernel_down}"]
-  -> Class["::profile::base::${kernel_down}"]
-
-  # Classification option 1 - Additional profiles defined in Hiera
-  # We contain and order all the classes defined on Hiera key: 'profiles'
-  lookup('profiles', Array[String], 'unique', [] ).contain
-  lookup('profiles', Array[String], 'unique', [] ).each | $p | {
-    Class["::profile::base::${kernel_down}"] -> Class[$p]
-  }
-
-  # Classification option 2 - Classic roles and profiles classes
-  # We contain role classes based on the $::role variable.
-  #  if $::role and $::role != '' {
-  #    contain "::role::${::role}"
-  #    Class["::profile::base::${kernel_down}"] -> Class["::role::${::role}"]
-  #  }
-
-} else {
-  # notify {"Executed via puppet orchestrator\n":}
-  notice ("Executed via puppet orchestrator\n")
-}
+# We just do everything in psick module
+include '::psick'
 

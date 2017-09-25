@@ -1,6 +1,0 @@
----
-  profiles:
-#    - '::profile::nginx'
-    - '::docker::profile::run_examples'
-
-  profile::time::ntpdate::ntp_server: '0.europe.pool.ntp.org'

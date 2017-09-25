@@ -1,4 +1,4 @@
 ---
-profiles:
-  - '::puppet::profile::puppetdb'
+psick::profiles::linux_classes:
+  puppetdb: '::puppet::profile::puppetdb'
 

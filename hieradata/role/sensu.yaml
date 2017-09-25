@@ -1,7 +1,7 @@
 ---
-profile::sensu::is_server: true
-profile::sensu::is_api: true
-profile::sensu::rabbitmq_class: '::profile::rabbitmq::tp'
-profile::sensu::redis_class: '::profile::redis::tp'
-profile::sensu::dashboard_class: '::profile::sensu::uchiwa'
+psick::sensu::is_server: true
+psick::sensu::is_api: true
+psick::sensu::rabbitmq_class: '::psick::rabbitmq::tp'
+psick::sensu::redis_class: '::psick::redis::tp'
+psick::sensu::dashboard_class: '::psick::sensu::uchiwa'
 

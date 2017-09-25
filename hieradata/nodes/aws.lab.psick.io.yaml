@@ -1,7 +1,7 @@
 ---
-  profile::aws::region: 'eu-central-1'
-  profile::aws::create_defaults: true
-  profile::aws::vpc_class: '::profile::aws::puppet::vpc'
-  profile::aws::default_vpc_name: 'test'
-  profile::aws::default_cidr_block_prefix: '10.100'
-  profile::aws::puppet::ec2::default_key_name: 'lab.psick'
+psick::aws::region: 'eu-central-1'
+psick::aws::create_defaults: true
+psick::aws::vpc_class: '::psick::aws::puppet::vpc'
+psick::aws::default_vpc_name: 'test'
+psick::aws::default_cidr_block_prefix: '10.100'
+psick::aws::puppet::ec2::default_key_name: 'lab.psick'

@@ -2,6 +2,9 @@
 
 * Your contribution here.
 
+* Removed default site profile. Added psick module [@alvagante](https://github.com/alvagante)
+* Added firstrun mode [@alvagante](https://github.com/alvagante)
+
 ## Release 0.3.0
 
 * Added links to lab services [@alvagante](https://github.com/alvagante)

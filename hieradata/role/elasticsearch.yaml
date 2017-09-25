@@ -1,7 +1,7 @@
 ---
-profiles:
-  - profile::elasticsearch
+psick::profiles::linux_classes:
+  elasticsearch: elasticsearch
 
-profile::sensu::plugins_hash:
+psick::sensu::plugins_hash:
   'sensu-plugins-elasticsearch':
     type: 'package'

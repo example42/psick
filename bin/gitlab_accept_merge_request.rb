@@ -9,8 +9,8 @@ File.foreach GITLAB_CONFIG do |line|
 end
 last_commit=`git log -1 --oneline`
 #last_commit="-numero ultima commit-"
-source_branch = ARGV[0] ? ARGV[0] : 'development'
-destination_branch = ARGV[1] ? ARGV[1] : 'testing'
+source_branch = ARGV[0] ? ARGV[0] : 'integration'
+destination_branch = ARGV[1] ? ARGV[1] : 'production'
 mr_text = "MR: #{last_commit} from #{source_branch} to #{destination_branch}"
 mr_title = ARGV[2] ? ARGV[2] : "Merged: #{last_commit} from #{source_branch} to #{destination_branch}"
 

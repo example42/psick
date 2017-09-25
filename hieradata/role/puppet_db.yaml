@@ -1,8 +1,0 @@
----
-  profiles:
-    - profile::puppet::pe_agent
-    - profile::puppet::pe_puppetdb
-  profile::firewall::iptables::extra_rules:
-    - '-A RH-Firewall-1-INPUT -p tcp -m state --state NEW -m tcp --dport 8081 -j ACCEPT'
-    - '-A RH-Firewall-1-INPUT -p tcp -m state --state NEW -m tcp --dport 5432 -j ACCEPT'
-
