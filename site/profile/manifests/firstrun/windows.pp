@@ -47,6 +47,7 @@
 # @param repo_class Name of the class to include to manage additional repos
 # @param proxy_class Name of the class to include to configure system's proxy server
 # @param packages_class Name of the class to include to install packages
+# @param users_class Name of the class to include to manage users
 # @param reboot If to automatically trigger a reboot after the first run
 # @param reboot_apply The apply parameter to pass to reboot type
 # @param reboot_when The when parameter to pass to reboot type
@@ -56,14 +57,12 @@
 class profile::firstrun::windows (
   # General switch. If false nothing is done.
   Boolean $manage        = true,
-
   String $hostname_class = '',
   String $repo_class     = '',
   String $proxy_class    = '',
   String $packages_class = '',
-
+  String $users_class    = '',
   String $fact_value     = 'done',
-
   Boolean $reboot         = true,
   Enum['immediately','finished'] $reboot_apply = 'finished',
   Enum['refreshed','pending']    $reboot_when  = 'refreshed',
@@ -71,24 +70,20 @@ class profile::firstrun::windows (
   String $reboot_name     = 'Rebooting',
   Integer $reboot_timeout = 60,
 ) {
-
   # If $manage is false nothing is done here
   if $manage {
     if $hostname_class != '' {
       contain $hostname_class
       Class[$hostname_class] -> Tools::Puppet::Set_external_fact[$::firstrun_fact]
     }
-
     if $repo_class != '' {
       contain $repo_class
       Class[$repo_class] -> Tools::Puppet::Set_external_fact[$::firstrun_fact]
     }
-
     if $proxy_class != '' {
       contain $proxy_class
       Class[$proxy_class] -> Tools::Puppet::Set_external_fact[$::firstrun_fact]
     }
-
     if $packages_class != '' {
       contain $packages_class
       Class[$packages_class] -> Tools::Puppet::Set_external_fact[$::firstrun_fact]
@@ -99,17 +94,18 @@ class profile::firstrun::windows (
         Class[$repo_class] -> Class[$packages_class]
       }
     }
-
+    if $users_class != '' {
+      contain $users_class
+      Class[$users_class] -> Tools::Puppet::Set_external_fact[$::firstrun_fact]
+    }
     $fact_notify = $reboot ? {
       false => undef,
       true  => Reboot[$reboot_name],
     }
-
     tools::puppet::set_external_fact { $::firstrun_fact:
       value  => $fact_value,
       notify => $fact_notify,
     }
-
     if $reboot {
       reboot { $reboot_name:
         apply   => $reboot_apply,

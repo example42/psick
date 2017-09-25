@@ -127,7 +127,7 @@ class profile::sensu (
       settings_hash  => {
         'service_name'  => $service_client + $service_api + $service_server,
         'log_file_path' => $logfile_client + $logfile_api + $logfile_server,
-      }
+      },
     }
   }
 }

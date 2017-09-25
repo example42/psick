@@ -116,6 +116,9 @@ else
   gems['hiera-eyaml'] = ['~> 2.0']
 end
 
+# r10k gem
+gems['r10k'] = [require: false]
+
 gems.each do |gem_name, gem_params|
   gem gem_name, *gem_params
 end
@@ -143,6 +146,6 @@ gem 'puppetlabs_spec_helper'
 # Semantic Puppet and Blacksmith
 gem 'semantic_puppet', require: false
 gem 'puppet-blacksmith', require: false
-gem 'puppet-module', require: false
+# gem 'puppet-module', require: false
 
 # vim: syntax=ruby

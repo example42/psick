@@ -12,12 +12,14 @@ class profile::aws::sdk (
   Boolean $install_puppet_gems = true,
 ) {
   $install_gems.each | $gem | {
-    if $install_system_gems {
-      include ::profile::ruby
-      package { $gem:
-        ensure   => $ensure,
-        provider => 'gem',
-        require  => Class['profile::ruby'],
+    if $facts['os']['family'] != 'windows' {
+      if $install_system_gems {
+        include ::profile::ruby
+        package { $gem:
+          ensure   => $ensure,
+          provider => 'gem',
+          require  => Class['profile::ruby'],
+        }
       }
     }
     if $install_puppet_gems {
@@ -25,7 +27,6 @@ class profile::aws::sdk (
         ensure   => $ensure,
         name     => $gem,
         provider => 'puppet_gem',
-        require  => Class['profile::ruby'],
       }
     }
   }
