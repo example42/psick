@@ -2,7 +2,10 @@
 
 * Your contribution here.
 
-* Removed default site profile. Added psick module [@alvagante](https://github.com/alvagante)
+## Release 1.0.0.alpha1
+* FOSS setup [@tuxmea](https://github.com/tuxmea)
+* Data and site.pp refactored to use psick namespace [@alvagante](https://github.com/alvagante)
+* Removed default site profile and tools. Added separated psick module [@alvagante](https://github.com/alvagante)
 * Added firstrun mode [@alvagante](https://github.com/alvagante)
 
 ## Release 0.3.0
