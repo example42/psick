@@ -1,6 +1,6 @@
 {
   "name": "example42-psick",
-  "version": "1.0.0.alpha1",
+  "version": "0.9.1",
   "author": "Example42",
   "summary": "PSICK Puppet Control Repo [Generator]",
   "license": "Apache-2.0",
