@@ -1,7 +1,4 @@
 ---
-  profiles:
-    - profile::nginx
+psick::profiles::linux_classes:
+  webserver: '::psick::nginx::tp'
 
-#  profile::time::ntpdate::ntp_server: '0.europe.pool.ntp.org'
-
-#  profile::base::linux::hardening_class: 'profile::hardening'

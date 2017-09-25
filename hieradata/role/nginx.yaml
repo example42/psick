@@ -1,4 +1,4 @@
 ---
-  profiles:
-    - profile::nginx
+psick::profiles::linux_classes:
+  webserver: psick::nginx::tp
 

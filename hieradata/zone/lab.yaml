@@ -1,37 +1,38 @@
 ---
+# Monitoring with Icinga and sensu 
+psick::base::linux_classes:
+  icinga: '::psick::icinga2'
+  monitor_plugins: '::psick::monitor::nagiosplugins'
+  sensu: '::psick::sensu'
+  dns: '' # In lab we leave DNS unmanaged
+
 # With few nodes automatic hosts sync may make sense
-#  profile::base::linux::hosts_class: '::profile::hosts::dynamic'
-profile::hosts::dynamic::dynamic_magicvar: 'zone'
-profile::hosts::dynamic::extra_hosts:
+# psick::pre::linux_classes:
+#   hosts: '::psick::hosts::dynamic'
+psick::hosts::dynamic::dynamic_magicvar: 'zone'
+psick::hosts::dynamic::extra_hosts:
   'puppet.lab.psick.io':
     ip: '10.42.43.101'
     host_aliases:
       - puppet
 
-# In lab we leave DNS unmanaged
-profile::base::linux::dns_class: ''
-
 # Enable automatic updates on lab nodes and set schedule:
-profile::update::cron_schedule: '42 4 * * *'
+psick::update::cron_schedule: '42 4 * * *'
 
 # Monitoring defaults:
-profile::monitor::interface: 'eth1'
+psick::monitor:
+  interface: 'eth1'
 
-# Monitoring based on icinga
-profile::monitor::icinga_class: '::profile::icinga2'
-profile::monitor::nagiosplugins_class: '::profile::monitor::nagiosplugins'
-profile::icinga2::master: 'icinga.lab.psick.io'
-profile::icinga2::is_client: true
-profile::icinga2::install_cli: true
+psick::icinga2::master: 'icinga.lab.psick.io'
+psick::icinga2::is_client: true
+psick::icinga2::install_cli: true
 
-# Monitoring based on sensu
-profile::monitor::sensu_class: '::profile::sensu'
-profile::sensu::is_client: true
-profile::sensu::rabbitmq_host: 'sensu.lab.psick.io'
-profile::sensu::rabbitmq_password: 'hiera_encrypt_in_the_real_world'
-profile::sensu::rabbitmq_vhost: '/sensu'
-profile::sensu::api_user: 'admin'
-profile::sensu::api_password: 'sensu' # In real world encrypt with hiera eyaml
+psick::sensu::is_client: true
+psick::sensu::rabbitmq_host: 'sensu.lab.psick.io'
+psick::sensu::rabbitmq_password: 'hiera_encrypt_in_the_real_world'
+psick::sensu::rabbitmq_vhost: '/sensu'
+psick::sensu::api_user: 'admin'
+psick::sensu::api_password: 'sensu' # In real world encrypt with hiera eyaml
 #sensu::client_http_socket:
 #  bind: "%{facts.networking.ip}"
 #  port: 3031
@@ -52,13 +53,13 @@ sensu::client_registration:
   handler: 'servicenow'
 
 
-profile::sensu::checks_params_hash:
+psick::sensu::checks_params_hash:
   handlers:
     - 'graphite'
     - 'mailer'
   standalone: false
   subscribers: 'base'
-profile::sensu::checks_hash:
+psick::sensu::checks_hash:
   'check_cpu':
     command: '/opt/sensu/embedded/bin/check-cpu.rb'
   'check_cron':
@@ -97,12 +98,12 @@ sensu::handlers:
       smtp_port: 25
       smtp_domain: "%{facts.networking.domain}"
 
-profile::sensu::plugins_params_hash:
+psick::sensu::plugins_params_hash:
   pkg_provider: 'sensu_gem'
   type: 'package'
 # gem_install_options: [{ '-p' => 'http://user:pass@myproxy.company.org:8080' }]          
 
-profile::sensu::plugins_hash:
+psick::sensu::plugins_hash:
   'sensu-plugins-conntrack': {}
   'sensu-plugins-cpu-checks': {}
   'sensu-plugins-cpu-usage': {}
@@ -131,14 +132,15 @@ sensu::purge:
   'handlers': true
   'extensions': true
   'mutators': true
+
 #Timezone
-profile::settings::timezone: 'CEST'
-profile::time::windows::timezone: 'Central European Standard Time'
+psick::timezone::timezone: 'CEST'
+psick::timezone::timezone_windows: 'Central European Standard Time'
 
 # Users
-# profile::users::static::root_pw: hash_as_in_etc_shadow
-profile::users::static::delete_unmanaged: false
-profile::users::static::accounts_users_hash:
+# psick::users::static::root_pw: hash_as_in_etc_shadow
+psick::users::static::delete_unmanaged: false
+psick::users::static::accounts_users_hash:
   al:
     ensure: present
     comment: 'Al'

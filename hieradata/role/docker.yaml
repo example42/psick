@@ -1,13 +1,13 @@
 ---
-profiles:
-  - '::docker'
-  - '::docker::profile::host'
-  - '::docker::profile::compose'
-#  - '::docker::profile::run_examples'
+psick::profiles::linux_classes:
+  docker: psick::docker
+  docker_host: psick::docker::host
+  docker_compose: psick::docker::compose
+  docker_examples: psick::docker::run_examples
 
-docker::username: example42
-docker::profile::run_examples::ensure: present
+psick::docker::username: example42
+psick::docker::run_examples::ensure: present
 
 
-profile::sensu::plugins_hash:
+psick::sensu::plugins_hash:
   'sensu-plugins-docker': {}

@@ -1,8 +1,8 @@
 ---
-profiles:
-  - profile::puppet::gems
-  - profile::puppet::foss_master
-  - profile::puppet::foss_server_metrics
+psick::profiles::linux_classes:
+  - psick::puppet::gems
+  - psick::puppet::foss_master
+  - psick::puppet::foss_server_metrics
 
-profile::puppet::gems::install_puppetserver_gems: true
-profile::puppet::foss_server_metrics::graphite_server: 'grafana.foss.psick.io'
+psick::puppet::gems::install_puppetserver_gems: true
+psick::puppet::foss_server_metrics::graphite_server: 'grafana.foss.psick.io'

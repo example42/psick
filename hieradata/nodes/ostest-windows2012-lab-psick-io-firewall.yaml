@@ -1,13 +1,14 @@
 ---
-#profiles:
+#psick::profiles::windows_classes
 #  - iis
-profile::base::windows::features_class: profile::windows::features
-profile::base::windows::registry_class: profile::windows::registry
-profile::base::windows::hosts_class: profile::hosts::resource
-profile::base::windows::services_class: profile::windows::services
-profile::base::windows::firewall_class: windows_firewall
-profile::windows::features::use_defaults: true
-profile::windows::features::install:
+psick::base::windows_classes:
+  features_class: psick::windows::features
+  registry_class: psick::windows::registry
+  hosts_class: psick::hosts::resource
+  services_class: psick::windows::services
+  firewall_class: windows_firewall
+psick::windows::features::use_defaults: true
+psick::windows::features::install:
   UpdateServices-RSAT:
     ensure: present
   UpdateServices-UI:
@@ -17,8 +18,8 @@ profile::windows::features::install:
 # Windows registry: http://www.forensicswiki.org/wiki/Windows_Registry
 # Registry Guide for Windows: http://www.pctools.com/guides/registry/
 #
-profile::windows::registry::use_defaults: true
-profile::windows::registry::keys:
+psick::windows::registry::use_defaults: true
+psick::windows::registry::keys:
   'Open With Notepad':
     key: 'HKEY_CLASSES_ROOT\*\shell\Open with Notepad\command'
     data: 'notepad.exe %1'
@@ -28,14 +29,14 @@ profile::windows::registry::keys:
     data: '0x000000ff'
     type: 'dword'
 
-profile::hosts::resource::hosts:
+psick::hosts::resource::hosts:
   'puppet':
     ip: '10.42.43.101'
     host_aliases:
       - 'puppet.lab.psick.io'
 
-profile::windows::features::use_defaults: true
-profile::windows::features::install:
+psick::windows::features::use_defaults: true
+psick::windows::features::install:
   'Web-WebServer':
     installsubfeatures: true
   'RDS-RD-Server':
@@ -44,8 +45,8 @@ profile::windows::features::install:
   'NET-Framework-Core':
     ensure: present
 
-profile::windows::services::use_defaults: true
-profile::windows::services::managed:
+psick::windows::services::use_defaults: true
+psick::windows::services::managed:
   'RemoteRegistry':
     ensure: 'stopped'
     enable: 'manual'
@@ -57,7 +58,7 @@ profile::windows::services::managed:
     enable: 'manual'
 
 # Windows firewall settings. Basied on 
-windows_firewall::profile_state: 'on'
+windows_firewall::psick_state: 'on'
 windows_firewall::in_policy: 'AllowInbound'
 # windows_firewall::in_policy: 'BlockInbound'
 windows_firewall::out_policy: 'AllowOutbound'

@@ -1,5 +1,0 @@
-# File managed by Puppet
-
-Acquire::http::proxy "<%= $::profile::proxy::proxy_url %>";
-Acquire::ftp::proxy "<%= $::profile::proxy::proxy_url %>";
-Acquire::https::proxy "<%= $::profile::proxy::proxy_url %>";
