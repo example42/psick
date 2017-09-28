@@ -1,9 +1,10 @@
-# GitLab CI configuration
-# Example for a complete Puppet deployment workflow
-# with separated pipelines for development, testing and production
-# braches. Requires a fully configured PE-GitLab-CI runners
+# GitLab CI configuration - https://docs.gitlab.com/ce/ci/yaml/README.html
+# Example for a Puppet deployment workflow with integration and production
+# braches. Requires a fully configured Puppet-GitLab-CI runners
 # environment to work.
-#
+variables:
+  CI_SERVER_NAME: git.lab.psick.io
+
 stages:
   - danger
   - checks
