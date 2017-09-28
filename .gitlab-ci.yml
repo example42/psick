@@ -32,7 +32,7 @@ run_danger:
   tags:
     - test_puppet
   allow_failure: true
-  except::
+  except:
     - production
   only:
     - branches
