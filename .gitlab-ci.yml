@@ -28,11 +28,11 @@ run_danger:
     - export DANGER_GITLAB_API_BASE_URL="https://${CI_SERVER_NAME}/api/v4"
     - export GITLAB_API_HTTPARTY_OPTIONS="{verify => false}"
 
-  script: danger --verbose
+  script: danger --verbose --fail-on-errors=false
   tags:
     - test_puppet
   allow_failure: true
-  except:
+  except::
     - production
   only:
     - branches
@@ -276,6 +276,8 @@ pages_modules:
     - public
     expire_in: '30 day'
   when: manual
+  only:
+    - production
 
 generate_pdf:
   stage: pdf
