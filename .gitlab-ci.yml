@@ -23,10 +23,11 @@ run_danger:
   stage: danger
   variables:
     CI_SERVER_NAME: git.lab.psick.io
-    GITLAB_API_HTTPARTY_OPTIONS: '{verify => false}'
   before_script:
     - export DANGER_GITLAB_HOST=$CI_SERVER_NAME
     - export DANGER_GITLAB_API_BASE_URL="https://${CI_SERVER_NAME}/api/v4"
+    - export GITLAB_API_HTTPARTY_OPTIONS="{verify => false}"
+
   script: danger --verbose
   tags:
     - test_puppet
