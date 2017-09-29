@@ -1,5 +1,7 @@
 ---
 # Monitoring with Icinga and sensu 
+psick::pre::linux_classes:
+  puppet: 'psick::puppet::pe_agent'
 psick::base::linux_classes:
   icinga: '::psick::icinga2'
   monitor_plugins: '::psick::monitor::nagiosplugins'
@@ -137,10 +139,14 @@ sensu::purge:
 psick::timezone::timezone: 'CEST'
 psick::timezone::timezone_windows: 'Central European Standard Time'
 
+# Puppet agents (on PE) sticky environment
+psick::puppet::pe_agent::manage_environment: true
+
 # Users
-# psick::users::static::root_pw: hash_as_in_etc_shadow
-psick::users::static::delete_unmanaged: false
-psick::users::static::accounts_users_hash:
+# psick::users::root_pw: hash_as_in_etc_shadow
+psick::users::delete_unmanaged: false
+psick::users::module: 'user'
+psick::users::users_hash:
   al:
     ensure: present
     comment: 'Al'

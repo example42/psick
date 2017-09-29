@@ -30,9 +30,9 @@ run_danger:
 
   script: danger --verbose --fail-on-errors=false
   tags:
-    - test_puppet
+    - deploy_puppet
   allow_failure: true
-  except::
+  except:
     - production
   only:
     - branches
