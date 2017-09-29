@@ -35,7 +35,7 @@ psick::pre::linux_classes:
 psick::base::linux_classes:
   mail: '::psick::postfix::tp'
   ssh: '::psick::openssh::tp'
-  users: '::psick::users::static'
+  users: '::psick::users'
   sudo: '::psick::sudo'
   logs: '::psick::logs::rsyslog'
   time: '::psick::time'
@@ -81,15 +81,13 @@ psick::postfix::tp::options_hash:
   'inet_protocols': 'all'
   'my_destination': '$myhostname, localhost.$mydomain, localhost'
 
- # Sample user settings
-#  psick::users::static::root_pw: hash_as_in_etc_shadow
-#  psick::users::static::delete_unmanaged: false
-#  psick::users::static::managed_users_hash:
+# Sample user settings
+#  psick::users::root_pw: hash_as_in_etc_shadow
+#  psick::users::delete_unmanaged: false
+#  psick::users::users_hash:
 #    al:
-#      sshkey_content:
-#        key: AAAAB3NzaC1yc2E....
-#        type: ssh-rsa
-#        comment: al@macante.local
+#      sshkeys:
+#        - ssh-rsa AAAAB3NzaC1yc2E.... al@host
 
 # Sample sudo settings
 #psick::sudo::admins:
