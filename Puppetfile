@@ -43,7 +43,7 @@ mod 'puppetlabs/puppetserver_gem', :latest
 mod 'puppet/r10k', :latest
 mod 'puppetlabs/hocon', :latest
 mod 'puppetlabs/apt', :latest
-# mod 'puppet/puppetboard', :latest
+mod 'puppet/puppetboard', :latest
 
 # Used by psick::puppet::pe_code_manager
 mod "pltraining/rbac", '0.0.5'
@@ -70,10 +70,10 @@ mod "puppetlabs/dummy_service", :latest
 mod 'unibet/vagrant', :latest
 
 # Used by psick::sensu
-# mod 'sensu/sensu', :latest
-# mod 'yelp/uchiwa', :latest
-# mod 'puppet/rabbitmq', :latest
-# mod 'puppet/staging', :latest
+mod 'sensu/sensu', :latest
+mod 'yelp/uchiwa', :latest
+mod 'puppet/rabbitmq', :latest
+mod 'puppet/staging', :latest
 
 # Used by windows profiles 
 # mod 'puppet/windowsfeature', :latest # :git => 'https://forge.puppet.com/voxpupuli/puppet-windowsfeature'
