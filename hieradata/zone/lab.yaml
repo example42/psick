@@ -140,7 +140,7 @@ psick::timezone::timezone_windows: 'Central European Standard Time'
 # Users
 # psick::users::static::root_pw: hash_as_in_etc_shadow
 psick::users::static::delete_unmanaged: false
-psick::users::static::accounts_users_hash:
+psick::users::static::managed_users_hash:
   al:
     ensure: present
     comment: 'Al'
