@@ -26,7 +26,7 @@ Alternatively you can use the VM ```dev-local-aws-01``` under ```vagrant/environ
     fab vagrant.provision:dev-local-aws-01
 
 **NOTE:** Be very careful when "playing" with AWS. Always try in noop mode if you are not sure of what may happen. Remember that most of what is done in the aws role is managed in ```hieradata/role/aws.yaml```.
- 
+
 
 ## Manual steps
 
@@ -34,7 +34,7 @@ For the complete initial setup of an AWS environment, some operations must be do
 
   - Creation of a keypair to use for SSH on a newly provisioned machine. The name of this keypair, as written on AWS console, must be configured in ```hieradata/role/aws.yaml``` in a similar way:
 
-          profile::aws::puppet::ec2::default_key_name: 'puppet'
+          psick::aws::puppet::ec2::default_key_name: 'puppet'
 
   - Acceptance of the Marketplace user agreement via the AWS console (just create a disposable instance on the Console, using an image from the Marketplace (ie: the official Centos 7 one).
 
@@ -83,7 +83,7 @@ For a node to be called mon-01.mgmt.fd with mon role this, therefore, the list o
         User centos
 
 First time setup:
- 
+
     fab -H prod-mon puppet.install:redhat7
     fab -H prod-mon puppet.remote_setup:unattended
     fab -H prod-mon puppet.set_facts:mon,env=prod
@@ -92,7 +92,6 @@ Them you can run Puppet on the node with:
 
     fab -H fd-prod-mon puppet.sync_and_apply
 
-To runsync_and_apply in noop mode:
+To run sync_and_apply in noop mode:
 
     fab -H fd-prod-mon puppet.sync_and_apply:options='--noop'
-

@@ -1,5 +1,5 @@
 ---
-# Monitoring with Icinga and sensu 
+# Monitoring with Icinga and sensu
 psick::pre::linux_classes:
   puppet: 'psick::puppet::pe_agent'
 psick::base::linux_classes:
@@ -103,7 +103,7 @@ sensu::handlers:
 psick::sensu::plugins_params_hash:
   pkg_provider: 'sensu_gem'
   type: 'package'
-# gem_install_options: [{ '-p' => 'http://user:pass@myproxy.company.org:8080' }]          
+# gem_install_options: [{ '-p' => 'http://user:pass@myproxy.company.org:8080' }]
 
 psick::sensu::plugins_hash:
   'sensu-plugins-conntrack': {}
@@ -138,6 +138,7 @@ sensu::purge:
 #Timezone
 psick::timezone::timezone: 'CEST'
 psick::timezone::timezone_windows: 'Central European Standard Time'
+<<<<<<< HEAD
 
 # Puppet agents (on PE) sticky environment
 psick::puppet::pe_agent::manage_environment: true
@@ -147,6 +148,13 @@ psick::puppet::pe_agent::manage_environment: true
 psick::users::delete_unmanaged: false
 psick::users::module: 'user'
 psick::users::users_hash:
+=======
+
+# Users
+# psick::users::static::root_pw: hash_as_in_etc_shadow
+psick::users::static::delete_unmanaged: false
+psick::users::static::accounts_users_hash:
+>>>>>>> production
   al:
     ensure: present
     comment: 'Al'
@@ -154,4 +162,3 @@ psick::users::users_hash:
       - users
     sshkeys:
       - 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC93uOkdIrvcA1ij6wxtL0wDKch7E2gFqID2xR1LnEVQRSP9OFmNQV+4B7fM/fAVpFs939qBDeDRabft1ZAP2hUIeKWxweNQ6wxxV3YhJbxt+g6RAqm37BI+/ynZnZ4vrQp3XHfxNFYGFqiaowiiQ3/0QLh8PHliDJroOUU7h2YNwKBWiqdgufLCrPgnalSZ3kfKa2Yd5sM+iyAYJ102sXcGIFjAXCmQU1y7aJXjrzXzPuugnHvVFPzAUjsvu0FAiE+m8EhfBiyy1+SjnMB838G3EwrqNW+sEZ6lXh637xensB2WJuH0lPooCgaeG6WCmYjVK9rblcOb3B0Pp8Vbhp5 al@lab.psick.io'
-

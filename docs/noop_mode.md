@@ -20,7 +20,7 @@ In this control-repo we are using the trlinkin-noop module with provides a funct
 
 We use this function in ```manifests/site.pp```:
 
-    $noop_mode = hiera('noop_mode', false)
+    $noop_mode = lookup('noop_mode', Boolean, 'first', false)
     if $noop_mode == true {
       noop()
     }
@@ -37,4 +37,3 @@ For example when pushing to production particularly critical changes it's possib
       noop_mode: true
 
 In other cases it may make sense to add this setting to more specific layers of the hierarchy.
-

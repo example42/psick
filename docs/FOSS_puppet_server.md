@@ -37,10 +37,9 @@ Now we can install modules by using the r10k command to install required modules
 Afterwards one needs to change the hiera node data to add the profile classification information:
 
       ---
-      profiles:
-        - profile::puppet::gems
-        - profile::puppet::foss_master
-      profile::puppet::gems::install_puppetserver_gems: true
+      psick::profiles::linux_classes:
+        puppet_gems: psick::puppet::gems
+        puppet_master: psick::puppet::foss_master
+      psick::puppet::gems::install_puppetserver_gems: true
 
 Last step is to use puppet apply for getting the setup done automatically. Just run ```bin/papply.sh```.
-

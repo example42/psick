@@ -1,12 +1,12 @@
 ## Vagrant integration
 
-This control-repo contains different customizable Vagrant environments that can be used for different purposes at different stages of our Puppet workflow: local testing during development, continuous integration testings, semi-permanent test environments...
+This control-repo contains different customisable Vagrant environments that can be used for different purposes at different stages of our Puppet workflow: local testing during development, continuous integration testings, semi-permanent test environments...
 
-This control-repo is by default shipped as self contained:
+This control-repo is by default shipped as **self contained**:
 
   - It provides all the Puppet code and data needed to provision different roles.
 
-  - It manages nodes classification with a nodeless approach based on roles (or however is customized ```manifests/site.pp```.
+  - It manages nodes classification with a nodeless, Hiera driven, approach based on the companion [psick module](https://github.com/example42/puppet-psick).
 
   - It doesn't use exported resources (at least in common roles) or any other data provided by PuppetDB
 
@@ -25,21 +25,21 @@ Here we can see a multi VM ```Vagrantfile``` and its ```config.yaml``` file.
 
 This configuration file provides a quite flexible way to customize the nodes we want to see with our ```vagrant status``` (*Only this feature would deserve a dedicated Project*). Read below for more details on how to work with it.
 
-Basic vagrant commands (here used a sample VM called centos7.devel):
+Basic vagrant commands (here used a sample VM called centos7.ostest.psick.io):
 
     cd vagrant/environments/ostest
     vagrant status
-    vagrant up centos7.devel
+    vagrant up centos7.ostest.psick.io
 
 If we change our Puppet manifests or data in the control-repo we can immediately test their effect:
 
 To provision Puppet using our current local copy of the control-repo:
 
-    vagrant provision centos7.devel
+    vagrant provision centos7.ostest.psick.io
 
 To do the same from the local vm:
 
-    vagrant ssh centos7.devel
+    vagrant ssh centos7.ostest.psick.io
     vm $ sudo su -
     vm # /etc/puppetlabs/code/environments/production/bin/papply.sh
 
@@ -66,21 +66,21 @@ Run vagrant status on a specific Vagrant environment
 
 Run vagrant provision on all the running vm of a Vagrant environment:
 
-    fab vagrant.provision:env=pe
+    fab vagrant.provision:env=lab
 
 Run vagrant up on the given vm (the following 2 commands are equivalent):
 
-    fab vagrant.up:vm=centos7.devel
-    fab vagrant.up:centos7.devel
+    fab vagrant.up:vm=centos7.ostest.psick.io
+    fab vagrant.up:centos7.ostest.psick.io
 
 Run, respectively, vagrant provision, reload, halt, suspend, resume, destroy on a given vm:
 
-    fab vagrant.provision:centos7.devel
-    fab vagrant.reload:centos7.devel
-    fab vagrant.halt:centos7.devel
-    fab vagrant.suspend:centos7.devel
-    fab vagrant.resume:centos7.devel
-    fab vagrant.destroy:centos7.devel
+    fab vagrant.provision:centos7.ostest.psick.io
+    fab vagrant.reload:centos7.ostest.psick.io
+    fab vagrant.halt:centos7.ostest.psick.io
+    fab vagrant.suspend:centos7.ostest.psick.io
+    fab vagrant.resume:centos7.ostest.psick.io
+    fab vagrant.destroy:centos7.ostest.psick.io
 
 ### Customisations
 
@@ -92,7 +92,7 @@ We can customise the vagrant environments in various ways:
 
   - Customise the ```config.yaml``` file to define size, OS, role, number of each vagrant vm.
 
-  - Customise eventually the same ```Vagrantfile``` for our own needs. 
+  - Customise eventually the same ```Vagrantfile``` for our own needs.
 
 #### Editing config.yaml
 
@@ -143,27 +143,21 @@ Define the nodes list (as shown in ```vagrant status```):
         aliases:                     # Added aliases for Vagrant hostmanager plugin (if used)
           - puppet
 
-Finally it's possible to define the Vagrant boxes to use for the different VMs:
+Finally it's possible to define the Vagrant boxes to use for the different VMs, the list of available boxes is defined under ```vagrant/boxes.yaml```:
 
     boxes:
       centos7:                                # Box name as referenced under ```vm``` or ```nodes```
         box: puppetlabs/centos-7.2-64-puppet  # Name of Vagrant box on Atlas
-        breed: puppetlabs-centos7             # Breed of the OS. Read later for more info.
       centos6:                                # Another box to select from...
         box: puppetlabs/centos-6.6-64-puppet
-        breed: puppetlabs
       ubuntu1604:                             # Another box
         box: puppetlabs/ubuntu-16.04-64-puppet
-        breed: puppetlabs-apt
       ubuntu1404:                             # Another box
         box: puppetlabs/ubuntu-14.04-64-puppet
-        breed: puppetlabs-apt
-    
+
 
 #### Customising the Vagrantfile and the relevant scripts
 
 Most of the existing vagrant environments share the same ```Vagrantfile```, but we may need to create a custom one, even if just by editing the ```config.yaml``` file we should be able to manage most of the common use cases.
 
 Here we have full freedom, just notice that when changing the Vagrantfile we may break some of the ```config.yaml``` functionality, and that the scripts used during provisioning or in Vagrant related activities are under ```vagrant/bin/``` and we might need to edit them too.
-
-
