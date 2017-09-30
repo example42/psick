@@ -6,6 +6,7 @@ psick::profiles::linux_classes:
   - psick::puppet::pe_code_manager
   - psick::gitlab::runner
   - psick::ci::octocatalog
+  - psick::ci::danger
   - psick::puppet::gems
 
 puppet_enterprise::psick::puppetdb::whitelisted_certnames:
@@ -31,9 +32,9 @@ psick::puppet::gems::install_gems:
 puppet_enterprise::psick::master::r10k_remote: 'git@git.lab.psick.io:puppet/psick.git'
 puppet_enterprise::psick::master::code_manager_auto_configure: true
 puppet_enterprise::psick::master::r10k_private_key: '/etc/puppetlabs/ssh/id-control_repo.rsa'
-# setup code_manager to update classes in the console after environment code deployment 
-puppet_enterprise::master::code_manager::post_environment_hooks: 
-  - url: 'https://puppet.lab.psick.io:4433/classifier-api/v1/update-classes'    
+# setup code_manager to update classes in the console after environment code deployment
+puppet_enterprise::master::code_manager::post_environment_hooks:
+  - url: 'https://puppet.lab.psick.io:4433/classifier-api/v1/update-classes'
     use-client-ssl: true
 psick::puppet::pe_code_manager::pe_user: 'deployer'       # A user you've created on PE
 psick::puppet::pe_code_manager::pe_password: 'deployer'   # PE user password. TO CHANGE AT EVERY INSTALLATION
@@ -49,7 +50,7 @@ psick::gitlab::ci::always_nodes:
 
 psick::ci::octocatalog::run_as_user: 'gitlab-runner'
 psick::ci::octocatalog::template: 'psick/ci/octocatalog/octocatalog-diff.cfg.rb.erb'
-  
+
 # Config for the GIT Runners for Puppet deployments
 # Tokens change at every gitlab installation
 psick::gitlab::runner::runners:
@@ -72,9 +73,8 @@ psick::gitlab::cli::config_hash:
   project_id: 2 # Control-repo project ID on GITLAB
   api_endpoint: 'https://git.lab.psick.io/api/v3'
 
-# Monitoring 
+# Monitoring
 psick::sensu::checks_hash:
   'check_whois42':
     command: '/opt/sensu/embedded/bin/check-whois-domain-expiration-multi.rb -d example42.com,example42.de,example42.org,example42.info,example42.eu,example42.biz,example42.training,lab42.it -c 10 -w 90'
     interval: 86400
-

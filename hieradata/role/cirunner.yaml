@@ -6,7 +6,7 @@ psick::profiles::linux_classes:
   danger: psick::ci::danger
   gitlab_runner: psick::gitlab::runner
   gitlab_ci: psick::gitlab::ci
-  docker: docker
+  docker: psick::docker
 
 psick::ci::octocatalog::run_as_user: 'gitlab-runner'
 psick::ci::octocatalog::template: 'psick/ci/octocatalog/octocatalog-diff.cfg.rb.erb'

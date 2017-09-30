@@ -1,9 +1,9 @@
 ---
 psick::profiles::linux_classes:
-  docker: '::docker'
-  docker_builder: '::docker::profile::builder'
-  docker_examples: '::docker::profile::run_examples'
-  docker_build_examples: '::docker::profile::build_examples'
+  docker: '::psick::docker'
+  docker_builder: '::psick::docker::profile::builder'
+  docker_examples: '::psick::docker::profile::run_examples'
+  docker_build_examples: '::psick::docker::profile::build_examples'
 
 psick::docker::username: example42
 psick::docker::install_class: '' # To allow operations from Mac. Docker has to be installed.
@@ -48,4 +48,3 @@ psick::docker::builder::images:
       nginx::vhosts:
         base_dir: 'vhost'
         source: 'puppet:///modules/docker'
-

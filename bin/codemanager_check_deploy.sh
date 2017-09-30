@@ -12,7 +12,7 @@ echo_title "Deployment status on ${env} - doing maximum ${maxrun} try every ${sl
 while [ $numrun -le $maxrun ]; 
 do
 	echo_title "Running check ${numrun}/${maxrun}"
-	deployed_commit=$(sudo /usr/bin/cat /etc/puppetlabs/code/environments/$env/.r10k-deploy.json | grep signature | awk '{ print $2}' | sed -e 's/"//g'  | sed -e 's/,//')
+	deployed_commit=$(sudo cat /etc/puppetlabs/code/environments/$env/.r10k-deploy.json | grep signature | awk '{ print $2}' | sed -e 's/"//g'  | sed -e 's/,//')
 	local_commit=$(git rev-parse HEAD)
 	echo_title "Deployed commit on Puppet Server: ${deployed_commit}"
 	git show --no-abbrev-commit -s ${deployed_commit}
