@@ -138,7 +138,6 @@ sensu::purge:
 #Timezone
 psick::timezone::timezone: 'CEST'
 psick::timezone::timezone_windows: 'Central European Standard Time'
-<<<<<<< HEAD
 
 # Puppet agents (on PE) sticky environment
 psick::puppet::pe_agent::manage_environment: true
@@ -148,13 +147,6 @@ psick::puppet::pe_agent::manage_environment: true
 psick::users::delete_unmanaged: false
 psick::users::module: 'user'
 psick::users::users_hash:
-=======
-
-# Users
-# psick::users::static::root_pw: hash_as_in_etc_shadow
-psick::users::static::delete_unmanaged: false
-psick::users::static::accounts_users_hash:
->>>>>>> production
   al:
     ensure: present
     comment: 'Al'
