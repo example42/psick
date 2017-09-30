@@ -27,8 +27,7 @@ run_danger:
     - export DANGER_GITLAB_HOST=$CI_SERVER_NAME
     - export DANGER_GITLAB_API_BASE_URL="https://${CI_SERVER_NAME}/api/v4"
     - export GITLAB_API_HTTPARTY_OPTIONS="{verify => false}"
-
-  script: danger --verbose --fail-on-errors=false
+  script: '/opt/puppetlabs/puppet/bin/gem wrappers ; danger --verbose --fail-on-errors=false'
   tags:
     - deploy_puppet
   allow_failure: true
@@ -245,6 +244,7 @@ pages:
     - rm -rf doc public .yardoc README.md
     - bin/docs_classlistgenerate.sh site/profile docs/classes.md
     - for f in $(cat docs/toc.txt); do cat docs/$f >> README.md ; echo >> README.md ; done
+    - bin/gitlab_before.sh
   script:
     - puppet strings generate site/**/**/*{.pp\,.rb} site/**/**/**/*{.pp\,.rb} modules/psick/**/*{.pp\,.rb} modules/psick/**/**/*{.pp\,.rb} modules/psick/**/**/**/*{.pp\,.rb} manifests/site.pp
     - mv doc public
@@ -264,6 +264,7 @@ pages_modules:
     - rm -f README.md
     - bin/docs_classlistgenerate.sh modules docs/classes_modules.md
     - for f in $(cat docs/toc-modules.txt); do cat docs/$f >> README.md ; done
+    - bin/gitlab_before.sh
   script:
     - puppet strings generate modules/**/**/*{.pp\,.rb} modules/**/**/**/*{.pp\,.rb}
     # - rake strings:generate["modules/**/**/*{.pp\,.rb} modules/**/**/**/*{.pp\,.rb}, false, false, markdown,-r docs/PsickGuide.md"]
