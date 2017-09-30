@@ -100,4 +100,3 @@ psick::sysctl::settings_hash:
 
 # AWS region
 psick::aws::region: eu-central-1
-

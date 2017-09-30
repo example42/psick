@@ -22,7 +22,7 @@ Show the current version of deployed Puppet code on all nodes:
 
     fab puppet.current_config
 
-Setup on the remote node all the prequisites to run this control-repo in apply mode:
+Setup on the remote node all the prerequisites to run this control-repo in apply mode:
 
     fab puppet.remote_setup
     # bin/puppet_setup.sh is executed on the remote node
@@ -64,4 +64,3 @@ Set external facts
     fab facter.set_external_facts
 
     fab facter.set_trusted_facts
-

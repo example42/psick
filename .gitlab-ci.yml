@@ -244,10 +244,9 @@ pages:
   before_script:
     - rm -rf doc public .yardoc README.md
     - bin/docs_classlistgenerate.sh site/profile docs/classes.md
-    - for f in $(cat docs/toc.txt); do cat docs/$f >> README.md ; echo >> README.md ; done 
+    - for f in $(cat docs/toc.txt); do cat docs/$f >> README.md ; echo >> README.md ; done
   script:
-    - puppet strings generate site/**/**/*{.pp\,.rb} site/**/**/**/*{.pp\,.rb} manifests/site.pp
-    # - rake strings:generate["site/**/**/*{.pp\,.rb} site/**/**/**/*{.pp\,.rb} manifests/site.pp, false, false, markdown,-r docs/PsickGuide.md"]
+    - puppet strings generate site/**/**/*{.pp\,.rb} site/**/**/**/*{.pp\,.rb} modules/psick/**/*{.pp\,.rb} modules/psick/**/**/*{.pp\,.rb} modules/psick/**/**/**/*{.pp\,.rb} manifests/site.pp
     - mv doc public
   tags:
     - deploy_puppet
@@ -264,7 +263,7 @@ pages_modules:
     - bin/gitlab_before.sh
     - rm -f README.md
     - bin/docs_classlistgenerate.sh modules docs/classes_modules.md
-    - for f in $(cat docs/toc-modules.txt); do cat docs/$f >> README.md ; done 
+    - for f in $(cat docs/toc-modules.txt); do cat docs/$f >> README.md ; done
   script:
     - puppet strings generate modules/**/**/*{.pp\,.rb} modules/**/**/**/*{.pp\,.rb}
     # - rake strings:generate["modules/**/**/*{.pp\,.rb} modules/**/**/**/*{.pp\,.rb}, false, false, markdown,-r docs/PsickGuide.md"]
@@ -285,7 +284,7 @@ generate_pdf:
   stage: pdf
   before_script:
     - bin/docs_classlistgenerate.sh docs/classes.md
-    - for f in $(cat docs/toc.txt); do cat docs/$f >> public/PsickGuide.md ; done 
+    - for f in $(cat docs/toc.txt); do cat docs/$f >> public/PsickGuide.md ; done
   script:
     - docker run -v $(pwd):/puppet -i jagregory/pandoc -f markdown /puppet/public/PsickGuide.md -o /puppet/public/PsickGuide.pdf --latex-engine=xelatex -s  --toc -V geometry:margin=2cm
   tags:

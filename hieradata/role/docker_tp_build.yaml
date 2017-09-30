@@ -48,4 +48,3 @@ psick::docker::builder::images:
       nginx::vhosts:
         base_dir: 'vhost'
         source: 'puppet:///modules/docker'
-

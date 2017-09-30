@@ -6,7 +6,7 @@ The default design of this control-repo is based on a nodeless classification, d
   - ```$::env``` - Defines the nodes' operational environment
   - ```$::zone``` - Defines the datacenter or region or segment of an infrastructure (optional)
 
-Variable names and area of interest can be adapted, according to out hierarchy in ```hiera.yaml``` but in any case such variable have to be set.
+Variable names and area of interest can be adapted, according to our hierarchy in ```hiera.yaml``` but in any case such variables have to be set in some ways.
 
 There are different ways to set top scope variables:
 
@@ -31,16 +31,8 @@ These variables are used in the Hiera's hierarchy (check ```hiera.yaml```) and s
 
 Such an approach can be easily adapted to any other logic and environment, for example, you can use an External Node Classifier (ENC) like Puppet Enterprise or The Foreman and manage there how your nodes are classified.
 
-The manifests file, ```manifests/site.pp``` sets some resource defaults, includes a baseline profile according to the underlying OS and uses hiera to define what profiles have to be included in each role (a more traditional alternative, based on role classes, is possible).
+The manifests file, ```manifests/site.pp``` sets some resource defaults and just includes the ```psick``` module, which manages nodes classification and provides profiles for common use cases.
 
 All the Hiera data is in ```hieradata``` , the file ```hiera.yaml``` shows a possible hierarchy design and uses ```hiera-eyaml``` as backend for keys encryption (no key is currently encrypted, because we are not shipping the generated private key (it's in .gitignore).
 
 You will have to regenerate your hiera-eyaml keys (run, from the main repo dir, ```eyaml createkeys```).
-
-On your Puppet server, if you want to keep hiera.yaml information in the control-repo you have to link it:
-
-    # For hiera 3 format (classic)
-    ln -sf /etc/puppetlabs/code/environments/production/hiera3.yaml /etc/puppetlabs/puppet/hiera.yaml
-    # For hiera 5 format
-    ln -sf /etc/puppetlabs/code/environments/production/hiera.yaml /etc/puppetlabs/puppet/hiera.yaml
-

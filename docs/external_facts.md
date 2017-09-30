@@ -56,11 +56,9 @@ The files we create in the facts.d directory can provide one or more facts value
 
 External facts can be deployed during provisioning of the server or can be placed in the ```facts.d``` directory of a module (they are pluginsynced automatically to the client at the beginning of a Puppet run).
 
-External facts are a very easy way to set custon facts on nodes, just consider the following points:
+External facts are a very easy way to set custom facts on nodes, just consider the following points:
 
   - They can be potentially changed on the client just by editing the relevant fact. We may prefer to use trusted facts when we want their values to be immutable.
 
   - If we use the pluginsync functionality to distribute them note that they are copied as is, from Puppet server to clients, so we don't have a way to distribute different facts to different clients.
     For this reason we'll probably find ourselves adding facts that just contain data (.txt, .yaml, .json) in some alternative way (typically during the node's provisioning) and use pluginsync only for the ones that compute the result in some way (as executables ones do).
-
-

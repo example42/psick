@@ -9,7 +9,7 @@ mod "example42/tinydata", :latest
 mod'example42/psick',
   :git => 'https://github.com/example42/puppet-psick'
 # mod "example42/puppi", :latest
- 
+
 # Example42 v4.x modules
 mod'example42/network',
   :git => 'https://github.com/example42/puppet-network'
@@ -75,7 +75,7 @@ mod 'yelp/uchiwa', :latest
 mod 'puppet/rabbitmq', :latest
 mod 'puppet/staging', :latest
 
-# Used by windows profiles 
+# Used by windows profiles
 # mod 'puppet/windowsfeature', :latest # :git => 'https://forge.puppet.com/voxpupuli/puppet-windowsfeature'
 # mod 'thoward-windows_firewall', '0.3.4'
 ## mod 'puppet/windows_firewall', :latest # :git => 'https://forge.puppet.com/voxpupuli/puppet-windows_firewall'

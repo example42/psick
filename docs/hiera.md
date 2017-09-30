@@ -47,28 +47,22 @@ Here's the actual structure of the hiera.yaml file used in this control-repo, it
       data_hash: yaml_data
     hierarchy:
       - name: "Eyaml hierarchy"
-        lookup_key: eyaml_lookup_key
+        lookup_key: eyaml_lookup_key # eyaml backend
         paths:
-          - "nodes/%{::trusted.certname}.yaml"
-          - "roles/%{::pp_application}-%{::pp_role}-%{::pp_environment}.yaml"
-          - "roles/%{::pp_application}-%{::pp_role}.yaml"
-          - "roles/%{::pp_application}-%{::pp_environment}.yaml"
-          - "roles/%{::pp_application}.yaml"
-          - "roles/%{::pp_role}.yaml"
-          - "locations/%{::pp_datacenter}-%{::pp_zone}.yaml"
-          - "locations/%{::pp_datacenter}.yaml"
-          - "locations/%{::pp_zone}.yaml"
+          - "nodes/%{trusted.certname}.yaml"
+          - "role/%{::role}-%{::env}.yaml"
+          - "role/%{::role}.yaml"
+          - "zone/%{::zone}.yaml"
           - "common.yaml"
-          - "defaults.yaml"
         options:
-          pkcs7_private_key: /etc/puppetlabs/keys/private_key.pkcs7.pem
-          pkcs7_public_key:  /etc/puppetlabs/keys/public_key.pkcs7.pem
+          pkcs7_private_key: /etc/puppetlabs/puppet/keys/private_key.pkcs7.pem
+          pkcs7_public_key:  /etc/puppetlabs/puppet/keys/public_key.pkcs7.pem
 
 The key infos we can get from it are:
 
   - The eyaml-backend is used (```lookup_key: eyaml_lookup_key```)
 
-  - It's public and private keys are stored in the directory ```/etc/puppetlabs/keys/```. They have to be copied there wherever we run Puppet to compile a catalog which uses encrypted data: typically on the PuppetMaster, on the Vagrant VMs where we use Puppet for local testing during development, and eventually also on the Vagrant VMs used in CI. These keys are not present in this control-repo (otherwise it would defy the whole concept of using encryption to protect sensitive data).
+  - It's public and private keys are stored in the directory ```/etc/puppetlabs/puppet/keys/```. They have to be copied there wherever we run Puppet to compile a catalog which uses encrypted data: typically on the PuppetMaster, on the Vagrant VMs where we use Puppet for local testing during development, and eventually also on the Vagrant VMs used in CI. These keys are not present in this control-repo (otherwise it would defy the whole concept of using encryption to protect sensitive data).
 
   - The Yaml files containing our Hiera data are placed in the directory data (```datadir: data```) in out control-repo/Puppet environment. So, for example, for production Puppet environment, all the YAML files are under ```/etc/puppetlabs/code/environments/production/data```
 
@@ -207,4 +201,3 @@ All the above examples can be written in an expanded way. In the following examp
     })
 
 Check the [official reference](https://docs.puppet.com/puppet/latest/function.html#lookup) for all the options available for the lookup function.
-

@@ -9,7 +9,6 @@ We can simply run ```bin/setup.sh``` to install them via Puppet or just can do t
 All the modules have a ```metadata.json``` file where dependencies are described.
 
 Most of the modules require PuppetLabs' stdlib.
-Some modules (the ones, of generation 2.x, which use the ```params_lookup``` function) require Puppi.
 
 ### Control repo
 
@@ -58,5 +57,3 @@ If we use Mac or Windows we need the newer native client, things won't work when
 You'll need to run ```docker login``` before trying any operation that involves pushing our images to Docker registry.
 
 Also Docker can be installed by the setup script.
-
-
