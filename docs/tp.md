@@ -14,15 +14,15 @@ Integration with Tiny Puppet ([tp](https://github.com/example42/puppet-tp)) and 
 
   - Integration tests comes out of the box free, for multiple apps and os, with tp::test
 
-### Sample profiles based on tp
+### PSICK tp profiles
 
-Some of the profiles under the ```site/profile/manifests``` directory use tp instead of a dedicated component module to manage an application. You are free to use them or not and they can be good examples on how to design profiles based on tp and save headaches and time on studying and integrsting a dedicated component module.
+The psick module contains standard profiles for different applications based on Tiny Puppet. The can be found in ```modules/psick/manifests/$application/tp```. You are free to use them or not and they can be good examples on how to design profiles based on tp and save headaches and time on studying and integrating a dedicated component module.
 
 ### tp in component modules
 
 Some experimental modules (apache v4.x, docker, rails, ansible...) added by default in the ```Puppetfile``` use tp directly in the module, with local tp data, to manage the component application.
 
-For more info on this usage of tp inside component modules and other modern design patterns for modules, read this [blog post](http://www.example42.com/2016/05/30/exploring-puppet4-modules-design-patterns/). 
+For more info on this usage of tp inside component modules and other modern design patterns for modules, read this [blog post](http://www.example42.com/2016/05/30/exploring-puppet4-modules-design-patterns/).
 
 ### Install anything anywhere with a tiny command
 
@@ -43,14 +43,14 @@ To install locally (you might need root privileges ) *any application on any ope
     bin/tp_install.sh <app_name>
 
 Or if you prefer to run it via Fabric:
- 
+
     fab tp.install:<app_name>
 
-Prequesities for the magic to happen:
+Prerequesities for the magic to happen:
 
   - Puppet 4 or later must be installed locally. To do it from the control repo:
 
-        bin/puppet_install.sh [redhatX|debian|ubuntu] # WIP on automatic OS detection 
+        bin/puppet_install.sh [redhatX|debian|ubuntu] # WIP on automatic OS detection
 
   - This control-repo is provisioned locally (that is it has run r10k to fetch tp and tinydata modules from upstream source). You can do it with:
 
@@ -71,7 +71,7 @@ Some possible uses:
     # Install sysdig (automatically manages dependencies from other tp apps)
     # Requires tp version >= 1.2 and tinydata version >= v0.0.14 )
     bin/tp_install.sh sysdig
- 
+
     # Install puppetserver from Puppet official repos
     bin/tp_install.sh puppetserver
 
@@ -117,4 +117,3 @@ The following Fabric task (will) allow to test on a remote server if application
     fab tp.remote_test -H <hostname>
 
 You can test if tp installed applications are correctly running just by executing the scripts under ```/etc/tp/test``` on your servers.
-

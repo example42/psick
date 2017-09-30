@@ -2,7 +2,7 @@
 
 Extensions to a node certificate can de defined for each Puppet managed node in order to define informations that can't be changed unless the same node certificate is recreated.
 
-These settings are defined trusted facts, for this reason and are the most secure wa to set facts on a node which don't rely of some computation but just define some characteristics of the node itself (as its role, operational environment or other).
+These settings are defined trusted facts, for this reason and are the most secure way to set facts on a node which don't rely of some computation but just define some characteristics of the node itself (as its role, operational environment or other).
 
 **Before** the first execution of Puppet edit ```/etc/puppetlabs/puppet/csr_attributes.yaml``` with a content like:
 
@@ -31,7 +31,7 @@ For more information: [SSL configuration: CSR attributes and certificate extensi
 
 Note that once a trusted fact is set, that can't be changed unless the client's certificate is recreated. This means, for example, that before changing the environment of a server (if ever needed) a (eventually manual) client re-certification has to be done.
 
-In this control-repo if trusted facts such facts are defined, they are used to populate top scope variables which are then used in hiera.yaml hierachy.
+In this control-repo if trusted facts such facts are defined, they are used to populate top scope variables which are then used in hiera.yaml hierarchy.
 
 The top scope variables are defined in ```manifests/site.pp``` as follows:
 
@@ -45,12 +45,11 @@ The top scope variables are defined in ```manifests/site.pp``` as follows:
       $zone = $trusted['extensions']['pp_datacenter']
     }
 
-In ```bin/hiera3.yaml``` are then used these variables in the sample hierarchy:
+In ```hiera.yaml``` are then used these variables in the sample hierarchy:
 
-    :hierarchy:
-      - "hostname/%{::trusted.certname}"
-      - "role/%{::role}-%{::env}"
-      - "role/%{::role}"
-      - "zone/%{::zone}"
-      - common
-
+    paths:
+      - "nodes/%{trusted.certname}.yaml"
+      - "role/%{::role}-%{::env}.yaml"
+      - "role/%{::role}.yaml"
+      - "zone/%{::zone}.yaml"
+      - "common.yaml"

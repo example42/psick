@@ -1,6 +1,6 @@
 ## Puppet change process
 
-In this document we will review a possible process to follow to manage Puppet changes. It's based on the ```.gitlab-ci.yml``` file of this control repo and expects a setup where cose stays in a (local) GitLab instance and the Puppet server in based on Puppet Enterprise.
+In this document we will review a possible process to follow to manage Puppet changes. It's based on the ```.gitlab-ci.yml``` file of this control repo and expects a setup where code stays in a (local) GitLab instance and the Puppet server in based on Puppet Enterprise.
 
 This can be adapted to custom tools and needs, with variations in internal organisation and processes.
 
@@ -33,8 +33,6 @@ Let's have a quick overview of the risk level related to different kind of files
 
   - [warning] ```bin/```, ```docker/```, ```vagrant/```, ```fabfile```, ```.gitlab-ci.yml``` contain scripts, configurations and settings which won't affect directly our servers but may break our CI pipelines or testing environments. Handle with relative care.
 
-  - [danger] ```site/tools/```, ```site/profiles/manifests/base*``` these are local site defines and classes which may be used by a wide number of nodes. Handle with care.
-
   - [warning] ```site/profiles/*``` here we change Puppet code which may affect one or more nodes.
 
 Don't be too much worried about the above dangers and warnings, though, it's normal in the life of Puppet admin to edit such files, just be aware of the potential impact area of our change and, always, do changes we are aware of and, when we are not fully sure of what we are doing, test our changes in noop mode before actually enforcing them.
@@ -63,17 +61,17 @@ Using Kanban boards to map tickets to cards can help the process.
 
 ##### 3 - PUPPET DEVELOPER: Development
 
-The assigned team member starts to work on the ticket, he should have a ready to use workstation where he can develop and test his Puppet code. Any change should be pushed to  **development branch only**. The CI process [semi]automatically takes care to promote the change to **testing** and **production** branches.
+The assigned team member starts to work on the ticket, he should have a ready to use workstation where he can develop and test his Puppet code. Any change should be pushed to  **integration branch only**. The CI process [semi]automatically takes care to promote the change to **production** branch.
 
-A good approach is to create a feature branch, with the relevant name and relevant ticket number. Once the changes on the feature branch have been merged into development, and then up to production, and the relevant ticket closed, the feature branch should be removed.
+A good approach is to create a feature branch, with the relevant name and relevant ticket number. Once the changes on the feature branch have been merged into integration, and then up to production, and the relevant ticket closed, the feature branch should be removed.
 
-Remember to always create a feature branch based on current status of development branch. First we have to checkout into development branch:
+Remember to always create a feature branch based on current status of integration branch. First we have to checkout into integration branch:
 
-    git checkout development
+    git checkout integration
 
 Then it's always recommended to sync the local branch to origin so that we are sure we are working on updated code:
 
-    git pull origin development
+    git pull origin integration
 
 Then we can create a new branch with the name referring to the relevant ticket:
 
@@ -120,18 +118,18 @@ Then we can run Puppet in real mode, using our environment. The --no-noop option
 Whenever we push changes to a feature branch, a set of basic syntax tests may be automatically triggered by our CI tool. We can check their status looking at the relevant pipeline.
 
 
-##### Simplified Alternative using development branch
+##### Simplified Alternative using integration branch
 
-For trivial or express cases we might decide to skip the creation of a feature branch and make our changes directly on the development branch.
+For trivial or express cases we might decide to skip the creation of a feature branch and make our changes directly on the integration branch.
 
 In such a case the git workflow would be slightly simplified:
 
-    git checkout development
-    git pull origin development
+    git checkout integration
+    git pull origin integration
     vi .... [Edit files and eventually test them locally via Vagrant]
     git add <changed/file[s]>
     git commit -m "Description #22"
-    git push origin development
+    git push origin integration
 
 
 ##### Simplified Alternative using web interface
@@ -154,11 +152,11 @@ Note that such an approach prevents us from testing our code on Vagrant, but sti
 
 ##### 5 - PUPPET DEVELOPER: Merge Request [trivial skip] [express skip]
 
-Once we're satisfied with our change, we can submit, from GitLab (or similar) web interface, a **Merge Request** from our feature branch to the **development** branch.
+Once we're satisfied with our change, we can submit, from GitLab (or similar) web interface, a **Merge Request** from our feature branch to the **integration** branch.
 
-We can accept the merge request immediately, and this automatically starts a new pipeline and deploys our changes to the Puppet development environment.
+We can accept the merge request immediately, and this automatically starts a new pipeline and deploys our changes to the Puppet integration environment.
 
-If all checks in development pass (note some of them may be optional and could be configured to pass even in case of warnings/failures) then an automatic Merge Request is done from development to testing branch.
+If all checks in integration pass (note some of them may be optional and could be configured to pass even in case of warnings/failures) then an automatic Merge Request is done from integration to testing branch.
 
 The Merge Request is automatically accepted and the change is promoted to testing, where another CI pipeline starts.
 
@@ -203,9 +201,9 @@ Once we have finished to edit our files (note that each time we change one file 
   - Review the associated pipeline (note that the Verify Deploy step will always fail, see below for reasons, but the Lint and Syntax checks must be green)
   - Review all our changes
   - List our commits
-  - Click on **Edit** to remove the "WIP: " prefix from the Merge Request title, this allows us to actually accept the Merge request (to the development branch)
+  - Click on **Edit** to remove the "WIP: " prefix from the Merge Request title, this allows us to actually accept the Merge request (to the integration branch)
   - Click on **Save changes**
-  - Click on **Merge** (ensure that the "Remove source branch" box is checked) to accept the Merge Request to development branch.
+  - Click on **Merge** (ensure that the "Remove source branch" box is checked) to accept the Merge Request to integration branch.
   - The relevant issue is automatically closed.
 
 From now on the next steps are similar to Steps 5 (second part) and 6 of the previously described Change process.

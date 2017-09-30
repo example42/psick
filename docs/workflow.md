@@ -1,4 +1,4 @@
-## Puppet code management workflow
+## Puppet code management workflow with Fabric
 
 All the .py files in the main directory of this control-repo are Fabric configuration files.
 
@@ -18,7 +18,7 @@ To use all the available features you should have locally installed:
 
 ### Setup of the control-repo
 
-You can follow alternative approaches on how to play or work with this control repo, eventuallt with the intention to customise it for your own use.
+You can follow alternative approaches on how to play or work with this control repo, eventually with the intention to customise it for your own use.
 
 #### Just playing around
 
@@ -30,9 +30,9 @@ The quickest way to start to play around:
 
 #### Forking example42's control repo
 
-You can [fork](https://help.github.com/articles/fork-a-repo/) example42 [control-repo](https://github.com/example42/psick) on GitHub and then work on your fork as origin and add example42 repo as upstream, in order to ease (always welcomed) Pull Requests for issues of features:
+You can [fork](https://help.github.com/articles/fork-a-repo/) PSICK [control-repo](https://github.com/example42/psick) on GitHub and then work on your fork as origin and add example42 repo as upstream, in order to ease (always welcomed) Pull Requests for issues of features:
 
-    git clone https://github.com/<yourname>/control-repo
+    git clone https://github.com/<yourname>/psick
     cd psick
     git remote add upstream https://github.com/example42/psick
 
@@ -58,7 +58,7 @@ Select the files to keep or remove, then commit them all
 
 Now you can set the origin push your repo to an empty existing repo you have created on GitHub/Bitbucket/GitLab/... :
 
-    git remote add origin git@github.com:example42/puppet-control-repo.git
+    git remote add origin git@github.com:example42/psick.git
     git push -u origin --all
 
 
@@ -114,7 +114,7 @@ If you don't use external node classifiers on don't rely on PuppetDB for resourc
 
     fab puppet.sync_and_apply:$role,[$puppet_options]
 
-To test on node web01.example.com the role web in nood mode:
+To test on node web01.example.com the role web in noop mode:
 
     fab -H web01.example.com puppet.sync_and_apply:web,'--noop'
 
@@ -150,15 +150,15 @@ Available images are: ubuntu-12.04, ubuntu-14.04, ubuntu-14.06, centos-7, debian
 
 #### With Vagrant
 
-There are different Vagrant environment available. You can use the ```puppetinfra``` one to test your own different roles.
+There are different Vagrant environment available. You can pick any of them, like the ```lab``` one to test your own different roles.
 
 First review and edit the configuration file for the Vagrant environment
 
-    vi vagrant/environments/puppetinfra/config.yaml
+    vi vagrant/environments/lab/config.yaml
 
 Then either run vagrant commands from the relevant repo:
 
-    cd vagrant/environments/puppetinfra
+    cd vagrant/environments/lab
     vagrant status
     vagrant up <vm>
     vagrant provision <vm>
@@ -172,7 +172,7 @@ Run vagrant status on all the available Vagrant environments (useful also to see
 
 Run vagrant provision on all the running vm of a Vagrant environment:
 
-    fab vagrant.provision:env=puppetinfra
+    fab vagrant.provision:env=lab
 
 Run vagrant commands on a given VM (ignore the warnings for not finding a given VM in all the available environments)
 
@@ -197,8 +197,6 @@ Run puppet agent in a specific node:
 
     fab puppet.agent:host=web01.example.test
 
-Show the current version of deployed Pupept code on all known hosts:
+Show the current version of deployed Puppet code on all known hosts:
 
     fab puppet.current_config
-
-
