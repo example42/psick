@@ -8,8 +8,6 @@ mod "example42/tinydata", :latest
 #mod "example42/psick", :latest
 mod'example42/psick',
   :git => 'https://github.com/example42/puppet-psick'
-# mod "example42/puppi", :latest
-
 # Example42 v4.x modules
 mod'example42/network',
   :git => 'https://github.com/example42/puppet-network'
