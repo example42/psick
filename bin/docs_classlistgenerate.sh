@@ -7,7 +7,7 @@ target_file=${2:-'docs/classes.md'}
 [ -f $target_file ] && rm -f $target_file
 
 echo >> $target_file
-echo "## List of profile classes" >> $target_file
+echo "## List of psick classes" >> $target_file
 echo >> $target_file
 echo "This is an automatically generated list of the psick classes in this control-repo" >> $target_file
 echo >> $target_file

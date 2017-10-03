@@ -26,8 +26,9 @@ run_danger:
   before_script:
     - export DANGER_GITLAB_HOST=$CI_SERVER_NAME
     - export DANGER_GITLAB_API_BASE_URL="https://${CI_SERVER_NAME}/api/v4"
-    - export GITLAB_API_HTTPARTY_OPTIONS="{verify => false}"
-  script: '/opt/puppetlabs/puppet/bin/danger --verbose --fail-on-errors=false'
+    - "export GITLAB_API_HTTPARTY_OPTIONS='{verify: false}'"
+  script:
+    - '/opt/puppetlabs/puppet/bin/danger --verbose --fail-on-errors=false'
   tags:
     - deploy_puppet
   allow_failure: true
