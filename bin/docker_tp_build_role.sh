@@ -21,7 +21,7 @@ dockerize() {
                --environmentpath="${env_dir}" \
                --modulepath="${repo_dir}/modules:${repo_dir}/site" \
                --hiera_config "${repo_dir}/docker/hiera.yaml" \
-               --execute "hiera_include('profiles')"
+               --execute "include psick"
 
 }
 

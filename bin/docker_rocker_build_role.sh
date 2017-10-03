@@ -13,11 +13,10 @@ dockerize() {
 
   export FACTER_role=$r
   echo_title "Building role ${r} on image ${i}"
-  echo_subtitle "Running puppet apply on ::docker::profile::rocker_builder"
-  puppet apply -t --basemodulepath "${repo_dir}/modules" \
-               --hiera_config "${repo_dir}/hiera3.yaml" \
-               -e "\$role = ${r} ; hiera_include('profiles')" 
-
+  echo_subtitle "Running puppet apply on ::psick::docker::rocker_builder"
+  puppet apply -t --basemodulepath "${repo_dir}/site::${repo_dir}/modules" \
+               --environmentpath $repo_dir \
+               -e "\$role = ${r} ; include psick" 
 }
 
 cd "${repo_dir}/docker"
