@@ -172,6 +172,21 @@ docker_test:
   only:
     - integration
 
+beaker:
+  stage: integration
+  before_script:
+    - "bin/gitlab_before.sh"
+    - "bundle install --with=integration"
+  script: "rake beaker_roles:psick"
+  cache:
+    untracked: true
+    paths:
+    - modules/
+  allow_failure: true
+  tags:
+    - test_puppet
+  only:
+    - integration
 run_puppet_on_integration:
   stage: live_runs
   before_script:

@@ -1,6 +1,6 @@
 require 'spec_helper_acceptance'
 
-describe 'profile::base::linux' do
+describe 'psick' do
   let(:manifest) {
     <<-EOS
       Tp::Install {
@@ -24,10 +24,10 @@ describe 'profile::base::linux' do
       Exec {
         path => '/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin',
       }
-      include profile::base::linux
+      include psick
     EOS
   }
-  it 'should run without errors or wthout changes' do
+  it 'should run without errors or without changes' do
     result = apply_manifest(manifest, :catch_failures => true)
     expect(@result.exit_code).to eq(2).or(eq(0))
   end
