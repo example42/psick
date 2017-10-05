@@ -7,16 +7,14 @@ stages:
   - danger
   - checks
   - version_check
-  - specs
-  - diffs
-  - sitedoc
+  - unit
+  - diff
+  - documentation
   - pdf
   - integration
-  - live_runs
-  - merge_request
+  - canary_runs
   - promote
   - rollout
-  - postcheck
 
 # Run Danger based on Dangerfile rules
 run_danger:
@@ -70,9 +68,6 @@ syntax:
   only:
     - branches
 
-# Run Syntax Checks on Feature/Personal Branch
-# and Development branch:
-# All branches exluded production and testing
 lint:
   stage: checks
   before_script:
@@ -91,7 +86,7 @@ lint:
   allow_failure: true
 
 rake_site:
-  stage: specs
+  stage: unit
   before_script:
     - "bin/gitlab_before.sh"
   script: "bin/puppet_check_rake.sh site bundle"
@@ -109,7 +104,7 @@ rake_site:
   allow_failure: true
 
 rake_modules:
-  stage: specs
+  stage: unit
   before_script:
     - "bin/gitlab_before.sh"
   script: "bin/puppet_check_rake.sh modules bundle"
@@ -126,7 +121,7 @@ rake_modules:
   when: manual
 
 catalog_diff:
-  stage: diffs
+  stage: diff
   before_script:
     - "bin/gitlab_before.sh"
   script: "bin/gitlab_catalog_diff.sh integration"
@@ -141,7 +136,7 @@ catalog_diff:
   allow_failure: true
 
 catalog_preview:
-  stage: diffs
+  stage: diff
   before_script:
     - "bin/gitlab_before.sh"
   script: "bin/gitlab_catalog_preview.sh integration"
@@ -187,8 +182,9 @@ beaker:
     - test_puppet
   only:
     - integration
+
 run_puppet_on_integration:
-  stage: live_runs
+  stage: canary_runs
   before_script:
     # Trigger remote Puppet runs via puppet job
     - "bin/puppet_job_run.sh integration"
@@ -207,7 +203,7 @@ run_puppet_on_integration:
 # already a merge request from testing to production ready to
 # be merged
 merge_request_production:
-  stage: merge_request
+  stage: promote
   script:
     - "bin/gitlab_create_merge_request.rb integration production"
   when: on_success
@@ -230,7 +226,7 @@ merge_accept_production:
 
 # Production
 canary_run_on_production:
-  stage: live_runs
+  stage: canary_runs
   before_script:
     - "bin/puppet_job_run.sh production"
   script: "bin/puppetdb_env_query.sh production"
@@ -255,7 +251,7 @@ run_puppet_on_production:
 
 
 pages:
-  stage: sitedoc
+  stage: documentation
   before_script:
     - rm -rf doc public .yardoc README.md
     - bin/docs_classlistgenerate.sh site/profile docs/classes.md
@@ -274,7 +270,7 @@ pages:
     - production
 
 pages_modules:
-  stage: sitedoc
+  stage: documentation
   before_script:
     - bin/gitlab_before.sh
     - rm -f README.md
@@ -296,9 +292,7 @@ pages_modules:
     - production
 
 generate_pdf:
-  stage: pdf
-generate_pdf:
-  stage: pdf
+  stage: documentation
   before_script:
     - bin/docs_classlistgenerate.sh docs/classes.md
     - for f in $(cat docs/toc.txt); do cat docs/$f >> public/PsickGuide.md ; done
