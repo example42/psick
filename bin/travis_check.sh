@@ -32,8 +32,8 @@ else
   # Control repo nodes spec tests
   run_script "bundle exec rake spec"
 
-  # Profiles spec tests
-  cd "${repo_dir}/site/profile" 
+  # Psick module spec tests
+  cd "${repo_dir}/modules/psick" 
   run_script "bundle exec rake spec"
 
   # Public modules spec tests
