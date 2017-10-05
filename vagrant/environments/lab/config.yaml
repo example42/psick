@@ -141,6 +141,14 @@ nodes:
     forwarded_port2:
       guest: 10000
       host: 14421
+  - role: lamp
+    count: 1
+    memory: 1024
+    cpu: 1
+    box: centos7
+    forwarded_port:
+      guest: 80
+      host: 14480
   - role: ostest
     hostname_base: ostest-suse12
     count: 1
