@@ -62,7 +62,7 @@ check_yaml () {
 
   if [ ! -z ${RUBY} ]; then
     echo_title "Validating YAML files in modules data"
-    files=$(find site/ -name "*.yaml")
+    files=$(find site/ modules/psick -name "*.yaml")
     while read -r i; do
       echo -ne "$i - "
       err=$(${RUBY} -e "require 'yaml'; YAML.parse(File.open('$i'))" 2>&1)
