@@ -59,11 +59,11 @@ check_yaml () {
   else
     echo_warning "ruby not found."
   fi
-  
+
   if [ ! -z ${RUBY} ]; then
     echo_title "Validating YAML files in modules data"
-    for i in $(find site/ -name "*.yaml")
-    do
+    files=$(find site/ -name "*.yaml")
+    while read -r i; do
       echo -ne "$i - "
       err=$(${RUBY} -e "require 'yaml'; YAML.parse(File.open('$i'))" 2>&1)
       if [ $? = 0 ]; then
@@ -73,7 +73,7 @@ check_yaml () {
         echo $err
         global_exit=1
       fi
-    done
+    done <<< "$files"
   else
     echo_warning "ruby not found."
   fi
