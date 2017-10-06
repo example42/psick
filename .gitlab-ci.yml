@@ -56,7 +56,7 @@ syntax:
   stage: checks
   before_script:
     - "bin/gitlab_before.sh"
-  script: "bin/puppet_check_syntax_fast.sh"
+  script: "bin/puppet_check_syntax_fast.sh all_but_chars"
   cache:
     untracked: true
     paths:
@@ -73,6 +73,23 @@ lint:
   before_script:
     - "bin/gitlab_before.sh"
   script: "bin/puppet_lint.sh"
+  cache:
+    untracked: true
+    paths:
+    - modules/
+  tags:
+    - test_puppet
+  except:
+    - production
+  only:
+    - branches
+  allow_failure: true
+
+chars:
+  stage: checks
+  before_script:
+    - "bin/gitlab_before.sh"
+  script: "bin/puppet_check_syntax_fast.sh chars"
   cache:
     untracked: true
     paths:
