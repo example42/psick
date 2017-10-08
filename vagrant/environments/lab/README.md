@@ -61,10 +61,10 @@ Now you can create a user dedicated to Puppet deployments:
   - Copy the link for password reset and open it with a browser to the the user password.
   - To assign at least deployment permissions to the user click User Roles -> Code Deployers -> Add user (Select from menu the User name)
 
-The PE username and password you've set have to be provided as parameters for the profile::puppet::pe_code_manager class, as follows:
+The PE username and password you've set have to be provided as parameters for the psick::puppet::pe_code_manager class, as follows:
 
-    profile::puppet::pe_code_manager::pe_user: 'deployer'
-    profile::puppet::pe_code_manager::pe_password: 'deployer'
+    psick::puppet::pe_code_manager::pe_user: 'deployer'
+    psick::puppet::pe_code_manager::pe_password: 'deployer'
 
 For testing purposes it makes sense to leave to all the clients the possibility to set their own environment.
 This can can done on PE gui clicking on Nodes -> Classification -> Production environment -> Remove on the rule than matches all names.
