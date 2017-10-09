@@ -1,6 +1,8 @@
 ---
 psick::profiles::linux_classes:
-  - psick::puppet::pe_aio_server
+  - psick::puppet::pe_console
+  - psick::puppet::pe_puppetdb
+  - psick::puppet::pe_server
   - psick::gitlab::cli
   - psick::gitlab::ci
   - psick::puppet::pe_code_manager

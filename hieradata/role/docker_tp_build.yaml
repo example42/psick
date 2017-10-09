@@ -1,9 +1,9 @@
 ---
 psick::profiles::linux_classes:
   docker: '::psick::docker'
-  docker_builder: '::psick::docker::profile::builder'
-  docker_examples: '::psick::docker::profile::run_examples'
-  docker_build_examples: '::psick::docker::profile::build_examples'
+  docker_builder: '::psick::docker::builder'
+  docker_examples: '::psick::docker::run_examples'
+  docker_build_examples: '::psick::docker::build_examples'
 
 psick::docker::username: example42
 psick::docker::install_class: '' # To allow operations from Mac. Docker has to be installed.
@@ -15,7 +15,7 @@ psick::docker::builder::images:
     conf_hash:
       apache::mysite:
         base_dir: 'conf'
-        template: 'psick/apache/sample.conf.erb'
+        template: 'psick/apache/vhost.conf.erb'
         options:
           ServerName: 'www.example42.com'
           ServerAliases:

@@ -1,3 +1,2 @@
 ---
-#you can put proxy or local definition here to be used instead of the r10k on puppet server
-#proxy: http://proxy.domain.com:80
+cachedir: ~/.r10k_cache

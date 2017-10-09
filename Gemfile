@@ -133,16 +133,25 @@ extra_gemfiles.each do |gemfile|
 end
 
 # Danger integration: http://danger.systems
-gem 'danger'
-gem 'danger-changelog'
-gem 'danger-mention'
+group :ci do
+  gem 'danger'
+  gem 'danger-changelog'
+  gem 'danger-mention'
+end
 
 # Required puppetlabs_spec_helper
 gem 'puppetlabs_spec_helper'
 
 # Semantic Puppet and Blacksmith
-gem 'semantic_puppet', require: false
-gem 'puppet-blacksmith', require: false
+group :publish do
+  gem 'semantic_puppet', require: false
+  gem 'puppet-blacksmith', require: false
 # gem 'puppet-module', require: false
+end
 
+# Beaker
+group :acceptance do
+  gem 'beaker-rspec'
+  gem 'beaker-hiera'
+end
 # vim: syntax=ruby

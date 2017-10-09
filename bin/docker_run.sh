@@ -9,7 +9,7 @@ repo_dir=$(git rev-parse --show-toplevel)
 # defined via the --registry argument). Default
 # hub.docker.com is used with example42 puppet-agent
 # registry="docker.example.com:5000/puppet"
-registry="example42"
+registry="hub.docker.com:5000/example42"
 image="puppet-agent"
 version="centos-7"
 

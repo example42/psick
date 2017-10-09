@@ -1,6 +1,8 @@
 ---
 psick::profiles::linux_classes:
-  - psick::puppet::pe_aio_server
+  - psick::puppet::pe_console
+  - psick::puppet::pe_puppetdb
+  - psick::puppet::pe_server
   - psick::gitlab::cli
   - psick::gitlab::ci
   - psick::puppet::pe_code_manager
@@ -8,6 +10,8 @@ psick::profiles::linux_classes:
   - psick::ci::octocatalog
   - psick::ci::danger
   - psick::puppet::gems
+
+psick::puppet::pe_server::remove_global_hiera_yaml: true
 
 puppet_enterprise::psick::puppetdb::whitelisted_certnames:
   - cirunner.lab.psick.io
@@ -78,3 +82,6 @@ psick::sensu::checks_hash:
   'check_whois42':
     command: '/opt/sensu/embedded/bin/check-whois-domain-expiration-multi.rb -d example42.com,example42.de,example42.org,example42.info,example42.eu,example42.biz,example42.training,lab42.it -c 10 -w 90'
     interval: 86400
+
+psick::ci::danger::use_gitlab: true
+psick::ansible::is_master: true

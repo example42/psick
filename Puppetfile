@@ -8,18 +8,12 @@ mod "example42/tinydata", :latest
 #mod "example42/psick", :latest
 mod'example42/psick',
   :git => 'https://github.com/example42/puppet-psick'
-# mod "example42/puppi", :latest
-
 # Example42 v4.x modules
 mod'example42/network',
   :git => 'https://github.com/example42/puppet-network'
 mod'example42/puppet',
   :git => 'https://github.com/example42/puppet-puppet',
   :branch => 'master'
-mod'example42/rails',
-  :git => 'https://github.com/example42/puppet-rails'
-mod'example42/ansible',
-  :git => 'https://github.com/example42/puppet-ansible'
 
 # Third Party modules
 mod "puppetlabs/concat", '3.0.0' # postgresql requires concat < 3.0.0
@@ -89,5 +83,5 @@ mod 'puppet/staging', :latest
 # mod 'counsyl/windows', :git => 'https://github.com/counsyl/puppet-windows'
 # mod 'trlinkin/domain_membership', :git => 'https://forge.puppet.com/trlinkin/domain_membership'
 
-# Used by psick::users::static accounts_users_hash parameter
+# Used by psick::users when module=puppetlabs
 # mod 'puppetlabs/accounts', :latest

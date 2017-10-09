@@ -1,5 +1,11 @@
 # Lab Vagrant environment based on Puppet Enterprise and GitLab
 
+This Vagrant environment is used to test PSICK code in a lab with a Puppet Enterprise (10 nodes evaluation) [instance](https://puppet.lab.psick.io) serving the local Puppet code to various client VMs.
+
+Among them there's a GitLab [server](https://git.lab.psick.io/) and the relevant GitLab runner.
+
+[Read Only] access to these servers is public, check the links here and in the main README.md to access these services on lab.psick.io.
+
 ## Setup
 
 This lab.psick.io environment provides:
@@ -8,30 +14,38 @@ This lab.psick.io environment provides:
   - a GitLab server
   - one or more GitLab CI runners
 
+Note that you need an host of at least 8Gb of RAM (better 16 or more) for this environment.
+
+
 ### Prerequisites
 
-    # Ensure you have the basic prerequisites
+If you have just downloaded PSICK, ensure you have made the setup of the basic prerequisites
+
     cd <this-control-repo-dir>
     bin/setup.sh
 
-    # For PE setup you need the pe_build plugin
+For Puppet Enterprise setup you need the pe_build plugin, for handling hostnames effortlessly you need the hostmanager one:
+
     vagrant plugin install vagrant-pe_build
+    vagrant plugin install vagrant-hostmanager
 
-    cd vagrant/environment/pe_lab.psick.io
+    cd vagrant/environment/lab
 
-    # Show available Vagrant machines
+Show available Vagrant machines
+
     vagrant status
 
-    # Customise them, eventually updating the PE version to use
+Customise them, eventually updating the PE version to use
+
     vi config.yaml
 
 
 ### Puppet Enterprise All in One server setup
 
-    # Start the PE all in one server. The first time, take a coffe, it .
-    # It will download PE tarball, install it and run puppet agent 
+Start the PE all in one server. The first time, take a coffe, it. It will download PE tarball, install it and run puppet agent 
+
     vagrant up puppet.lab.psick.io
-    vagrant reload puppet.lab.psick.io   # In case of errors. See Note 1
+    vagrant reload puppet.lab.psick.io    # In case of errors. See Note 1
     vagrant provision puppet.lab.psick.io # See Notes
 
 Now you should be able to access the PE console from your host.
@@ -47,10 +61,10 @@ Now you can create a user dedicated to Puppet deployments:
   - Copy the link for password reset and open it with a browser to the the user password.
   - To assign at least deployment permissions to the user click User Roles -> Code Deployers -> Add user (Select from menu the User name)
 
-The PE username and password you've set have to be provided as parameters for the profile::puppet::pe_code_manager class, which has se classes:
+The PE username and password you've set have to be provided as parameters for the psick::puppet::pe_code_manager class, as follows:
 
-  profile::puppet::pe_code_manager::pe_user: 'deployer'
-  profile::puppet::pe_code_manager::pe_password: 'deployer'
+    psick::puppet::pe_code_manager::pe_user: 'deployer'
+    psick::puppet::pe_code_manager::pe_password: 'deployer'
 
 For testing purposes it makes sense to leave to all the clients the possibility to set their own environment.
 This can can done on PE gui clicking on Nodes -> Classification -> Production environment -> Remove on the rule than matches all names.
@@ -58,10 +72,9 @@ Then a similar rule should be added for the Agent-specified environment, in this
 
     root@vm# puppet agent -t --environment=host
 
-If you want to keep your nodes pointing to the host environment without switching back to production, you can do that via PE console or by running Puppet only on demans, from the local vm:
+Note, that the current environent is saved everytime to ```puppet.conf```due to this setting in ```hieradata/zone/lab.yaml```:
 
-    root@vm# puppet agent --enable ; puppet agent -t --environment=host ; puppet agent --disable
-
+    psick::puppet::pe_agent::manage_environment: true
 
 #### Notes
 
@@ -83,7 +96,8 @@ Note 2: It's recommended to run this Vagrant environment on hosts that have at l
 
 #### Gitlab server setup
 
-    Once the PE installation is up an running and you have completed the steps above
+Once the PE installation is up an running and you have completed the steps above, you can start to setup the GitLab server:
+
     vagrant up git.lab.psick.io
 
 This environments also provides a fairly evoluted integration with GitLab:
@@ -95,11 +109,12 @@ This environments also provides a fairly evoluted integration with GitLab:
 
 You can setup, more or less manually, a fully automated CI with Pipelines on GitLab trigger Puppet code deployments.
 
-In such environments you can configure, via PE console, nodues to run with agent specified environment and then test the code you are currently working on, on your host, directly via the PE Puppet master VM, using the specifal ```host``` environment:
+In such environments you can configure, via PE console, nodes to run with agent specified environment and then test the code you are currently working on, on your host, directly via the PE Puppet master VM, using the specifal ```host``` environment:
 
     # Run Puppet agent using the control-repo environment on your host
     agent# puppet agent -t --environment=host
 
     # Run Puppet using any other branch named environment deployed via Code Manager
     agent# puppet agent -t --environment=$branch
+
 
