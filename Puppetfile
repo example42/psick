@@ -8,19 +8,21 @@ mod "example42/tinydata", :latest
 #mod "example42/psick", :latest
 mod'example42/psick',
   :git => 'https://github.com/example42/puppet-psick'
+  :tag => '0.5.1'
 # Example42 v4.x modules
 mod'example42/network',
   :git => 'https://github.com/example42/puppet-network'
+  :tag => 'v3.3.9'
 mod'example42/puppet',
   :git => 'https://github.com/example42/puppet-puppet',
-  :branch => 'master'
+  :branch => 'v4.0.0'
 
 # Third Party modules
 mod "puppetlabs/concat", '3.0.0' # postgresql requires concat < 3.0.0
 mod "puppetlabs/stdlib", :latest
 mod "puppetlabs/vcsrepo", :latest
 mod "puppetlabs/firewall", :latest
-mod "puppetlabs/aws", :latest
+# mod "puppetlabs/aws", :latest
 mod "jdowning/rbenv", :latest
 mod "trlinkin/noop", :latest
 mod "puppetlabs/catalog_preview", :latest
@@ -45,7 +47,7 @@ mod "pltraining/rbac", '0.0.5'
 # Used by grafanadash server (puppet metrics)
 mod 'grafanadash',
   :git => 'https://github.com/tuxmea/puppet-grafanadash.git',
-  :branch => 'master'
+  :tag => '0.0.9'
 mod 'dwerder/graphite', :latest
 
 # Docker and Containers
