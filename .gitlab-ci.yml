@@ -312,6 +312,7 @@ generate_pdf:
   stage: documentation
   before_script:
     - bin/docs_classlistgenerate.sh docs/classes.md
+    - mkdir public
     - for f in $(cat docs/toc.txt); do cat docs/$f >> public/PsickGuide.md ; done
   script:
     - docker run -v $(pwd):/puppet -i jagregory/pandoc -f markdown /puppet/public/PsickGuide.md -o /puppet/public/PsickGuide.pdf --latex-engine=xelatex -s  --toc -V geometry:margin=2cm
