@@ -14,16 +14,11 @@ psick::tp:
   test_enable: true
 
 # First run optional settings
-psick::firstrun:
-  enable: false
-  fact_name: firstrun
-  fact_value: done
+psick::enable_firstrun: false
 psick::firstrun::linux_classes:
   hostname: '::psick::hostname'
-#  packages: '::psick::aws::sdk'
 psick::firstrun::windows_classes:
   hostname: '::psick::hostname'
-#  packages: '::psick::aws::sdk'
 
 # Common Linux classes
 psick::pre::linux_classes:
@@ -32,10 +27,10 @@ psick::pre::linux_classes:
   hosts: '::psick::hosts::resource'
   dns: '::psick::dns::resolver'
   repo: '::psick::repo'
+  users: '::psick::users'
 psick::base::linux_classes:
   mail: '::psick::postfix::tp'
   ssh: '::psick::openssh::tp'
-  users: '::psick::users'
   sudo: '::psick::sudo'
   logs: '::psick::logs::rsyslog'
   time: '::psick::time'
@@ -81,22 +76,7 @@ psick::postfix::tp::options_hash:
   'inet_protocols': 'all'
   'my_destination': '$myhostname, localhost.$mydomain, localhost'
 
-# Sample user settings
-#  psick::users::root_pw: hash_as_in_etc_shadow
-#  psick::users::delete_unmanaged: false
-#  psick::users::users_hash:
-#    al:
-#      sshkeys:
-#        - ssh-rsa AAAAB3NzaC1yc2E.... al@host
-
-# Sample sudo settings
-#psick::sudo::admins:
-#  - al
-#psick::sudo::sudoers_template: 'psick/sudo/sudoers.erb'
-
 # Sample sysctl settings
 psick::sysctl::settings_hash:
   net.ipv4.conf.all.forwarding: 0
 
-# AWS region
-psick::aws::region: eu-central-1

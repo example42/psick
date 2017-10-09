@@ -1,6 +1,8 @@
 ---
 psick::profiles::linux_classes:
-  - psick::puppet::pe_aio_server
+  - psick::puppet::pe_console
+  - psick::puppet::pe_puppetdb
+  - psick::puppet::pe_server
   - psick::gitlab::cli
   - psick::gitlab::ci
   - psick::puppet::pe_code_manager
@@ -8,6 +10,8 @@ psick::profiles::linux_classes:
   - psick::ci::octocatalog
   - psick::ci::danger
   - psick::puppet::gems
+
+psick::puppet::pe_server::remove_global_hiera_yaml: true
 
 puppet_enterprise::psick::puppetdb::whitelisted_certnames:
   - cirunner.lab.psick.io
@@ -80,3 +84,6 @@ psick::sensu::checks_hash:
     interval: 86400
 
 psick::ci::danger::use_gitlab: true
+
+psick::ansible::is_master: true
+

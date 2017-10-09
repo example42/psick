@@ -1,17 +1,13 @@
 HOSTS:
-  centos-7-x64:
+  centos-7-x64.psick.io:
+    roles:
+      - default
     platform: el-7-x86_64
-    hypervisor : docker
-    image: centos:centos7
-    docker_preserve_image: true
+    hypervisor: vagrant
+    box: puppetlabs/centos-7.2-64-nocm
     mount_folders:
       controlrepo:
-        host_path: .
-        container_path: /etc/puppetlabs/code/environments/production
-    docker_cmd: '["/usr/sbin/init"]'
-    docker_image_commands:
-      - 'yum -y swap -- remove fakesystemd -- install systemd systemd-libs'
-      - 'yum -y install cronie initscripts which'
-      - 'yum -y update; yum clean all; yum makecache'
+        from: ../../../
+        to: /etc/puppetlabs/code/environments/production
 CONFIG:
   type: foss

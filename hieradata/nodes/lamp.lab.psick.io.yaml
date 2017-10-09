@@ -1,0 +1,47 @@
+---
+psick::base::linux_classes:
+  'git': psick::git
+psick::profiles::linux_classes:
+  'apache': psick::apache::tp
+  'php': psick::php
+  'mysql': psick::mariadb
+
+psick::apache::tp::resources_hash:
+  tp::conf:
+    apache::openkills.info.conf:
+      base_dir: conf
+      template: psick/apache/vhost.conf.erb
+      options_hash:
+        ServerName: openskills.info
+        ServerAlias:
+          - openskill.info
+          - www.openskills.info
+          - www.openskill.info
+        AddDefaultCharset: ISO-8859-1
+    apache::deny_git.conf:
+      base_dir: conf
+      source: puppet:///modules/psick/apache/deny_git.conf
+  tp::dir:
+    apache::openskills.info:
+      vcsrepo: git
+      source: git@git.lab.psick.io:alvagante/openskills.git
+      path: /var/www/html/openskills.info
+
+psick::php::module_hash:
+  mysql: {}
+  gd: {}
+
+psick::mariadb::user_hash:
+  openskills:
+    password: shouldbesecret
+psick::mariadb::grant_hash:
+  openskills:
+    password: shouldbesecret
+    db: openskills
+    db_init_query_file: /root/openskills.sql
+
+psick::users::users_hash:
+  root:
+    openssh_keygen:
+      root:
+        bits: 2048
