@@ -21,5 +21,5 @@ fi
 echo 
 cd $repo_dir
 echo_title "Installing external modules via r10k"
-r10k puppetfile install -v ${config}
+/opt/puppetlabs/puppet/bin/r10k puppetfile install -v ${config}
 echo
