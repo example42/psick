@@ -160,4 +160,3 @@ psick::users::users_hash:
 
 psick::ansible::master: puppet.lab.psick.io
 psick::ansible::keyshare_method: storeconfigs
-

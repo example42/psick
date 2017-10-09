@@ -79,4 +79,3 @@ psick::postfix::tp::options_hash:
 # Sample sysctl settings
 psick::sysctl::settings_hash:
   net.ipv4.conf.all.forwarding: 0
-

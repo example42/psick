@@ -84,6 +84,4 @@ psick::sensu::checks_hash:
     interval: 86400
 
 psick::ci::danger::use_gitlab: true
-
 psick::ansible::is_master: true
-
