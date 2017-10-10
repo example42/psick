@@ -20,7 +20,7 @@ mod 'puppetlabs/concat', '3.0.0' # postgresql requires concat < 3.0.0
 mod 'puppetlabs/stdlib', :latest
 mod 'puppetlabs/vcsrepo', :latest
 mod 'puppetlabs/firewall', :latest
-mod 'puppetlabs/aws', :latest
+# mod 'puppetlabs/aws', :latest
 mod 'jdowning/rbenv', :latest
 mod 'trlinkin/noop', :latest
 mod 'puppetlabs/catalog_preview', :latest
