@@ -33,7 +33,7 @@ run_danger:
   except:
     - production
   only:
-    - branches
+    - skipped_for_gitlab_integration_issues
 
 # Version Deploy check for every branch with environment creation
 # It will try by default 6 times with 10 second between each try
