@@ -3,38 +3,35 @@
 # In working environments specific versions should be defined.
 
 # Example42 modules
-mod "example42/tp", :latest
-mod "example42/tinydata", :latest
-#mod "example42/psick", :latest
-mod'example42/psick',
-  :git => 'https://github.com/example42/puppet-psick',
-  :tag => '0.5.1'
+mod 'example42/tp', :latest
+mod 'example42/tinydata', :latest
+#mod 'example42/psick', :latest
+mod 'example42/psick',
+  :git => 'https://github.com/example42/puppet-psick'
 # Example42 v4.x modules
-mod'example42/network',
-  :git => 'https://github.com/example42/puppet-network',
-  :tag => 'v3.3.9'
-mod'example42/puppet',
+mod 'example42/network',
+  :git => 'https://github.com/example42/puppet-network'
+mod 'example42/puppet',
   :git => 'https://github.com/example42/puppet-puppet',
-  :branch => 'v4.0.0'
+  :branch => 'master'
 
 # Third Party modules
-mod "puppetlabs/concat", '3.0.0' # postgresql requires concat < 3.0.0
-mod "puppetlabs/stdlib", :latest
-mod "puppetlabs/vcsrepo", :latest
-mod "puppetlabs/firewall", :latest
-# mod "puppetlabs/aws", :latest
-mod "jdowning/rbenv", :latest
-mod "trlinkin/noop", :latest
-mod "puppetlabs/catalog_preview", :latest
-mod "puppet/archive", :latest
-mod "puppetlabs/inifile", :latest
-
+mod 'puppetlabs/concat', '3.0.0' # postgresql requires concat < 3.0.0
+mod 'puppetlabs/stdlib', :latest
+mod 'puppetlabs/vcsrepo', :latest
+mod 'puppetlabs/firewall', :latest
+# mod 'puppetlabs/aws', :latest
+mod 'jdowning/rbenv', :latest
+mod 'trlinkin/noop', :latest
+mod 'puppetlabs/catalog_preview', :latest
+mod 'puppet/archive', :latest
+mod 'puppetlabs/inifile', :latest
 
 # Used by psick::puppet::foss_server
 mod 'puppetlabs/postgresql', :latest
 mod 'puppetlabs/puppetdb', :latest
 mod 'puppet/puppetserver',
-  :git => "https://github.com/voxpupuli/puppet-puppetserver.git",
+  :git => 'https://github.com/voxpupuli/puppet-puppetserver.git',
   :tag => '2.1.0'
 mod 'puppetlabs/puppetserver_gem', :latest
 mod 'puppet/r10k', :latest
@@ -43,21 +40,21 @@ mod 'puppetlabs/apt', :latest
 mod 'puppet/puppetboard', :latest
 
 # Used by psick::puppet::pe_code_manager
-mod "pltraining/rbac", '0.0.5'
+mod 'pltraining/rbac', '0.0.5'
 
 # Used by grafanadash server (puppet metrics)
 mod 'grafanadash',
   :git => 'https://github.com/tuxmea/puppet-grafanadash.git',
-  :tag => '0.0.9'
+  :branch => 'master'
 mod 'dwerder/graphite', :latest
 
 # Docker and Containers
-mod "puppetlabs/dummy_service", :latest
+mod 'puppetlabs/dummy_service', :latest
 #mod 'puppetlabs/image_build', :latest
 #mod 'puppetlabs/rkt', :latest
 
 # mod 'herculesteam-augeasproviders_sysctl', '2.2.0'
-# mod "puppetlabs/firewall", :latest
+# mod 'puppetlabs/firewall', :latest
 
 # Used by psick::vpn::openvpn
 # mod 'luxflux/openvpn',
