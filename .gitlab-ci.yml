@@ -33,7 +33,7 @@ run_danger:
   except:
     - production
   only:
-    - branches
+    - skipped_for_gitlab_integration_issues
 
 # Version Deploy check for every branch with environment creation
 # It will try by default 6 times with 10 second between each try
@@ -188,7 +188,7 @@ beaker:
   stage: integration
   before_script:
     - "bin/gitlab_before.sh"
-    - "bundle install --with=integration"
+    - "/opt/puppetlabs/puppet/bin/bundle install --with=integration --path=vendor"
   script: "rake beaker_roles:psick"
   cache:
     untracked: true
@@ -215,6 +215,32 @@ run_puppet_on_integration:
   only:
     - integration
   allow_failure: true
+
+merge_request_feature:
+  stage: promote
+  script:
+    - "bin/gitlab_create_merge_request.rb ${CI_BUILD_REF_NAME} integration"
+  when: on_success
+  tags:
+    - deploy_puppet
+  except:
+    - production
+    - integration
+  only:
+    - branches
+
+merge_accept_feature:
+  stage: promote
+  script: "bin/gitlab_accept_merge_request.rb ${CI_BUILD_REF_NAME} integration"
+  tags:
+    - deploy_puppet
+  when: manual
+  except:
+    - production
+    - integration
+  only:
+    - branches
+
 
 # Allow Merge Request to fail as it can happen that there's
 # already a merge request from testing to production ready to
@@ -312,6 +338,7 @@ generate_pdf:
   stage: documentation
   before_script:
     - bin/docs_classlistgenerate.sh docs/classes.md
+    - mkdir public
     - for f in $(cat docs/toc.txt); do cat docs/$f >> public/PsickGuide.md ; done
   script:
     - docker run -v $(pwd):/puppet -i jagregory/pandoc -f markdown /puppet/public/PsickGuide.md -o /puppet/public/PsickGuide.pdf --latex-engine=xelatex -s  --toc -V geometry:margin=2cm

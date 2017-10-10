@@ -18,7 +18,7 @@ if [ ! -z ${RAKE} ] && [ ! -z ${RUBY} ] ; then
     cd "${repo_dir}/${mods}/${i}"
     rm -f Gemfile.lock
     if [ "${run}" == "bundle" ]; then
-      bundle
+      /opt/puppetlabs/puppet/bin/bundle
     fi
     rake spec
     if [ $? == 0 ]; then

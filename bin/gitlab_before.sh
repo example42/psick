@@ -5,9 +5,9 @@ script_dir="$(dirname $0)"
 . "${script_dir}/functions"
 
 # r10k config file 
-configfile=${1:-bin/config/r10k.yaml}
+configfile=${1:-bin/config/gitlab-runner-r10k.yaml}
 # Location of keys to copy into the local repository (removed from gilab_after.sh
-eyamlkeyloc=${2}
+eyamlkeyloc=$2
 
 if [ -f "$eyamlkeyloc" ]; then
   echo "Setup keys"
@@ -21,5 +21,5 @@ fi
 echo 
 cd $repo_dir
 echo_title "Installing external modules via r10k"
-r10k puppetfile install -v ${config}
+/opt/puppetlabs/puppet/bin/r10k puppetfile install -v ${config}
 echo
