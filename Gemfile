@@ -51,6 +51,7 @@ end
 gems = {}
 
 gems['puppet'] = location_for(puppet_version)
+gem 'r10k'
 
 # If facter or hiera versions have been specified via the environment
 # variables, use those versions. If not, and if the puppet version is < 3.5.0,
@@ -154,4 +155,11 @@ group :acceptance do
   gem 'beaker-rspec'
   gem 'beaker-hiera'
 end
+
+# Strings
+group :documentation do
+  gem 'puppet-strings'
+  gem 'rgen'
+end
+
 # vim: syntax=ruby
