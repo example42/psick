@@ -5,7 +5,7 @@ script_dir="$(dirname $0)"
 . "${script_dir}/functions"
 
 # r10k config file 
-configfile=$1
+configfile=${1:-bin/config/gitlab-runner-r10k.yaml}
 # Location of keys to copy into the local repository (removed from gilab_after.sh
 eyamlkeyloc=$2
 
