@@ -188,7 +188,7 @@ beaker:
   stage: integration
   before_script:
     - "bin/gitlab_before.sh"
-    - "/opt/puppetlabs/puppet/bin/bundle install --with=integration"
+    - "/opt/puppetlabs/puppet/bin/bundle install --with=integration --path=vendor"
   script: "rake beaker_roles:psick"
   cache:
     untracked: true
