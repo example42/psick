@@ -2,6 +2,7 @@
 # Monitoring with Icinga and sensu
 psick::pre::linux_classes:
   puppet: 'psick::puppet::pe_agent'
+  hosts: 'psick::hosts::file'
 psick::base::linux_classes:
   icinga: '::psick::icinga2'
   monitor_plugins: '::psick::monitor::nagiosplugins'
@@ -11,15 +12,17 @@ psick::base::linux_classes:
 
 psick::puppet::pe_agent::manage_environment: true
 
-# With few nodes automatic hosts sync may make sense
-# psick::pre::linux_classes:
-#   hosts: '::psick::hosts::dynamic'
-psick::hosts::dynamic::dynamic_magicvar: 'zone'
-psick::hosts::dynamic::extra_hosts:
-  'puppet.lab.psick.io':
-    ip: '10.42.43.101'
-    host_aliases:
-      - puppet
+# Disabled updating host entry by psick::hostname
+psick::hostname::update_host_entry: false
+# Hosts file managed via file resource
+psick::hosts::file::extra_hosts:
+  - '10.42.43.101 puppet puppet.lab.psick.io'
+  - '10.42.43.102 git git.lab.psick.io'
+  - '10.42.43.103 cirunner cirunner.lab.psick.io'
+  - '10.42.43.104 manageiq manageiq.lab.psick.io'
+  - '10.42.43.105 rundeck rundeck.lab.psick.io'
+  - '10.42.43.106 build build.lab.psick.io'
+  - '10.42.43.107 docker docker.lab.psick.io'
 
 # Enable automatic updates on lab nodes and set schedule:
 psick::update::cron_schedule: '42 4 * * *'
