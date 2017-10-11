@@ -106,7 +106,7 @@ rake_site:
   stage: unit
   before_script:
     - "bin/gitlab_before.sh"
-  script: "bin/puppet_check_rake.sh site bundle"
+  script: "bin/puppet_check_rake.sh site"
   cache:
     untracked: true
     paths:
@@ -124,7 +124,7 @@ rake_modules:
   stage: unit
   before_script:
     - "bin/gitlab_before.sh"
-  script: "bin/puppet_check_rake.sh modules bundle"
+  script: "bin/puppet_check_rake.sh modules"
   cache:
     untracked: true
     paths:
@@ -189,7 +189,7 @@ beaker:
   before_script:
     - "bin/gitlab_before.sh"
     - "/opt/puppetlabs/puppet/bin/bundle install --with=integration --path=vendor"
-  script: "rake beaker_roles:psick"
+  script: "/opt/puppetlabs/puppet/bin/rake beaker_roles:psick"
   cache:
     untracked: true
     paths:
