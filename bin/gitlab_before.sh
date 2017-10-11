@@ -22,7 +22,7 @@ fi
 echo 
 cd $repo_dir
 echo_title "Removing modules installed via git"
-for i in $git_modules; do
+for i in `echo $git_modules`; do
   [ -d $i ] && rm -rf $i
 done
 echo_title "Installing external modules via r10k"
