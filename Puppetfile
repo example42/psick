@@ -8,9 +8,7 @@ mod 'example42/tinydata', :latest
 #mod 'example42/psick', :latest
 mod 'example42/psick',
   :git => 'https://github.com/example42/puppet-psick'
-# Example42 v4.x modules
-mod 'example42/network',
-  :git => 'https://github.com/example42/puppet-network'
+mod 'example42/network', :latest
 mod 'example42/puppet',
   :git => 'https://github.com/example42/puppet-puppet',
   :branch => 'master'
@@ -30,9 +28,7 @@ mod 'puppetlabs/inifile', :latest
 # Used by psick::puppet::foss_server
 mod 'puppetlabs/postgresql', :latest
 mod 'puppetlabs/puppetdb', :latest
-mod 'puppet/puppetserver',
-  :git => 'https://github.com/voxpupuli/puppet-puppetserver.git',
-  :tag => '2.1.0'
+mod 'puppet/puppetserver', :latest
 mod 'puppetlabs/puppetserver_gem', :latest
 mod 'puppet/r10k', :latest
 mod 'puppetlabs/hocon', :latest

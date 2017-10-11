@@ -133,7 +133,7 @@ rake_modules:
   tags:
     - test_puppet
   only:
-    - integration
+    - integration_temporarily_disabled
   allow_failure: true
   when: manual
 
