@@ -14,16 +14,17 @@ psick::profiles::linux_classes:
 
 psick::puppet::pe_server::remove_global_hiera_yaml: true
 
-puppet_enterprise::psick::puppetdb::whitelisted_certnames:
+puppet_enterprise::profile::puppetdb::whitelisted_certnames:
   - cirunner.lab.psick.io
   - git.lab.psick.io
   - puppet.lab.psick.io
-puppet_enterprise::psick::console::whitelisted_certnames:
+puppet_enterprise::profile::console::whitelisted_certnames:
   - cirunner.lab.psick.io
   - git.lab.psick.io
   - puppet.lab.psick.io
 
 # Gems needed
+psick::puppet::gems::install_system_gems: false
 psick::puppet::gems::install_gems:
   - r10k
   - deep_merge
@@ -34,9 +35,9 @@ psick::puppet::gems::install_gems:
   - rake
 
 # Code manager setup
-puppet_enterprise::psick::master::r10k_remote: 'git@git.lab.psick.io:puppet/psick.git'
-puppet_enterprise::psick::master::code_manager_auto_configure: true
-puppet_enterprise::psick::master::r10k_private_key: '/etc/puppetlabs/ssh/id-control_repo.rsa'
+puppet_enterprise::profile::master::r10k_remote: 'git@git.lab.psick.io:puppet/psick.git'
+puppet_enterprise::profile::master::code_manager_auto_configure: true
+puppet_enterprise::profile::master::r10k_private_key: '/etc/puppetlabs/ssh/id-control_repo.rsa'
 # setup code_manager to update classes in the console after environment code deployment
 puppet_enterprise::master::code_manager::post_environment_hooks:
   - url: 'https://puppet.lab.psick.io:4433/classifier-api/v1/update-classes'
@@ -44,7 +45,7 @@ puppet_enterprise::master::code_manager::post_environment_hooks:
 psick::puppet::pe_code_manager::pe_user: 'deployer'       # A user you've created on PE
 psick::puppet::pe_code_manager::pe_password: 'deployer'   # PE user password. TO CHANGE AT EVERY INSTALLATION
 psick::puppet::pe_code_manager::lifetime: '5y'            # Adapt as preferred
-psick::puppet::pe_code_manager::generate_ssh_keys: false  # Default breaks on code manager configured PE from 2017.2.x
+psick::puppet::pe_code_manager::generate_ssh_keys: true   # Default breaks on code manager configured PE from 2017.2.x
 
 # Configure the scripts used during Gitlab CI of the control repo
 psick::gitlab::ci::default_nodes:
@@ -61,7 +62,7 @@ psick::ci::octocatalog::template: 'psick/ci/octocatalog/octocatalog-diff.cfg.rb.
 psick::gitlab::runner::runners:
   deploy_puppet:
     url: 'https://git.lab.psick.io'
-    token: 'WKkjkbbsyhFB-FFMosKe' # CI Runner token TO CHANGE AT EVERY INSTALLATION
+    token: 'YBiEnsj1BJ36BCa_mG5A' # CI Runner token TO CHANGE AT EVERY INSTALLATION
     tag_list: 'deploy_puppet'
     tls_ca_file: '/etc/puppetlabs/puppet/ssl/certs/ca.pem'
 
