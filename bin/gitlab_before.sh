@@ -23,7 +23,7 @@ echo
 cd $repo_dir
 echo_title "Removing modules installed via git"
 for i in ${git_modules[@]}; do
-  if [ -d $i ]; then
+  if [ -d "$i" ]; then
     echo "Removing $i"
     rm -rf $i
   fi
