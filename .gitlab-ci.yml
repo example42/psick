@@ -182,7 +182,7 @@ docker_test:
   tags:
     - test_puppet
   only:
-    - integration
+    - integration_disabled
 
 beaker:
   stage: integration
