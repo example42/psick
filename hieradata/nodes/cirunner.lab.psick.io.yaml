@@ -1,9 +1,11 @@
 ---
 psick::profiles::linux_classes:
+  vagrant: vagrant
   puppet_gems: psick::puppet::gems
 
 # Explicit list of required gems for CI runners for puppet testing
 psick::puppet::gems::install_puppet_gems: true
+psick::puppet::gems::install_system_gems: false
 # List complete to verify. Many are needed just for spec tests.
 psick::puppet::gems::install_gems:
   - r10k
