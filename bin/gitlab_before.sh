@@ -23,10 +23,8 @@ echo
 cd $repo_dir
 echo_title "Removing modules installed via git"
 for i in ${git_modules[@]}; do
-  if [ -d "$i" ]; then
-    echo "Removing $i"
-    rm -rf $i
-  fi
+  echo "Removing $i"
+  rm -rf $i
 done
 echo_title "Installing external modules via r10k"
 /opt/puppetlabs/puppet/bin/r10k puppetfile install -v ${config}
