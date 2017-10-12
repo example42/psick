@@ -6,8 +6,8 @@ psick::profiles::linux_classes:
   - psick::gitlab::cli
   - psick::gitlab::ci
   - psick::puppet::pe_code_manager
-    #  - psick::gitlab::runner
-  - psick::ci::octocatalog
+  - psick::gitlab::runner
+    #  - psick::ci::octocatalog
   - psick::ci::danger
   - psick::puppet::gems
     #  - psick::bolt
