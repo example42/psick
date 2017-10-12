@@ -29,16 +29,6 @@ if [ ! -z ${RUBY} ] ; then
     fi
   done
 
-  echo_title "Running rspec tests on psick module"
-  cd "${repo_dir}/modules/psick"
-  /opt/puppetlabs/puppet/bin/rake spec
-  if [ $? == 0 ]; then
-    echo_success "OK"
-  else
-    echo_failure "ERROR"
-    echo $err
-    global_exit=1
-  fi
 else
   echo_warning "rake not found."
 fi
