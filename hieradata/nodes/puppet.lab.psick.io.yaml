@@ -2,16 +2,16 @@
 psick::base::linux_classes:
   buildgems: psick::ruby::buildgems
 psick::profiles::linux_classes:
-  - psick::puppet::pe_console
-  - psick::puppet::pe_puppetdb
-  - psick::puppet::pe_server
-  - psick::gitlab::cli
-  - psick::gitlab::ci
-  - psick::puppet::pe_code_manager
-  - psick::gitlab::runner
-  - psick::ci::octocatalog
-  - psick::ci::danger
-  - psick::puppet::gems
+  pe_console: psick::puppet::pe_console
+  pe_puppetdb: psick::puppet::pe_puppetdb
+  pe_server: psick::puppet::pe_server
+  gitlab_cli: psick::gitlab::cli
+  gitlab_ci: psick::gitlab::ci
+  pe_code_manager: psick::puppet::pe_code_manager
+  gitlab_runner: psick::gitlab::runner
+  octocatalog: psick::ci::octocatalog
+  danger: psick::ci::danger
+  puppet_gems: psick::puppet::gems
 
 psick::puppet::pe_server::remove_global_hiera_yaml: true
 
@@ -69,7 +69,7 @@ psick::gitlab::runner::runners:
     tag_list: 'deploy_puppet'
     tls_ca_file: '/etc/puppetlabs/puppet/ssl/certs/ca.pem'
 
-# Manage puppet agennt grants. PE User must be already existing
+# Manage puppet agent grants. PE User must be already existing
 # If using PE. it must have permission to trigger remote puppet agents
 psick::gitlab::runner::pe_user: 'deployer'       # A user you've created on PE
 psick::gitlab::runner::pe_password: 'deployer'   # PE user password.
