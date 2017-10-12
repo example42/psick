@@ -199,3 +199,4 @@ Managing changes:
   - [Git tasks](docs/git.md) - An overview on how to use Git
 
   - [Change Process](docs/change_process.md) - A step by step guide on how to manage changes in Puppet code
+
