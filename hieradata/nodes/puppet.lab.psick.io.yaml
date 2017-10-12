@@ -36,7 +36,6 @@ psick::puppet::gems::install_gems:
   - rgen
   - bundle
   - rake
-  - rspec-puppet-facts
 
 # Code manager setup
 puppet_enterprise::profile::master::r10k_remote: 'git@git.lab.psick.io:puppet/psick.git'
