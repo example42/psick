@@ -2,9 +2,9 @@
 repo_dir="$(dirname $0)/.."
 . "${repo_dir}/bin/functions"
 if [ "x${1}" == "xfix" ]; then
-  PUPPETLINT='puppet-lint -f'
+  PUPPETLINT='/opt/puppetlabs/puppet/bin/puppet-lint -f'
 else
-  PUPPETLINT='puppet-lint'
+  PUPPETLINT='/opt/puppetlabs/puppet/bin/puppet-lint'
 fi
 global_exit=0
 

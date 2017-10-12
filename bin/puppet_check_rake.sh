@@ -20,7 +20,7 @@ if [ ! -z ${RAKE} ] && [ ! -z ${RUBY} ] ; then
     if [ "${run}" == "bundle" ]; then
       /opt/puppetlabs/puppet/bin/bundle --path=vendor
     fi
-    rake spec
+    /opt/puppetlabs/puppet/bin/rake spec
     if [ $? == 0 ]; then
       echo_success "OK"
     else
@@ -32,7 +32,7 @@ if [ ! -z ${RAKE} ] && [ ! -z ${RUBY} ] ; then
 
   echo_title "Running rspec tests on psick module"
   cd "${repo_dir}/modules/psick"
-  rake spec
+  /opt/puppetlabs/puppet/bin/rake spec
   if [ $? == 0 ]; then
     echo_success "OK"
   else
