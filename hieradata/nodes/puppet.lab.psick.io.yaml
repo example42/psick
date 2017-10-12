@@ -59,17 +59,18 @@ psick::ci::octocatalog::template: 'psick/ci/octocatalog/octocatalog-diff.cfg.rb.
 
 # Config for the GIT Runners for Puppet deployments
 # Tokens change at every gitlab installation
+# Check under your control-repo project settings - CI/CD - Specific runner token
 psick::gitlab::runner::runners:
   deploy_puppet:
     url: 'https://git.lab.psick.io'
-    token: 'YBiEnsj1BJ36BCa_mG5A' # CI Runner token TO CHANGE AT EVERY INSTALLATION
+    token: 'ZHyUq1GQfKFU9Tkk6iU9' # CI Runner token TO CHANGE AT EVERY INSTALLATION
     tag_list: 'deploy_puppet'
     tls_ca_file: '/etc/puppetlabs/puppet/ssl/certs/ca.pem'
 
 # Manage puppet agennt grants. PE User must be already existing
 # If using PE. it must have permission to trigger remote puppet agents
 psick::gitlab::runner::pe_user: 'deployer'       # A user you've created on PE
-psick::gitlab::runner::pe_password: 'deployer'   # PE user password. TO CHANGE AT EVERY INSTALLATION
+psick::gitlab::runner::pe_password: 'deployer'   # PE user password.
 psick::gitlab::runner::pe_token_lifetime: '5y'            # Adapt as preferred
 
 # Config for gitlab cli. Tokens change at every gitlab installation
