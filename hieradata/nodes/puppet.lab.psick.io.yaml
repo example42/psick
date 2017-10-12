@@ -12,6 +12,7 @@ psick::profiles::linux_classes:
   octocatalog: psick::ci::octocatalog
   danger: psick::ci::danger
   puppet_gems: psick::puppet::gems
+  bolt: psick::bolt
 
 psick::puppet::pe_server::remove_global_hiera_yaml: true
 
