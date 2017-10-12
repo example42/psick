@@ -4,13 +4,12 @@ repo_dir=$(git rev-parse --show-toplevel)
 . "${repo_dir}/bin/functions"
 
 RUBY=$(which ruby)
-RAKE=$(which rake)
 mods=${1:-site}
 run=${2:-none}
 
 global_exit=0
 
-if [ ! -z ${RAKE} ] && [ ! -z ${RUBY} ] ; then
+if [ ! -z ${RUBY} ] ; then
   echo_title "Running rspec tests on modules under ${mods} dir"
   for i in $(ls -1 "${repo_dir}/${mods}/")
   do
