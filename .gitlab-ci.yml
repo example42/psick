@@ -149,7 +149,7 @@ catalog_diff:
   tags:
     - deploy_puppet
   only:
-    - integration
+    - integration_disabled
   allow_failure: true
 
 catalog_preview:
