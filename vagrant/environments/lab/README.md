@@ -13,6 +13,7 @@ This lab.psick.io environment provides:
   - a Puppet Enterprise server
   - a GitLab server
   - one or more GitLab CI runners
+  - various clients with different roles for testing
 
 Note that you need an host of at least 8Gb of RAM (better 16 or more) for this environment.
 
@@ -24,8 +25,9 @@ If you have just downloaded PSICK, ensure you have made the setup of the basic p
     cd <this-control-repo-dir>
     bin/setup.sh
 
-For Puppet Enterprise setup you need the pe_build plugin, for handling hostnames effortlessly you need the hostmanager one:
+For Puppet Enterprise setup you need the pe_build plugin, for handling hostnames effortlessly you need the hostmanager one and you need the vbguest one to install VirtualBox Additions on the VM in order to mount the local control-repo files on the Puppet server VM:
 
+    vagrant plugin install vagrant-vbguest
     vagrant plugin install vagrant-pe_build
     vagrant plugin install vagrant-hostmanager
 
@@ -45,8 +47,8 @@ Customise them, eventually updating the PE version to use
 Start the PE all in one server. The first time, take a coffe, it. It will download PE tarball, install it and run puppet agent 
 
     vagrant up puppet.lab.psick.io
-    vagrant reload puppet.lab.psick.io    # In case of errors. See Note 1
-    vagrant provision puppet.lab.psick.io # See Notes
+    vagrant reload puppet.lab.psick.io    # See Note 1
+    vagrant provision puppet.lab.psick.io
 
 Now you should be able to access the PE console from your host.
 

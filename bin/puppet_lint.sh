@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 repo_dir="$(dirname $0)/.."
 . "${repo_dir}/bin/functions"
+PATH=/opt/puppetlabs/puppet/bin:$PATH
+
 if [ "x${1}" == "xfix" ]; then
   PUPPETLINT='puppet-lint -f'
 else

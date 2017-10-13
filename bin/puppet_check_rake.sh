@@ -4,13 +4,12 @@ repo_dir=$(git rev-parse --show-toplevel)
 . "${repo_dir}/bin/functions"
 
 RUBY=$(which ruby)
-RAKE=$(which rake)
 mods=${1:-site}
 run=${2:-none}
 
 global_exit=0
 
-if [ ! -z ${RAKE} ] && [ ! -z ${RUBY} ] ; then
+if [ ! -z ${RUBY} ] ; then
   echo_title "Running rspec tests on modules under ${mods} dir"
   for i in $(ls -1 "${repo_dir}/${mods}/")
   do
@@ -18,9 +17,9 @@ if [ ! -z ${RAKE} ] && [ ! -z ${RUBY} ] ; then
     cd "${repo_dir}/${mods}/${i}"
     rm -f Gemfile.lock
     if [ "${run}" == "bundle" ]; then
-      /opt/puppetlabs/puppet/bin/bundle
+      /opt/puppetlabs/puppet/bin/bundle --path=vendor
     fi
-    rake spec
+    /opt/puppetlabs/puppet/bin/rake spec
     if [ $? == 0 ]; then
       echo_success "OK"
     else
@@ -29,6 +28,7 @@ if [ ! -z ${RAKE} ] && [ ! -z ${RUBY} ] ; then
       global_exit=1
     fi
   done
+
 else
   echo_warning "rake not found."
 fi

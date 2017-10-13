@@ -38,3 +38,4 @@ echo_title "Running Puppet on nodes ${always_nodes} - Node always checked"
 puppet job run --nodes $always_nodes
 
 exit $global_exit
+
