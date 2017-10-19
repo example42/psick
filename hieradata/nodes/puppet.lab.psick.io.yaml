@@ -12,7 +12,6 @@ psick::profiles::linux_classes:
   octocatalog: psick::ci::octocatalog
   danger: psick::ci::danger
   puppet_gems: psick::puppet::gems
-  bolt: psick::bolt
 
 psick::puppet::pe_server::remove_global_hiera_yaml: true
 
@@ -91,3 +90,4 @@ psick::sensu::checks_hash:
 
 psick::ci::danger::use_gitlab: true
 psick::ansible::is_master: true
+psick::bolt::is_master: true
