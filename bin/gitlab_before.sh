@@ -3,6 +3,7 @@ repo_dir="$(dirname $0)/.."
 script_dir="$(dirname $0)"
 # repo_dir=$(git rev-parse --show-toplevel)
 . "${script_dir}/functions"
+git_modules=(psick puppet puppetserver grafanadash)
 
 # r10k config file 
 configfile=${1:-bin/config/gitlab-runner-r10k.yaml}
@@ -20,6 +21,11 @@ if [ -f "$configfile" ]; then
 fi
 echo 
 cd $repo_dir
+echo_title "Removing modules installed via git"
+for i in ${git_modules[@]}; do
+  echo "Removing $i"
+  rm -rf "modules/${i}"
+done
 echo_title "Installing external modules via r10k"
 /opt/puppetlabs/puppet/bin/r10k puppetfile install -v ${config}
 echo

@@ -142,6 +142,7 @@ end
 
 # Required puppetlabs_spec_helper
 gem 'puppetlabs_spec_helper'
+gem 'rspec-puppet-facts', '~> 1.7', :require => false
 
 # Semantic Puppet and Blacksmith
 group :publish do

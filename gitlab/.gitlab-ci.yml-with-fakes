@@ -4,21 +4,42 @@
 # environment to work.
 
 stages:
+  - danger
   - checks
-  - deploy_check
+  - version_check
   - unit
   - diff
   - documentation
+  - pdf
   - integration
   - canary_runs
   - promote
   - rollout
 
+# Run Danger based on Dangerfile rules
+run_danger:
+  stage: danger
+  variables:
+    CI_SERVER_NAME: git.lab.psick.io
+  before_script:
+    - export DANGER_GITLAB_HOST=$CI_SERVER_NAME
+    - export DANGER_GITLAB_API_BASE_URL="https://${CI_SERVER_NAME}/api/v4"
+    - "export GITLAB_API_HTTPARTY_OPTIONS='{verify: false}'"
+  script:
+    - '/opt/puppetlabs/puppet/bin/danger --verbose --fail-on-errors=false'
+  tags:
+    - deploy_puppet
+  allow_failure: true
+  except:
+    - production
+  only:
+    - skipped_for_gitlab_integration_issues
+
 # Version Deploy check for every branch with environment creation
 # It will try by default 6 times with 10 second between each try
 # so that Puppet has time to get the new version of the repository
 verify_code_deploy:
-  stage: deploy_check
+  stage: version_check
   script: "bin/codemanager_check_deploy.sh ${CI_BUILD_REF_NAME}"
   tags:
     - deploy_puppet
@@ -97,6 +118,38 @@ rake_site:
     - production
   only:
     - branches
+  allow_failure: true
+
+rake_modules:
+  stage: unit
+  before_script:
+    - "bin/gitlab_before.sh"
+  script: "bin/puppet_check_rake.sh modules"
+  cache:
+    untracked: true
+    paths:
+    - modules/
+    - vagrant/environments/ci/.vagrant/
+  tags:
+    - test_puppet
+  only:
+    - integration_temporarily_disabled
+  allow_failure: true
+  when: manual
+
+catalog_diff:
+  stage: diff
+  before_script:
+    - "bin/gitlab_before.sh"
+  script: "bin/gitlab_catalog_diff.sh integration"
+  cache:
+    untracked: true
+    paths:
+    - modules/
+  tags:
+    - deploy_puppet
+  only:
+    - integration_disabled
   allow_failure: true
 
 catalog_preview:

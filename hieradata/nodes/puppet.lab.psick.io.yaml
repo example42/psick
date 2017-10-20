@@ -1,42 +1,45 @@
 ---
+psick::base::linux_classes:
+  buildgems: psick::ruby::buildgems
 psick::profiles::linux_classes:
-  - psick::puppet::pe_console
-  - psick::puppet::pe_puppetdb
-  - psick::puppet::pe_server
-  - psick::gitlab::cli
-  - psick::gitlab::ci
-  - psick::puppet::pe_code_manager
-  - psick::gitlab::runner
-  - psick::ci::octocatalog
-  - psick::ci::danger
-  - psick::puppet::gems
-  - psick::bolt
+  pe_console: psick::puppet::pe_console
+  pe_puppetdb: psick::puppet::pe_puppetdb
+  pe_server: psick::puppet::pe_server
+  gitlab_cli: psick::gitlab::cli
+  gitlab_ci: psick::gitlab::ci
+  pe_code_manager: psick::puppet::pe_code_manager
+  gitlab_runner: psick::gitlab::runner
+  octocatalog: psick::ci::octocatalog
+  danger: psick::ci::danger
+  puppet_gems: psick::puppet::gems
 
 psick::puppet::pe_server::remove_global_hiera_yaml: true
 
-puppet_enterprise::psick::puppetdb::whitelisted_certnames:
+puppet_enterprise::profile::puppetdb::whitelisted_certnames:
   - cirunner.lab.psick.io
   - git.lab.psick.io
   - puppet.lab.psick.io
-puppet_enterprise::psick::console::whitelisted_certnames:
+puppet_enterprise::profile::console::whitelisted_certnames:
   - cirunner.lab.psick.io
   - git.lab.psick.io
   - puppet.lab.psick.io
 
 # Gems needed
+psick::puppet::gems::install_system_gems: false
 psick::puppet::gems::install_gems:
   - r10k
   - deep_merge
   - hiera-eyaml
   - yard
   - puppet-strings
+  - rgen
   - bundle
   - rake
 
 # Code manager setup
-puppet_enterprise::psick::master::r10k_remote: 'git@git.lab.psick.io:puppet/psick.git'
-puppet_enterprise::psick::master::code_manager_auto_configure: true
-puppet_enterprise::psick::master::r10k_private_key: '/etc/puppetlabs/ssh/id-control_repo.rsa'
+puppet_enterprise::profile::master::r10k_remote: 'git@git.lab.psick.io:puppet/psick.git'
+puppet_enterprise::profile::master::code_manager_auto_configure: true
+puppet_enterprise::profile::master::r10k_private_key: '/etc/puppetlabs/ssh/id-control_repo.rsa'
 # setup code_manager to update classes in the console after environment code deployment
 puppet_enterprise::master::code_manager::post_environment_hooks:
   - url: 'https://puppet.lab.psick.io:4433/classifier-api/v1/update-classes'
@@ -44,7 +47,7 @@ puppet_enterprise::master::code_manager::post_environment_hooks:
 psick::puppet::pe_code_manager::pe_user: 'deployer'       # A user you've created on PE
 psick::puppet::pe_code_manager::pe_password: 'deployer'   # PE user password. TO CHANGE AT EVERY INSTALLATION
 psick::puppet::pe_code_manager::lifetime: '5y'            # Adapt as preferred
-psick::puppet::pe_code_manager::generate_ssh_keys: false  # Default breaks on code manager configured PE from 2017.2.x
+psick::puppet::pe_code_manager::generate_ssh_keys: true   # Default breaks on code manager configured PE from 2017.2.x
 
 # Configure the scripts used during Gitlab CI of the control repo
 psick::gitlab::ci::default_nodes:
@@ -58,24 +61,25 @@ psick::ci::octocatalog::template: 'psick/ci/octocatalog/octocatalog-diff.cfg.rb.
 
 # Config for the GIT Runners for Puppet deployments
 # Tokens change at every gitlab installation
+# Check under your control-repo project settings - CI/CD - Specific runner token
 psick::gitlab::runner::runners:
   deploy_puppet:
     url: 'https://git.lab.psick.io'
-    token: 'WKkjkbbsyhFB-FFMosKe' # CI Runner token TO CHANGE AT EVERY INSTALLATION
+    token: 'ZHyUq1GQfKFU9Tkk6iU9' # CI Runner token TO CHANGE AT EVERY INSTALLATION
     tag_list: 'deploy_puppet'
     tls_ca_file: '/etc/puppetlabs/puppet/ssl/certs/ca.pem'
 
-# Manage puppet agennt grants. PE User must be already existing
+# Manage puppet agent grants. PE User must be already existing
 # If using PE. it must have permission to trigger remote puppet agents
 psick::gitlab::runner::pe_user: 'deployer'       # A user you've created on PE
-psick::gitlab::runner::pe_password: 'deployer'   # PE user password. TO CHANGE AT EVERY INSTALLATION
+psick::gitlab::runner::pe_password: 'deployer'   # PE user password.
 psick::gitlab::runner::pe_token_lifetime: '5y'            # Adapt as preferred
 
 # Config for gitlab cli. Tokens change at every gitlab installation
 # Use the Private token of a user with merge request and accept privileges
 psick::gitlab::cli::config_hash:
-  private_token: 'EbCApya5qgkrVdajEW33' # TO CHANGE AT EVERY INSTALLATION
-  project_id: 2 # Control-repo project ID on GITLAB
+  private_token: 'orgbq5DeQuKgnSNW5yF6' # TO CHANGE AT EVERY INSTALLATION
+  project_id: 1 # Control-repo project ID on GITLAB
   api_endpoint: 'https://git.lab.psick.io/api/v3'
 
 # Monitoring
@@ -86,3 +90,4 @@ psick::sensu::checks_hash:
 
 psick::ci::danger::use_gitlab: true
 psick::ansible::is_master: true
+psick::bolt::is_master: true
