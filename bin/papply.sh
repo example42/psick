@@ -12,13 +12,6 @@ PATH=$PATH:/opt/puppetlabs/puppet/bin
 echo_title "Running Puppet version $(puppet --version) apply on ${manifest}" 
 echo_subtitle "Role: ${FACTER_role} - $(facter -p role)"  
 
-puppet --version | grep "^[4|5]" > /dev/null
-if [ "x$?" == "x0" ] ; then
-  manifest_option=''
-else
-  manifest_option="--manifestdir ${repo_dir}/manifests"
-fi
-
 which git > /dev/null
 if [ "x$?" == "x0" ] && [ -d "${repo_dir}/.git" ]; then
   config_version="/usr/bin/git --git-dir ${repo_dir}/.git log --pretty=format:\"%h - %an, %ad : %s\" -1"
@@ -30,9 +23,9 @@ fi
 puppet apply --verbose --report --show_diff --summarize \
 	--modulepath "${repo_dir}/site:${repo_dir}/modules:/etc/puppetlabs/code/modules" \
 	--environmentpath "${repo_dir}/.." \
-	--hiera_config="${repo_dir}/hiera3.yaml" \
+	--hiera_config="${repo_dir}/hiera.yaml" \
 	--config_version="${config_version}" \
-	--detailed-exitcodes $manifest_option $extra_options $manifest
+	--detailed-exitcodes $extra_options $manifest
 
 result=$?
 # Puppet exit codes 0 and 2 both imply an error less run
