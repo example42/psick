@@ -9,22 +9,23 @@ Edit ```config.yaml``` in this directory to customise the VMs to test, the Puppe
 To work in this Vagrant environment:
 
     cd <your-control-repo-dir>
-    cd vagrant/environment/pos
+    cd vagrant/environment/foss
 
     # Show available Vagrant machines
     vagrant status
 
-    # Customise them, eventually updating the POS version to use
+    # Customise them, eventually updating the version to use
     vi config.yaml
 
-    # Start the puppet. It will install Puppet Open Source from Puppet repositories
-    vagrant up puppet.lan
-    vagrant reload puppet.lan
-    vagrant provison puppet.lan
+    # Start the puppet VM. It will install Puppet Open Source from Puppet repositories
+    vagrant up puppet.foss.psick.io
+
+    # You might need to provision multiple times, at the beginning
+    vagrant provision puppet.foss.psick.io
 
     # Then start the other VM you want to test.
     # They will run puppet agent pointing to the puppet vm
-    vagrant up [vm]               # See Note 1
+    vagrant up [vm]
 
 
 Note 1: It's recommended to run this Vagrant environment on hosts that have at least 8 Gb of RAM. Edit ```config.yaml``` to tune the memory to allocate to the VM.

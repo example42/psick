@@ -84,6 +84,11 @@ Vagrant.configure('2') do |config|
     config.hostmanager.include_offline = settings['vagrant']['hostmanager.include_offline'] ? settings['vagrant']['hostmanager.include_offline'] : true
   end
 
+  # Cache packages if vagrant-cachier is present
+  if Vagrant.has_plugin?("vagrant-cachier")
+    config.cache.scope = :box
+  end
+
   # See https://github.com/mitchellh/vagrant/issues/1673
   config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
 
