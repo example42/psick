@@ -4,5 +4,16 @@ psick::profiles::linux_classes:
   - psick::puppet::foss_master
   - psick::puppet::foss_server_metrics
 
+psick::puppet::gems::install_gems: []
+psick::puppet::gems::default_set: 'master'
+psick::puppet::gems::install_system_gems: false
 psick::puppet::gems::install_puppetserver_gems: true
+
 psick::puppet::foss_server_metrics::graphite_server: 'grafana.foss.psick.io'
+
+psick::puppet::foss_master::git_remote_repo: https://github.com/example42/psick.git
+psick::puppet::foss_master::dns_alt_names: "puppet, puppet.%{::domain}"
+psick::puppet::foss_master::remove_global_hiera_yaml: true
+psick::puppet::foss_master::manage_puppetdb_repo: true
+psick::puppet::foss_master::enabled_puppetdb: true
+

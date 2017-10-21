@@ -53,18 +53,25 @@ nodes:
     forwarded_port:
       guest: 443
       host: 1943
+  - role: gitlab
+    application: puppetinfra  
+    puppet_apply: true
+    memory: 2048
+    cpu: 2
+    aliases:
+      - git
+    forwarded_port:
+      guest: 443
+      host: 1944
+  - role: icinga
+    count: 1
   - role: grafana
     count: 1
-    box: centos7
   - role: build
     count: 1
-    box: centos7
   - role: docker
     count: 1
     box: ubuntu1604
-  - role: mon
-    count: 1
-    box: centos7
   - role: ostest
     hostname_base: centos6
     count: 1
