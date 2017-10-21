@@ -76,13 +76,13 @@ boxes:
     box: ruby-concurrency/oracle-solaris-11
     breed: solaris11
   freebsd10:
-    box: freebsd/FreeBSD-10.2-RELEASE
+    box: freebsd/FreeBSD-10.4-STABLE
     breed: freebsd
   freebsd11:
-    box: freebsd/FreeBSD-11.0-RELEASE
+    box: freebsd/FreeBSD-11.1-STABLE
     breed: freebsd
   freebsd12:
-    box: freebsd/FreeBSD-12.0-RELEASE
+    box: freebsd/FreeBSD-12.0-CURRENT
     breed: freebsd
   osx1010:
     box: dhoer/macosx-10.10

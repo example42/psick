@@ -16,33 +16,33 @@ echo_title () {
   echo "${SETCOLOR_BOLD}###${SETCOLOR_NORMAL} ${SETCOLOR_TITLE}${1}${SETCOLOR_NORMAL} ${SETCOLOR_BOLD}###${SETCOLOR_NORMAL}"
 }
 
-# Skip if Puppet 5 is already installed
+# Skip if recent Puppet already installed
 if [ $(which puppet) ]; then
-  puppet --version | grep "^5"
+  puppet --version | grep "^[4|5]"
   if [ "x$?" == "x0" ]; then
-    echo_title "Puppet version 5 or higher present. Skipping installation."
+    echo_title "Puppet version 4 or higher present. Skipping installation."
     exit 0
   fi
 fi
 
 setup_redhat() {
   echo_title "Uninstalling existing Puppet"
-  yum erase -y puppet-agent puppet puppetlabs-release puppetlabs-release-pc1 >/dev/null 2>&1
+  yum erase -y puppet puppetlabs-release >/dev/null
 
-  echo_title "Adding repo for Puppet 5"
-  rpm -ivh https://yum.puppetlabs.com/puppet5/puppet5-release-el-$1.noarch.rpm >/dev/null 2>&1
+  echo_title "Adding repo for Puppet 4"
+  rpm -ivh https://yum.puppetlabs.com/puppetlabs-release-pc1-el-$1.noarch.rpm
 
   sleep 2
   echo_title "Installing Puppet"
-  yum install -y puppet-agent >/dev/null 2>&1
+  yum install -y puppet-agent >/dev/null
 }
 
 setup_fedora() {
   echo_title "Uninstalling existing Puppet"
-  yum erase -y puppet-agent puppet puppetlabs-release puppetlabs-release-pc1 >/dev/null 2>&1
+  yum erase -y puppet puppetlabs-release
 
-  echo_title "Adding repo for Puppet 5"
-  rpm -ivh https://yum.puppetlabs.com/puppet5/puppet5-release-fedora-$1.noarch.rpm
+  echo_title "Adding repo for Puppet 4"
+  rpm -ivh https://yum.puppetlabs.com/puppetlabs-release-pc1-fedora-$1.noarch.rpm
 
   sleep 2
   echo_title "Installing Puppet"
@@ -52,13 +52,11 @@ setup_fedora() {
 setup_suse() {
   echo_title "Uninstalling existing Puppet"
   zypper remove -y puppet >/dev/null 2>&1
-  zypper remove -y puppet-agent >/dev/null 2>&1
   zypper remove -y puppetlabs-release >/dev/null 2>&1
-  zypper remove -y puppetlabs-release-pc1 >/dev/null 2>&1
 
-  echo_title "Adding repo for Puppet 5"
-  wget https://yum.puppetlabs.com/puppet5/puppet5-release-sles-$1.noarch.rpm 2>&1
-  rpm -ivh puppet5-release-sles-$1.noarch.rpm 2>&1
+  echo_title "Adding repo for Puppet 4"
+  wget https://yum.puppetlabs.com/puppetlabs-release-pc1-sles-$1.noarch.rpm 2>&1
+  rpm -ivh puppetlabs-release-pc1-sles-$1.noarch.rpm 2>&1
 
   sleep 2
   echo_title "Installing Puppet"
@@ -78,9 +76,9 @@ setup_apt() {
     *) echo "Release not supported" ;;
   esac
 
-  echo_title "Adding repo for Puppet 5"
-  wget -q "http://apt.puppetlabs.com/puppet5-release-${codename}.deb" >/dev/null
-  dpkg -i "puppet5-release-${codename}.deb" >/dev/null
+  echo_title "Adding repo for Puppet 4"
+  wget -q "http://apt.puppetlabs.com/puppetlabs-release-pc1-${codename}.deb" >/dev/null
+  dpkg -i "puppetlabs-release-pc1-${codename}.deb" >/dev/null
 
   echo_title "Running apt-get update"
   apt-get update >/dev/null 2>&1
@@ -90,7 +88,7 @@ setup_apt() {
   apt-get install apt-transport-https -y >/dev/null
 }
 setup_alpine() {
-  echo "## Adding repo for Ruby to /etc/apk/repositories"
+  echo "## Adding repo for Puppet 4 to /etc/apk/repositories"
   echo http://dl-4.alpinelinux.org/alpine/edge/testing/ >> /etc/apk/repositories
   echo "## Running apk update"
   apk update
@@ -105,7 +103,7 @@ setup_solaris() {
 setup_darwin() {
   majver=$(sw_vers -productVersion | cut -d '.' -f 1-2)
   echo_title "Downloading package for version ${majver}"
-  curl -s -o puppet-agent.dmg "https://downloads.puppetlabs.com/mac/puppet5/${majver}/x86_64/puppet-agent-5.3.2-1.osx${majver}.dmg"
+  curl -s -o puppet-agent.dmg "https://downloads.puppetlabs.com/mac/${majver}/PC1/x86_64/puppet-agent-1.8.2-1.osx${majver}.dmg"
 
   echo_title "Installing Puppet Agent"
   hdiutil mount puppet-agent.dmg
@@ -117,7 +115,7 @@ setup_bsd() {
   echo_title "Not yet supported"
 }
 setup_windows() {
-  curl -s -o puppet-agent.msi "https://downloads.puppetlabs.com/windows/puppet5/puppet-agent-x64-latest.msi"
+  curl -s -o puppet-agent.msi "https://downloads.puppetlabs.com/windows/puppet-agent-x64-latest.msi"
   msiexec /qn /norestart /i puppet-agent.msi
   # msiexec /qn /norestart /i puppet-agent.msi PUPPET_AGENT_CERTNAME=me.example.com PUPPET_MASTER_SERVER=puppet.example.com \
 }
