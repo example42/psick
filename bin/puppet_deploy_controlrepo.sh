@@ -38,5 +38,5 @@ git clone git://github.com/example42/psick.git /etc/puppetlabs/code/environments
 cd /etc/puppetlabs/code/environments/$environment
 echo_title "Running r10k puppetfile install -v"
 r10k puppetfile install -v
-echo_title "Linking /etc/puppetlabs/puppet/hiera.yaml to /etc/puppetlabs/code/environments/$environment/hiera3.yaml"
-ln -sf /etc/puppetlabs/code/environments/$environment/hiera3.yaml /etc/puppetlabs/puppet/hiera.yaml
+echo_title "Moving /etc/puppetlabs/puppet/hiera.yaml to /etc/puppetlabs/puppet/hiera.yaml.orig"
+mv /etc/puppetlabs/puppet/hiera.yaml /etc/puppetlabs/puppet/hiera.yaml.orig
