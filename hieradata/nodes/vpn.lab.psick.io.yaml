@@ -1,0 +1,39 @@
+---
+psick::openswan::setup_options:
+  plutodebug: all
+  virtual_private: '%v4:10.0.0.0/8,%v4:192.168.0.0/16,%v4:172.16.0.0/12,%v4:!10.42.0.0/16'
+  protostack: netkey
+
+psick::openswan::connections:
+  l2tp-psk-nonat:
+    options:
+      authby: secret
+      auto: start
+      pfs: no
+      keyingtries: 3
+      rekey: no
+      type: transport
+      left: 88.99.137.168
+      leftnexthop: 10.0.2.2
+      leftprotoport: 17/1701
+      right: '%any'
+      rightprotoport: '17/%any' 
+      dpddelay: 15
+      dpdtimeout: 30
+      dpdaction: clear
+
+psick::sysctl::settings_hash:
+  net.ipv4.ip_forward: 1
+  net.ipv4.conf.default.rp_filter: 0
+  net.ipv4.conf.all.rp_filter: 0
+  net.ipv4.conf.all.send_redirects: 0
+  net.ipv4.conf.default.send_redirects: 0
+  net.ipv4.icmp_ignore_bogus_error_responses: 1
+  net.ipv4.conf.default.log_martians: 0
+  net.ipv4.conf.all.log_martians: 0
+  net.ipv4.conf.default.accept_source_route: 0
+  net.ipv4.conf.all.accept_redirects: 0
+  net.ipv4.conf.default.accept_redirects: 0
+  net.ipv4.neigh.default.gc_thresh1: 1024
+  net.ipv4.neigh.default.gc_thresh2: 2048
+  net.ipv4.neigh.default.gc_thresh3: 4096  

@@ -1,0 +1,4 @@
+---
+psick::profiles::linux_classes:
+  ipsec: 'psick::openswan'
+  openvpn: 'psick::openvpn::tp'
