@@ -6,7 +6,7 @@ parent_dir=$(cd $repo_dir ; cd .. ; pwd)
 
 echo_title "PSICK is going to create a brand new control-repo"
 echo
-echo_subtitle "Specify the path where you want to create your new Puppet control-repo"
+echo_subtitle "Specify the path where you want to create it"
 if [ -z $1 ]; then
 	echo "Provide the full absolute path or the name of a dir that will be created under ${parent_dir}"
         echo "Press [ENTER] when done."
@@ -65,7 +65,8 @@ git_init () {
   esac
 
   echo_title "Congratulations! Setup of the new control-repo finished"
-  echo_subtitle "To start to work on it: cd ${new_repo_dir}"
+  echo_subtitle "To start to work on it:"
+  echo_subtitle "cd ${new_repo_dir}"
   echo_subtitle "Keep updated the psick repo, and use the psick command to update or add componenent to your control-repo"
 }
 

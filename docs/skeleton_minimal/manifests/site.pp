@@ -1,15 +1,29 @@
 # This is the default manifest used in Vagrant and PuppetMaster
 # environments.
-# Here we have a sample $::role driven nodeless setup with a common base profile
 # Feel free to modify and adapt to your case.
 
-# Some useful resource defaults for Files and Execs
+
+### RESOURCE DEFAULTS
+# Some resource defaults for Files, Execs and Tiny Puppet
 case $::kernel {
   'Darwin': {
     File {
       owner => 'root',
       group => 'wheel',
       mode  => '0644',
+    }
+    Exec {
+      path => $::path,
+    }
+  }
+  'Windows': {
+    File {
+      owner => 'Administrator',
+      group => 'Administrators',
+      mode  => '0644',
+    }
+    Exec {
+      path => $::path,
     }
   }
   default: {
@@ -18,20 +32,24 @@ case $::kernel {
       group => 'root',
       mode  => '0644',
     }
+    Exec {
+      path => '/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin',
+    }
   }
 }
-Exec {
-  path => '/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin',
+
+# A useful trick to manage noop mode via hiera using the key: noop_mode
+# This needs the trlinklin-noop module
+$noop_mode = lookup('noop_mode', Boolean, 'first', false)
+if $noop_mode == true {
+  noop()
 }
 
-# Classification option 1 - Profiles defined in Hiera
-#  $profiles = hiera_array('profiles',[])
-#  $profiles.each | $p | {
-#    contain $p
-#  }
-
-# Classification option 2 - Classic roles and profiles classes:
-#  if $::role and $::role != '' {
-#    contain "::role::${::role}"
-#  }
-
+# Hiera driven classification: The key 'profiles' contains an array
+# of names of classes to include in the catalog
+# Example in yaml format:
+# ---
+# profiles:
+#   - openssh
+#   - apache
+lookup('profiles',Array,'unique',[]).include
