@@ -1,0 +1,24 @@
+---
+psick::openswan::setup_options:
+  plutodebug: all
+  virtual_private: '%v4:10.0.0.0/8,%v4:192.168.0.0/16,%v4:172.16.0.0/12,%v4:!10.42.0.0/16'
+  protostack: netkey
+
+psick::openswan::connections:
+  l2tp-psk-nonat:
+    options:
+      authby: secret
+      auto: start
+      pfs: no
+      keyingtries: 3
+      rekey: no
+      type: transport
+      left: 88.99.137.168
+      leftnexthop: 10.0.2.2
+      leftprotoport: 17/1701
+      right: '%any'
+      rightprotoport: '17/%any' 
+      dpddelay: 15
+      dpdtimeout: 30
+      dpdaction: clear
+
