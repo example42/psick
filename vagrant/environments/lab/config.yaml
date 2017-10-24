@@ -132,6 +132,8 @@ nodes:
   - role: log
     count: 1
     box: centos7
+  - role: vpn
+    count: 1
   - role: graphite
     count: 1
     box: centos7
