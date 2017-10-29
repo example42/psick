@@ -118,3 +118,5 @@ boxes:
   debian6_puppet:
     box: puppetlabs/debian-6.0.10-64-puppet
     breed: puppetlabs-apt
+  amazon201703:
+    box: mvbcoding/awslinux

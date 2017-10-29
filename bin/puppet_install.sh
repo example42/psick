@@ -49,6 +49,20 @@ setup_fedora() {
   yum install -y puppet-agent
 }
 
+setup_amazon() {
+  echo_title "Uninstalling existing Puppet"
+  yum erase -y puppet-agent puppet puppetlabs-release puppetlabs-release-pc1 >/dev/null 2>&1
+
+  echo_title "Adding repo for Puppet 4"
+  rpm -ivh https://yum.puppetlabs.com/puppetlabs-release-pc1-el-6.noarch.rpm >/dev/null 2>&1
+  yum-config-manager --enable epel
+  yum-config-manager --setopt="puppetlabs-pc1.priority=1" --save
+
+  sleep 2
+  echo_title "Installing Puppet"
+  yum install -y puppet-agent >/dev/null 2>&1
+}
+
 setup_suse() {
   echo_title "Uninstalling existing Puppet"
   zypper remove -y puppet >/dev/null 2>&1
@@ -163,7 +177,7 @@ setup_linux() {
     fedora) setup_fedora $majver ;;
     centos) setup_redhat $majver ;;
     scientific) setup_redhat $majver ;;
-    amazon) setup_redhat $majver ;;
+    amzn) setup_amazon ;;
     sles) setup_suse $majver ;;
     cumulus-linux) setup_apt $majver ;;
     alpine) setup_alpine $majver ;;
