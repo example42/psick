@@ -184,3 +184,9 @@ nodes:
   - role: ostest
     hostname_base: ostest-freebsd12
     box: freebsd12
+  - role: ostest
+    hostname_base: ostest-amazon201703
+    box: amazon201703
+    puppet_apply: true
+    install_oss: true
+    install_pe: false
