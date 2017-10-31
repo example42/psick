@@ -38,7 +38,14 @@ psick::mariadb::grant_hash:
   openskills:
     password: shouldbesecret
     db: openskills
-    db_init_query_file: /root/openskills.sql
+    db_init_query_file: /root/openskills-data/openskills.sql
+    require: 'Tp::Dir[mariadb::openskills-data]'
+psick::mariadb::tp::resources_hash:
+  tp::dir:
+    mariadb::openskills-data:
+      vcsrepo: git
+      source: git@git.lab.psick.io:alvagante/openskills-data.git
+      path: /root/openskills-data
 
 psick::users::users_hash:
   root:
