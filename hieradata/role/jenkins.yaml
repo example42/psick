@@ -1,3 +1,6 @@
 psick::profiles::linux_classes:
-  jenkins: psick::ci::jenkins
+  jenkins: psick::jenkins
 
+psick::jenkins::plugins:
+  scm-sync-configuration:
+    enable: true
