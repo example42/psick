@@ -84,8 +84,8 @@ setup_apt() {
   apt-get update >/dev/null 2>&1
 
   echo_title "Installing Puppet and its dependencies"
-  apt-get install puppet-agent -y >/dev/null
-  apt-get install apt-transport-https -y >/dev/null
+  apt-get install -y puppet-agent -y >/dev/null
+  apt-get install -y apt-transport-https -y >/dev/null
 }
 setup_alpine() {
   echo "## Adding repo for Puppet 4 to /etc/apk/repositories"
