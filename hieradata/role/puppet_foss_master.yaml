@@ -1,0 +1,5 @@
+---
+psick::profiles::linux_classes:
+  puppet_gems: psick::puppet::gems
+  puppet_master: psick::puppet::foss_master
+psick::puppet::gems::install_puppetserver_gems: true
