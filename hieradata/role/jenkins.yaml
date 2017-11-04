@@ -1,0 +1,3 @@
+psick::profiles::linux_classes:
+  jenkins: psick::ci::jenkins
+

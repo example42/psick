@@ -43,6 +43,7 @@ psick::sensu::rabbitmq_password: 'hiera_encrypt_in_the_real_world'
 psick::sensu::rabbitmq_vhost: '/sensu'
 psick::sensu::api_user: 'admin'
 psick::sensu::api_password: 'sensu' # In real world encrypt with hiera eyaml
+
 #sensu::client_http_socket:
 #  bind: "%{facts.networking.ip}"
 #  port: 3031

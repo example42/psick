@@ -72,6 +72,9 @@ nodes:
   - role: docker
     count: 1
     box: ubuntu1604
+  - role: jenkins
+    count: 1
+    box: ubuntu1604
   - role: ostest
     hostname_base: centos6
     count: 1
