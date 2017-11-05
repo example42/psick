@@ -72,6 +72,7 @@ psick::postfix::tp::resources_hash:
 
 psick::postfix::tp::options_hash:
   'mydomain': "%{facts.domain}"
+  'myhostname': "%{facts.hostname}"
   'inet_interfaces': '127.0.0.1'
   'inet_protocols': 'all'
   'my_destination': '$myhostname, localhost.$mydomain, localhost'
