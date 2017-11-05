@@ -33,11 +33,11 @@ Next we need to populate the modules directory with the contents of the ```Puppe
 
     r10k puppetfile install -v
 
-or we we want to install in an unattended way r01k (and other recommended gems) and run it:
+or if we want to install r10k  (and other recommended gems) in an unattended way and then run it:
 
     bin/puppet_setup.sh auto
 
-We can ignore warnings about missing docker, vagrant and fab command.
+We can ignore warnings about missing docker, vagrant and fab commands.
 
 Now we are ready to assume the ```puppet_foss_master``` role and run Puppet locally, we do this setting the role as external fact:
 
