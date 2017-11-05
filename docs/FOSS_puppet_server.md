@@ -18,7 +18,7 @@ Now change to ```vagrant/environments/pos``` directory and run ```vagrant up pup
 
 ## Base OS installation
 
-For base OS installation the easiest way is cloning control-repo into /etc/puppetlabs/code/environments/production:
+To install the FOSS Puppet Master with PuppetDB on a vanilla OS (tested RedHat 7 derivatives and Ubuntu 16.04) the easiest way is cloning control-repo into /etc/puppetlabs/code/environments/production and apply the **puppet_foss_master** role:
 
     mkdir -p /etc/puppetlabs/code/environments
     cd /etc/puppetlabs/code/environments
@@ -29,19 +29,19 @@ Next it is required to have puppet-agent package already installed. We can insta
 
     bin/puppet_install.sh
 
-Next we need to install r10k gem by running
+Next we need to populate the modules directory with the contents of the ```Puppetfile```, we can run, if we have already r10k installed:
 
-    bin/puppet_setup.sh
+    r10k puppetfile install -v
 
-We can ignore warnings about missing docker, vagrant and fab command.
+or if we want to install r10k  (and other recommended gems) in an unattended way and then run it:
 
-Then, if not done via the puppet_setups.sh script, we have to install the modules defined in ```Puppetfile``` under the ```modules``` directory by using the r10k command:
+    bin/puppet_setup.sh auto
 
-    bin/puppet_install_puppetfile.sh
+We can ignore warnings about missing docker, vagrant and fab commands.
 
-Now we are ready to assume the ```puppet_foss_master``` role and run Puppet locally, we do this setting as environment variable the role fact:
+Now we are ready to assume the ```puppet_foss_master``` role and run Puppet locally, we do this setting the role as external fact:
 
-    export FACTER_role=puppet_foss_master
+    bin/puppet_set_external_facts.sh --role puppet_foss_master
 
 Finally just run:
 
@@ -50,3 +50,5 @@ Finally just run:
 to setup locally, via Puppet, a Puppet Server with PuppetDB. If you have errors at the first run (known ones are related to the used postgresql module) run the command again, until you see no changes on the system:
 
     bin/papply.sh
+
+Note that you need at least 4Gb of RAM to run on the same node Puppet Server and PuppetDB (with the PostgreSQL backend).

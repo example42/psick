@@ -10,6 +10,7 @@ spec/fixtures
 .bundle
 modules/
 /keys/private_key.pkcs7.pem
+/keys/public_key.pkcs7.pem
 *.pyc
 *Gemfile.lock
 vendor
