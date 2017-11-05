@@ -41,7 +41,7 @@ We can ignore warnings about missing docker, vagrant and fab commands.
 
 Now we are ready to assume the ```puppet_foss_master``` role and run Puppet locally, we do this setting the role as external fact:
 
-    vagrant/bin/vagrant-setfacts.sh --role puppet_foss_master
+    bin/puppet_set_external_facts.sh --role puppet_foss_master
 
 Finally just run:
 
