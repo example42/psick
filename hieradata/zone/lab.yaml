@@ -164,6 +164,14 @@ psick::users::users_hash:
 #    ssh_authorized_keys:
 #      - 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC93uOkdIrvcA1ij6wxtL0wDKch7E2gFqID2xR1LnEVQRSP9OFmNQV+4B7fM/fAVpFs939qBDeDRabft1ZAP2hUIeKWxweNQ6wxxV3YhJbxt+g6RAqm37BI+/ynZnZ4vrQp3XHfxNFYGFqiaowiiQ3/0QLh8PHliDJroOUU7h2YNwKBWiqdgufLCrPgnalSZ3kfKa2Yd5sM+iyAYJ102sXcGIFjAXCmQU1y7aJXjrzXzPuugnHvVFPzAUjsvu0FAiE+m8EhfBiyy1+SjnMB838G3EwrqNW+sEZ6lXh637xensB2WJuH0lPooCgaeG6WCmYjVK9rblcOb3B0Pp8Vbhp5 al@lab.psick.io'
 
+# OpenSSH
+psick::openssh::tp::resources_hash:
+  tp::conf:
+    openssh:
+      template: 'psick/generic/spaced.erb'
+      options_hash:
+        Protocol: 2
+        PermitRootLogin: 'no'
 # Ansible
 psick::ansible::master: puppet.lab.psick.io
 psick::ansible::keyshare_method: storeconfigs

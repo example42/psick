@@ -3,11 +3,23 @@ psick::profiles::linux_classes:
   jenkins: psick::jenkins
 
 # Generate jenkins ssh keypair
-# psick::jenkins::ssh_keys_generate: true
+psick::jenkins::ssh_keys_generate: true
 
 # Plugins installation.
 # Check psick/manifests/jenkins/plugin.pp for parameters
 psick::jenkins::plugins:
+  scm-sync-configuration:
+    enable: true
   blueocean:
+    enable: true
+  workflow-aggregator:
+    enable: true
+  msbuild:
+    enable: true
+  github:
+    enable: true
+  warnings:
+    enable: true
+  ec2:
     enable: true
 
