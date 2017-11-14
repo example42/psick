@@ -23,10 +23,10 @@ echo
 
 cd $repo_dir
 
-diff_commits_number=$(git log origin/$default_branch..$git_branch --pretty=oneline | wc -l)
+diff_commits_number=$(git log origin/$default_branch..HEAD --pretty=oneline | wc -l)
 echo "Checking if Puppetfile has changed in the last ${diff_commits_number} commits"
 for changedfile in $(git diff HEAD~$diff_commits_number --name-only); do
-  if [[ $changedfile == 'Puppetfile' ]] or [[ ! -d "${repo_dir}/modules/stdlid" ]]; then
+  if [[ $changedfile == 'Puppetfile' ]] || [[ ! -d "${repo_dir}/modules/stdlid" ]]; then
     echo_title "Ensuring git installed modules can be synced via r10k"
     for d in modules/*/.git; do (cd $d/.. && git status >/dev/null); done
 
