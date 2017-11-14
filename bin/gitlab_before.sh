@@ -21,11 +21,10 @@ if [ -f "$configfile" ]; then
 fi
 echo 
 cd $repo_dir
-echo_title "Removing modules installed via git"
-for i in ${git_modules[@]}; do
-  echo "Removing $i"
-  rm -rf "modules/${i}"
-done
+
+echo_title "Ensuring git installed modules can be synced via r10k"
+for d in modules/*/.git; do (cd $d/.. && git status >/dev/null); done
+
 echo_title "Installing external modules via r10k"
 /opt/puppetlabs/puppet/bin/r10k puppetfile install -v ${config}
 echo
