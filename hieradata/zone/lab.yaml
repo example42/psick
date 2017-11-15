@@ -145,7 +145,7 @@ sensu::purge:
   'mutators': true
 
 #Timezone
-psick::timezone::timezone: 'CEST'
+psick::timezone: 'Europe/Berlin'
 psick::timezone::timezone_windows: 'Central European Standard Time'
 
 # Puppet agents (on PE) sticky environment
@@ -172,6 +172,7 @@ psick::openssh::tp::resources_hash:
       options_hash:
         Protocol: 2
         PermitRootLogin: 'no'
+        Subsystem: 'sftp /usr/libexec/openssh/sftp-server'
 # Ansible
 psick::ansible::master: puppet.lab.psick.io
 psick::ansible::keyshare_method: storeconfigs
