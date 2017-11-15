@@ -1,11 +1,14 @@
 # External modules to installed by r10k in modules/ dir
 # Here mostly at latest version for sample purposes.
 # In working environments specific versions should be defined.
+# Tags, branches and commits can be used. Ie:
+# mod 'example42/tp', '2.1.0'
 
 # Example42 modules
+# From Forge
 mod 'example42/tp', :latest
 mod 'example42/tinydata', :latest
-#mod 'example42/psick', :latest
+mod 'example42/psick', :latest
 mod 'example42/psick',
   :git => 'https://github.com/example42/puppet-psick'
 mod 'example42/network', :latest
