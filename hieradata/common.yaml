@@ -30,7 +30,7 @@ psick::pre::linux_classes:
   users: '::psick::users'
 psick::base::linux_classes:
   mail: '::psick::postfix::tp'
-  ssh: '::psick::openssh::tp'
+  ssh: '::psick::openssh'
   sudo: '::psick::sudo'
   logs: '::psick::logs::rsyslog'
   time: '::psick::time'

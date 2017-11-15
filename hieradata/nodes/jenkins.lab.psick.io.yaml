@@ -1,15 +1,20 @@
 ---
-psick::profiles::linux_classes:
+psick::base::linux_classes:
   jenkins: psick::jenkins
+psick::profiles::linux_classes:
+  jenkins: ''
+
 
 # Generate jenkins ssh keypair
 psick::jenkins::ssh_keys_generate: true
 
+# Enabled and configure scm-sync plugin
+psick::jenkins::scm_sync_repository_url: git@github.com:alvagante/jenkins.lab.psick.io-scmsync.git
+psick::jenkins::scm_sync_repository_host: github.com
+
 # Plugins installation.
 # Check psick/manifests/jenkins/plugin.pp for parameters
 psick::jenkins::plugins:
-  scm-sync-configuration:
-    enable: true
   blueocean:
     enable: true
   workflow-aggregator:
