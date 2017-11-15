@@ -129,7 +129,7 @@ docker_test:
   tags:
     - test_puppet
   only:
-    - integration_disabled
+    - schedules
 
 beaker:
   stage: integration

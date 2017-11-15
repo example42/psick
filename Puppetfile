@@ -8,7 +8,7 @@
 # From Forge
 mod 'example42/tp', :latest
 mod 'example42/tinydata', :latest
-mod 'example42/psick', :latest
+# mod 'example42/psick', :latest
 mod 'example42/psick',
   :git => 'https://github.com/example42/puppet-psick'
 mod 'example42/network', :latest
