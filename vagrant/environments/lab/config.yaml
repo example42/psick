@@ -77,6 +77,8 @@ nodes:
     puppet_agent: false
   - role: cirunner
     count: 1
+  - role: razor
+    count: 1
   - role: manageiq
     count: 1
     memory: 6192
