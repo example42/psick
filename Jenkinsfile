@@ -6,6 +6,7 @@ pipeline {
         stage('Syntax') {
           steps {
             echo 'Syntax check'
+            sh 'pdk validate'
           }
         }
         stage('Lint') {
@@ -18,6 +19,21 @@ pipeline {
             echo 'Chars'
           }
         }
+      }
+    }
+    stage('Unit') {
+      steps {
+        sh 'pdk  test unit'
+      }
+    }
+    stage('Diff') {
+      steps {
+        sh 'bin/gitlab_catalog_preview.sh'
+      }
+    }
+    stage('Integration') {
+      steps {
+        echo 'Integration'
       }
     }
   }
