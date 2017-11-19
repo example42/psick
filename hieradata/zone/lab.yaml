@@ -25,6 +25,8 @@ psick::hosts::file::extra_hosts:
   - '10.42.43.106 build build.lab.psick.io'
   - '10.42.43.107 docker docker.lab.psick.io'
   - '10.42.43.116 lamp lamp.lab.psick.io'
+  - '10.42.43.111 sensu sensu.lab.psick.io'
+  - '10.42.43.119 jenkins jenkins.lab.psick.io'
 
 # Enable automatic updates on lab nodes and set schedule:
 psick::update::cron_schedule: '42 4 * * *'
