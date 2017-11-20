@@ -1,0 +1,23 @@
+---
+psick::profiles::linux_classes:
+  nginx: psick::nginx::tp
+  openvpn: psick::openvpn::tp
+  jenkins: psick::jenkins
+
+psick::jenkins::ssh_keys_generate: true
+psick::jenkins::plugins:
+  scm-sync-configuration:
+    enable: true
+  blueocean:
+    enable: true
+  workflow-aggregator:
+    enable: true
+  msbuild:
+    enable: true
+  github:
+    enable: true
+  warnings:
+    enable: true
+  ec2:
+    enable: true
+           

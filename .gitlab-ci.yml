@@ -34,7 +34,7 @@ verify_code_deploy:
 syntax:
   stage: checks
   before_script:
-    - "bin/gitlab_before.sh"
+    - "bin/gitlab_before.sh ${CI_BUILD_REF_NAME}"
   script: "bin/puppet_check_syntax_fast.sh all_but_chars"
   cache:
     untracked: true
@@ -50,7 +50,7 @@ syntax:
 lint:
   stage: checks
   before_script:
-    - "bin/gitlab_before.sh"
+    - "bin/gitlab_before.sh ${CI_BUILD_REF_NAME}"
   script: "bin/puppet_lint.sh"
   cache:
     untracked: true
@@ -67,7 +67,7 @@ lint:
 chars:
   stage: checks
   before_script:
-    - "bin/gitlab_before.sh"
+    - "bin/gitlab_before.sh ${CI_BUILD_REF_NAME}"
   script: "bin/puppet_check_syntax_fast.sh chars"
   cache:
     untracked: true
@@ -84,7 +84,7 @@ chars:
 rake_site:
   stage: unit
   before_script:
-    - "bin/gitlab_before.sh"
+    - "bin/gitlab_before.sh ${CI_BUILD_REF_NAME}"
   script: "bin/puppet_check_rake.sh site"
   cache:
     untracked: true
@@ -102,7 +102,7 @@ rake_site:
 catalog_preview:
   stage: diff
   before_script:
-    - "bin/gitlab_before.sh"
+    - "bin/gitlab_before.sh ${CI_BUILD_REF_NAME}"
   script: "bin/gitlab_catalog_preview.sh integration"
   cache:
     untracked: true
@@ -119,7 +119,7 @@ catalog_preview:
 docker_test:
   stage: integration
   before_script:
-    - "bin/gitlab_before.sh"
+    - "bin/gitlab_before.sh ${CI_BUILD_REF_NAME}"
   script: "bin/docker_run.sh --image centos-7"
   cache:
     untracked: true
@@ -129,12 +129,12 @@ docker_test:
   tags:
     - test_puppet
   only:
-    - integration_disabled
+    - schedules
 
 beaker:
   stage: integration
   before_script:
-    - "bin/gitlab_before.sh"
+    - "bin/gitlab_before.sh ${CI_BUILD_REF_NAME}"
     - "/opt/puppetlabs/puppet/bin/bundle install --with=integration --path=vendor"
   script: "/opt/puppetlabs/puppet/bin/rake beaker_roles:psick"
   cache:

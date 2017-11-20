@@ -35,8 +35,8 @@ puppet:
   environment: host           # Puppet environment to link to local control-repo
 
 # Puppet Enterprise settings
-  pe_version: '2017.3.0'         # Version of PE to install on the puppet server. See Note 2
-  pe_download_root: 'https://s3.amazonaws.com/pe-builds/released/2017.3.0' # Download base url. See Note 2
+  pe_version: '2017.3.2'         # Version of PE to install on the puppet server. See Note 2
+  pe_download_root: 'https://s3.amazonaws.com/pe-builds/released/2017.3.2' # Download base url. See Note 2
   pe_verbose: true               # If to show PE installation output 
   pe_relocate_manifests: false   # If to relocate manifests and module dir. Not needed in this setup.
 
@@ -51,7 +51,8 @@ vagrant:
   # manually ssl certs removal of reinstalled nodes.
   hostmanager.enable: true # If to enable hostmanager plugin
   hostmanager.manage_host: false # If to manage also the main host's hosts
-          
+#  multi_user: true          
+
 # List of nodes shown in vagrant status
 # Node names are based on the defined role. Here can be overridden vm defaults,
 # it can be enforced a defined host name, added alieses, port forwarding and pe_role
@@ -75,6 +76,8 @@ nodes:
       host: 1480
     puppet_agent: false
   - role: cirunner
+    count: 1
+  - role: razor
     count: 1
   - role: manageiq
     count: 1
@@ -152,6 +155,12 @@ nodes:
     forwarded_port:
       guest: 80
       host: 14480
+  - role: jenkins
+    memory: 4096
+    box: ubuntu1604
+    forwarded_port:
+      guest: 8080
+      host: 14481
   - role: ostest
     hostname_base: ostest-suse12
     count: 1
@@ -174,6 +183,7 @@ nodes:
     box: alpine3
   - role: ostest
     hostname_base: ostest-windows2012
+    puppet_apply: true
     fqdn: ostest-windows2012-lab-psick-io
     box: windows2012
     forwarded_port:

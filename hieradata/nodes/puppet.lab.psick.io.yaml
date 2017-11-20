@@ -100,4 +100,3 @@ psick::git::configs_hash:
     options_hash:
       http:
         sslVerify: false
-
