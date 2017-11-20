@@ -30,7 +30,7 @@ psick::pre::linux_classes:
   users: '::psick::users'
 psick::base::linux_classes:
   mail: '::psick::postfix::tp'
-  ssh: '::psick::openssh::tp'
+  ssh: '::psick::openssh'
   sudo: '::psick::sudo'
   logs: '::psick::logs::rsyslog'
   time: '::psick::time'
@@ -59,7 +59,7 @@ psick::time::servers:
   - 'pool.ntp.org'
 
 # Timezone settings
-psick::timezone::timezone: 'UTC'
+psick::timezone: 'UTC'
 
 # Hostname and network settings
 psick::hostname::update_network_entry: false # Avoid resource duplication when psick::network is used

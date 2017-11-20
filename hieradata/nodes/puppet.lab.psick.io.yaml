@@ -91,3 +91,4 @@ psick::sensu::checks_hash:
 psick::ci::danger::use_gitlab: true
 psick::ansible::is_master: true
 psick::bolt::is_master: true
+

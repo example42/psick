@@ -25,6 +25,8 @@ psick::hosts::file::extra_hosts:
   - '10.42.43.106 build build.lab.psick.io'
   - '10.42.43.107 docker docker.lab.psick.io'
   - '10.42.43.116 lamp lamp.lab.psick.io'
+  - '10.42.43.111 sensu sensu.lab.psick.io'
+  - '10.42.43.119 jenkins jenkins.lab.psick.io'
 
 # Enable automatic updates on lab nodes and set schedule:
 psick::update::cron_schedule: '42 4 * * *'
@@ -112,7 +114,6 @@ sensu::handlers:
 psick::sensu::plugins_params_hash:
   pkg_provider: 'sensu_gem'
   type: 'package'
-# gem_install_options: [{ '-p' => 'http://user:pass@myproxy.company.org:8080' }]
 
 psick::sensu::plugins_hash:
   'sensu-plugins-conntrack': {}
@@ -145,7 +146,7 @@ sensu::purge:
   'mutators': true
 
 #Timezone
-psick::timezone::timezone: 'CEST'
+psick::timezone: 'Europe/Berlin'
 psick::timezone::timezone_windows: 'Central European Standard Time'
 
 # Puppet agents (on PE) sticky environment
@@ -163,6 +164,16 @@ psick::users::users_hash:
       - users
 #    ssh_authorized_keys:
 #      - 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC93uOkdIrvcA1ij6wxtL0wDKch7E2gFqID2xR1LnEVQRSP9OFmNQV+4B7fM/fAVpFs939qBDeDRabft1ZAP2hUIeKWxweNQ6wxxV3YhJbxt+g6RAqm37BI+/ynZnZ4vrQp3XHfxNFYGFqiaowiiQ3/0QLh8PHliDJroOUU7h2YNwKBWiqdgufLCrPgnalSZ3kfKa2Yd5sM+iyAYJ102sXcGIFjAXCmQU1y7aJXjrzXzPuugnHvVFPzAUjsvu0FAiE+m8EhfBiyy1+SjnMB838G3EwrqNW+sEZ6lXh637xensB2WJuH0lPooCgaeG6WCmYjVK9rblcOb3B0Pp8Vbhp5 al@lab.psick.io'
+
+# OpenSSH
+psick::openssh::tp::resources_hash:
+  tp::conf:
+    openssh:
+      template: 'psick/generic/spaced.erb'
+      options_hash:
+        Protocol: 2
+        PermitRootLogin: 'no'
+        Subsystem: 'sftp /usr/libexec/openssh/sftp-server'
 
 # Ansible
 psick::ansible::master: puppet.lab.psick.io

@@ -70,6 +70,7 @@ if settings['nodes'].is_a?(Array)
       vm['install_oss'] = node['install_oss'] ? node['install_oss'] : settings['puppet']['install_oss']
       vm['install_pe'] = node['install_pe'] ? node['install_pe'] : settings['puppet']['install_pe']
 
+      vm['multi_user'] = vm['multi_user'] ? vm['multi_user'] : settings['vagrant']['multi_user']
       vms.push(vm)
     end
   end
@@ -115,8 +116,9 @@ Vagrant.configure('2') do |config|
     # forwarded_port = node['forwarded_port']
     vm_box = boxes['boxes']["#{box}"]['box']
     link_controlrepo = settings['puppet']['link_controlrepo'] ? settings['puppet']['link_controlrepo'] : false
-
-    config.vm.define fqdn do |node_config|
+    user = ENV['USER']
+    vm_name = node['multi_user'] ? "#{user}-#{fqdn}" : fqdn
+    config.vm.define vm_name do |node_config|
       node_config.vm.box = vm_box
       node_config.vm.hostname = fqdn
       node_config.vm.network :private_network, ip: node['ip']

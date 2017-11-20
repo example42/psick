@@ -25,6 +25,9 @@ for changedfile in $(git diff HEAD~$diff_commits_number --name-only); do
     echo
     echo_title "Running Puppet on node ${node} - Check based on commits"
     puppet job run --nodes $node
+    if [ $? != 0 ]; then
+      global_exit=1
+    fi
   fi
 done
 
@@ -32,10 +35,16 @@ done
 if [[ $nodes == 0 ]]; then
   echo_title "Running Puppet on nodes ${default_nodes} - Default nodes"
   puppet job run --nodes $default_nodes
+  if [ $? != 0 ]; then
+    global_exit=1
+  fi
 fi
 
 echo_title "Running Puppet on nodes ${always_nodes} - Node always checked"
 puppet job run --nodes $always_nodes
+if [ $? != 0 ]; then
+  global_exit=1
+fi
 
 exit $global_exit
 

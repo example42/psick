@@ -24,7 +24,7 @@ psick::apache::tp::resources_hash:
   tp::dir:
     apache::openskills.info:
       vcsrepo: git
-      source: git@git.lab.psick.io:alvagante/openskills.git
+      source: git@bitbucket.org:alvagante/openskills.info.git
       path: /var/www/html/openskills.info
 
 psick::php::module_hash:
