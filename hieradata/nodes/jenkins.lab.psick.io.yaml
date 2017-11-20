@@ -4,11 +4,6 @@ psick::base::linux_classes:
 psick::profiles::linux_classes:
   jenkins: ''
 
-psick::bolt::is_master: true
-psick::bolt::user_name: 'jenkins'
-psick::bolt::user::home_dir: '/var/lib/jenkins'
-
-
 # Enabled and configure scm-sync plugin
 psick::jenkins::scm_sync_repository_url: git@github.com:alvagante/jenkins.lab.psick.io-scmsync.git
 psick::jenkins::scm_sync_repository_host: github.com
