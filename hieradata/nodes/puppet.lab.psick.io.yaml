@@ -2,6 +2,7 @@
 psick::base::linux_classes:
   buildgems: psick::ruby::buildgems
 psick::profiles::linux_classes:
+  git: psick::git
   pe_console: psick::puppet::pe_console
   pe_puppetdb: psick::puppet::pe_puppetdb
   pe_server: psick::puppet::pe_server
@@ -92,3 +93,10 @@ psick::ci::danger::use_gitlab: true
 psick::ansible::is_master: true
 psick::bolt::is_master: true
 
+# Configure gitconfig for gitlab-runner to ignore
+# self signed certificate (on gitlab server)
+psick::git::configs_hash:
+  gitlab-runner:
+    options_hash:
+      http:
+        sslVerify: false

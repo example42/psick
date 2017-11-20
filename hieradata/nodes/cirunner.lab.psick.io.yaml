@@ -4,6 +4,7 @@ psick::base::linux_classes:
 psick::profiles::linux_classes:
   vagrant: vagrant
   puppet_gems: psick::puppet::gems
+  git: psick::git
 
 # Explicit list of required gems for CI runners for puppet testing
 psick::puppet::gems::install_puppet_gems: true
@@ -56,3 +57,10 @@ psick::gitlab::ci::always_nodes:
 psick::gitlab::ci::options:
   catalog_preview_default_nodes: 'git.lab.psick.io,log.lab.psick.io'
 
+# Configure gitconfig for gitlab-runner to ignore
+# self signed certificate (on gitlab server)
+psick::git::configs_hash:
+  gitlab-runner:
+    options_hash:
+      http:
+        sslVerify: false
