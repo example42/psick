@@ -5,16 +5,15 @@ pipeline {
       parallel {
         stage('Syntax') {
           steps {
-            sh '''bin/puppet_check_syntax_fast.sh all_but_chars
-
-
-'''
+            sh 'bin/jenkins_before.sh'
+            sh 'bin/puppet_check_syntax_fast.sh all_but_chars'
           }
         }
         stage('Chars') {
           agent any
           steps {
-            echo 'Chars'
+            sh 'bin/jenkins_before.sh'
+            sh 'bin/puppet_check_syntax_fast.sh chars'
           }
         }
       }
