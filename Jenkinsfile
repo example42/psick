@@ -5,7 +5,10 @@ pipeline {
       parallel {
         stage('Syntax') {
           steps {
-            sh 'pdk validate'
+            sh '''bin/puppet_check_syntax_fast.sh all_but_chars
+
+
+'''
           }
         }
         stage('Chars') {
