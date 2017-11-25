@@ -5,16 +5,14 @@ pipeline {
       parallel {
         stage('Syntax') {
           steps {
-            echo 'Syntax check'
-            sh 'pdk validate'
-          }
-        }
-        stage('Lint') {
-          steps {
-            echo 'Lint'
+            sh '''bin/puppet_check_syntax_fast.sh all_but_chars
+
+
+'''
           }
         }
         stage('Chars') {
+          agent any
           steps {
             echo 'Chars'
           }
