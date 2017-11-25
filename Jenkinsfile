@@ -5,11 +5,11 @@ pipeline {
       parallel {
         stage('Syntax') {
           steps {
-            echo 'Syntax check'
             sh 'pdk validate'
           }
         }
         stage('Chars') {
+          agent any
           steps {
             echo 'Chars'
           }
