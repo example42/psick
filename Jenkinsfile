@@ -9,11 +9,6 @@ pipeline {
             sh 'pdk validate'
           }
         }
-        stage('Lint') {
-          steps {
-            echo 'Lint'
-          }
-        }
         stage('Chars') {
           steps {
             echo 'Chars'
