@@ -62,8 +62,9 @@ psick::sensu::api_password: 'sensu' # In real world encrypt with hiera eyaml
 #sensu::client_ec2:
 #  instance-id: "%{facts.networking.fqdn}"
 sensu::client_register: true
-sensu::client_registration:
-  handler: 'servicenow'
+sensu::client_deregister: false
+#sensu::client_registration:
+#  handler: 'servicenow'
 
 
 psick::sensu::checks_params_hash:

@@ -3,6 +3,8 @@ psick::base::linux_classes:
   jenkins: psick::jenkins
 psick::profiles::linux_classes:
   jenkins: ''
+  rubybuild: 'psick::ruby::buildgems'
+  pdk: 'psick::puppet::pdk'
 
 # Enabled and configure scm-sync plugin
 psick::jenkins::scm_sync_repository_url: git@github.com:alvagante/jenkins.lab.psick.io-scmsync.git
