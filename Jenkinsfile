@@ -5,7 +5,7 @@ pipeline {
       parallel {
         stage('Syntax') {
           steps {
-            sh 'bin/jenkins_before.sh'
+            sh 'pdk validate'
             sh 'bin/puppet_check_syntax_fast.sh all_but_chars'
           }
         }
