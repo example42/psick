@@ -3,7 +3,6 @@ repo_dir="$(dirname $0)/.."
 script_dir="$(dirname $0)"
 # repo_dir=$(git rev-parse --show-toplevel)
 . "${script_dir}/functions"
-git_modules=(psick puppet puppetserver grafanadash)
 git_branch=${1:-development}
 default_branch="production"
 r10k_configfile="bin/config/gitlab-runner-r10k.yaml"
