@@ -13,8 +13,12 @@ psick::profiles::linux_classes:
   octocatalog: psick::ci::octocatalog
   danger: psick::ci::danger
   puppet_gems: psick::puppet::gems
+  puppet_autosign: psick::puppet::autosign
 
 psick::puppet::pe_server::remove_global_hiera_yaml: true
+
+psick::puppet::autosign::autosign: on
+psick::puppet::autosign::autosign_match: "*.%{::domain}"
 
 puppet_enterprise::profile::puppetdb::whitelisted_certnames:
   - cirunner.lab.psick.io
