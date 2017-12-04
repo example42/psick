@@ -1,0 +1,127 @@
+---
+psick::profiles::linux_classes:
+  webserver: 'psick::apache::tp'
+
+psick::profiles::windows_classes:
+  features: psick::windows::features
+  registry: psick::windows::registry
+  services: psick::windows::services
+  puppet: psick::puppet::pe_agent
+  webserver: psick::iis
+  reboot: psick::reboot
+# FIXME: Why commented? Do we need them?
+#  firewall: windows_firewall
+#  users: psick::users
+
+# Useful registry keys: http://www.jasinskionline.com/TechnicalWiki/Useful-Windows-Registry-Keys.ashx?AspxAutoDetectCookieSupport=1
+# Windows registry: http://www.forensicswiki.org/wiki/Windows_Registry
+# Registry Guide for Windows: http://www.pctools.com/guides/registry/
+#
+psick::windows::registry::use_defaults: true
+apsick::windows::registry::keys:
+  'SSL Cipher Suite Order':
+    key: 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Cryptography\Configuration\SSL\00010002!Functions'
+    value: 'TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P384,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA_P256,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA_P384,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA_P256,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA_P384,TLS_RSA_WITH_AES_256_GCM_SHA384,TLS_RSA_WITH_AES_128_GCM_SHA256,TLS_RSA_WITH_AES_256_CBC_SHA256,TLS_RSA_WITH_AES_128_CBC_SHA256,TLS_RSA_WITH_AES_256_CBC_SHA,TLS_RSA_WITH_AES_128_CBC_SHA,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384_P384,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256_P256,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256_P384,TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384_P384,TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256_P256,TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256_P384,TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA_P256,TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA_P384,TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA_P256,TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA_P384,TLS_DHE_DSS_WITH_AES_256_CBC_SHA256,TLS_DHE_DSS_WITH_AES_128_CBC_SH'
+    type: 'dword'
+
+psick::puppet::pe_agent::manage_environment: true
+psick::windows::features::use_defaults: true
+psick::windows::features::install:
+  'Web-WebServer':
+    installsubfeatures: true
+  'file-services':
+    ensure: present
+  'storage-services':
+    ensure: present
+  'net-framework-45-core':
+    ensure: present
+  'web-mgmt-tools':
+    ensure: present
+  'web-mgmt-service':
+    ensure: present
+  'web-scripting-tools':
+    ensure: present
+  'server-media-foundation':
+    ensure: present
+  'was':
+    ensure: present
+  'was-net-environment':
+    ensure: present
+  'was-config-apis':
+    ensure: present
+
+psick::windows::services::use_defaults: true
+psick::windows::services::managed:
+  'RemoteRegistry':
+    ensure: 'stopped'
+    enable: 'manual'
+  'Spooler':
+    ensure: 'running'
+    enable: 'true'
+  'TCPIP6':
+    ensure: 'stopped'
+    enable: 'manual'
+
+# Windows firewall settings.
+windows_firewall::profile_state: 'on'
+windows_firewall::in_policy: 'AllowInbound'
+# FIXME: Why commented? Do we need it?
+# windows_firewall::in_policy: 'BlockInbound'
+windows_firewall::out_policy: 'AllowOutbound'
+windows_firewall::rule_key: 'windows_networks'
+# Purge unmanaged firewall rules
+windows_firewall::purge_rules: false
+
+# Testing users
+psick::users::users_hash:
+  antony:
+    ensure: present
+    comment: 'Antony Gelberg'
+  alessandro:
+    ensure: present
+    comment: 'Alessandro Francheschi'
+  shachar:
+    ensure: present
+    comment: 'Shachar Shapira'
+
+# Sample rules
+windows_networks:
+  Remote Desktop - User Mode (TCP-In):
+    description: Inbound rule for the Remote Desktop service to allow RDP traffic.
+      [TCP 3389]
+    application_name: C:\Windows\system32\svchost.exe
+    service_name: termservice
+    protocol: 6
+    local_ports: '3389'
+    remote_ports: "*"
+    local_addresses: "*"
+    remote_addresses: "*"
+    direction: 1
+    interface_types: All
+    enabled: true
+    grouping: "@FirewallAPI.dll,-28752"
+    profiles: 7
+    edge_traversal: false
+    action: 1
+    edge_traversal_options: 0
+  Remote Desktop - User Mode (UDP-In):
+    description: Inbound rule for the Remote Desktop service to allow RDP traffic.
+      [UDP 3389]
+    application_name: C:\Windows\system32\svchost.exe
+    service_name: termservice
+    protocol: 6
+    local_ports: '33891'
+    remote_ports: "*"
+    local_addresses: "*"
+    remote_addresses: "*"
+    direction: 1
+    interface_types: All
+    enabled: true
+  TCP/8080:
+    description: Inbound rule for [TCP 8080]
+    application_name: C:\Windows\system32\svchost.exe
+    service_name: termservice
+    protocol: 6
+    local_ports: '8080'
+    remote_ports: "*"
+    enabled: true
