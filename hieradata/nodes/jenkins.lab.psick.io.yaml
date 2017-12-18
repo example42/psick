@@ -9,9 +9,10 @@ psick::profiles::linux_classes:
 # Enabled and configure scm-sync plugin
 psick::jenkins::scm_sync_repository_url: git@github.com:alvagante/jenkins.lab.psick.io-scmsync.git
 psick::jenkins::scm_sync_repository_host: github.com
+psick::jenkins::disable_setup_wizard: true
 
 # Generate jenkins ssh keypair
-#psick::jenkins::ssh_keys_generate: true
+psick::jenkins::ssh_keys_generate: true
 # 
 # Pregenerated key-pairs file can be provided via content or source arguments.
 # Private key should be secret: to source from a secure path
