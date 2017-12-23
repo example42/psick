@@ -13,11 +13,15 @@ psick::base::windows_classes:
 #  firewall: windows_firewall
 psick::profile::windows_classes:
   webserver: psick::iis
-  reboot: psick::reboot
 
 psick::packages::resource_default_arguments:
   provider: chocolatey
 
+psick::reboot::apply: immediately
+psick::reboot::when: pending
+psick::reboot::schedule: weekend
+psick::reboot::subscribe_anchor: true
+psick::schedule::repeat: 2
 psick::packages::packages_list:
   - "chocolatey"
   - "firefox"

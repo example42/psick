@@ -17,7 +17,7 @@ psick::base::linux_classes:
 # Noop configuration on PE clients
 psick::puppet::pe_agent::manage_noop: true
 # Set here value for noop in agents' puppet.conf
-psick::puppet::pe_agent::noop_mode: true
+psick::puppet::pe_agent::noop_mode: false
 
 # Classes where we want to enforce resource application ALWAYS
 # no_noop param enforces no-noop mode on the specific class even if
