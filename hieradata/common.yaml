@@ -4,7 +4,7 @@
 
 # General psick settings
 psick::manage: true
-psick::auto_conf: 'hardened'
+psick::auto_conf: hardened
 psick::auto_prereq: true
 
 # Tiny Puppet settings in psick module
@@ -16,50 +16,51 @@ psick::tp:
 # First run optional settings
 psick::enable_firstrun: false
 psick::firstrun::linux_classes:
-  hostname: '::psick::hostname'
+  hostname: psick::hostname
 psick::firstrun::windows_classes:
-  hostname: '::psick::hostname'
+  hostname: psick::hostname
 
 # Common Linux classes
 psick::pre::linux_classes:
-  puppet: '::puppet'
-  hostname: '::psick::hostname'
-  hosts: '::psick::hosts::resource'
-  dns: '::psick::dns::resolver'
-  repo: '::psick::repo'
-  users: '::psick::users'
+  puppet: puppet
+  puppet_gems: psick::puppet::gems
+  hostname: psick::hostname
+  hosts: psick::hosts::resource
+  dns: psick::dns::resolver
+  repo: psick::repo
+  users: psick::users
 psick::base::linux_classes:
-  mail: '::psick::postfix::tp'
-  ssh: '::psick::openssh'
-  sudo: '::psick::sudo'
-  logs: '::psick::logs::rsyslog'
-  time: '::psick::time'
-  sysctl: '::psick::sysctl'
-  update: '::psick::update'
-  motd: '::psick::motd'
-  profile: '::psick::profile'
-  network: '::network'
-  systat: '::psick::monitor::sar'
+  mail: psick::postfix::tp
+  ssh: psick::openssh
+  sudo: psick::sudo
+  logs: psick::logs::rsyslog
+  time: psick::time
+  sysctl: psick::sysctl
+  update: psick::update
+  motd: psick::motd
+  profile: psick::profile
+  network: network
+  systat: psick::monitor::sar
 
 # Pre and Base psick settings Windows
 psick::pre::windows_classes:
-  hosts: '::psick::hosts::resource'
+  hosts: psick::hosts::resource
 psick::base::windows_classes:
-  features: '::psick::windows::features'
-  registry: '::psick::windows::registry'
-  services: '::psick::windows::services'
-  time: '::psick::time'
-#   users: '::psick::users::ad'
+  features: psick::windows::features
+  registry: psick::windows::registry
+  services: psick::windows::services
+  time: psick::time
+#   users: psick::users::ad
 
 # Repo settings
 psick::repo::add_defaults: true
 
 # Time settings
 psick::time::servers:
-  - 'pool.ntp.org'
+  - pool.ntp.org
 
 # Timezone settings
-psick::timezone: 'UTC'
+psick::timezone: UTC
 
 # Hostname and network settings
 psick::hostname::update_network_entry: false # Avoid resource duplication when psick::network is used

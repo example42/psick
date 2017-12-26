@@ -1,13 +1,38 @@
 ---
+psick::pre::windows_classes:
+  chocolatey: chocolatey
 psick::base::windows_classes:
+  packages: psick::packages
   features: psick::windows::features
   registry: psick::windows::registry
   services: psick::windows::services
   puppet: psick::puppet::pe_agent
-  webserver: psick::iis
   reboot: psick::reboot
+  packages: psick::packages
+  users: psick::windows::users
 #  firewall: windows_firewall
-#  users: psick::users
+psick::profile::windows_classes:
+  webserver: psick::iis
+
+psick::packages::resource_default_arguments:
+  provider: chocolatey
+
+psick::reboot::apply: immediately
+psick::reboot::when: pending
+psick::reboot::schedule: weekend
+psick::reboot::subscribe_anchor: true
+psick::schedule::repeat: 2
+psick::packages::packages_list:
+  - "chocolatey"
+  - "firefox"
+  - "flashplayerplugin"
+  - "putty.install"
+  - "7zip.install"
+  - "tortoisesvn"
+  - "vlc"
+  - "chocolatey-core.extension"
+  - "sharex"
+  - "vcxsrv"
 
 # Useful registry keys: http://www.jasinskionline.com/TechnicalWiki/Useful-Windows-Registry-Keys.ashx?AspxAutoDetectCookieSupport=1
 # Windows registry: http://www.forensicswiki.org/wiki/Windows_Registry
@@ -74,13 +99,17 @@ windows_firewall::rule_key: 'windows_networks'
 windows_firewall::purge_rules: false
 
 # Testing users
-psick::users::users_hash:
+psick::windows::users::users_hash:
   al:
     ensure: present
     comment: 'Al'
   ma:
     ensure: present
     comment: 'MA'
+  Administrator:
+    ensure: present
+    password: 'Psick15PSICK!'
+
 
 # Sample rules
 windows_networks:

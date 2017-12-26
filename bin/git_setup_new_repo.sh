@@ -14,7 +14,8 @@ if [ -z $1 ]; then
 else
 	new_repo_name=$1
 fi
-if $(grep "^/" $new_repo_name); then
+echo $new_repo_name | grep "^/"
+if [ $? == 0 ]; then
 new_repo_dir=$new_repo_name
 else 
 new_repo_dir="${parent_dir}/${new_repo_name}"
@@ -37,11 +38,13 @@ ask_choice () {
 
 setup_full () {
   echo_subtitle "Copying all files from psick to ${new_repo_dir}"
-  rsync -a --exclude='.git' --exclude='.vagrant' --exclude='.pe_build' $repo_dir/ $new_repo_dir
+  mkdir -p $new_repo_dir
+  rsync -a --exclude='.git' --exclude='.vagrant' --exclude='.pe_build' $repo_dir/ $new_repo_dir/
 }
 setup_minimal () {
   echo_subtitle "Copying a minimal control-repo into ${new_repo_dir}"
-  rsync -a --exclude='.git' --exclude='.vagrant' --exclude='.pe_build' $repo_dir/docs/skeleton_minimal/ $new_repo_dir
+  mkdir -p $new_repo_dir
+  rsync -a --exclude='.git' --exclude='.vagrant' --exclude='.pe_build' $repo_dir/docs/skeleton_minimal/ $new_repo_dir/
 }
 
 git_init () {
