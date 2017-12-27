@@ -69,6 +69,10 @@ boxes:
   windows2012:
     box: opentable/win-2012r2-standard-amd64-nocm
     breed: win2012
+  windows2016:
+    box: mwrock/Windows2016
+    breed: win2016
+  solaris10:
   solaris10:
     box: tnarik/solaris10-minimal
     breed: solaris10

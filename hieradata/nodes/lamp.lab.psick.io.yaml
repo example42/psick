@@ -6,6 +6,9 @@ psick::profiles::linux_classes:
   'php': psick::php
   'mysql': psick::mariadb
 
+# This node runs in noop mode by default
+psick::puppet::pe_agent::noop_mode: true
+
 psick::apache::tp::resources_hash:
   tp::conf:
     apache::openkills.info.conf:

@@ -71,9 +71,9 @@ mod 'puppet/rabbitmq', :latest
 mod 'puppet/staging', :latest
 
 # Used by windows profiles
-# mod 'puppet/windowsfeature', :latest # :git => 'https://forge.puppet.com/voxpupuli/puppet-windowsfeature'
+# mod 'puppet/windowsfeature', :latest # :git => 'https://github.com/voxpupuli/puppet-windowsfeature'
 # mod 'thoward-windows_firewall', '0.3.4'
-## mod 'puppet/windows_firewall', :latest # :git => 'https://forge.puppet.com/voxpupuli/puppet-windows_firewall'
+## mod 'puppet/windows_firewall', :latest # :git => 'https://github.com/voxpupuli/puppet-windows_firewall'
 # mod 'puppetlabs/registry', :latest
 # mod 'puppetlabs/chocolatey', :latest
 # mod 'puppetlabs/acl', :latest
@@ -82,7 +82,7 @@ mod 'puppet/staging', :latest
 # mod 'puppetlabs/reboot', :latest
 # mod 'puppetlabs/wsus_client', :latest
 # mod 'counsyl/windows', :git => 'https://github.com/counsyl/puppet-windows'
-# mod 'trlinkin/domain_membership', :git => 'https://forge.puppet.com/trlinkin/domain_membership'
+# mod 'trlinkin/domain_membership', :git => 'https://github.com/trlinkin/domain_membership'
 
 # Used by psick::users when module=puppetlabs
 # mod 'puppetlabs/accounts', :latest
