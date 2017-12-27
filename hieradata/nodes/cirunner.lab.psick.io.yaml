@@ -3,7 +3,6 @@ psick::base::linux_classes:
   buildgems: psick::ruby::buildgems
 psick::profiles::linux_classes:
   vagrant: vagrant
-  puppet_gems: psick::puppet::gems
   git: psick::git
 
 # Explicit list of required gems for CI runners for puppet testing

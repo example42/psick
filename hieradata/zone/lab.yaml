@@ -1,17 +1,46 @@
 ---
-# Monitoring with Icinga and sensu
+### Classification
 psick::pre::linux_classes:
-  puppet: 'psick::puppet::pe_agent'
-  hosts: 'psick::hosts::file'
+  puppet: psick::puppet::pe_agent
+  hosts: psick::hosts::file
 psick::base::linux_classes:
-  icinga: 'psick::icinga2'
-  monitor_plugins: 'psick::monitor::nagiosplugins'
-  sensu: 'psick::sensu'
-  ansible: 'psick::ansible'
-  bolt: 'psick::bolt'
+  icinga: psick::icinga2
+  monitor_plugins: psick::monitor::nagiosplugins
+  sensu: psick::sensu
+  ansible: psick::ansible
+  bolt: psick::bolt
   dns: '' # In lab we leave DNS unmanaged
+  puppet_postrun: psick::puppet::postrun
+  packages: psick::packages
 
+### Noop management
+# Noop configuration on PE clients
+psick::puppet::pe_agent::manage_noop: true
+# Set here value for noop in agents' puppet.conf
+psick::puppet::pe_agent::noop_mode: false
+
+# Classes where we want to enforce resource application ALWAYS
+# no_noop param enforces no-noop mode on the specific class even if
+# noop mode is set client side or in Hiera's noop_mode setting.
+# psick::dns::resolver::no_noop: true
+# psick::hostname::no_noop: true
+# psick::hosts::file::no_noop: true
+# psick::puppet::gems::no_noop: true
+
+# If psick::puppet::pe_agent::noop_mode: true
+# this is needed to be able to revert it
+psick::puppet::pe_agent::no_noop: true
+
+### Puppet
 psick::puppet::pe_agent::manage_environment: true
+# Postrun command management
+psick::puppet::postrun::ensure: absent
+psick::puppet::postrun::template: 'psick/puppet/postrun_command_rerun.erb'
+psick::puppet::postrun::path: '/usr/local/sbin/puppet_postrun'
+psick::puppet::postrun::command: '/usr/local/sbin/puppet_postrun'
+psick::puppet::gems::install_system_gems: false
+psick::puppet::gems::install_gems:
+  - msgpack
 
 # Disabled updating host entry by psick::hostname
 psick::hostname::update_host_entry: false
@@ -62,8 +91,9 @@ psick::sensu::api_password: 'sensu' # In real world encrypt with hiera eyaml
 #sensu::client_ec2:
 #  instance-id: "%{facts.networking.fqdn}"
 sensu::client_register: true
-sensu::client_registration:
-  handler: 'servicenow'
+sensu::client_deregister: false
+#sensu::client_registration:
+#  handler: 'servicenow'
 
 
 psick::sensu::checks_params_hash:
