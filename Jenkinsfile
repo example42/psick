@@ -5,7 +5,9 @@ pipeline {
       parallel {
         stage('Syntax') {
           steps {
-            sh 'pdk validate puppet,metadata'
+            sh 'bin/jenkins_before.sh'
+            sh 'bin/puppet_check_syntax_fast.sh all_but_chars'
+            # sh 'pdk validate puppet,metadata'
           }
         }
         stage('Chars') {
@@ -15,11 +17,20 @@ pipeline {
             sh 'bin/puppet_check_syntax_fast.sh chars'
           }
         }
+        stage('Lint') {
+          agent any
+          steps {
+            sh 'bin/jenkins_before.sh'
+            sh 'bin/puppet_lint.sh'
+          }
+        }
       }
     }
     stage('Unit') {
       steps {
-        sh 'pdk test unit'
+        sh 'bin/jenkins_before.sh'
+        bin/puppet_check_rake.sh site
+      #  sh 'pdk test unit'
       }
     }
     stage('Diff') {
@@ -29,8 +40,15 @@ pipeline {
     }
     stage('Integration') {
       steps {
-        sh 'bin/puppet_job_run.sh integration'
-        sh 'bin/puppetdb_env_query.sh integration'
+        sh 'bin/jenkins_before.sh'
+        /opt/puppetlabs/puppet/bin/bundle install --with=integration --path=vendor
+        /opt/puppetlabs/puppet/bin/rake beaker_roles:psick"
+      }
+    }
+    stage('Rollout') {
+      steps {
+        sh 'bin/puppet_job_run.sh production'
+        sh 'bin/puppetdb_env_query.sh production'
       }
     }
     stage('Documentation') {
