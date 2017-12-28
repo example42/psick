@@ -26,6 +26,7 @@ pipeline {
       }
     }
     stage('Unit') {
+      agent any
       steps {
         sh 'bin/jenkins_before.sh'
         sh 'bin/puppet_check_rake.sh site'
