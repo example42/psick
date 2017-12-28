@@ -40,8 +40,7 @@ pipeline {
     stage('Integration') {
       steps {
         sh 'bin/jenkins_before.sh'
-        '/opt/puppetlabs/puppet/bin/bundle install --with=integration --path=vendor'
-        '/opt/puppetlabs/puppet/bin/rake beaker_roles:psick'
+        sh 'bin/puppet_check_beaker.sh'
       }
     }
     stage('Rollout') {
