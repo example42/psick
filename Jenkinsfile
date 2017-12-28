@@ -7,7 +7,6 @@ pipeline {
           steps {
             sh 'bin/jenkins_before.sh'
             sh 'bin/puppet_check_syntax_fast.sh all_but_chars'
-            # sh 'pdk validate puppet,metadata'
           }
         }
         stage('Chars') {
@@ -30,7 +29,6 @@ pipeline {
       steps {
         sh 'bin/jenkins_before.sh'
         bin/puppet_check_rake.sh site
-      #  sh 'pdk test unit'
       }
     }
     stage('Diff') {
