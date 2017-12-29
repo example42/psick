@@ -1,23 +1,25 @@
 pipeline {
   agent any
   stages {
+    stage('Setup') {
+      steps {
+        sh "bin/jenkins_before.sh ${env.BRANCH_NAME}"
+      }
+    }
     stage('Syntax') {
       parallel {
         stage('Syntax') {
           steps {
-            sh "bin/jenkins_before.sh ${env.BRANCH_NAME}"
             sh 'bin/puppet_check_syntax_fast.sh all_but_chars'
           }
         }
         stage('Chars') {
           steps {
-            sh "bin/jenkins_before.sh ${env.BRANCH_NAME}"
             sh 'bin/puppet_check_syntax_fast.sh chars'
           }
         }
         stage('Lint') {
           steps {
-            sh "bin/jenkins_before.sh ${env.BRANCH_NAME}"
             sh 'bin/puppet_lint.sh'
           }
         }
@@ -25,7 +27,6 @@ pipeline {
     }
     stage('Unit') {
       steps {
-        sh "bin/jenkins_before.sh ${env.BRANCH_NAME}"
         sh 'bin/puppet_check_rake.sh site'
       }
     }
@@ -36,7 +37,6 @@ pipeline {
     }
     stage('Integration') {
       steps {
-        sh "bin/jenkins_before.sh ${env.BRANCH_NAME}"
         sh 'bin/puppet_check_beaker.sh'
       }
     }
