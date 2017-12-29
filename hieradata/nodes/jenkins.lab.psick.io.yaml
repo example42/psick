@@ -1,10 +1,20 @@
 ---
+# We need jenkins class in base classes to avoid dependency loops
 psick::base::linux_classes:
   jenkins: psick::jenkins
 psick::profiles::linux_classes:
   jenkins: ''
-  rubybuild: 'psick::ruby::buildgems'
-  pdk: 'psick::puppet::pdk'
+# Needed for tests in Puppet CI
+  rubybuild: psick::ruby::buildgems
+  pdk: psick::puppet::pdk
+  vagrant: psick::vagrant
+  git: psick::git
+  # docker: psick::docker
+  puppet_pdk: psick::puppet::pdk
+
+psick::vagrant::default_plugins:
+  - vagrant-cachier
+  - vagrant-vbguest
 
 # Enabled and configure scm-sync plugin
 psick::jenkins::scm_sync_repository_url: git@github.com:alvagante/jenkins.lab.psick.io-scmsync.git
