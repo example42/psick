@@ -12,8 +12,10 @@ global_exit=0
 if [ ! -z ${RUBY} ] ; then
   echo_title "Running bundle install"
   /opt/puppetlabs/puppet/bin/bundle install --with=integration --path=vendor
-  echo_title "Running beaker"
-  /opt/puppetlabs/puppet/bin/rake beaker_roles:all_roles
+  for r in $(ls -1 spec/acceptance/ | grep _spec.rb | sed 's/_spec.rb//g') ; do
+    echo_title "Running beaker for role ${r}"
+    /opt/puppetlabs/puppet/bin/rake beaker_roles:${r}
+  done
   if [ $? == 0 ]; then
     echo_success "OK"
   else
