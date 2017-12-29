@@ -5,8 +5,10 @@ script_dir="$(dirname $0)"
 . "${script_dir}/functions"
 git_branch=${1:-integration}
 default_branch="production"
-r10k_configfile="bin/config/jenkins-r10k.yaml"
-# Location of keys to copy into the local repository (removed from gilab_after.sh
+ci=$(echo $0 | sed 's/_before\.sh//g' | sed 's/^bin\///g')
+echo "ci: $ci"
+r10k_configfile="bin/config/${ci}-r10k.yaml"
+# Location of keys to copy into the local repository (removed from_after.sh
 eyamlkeyloc=$2
 
 if [ -f "$eyamlkeyloc" ]; then
@@ -25,12 +27,10 @@ git config --add remote.origin.fetch +refs/heads/$default_branch:refs/remotes/or
 git fetch --no-tags
 diff_commits_number=$(git log origin/$default_branch..HEAD --pretty=oneline | wc -l)
 echo "Deploying modules via r10k if Puppetfile has changed in the last ${diff_commits_number} commits"
-if [$(git diff HEAD~$diff_commits_number --name-only | wc -l) > 0]; then
-  if [ "x$changedfile" == "xPuppetfile" ] || [ ! -d "${repo_dir}/modules/stdlib" ] ; then
-    echo_title "Detected change in Puppetfile. Resyncing modules"
-    mkdir -p modules
-    for d in modules/*/.git; do (cd $d/.. && git status >/dev/null); done
-    echo_title "Installing external modules via r10k"
+if [ $(git diff HEAD~$diff_commits_number --name-only | wc -l) > 0 ]; then
+  changedfiles=$(git diff HEAD~$diff_commits_number --name-only | grep Puppetfile);
+  if [ "x$changedfiles" == "xPuppetfile" ] || [ ! -d "${repo_dir}/modules/stdlib" ] ; then
+    echo_title "Installing modules defined in Puppetfile via r10k"
     /opt/puppetlabs/puppet/bin/r10k puppetfile install -v ${config}
   fi
-done
+fi
