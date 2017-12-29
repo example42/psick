@@ -5,7 +5,7 @@ script_dir="$(dirname $0)"
 . "${script_dir}/functions"
 git_branch=${1:-integration}
 default_branch="production"
-r10k_configfile="bin/config/gitlab-runner-r10k.yaml"
+r10k_configfile="bin/config/jenkins-r10k.yaml"
 # Location of keys to copy into the local repository (removed from gilab_after.sh
 eyamlkeyloc=$2
 

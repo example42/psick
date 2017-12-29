@@ -37,3 +37,17 @@ psick::jenkins::plugins:
   blueocean:
     enable: true
 
+psick::puppet::gems::install_gems:
+  - r10k
+  - deep_merge
+  - hiera-eyaml
+  - puppet-lint
+  - bundler
+  - rake
+  - rspec-puppet
+  - puppetlabs_spec_helper
+  - puppet_facts
+  - simplecov
+  - simplecov-html
+  - minitest
+
