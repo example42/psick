@@ -28,6 +28,7 @@ echo "Deploying modules via r10k if Puppetfile has changed in the last ${diff_co
 for changedfile in $(git diff HEAD~$diff_commits_number --name-only); do
   if [ "x$changedfile" == "xPuppetfile" ] || [ ! -d "${repo_dir}/modules/stdlib" ] ; then
     echo_title "Detected change in Puppetfile. Resyncing modules"
+    mkdir -p modules
     for d in modules/*/.git; do (cd $d/.. && git status >/dev/null); done
     echo_title "Installing external modules via r10k"
     /opt/puppetlabs/puppet/bin/r10k puppetfile install -v ${config}
