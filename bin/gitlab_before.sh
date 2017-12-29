@@ -3,7 +3,7 @@ repo_dir="$(dirname $0)/.."
 script_dir="$(dirname $0)"
 # repo_dir=$(git rev-parse --show-toplevel)
 . "${script_dir}/functions"
-git_branch=${1:-development}
+git_branch=${1:-integration}
 default_branch="production"
 r10k_configfile="bin/config/gitlab-runner-r10k.yaml"
 # Location of keys to copy into the local repository (removed from gilab_after.sh

@@ -5,30 +5,27 @@ pipeline {
       parallel {
         stage('Syntax') {
           steps {
-            sh 'bin/jenkins_before.sh'
+            sh "bin/jenkins_before.sh ${env.BRANCH_NAME}"
             sh 'bin/puppet_check_syntax_fast.sh all_but_chars'
           }
         }
         stage('Chars') {
-          agent any
           steps {
-            sh 'bin/jenkins_before.sh'
+            sh "bin/jenkins_before.sh ${env.BRANCH_NAME}"
             sh 'bin/puppet_check_syntax_fast.sh chars'
           }
         }
         stage('Lint') {
-          agent any
           steps {
-            sh 'bin/jenkins_before.sh'
+            sh "bin/jenkins_before.sh ${env.BRANCH_NAME}"
             sh 'bin/puppet_lint.sh'
           }
         }
       }
     }
     stage('Unit') {
-      agent any
       steps {
-        sh 'bin/jenkins_before.sh'
+        sh "bin/jenkins_before.sh ${env.BRANCH_NAME}"
         sh 'bin/puppet_check_rake.sh site'
       }
     }
@@ -39,7 +36,7 @@ pipeline {
     }
     stage('Integration') {
       steps {
-        sh 'bin/jenkins_before.sh'
+        sh "bin/jenkins_before.sh ${env.BRANCH_NAME}"
         sh 'bin/puppet_check_beaker.sh'
       }
     }
@@ -54,7 +51,7 @@ pipeline {
         sh 'rm -rf doc public .yardoc README.md'
         sh 'bin/docs_classlistgenerate.sh site/profile docs/classes.md'
         sh 'for f in $(cat docs/toc.txt); do cat docs/$f >> README.md ; echo >> README.md ; done'
-        sh 'bin/jenkins_before.sh'
+        sh "bin/jenkins_before.sh ${env.BRANCH_NAME}"
       }
     }
   }
