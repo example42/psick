@@ -32,7 +32,7 @@ pipeline {
     }
     stage('Diff') {
       steps {
-        sh 'bin/gitlab_catalog_preview.sh' || true
+        sh 'bin/gitlab_catalog_preview.sh || true'
       }
     }
     stage('Integration') {
@@ -44,14 +44,6 @@ pipeline {
       steps {
         sh 'bin/puppet_job_run.sh production'
         sh 'bin/puppetdb_env_query.sh production'
-      }
-    }
-    stage('Documentation') {
-      steps {
-        sh 'rm -rf doc public .yardoc README.md'
-        sh 'bin/docs_classlistgenerate.sh site/profile docs/classes.md'
-        sh 'for f in $(cat docs/toc.txt); do cat docs/$f >> README.md ; echo >> README.md ; done'
-        sh "bin/jenkins_before.sh ${env.BRANCH_NAME}"
       }
     }
   }
