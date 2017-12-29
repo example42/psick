@@ -25,7 +25,7 @@ git config --add remote.origin.fetch +refs/heads/$default_branch:refs/remotes/or
 git fetch --no-tags
 diff_commits_number=$(git log origin/$default_branch..HEAD --pretty=oneline | wc -l)
 echo "Deploying modules via r10k if Puppetfile has changed in the last ${diff_commits_number} commits"
-for changedfile in $(git diff HEAD~$diff_commits_number --name-only); do
+if [ $(git diff HEAD~$diff_commits_number --name-only | wc -l) > 0 ]; do
   if [ "x$changedfile" == "xPuppetfile" ] || [ ! -d "${repo_dir}/modules/stdlib" ] ; then
     echo_title "Detected change in Puppetfile. Resyncing modules"
     mkdir -p modules

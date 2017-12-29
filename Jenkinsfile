@@ -32,7 +32,7 @@ pipeline {
     }
     stage('Diff') {
       steps {
-        sh 'bin/gitlab_catalog_preview.sh'
+        sh 'bin/gitlab_catalog_preview.sh' || true
       }
     }
     stage('Integration') {
