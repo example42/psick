@@ -1,0 +1,13 @@
+HOSTS:
+  centos-7-x64.psick.io:
+    roles:
+      - default
+    platform: el-7-x86_64
+    hypervisor: vagrant
+    box: puppetlabs/centos-7.2-64-nocm
+    mount_folders:
+      controlrepo:
+        from: ../../../
+        to: /etc/puppetlabs/code/environments/production
+CONFIG:
+  type: foss

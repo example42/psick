@@ -13,7 +13,7 @@ if [ ! -z ${RUBY} ] ; then
   echo_title "Running bundle install"
   /opt/puppetlabs/puppet/bin/bundle install --with=integration --path=vendor
   echo_title "Running beaker"
-  /opt/puppetlabs/puppet/bin/rake beaker_roles:psick
+  /opt/puppetlabs/puppet/bin/rake beaker_roles:all_roles
   if [ $? == 0 ]; then
     echo_success "OK"
   else
