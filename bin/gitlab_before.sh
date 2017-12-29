@@ -21,7 +21,8 @@ fi
 echo
 
 cd $repo_dir
-git status >/dev/null
+git config --add remote.origin.fetch +refs/heads/$default_branch:refs/remotes/origin/$default_branch
+git fetch --no-tags
 diff_commits_number=$(git log origin/$default_branch..HEAD --pretty=oneline | wc -l)
 echo "Deploying modules via r10k if Puppetfile has changed in the last ${diff_commits_number} commits"
 for changedfile in $(git diff HEAD~$diff_commits_number --name-only); do
