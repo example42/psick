@@ -6,7 +6,6 @@ script_dir="$(dirname $0)"
 git_branch=${1:-integration}
 default_branch="production"
 ci=$(echo $0 | sed 's/_before\.sh//g' | sed 's/^bin\///g')
-echo "ci: $ci"
 r10k_configfile="bin/config/${ci}-r10k.yaml"
 # Location of keys to copy into the local repository (removed from_after.sh
 eyamlkeyloc=$2
