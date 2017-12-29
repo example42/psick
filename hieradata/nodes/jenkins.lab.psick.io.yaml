@@ -37,17 +37,9 @@ psick::jenkins::plugins:
   blueocean:
     enable: true
 
-psick::puppet::gems::install_gems:
-  - r10k
-  - deep_merge
-  - hiera-eyaml
-  - puppet-lint
-  - bundler
-  - rake
-  - rspec-puppet
-  - puppetlabs_spec_helper
-  - puppet_facts
-  - simplecov
-  - simplecov-html
-  - minitest
-
+# Install gems needed for Ci tests only in Puppet environment.
+# Use a default set of gems for integration tests
+# Note: They include beaker, with a lot of dependencies.  
+psick::puppet::gems::default_set: integration
+psick::puppet::gems::install_puppet_gems: true
+psick::puppet::gems::install_system_gems: false
