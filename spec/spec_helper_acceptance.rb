@@ -19,9 +19,9 @@ RSpec.configure do |c|
       # remove existing production environment
       on(host, '/usr/bin/test -d /etc/puppetlabs/code/environments/production && /bin/rm -fr /etc/puppetlabs/code/environments/production || echo true')
       # re-create production environment directory
-      on(host, '/usr/bin/test ! -d /etc/puppetlabs/code/environments/production && mkdir -p /etc/puppetlabs/code/environments/ production || echo true')
+      on(host, '/usr/bin/test ! -d /etc/puppetlabs/code/environments/production && mkdir -p /etc/puppetlabs/code/environments/production || echo true')
       # copy control-repo
-      on(host, 'cp -r /tmp/production/{.git,environment.conf,hiera.yaml,hieradata,manifests,site,modules} /etc/puppetlabs/code/environments/production/')
+      on(host, 'cp -r /tmp/production /etc/puppetlabs/code/environments/')
 
       on(host, '/opt/puppetlabs/bin/puppet resource package git ensure=present')
       on(host, '/opt/puppetlabs/puppet/bin/gem install r10k')
