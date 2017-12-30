@@ -2,6 +2,7 @@
 # We need jenkins class in base classes to avoid dependency loops
 psick::base::linux_classes:
   jenkins: psick::jenkins
+  docker: psick::docker
 psick::profiles::linux_classes:
   jenkins: ''
 # Needed for tests in Puppet CI
@@ -9,7 +10,6 @@ psick::profiles::linux_classes:
   pdk: psick::puppet::pdk
   vagrant: psick::vagrant
   git: psick::git
-  # docker: psick::docker
   puppet_pdk: psick::puppet::pdk
 
 psick::vagrant::default_plugins:

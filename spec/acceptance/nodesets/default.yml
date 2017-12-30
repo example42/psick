@@ -1,1 +1,1 @@
-spec/acceptance/nodesets/docker.yml
+docker.yml
