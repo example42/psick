@@ -95,6 +95,7 @@ psick::sensu::checks_hash:
 psick::ci::danger::use_gitlab: true
 psick::ansible::is_master: true
 psick::bolt::is_master: true
+psick::bolt::node::create_ssh_user: false
 
 # Configure gitconfig for gitlab-runner to ignore
 # self signed certificate (on gitlab server)

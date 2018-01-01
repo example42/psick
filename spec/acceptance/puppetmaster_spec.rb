@@ -1,9 +1,13 @@
 require 'spec_helper_acceptance'
 
 describe 'puppetmaster' do
+  let(:facts) do
+    OS_FACTS.merge(facts).merge({ :role => 'puppetmaster' })
+  end
+
   let(:manifest) {
     <<-EOS
-      include role::puppetmaster
+      include psick
     EOS
   }
   it 'should run first time with changes and without errors' do

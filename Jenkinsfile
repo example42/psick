@@ -38,7 +38,7 @@ pipeline {
     }
     stage('Rollout') {
       steps {
-        sh 'bin/puppet_job_run.sh production'
+        sh 'bin/puppet_run_remote_agent.sh production'
         sh 'bin/puppetdb_env_query.sh production'
       }
     }

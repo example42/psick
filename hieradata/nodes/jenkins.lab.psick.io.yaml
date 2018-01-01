@@ -55,3 +55,9 @@ psick::jenkins::plugins:
 psick::puppet::gems::default_set: integration
 psick::puppet::gems::install_puppet_gems: true
 psick::puppet::gems::install_system_gems: false
+
+psick::bolt::is_master: true
+psick::bolt::bolt_user: jenkins
+psick::bolt::master::generate_nodes_list: false
+psick::bolt::master::run_ssh_keygen: false
+psick::bolt::master::user_home: /var/lib/jenkins
