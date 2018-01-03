@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 repo_dir="$(dirname $0)/.."
 . "${repo_dir}/bin/functions"
+export PATH=/opt/puppetlabs/puppet/bin:$PATH
 
-test -f /etc/gitlab-ci.conf && . /etc/gitlab-ci.conf
+test -f /etc/ci.conf && . /etc/ci.conf
 env=$1
 default=${env}_query_default_nodes
 always=${env}_query_always_nodes
@@ -24,7 +25,7 @@ for changedfile in $(git diff HEAD~$diff_commits_number --name-only); do
   if [[ "x$node" != "x" ]]; then
     echo
     echo_title "Running Puppet on node ${node} - Check based on commits"
-    bolt task run psick::puppet_agent --modules modules --user jenkins -n $node
+    bolt task run psick::puppet_agent --modulepath modules --user jenkins -n $node
     if [ $? != 0 ]; then
       global_exit=1
     fi
@@ -34,14 +35,14 @@ done
 # Default nodes to check if none found from the commit
 if [[ $nodes == 0 ]]; then
   echo_title "Running Puppet on nodes ${default_nodes} - Default nodes"
-  bolt task run psick::puppet_agent --modules modules --user jenkins -n $default_nodes
+  bolt task run psick::puppet_agent --modulepath modules --user jenkins -n $default_nodes
   if [ $? != 0 ]; then
     global_exit=1
   fi
 fi
 
 echo_title "Running Puppet on nodes ${always_nodes} - Node always checked"
-bolt task run psick::puppet_agent --modules modules --user jenkins -n $always_nodes
+bolt task run psick::puppet_agent --modulepath modules --user jenkins -n $always_nodes
 if [ $? != 0 ]; then
   global_exit=1
 fi

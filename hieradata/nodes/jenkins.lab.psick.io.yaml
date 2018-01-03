@@ -11,6 +11,7 @@ psick::profiles::linux_classes:
   vagrant: psick::vagrant
   git: psick::git
   puppet_pdk: psick::puppet::pdk
+  ci: psick::ci
 
 psick::vagrant::default_plugins:
   - vagrant-cachier
@@ -61,3 +62,12 @@ psick::bolt::bolt_user: jenkins
 psick::bolt::master::generate_nodes_list: false
 psick::bolt::master::run_ssh_keygen: false
 psick::bolt::master::user_home: /var/lib/jenkins
+
+# CI management: nodes to test
+psick::ci::default_nodes:
+  - puppet.lab.psick.io
+psick::ci::always_nodes:
+  - git.lab.psick.io
+psick::ci::options:
+  catalog_preview_default_nodes: 'lamp.lab.psick.io,puppet.lab.psick.io'
+
