@@ -7,8 +7,17 @@ pipeline {
       }
     }
     stage('Syntax') {
-      steps {
-        sh 'bin/puppet_check_syntax_fast.sh all_but_chars'
+      parallel {
+        stage('Syntax') {
+          steps {
+            sh 'bin/puppet_check_syntax_fast.sh all_but_chars'
+          }
+        }
+        stage('Lint') {
+          steps {
+            sh '        bin/puppet_lint.sh'
+          }
+        }
       }
     }
     stage('Chars') {
@@ -36,7 +45,6 @@ pipeline {
         sh 'bin/puppet_check_beaker.sh || true'
       }
     }
-
     stage('Deploy Puppet in test') {
       steps {
         sh 'bin/puppet_ci.sh r10k_deploy --env integration --ssh jenkins@puppet --sudo'
@@ -52,7 +60,6 @@ pipeline {
         sh 'bin/puppet_ci.sh db_query --env integration'
       }
     }
-
     stage('Deploy Puppet in production') {
       steps {
         sh 'bin/puppet_ci.sh r10k_deploy --env production --ssh jenkins@puppet --sudo'
@@ -68,6 +75,5 @@ pipeline {
         sh 'bin/puppet_ci.sh db_query --env production'
       }
     }
-
   }
 }
