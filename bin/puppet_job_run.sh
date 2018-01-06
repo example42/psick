@@ -36,8 +36,6 @@ if [[ $nodes == 0 ]]; then
   echo_title "Running Puppet on nodes ${default_nodes} - Default nodes"
   puppet job run --nodes $default_nodes
   if [ $? != 0 ]; then
-    global_exit=1
-  fi
 fi
 
 echo_title "Running Puppet on nodes ${always_nodes} - Node always checked"

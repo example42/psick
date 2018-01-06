@@ -28,7 +28,7 @@ pipeline {
     }
     stage('Diff') {
       steps {
-        sh 'bin/gitlab_catalog_preview.sh || true'
+        sh 'bin/puppet_ci.sh catalog_preview || true'
       }
     }
     stage('Integration') {
@@ -36,11 +36,38 @@ pipeline {
         sh 'bin/puppet_check_beaker.sh || true'
       }
     }
-    stage('Rollout') {
+
+    stage('Deploy Puppet in test') {
       steps {
-        sh 'bin/puppet_run_remote_agent.sh production'
-        sh 'bin/puppetdb_env_query.sh production'
+        sh 'bin/puppet_ci.sh r10k_deploy --env integration --ssh jenkins@puppet --sudo'
       }
     }
+    stage('Run Puppet in test') {
+      steps {
+        sh 'bin/puppet_ci.sh task_run psick::puppet_agent --env integration'
+      }
+    }
+    stage('Verify status in test') {
+      steps {
+        sh 'bin/puppet_ci.sh db_query --env integration'
+      }
+    }
+
+    stage('Deploy Puppet in production') {
+      steps {
+        sh 'bin/puppet_ci.sh r10k_deploy --env production --ssh jenkins@puppet --sudo'
+      }
+    }
+    stage('Run Puppet in production') {
+      steps {
+        sh 'bin/puppet_ci.sh task_run psick::puppet_agent --env production'
+      }
+    }
+    stage('Verify status in production') {
+      steps {
+        sh 'bin/puppet_ci.sh db_query --env production'
+      }
+    }
+
   }
 }

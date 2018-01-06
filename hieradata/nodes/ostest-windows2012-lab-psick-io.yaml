@@ -18,7 +18,7 @@ psick::packages::resource_default_arguments:
   provider: chocolatey
 
 psick::reboot::apply: immediately
-psick::reboot::when: pending
+psick::reboot::when: refreshed
 psick::reboot::schedule: weekend
 psick::reboot::subscribe_anchor: true
 psick::schedule::repeat: 2
