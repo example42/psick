@@ -1,12 +1,15 @@
 pipeline {
   agent any
+  triggers {
+    pollSCM('H */4 * * *')
+  }
   stages {
     stage('Setup') {
       steps {
         sh "bin/jenkins_before.sh ${env.BRANCH_NAME}"
       }
     }
-    stage('Syntax') {
+    stage('Syntax checks') {
       parallel {
         stage('Syntax') {
           steps {
@@ -15,64 +18,77 @@ pipeline {
         }
         stage('Lint') {
           steps {
-            sh '        bin/puppet_lint.sh'
+            sh 'bin/puppet_lint.sh'
+          }
+        }
+        stage('Chars') {
+          steps {
+            sh 'bin/puppet_check_syntax_fast.sh chars'
           }
         }
       }
     }
-    stage('Chars') {
-      steps {
-        sh 'bin/puppet_check_syntax_fast.sh chars'
+    stage('Tests') {
+      parallel {
+        stage('Unit') {
+          steps {
+            sh 'bin/puppet_check_rake.sh site'
+          }
+        }
+        stage('Diff') {
+          steps {
+            sh 'bin/puppet_ci.sh catalog_preview || true'
+          }
+        }
+        stage('Integration') {
+          steps {
+            sh 'bin/puppet_check_beaker.sh || true'
+          }
+        }
       }
     }
-    stage('Lint') {
+    stage('Integration Rollout') {
+      when {
+        branch 'integration'
+      }
       steps {
-        sh 'bin/puppet_lint.sh'
+        stage('Deploy Puppet in test') {
+          steps {
+            sh 'bin/puppet_ci.sh r10k_deploy --env integration --ssh jenkins@puppet --sudo'
+          }
+        }
+        stage('Run Puppet in test') {
+          steps {
+            sh 'bin/puppet_ci.sh task_run psick::puppet_agent --env integration'
+          }
+        }
+        stage('Verify status in test') {
+          steps {
+            sh 'bin/puppet_ci.sh db_query --env integration'
+          }
+        }
       }
     }
-    stage('Unit') {
-      steps {
-        sh 'bin/puppet_check_rake.sh site'
+    stage('Production Rollout') {
+      when {
+        branch 'production'
       }
-    }
-    stage('Diff') {
       steps {
-        sh 'bin/puppet_ci.sh catalog_preview || true'
-      }
-    }
-    stage('Integration') {
-      steps {
-        sh 'bin/puppet_check_beaker.sh || true'
-      }
-    }
-    stage('Deploy Puppet in test') {
-      steps {
-        sh 'bin/puppet_ci.sh r10k_deploy --env integration --ssh jenkins@puppet --sudo'
-      }
-    }
-    stage('Run Puppet in test') {
-      steps {
-        sh 'bin/puppet_ci.sh task_run psick::puppet_agent --env integration'
-      }
-    }
-    stage('Verify status in test') {
-      steps {
-        sh 'bin/puppet_ci.sh db_query --env integration'
-      }
-    }
-    stage('Deploy Puppet in production') {
-      steps {
-        sh 'bin/puppet_ci.sh r10k_deploy --env production --ssh jenkins@puppet --sudo'
-      }
-    }
-    stage('Run Puppet in production') {
-      steps {
-        sh 'bin/puppet_ci.sh task_run psick::puppet_agent --env production'
-      }
-    }
-    stage('Verify status in production') {
-      steps {
-        sh 'bin/puppet_ci.sh db_query --env production'
+        stage('Deploy Puppet in production') {
+          steps {
+            sh 'bin/puppet_ci.sh r10k_deploy --env production --ssh jenkins@puppet --sudo'
+          }
+        }
+        stage('Run Puppet in production') {
+          steps {
+            sh 'bin/puppet_ci.sh task_run psick::puppet_agent --env production'
+          }
+        }
+        stage('Verify status in production') {
+          steps {
+            sh 'bin/puppet_ci.sh db_query --env production'
+          }
+        }
       }
     }
   }
