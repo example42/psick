@@ -1,5 +1,4 @@
-// pipeline {
-node {
+pipeline {
   agent any
   stages {
     stage('Setup') {
