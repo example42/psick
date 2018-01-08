@@ -3,6 +3,7 @@ pipeline {
   triggers {
     pollSCM('H */4 * * *')
   }
+node {
   stages {
     stage('Syntax checks') {
       steps {
@@ -67,8 +68,24 @@ pipeline {
             sh 'bin/puppet_ci.sh db_query --env integration'
           }
         }
+        stage('Merge request to production') {
+          steps {
+            sh 'bin/gitlab_create_merge_request.rb integration production'
+          }
+        }
       }
     }
+}
+{
+    stage('Merge accept to production') {
+          input "Deploy to prod?"
+          steps {
+            sh 'bin/gitlab_accept_merge_request.rb integration production'
+          }
+        }
+}
+
+node {
     stage('Production Rollout') {
       when {
         branch 'production'

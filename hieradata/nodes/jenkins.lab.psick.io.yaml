@@ -66,8 +66,9 @@ psick::bolt::master::user_home: /var/lib/jenkins
 # CI management: nodes to test
 psick::puppet::ci::default_nodes:
   - puppet.lab.psick.io
-psick::puppet::ci::always_nodes:
   - git.lab.psick.io
+psick::puppet::ci::always_nodes:
+  - lamp.lab.psick.io
 psick::puppet:ci::options:
   catalog_preview_default_nodes: 'lamp.lab.psick.io,puppet.lab.psick.io'
 
