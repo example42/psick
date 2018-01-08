@@ -4,6 +4,7 @@ pipeline {
     pollSCM('H */4 * * *')
   }
   stages {
+
     stage('Syntax checks') {
       steps {
         stage('Setup') {
@@ -28,6 +29,7 @@ pipeline {
         }
       }
     }
+
     stage('Tests') {
       parallel {
         stage('Unit') {
@@ -47,6 +49,7 @@ pipeline {
         }
       }
     }
+
     stage('Integration Rollout') {
       when {
         branch 'integration'
@@ -75,7 +78,6 @@ pipeline {
       }
     }
 
-node {
     stage('Production Rollout') {
       when {
         branch 'production'
