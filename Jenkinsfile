@@ -3,7 +3,6 @@ pipeline {
   triggers {
     pollSCM('H */4 * * *')
   }
-node {
   stages {
     stage('Syntax checks') {
       steps {
@@ -75,15 +74,6 @@ node {
         }
       }
     }
-}
-{
-    stage('Merge accept to production') {
-          input "Deploy to prod?"
-          steps {
-            sh 'bin/gitlab_accept_merge_request.rb integration production'
-          }
-        }
-}
 
 node {
     stage('Production Rollout') {
@@ -91,6 +81,11 @@ node {
         branch 'production'
       }
       steps {
+        stage('Merge accept to production') {
+          steps {
+            sh 'bin/gitlab_accept_merge_request.rb integration production'
+          }
+        }
         stage('Deploy Puppet in production') {
           steps {
             sh 'bin/puppet_ci.sh r10k_deploy --env production --ssh jenkins@puppet --sudo'
