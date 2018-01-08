@@ -1,10 +1,6 @@
 pipeline {
   agent any
-  triggers {
-    pollSCM('H */4 * * *')
-  }
   stages {
-
     stage('Syntax checks') {
       steps {
         stage('Setup') {
