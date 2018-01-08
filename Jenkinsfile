@@ -1,13 +1,14 @@
-pipeline {
+// pipeline {
+node {
   agent any
   stages {
-    stage('Syntax checks') {
+    stage('Setup') {
       steps {
-        stage('Setup') {
-          steps {
-            sh "bin/jenkins_before.sh ${env.BRANCH_NAME}"
-          }
-        }
+        sh "bin/jenkins_before.sh ${env.BRANCH_NAME}"
+      }
+    }
+    stage('Syntax checks') {
+      parallel {
         stage('Syntax') {
           steps {
             sh 'bin/puppet_check_syntax_fast.sh all_but_chars'
