@@ -16,6 +16,7 @@ pipeline {
     stage('Unit') {
       steps {
         sh 'bin/puppet_check_rake.sh site'
+        sh 'bin/puppet_check_rake.sh controlrepo'
       }
     }
     stage('Diff') {
