@@ -34,22 +34,11 @@ pipeline {
         branch 'integration'
       }
       steps {
-        stage('Deploy Puppet in test') {
-          steps {
-            sh 'bin/puppet_ci.sh r10k_deploy --env integration --ssh jenkins@puppet --sudo'
-          }
-        }
-        stage('Run Puppet in test') {
-          steps {
-            sh 'bin/puppet_ci.sh task_run psick::puppet_agent --env integration'
-          }
-        }
-        stage('Verify status in test') {
-          steps {
-            sh 'bin/puppet_ci.sh db_query --env integration'
-          }
-        }
+        sh 'bin/puppet_ci.sh r10k_deploy --env integration --ssh jenkins@puppet --sudo'
+        sh 'bin/puppet_ci.sh task_run psick::puppet_agent --env integration'
+        sh 'bin/puppet_ci.sh db_query --env integration'
       }
+     }
     }
 
     stage('Production Rollout') {
@@ -57,26 +46,9 @@ pipeline {
         branch 'production'
       }
       steps {
-        stage('Merge accept to production') {
-          steps {
-            sh 'bin/gitlab_accept_merge_request.rb integration production'
-          }
-        }
-        stage('Deploy Puppet in production') {
-          steps {
-            sh 'bin/puppet_ci.sh r10k_deploy --env production --ssh jenkins@puppet --sudo'
-          }
-        }
-        stage('Run Puppet in production') {
-          steps {
-            sh 'bin/puppet_ci.sh task_run psick::puppet_agent --env production'
-          }
-        }
-        stage('Verify status in production') {
-          steps {
-            sh 'bin/puppet_ci.sh db_query --env production'
-          }
-        }
+        sh 'bin/puppet_ci.sh r10k_deploy --env production --ssh jenkins@puppet --sudo'
+        sh 'bin/puppet_ci.sh task_run psick::puppet_agent --env production'
+        sh 'bin/puppet_ci.sh db_query --env production'
       }
     }
   }
