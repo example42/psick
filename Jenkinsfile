@@ -6,43 +6,26 @@ pipeline {
         sh "bin/jenkins_before.sh ${env.BRANCH_NAME}"
       }
     }
-    stage('Syntax checks') {
-      parallel {
-        stage('Syntax') {
-          steps {
-            sh 'bin/puppet_check_syntax_fast.sh all_but_chars'
-          }
-        }
-        stage('Lint') {
-          steps {
-            sh 'bin/puppet_lint.sh'
-          }
-        }
-        stage('Chars') {
-          steps {
-            sh 'bin/puppet_check_syntax_fast.sh chars'
-          }
-        }
+    stage('Syntax') {
+      steps {
+        sh 'bin/puppet_check_syntax_fast.sh all_but_chars'
+        sh 'bin/puppet_lint.sh'
+        sh 'bin/puppet_check_syntax_fast.sh chars'
       }
     }
-
-    stage('Tests') {
-      parallel {
-        stage('Unit') {
-          steps {
-            sh 'bin/puppet_check_rake.sh site'
-          }
-        }
-        stage('Diff') {
-          steps {
-            sh 'bin/puppet_ci.sh catalog_preview || true'
-          }
-        }
-        stage('Integration') {
-          steps {
-            sh 'bin/puppet_check_beaker.sh || true'
-          }
-        }
+    stage('Unit') {
+      steps {
+        sh 'bin/puppet_check_rake.sh site'
+      }
+    }
+    stage('Diff') {
+      steps {
+        sh 'bin/puppet_ci.sh catalog_preview || true'
+      }
+    }
+    stage('Integration') {
+      steps {
+        sh 'bin/puppet_check_beaker.sh || true'
       }
     }
 
@@ -64,11 +47,6 @@ pipeline {
         stage('Verify status in test') {
           steps {
             sh 'bin/puppet_ci.sh db_query --env integration'
-          }
-        }
-        stage('Merge request to production') {
-          steps {
-            sh 'bin/gitlab_create_merge_request.rb integration production'
           }
         }
       }
