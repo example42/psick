@@ -69,6 +69,8 @@ psick::puppet::ci::default_nodes:
   - git.lab.psick.io
 psick::puppet::ci::always_nodes:
   - lamp.lab.psick.io
-psick::puppet:ci::options:
-  catalog_preview_default_nodes: 'lamp.lab.psick.io,puppet.lab.psick.io'
+psick::puppet::ci::options:
+  catalog_preview_default_nodes:
+    - lamp.lab.psick.io
+    - puppet.lab.psick.io
 

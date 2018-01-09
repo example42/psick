@@ -38,7 +38,6 @@ pipeline {
         sh 'bin/puppet_ci.sh task_run psick::puppet_agent --env integration'
         sh 'bin/puppet_ci.sh db_query --env integration'
       }
-     }
     }
 
     stage('Production Rollout') {

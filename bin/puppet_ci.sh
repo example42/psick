@@ -8,11 +8,11 @@ This script executes, locally or on a remote node, a set of Puppet CI related ac
 Usage: ${0} <action> [--env <environment>] [--ssh <ssh_connection>]
 Available actions:
   tp_test - Runs 'tp test'
-  catalog_preview - 
-  catalog_diff - 
-  job_run - 
-  db_query - 
-  task_run - 
+  catalog_preview -
+  catalog_diff -
+  job_run -
+  db_query -
+  task_run -
   puppet_deploy -
 Example: $0 tp_test --ssh jenkins@web01
 HELP
@@ -37,7 +37,7 @@ run_action () {
     ;;
     catalog_preview)
       $ssh_command
-      $sudo_command puppet preview --view overview --assert equal --baseline_environment production --preview_environment $env $n 
+      $sudo_command puppet preview --view overview --assert equal --baseline_environment production --preview_environment $env $n
       $ssh_command_post
     ;;
     catalog_diff)
@@ -146,8 +146,8 @@ while [ $# -gt 0 ]; do
       shift 2
     ;;
     --sudo)
-      sudo_command=$2
-      shift 2
+      sudo_command='sudo'
+      shift
     ;;
     *)
       showhelp
@@ -157,8 +157,8 @@ while [ $# -gt 0 ]; do
 done
 
 # Vars
-default=${env}_${action}_default_nodes
-always=${env}_${action}_always_nodes
+default=${${env}_${action}_default_nodes:-$default_nodes}
+always=${${env}_${action}_always_nodes:-$always_nodes}
 default_nodes=${!default}
 always_nodes=${!always}
 if [ $nodes_format == 'space' ]; then
