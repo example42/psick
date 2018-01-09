@@ -7,7 +7,7 @@ run=${2:-none}
 
 global_exit=0
 
-if [ $mods != 'controlrepo']; then
+if [ "${mods}" != "controlrepo" ]; then
   echo_title "Running rspec tests on modules under ${mods} dir"
   for i in $(ls -1 "${repo_dir}/${mods}/")
   do

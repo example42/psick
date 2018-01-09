@@ -143,6 +143,7 @@ OS_FACTS =
       :network6 => 'fe80::',
       :primary => 'enp0s3'
     },
+    :ostempdir => '/tmp',
     :path => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/opt/puppetlabs/bin:/root/bin',
     :processors => {
       :count => '4',
