@@ -3,10 +3,11 @@ repo_dir="$(dirname $0)/.."
 script_dir="$(dirname $0)"
 # repo_dir=$(git rev-parse --show-toplevel)
 . "${script_dir}/functions"
-git_branch=${1:-development}
+git_branch=${1:-integration}
 default_branch="production"
-r10k_configfile="bin/config/gitlab-runner-r10k.yaml"
-# Location of keys to copy into the local repository (removed from gilab_after.sh
+ci=$(echo $0 | sed 's/_before\.sh//g' | sed 's/^bin\///g')
+r10k_configfile="bin/config/${ci}-r10k.yaml"
+# Location of keys to copy into the local repository (removed from_after.sh
 eyamlkeyloc=$2
 
 if [ -f "$eyamlkeyloc" ]; then
@@ -21,14 +22,14 @@ fi
 echo
 
 cd $repo_dir
-
+git config --add remote.origin.fetch +refs/heads/$default_branch:refs/remotes/origin/$default_branch
+git fetch --no-tags
 diff_commits_number=$(git log origin/$default_branch..HEAD --pretty=oneline | wc -l)
 echo "Deploying modules via r10k if Puppetfile has changed in the last ${diff_commits_number} commits"
-for changedfile in $(git diff HEAD~$diff_commits_number --name-only); do
-  if [ "x$changedfile" == "xPuppetfile" ] || [ ! -d "${repo_dir}/modules/stdlib" ] ; then
-    echo_title "Detected change in Puppetfile. Resyncing modules"
-    for d in modules/*/.git; do (cd $d/.. && git status >/dev/null); done
-    echo_title "Installing external modules via r10k"
+if [ $(git diff HEAD~$diff_commits_number --name-only | wc -l) > 0 ]; then
+  changedfiles=$(git diff HEAD~$diff_commits_number --name-only | grep Puppetfile);
+  if [ "x$changedfiles" == "xPuppetfile" ] || [ ! -d "${repo_dir}/modules/stdlib" ] ; then
+    echo_title "Installing modules defined in Puppetfile via r10k"
     /opt/puppetlabs/puppet/bin/r10k puppetfile install -v ${config}
   fi
-done
+fi

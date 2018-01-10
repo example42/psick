@@ -42,11 +42,12 @@ Note that this is a non High Available testing and development infrastructure, s
   - [GitLab](https://git.lab.psick.io/puppet/psick/). A GitLab instance, integrated with Code Mabaner to automatically deploy code PE and run our CI pipelines
   - [Sensu](https://sensu.lab.psick.io/). Login: sensu:sensu. An Uchiwa installation as frontend for the Sensu installation.
   - [Icinga](https://icinga.lab.psick.io/icingaweb2/). Login: guest:guest. An Icinga installation, with Icinga Web 2 interface.
-  - [Graphite](https://graphite.lab.psick.io/) - Graphite and grafana frontends.
+  - [Graphite](https://graphite.lab.psick.io/) - Graphite and grafana frontends (not active by default).
   - [ManageIQ](https://manageiq.lab.psick.io/) - A ManageIQ installation (not active by default).
   - [RabbitMQ](https://rabbitmq.lab.psick.io/) - A RabbitMQ installation (not active by default).
   - [Rundeck](https://rundeck.lab.psick.io/) - A Rundeck installation (not active by default).
   - [Foreman](https://foreman.lab.psick.io/) - A Foreman installation (not active by default).
+  - [Jenkins](https://jenkins.lab.psick.io/) - Jenkins instance using PSICK Jenkinsfile.
 
 Note: While the setup of the whole PSICK lab infrastructure is automated and may be restored from scratch, that's not something we would like to do frequently.
 We give you credentials and access to these services, please behave.

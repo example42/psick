@@ -81,11 +81,13 @@ chars:
     - branches
   allow_failure: true
 
-rake_site:
+rake_controlrepo:
   stage: unit
   before_script:
     - "bin/gitlab_before.sh ${CI_BUILD_REF_NAME}"
-  script: "bin/puppet_check_rake.sh site"
+  script:
+    - "bin/puppet_check_rake.sh site"
+    - "bin/puppet_check_rake.sh controlrepo"
   cache:
     untracked: true
     paths:

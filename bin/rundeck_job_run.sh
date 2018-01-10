@@ -8,6 +8,7 @@ results_dir="${repo_dir}/tests/rundeck/$(date +%Y%m%d-%H%M%S)"
 mkdir -p $results_dir
 
 test -f /etc/gitlab-ci.conf && . /etc/gitlab-ci.conf
+
 env=$1
 default=${env}_query_default_nodes
 always=${env}_query_always_nodes

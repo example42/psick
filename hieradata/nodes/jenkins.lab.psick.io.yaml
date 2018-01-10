@@ -1,10 +1,23 @@
 ---
+# We need jenkins class in base classes to avoid dependency loops
 psick::base::linux_classes:
   jenkins: psick::jenkins
+  docker: psick::docker
 psick::profiles::linux_classes:
   jenkins: ''
-  rubybuild: 'psick::ruby::buildgems'
-  pdk: 'psick::puppet::pdk'
+# Needed for tests in Puppet CI
+  rubybuild: psick::ruby::buildgems
+  pdk: psick::puppet::pdk
+  vagrant: psick::vagrant
+  git: psick::git
+  puppet_pdk: psick::puppet::pdk
+  puppet_ci: psick::puppet::ci
+
+psick::vagrant::default_plugins:
+  - vagrant-cachier
+  - vagrant-vbguest
+psick::docker::allowed_users:
+  - jenkins
 
 # Enabled and configure scm-sync plugin
 psick::jenkins::scm_sync_repository_url: git@github.com:alvagante/jenkins.lab.psick.io-scmsync.git
@@ -36,4 +49,35 @@ psick::jenkins::plugins:
     enable: true
   blueocean:
     enable: true
+
+# Install gems needed for Ci tests only in Puppet environment.
+# Use a default set of gems for integration tests
+# Note: They include beaker, with a lot of dependencies.  
+psick::puppet::gems::default_set: integration
+psick::puppet::gems::install_puppet_gems: true
+psick::puppet::gems::install_system_gems: false
+
+# This forces overwrites of puppet and facter binaries (from package)
+# installing the relevant gems.
+# Needed for gems that depend on them
+# (TODO: find a better solution)
+psick::puppet::gems::install_options:
+  - --force
+
+psick::bolt::is_master: true
+psick::bolt::bolt_user: jenkins
+psick::bolt::master::generate_nodes_list: false
+psick::bolt::master::run_ssh_keygen: false
+psick::bolt::master::user_home: /var/lib/jenkins
+
+# CI management: nodes to test
+psick::puppet::ci::default_nodes:
+  - puppet.lab.psick.io
+  - git.lab.psick.io
+psick::puppet::ci::always_nodes:
+  - lamp.lab.psick.io
+psick::puppet::ci::options:
+  catalog_preview_default_nodes:
+    - lamp.lab.psick.io
+    - puppet.lab.psick.io
 

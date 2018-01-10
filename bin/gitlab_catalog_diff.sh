@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 test -f /etc/gitlab-ci.conf && . /etc/gitlab-ci.conf
+
 default_nodes=$catalag_diff_default_nodes
 always_nodes=$catalag_diff_always_nodes
 default_branch='production'
