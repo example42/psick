@@ -57,6 +57,13 @@ psick::puppet::gems::default_set: integration
 psick::puppet::gems::install_puppet_gems: true
 psick::puppet::gems::install_system_gems: false
 
+# This forces overwrites of puppet and facter binaries (from package)
+# installing the relevant gems.
+# Needed for gems that depend on them
+# (TODO: find a better solution)
+psick::puppet::gems::install_options:
+  - --force
+
 psick::bolt::is_master: true
 psick::bolt::bolt_user: jenkins
 psick::bolt::master::generate_nodes_list: false

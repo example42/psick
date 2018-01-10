@@ -17,7 +17,7 @@ if [ "${mods}" != "controlrepo" ]; then
     if [ "${run}" == "bundle" ]; then
       bundle --path=vendor
     fi
-    rake spec
+    bundle exec rake spec
     if [ $? == 0 ]; then
       echo_success "OK"
     else
@@ -30,7 +30,7 @@ else
   if [ "${run}" == "bundle" ]; then
     bundle --path=vendor
   fi
-  rake spec
+  bundle exec rake spec
   if [ $? == 0 ]; then
     echo_success "OK"
   else
