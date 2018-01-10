@@ -4,7 +4,7 @@ pipeline {
     stage('Setup') {
       steps {
         sh "bin/jenkins_before.sh ${env.BRANCH_NAME}"
-        sh 'bundle --path=vendor'
+        sh '/opt/puppetlabs/puppet/bin/bundle --path=vendor'
       }
     }
     stage('Syntax') {
