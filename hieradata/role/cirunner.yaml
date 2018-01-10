@@ -15,7 +15,7 @@ psick::ci::danger::plugins:
   - danger-mention
   - danger-commit_lint
 
-psick::vagrant::plugins::default_plugins:
+psick::vagrant::default_plugins:
   - vagrant-cachier
   - vagrant-vbguest
 

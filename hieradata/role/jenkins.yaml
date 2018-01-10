@@ -1,5 +1,4 @@
 ---
----
 psick::base::linux_classes:
   jenkins: psick::jenkins
 

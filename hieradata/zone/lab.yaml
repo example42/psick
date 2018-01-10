@@ -212,6 +212,7 @@ psick::ansible::keyshare_method: storeconfigs
 # Bolt
 psick::bolt::master: puppet.lab.psick.io
 psick::bolt::keyshare_method: storeconfigs
+psick::bolt::ssh_user: bolt
 
 # Enable package data collection on Puppet Enterprise
 puppet_enterprise::profile::agent::package_inventory_enabled: true

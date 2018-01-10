@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-
 test -f /etc/gitlab-ci.conf && . /etc/gitlab-ci.conf
+
 default_nodes=$catalog_preview_default_nodes
 always_nodes=$catalog_preview_always_nodes
 

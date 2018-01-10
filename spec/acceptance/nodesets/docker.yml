@@ -7,11 +7,13 @@ HOSTS:
     mount_folders:
       controlrepo:
         host_path: .
-        container_path: /etc/puppetlabs/code/environments/production
+        container_path: /tmp/production
+        opts: ro
     docker_cmd: '["/usr/sbin/init"]'
     docker_image_commands:
       - 'yum -y swap -- remove fakesystemd -- install systemd systemd-libs'
-      - 'yum -y install crontabs tar wget openssl sysvinit-tools iproute which initscripts'
+      - 'yum -y install crontabs tar ss wget openssl sysvinit-tools iproute which initscripts'
       - 'yum -y update; yum clean all; yum makecache'
+      - 'systemctl mask getty@tty1.service'
 CONFIG:
   type: foss
