@@ -4,7 +4,16 @@ require 'beaker/puppet_install_helper'
 
 hosts.each do |host|
   # Install Puppet
-  install_puppet_agent_on(host)
+  # check for PUPPET_GEM_VERSION environment variable
+  if ENV['PUPPET_GEM_VERSION']
+    if ENV['PUPPET_GEM_VERSION'] < '5'
+      install_puppet_agent_on(host)
+    else
+      install_puppet_agent_on(host, {:version => ENV['PUPPET_GEM_VERSION'],:puppet_collection => 'puppet5'})
+    end
+  else
+    install_puppet_agent_on(host)
+  end
 end
 
 RSpec.configure do |c|
