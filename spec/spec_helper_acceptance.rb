@@ -9,7 +9,6 @@ end
 hosts.each do |host|
   # Install Puppet
   # check for puppet version
-  binding.pry
   if Puppet.version.to_i < 5
     install_puppet_agent_on(host)
   else
