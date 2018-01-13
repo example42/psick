@@ -1,18 +1,19 @@
 require 'beaker-rspec'
 require 'beaker-hiera'
 require 'beaker/puppet_install_helper'
+begin
+  require 'puppet'
+rescue TypeError
+end
 
 hosts.each do |host|
   # Install Puppet
-  # check for PUPPET_GEM_VERSION environment variable
-  if ENV['PUPPET_GEM_VERSION']
-    if ENV['PUPPET_GEM_VERSION'] < '5'
-      install_puppet_agent_on(host)
-    else
-      install_puppet_agent_on(host, {:version => ENV['PUPPET_GEM_VERSION'],:puppet_collection => 'puppet5'})
-    end
-  else
+  # check for puppet version
+  binding.pry
+  if Puppet.version.to_i < 5
     install_puppet_agent_on(host)
+  else
+    install_puppet_agent_on(host, {:version => Puppet.version,:puppet_collection => 'puppet5'})
   end
 end
 
