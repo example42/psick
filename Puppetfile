@@ -57,10 +57,6 @@ mod 'puppetlabs/dummy_service', :latest
 # mod 'herculesteam-augeasproviders_sysctl', '2.2.0'
 # mod 'puppetlabs/firewall', :latest
 
-# Used by psick::vpn::openvpn
-# mod 'luxflux/openvpn',
-#  :git => 'https://github.com/luxflux/puppet-openvpn'
-
 # Used by psick::vagrant
 mod 'unibet/vagrant', :latest
 

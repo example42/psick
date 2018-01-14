@@ -1,28 +1,33 @@
 ---
-# Noop mode. Uncomment to enable nood mode globally
+# Noop mode. Uncomment to enable server side noop mode globally
 # noop_mode: true
 
-# General psick settings
+# General psick settings. These are the default values.
 psick::manage: true
-psick::auto_conf: hardened
+psick::auto_conf: none
 psick::auto_prereq: true
 
 # Tiny Puppet settings in psick module
-# By default tp integrations are not enabled. We want some of them:
+# By default tp integrations are not enabled. We want to install the tp cli
+# command and add tp test entries wherever possible. The default tinydata module
+# is used as data source for tp defines.
 psick::tp:
   cli_enable: true
   test_enable: true
+  data_module: tinydata
 
-# First run optional settings
+# First run optional settings. Here first run mode is disabled
 psick::enable_firstrun: false
 psick::firstrun::linux_classes:
   hostname: psick::hostname
 psick::firstrun::windows_classes:
   hostname: psick::hostname
 
-# Common Linux classes
+# PSICK classification for Linux nodes
+# We define the classes we want in pre phase (applied before all the others)
+# and in the base phase (common baseline, applied to all nodes)
 psick::pre::linux_classes:
-  puppet: puppet
+  puppet: psick::puppet
   puppet_gems: psick::puppet::gems
   hostname: psick::hostname
   hosts: psick::hosts::resource
@@ -42,7 +47,7 @@ psick::base::linux_classes:
   network: network
   systat: psick::monitor::sar
 
-# Pre and Base psick settings Windows
+# PSICK classification for Windows nodes
 psick::pre::windows_classes:
   hosts: psick::hosts::resource
 psick::base::windows_classes:
@@ -65,12 +70,11 @@ psick::timezone: UTC
 # Hostname and network settings
 psick::hostname::update_network_entry: false # Avoid resource duplication when psick::network is used
 
-# Postfix configuration
+# General postfix configuration
 psick::postfix::tp::resources_hash:
   tp::conf:
     postfix:
       template: 'psick/postfix/main.cf.erb'
-
 psick::postfix::tp::options_hash:
   'mydomain': "%{facts.domain}"
   'myhostname': "%{facts.hostname}"
@@ -81,3 +85,4 @@ psick::postfix::tp::options_hash:
 # Sample sysctl settings
 psick::sysctl::settings_hash:
   net.ipv4.conf.all.forwarding: 0
+
