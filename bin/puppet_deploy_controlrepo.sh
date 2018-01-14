@@ -1,13 +1,10 @@
 #!/bin/bash
 script_dir="$(dirname $0)"
-. "${script_dir}/functions"
-backup_dir="/etc/puppetlabs/code_backup"
-backup_date=$(date +'%Y%m%d-%H%M%S')
-environment=${1:-production}
+# . "${script_dir}/functions"
 PATH=$PATH:/usr/local/bin
+control_repo=${1:-"https://github.com/example42/psick.git"}
 
-echo_title "Installing prerequisite packages and gems"
-
+echo "Installing prerequisite packages and gems"
 puppet resource package git ensure=present
 
 if [ $(facter osfamily) == 'Debian' ]; then
@@ -21,22 +18,17 @@ puppet resource package hiera-eyaml ensure=present provider=gem
 puppet resource package r10k ensure=present provider=gem
 
 mkdir -p /etc/puppetlabs/code/environments/
+mkdir -p /etc/puppetlabs/r10k/
+cat > /etc/puppetlabs/r10k/r10k.yaml << EOF
+---
+:postrun: []
+:cachedir: /opt/puppetlabs/puppet/cache/r10k
+:sources:
+  puppet:
+    basedir: /etc/puppetlabs/code/environments
+    remote: $control_repo
+EOF
 
-if [ -d /etc/puppetlabs/code/environments/$environment ]; then
-  ask_interactive "Directory /etc/puppetlabs/code/environments/$environment exists. We have to move it."
-  if [ "$?" = 0 ]; then
-    mkdir -p $backup_dir
-    mv /etc/puppetlabs/code/environments/$environment "${backup_dir}/${environment}-${backup_date}"
-    echo_subtitle "/etc/puppetlabs/code/environments/$environment moved to ${backup_dir}/${environment}-${backup_date}"
-  else
-    echo "Can't proceed. Remove /etc/puppetlabs/code/environments/$environment or pass as argument a different environment"
-    exit 1
-  fi
-fi
-echo title "Cloning git://github.com/example42/psick.git to /etc/puppetlabs/code/environments/$environment"
-git clone git://github.com/example42/psick.git /etc/puppetlabs/code/environments/$environment
-cd /etc/puppetlabs/code/environments/$environment
-echo_title "Running r10k puppetfile install -v"
-r10k puppetfile install -v
-echo_title "Moving /etc/puppetlabs/puppet/hiera.yaml to /etc/puppetlabs/puppet/hiera.yaml.orig"
-mv /etc/puppetlabs/puppet/hiera.yaml /etc/puppetlabs/puppet/hiera.yaml.orig
+echo "Running r10k deploy environment -v"
+r10k deploy environment -v
+

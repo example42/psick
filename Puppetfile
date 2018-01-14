@@ -8,13 +8,8 @@
 # From Forge
 mod 'example42/tp', :latest
 mod 'example42/tinydata', :latest
-# mod 'example42/psick', :latest
-mod 'example42/psick',
-  :git => 'https://github.com/example42/puppet-psick'
+mod 'example42/psick', :latest
 mod 'example42/network', :latest
-mod 'example42/puppet',
-  :git => 'https://github.com/example42/puppet-puppet',
-  :branch => 'master'
 
 # Third Party modules
 mod 'puppetlabs/concat', '3.0.0' # postgresql requires concat < 3.0.0
@@ -31,9 +26,10 @@ mod 'puppetlabs/inifile', :latest
 # Used by psick::puppet::foss_server
 mod 'puppetlabs/postgresql', :latest
 mod 'puppetlabs/puppetdb', :latest
-mod 'puppet/puppetserver',
-  :git => 'https://github.com/voxpupuli/puppet-puppetserver.git',
-  :tag => '2.1.0'
+mod 'camptocamp/puppetserver', '2.1.0'
+#mod 'puppet/puppetserver',
+#  :git => 'https://github.com/voxpupuli/puppet-puppetserver.git',
+#  :tag => '2.1.0'
 mod 'puppetlabs/puppetserver_gem', :latest
 mod 'puppet/r10k', :latest
 mod 'puppetlabs/hocon', :latest
@@ -44,10 +40,10 @@ mod 'puppet/puppetboard', :latest
 mod 'pltraining/rbac', '0.0.5'
 
 # Used by grafanadash server (puppet metrics)
-mod 'grafanadash',
-  :git => 'https://github.com/tuxmea/puppet-grafanadash.git',
-  :branch => 'master'
-mod 'dwerder/graphite', :latest
+#mod 'grafanadash',
+#  :git => 'https://github.com/tuxmea/puppet-grafanadash.git',
+#  :branch => 'master'
+#mod 'dwerder/graphite', :latest
 
 # Docker and Containers
 mod 'puppetlabs/dummy_service', :latest

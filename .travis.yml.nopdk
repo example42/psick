@@ -1,0 +1,32 @@
+---
+sudo: false
+language: ruby
+cache: bundler
+script:
+  - "bin/travis_check.sh"
+  - "bundle exec danger"
+before_install:
+  - gem update bundler
+  - gem install r10k
+  - r10k puppetfile install -v
+matrix:
+  fast_finish: true
+  include:
+  - rvm: 2.1.9
+    env: PUPPET_GEM_VERSION="~> 4.6.0"
+  - rvm: 2.1.9
+    env: PUPPET_GEM_VERSION="~> 4.10.0"
+  - rvm: 2.4.1
+    env: PUPPET_GEM_VERSION="~> 5.0.0" STDLIB_LOG_DEPRECATIONS="false"
+  - rvm: 2.4.1
+    env: PUPPET_GEM_VERSION="~> 5.1.0" STDLIB_LOG_DEPRECATIONS="false"
+  - rvm: 2.1.9
+    env: PUPPET_GEM_VERSION="~> 4"
+  - rvm: 2.4.1
+    env: PUPPET_GEM_VERSION="~> 5" STDLIB_LOG_DEPRECATIONS="false"
+  allow_failures:
+  - rvm: 2.1.9
+    env: PUPPET_GEM_VERSION="~> 4.6.0"
+
+notifications:
+  email: false
