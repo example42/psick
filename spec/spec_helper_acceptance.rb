@@ -9,10 +9,15 @@ end
 hosts.each do |host|
   # Install Puppet
   # check for puppet version
-  if Puppet.version.to_i < 5
-    install_puppet_agent_on(host)
-  else
+  case Puppet.version.to_i
+  when 4
+    version_to_install = '1.' + Puppet.version.split('.')[1..-1]*"."
+    install_puppet_agent_on(host, {:version => version_to_install})
+  when 5
     install_puppet_agent_on(host, {:version => Puppet.version,:puppet_collection => 'puppet5'})
+  else
+    puts 'unsupported puppet version'
+    exit
   end
 end
 
