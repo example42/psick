@@ -2,6 +2,8 @@
 
 * Your contribution here.
 
+* [#220](https://github.com/example42/psick/pull/220): Run acceptance tests also for newer puppet versions - [@tuxmea](https://github.com/tuxmea).
+
 ## Release 0.9.2 - Second alpha for version 1.0.0
 * Updated docs to reflect new separated psick module layout [@alvagante](https://github.com/alvagante)
 * Several fixes to data and samples [@alvagante](https://github.com/alvagante)

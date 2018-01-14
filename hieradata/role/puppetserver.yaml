@@ -1,7 +1,6 @@
 ---
 psick::profiles::linux_classes:
-  puppetserver: puppet::profile::server
+  puppetserver: psick::puppetserver::tp
 
-# Sample settings for a small footprint devel server
-# puppet::profile::server::options:
+# psick::puppetserver::options_hash:
 #   java_args: '-Xms512m -Xmx512m -XX:MaxPermSize=256m'

@@ -19,7 +19,7 @@ if !has_puppet_changes && has_spec_changes
 end
 
 # Hiera changes
-if !has_hiera_changes
+if has_hiera_changes
   message('There are changes on Hiera files. They will probably affect one or more nodes.', sticky: false)
 end
 

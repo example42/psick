@@ -21,7 +21,7 @@ psick::docker::allowed_users:
 
 # Enabled and configure scm-sync plugin
 psick::jenkins::scm_sync_repository_url: git@github.com:alvagante/jenkins.lab.psick.io-scmsync.git
-psick::jenkins::scm_sync_repository_host: github.com
+# psick::jenkins::scm_sync_repository_host: github.com
 psick::jenkins::disable_setup_wizard: true
 
 # Generate jenkins ssh keypair
@@ -80,4 +80,19 @@ psick::puppet::ci::options:
   catalog_preview_default_nodes:
     - lamp.lab.psick.io
     - puppet.lab.psick.io
+
+psick::openssh::configs_hash:
+  jenkins:
+    path: /var/lib/jenkins/.ssh/config
+    create_ssh_dir: true
+    options_hash:
+      Host puppet.lab.psick.io:
+        StrictHostKeyChecking: no
+        UserKnownHostsFile: /dev/null
+      Host puppet:
+        StrictHostKeyChecking: no
+        UserKnownHostsFile: /dev/null
+      Host github.com:
+        StrictHostKeyChecking: no
+        UserKnownHostsFile: /dev/null
 

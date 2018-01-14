@@ -1,0 +1,55 @@
+---
+### Classification
+psick::pre::linux_classes:
+  hosts: psick::hosts::file
+psick::base::linux_classes:
+  dns: '' # In lab we leave DNS unmanaged
+
+psick::puppet::gems::install_system_gems: false
+psick::puppet::gems::install_gems:
+  - msgpack
+
+# Disabled updating host entry by psick::hostname
+psick::hostname::update_host_entry: false
+# Hosts file managed via file resource
+psick::hosts::file::extra_hosts:
+  - '10.42.49.101 puppet puppet.foss.psick.io'
+  - '10.42.49.102 git git.foss.psick.io'
+  - '10.42.49.103 cirunner cirunner.foss.psick.io'
+  - '10.42.49.105 build build.lab.psick.io'
+  - '10.42.49.106 docker docker.foss.psick.io'
+  - '10.42.49.107 jenkins jenkins.foss.psick.io'
+
+# Enable automatic updates on lab nodes and set schedule:
+psick::update::cron_schedule: '4 4 * * *'
+
+#Timezone
+psick::timezone: 'Europe/Berlin'
+psick::timezone::timezone_windows: 'Central European Standard Time'
+
+# Users
+# psick::users::root_pw: hash_as_in_etc_shadow
+psick::users::delete_unmanaged: false
+psick::users::module: 'user'
+psick::users::users_hash:
+  al:
+    ensure: present
+    comment: 'Al'
+    groups:
+      - users
+
+# OpenSSH
+psick::openssh::tp::resources_hash:
+  tp::conf:
+    openssh:
+      template: 'psick/generic/spaced.erb'
+      options_hash:
+        Protocol: 2
+        PermitRootLogin: 'no'
+        Subsystem: 'sftp /usr/libexec/openssh/sftp-server'
+
+# Bolt
+psick::bolt::master: puppet.lab.psick.io
+psick::bolt::keyshare_method: storeconfigs
+psick::bolt::ssh_user: bolt
+

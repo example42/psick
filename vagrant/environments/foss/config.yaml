@@ -75,6 +75,9 @@ nodes:
   - role: jenkins
     count: 1
     box: ubuntu1604
+    forwarded_port:
+      guest: 8080
+      host: 19481
   - role: ostest
     hostname_base: centos6
     count: 1
