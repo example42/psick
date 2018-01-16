@@ -1,0 +1,38 @@
+---
+psick::profiles::linux_classes:
+  openvpn: openvpn
+  fw: psick::firewall::iptables
+
+
+psick::firewall::iptables::extra_rules:
+  - '-I INPUT -p tcp -m state --state NEW -m tcp --dport 1194 -j ACCEPT'
+psick::firewall::iptables::nat_rules:
+  - '-I POSTROUTING -s 10.200.200.0/24 -j MASQUERADE'
+psick::firewall::iptables::manage_ipv6: false
+
+psick::sysctl::settings_hash:
+  net.ipv4.ip_forward: 1
+  net.ipv4.conf.default.rp_filter: 0
+  net.ipv4.conf.all.rp_filter: 0
+  net.ipv4.conf.all.send_redirects: 0
+  net.ipv4.conf.default.send_redirects: 0
+  net.ipv4.icmp_ignore_bogus_error_responses: 1
+  net.ipv4.conf.default.log_martians: 0
+
+openvpn::servers:
+  'graduway-vpn':
+    country: 'IL'
+    province: 'TLV'
+    city: 'Raanana'
+    organization: 'graduway.com'
+    email: 'it@graduway.com'
+    server: '10.200.200.0 255.255.255.0'
+    push: ["route 10.10.0.0 255.255.0.0"]
+
+openvpn::client_defaults:
+  server: 'graduway-vpn'
+openvpn::clients:
+  'client1': {}
+  'client2': {}
+  'client3': {}
+
