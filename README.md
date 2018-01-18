@@ -36,7 +36,7 @@ They are configured using this same repository. All the lab servers are Vagrant 
 
 You can reproduce the same by running ```vagrant up``` under ```vagrant/environments/lab``` (some integrations between Puppet Enterprise and GitLab have been done manually):
 
-Note that this is a non High Available testing and development infrastructure, some of these services might not always be available (an NGINX bad bateway error implies that the backend server is down):
+Note that this is a non High Available testing and development infrastructure, some of these services might not always be available (an NGINX bad gateway error implies that the backend server is down):
 
   - [Puppet Enterprise](https://puppet.lab.psick.io/) Login: guest:puppet. Is the Puppet Master of the lab environment nodes. There it runs directly our development code.
   - [GitLab](https://git.lab.psick.io/puppet/psick/). A GitLab instance, integrated with Code Mabaner to automatically deploy code PE and run our CI pipelines
