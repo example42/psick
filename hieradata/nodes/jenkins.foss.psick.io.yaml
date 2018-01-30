@@ -8,7 +8,7 @@ psick::base::linux_classes:
   docker: psick::docker
   pdk: psick::puppet::pdk
   vagrant: psick::vagrant
-  git: psick::git
+#  git: psick::git
   puppet_pdk: psick::puppet::pdk
   puppet_ci: psick::puppet::ci
 
@@ -51,13 +51,13 @@ psick::jenkins::plugins:
   scm-sync-configuration:
     enable: true
 
-
 # Install gems needed for Ci tests only in Puppet environment.
 # Use a default set of gems for integration tests
 # Note: They include beaker, with a lot of dependencies.  
 psick::puppet::gems::default_set: integration
-psick::puppet::gems::install_puppet_gems: true
+psick::puppet::gems::install_puppet_gems: false
 psick::puppet::gems::install_system_gems: false
+psick::puppet::gems::install_rbenv_gems: true
 
 # This forces overwrites of puppet and facter binaries (from package)
 # installing the relevant gems.

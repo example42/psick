@@ -15,7 +15,7 @@ end
 
 # Tests changes without code changes
 if !has_puppet_changes && has_spec_changes
-  message('Changes in tests but not in manifests. If the affect tests resulat, in theory this should not happen.', sticky: false)
+  message('Changes in tests but not in manifests. Unless you are improving your tests, this should not happen.', sticky: false)
 end
 
 # Hiera changes

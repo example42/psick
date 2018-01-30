@@ -4,28 +4,12 @@ psick::base::linux_classes:
 psick::profiles::linux_classes:
   vagrant: vagrant
   git: psick::git
+  docker: psick::docker
 
 # Explicit list of required gems for CI runners for puppet testing
 psick::puppet::gems::install_puppet_gems: true
 psick::puppet::gems::install_system_gems: false
-# List complete to verify. Many are needed just for spec tests.
-psick::puppet::gems::install_gems:
-  - r10k
-  - deep_merge
-  - hiera-eyaml
-  - puppet-lint
-  - bundler
-  - rake
-  - rspec-puppet
-  - puppetlabs_spec_helper
-  - puppet_facts
-    #    - rspec-puppet-facts
-    #    - facterdb
-    #    - mcollective-client
-  - simplecov
-  - simplecov-html
-  - minitest
-#    - beaker # requires Ruby version >= 2.2.5
+psick::puppet::gems::default_set: integration
 
 # Options for psick::ci::octocatalog::template
 psick::ci::octocatalog::options:
@@ -47,6 +31,11 @@ psick::gitlab::runner::runners:
     tag_list: 'docker'
     tls_ca_file: '/etc/puppetlabs/puppet/ssl/certs/ca.pem'
 
+# Integration tests via docker
+psick::docker::allowed_users:
+  - gitlab-runner
+psick::sysctl::settings_hash:
+  net.ipv4.conf.all.forwarding: 1
 
 # Configure the scripts used during Puppet CI
 psick::gitlab::ci::default_nodes:

@@ -1,6 +1,9 @@
 require 'spec_helper_acceptance'
 
 describe 'psick' do
+  let(:facts) do
+    OS_FACTS.merge(facts).merge( domain: 'lab.psick.io' )
+  end
   let(:manifest) {
     <<-EOS
       Tp::Install {
