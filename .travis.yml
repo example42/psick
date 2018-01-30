@@ -2,6 +2,7 @@
 language: ruby
 install:
   - wget 'https://pm.puppetlabs.com/cgi-bin/pdk_download.cgi?dist=ubuntu&rel=16.04&arch=amd64&ver=latest' -q -O pdk.deb && sudo dpkg -i pdk.deb && rm pdk.deb
+  - gem install r10k
   - r10k puppetfile install -v
 stages:
   - validate
