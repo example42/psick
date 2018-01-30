@@ -7,7 +7,6 @@ psick::base::linux_classes:
 psick::puppet::gems::install_gems: []
 psick::puppet::gems::default_set: 'master'
 psick::puppet::gems::install_system_gems: false
-psick::puppet::gems::install_puppetserver_gems: true
 
 psick::puppet::autosign::autosign: 'on'
 psick::puppet::autosign::autosign_match: '*.foss.psick.io'
