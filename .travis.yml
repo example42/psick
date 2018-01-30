@@ -11,10 +11,10 @@ jobs:
   include:
     - stage: validate
       script:
-        - pdk validate metadata 2> /dev/null
-        - pdk validate puppet site/ manifests/ 2> /dev/null
+        - pdk validate metadata
+        - pdk validate puppet site/ manifests/
 
     - stage: unit
-      script: pdk test unit 2> /dev/null
+      script: pdk test unit
 notifications:
   email: false
