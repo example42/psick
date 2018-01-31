@@ -7,14 +7,14 @@
 # r10k or similar.
 
 stages:
+  - merge request
   - checks
   - unit
   - documentation
   - integration
   - canary runs
-  - merge request
   - promote
-  - production_runs
+  - production runs
 
 # Create WIP Merge request
 Create WIP MR:
@@ -101,7 +101,7 @@ Danger BOT:
 # Version Deploy check for every branch with environment creation
 # It will try by default 6 times with 10 second between each try
 # so that Puppet has time to get the new version of the repository
-Check code deploy:
+Verify code deploy:
   stage: checks
   script: "bin/codemanager_check_deploy.sh ${CI_BUILD_REF_NAME}"
   tags:
@@ -189,7 +189,7 @@ Catalog preview:
 
 # Can be duplicated to use different images (using different --image)
 # or with custom facts --facts. Check docker_run.sh for all the options.
-Docker run:
+Docker tests:
   stage: integration
   before_script:
     - "bin/gitlab_before.sh ${CI_BUILD_REF_NAME}"
@@ -236,6 +236,8 @@ noop runs:
     - deploy_puppet
   except:
     - production
+  only:
+    - branches
   allow_failure: true
 
 no-noop runs:
@@ -265,7 +267,7 @@ Accept MR:
 
 # Production Rollout
 noop runs:
-  stage: production_runs
+  stage: production runs
   before_script:
     - "bin/puppet_job_run.sh production --noop"
   script: "bin/puppetdb_env_query.sh production"
@@ -277,7 +279,7 @@ noop runs:
   allow_failure: true # TOREMOVE when fixed
 
 no_noop runs:
-  stage: production_runs
+  stage: production runs
   before_script:
           - "bin/puppet_job_run.sh production --no-noop"
   script: "bin/puppetdb_env_query.sh production"
