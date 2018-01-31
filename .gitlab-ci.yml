@@ -26,8 +26,6 @@ create_development:
   tags:
     - puppetmaster
   except:
-    - development
-    - testing
     - production
     - schedules
   allow_failure: true
@@ -193,9 +191,9 @@ beaker:
 noop_canary_run:
   stage: canary_runs
   before_script:
-          - "bin/puppet_job_run.sh ${CI_BUILD_REF_NAME} --noop"
+    - "bin/puppet_job_run.sh ${CI_BUILD_REF_NAME} --noop"
   script:
-          - "bin/puppetdb_env_query.sh ${CI_BUILD_REF_NAME}"
+    - "bin/puppetdb_env_query.sh ${CI_BUILD_REF_NAME}"
   tags:
     - deploy_puppet
   only:
@@ -207,10 +205,7 @@ noop_canary_run:
 canary_run:
   stage: canary_runs
   before_script:
-    # Trigger remote Puppet runs via puppet job
     - "bin/puppet_job_run.sh ${CI_BUILD_REF_NAME}"
-    # Trigger remote Puppet runs via Rundeck
-#    - "bin/rundeck_job_run.sh testing"
   script:
     - "bin/puppetdb_env_query.sh ${CI_BUILD_REF_NAME}"
   tags:
@@ -233,11 +228,11 @@ merge_accept_feature:
   only:
     - branches
 
-# Production
-run_puppet_on_production:
+# Production Rollout
+noop_puppet_run_on_production:
   stage: rollout
   before_script:
-    - "bin/puppet_job_run.sh production"
+    - "bin/puppet_job_run.sh production --noop"
   script: "bin/puppetdb_env_query.sh production"
   tags:
     - deploy_puppet
@@ -246,7 +241,21 @@ run_puppet_on_production:
     - production
   allow_failure: true # TOREMOVE when fixed
 
+force_puppet_run_on_production:
+  stage: rollout
+  before_script:
+          - "bin/puppet_job_run.sh production --no-noop"
+  script: "bin/puppetdb_env_query.sh production"
+  tags:
+    - deploy_puppet
+  when: manual
+  only:
+    - production
+  allow_failure: true # TOREMOVE when fixed
 
+# Documentation
+pages:
+# Documentation
 pages:
   stage: documentation
   before_script:
@@ -304,3 +313,4 @@ generate_pdf:
     expire_in: '30 day'
   only:
     - production
+
