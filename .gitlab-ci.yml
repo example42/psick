@@ -24,7 +24,7 @@ create_development:
     - "bin/gitlab_create_merge_request.rb ${CI_BUILD_REF_NAME} production 'WIP: Works on ${CI_BUILD_REF_NAME}'" 
   when: on_success
   tags:
-    - puppetmaster
+    - deploy_puppet
   except:
     - production
     - schedules
