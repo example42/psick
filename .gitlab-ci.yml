@@ -9,13 +9,12 @@
 stages:
   - wip_merge_request
   - checks
-  - deploy_check
   - unit
   - documentation
   - integration
   - canary_runs
   - promote
-  - rollout
+  - production_runs
 
 # Create WIP Merge request
 create_development:
@@ -104,7 +103,6 @@ danger:
 # so that Puppet has time to get the new version of the repository
 verify_code_deploy:
   stage: checks
-  # stage: deploy_check
   script: "bin/codemanager_check_deploy.sh ${CI_BUILD_REF_NAME}"
   tags:
     - deploy_puppet
@@ -187,11 +185,13 @@ beaker:
     - test_puppet
   except:
     - production
+  when: manual
 
 noop_run:
   stage: canary_runs
   before_script:
     - "bin/puppet_ci.sh job_run --noop --environment ${CI_BUILD_REF_NAME}"
+    - "bin/puppet_job_run.sh ${CI_BUILD_REF_NAME} --no-noop"
   script:
     - "bin/puppetdb_env_query.sh ${CI_BUILD_REF_NAME}"
   tags:
@@ -206,7 +206,7 @@ no_noop_run:
   stage: canary_runs
   before_script:
     - "bin/puppet_ci.sh job_run --no-noop --environment ${CI_BUILD_REF_NAME}"
-    - "bin/puppet_job_run.sh ${CI_BUILD_REF_NAME}"
+    - "bin/puppet_job_run.sh ${CI_BUILD_REF_NAME} --no-noop"
   script:
     - "bin/puppetdb_env_query.sh ${CI_BUILD_REF_NAME}"
   tags:
@@ -230,8 +230,8 @@ merge_accept_feature:
     - branches
 
 # Production Rollout
-noop_puppet_run_on_production:
-  stage: rollout
+noop_run:
+  stage: production_runs
   before_script:
     - "bin/puppet_job_run.sh production --noop"
   script: "bin/puppetdb_env_query.sh production"
@@ -242,8 +242,8 @@ noop_puppet_run_on_production:
     - production
   allow_failure: true # TOREMOVE when fixed
 
-force_puppet_run_on_production:
-  stage: rollout
+no_noop_run:
+  stage: production_runs
   before_script:
           - "bin/puppet_job_run.sh production --no-noop"
   script: "bin/puppetdb_env_query.sh production"
