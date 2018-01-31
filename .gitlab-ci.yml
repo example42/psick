@@ -113,12 +113,30 @@ verify_code_deploy:
     url: https://puppet.lab.psick.io/
 
 # UNIT TESTS
-rake_controlrepo:
+site_modules:
   stage: unit
   before_script:
     - "bin/gitlab_before.sh ${CI_BUILD_REF_NAME}"
   script:
     - "bin/puppet_check_rake.sh site bundle"
+  cache:
+    untracked: true
+    paths:
+    - modules/
+    - vagrant/environments/ci/.vagrant/
+  tags:
+    - test_puppet
+  except:
+    - production
+  only:
+    - branches
+  allow_failure: true
+
+controlrepo:
+  stage: unit
+  before_script:
+    - "bin/gitlab_before.sh ${CI_BUILD_REF_NAME}"
+  script:
     - "bin/puppet_check_rake.sh controlrepo"
   cache:
     untracked: true
@@ -132,6 +150,26 @@ rake_controlrepo:
   only:
     - branches
   allow_failure: true
+
+public_modules:
+  stage: unit
+  before_script:
+    - "bin/gitlab_before.sh ${CI_BUILD_REF_NAME}"
+  script:
+    - "bin/puppet_check_rake.sh modules"
+  cache:
+    untracked: true
+    paths:
+    - modules/
+    - vagrant/environments/ci/.vagrant/
+  tags:
+    - test_puppet
+  except:
+    - production
+  only:
+    - branches
+  allow_failure: true
+  when: manual
 
 catalog_preview:
   stage: integration
