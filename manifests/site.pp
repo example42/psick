@@ -88,5 +88,6 @@ if $noop_mode == true {
 }
 
 # We just do everything in psick module
-include '::psick'
-
+if defined('$facts') {
+  include '::psick'
+}
