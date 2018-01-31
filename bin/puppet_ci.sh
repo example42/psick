@@ -10,7 +10,7 @@ Available actions:
   tp_test - Runs 'tp test'
   catalog_preview -
   catalog_diff -
-  job_run -
+  job_run - Use puppet job to trigger a remote Puppet run
   db_query -
   task_run -
   puppet_deploy -
@@ -47,7 +47,7 @@ run_action () {
     ;;
     job_run)
       $ssh_command
-      $sudo_command puppet job run --nodes $n
+      $sudo_command puppet job run --nodes $n $noop
       $ssh_command_post
     ;;
     db_query)
@@ -115,7 +115,8 @@ while [ $# -gt 0 ]; do
     ;;
     job_run)
       action='job_run'
-      shift
+      noop=${2:- }
+      shift 2
     ;;
     db_query)
       action='db_query'

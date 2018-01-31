@@ -186,7 +186,7 @@ beaker:
   tags:
     - test_puppet
   except:
-    - integration
+    - production
 
 noop_canary_run:
   stage: canary_runs
@@ -253,8 +253,6 @@ force_puppet_run_on_production:
     - production
   allow_failure: true # TOREMOVE when fixed
 
-# Documentation
-pages:
 # Documentation
 pages:
   stage: documentation
