@@ -10,11 +10,11 @@ stages:
   - merge request
   - checks
   - unit
-  - documentation
   - integration
   - canary runs
   - promote
   - production runs
+  - documentation
 
 # Create WIP Merge request
 Create WIP MR:
@@ -234,10 +234,9 @@ noop runs:
     - "bin/puppetdb_env_query.sh ${CI_BUILD_REF_NAME}"
   tags:
     - deploy_puppet
+  when: on_success
   except:
     - production
-  only:
-    - branches
   allow_failure: true
 
 no-noop runs:
