@@ -191,7 +191,7 @@ beaker:
 noop_canary_run:
   stage: canary_runs
   before_script:
-    - "bin/puppet_job_run.sh ${CI_BUILD_REF_NAME} --noop"
+    - "bin/puppet_ci.sh job_run --noop --environment ${CI_BUILD_REF_NAME}"
   script:
     - "bin/puppetdb_env_query.sh ${CI_BUILD_REF_NAME}"
   tags:
@@ -205,6 +205,7 @@ noop_canary_run:
 canary_run:
   stage: canary_runs
   before_script:
+    - "bin/puppet_ci.sh job_run --noop --environment ${CI_BUILD_REF_NAME}"
     - "bin/puppet_job_run.sh ${CI_BUILD_REF_NAME}"
   script:
     - "bin/puppetdb_env_query.sh ${CI_BUILD_REF_NAME}"
