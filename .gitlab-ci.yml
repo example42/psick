@@ -11,14 +11,14 @@ stages:
   - unit
   - documentation
   - integration
-  - canary_runs
-  - merge_request
+  - canary runs
+  - merge request
   - promote
   - production_runs
 
 # Create WIP Merge request
 Create WIP MR:
-  stage: merge_request
+  stage: merge request
   script:
     - "bin/gitlab_create_merge_request.rb ${CI_BUILD_REF_NAME} production \"WIP: Works on ${CI_BUILD_REF_NAME}\"" 
   when: on_success
@@ -226,7 +226,7 @@ Beaker tests:
   when: manual
 
 noop runs:
-  stage: canary_runs
+  stage: canary runs
   before_script:
     - "bin/puppet_ci.sh job_run --noop --environment ${CI_BUILD_REF_NAME}"
     - "bin/puppet_job_run.sh ${CI_BUILD_REF_NAME} --no-noop"
@@ -239,7 +239,7 @@ noop runs:
   allow_failure: true
 
 no-noop runs:
-  stage: canary_runs
+  stage: canary runs
   before_script:
     - "bin/puppet_ci.sh job_run --no-noop --environment ${CI_BUILD_REF_NAME}"
     - "bin/puppet_job_run.sh ${CI_BUILD_REF_NAME} --no-noop"
