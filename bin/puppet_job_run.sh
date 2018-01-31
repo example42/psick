@@ -4,6 +4,7 @@ repo_dir="$(dirname $0)/.."
 
 test -f /etc/gitlab-ci.conf && . /etc/gitlab-ci.conf
 env=$1
+noop=${2:- }
 default=${env}_query_default_nodes
 always=${env}_query_always_nodes
 default_nodes=${!default}
@@ -25,7 +26,7 @@ for changedfile in $(git diff HEAD~$diff_commits_number --name-only); do
   if [[ "x$node" != "x" ]]; then
     echo
     echo_title "Running Puppet on node ${node} - Check based on commits"
-    puppet job run --nodes $node
+    puppet job run --nodes $node $noop
     if [ $? != 0 ]; then
       global_exit=1
     fi
@@ -35,14 +36,14 @@ done
 # Default nodes to check if none found from the commit
 if [[ $nodes == 0 ]]; then
   echo_title "Running Puppet on nodes ${default_nodes} - Default nodes"
-  puppet job run --nodes $default_nodes
+  puppet job run --nodes $default_nodes $noop
   if [ $? != 0 ]; then
     global_exit=1
   fi
 fi
 
 echo_title "Running Puppet on nodes ${always_nodes} - Node always checked"
-puppet job run --nodes $always_nodes
+puppet job run --nodes $always_nodes $noop
 if [ $? != 0 ]; then
   global_exit=1
 fi

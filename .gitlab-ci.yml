@@ -7,29 +7,30 @@
 # r10k or similar.
 
 stages:
+  - wip_merge_request
   - checks
   - deploy_check
   - unit
-  - diff
   - documentation
   - integration
   - canary_runs
   - promote
   - rollout
 
-# Version Deploy check for every branch with environment creation
-# It will try by default 6 times with 10 second between each try
-# so that Puppet has time to get the new version of the repository
-verify_code_deploy:
-  stage: deploy_check
-  script: "bin/codemanager_check_deploy.sh ${CI_BUILD_REF_NAME}"
-  tags:
-    - deploy_puppet
+# Create WIP Merge request
+create_development:
+  stage: wip_merge_request
+  script:
+    - bin/gitlab_create_merge_request.rb ${CI_BUILD_REF_NAME} production "WIP: Works on ${CI_BUILD_REF_NAME}" 
   when: on_success
+  tags:
+    - puppetmaster
+  except:
+    - development
+    - testing
+    - production
+    - schedules
   allow_failure: true
-  environment:
-    name: ${CI_BUILD_REF_NAME}
-    url: https://puppet.lab.psick.io/
 
 # Run Syntax Checks on Feature/Personal Branch
 syntax:
@@ -82,6 +83,40 @@ chars:
     - branches
   allow_failure: true
 
+danger:
+  stage: checks
+  before_script:
+    - "bin/gitlab_before.sh"
+  script: "bin/gitlab_danger.sh"
+  cache:
+    untracked: true
+    paths:
+    - modules/
+  tags:
+    - deploy_puppet
+  except:
+    - production
+    - schedules
+  only:
+    - branches
+  allow_failure: true
+
+# Version Deploy check for every branch with environment creation
+# It will try by default 6 times with 10 second between each try
+# so that Puppet has time to get the new version of the repository
+verify_code_deploy:
+  stage: checks
+  # stage: deploy_check
+  script: "bin/codemanager_check_deploy.sh ${CI_BUILD_REF_NAME}"
+  tags:
+    - deploy_puppet
+  when: on_success
+  allow_failure: true
+  environment:
+    name: ${CI_BUILD_REF_NAME}
+    url: https://puppet.lab.psick.io/
+
+# UNIT TESTS
 rake_controlrepo:
   stage: unit
   before_script:
@@ -103,10 +138,10 @@ rake_controlrepo:
   allow_failure: true
 
 catalog_preview:
-  stage: diff
+  stage: integration
   before_script:
     - "bin/gitlab_before.sh ${CI_BUILD_REF_NAME}"
-  script: "bin/gitlab_catalog_preview.sh integration"
+  script: "bin/gitlab_catalog_preview.sh ${CI_BUILD_REF_NAME}"
   cache:
     untracked: true
     paths:
@@ -114,6 +149,9 @@ catalog_preview:
   tags:
     - deploy_puppet
   allow_failure: true
+  except:
+    - production
+  when: manual
 
 # Can be duplicated to use different images (using different --image)
 # or with custom facts --facts. Check docker_run.sh for all the options.
@@ -131,8 +169,10 @@ docker_test:
     - test_puppet
   only:
     - schedules
+    - branches
   except:
     - production
+  when: manual
 
 beaker:
   stage: integration
@@ -150,44 +190,37 @@ beaker:
   except:
     - integration
 
-run_puppet_on_integration:
+noop_canary_run:
+  stage: canary_runs
+  before_script:
+          - "bin/puppet_job_run.sh ${CI_BUILD_REF_NAME} --noop"
+  script:
+          - "bin/puppetdb_env_query.sh ${CI_BUILD_REF_NAME}"
+  tags:
+    - deploy_puppet
+  only:
+    - branches
+  except:
+    - production
+  allow_failure: true
+
+canary_run:
   stage: canary_runs
   before_script:
     # Trigger remote Puppet runs via puppet job
-    - "bin/puppet_job_run.sh integration"
+    - "bin/puppet_job_run.sh ${CI_BUILD_REF_NAME}"
     # Trigger remote Puppet runs via Rundeck
 #    - "bin/rundeck_job_run.sh testing"
   script:
-    - "bin/puppetdb_env_query.sh integration"
-  tags:
-    - deploy_puppet
-  when: on_success
-  only:
-    - integration
-  allow_failure: true
-
-canary_run_on_production:
-  stage: canary_runs
-  before_script:
-    - "bin/puppet_job_run.sh production"
-  script: "bin/puppetdb_env_query.sh production"
+    - "bin/puppetdb_env_query.sh ${CI_BUILD_REF_NAME}"
   tags:
     - deploy_puppet
   when: manual
   only:
     - branches
-
-merge_request_feature:
-  stage: promote
-  script:
-    - "bin/gitlab_create_merge_request.rb ${CI_BUILD_REF_NAME} production"
-  when: on_success
-  tags:
-    - deploy_puppet
   except:
     - production
-  only:
-    - branches
+  allow_failure: true
 
 merge_accept_feature:
   stage: promote
