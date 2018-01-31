@@ -1,10 +1,7 @@
 # GitLab CI configuration - https://docs.gitlab.com/ce/ci/yaml/README.html
-# Example for a Puppet deployment workflow with Feature branches making
-# MR directly to production.
-# Requires a fully configured Puppet-GitLab-CI runners
-# environment to work. It expects Puppet code deployment to be done
-# automatically when changes are pushed to a branch via Code Manager,
-# r10k or similar.
+# Example for a Puppet deployment workflow with integration and production
+# branches. Requires a fully configured Puppet-GitLab-CI runners
+# environment to work.
 
 stages:
   - checks
@@ -32,6 +29,8 @@ verify_code_deploy:
     url: https://puppet.lab.psick.io/
 
 # Run Syntax Checks on Feature/Personal Branch
+# and Development branch:
+# All branches excluded production and testing
 syntax:
   stage: checks
   before_script:
@@ -113,6 +112,8 @@ catalog_preview:
     - modules/
   tags:
     - deploy_puppet
+  only:
+    - integration
   allow_failure: true
 
 # Can be duplicated to use different images (using different --image)
@@ -131,8 +132,6 @@ docker_test:
     - test_puppet
   only:
     - schedules
-  except:
-    - production
 
 beaker:
   stage: integration
@@ -147,7 +146,7 @@ beaker:
   allow_failure: true
   tags:
     - test_puppet
-  except:
+  only:
     - integration
 
 run_puppet_on_integration:
@@ -166,6 +165,58 @@ run_puppet_on_integration:
     - integration
   allow_failure: true
 
+merge_request_feature:
+  stage: promote
+  script:
+    - "bin/gitlab_create_merge_request.rb ${CI_BUILD_REF_NAME} integration"
+  when: on_success
+  tags:
+    - deploy_puppet
+  except:
+    - production
+    - integration
+  only:
+    - branches
+
+merge_accept_feature:
+  stage: promote
+  script: "bin/gitlab_accept_merge_request.rb ${CI_BUILD_REF_NAME} integration"
+  tags:
+    - deploy_puppet
+  when: manual
+  except:
+    - production
+    - integration
+  only:
+    - branches
+
+
+# Allow Merge Request to fail as it can happen that there's
+# already a merge request from testing to production ready to
+# be merged
+merge_request_production:
+  stage: promote
+  script:
+    - "bin/gitlab_create_merge_request.rb integration production"
+  when: on_success
+  tags:
+    - deploy_puppet
+  only:
+    - integration
+  allow_failure: true
+
+merge_accept_production:
+  stage: promote
+  script: "bin/gitlab_accept_merge_request.rb integration production"
+  tags:
+    - deploy_puppet
+  when: manual
+  only:
+    - integration
+  environment:
+    name: production
+
+# Production
 canary_run_on_production:
   stage: canary_runs
   before_script:
@@ -173,34 +224,11 @@ canary_run_on_production:
   script: "bin/puppetdb_env_query.sh production"
   tags:
     - deploy_puppet
-  when: manual
-  only:
-    - branches
-
-merge_request_feature:
-  stage: promote
-  script:
-    - "bin/gitlab_create_merge_request.rb ${CI_BUILD_REF_NAME} production"
   when: on_success
-  tags:
-    - deploy_puppet
-  except:
-    - production
   only:
-    - branches
-
-merge_accept_feature:
-  stage: promote
-  script: "bin/gitlab_accept_merge_request.rb ${CI_BUILD_REF_NAME} production"
-  tags:
-    - deploy_puppet
-  when: manual
-  except:
     - production
-  only:
-    - branches
+  allow_failure: true # TOREMOVE when fixed
 
-# Production
 run_puppet_on_production:
   stage: rollout
   before_script:
