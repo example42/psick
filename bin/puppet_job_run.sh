@@ -3,8 +3,7 @@ repo_dir="$(dirname $0)/.."
 . "${repo_dir}/bin/functions"
 
 test -f /etc/gitlab-ci.conf && . /etc/gitlab-ci.conf
-env=${1:-production}
-noop=${2:- }
+env=$1
 default=${env}_query_default_nodes
 always=${env}_query_always_nodes
 default_nodes=${!default}
@@ -13,7 +12,7 @@ nodes=0
 global_exit=0
 domain=$(facter domain)
 
-diff_commits_number=$(git log production..$env --pretty=oneline | wc -l)
+diff_commits_number=$(git log production..$1 --pretty=oneline | wc -l)
 
 echo "Checking for files in the last $diff_commits_number commits"
 for changedfile in $(git diff HEAD~$diff_commits_number --name-only); do
@@ -25,8 +24,8 @@ for changedfile in $(git diff HEAD~$diff_commits_number --name-only); do
 
   if [[ "x$node" != "x" ]]; then
     echo
-    echo_title "Running Puppet ${noop} with environment ${env} on node ${node} - Check based on commits"
-    puppet job run --nodes $node --environment=$env $noop
+    echo_title "Running Puppet on node ${node} - Check based on commits"
+    puppet job run --nodes $node
     if [ $? != 0 ]; then
       global_exit=1
     fi
@@ -35,15 +34,15 @@ done
 
 # Default nodes to check if none found from the commit
 if [[ $nodes == 0 ]]; then
-  echo_title "Running Puppet ${noop} with environment ${env} on nodes ${default_nodes} - Default nodes"
-  puppet job run --nodes $default_nodes --environment=$env $noop
+  echo_title "Running Puppet on nodes ${default_nodes} - Default nodes"
+  puppet job run --nodes $default_nodes
   if [ $? != 0 ]; then
     global_exit=1
   fi
 fi
 
-echo_title "Running Puppet ${noop} with environment ${env} on nodes ${always_nodes} - Node always checked"
-puppet job run --nodes $always_nodes --environment=$env $noop
+echo_title "Running Puppet on nodes ${always_nodes} - Node always checked"
+puppet job run --nodes $always_nodes
 if [ $? != 0 ]; then
   global_exit=1
 fi
