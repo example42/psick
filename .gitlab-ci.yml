@@ -12,13 +12,13 @@ stages:
   - documentation
   - integration
   - canary_runs
-  - wip_merge_request
+  - merge_request
   - promote
   - production_runs
 
 # Create WIP Merge request
-create_development:
-  stage: wip_merge_request
+Create WIP MR:
+  stage: merge_request
   script:
     - "bin/gitlab_create_merge_request.rb ${CI_BUILD_REF_NAME} production \"WIP: Works on ${CI_BUILD_REF_NAME}\"" 
   when: on_success
@@ -30,7 +30,7 @@ create_development:
   allow_failure: true
 
 # Run Syntax Checks on Feature/Personal Branch
-syntax:
+Syntax checks:
   stage: checks
   before_script:
     - "bin/gitlab_before.sh ${CI_BUILD_REF_NAME}"
@@ -46,7 +46,7 @@ syntax:
   only:
     - branches
 
-lint:
+Puppet Lint:
   stage: checks
   before_script:
     - "bin/gitlab_before.sh ${CI_BUILD_REF_NAME}"
@@ -63,7 +63,7 @@ lint:
     - branches
   allow_failure: true
 
-chars:
+Hidden chars check:
   stage: checks
   before_script:
     - "bin/gitlab_before.sh ${CI_BUILD_REF_NAME}"
@@ -80,7 +80,7 @@ chars:
     - branches
   allow_failure: true
 
-danger:
+Danger BOT:
   stage: checks
   before_script:
     - "bin/gitlab_before.sh"
@@ -101,7 +101,7 @@ danger:
 # Version Deploy check for every branch with environment creation
 # It will try by default 6 times with 10 second between each try
 # so that Puppet has time to get the new version of the repository
-verify_code_deploy:
+Check code deploy:
   stage: checks
   script: "bin/codemanager_check_deploy.sh ${CI_BUILD_REF_NAME}"
   tags:
@@ -113,7 +113,7 @@ verify_code_deploy:
     url: https://puppet.lab.psick.io/
 
 # UNIT TESTS
-site modules:
+Local site modules:
   stage: unit
   before_script:
     - "bin/gitlab_before.sh ${CI_BUILD_REF_NAME}"
@@ -171,7 +171,7 @@ Public modules:
   allow_failure: true
   when: manual
 
-catalog_preview:
+Catalog preview:
   stage: integration
   before_script:
     - "bin/gitlab_before.sh ${CI_BUILD_REF_NAME}"
@@ -189,7 +189,7 @@ catalog_preview:
 
 # Can be duplicated to use different images (using different --image)
 # or with custom facts --facts. Check docker_run.sh for all the options.
-docker_test:
+Docker run:
   stage: integration
   before_script:
     - "bin/gitlab_before.sh ${CI_BUILD_REF_NAME}"
@@ -208,7 +208,7 @@ docker_test:
     - production
   when: manual
 
-beaker:
+Beaker tests:
   stage: integration
   before_script:
     - "bin/gitlab_before.sh ${CI_BUILD_REF_NAME}"
@@ -225,7 +225,7 @@ beaker:
     - production
   when: manual
 
-noop_run:
+noop runs:
   stage: canary_runs
   before_script:
     - "bin/puppet_ci.sh job_run --noop --environment ${CI_BUILD_REF_NAME}"
@@ -234,13 +234,11 @@ noop_run:
     - "bin/puppetdb_env_query.sh ${CI_BUILD_REF_NAME}"
   tags:
     - deploy_puppet
-  only:
-    - branches
   except:
     - production
   allow_failure: true
 
-no_noop_run:
+no-noop runs:
   stage: canary_runs
   before_script:
     - "bin/puppet_ci.sh job_run --no-noop --environment ${CI_BUILD_REF_NAME}"
@@ -250,13 +248,11 @@ no_noop_run:
   tags:
     - deploy_puppet
   when: manual
-  only:
-    - branches
   except:
     - production
   allow_failure: true
 
-merge_accept_feature:
+Accept MR:
   stage: promote
   script: "bin/gitlab_accept_merge_request.rb ${CI_BUILD_REF_NAME} production"
   tags:
@@ -268,7 +264,7 @@ merge_accept_feature:
     - branches_disabled
 
 # Production Rollout
-noop_run:
+noop runs:
   stage: production_runs
   before_script:
     - "bin/puppet_job_run.sh production --noop"
@@ -280,7 +276,7 @@ noop_run:
     - production
   allow_failure: true # TOREMOVE when fixed
 
-no_noop_run:
+no_noop runs:
   stage: production_runs
   before_script:
           - "bin/puppet_job_run.sh production --no-noop"
@@ -293,7 +289,7 @@ no_noop_run:
   allow_failure: true # TOREMOVE when fixed
 
 # Documentation
-pages:
+control-repo docs:
   stage: documentation
   before_script:
     - rm -rf doc public .yardoc README.md
@@ -312,7 +308,7 @@ pages:
   only:
     - production
 
-pages_modules:
+modules docs:
   stage: documentation
   before_script:
     - bin/gitlab_before.sh
@@ -334,7 +330,7 @@ pages_modules:
   only:
     - production
 
-generate_pdf:
+Generate pdf:
   stage: documentation
   before_script:
     - bin/docs_classlistgenerate.sh docs/classes.md
