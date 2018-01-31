@@ -224,6 +224,9 @@ Beaker tests:
   except:
     - production
   when: manual
+  only:
+    - schedules
+    - branches
 
 noop runs:
   stage: canary runs
@@ -268,6 +271,7 @@ Accept MR:
 noop runs:
   stage: production runs
   before_script:
+    - "bin/puppet_ci.sh job_run --noop --environment production"
     - "bin/puppet_job_run.sh production --noop"
   script: "bin/puppetdb_env_query.sh production"
   tags:
@@ -280,7 +284,8 @@ noop runs:
 no_noop runs:
   stage: production runs
   before_script:
-          - "bin/puppet_job_run.sh production --no-noop"
+    - "bin/puppet_ci.sh job_run --no-noop --environment production"
+    - "bin/puppet_job_run.sh production --no-noop"
   script: "bin/puppetdb_env_query.sh production"
   tags:
     - deploy_puppet
