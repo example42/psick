@@ -8,6 +8,7 @@ psick::profiles::linux_classes:
   pe_server: psick::puppet::pe_server
   gitlab_cli: psick::gitlab::cli
   gitlab_ci: psick::gitlab::ci
+  puppet_ci: psick::puppet::ci
   pe_code_manager: psick::puppet::pe_code_manager
   gitlab_runner: psick::gitlab::runner
   octocatalog: psick::ci::octocatalog
@@ -59,6 +60,16 @@ psick::gitlab::ci::default_nodes:
 psick::gitlab::ci::always_nodes:
   - git.lab.psick.io
   - cirunner.lab.psick.io
+psick::puppet::ci::default_nodes:
+  - puppet.lab.psick.io
+  - git.lab.psick.io
+psick::puppet::ci::always_nodes:
+  - lamp.lab.psick.io
+psick::puppet::ci::options:
+  job_run_default_nodes:
+    - lamp.lab.psick.io
+    - puppet.lab.psick.io
+
 
 psick::ci::octocatalog::run_as_user: 'gitlab-runner'
 psick::ci::octocatalog::template: 'psick/ci/octocatalog/octocatalog-diff.cfg.rb.erb'
