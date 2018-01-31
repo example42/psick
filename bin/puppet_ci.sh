@@ -47,7 +47,7 @@ run_action () {
     ;;
     job_run)
       $ssh_command
-      $sudo_command puppet job run --nodes $n $noop
+      $sudo_command puppet job run --nodes $n --environment=$env $noop
       $ssh_command_post
     ;;
     db_query)
@@ -160,7 +160,7 @@ default=${${env}_${action}_default_nodes:-$default_nodes}
 always=${${env}_${action}_always_nodes:-$always_nodes}
 default_nodes=${!default}
 always_nodes=${!always}
-if [ $nodes_format == 'space' ]; then
+if [[ "$nodes_format" == "space" ]]; then
   default_nodes=${default_nodes//,/ }
   always_nodes=${always_nodes//,/ }
 fi
