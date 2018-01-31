@@ -53,7 +53,7 @@ run_action () {
     db_query)
       $ssh_command
       certname=$(puppet config print certname)
-      puppet-query  --cacert=/etc/puppetlabs/puppet/ssl/certs/ca.pem --cert=/etc/puppetlabs/puppet/ssl/certs/$certname.pem --key=/etc/puppetlabs/puppet/ssl/private_keys/$certname.pem "nodes[certname] { latest_report_status = 'failed' and expired is null and catalog_environment = '${env}' }" | grep $n
+      $sudo_command puppet-query  --cacert=/etc/puppetlabs/puppet/ssl/certs/ca.pem --cert=/etc/puppetlabs/puppet/ssl/certs/$certname.pem --key=/etc/puppetlabs/puppet/ssl/private_keys/$certname.pem "nodes[certname] { latest_report_status = 'failed' and expired is null and catalog_environment = '${env}' }" | grep $n
       if [ "x$?" == "x0" ]; then
         echo "Node ${n} last run has failed!"
         exit 1
@@ -65,19 +65,17 @@ run_action () {
     ;;
     task_run)
       $ssh_command
-      bolt task run $task environment=$env -n $n
+      $sudo_command bolt task run $task environment=$env -n $n
       $ssh_command_post
     ;;
     git_deploy)
       $ssh_command
-      cd /etc/puppetlabs/code/environments/$env/
-      git pull origin $env
-      r10k puppetfile install
+      $sudo_command "cd /etc/puppetlabs/code/environments/${env}/ ; git pull origin ${env} ; r10k puppetfile install"
       $ssh_command_post
     ;;
     r10k_deploy)
       $ssh_command
-      r10k deploy environment $env
+      $sudo_command /opt/puppetlabs/puppet/bin/r10k deploy environment ${env} -v
       $ssh_command_post
     ;;
     *)

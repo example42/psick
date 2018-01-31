@@ -15,16 +15,6 @@ setup() {
   echo "### Installing gems with provider puppet_gem"
   puppet resource package hiera-eyaml provider=puppet_gem ensure=present
   puppet resource package deep_merge provider=puppet_gem ensure=present
-  echo "### Installing git"
-  puppet resource package git ensure=present
-  which puppetserver 2>/dev/null
-  if [ "x$?" == "x0" ]; then
-    echo "### Installing gems for puppetserver"
-    puppetserver gem install hiera-eyaml
-    puppetserver gem install deep_merge
-    service pe-puppetserver restart
-  fi
-
 }
 
 # Run setup only the first time

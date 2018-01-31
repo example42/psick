@@ -31,7 +31,7 @@ puppet:
   application: puppet         # Setting for the application fact (may be used in hiera.yaml)
   master_vm:  puppet.lab.psick.io    # Name of the VM which play as Puppet server for the others
   master_fqdn: 'puppet.lab.psick.io' # FQDN of the Puppet server to use with puppet agent
-  link_controlrepo: true      # Add a link for a Puppet environment to the development control-repo 
+  link_controlrepo: false     # Add a link for a Puppet environment to the development control-repo 
   environment: host           # Puppet environment to link to local control-repo
 
 # Puppet Enterprise settings

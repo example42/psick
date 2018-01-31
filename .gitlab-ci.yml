@@ -1,6 +1,6 @@
 # GitLab CI configuration - https://docs.gitlab.com/ce/ci/yaml/README.html
 # Example for a Puppet deployment workflow with integration and production
-# braches. Requires a fully configured Puppet-GitLab-CI runners
+# branches. Requires a fully configured Puppet-GitLab-CI runners
 # environment to work.
 
 stages:
@@ -86,7 +86,7 @@ rake_controlrepo:
   before_script:
     - "bin/gitlab_before.sh ${CI_BUILD_REF_NAME}"
   script:
-    - "bin/puppet_check_rake.sh site"
+    - "bin/puppet_check_rake.sh site bundle"
     - "bin/puppet_check_rake.sh controlrepo"
   cache:
     untracked: true

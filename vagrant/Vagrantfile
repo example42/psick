@@ -23,6 +23,8 @@ network_ip_range = network_obj.to_range.to_a
 range_start_offset = settings['network']['ip_start_offset'] ? settings['network']['ip_start_offset'] : 101
 puppet_master_hostname = settings['puppet']['master_fqdn'] ? settings['puppet']['master_fqdn'] : 'puppet'
 puppet_environment = settings['puppet']['environment']
+puppet_controlrepo = settings['puppet']['controlrepo'] ? settings['puppet']['controlrepo'] : false
+r10k_install = settings['puppet']['r10k_install'] ?  settings['puppet']['r10k_install'] : false
 
 # We mount this directory on the VMs and then link puppet_environment to it
 # This is needed to avoid Puppet installation issues complaining about limited space
@@ -160,6 +162,11 @@ Vagrant.configure('2') do |config|
         end
       end
 
+      if role == 'puppet'
+        node_config.vm.provision 'shell', path: '../../bin/vagrant-setup_puppetserver.sh', args: "#{puppet_environment}"
+        node_config.vm.provision 'shell', path: '../../../bin/puppet_deploy_controlrepo.sh', args: "#{puppet_controlrepo}" if r10k_install
+      end
+
       if node['puppet_apply'] == true
         node_config.vm.synced_folder '../../../', puppet_code_dir, mount_options: ['ro']
         node_config.vm.provision 'shell', path: '../../bin/vagrant-linkcontrolrepo.sh', args: "#{puppet_environment} #{puppet_code_dir}" if link_controlrepo
@@ -179,7 +186,7 @@ Vagrant.configure('2') do |config|
             p.master_vm = master_vm
           end
         end
-        node_config.vm.provision 'shell', path: '../../bin/pagent.sh', args: "--server #{puppet_master_hostname}"
+        node_config.vm.provision 'shell', path: '../../bin/pagent.sh', args: "--server #{puppet_master_hostname} --environment #{puppet_environment}"
       end
 
       if node['forwarded_port']

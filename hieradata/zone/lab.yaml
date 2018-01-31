@@ -6,7 +6,7 @@ psick::pre::linux_classes:
 psick::base::linux_classes:
   icinga: psick::icinga2
   monitor_plugins: psick::monitor::nagiosplugins
-  sensu: psick::sensu
+#  sensu: psick::sensu
   ansible: psick::ansible
   bolt: psick::bolt
   dns: '' # In lab we leave DNS unmanaged
