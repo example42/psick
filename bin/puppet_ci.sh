@@ -47,7 +47,7 @@ run_action () {
     ;;
     job_run)
       $ssh_command
-      $sudo_command puppet job run --nodes $n --environment $env $noop --description $description
+      $sudo_command puppet job run --nodes $n --environment $env $noop --description "$description"
       $ssh_command_post
     ;;
     db_query)

@@ -4,7 +4,7 @@ In this document we will review a possible process to follow to manage Puppet ch
 
 It's based on Gitlab CI pipelines defined in the file [gitlab/.gitlab-ci.yml-integration](gitlab/.gitlab-ci.yml-integration).
 
-It can be used as main ```.gitlab-ci.yml``` file on a setup where code stays in a (local) GitLab instance and the Puppet server in based on Puppet Enterprise.
+It can be used as main ```.gitlab-ci.yml``` file on a setup where code stays in a (local) GitLab instance and the Puppet server in based on Puppet Enterprise, with automatic code deployment whenever a change is pushed to GitLab server.
 
 This can be adapted to custom tools and needs, with variations in internal organisation and processes.
 

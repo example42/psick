@@ -15,3 +15,5 @@ fabric.md
 classes.md
 git.md
 change_process.md
+change_impact.md
+change_process_integration.md
