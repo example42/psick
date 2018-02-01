@@ -11,7 +11,7 @@ stages:
   - checks
   - unit
   - integration
-  - canary runs
+  - canary
   - promote
   - production runs
   - documentation
@@ -228,10 +228,10 @@ Beaker tests:
     - schedules
     - branches
 
-noop runs:
-  stage: canary runs
+no-noop runs:
+  stage: canary
   before_script:
-    - "bin/puppet_ci.sh job_run --noop --environment ${CI_BUILD_REF_NAME} --description '[CI] Canary noop run with ${CI_BUILD_REF_NAME}'"
+    - "bin/puppet_ci.sh job_run --no-noop --environment ${CI_BUILD_REF_NAME} --description '[CI] Canary no-noop run with ${CI_BUILD_REF_NAME}'"
   script:
     - "bin/puppetdb_env_query.sh ${CI_BUILD_REF_NAME}"
   tags:
@@ -244,10 +244,10 @@ noop runs:
     - production
   allow_failure: true
 
-no-noop runs:
-  stage: canary runs
+noop runs:
+  stage: canary
   before_script:
-    - "bin/puppet_ci.sh job_run --no-noop --environment ${CI_BUILD_REF_NAME} --description '[CI] Canary no-noop run with ${CI_BUILD_REF_NAME}'"
+    - "bin/puppet_ci.sh job_run --noop --environment ${CI_BUILD_REF_NAME} --description '[CI] Canary noop run with ${CI_BUILD_REF_NAME}'"
   script:
     - "bin/puppetdb_env_query.sh ${CI_BUILD_REF_NAME}"
   tags:
