@@ -2,47 +2,59 @@
 
 source ENV['GEM_SOURCE'] || "https://rubygems.org"
 
-# puppet lint plugins
-# https://puppet.community/plugins/#puppet-lint
-gem 'puppet-lint-appends-check',
-    :git => 'https://github.com/voxpupuli/puppet-lint-appends-check.git',
-    :require => false
-gem 'puppet-lint-classes_and_types_beginning_with_digits-check',
-    :git => 'https://github.com/voxpupuli/puppet-lint-classes_and_types_beginning_with_digits-check.git',
-    :require => false
-#gem 'puppet-lint-empty_string-check',
-#    :git => 'https://github.com/voxpupuli/puppet-lint-empty_string-check.git',
-#    :require => false
-gem 'puppet-lint-file_ensure-check',
-    :git => 'https://github.com/voxpupuli/puppet-lint-file_ensure-check.git',
-    :require => false
-gem 'puppet-lint-leading_zero-check',
-    :git => 'https://github.com/voxpupuli/puppet-lint-leading_zero-check.git',
-    :require => false
-#gem 'puppet-lint-numericvariable',
-#    :git => 'https://github.com/fiddyspence/puppetlint-numericvariable.git',
-#    :require => false
-gem 'puppet-lint-resource_reference_syntax',
-    :git => 'https://github.com/voxpupuli/puppet-lint-resource_reference_syntax.git',
-    :require => false
-gem 'puppet-lint-spaceship_operator_without_tag-check',
-    :git => 'https://github.com/voxpupuli/puppet-lint-spaceship_operator_without_tag-check.git',
-    :require => false
-gem 'puppet-lint-trailing_comma-check',
-    :git => 'https://github.com/voxpupuli/puppet-lint-trailing_comma-check.git',
-    :require => false
-gem 'puppet-lint-undef_in_function-check',
-    :git => 'https://github.com/voxpupuli/puppet-lint-undef_in_function-check.git',
-    :require => false
-gem 'puppet-lint-unquoted_string-check',
-    :git => 'https://github.com/voxpupuli/puppet-lint-unquoted_string-check.git',
-    :require => false
-gem 'puppet-lint-variable_contains_upcase',
-    :git => 'https://github.com/fiddyspence/puppetlint-variablecase.git',
-    :require => false
-gem 'puppet-lint-version_comparison-check',
-    :git => 'https://github.com/voxpupuli/puppet-lint-version_comparison-check.git',
-    :require => false
-
-# vim:ft=ruby
-
+gem 'puppet-lint-absolute_classname-check'
+gem 'puppet-lint-absolute_template_path'
+gem 'puppet-lint-alias-check'
+gem 'puppet-lint-anchor-check'
+gem 'puppet-lint-appends-check'
+gem 'puppet-lint-class_parameter-check'
+gem 'puppet-lint-classes_and_types_beginning_with_digits--check'
+gem 'puppet-lint-classes_and_types_beginning_with_digits-check'
+gem 'puppet-lint-concatenated_template_files-check'
+gem 'puppet-lint-duplicate_class_parameters-check'
+gem 'puppet-lint-ec2_facts-check'
+gem 'puppet-lint-empty_string-check'
+gem 'puppet-lint-explicit_hiera_class_param_lookup-check'
+gem 'puppet-lint-extended'
+gem 'puppet-lint-file_ensure-check'
+gem 'puppet-lint-file_line_match-check'
+gem 'puppet-lint-file_source_rights-check'
+gem 'puppet-lint-fileserver-check'
+gem 'puppet-lint-global_resource-check'
+gem 'puppet-lint-halyard'
+gem 'puppet-lint-i18n'
+gem 'puppet-lint-indent-check'
+gem 'puppet-lint-leading_zero-check'
+gem 'puppet-lint-legacy_facts-check'
+gem 'puppet-lint-metrics-check'
+gem 'puppet-lint-no_chaining_arrows-check'
+gem 'puppet-lint-no_cron_resources-check'
+gem 'puppet-lint-no_erb_template-check'
+gem 'puppet-lint-no_file_path_attribute-check'
+gem 'puppet-lint-no_symbolic_file_modes-check'
+gem 'puppet-lint-non_erb_template_filename-check'
+gem 'puppet-lint-numericvariable'
+gem 'puppet-lint-package_ensure-check'
+gem 'puppet-lint-param-docs'
+gem 'puppet-lint-reference_on_declaration_outside_of_class-check'
+gem 'puppet-lint-resource_outside_class-check'
+gem 'puppet-lint-resource_reference_syntax'
+gem 'puppet-lint-roles_and_profiles-check'
+gem 'puppet-lint-security-plugins'
+gem 'puppet-lint-space_after_comma-check'
+gem 'puppet-lint-spaceship_operator_without_tag-check'
+gem 'puppet-lint-strict_indent-check'
+gem 'puppet-lint-template_file_extension-check'
+gem 'puppet-lint-top_scope_facts-check'
+gem 'puppet-lint-trailing_comma-check'
+gem 'puppet-lint-trailing_newline-check'
+gem 'puppet-lint-undef_in_function-check'
+gem 'puppet-lint-unquoted_string-check'
+gem 'puppet-lint-usascii_format-check'
+gem 'puppet-lint-use_ensure_packages-check'
+gem 'puppet-lint-variable_contains_upcase'
+gem 'puppet-lint-version_comparison-check'
+gem 'puppet-lint-vim_modeline-check'
+gem 'puppet-lint-wmf_styleguide-check'
+gem 'puppet-lint-world_writable_files-check'
+gem 'puppet-lint-yumrepo_gpgcheck_enabled-check'

@@ -1,36 +1,37 @@
 # GitLab CI configuration - https://docs.gitlab.com/ce/ci/yaml/README.html
-# Example for a Puppet deployment workflow with Feature branches making
-# MR directly to production.
-# Requires a fully configured Puppet-GitLab-CI runners
-# environment to work. It expects Puppet code deployment to be done
-# automatically when changes are pushed to a branch via Code Manager,
-# r10k or similar.
+# Example for a Puppet deployment workflow with integration and production
+# branches. Requires a fully configured Puppet-GitLab-CI runners
+# environment to work.
 
 stages:
-  - merge request
   - checks
+  - deploy_check
   - unit
-  - integration
-  - canary
-  - promote
-  - production runs
+  - diff
   - documentation
+  - integration
+  - canary_runs
+  - promote
+  - rollout
 
-# Create WIP Merge request
-Create WIP MR:
-  stage: merge request
-  script:
-    - "bin/gitlab_create_merge_request.rb ${CI_BUILD_REF_NAME} production \"WIP: Works on ${CI_BUILD_REF_NAME}\"" 
-  when: on_success
+# Version Deploy check for every branch with environment creation
+# It will try by default 6 times with 10 second between each try
+# so that Puppet has time to get the new version of the repository
+verify_code_deploy:
+  stage: deploy_check
+  script: "bin/codemanager_check_deploy.sh ${CI_BUILD_REF_NAME}"
   tags:
     - deploy_puppet
-  except:
-    - production
-    - schedules
+  when: on_success
   allow_failure: true
+  environment:
+    name: ${CI_BUILD_REF_NAME}
+    url: https://puppet.lab.psick.io/
 
 # Run Syntax Checks on Feature/Personal Branch
-Syntax checks:
+# and Development branch:
+# All branches excluded production and testing
+syntax:
   stage: checks
   before_script:
     - "bin/gitlab_before.sh ${CI_BUILD_REF_NAME}"
@@ -46,7 +47,7 @@ Syntax checks:
   only:
     - branches
 
-Puppet Lint:
+lint:
   stage: checks
   before_script:
     - "bin/gitlab_before.sh ${CI_BUILD_REF_NAME}"
@@ -63,7 +64,7 @@ Puppet Lint:
     - branches
   allow_failure: true
 
-Hidden chars check:
+chars:
   stage: checks
   before_script:
     - "bin/gitlab_before.sh ${CI_BUILD_REF_NAME}"
@@ -80,63 +81,12 @@ Hidden chars check:
     - branches
   allow_failure: true
 
-Danger BOT:
-  stage: checks
-  before_script:
-    - "bin/gitlab_before.sh"
-  script: "bin/gitlab_danger.sh"
-  cache:
-    untracked: true
-    paths:
-    - modules/
-  tags:
-    - deploy_puppet
-  except:
-    - production
-    - schedules
-  only:
-    - branches_disabled
-  allow_failure: true
-
-# Version Deploy check for every branch with environment creation
-# It will try by default 6 times with 10 second between each try
-# so that Puppet has time to get the new version of the repository
-Verify code deploy:
-  stage: checks
-  script: "bin/codemanager_check_deploy.sh ${CI_BUILD_REF_NAME}"
-  tags:
-    - deploy_puppet
-  when: on_success
-  allow_failure: true
-  environment:
-    name: ${CI_BUILD_REF_NAME}
-    url: https://puppet.lab.psick.io/
-
-# UNIT TESTS
-Local site modules:
+rake_controlrepo:
   stage: unit
   before_script:
     - "bin/gitlab_before.sh ${CI_BUILD_REF_NAME}"
   script:
     - "bin/puppet_check_rake.sh site bundle"
-  cache:
-    untracked: true
-    paths:
-    - modules/
-    - vagrant/environments/ci/.vagrant/
-  tags:
-    - test_puppet
-  except:
-    - production
-  only:
-    - branches
-  allow_failure: true
-
-control-repo:
-  stage: unit
-  before_script:
-    - "bin/gitlab_before.sh ${CI_BUILD_REF_NAME}"
-  script:
     - "bin/puppet_check_rake.sh controlrepo"
   cache:
     untracked: true
@@ -151,45 +101,24 @@ control-repo:
     - branches
   allow_failure: true
 
-Public modules:
-  stage: unit
+catalog_preview:
+  stage: diff
   before_script:
     - "bin/gitlab_before.sh ${CI_BUILD_REF_NAME}"
-  script:
-    - "bin/puppet_check_rake.sh modules bundle"
-  cache:
-    untracked: true
-    paths:
-    - modules/
-    - vagrant/environments/ci/.vagrant/
-  tags:
-    - test_puppet
-  except:
-    - production
-  only:
-    - branches
-  allow_failure: true
-  when: manual
-
-Catalog preview:
-  stage: integration
-  before_script:
-    - "bin/gitlab_before.sh ${CI_BUILD_REF_NAME}"
-  script: "bin/gitlab_catalog_preview.sh ${CI_BUILD_REF_NAME}"
+  script: "bin/gitlab_catalog_preview.sh integration"
   cache:
     untracked: true
     paths:
     - modules/
   tags:
     - deploy_puppet
+  only:
+    - integration
   allow_failure: true
-  except:
-    - production
-  when: manual
 
 # Can be duplicated to use different images (using different --image)
 # or with custom facts --facts. Check docker_run.sh for all the options.
-Docker tests:
+docker_test:
   stage: integration
   before_script:
     - "bin/gitlab_before.sh ${CI_BUILD_REF_NAME}"
@@ -203,12 +132,8 @@ Docker tests:
     - test_puppet
   only:
     - schedules
-    - branches
-  except:
-    - production
-  when: manual
 
-Beaker tests:
+beaker:
   stage: integration
   before_script:
     - "bin/gitlab_before.sh ${CI_BUILD_REF_NAME}"
@@ -221,61 +146,81 @@ Beaker tests:
   allow_failure: true
   tags:
     - test_puppet
-  except:
-    - production
-  when: manual
   only:
-    - schedules
-    - branches
+    - integration
 
-Canary no-noop runs:
-  stage: canary
+run_puppet_on_integration:
+  stage: canary_runs
   before_script:
-    - "bin/puppet_ci.sh job_run --no-noop --environment ${CI_BUILD_REF_NAME} --description '[CI] Canary no-noop run with ${CI_BUILD_REF_NAME}'"
+    # Trigger remote Puppet runs via puppet job
+    - "bin/puppet_job_run.sh integration"
+    # Trigger remote Puppet runs via Rundeck
+#    - "bin/rundeck_job_run.sh testing"
   script:
-    - "bin/puppetdb_env_query.sh ${CI_BUILD_REF_NAME}"
+    - "bin/puppetdb_env_query.sh integration"
   tags:
     - deploy_puppet
-  when: manual
+  when: on_success
   only:
-    - branches
-    - schedules
-  except:
-    - production
+    - integration
   allow_failure: true
 
-Canary noop runs:
-  stage: canary
-  before_script:
-    - "bin/puppet_ci.sh job_run --noop --environment ${CI_BUILD_REF_NAME} --description '[CI] Canary noop run with ${CI_BUILD_REF_NAME}'"
-  script:
-    - "bin/puppetdb_env_query.sh ${CI_BUILD_REF_NAME}"
-  tags:
-    - deploy_puppet
-  when: manual
-  only:
-    - branches
-    - schedules
-  except:
-    - production
-  allow_failure: true
-
-Accept MR:
+merge_request_feature:
   stage: promote
-  script: "bin/gitlab_accept_merge_request.rb ${CI_BUILD_REF_NAME} production"
+  script:
+    - "bin/gitlab_create_merge_request.rb ${CI_BUILD_REF_NAME} integration"
+  when: on_success
+  tags:
+    - deploy_puppet
+  except:
+    - production
+    - integration
+  only:
+    - branches
+
+merge_accept_feature:
+  stage: promote
+  script: "bin/gitlab_accept_merge_request.rb ${CI_BUILD_REF_NAME} integration"
   tags:
     - deploy_puppet
   when: manual
   except:
     - production
+    - integration
   only:
-    - branches_disabled
+    - branches
 
-# Production Rollout
-Trigger noop runs:
-  stage: production runs
+
+# Allow Merge Request to fail as it can happen that there's
+# already a merge request from testing to production ready to
+# be merged
+merge_request_production:
+  stage: promote
+  script:
+    - "bin/gitlab_create_merge_request.rb integration production"
+  when: on_success
+  tags:
+    - deploy_puppet
+  only:
+    - integration
+  allow_failure: true
+
+merge_accept_production:
+  stage: promote
+  script: "bin/gitlab_accept_merge_request.rb integration production"
+  tags:
+    - deploy_puppet
+  when: manual
+  only:
+    - integration
+  environment:
+    name: production
+
+# Production
+canary_run_on_production:
+  stage: canary_runs
   before_script:
-    - "bin/puppet_ci.sh job_run --noop --environment production --description '[CI] Production noop run'"
+    - "bin/puppet_job_run.sh production"
   script: "bin/puppetdb_env_query.sh production"
   tags:
     - deploy_puppet
@@ -284,20 +229,20 @@ Trigger noop runs:
     - production
   allow_failure: true # TOREMOVE when fixed
 
-Trigger no_noop runs:
-  stage: production runs
+run_puppet_on_production:
+  stage: rollout
   before_script:
-    - "bin/puppet_ci.sh job_run --no-noop --environment production --description '[CI] Production no-noop run'"
+    - "bin/puppet_job_run.sh production"
   script: "bin/puppetdb_env_query.sh production"
   tags:
     - deploy_puppet
-  when: manual
+  when: on_success
   only:
     - production
   allow_failure: true # TOREMOVE when fixed
 
-# Documentation
-control-repo docs:
+
+pages:
   stage: documentation
   before_script:
     - rm -rf doc public .yardoc README.md
@@ -316,7 +261,7 @@ control-repo docs:
   only:
     - production
 
-modules docs:
+pages_modules:
   stage: documentation
   before_script:
     - bin/gitlab_before.sh
@@ -338,7 +283,7 @@ modules docs:
   only:
     - production
 
-Generate pdf:
+generate_pdf:
   stage: documentation
   before_script:
     - bin/docs_classlistgenerate.sh docs/classes.md
@@ -354,4 +299,3 @@ Generate pdf:
     expire_in: '30 day'
   only:
     - production
-

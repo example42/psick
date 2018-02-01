@@ -10,7 +10,7 @@ Available actions:
   tp_test - Runs 'tp test'
   catalog_preview -
   catalog_diff -
-  job_run -
+  job_run - Use puppet job to trigger a remote Puppet run
   db_query -
   task_run -
   puppet_deploy -
@@ -47,7 +47,7 @@ run_action () {
     ;;
     job_run)
       $ssh_command
-      $sudo_command puppet job run --nodes $n
+      $sudo_command puppet job run --nodes $n --environment $env $noop --description "$description"
       $ssh_command_post
     ;;
     db_query)
@@ -98,7 +98,7 @@ ssh_command_post=''
 sudo_command=''
 env='production'
 action='showhelp'
-
+description='[CI]'
 while [ $# -gt 0 ]; do
   case "$1" in
     tp_test)
@@ -115,7 +115,8 @@ while [ $# -gt 0 ]; do
     ;;
     job_run)
       action='job_run'
-      shift
+      noop=${2:- }
+      shift 2
     ;;
     db_query)
       action='db_query'
@@ -136,6 +137,10 @@ while [ $# -gt 0 ]; do
     ;;
     --environment|--env|-e)
       env=$2
+      shift 2
+    ;;
+    --description|--desc|-d)
+      description=$2
       shift 2
     ;;
     --ssh)
@@ -159,7 +164,7 @@ default=${${env}_${action}_default_nodes:-$default_nodes}
 always=${${env}_${action}_always_nodes:-$always_nodes}
 default_nodes=${!default}
 always_nodes=${!always}
-if [ $nodes_format == 'space' ]; then
+if [[ "$nodes_format" == "space" ]]; then
   default_nodes=${default_nodes//,/ }
   always_nodes=${always_nodes//,/ }
 fi

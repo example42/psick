@@ -15,78 +15,79 @@
 # More info: https://docs.puppet.com/puppet/latest/reference/ssl_attributes_extensions.html
 # You may need to change and adapt them according to your hiera.yaml
 # You can keep them also if you don't set extended trusted facts.
-if $trusted['extensions']['pp_role'] and !has_key($facts,'role') {
-  $role = $trusted['extensions']['pp_role']
-}
-if $trusted['extensions']['pp_environment'] and !has_key($facts,'env') {
-  $env = $trusted['extensions']['pp_environment']
-}
-if $trusted['extensions']['pp_datacenter'] and !has_key($facts,'datacenter') {
-  $datacenter = $trusted['extensions']['pp_datacenter']
-}
-if $trusted['extensions']['pp_zone'] and !has_key($facts,'zone') {
-  $zone = $trusted['extensions']['pp_zone']
-}
-if $trusted['extensions']['pp_application'] and !has_key($facts,'application') {
-  $application = $trusted['extensions']['pp_application']
-}
-# Note: with the above settings we allow overriding of our trusted facts by normal facts.
-# This is done here to adapt to different approaches, if you use trusted facts
-# you will probably want to change the above into something like:
-# if $trusted['extensions']['pp_role'] {
-#   $role = $trusted['extensions']['pp_role']
-# }
+if defined('$facts') and defined('$trusted') {
+  if $trusted['extensions']['pp_role'] and !has_key($facts,'role') {
+    $role = $trusted['extensions']['pp_role']
+  }
+  if $trusted['extensions']['pp_environment'] and !has_key($facts,'env') {
+    $env = $trusted['extensions']['pp_environment']
+  }
+  if $trusted['extensions']['pp_datacenter'] and !has_key($facts,'datacenter') {
+    $datacenter = $trusted['extensions']['pp_datacenter']
+  }
+  if $trusted['extensions']['pp_zone'] and !has_key($facts,'zone') {
+    $zone = $trusted['extensions']['pp_zone']
+  }
+  if $trusted['extensions']['pp_application'] and !has_key($facts,'application') {
+    $application = $trusted['extensions']['pp_application']
+  }
+  # Note: with the above settings we allow overriding of our trusted facts by normal facts.
+  # This is done here to adapt to different approaches, if you use trusted facts
+  # you will probably want to change the above into something like:
+  # if $trusted['extensions']['pp_role'] {
+  #   $role = $trusted['extensions']['pp_role']
+  # }
 
 
-### RESOURCE DEFAULTS
-# Some resource defaults for Files, Execs and Tiny Puppet
-case $::kernel {
-  'Darwin': {
-    File {
-      owner => 'root',
-      group => 'wheel',
-      mode  => '0644',
+  ### RESOURCE DEFAULTS
+  # Some resource defaults for Files, Execs and Tiny Puppet
+  case $::kernel {
+    'Darwin': {
+      File {
+        owner => 'root',
+        group => 'wheel',
+        mode  => '0644',
+      }
+      Exec {
+        path => $::path,
+      }
     }
-    Exec {
-      path => $::path,
+    'Windows': {
+      File {
+        owner => 'Administrator',
+        group => 'Administrators',
+        mode  => '0644',
+      }
+      Exec {
+        path => $::path,
+      }
+    }
+    default: {
+      File {
+        owner => 'root',
+        group => 'root',
+        mode  => '0644',
+      }
+      Exec {
+        path => '/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin',
+      }
     }
   }
-  'Windows': {
-    File {
-      owner => 'Administrator',
-      group => 'Administrators',
-      mode  => '0644',
-    }
-    Exec {
-      path => $::path,
-    }
+
+  ### ADDITIONS FOR RUNS INSIDE DOCKER IMAGES AND NOOP MODE
+  # Building Docker container support
+  # This has a fix for service provider on docker
+  if $virtual == 'docker' {
+    include ::dummy_service
   }
-  default: {
-    File {
-      owner => 'root',
-      group => 'root',
-      mode  => '0644',
-    }
-    Exec {
-      path => '/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin',
-    }
+
+  # A useful trick to manage noop mode via hiera using the key: noop_mode
+  # This needs the trlinklin-noop module
+  $noop_mode = lookup('noop_mode', Boolean, 'first', false)
+  if $noop_mode == true {
+    noop()
   }
+
+  # We just do everything in psick module
+  include '::psick'
 }
-
-### ADDITIONS FOR RUNS INSIDE DOCKER IMAGES AND NOOP MODE
-# Building Docker container support
-# This has a fix for service provider on docker
-if $virtual == 'docker' {
-  include ::dummy_service
-}
-
-# A useful trick to manage noop mode via hiera using the key: noop_mode
-# This needs the trlinklin-noop module
-$noop_mode = lookup('noop_mode', Boolean, 'first', false)
-if $noop_mode == true {
-  noop()
-}
-
-# We just do everything in psick module
-include '::psick'
-
