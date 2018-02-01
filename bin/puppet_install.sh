@@ -38,11 +38,16 @@ setup_redhat() {
 }
 
 setup_fedora() {
+  release=$1
+  if [[ $release == '27' ]]
+  then
+    release='26'
+  fi
   echo_title "Uninstalling existing Puppet"
   yum erase -y puppet-agent puppet puppetlabs-release puppetlabs-release-pc1 >/dev/null 2>&1
 
   echo_title "Adding repo for Puppet 5"
-  rpm -ivh https://yum.puppetlabs.com/puppet5/puppet5-release-fedora-$1.noarch.rpm
+  rpm -ivh https://yum.puppetlabs.com/puppet5/puppet5-release-fedora-${release}.noarch.rpm
 
   sleep 2
   echo_title "Installing Puppet"
@@ -175,6 +180,7 @@ setup_linux() {
     ubuntu) setup_apt $majver ;;
     redhat) setup_redhat $majver ;;
     fedora) setup_fedora $majver ;;
+    fedorarelease) setup_fedora $majver ;;
     centos) setup_redhat $majver ;;
     scientific) setup_redhat $majver ;;
     amzn) setup_amazon ;;
