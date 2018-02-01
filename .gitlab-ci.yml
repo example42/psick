@@ -237,6 +237,9 @@ noop runs:
   tags:
     - deploy_puppet
   when: on_success
+  only:
+    - branches
+    - schedules
   except:
     - production
   allow_failure: true
@@ -250,6 +253,9 @@ no-noop runs:
   tags:
     - deploy_puppet
   when: manual
+  only:
+    - branches
+    - schedules
   except:
     - production
   allow_failure: true
