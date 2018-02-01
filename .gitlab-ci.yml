@@ -228,7 +228,7 @@ Beaker tests:
     - schedules
     - branches
 
-no-noop runs:
+Canary no-noop runs:
   stage: canary
   before_script:
     - "bin/puppet_ci.sh job_run --no-noop --environment ${CI_BUILD_REF_NAME} --description '[CI] Canary no-noop run with ${CI_BUILD_REF_NAME}'"
@@ -244,7 +244,7 @@ no-noop runs:
     - production
   allow_failure: true
 
-noop runs:
+Canary noop runs:
   stage: canary
   before_script:
     - "bin/puppet_ci.sh job_run --noop --environment ${CI_BUILD_REF_NAME} --description '[CI] Canary noop run with ${CI_BUILD_REF_NAME}'"
@@ -272,7 +272,7 @@ Accept MR:
     - branches_disabled
 
 # Production Rollout
-noop runs:
+Trigger noop runs:
   stage: production runs
   before_script:
     - "bin/puppet_ci.sh job_run --noop --environment production --description '[CI] Production noop run'"
@@ -284,7 +284,7 @@ noop runs:
     - production
   allow_failure: true # TOREMOVE when fixed
 
-no_noop runs:
+Trigger no_noop runs:
   stage: production runs
   before_script:
     - "bin/puppet_ci.sh job_run --no-noop --environment production --description '[CI] Production no-noop run'"
