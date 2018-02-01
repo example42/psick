@@ -236,7 +236,7 @@ noop runs:
     - "bin/puppetdb_env_query.sh ${CI_BUILD_REF_NAME}"
   tags:
     - deploy_puppet
-  when: on_success
+  when: manual
   only:
     - branches
     - schedules
