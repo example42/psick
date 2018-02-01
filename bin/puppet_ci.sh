@@ -47,7 +47,7 @@ run_action () {
     ;;
     job_run)
       $ssh_command
-      $sudo_command puppet job run --nodes $n --environment=$env $noop
+      $sudo_command puppet job run --nodes $n --environment=$env $noop --description $description
       $ssh_command_post
     ;;
     db_query)
@@ -98,7 +98,7 @@ ssh_command_post=''
 sudo_command=''
 env='production'
 action='showhelp'
-
+description='[CI]'
 while [ $# -gt 0 ]; do
   case "$1" in
     tp_test)
@@ -137,6 +137,10 @@ while [ $# -gt 0 ]; do
     ;;
     --environment|--env|-e)
       env=$2
+      shift 2
+    ;;
+    --description|--desc|-d)
+      description=$2
       shift 2
     ;;
     --ssh)

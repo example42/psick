@@ -231,8 +231,7 @@ Beaker tests:
 noop runs:
   stage: canary runs
   before_script:
-    - "bin/puppet_ci.sh job_run --noop --environment ${CI_BUILD_REF_NAME}"
-    - "bin/puppet_job_run.sh ${CI_BUILD_REF_NAME} --no-noop"
+    - "bin/puppet_ci.sh job_run --noop --environment ${CI_BUILD_REF_NAME} --description '[CI] Canary noop run with ${CI_BUILD_REF_NAME}'"
   script:
     - "bin/puppetdb_env_query.sh ${CI_BUILD_REF_NAME}"
   tags:
@@ -245,8 +244,7 @@ noop runs:
 no-noop runs:
   stage: canary runs
   before_script:
-    - "bin/puppet_ci.sh job_run --no-noop --environment ${CI_BUILD_REF_NAME}"
-    - "bin/puppet_job_run.sh ${CI_BUILD_REF_NAME} --no-noop"
+    - "bin/puppet_ci.sh job_run --no-noop --environment ${CI_BUILD_REF_NAME} --description '[CI] Canary no-noop run with ${CI_BUILD_REF_NAME}'"
   script:
     - "bin/puppetdb_env_query.sh ${CI_BUILD_REF_NAME}"
   tags:
@@ -271,8 +269,7 @@ Accept MR:
 noop runs:
   stage: production runs
   before_script:
-    - "bin/puppet_ci.sh job_run --noop --environment production"
-    - "bin/puppet_job_run.sh production --noop"
+    - "bin/puppet_ci.sh job_run --noop --environment production --description '[CI] Production noop run'"
   script: "bin/puppetdb_env_query.sh production"
   tags:
     - deploy_puppet
@@ -284,8 +281,7 @@ noop runs:
 no_noop runs:
   stage: production runs
   before_script:
-    - "bin/puppet_ci.sh job_run --no-noop --environment production"
-    - "bin/puppet_job_run.sh production --no-noop"
+    - "bin/puppet_ci.sh job_run --no-noop --environment production --description '[CI] Production no-noop run'"
   script: "bin/puppetdb_env_query.sh production"
   tags:
     - deploy_puppet
