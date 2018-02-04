@@ -7,8 +7,7 @@ psick::profiles::linux_classes:
 
 psick::docker::username: example42
 psick::docker::run_examples::ensure: present
-psick::docker::host::instances:
-  mysql:
-    ensure: present
-  nginx:
-    ensure: present
+#psick::docker::host::instances:
+#  puppetregistry:
+#    ensure: present
+#    image: 'distelli/Puppet Container Registry'
