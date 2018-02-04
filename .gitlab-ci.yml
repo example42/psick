@@ -252,7 +252,7 @@ Canary noop runs:
     - "bin/puppetdb_env_query.sh ${CI_BUILD_REF_NAME}"
   tags:
     - deploy_puppet
-  when: manual
+  when: on_success
   only:
     - branches
     - schedules
