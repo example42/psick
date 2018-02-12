@@ -53,11 +53,7 @@ psick::base::linux_classes:
 psick::pre::windows_classes:
   hosts: psick::hosts::resource
 psick::base::windows_classes:
-#  features: '::psick::windows::features'
-#  registry: '::psick::windows::registry'
-#  services: '::psick::windows::services'
   time: '::psick::time'
-#   users: '::psick::users::ad'
 
 # Repo settings
 psick::repo::add_defaults: true
