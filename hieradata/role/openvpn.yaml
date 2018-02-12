@@ -24,8 +24,8 @@ openvpn::servers:
     country: 'IL'
     province: 'TLV'
     city: 'Raanana'
-    organization: 'graduway.com'
-    email: 'it@graduway.com'
+    organization: 'Graduway'
+    email: 'development@graduway.com'
     server: '10.200.200.0 255.255.255.0'
     push: ["route 10.10.0.0 255.255.0.0"]
 
