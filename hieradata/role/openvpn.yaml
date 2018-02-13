@@ -27,12 +27,14 @@ openvpn::servers:
     organization: 'Graduway'
     email: 'development@graduway.com'
     server: '10.200.200.0 255.255.255.0'
-    push: ["route 10.10.0.0 255.255.0.0"]
+    push: ["route 172.16.0.0 255.255.0.0"]
 
 openvpn::client_defaults:
   server: 'graduway-vpn'
 openvpn::clients:
-  'client1': {}
-  'client2': {}
-  'client3': {}
+  'yacov': {}
+  'antony': {}
+  'shachar': {}
+  'ofir': {}
+  'michael': {}
 
