@@ -22,29 +22,32 @@ new_repo_dir="${parent_dir}/${new_repo_name}"
 fi
 
 ask_choice () {
-  echo_subtitle "Choose how you want to create your new control-repo"
+  echo_subtitle "Choose how you want to start with your new control-repo"
   echo "1- Create a full featured control-repo based on current PSICK"
-  echo "2- Create a minimal control-repo with only the bare minimal files"
+  echo "2- Clone the Puppet default one: https://github.com/puppetlabs/control-repo"
   echo "Note that you will be able to add or remove components later."
   echo "Make your choice:"
   read which_controlrepo
 
   case $which_controlrepo in
-    1) setup_full ;;
-    2) setup_minimal ;;
+    1) setup_psick ;;
+    2) setup_default ;;
     *) ask_choice ;;
   esac
 }
 
-setup_full () {
+setup_psick () {
   echo_subtitle "Copying all files from psick to ${new_repo_dir}"
   mkdir -p $new_repo_dir
   rsync -a --exclude='.git' --exclude='.vagrant' --exclude='.pe_build' $repo_dir/ $new_repo_dir/
+
+  git_init
+  end_message
 }
-setup_minimal () {
-  echo_subtitle "Copying a minimal control-repo into ${new_repo_dir}"
-  mkdir -p $new_repo_dir
-  rsync -a --exclude='.git' --exclude='.vagrant' --exclude='.pe_build' $repo_dir/docs/skeleton_minimal/ $new_repo_dir/
+setup_default () {
+  echo_subtitle "Cloning https://github.com/puppetlabs/control-repo into ${new_repo_dir}"
+  git clone https://github.com/puppetlabs/control-repo $new_repo_dir
+  end_message
 }
 
 git_init () {
@@ -66,12 +69,12 @@ git_init () {
     y) git add . ; git commit -m "First commit: Snapshot of ${git_remote}" ;;
     *) echo_subtitle "Nothing has been committed now"
   esac
+}
 
+end_message () {
   echo_title "Congratulations! Setup of the new control-repo finished"
   echo_subtitle "To start to work on it:"
   echo_subtitle "cd ${new_repo_dir}"
-  echo_subtitle "Keep updated the psick repo, and use the psick command to update or add componenent to your control-repo"
 }
 
 ask_choice
-git_init
