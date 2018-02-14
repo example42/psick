@@ -1,0 +1,12 @@
+---
+version: 5
+
+defaults:
+  datadir: hieradata
+
+hierarchy:
+  - name: "yaml hierarchy"
+    paths:
+      - "nodes/%{trusted.certname}.yaml"
+      - "common.yaml"
+
