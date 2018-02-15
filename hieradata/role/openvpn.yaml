@@ -7,7 +7,7 @@ psick::profiles::linux_classes:
 psick::firewall::iptables::extra_rules:
   - '-I INPUT -p tcp -m state --state NEW -m tcp --dport 1194 -j ACCEPT'
 psick::firewall::iptables::nat_rules:
-  - '-I POSTROUTING -s 10.200.200.0/24 -j MASQUERADE'
+  - '-I POSTROUTING -s 192.168.200.0/24 -j MASQUERADE'
 psick::firewall::iptables::manage_ipv6: false
 
 psick::sysctl::settings_hash:
@@ -26,7 +26,7 @@ openvpn::servers:
     city: 'Raanana'
     organization: 'Graduway'
     email: 'development@graduway.com'
-    server: '10.200.200.0 255.255.255.0'
+    server: '192.168.200.0 255.255.255.0'
     push: ["route 172.16.0.0 255.255.0.0"]
 
 openvpn::client_defaults:
