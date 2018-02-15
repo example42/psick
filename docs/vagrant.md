@@ -94,7 +94,7 @@ We can customise the vagrant environments in various ways:
 
   - Customise eventually the same ```Vagrantfile``` for our own needs.
 
-#### Editing config.yaml
+### Editing config.yaml
 
 The ```config.yaml``` file is used by the local Vagrantfile to customise easily the VMs we want to use.
 
@@ -155,6 +155,49 @@ Finally it's possible to define the Vagrant boxes to use for the different VMs, 
       ubuntu1404:                             # Another box
         box: puppetlabs/ubuntu-14.04-64-puppet
 
+#### Environments
+
+In config.yaml there are some options involving which code will be run on host.
+
+* `puppet > environment`: The environment to apply to the virtual machine
+
+* `puppet > link_controlrepo`: Add a link for a Puppet environment to the development control-repo.  
+  Setting this to true will create an environment "`host`" with our current uncommitted code.
+
+* `puppet > controlrepo`: URL of the controlrepo to deploy via r10k on Puppet Server.  
+  Can be both a local or our local control repo:
+    * `https://git.organization.tld/puppet.git`
+    * `/vagrant_puppet` to use the local dir.
+
+#### Agent or masterless?
+
+We can execute the code in masterless mode or connecting to a puppet master inside vagrant environment.
+
+* `vm > puppet_agent`: If set to true this will run puppet agent, connecting to master configured in `puppet::master_fqdn`
+
+* `vm > puppet_apply`: If set to false this will apply catalog, in masterless mode. This is mandatory to bootstrap the puppet master.
+
+We can set both true to run puppet twice, fist in masterless mode, then run the agent.
+
+#### Override options for each node
+
+The `node` key is an array of hosts to run. Here, we can override each option in `vm` and `pupet`.  
+For example:
+
+```yaml
+  vm:
+    memory: 1024
+
+  puppet:
+    environment: production
+
+  node:
+  - role: puppet
+    memory: 6192
+    puppet_apply: true
+  - role: application_server
+    environment: host
+```
 
 #### Customising the Vagrantfile and the relevant scripts
 
