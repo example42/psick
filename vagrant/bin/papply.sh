@@ -1,7 +1,8 @@
 #!/bin/bash
-environment='host'
+
+environment=${1:-"host"}
 base_dir="/etc/puppetlabs/code/environments/${environment}"
-manifest=${1:-"${base_dir}/manifests/site.pp"}
+manifest=${2:-"${base_dir}/manifests/site.pp"}
 
 PATH=$PATH:/opt/puppetlabs/bin
 
