@@ -58,6 +58,7 @@ nodes:
   - role: gitlab
     application: puppetinfra  
     puppet_apply: true
+    puppet_agent: 0
     memory: 2048
     cpu: 2
     aliases:
