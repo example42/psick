@@ -171,7 +171,7 @@ Vagrant.configure('2') do |config|
         node_config.vm.synced_folder '../../../', puppet_code_dir, mount_options: ['ro']
         node_config.vm.provision 'shell', path: '../../bin/vagrant-linkcontrolrepo.sh', args: "#{puppet_environment} #{puppet_code_dir}" if link_controlrepo
         node_config.vm.provision 'shell', path: '../../bin/vagrant-setup_papply.sh', args: "#{puppet_environment}"
-        node_config.vm.provision 'shell', path: '../../bin/papply.sh'
+        node_config.vm.provision 'shell', path: '../../bin/papply.sh', args: "#{puppet_environment}"
       end
 
       if node['pe_role'] == 'master'
@@ -195,7 +195,7 @@ Vagrant.configure('2') do |config|
       if node['forwarded_port2']
         node_config.vm.network 'forwarded_port', guest: node['forwarded_port2']['guest'], host: node['forwarded_port2']['host']
       end
- 
+
       node_config.vm.provider 'virtualbox' do |v|
         v.customize ['modifyvm', :id, '--name', fqdn]
         v.customize ['modifyvm', :id, '--cpus', node['cpu'].to_s]
