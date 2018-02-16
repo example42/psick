@@ -19,10 +19,11 @@ psick::tp:
 # First run optional settings
 psick::enable_firstrun: true
 psick::firstrun::linux_classes:
-  hostname: psick::hostname
-  ec2tagfacts: ::ec2tagfacts
+  aws-sdk: '::psick::aws::sdk'
+  hostname: 'psick::hostname'
+  ec2tagfacts: '::ec2tagfacts'
 psick::firstrun::windows_classes:
-  aws-sdk: ::psick::aws::sdk
+  aws-sdk: '::psick::aws::sdk'
 
 psick::firstrun::windows_reboot: false
 #  hostname: ::psick::hostname

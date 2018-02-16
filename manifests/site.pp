@@ -86,7 +86,6 @@ if defined('$facts') and defined('$trusted') {
   if $virtual == 'docker' {
     include ::dummy_service
   }
-}
 
   # A useful trick to manage noop mode via hiera using the key: noop_mode
   # This needs the trlinklin-noop module
