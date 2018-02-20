@@ -21,6 +21,9 @@ if $ec2_tag_role {
 if $ec2_tag_env {
   $env = $ec2_tag_env
 }
+if $ec2_tag_name {
+  $host_name = $ec2_tag_name
+}
 if defined('$facts') and defined('$trusted') {
   if $trusted['extensions']['pp_role'] and !has_key($facts,'role') {
     $role = $trusted['extensions']['pp_role']
