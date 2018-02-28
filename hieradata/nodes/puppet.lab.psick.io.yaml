@@ -96,6 +96,7 @@ psick::gitlab::cli::config_hash:
   private_token: 'orgbq5DeQuKgnSNW5yF6' # TO CHANGE AT EVERY INSTALLATION
   project_id: 1 # Control-repo project ID on GITLAB
   api_endpoint: 'https://git.lab.psick.io/api/v3'
+psick::gitlab::cli::auto_prereq: false # Prevent Duplicate declaration: Tp::Install[ruby]"
 
 # Monitoring
 psick::sensu::checks_hash:
