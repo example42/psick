@@ -1,11 +1,11 @@
 ### Changes impact overview: summary of involved files and possible effects
 
-This repository contains various files and directories, changing their contents may or may not affect our servers in different ways. We identify the following risks level, from lower to higher:
+This repository contains various files and directories, changing their contents may or may not affect our servers in different ways. We identify the following risk levels, from lower to higher:
 
-  - [safe] - Changes done here are totally safe in terms of impact on running servers
-  - [bau] - Business as usual. Changes here impact a limited number of servers or not critical elements
-  - [warning] - Changes may impact several servers and should be considered with care
-  - [danger] - Changes may have a very large impact. Be sure to be aware of what we are doing
+  - [safe] Changes done here are totally safe in terms of impact on running servers
+  - [limited] Changes here impact a limited number of servers or not critical elements
+  - [warning] Changes may impact several servers and should be considered with care
+  - [danger] Changes may have a very large impact. Be sure to be aware of what we are doing
 
 Let's have a quick overview of the risk level related to different kind of files. Needless to say that they refer to actual changes in Puppet code and data, if we are just adding a comment we can be confident that we change won't have any effect.
 
@@ -17,7 +17,7 @@ Let's have a quick overview of the risk level related to different kind of files
 
   - [warning] ```data/role/``` contains Hiera data which is used for all the nodes of the same role. These might be a few or several, according to the role. Edit with care, always considering if it's safe to rollout our change to all the nodes with this role
 
-  - [bau] ```data/nodes/``` contains Hiera data for specific nodes. Here we can place nodes specific settings, which are easy to test (directly on the involved node) and have a limited impact (only the node having the name of the file we change).
+  - [limited] ```data/nodes/``` contains Hiera data for specific nodes. Here we can place nodes specific settings, which are easy to test (directly on the involved node) and have a limited impact (only the node having the name of the file we change).
 
   - [danger] ```manifests/``` files here impact all the nodes. Handle with care.
 
@@ -25,7 +25,6 @@ Let's have a quick overview of the risk level related to different kind of files
 
   - [warning] ```bin/```, ```docker/```, ```vagrant/```, ```fabfile```, ```.gitlab-ci.yml``` contain scripts, configurations and settings which won't affect directly our servers but may break our CI pipelines or testing environments. Handle with relative care.
 
-  - [warning] ```site/profiles/*``` here we change Puppet code which may affect one or more nodes.
+  - [warning] ```site/profiles/*``` here stay local profiles, templates, files, facts, resource types, data types.
 
 Don't be too much worried about the above dangers and warnings, though, it's normal in the life of Puppet admin to edit such files, just be aware of the potential impact area of our change and, always, do changes we are aware of and, when we are not fully sure of what we are doing, test our changes in noop mode before actually enforcing them.
-

@@ -2,7 +2,7 @@
 
 This control-repo is stored in a [Git](https://git-scm.com) repository.
 
-Whoever has to work on tit should have basic git knowledge.
+Whoever has to work on it should have basic git knowledge.
 
 Here we are going to review git essentials and outline possible workflows for Puppet code development, testing and deployment process.
 
@@ -51,7 +51,7 @@ Our local repository consists of three "trees" maintained by git:
 
 Once we start to modify, add or delete files on our git repo, we have to add them to the Index before being able to commit them.
 
-To add  specific file to the Index:
+To add a specific file to the Index:
 
     git add <filename>
 

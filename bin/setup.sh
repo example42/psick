@@ -21,25 +21,25 @@ install_fabric() {
   [ "$?" = 0 ] || return
   echo_title "Installing Fabric"
   echo_subtitle "Executing: sudo puppet apply -e 'include ::psick::python::fabric'"
-  sudo -E puppet apply $puppet_options -e 'include ::psick::python::fabric'
+  sudo -E puppet apply $puppet_options -e 'include psick ; include ::psick::python::fabric'
 }
 
 install_vagrant() {  
   [ "$auto" = "true" ] || ask_interactive "Going to install Vagrant via Puppet"
   [ "$?" = 0 ] || return
   echo_title "Installing Vagrant"
-  echo_subtitle "Executing: sudo puppet apply -e 'include ::psick::vagrant'"
-  sudo -E puppet apply $puppet_options -e 'include ::psick::vagrant'
-  echo_subtitle "Executing: puppet apply -e 'include ::psick::vagrant::plugins'"
-  sudo -E puppet apply $puppet_options -e 'include ::psick::vagrant::plugins'
+  echo_subtitle "Executing: sudo puppet apply -e 'include psick ; include ::psick::vagrant'"
+  sudo -E puppet apply $puppet_options -e 'include psick ; include ::psick::vagrant'
+  echo_subtitle "Executing: puppet apply -e 'include psick ; include ::psick::vagrant::plugins'"
+  sudo -E puppet apply $puppet_options -e 'include psick ; include ::psick::vagrant::plugins'
 }
 
 install_docker() { 
   [ "$auto" = "true" ] || ask_interactive "Going to install Docker via Puppet"
   [ "$?" = 0 ] || return
   echo_title "Installing Docker"
-  echo_subtitle "Executing: sudo puppet apply -e 'include ::psick::docker'"
-  sudo -E puppet apply $puppet_options -e 'include ::psick::docker'
+  echo_subtitle "Executing: sudo puppet apply -e 'include psick ; include ::psick::docker'"
+  sudo -E puppet apply $puppet_options -e 'include psick ; include ::psick::docker'
 }
 
 setup_puppet
