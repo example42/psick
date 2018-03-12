@@ -89,7 +89,7 @@ def install(os=''):
 
 @task
 def module_generate(module=''):
-  """[local] Generate a Puppet module based on skeleton"""
+  """[local] Generate a new Puppet module with pdk"""
   local( main_dir + "/bin/puppet_module_generate.sh " + str(module) )
 
 @task

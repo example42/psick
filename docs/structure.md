@@ -21,8 +21,6 @@ Besides these common locations, in our control-repo we have also:
 
 - [Fabric](http://www.fabfile.org) tasks are defined in the ```fabric``` directory.
 
-- The ```skeleton``` directory contains a module skeleton we can use, and modify, to generate new modules based on the skeleton structure.
-
 - Documentation is stored under ```docs```
 
 - The ```bin``` directory contains several scripts for various purposes. Most of them can be invoked via Fabric.

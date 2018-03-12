@@ -2,6 +2,7 @@
 
 * Your contribution here.
 
+* Removed skeleton dir, used pdk to create new modules [@alvagante](https://github.com/alvagante)
 
 ## Release 0.9.3 - Started modularisation
 * [#247] Moved hieradata to separated module [@alvagante](https://github.com/alvagante)
