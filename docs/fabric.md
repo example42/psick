@@ -49,7 +49,7 @@ Check the syntax of all .pp .yaml .epp .erb files in our control-repo:
 
     fab puppet.check_syntax
 
-Generate a new module based on the format of the ```skeleton``` directory.
+Generate a new module via pdk.
 
     fab puppet.module_generate
 

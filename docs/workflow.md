@@ -95,7 +95,7 @@ Now you can start to configure and develop your Puppet code and data:
 
   - Customize Puppetfile with the used external modules
 
-To generate a new module based on the format of the ```skeleton``` directory.
+To generate a new module with PDK.
 
     fab puppet.module_generate
 
