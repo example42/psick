@@ -1,4 +1,0 @@
----
-psick::mongo::tp::options:
-  bindIp: '0.0.0.0'
-

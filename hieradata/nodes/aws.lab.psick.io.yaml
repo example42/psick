@@ -1,9 +1,0 @@
----
-psick::aws::region: 'eu-central-1'
-psick::aws::create_defaults: true
-psick::aws::vpc_class: '::psick::aws::puppet::vpc'
-psick::aws::default_vpc_name: 'psicklab'
-psick::aws::default_cidr_block_prefix: '10.100'
-psick::aws::puppet::ec2::default_key_name: 'lab.psick'
-psick::aws::cli::aws_access_key_id: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAUQIoI4wgtl2Ob/iwUuSEYPN0PNYdngZIePVPHPIDppLvk1h5/Vd9QECNDc0eauEEIzLqrFd2IqgSbKGkJN9VBp6M3bNXTld7RMPrOozoghPuWkLcNrtXO/fq6ZExB7+n3o68Za6vpIb/diVRHAra3JIKD3hJOHPvmJNatBwx2ZbMt+KIeH2jnF5vba0W0jLvRvn5sOBA5i3ZPKMlMEYuTyMkiKaBNwEOrFEZUCfYbGrDZvwdE7nq/2vflG+H3LnBADPtBwKpjF5qJNfIibzei+vxTv+P+rotSLX5f31HxpRGmdgPyijWo/FV8PvxlEQvJ53qqQpIuPx7Wcwft307HzBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBj7WbtaPuRg/zIKRq95tpFgCC7t6+EqaPtNKeh68wVAZvLV4VBAauWxm6wmsFAhsJh5w==]
-psick::aws::cli::aws_secret_access_key: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEACJqjJ3nOpjGH6lmaccGUg5fvQPIS3KWPyBwZ7qsfmQwA2NRngOT34buvwhZ3VOIioqYRJCKi/ixoYrGV1wbO2+UfM0sykV5xgOs8a8BIaQgmHZcfQQjXyDuKbEnMep2Ydf7P/Qot4nlzJEei5KhJ9HYrLz5EvOFLnDGlB/LTPHVd3+0UErp9Td06/edU6QFdoaImNPLCcyq1mxNIvAEzmDrP1C1Rh2vF6P/b6LKoRyn/B/f67GMVIi0GYEbzl7eg7LBu7Br8fxzeqEGeQIoCsJXMPWyj7OueSaIFM/gopFoDdAXhvb2v8nUTu4XUTlh0WXj/P1ye/VjXeFGGVWIp2jBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCO/DdvOOWTPCE0upkdR4MzgDC1TTPU/ZFftcppbIjG+lv8cT0bgibcnfNPHL2zWwOSrerEmi67+E64XLeNDzfoUQE=]

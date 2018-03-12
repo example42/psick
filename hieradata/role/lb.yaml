@@ -1,4 +1,0 @@
----
-psick::profiles::linux_classes:
-  lb: psick::lb::keepalived
-

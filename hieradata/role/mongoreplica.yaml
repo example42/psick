@@ -1,6 +1,0 @@
----
-psick::profiles::linux_classes:
-  mongo: '::psick::mongo'
-
-psick::mongo::replset: "replSet%{::extra_id}"
-

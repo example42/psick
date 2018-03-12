@@ -1,9 +1,0 @@
----
-psick::profiles::linux_classes:
-  - psick::rundeck
-
-psick::rundeck::template: 'psick/rundeck/framework.properties.erb'
-psick::rundeck::init_template: 'psick/rundeck/psick.erb'
-psick::rundeck::options:
-  rundeck.server.uuid: '114cdf88-b094-41b0-93fd-b09ffd3090a4'
-  framework.server.url: 'https://rundeck.lab.psick.io:443'

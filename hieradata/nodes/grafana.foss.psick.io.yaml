@@ -1,4 +1,0 @@
----
-psick::profiles::linux_classes:
-  - grafanadash::dev
-
