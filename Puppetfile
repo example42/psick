@@ -3,10 +3,11 @@
 # In working environments specific versions should be defined.
 
 # Here we place hieradata in a separated module.
-mod 'example42/hieradata':
+# We use control-repo branch if exists, or production as default
+mod 'example42/hieradata',
   :git => 'https://github.com/example42/psick-hieradata',
-  :branch => :control_branch,     # match control-repo branch
-  :default_branch => 'production' # or fallback to production branch
+  :branch => :control_branch,
+  :default_branch => 'production'
 
 # Example42 modules
 # From Forge
