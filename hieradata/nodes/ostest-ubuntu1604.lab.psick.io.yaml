@@ -1,8 +1,0 @@
----
-psick::profiles::linux_classes:
-  nginx: psick::nginx::tp
-  openvpn: psick::openvpn::tp
-  docker: psick::docker
-  rclocal: rclocal
-
-psick::puppet::pe_agent::manage_environment: true

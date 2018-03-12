@@ -2,7 +2,9 @@
 version: 5
 
 defaults:
-  datadir: hieradata
+  datadir: modules/hieradata/data # Data in separated module, defined in Puppetfile
+# datadir: hieradata              # Data in control-repo. Previous psick setting
+# datadir: data                   # Data in control-repo. Default for puppetlabs/control-repo
 
 hierarchy:
   - name: "Eyaml hierarchy"
@@ -16,4 +18,8 @@ hierarchy:
     options:
       pkcs7_private_key: /etc/puppetlabs/puppet/keys/private_key.pkcs7.pem
       pkcs7_public_key:  /etc/puppetlabs/puppet/keys/public_key.pkcs7.pem
-
+# These Hiera eyaml keys are needed only when encrypted data is used.
+# If needed the above keys have to be placed on every node that compiles catalogs:
+# not only puppet servers, but also test servers, ci runners, local dev stations.
+# Use the hierarchy to override encrypted keys with dummy clear text values, in order
+# to limit the nodes where to copy keys.

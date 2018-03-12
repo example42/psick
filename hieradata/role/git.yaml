@@ -1,6 +1,0 @@
----
-psick::profiles::linux_classes:
-  gitlab: psick::gitlab
-
-psick::gitlab::template: 'psick/gitlab/gitlab.rb.erb'
-psick::gitlab::manage_installation: true

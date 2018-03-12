@@ -2,6 +2,11 @@
 
 * Your contribution here.
 
+
+## Release 0.9.3 - Started modularisation
+* [#247] Moved hieradata to separated module [@alvagante](https://github.com/alvagante)
+* Vagrant foss environment [@AlessandroLorenzi](https://github.com/AlessandroLorenzi)
+* Jenkinsfile and Jenkins integrations [@alvagante](https://github.com/alvagante)
 * [#220](https://github.com/example42/psick/pull/220): Run acceptance tests also for newer puppet versions - [@tuxmea](https://github.com/tuxmea).
 
 ## Release 0.9.2 - Second alpha for version 1.0.0

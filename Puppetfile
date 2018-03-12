@@ -1,8 +1,13 @@
 # External modules to installed by r10k in modules/ dir
 # Here mostly at latest version for sample purposes.
 # In working environments specific versions should be defined.
-# Tags, branches and commits can be used. Ie:
-# mod 'example42/tp', '2.1.0'
+
+# Here we place hieradata in a separated module.
+# We use control-repo branch if exists, or production as default
+mod 'example42/hieradata',
+  :git => 'https://github.com/example42/psick-hieradata',
+  :branch => :control_branch,
+  :default_branch => 'production'
 
 # Example42 modules
 # From Forge
