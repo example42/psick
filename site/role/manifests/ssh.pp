@@ -1,6 +1,4 @@
-# @class jenkins
-#
-class role::jenkins_slave (
+class role::ssh (
 
   Variant[Boolean,String]    $ensure     = 'present',
   Enum['psick']              $module     = 'psick',
@@ -14,9 +12,9 @@ class role::jenkins_slave (
 
   Boolean $ssh_keys_generate                = false,
   String $home_dir                          = 'c:\\Users\\Administrator',
+  String $ssh_key_name                      = 'id_rsa',
 
 ) {
-
 
   # SSH keys management
   if $ssh_private_key_content
@@ -30,7 +28,7 @@ class role::jenkins_slave (
   }
 
   if $ssh_private_key_content or $ssh_private_key_source {
-    file { "${home_dir}/.ssh/id_rsa" :
+    file { "${home_dir}/.ssh/${ssh_key_name}" :
       ensure  => $ensure,
       content => $ssh_private_key_content,
       source  => $ssh_private_key_source,
@@ -46,7 +44,7 @@ class role::jenkins_slave (
   }
 
   if $ssh_public_key_content or $ssh_public_key_source {
-    file { "${home_dir}/.ssh/id_rsa.pub" :
+    file { "${home_dir}/.ssh/${ssh_key_name}.pub" :
       ensure  => $ensure,
       content => $ssh_public_key_content,
       source  => $ssh_public_key_source,
