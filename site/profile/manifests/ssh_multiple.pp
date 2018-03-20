@@ -1,4 +1,18 @@
-class role::ssh (
+class profile::ssh_multiple (
+  Hash	$sshkeys    = {},
+  Variant[Boolean,String]    $ensure     = 'present',
+  Enum['psick']              $module     = 'psick',
+) {
+	
+	$sshkeys.each |$k,$v| { 
+		profile::ssh_multiple::ssh_keys { $k:
+			*	=> $v,
+		}
+	}
+
+}
+
+define profile::ssh_multiple::ssh_keys (
 
   Variant[Boolean,String]    $ensure     = 'present',
   Enum['psick']              $module     = 'psick',
@@ -11,8 +25,9 @@ class role::ssh (
   Optional[String] $ssh_knownhost_source    = undef,
 
   Boolean $ssh_keys_generate                = false,
-  String $home_dir                          = 'c:\\Users\\Administrator',
-  String $ssh_key_name                      = 'id_rsa',
+  ## String $home_dir     'c:\\Users\\Administrator', - For Jenkins slave @Windows
+  String $home_dir                          = '/var/lib/jenkins',
+  String $ssh_key_name                      = "${name}",
 
 ) {
 
@@ -22,9 +37,10 @@ class role::ssh (
   or $ssh_private_key_source
   or $ssh_public_key_source {
     $dir_ensure = ::tp::ensure2dir($ensure)
-    file { "${home_dir}/.ssh" :
-      ensure  => $dir_ensure,
-    }
+# FIXME check if file already declared
+    # file { "${home_dir}/.ssh" :
+    #  ensure  => $dir_ensure,
+    # }
   }
 
   if $ssh_private_key_content or $ssh_private_key_source {
@@ -35,7 +51,7 @@ class role::ssh (
     }
   }
 
-  if ssh_knownhost_content or $ssh_knownhost_source {
+  if $ssh_knownhost_content or $ssh_knownhost_source {
     file { "${home_dir}/.ssh/known_hosts" :
       ensure  => $ensure,
       content => $ssh_knownhost_content,

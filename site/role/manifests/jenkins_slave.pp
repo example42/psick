@@ -37,7 +37,7 @@ class role::jenkins_slave (
     }
   }
 
-  if ssh_knownhost_content or $ssh_knownhost_source {
+  if $ssh_knownhost_content or $ssh_knownhost_source {
     file { "${home_dir}/.ssh/known_hosts" :
       ensure  => $ensure,
       content => $ssh_knownhost_content,
