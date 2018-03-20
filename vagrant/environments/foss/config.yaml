@@ -76,7 +76,7 @@ nodes:
     count: 1
   - role: jenkins
     count: 1
-    memory: 2048
+    memory: 4096
     box: ubuntu1604
     forwarded_port:
       guest: 8080
