@@ -75,6 +75,7 @@ nodes:
   - role: docker
     count: 1
   - role: jenkins
+    cpu: 3
     count: 1
     memory: 4096
     box: ubuntu1604

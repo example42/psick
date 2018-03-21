@@ -1,7 +1,7 @@
 #!/bin/bash
 options=$*
 
-echo "## Running puppet agent ${options}"
+echo "## Running puppet agent -t ${options} --detailed-exitcodes"
 puppet agent -t ${options} --detailed-exitcodes
 result=$?
 if [ "x$result" == "x0" ] || [ "x$result" == "x2" ]; then
