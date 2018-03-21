@@ -75,8 +75,9 @@ nodes:
   - role: docker
     count: 1
   - role: jenkins
+    cpu: 3
     count: 1
-    memory: 2048
+    memory: 4096
     box: ubuntu1604
     forwarded_port:
       guest: 8080

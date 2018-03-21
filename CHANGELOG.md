@@ -2,6 +2,7 @@
 
 * Your contribution here.
 
+* Added .editorconfig [@alvagante](https://github.com/alvagante)
 * Removed skeleton dir, used pdk to create new modules [@alvagante](https://github.com/alvagante)
 
 ## Release 0.9.3 - Started modularisation
