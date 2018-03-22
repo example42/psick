@@ -157,6 +157,7 @@ nodes:
       host: 14480
   - role: jenkins
     memory: 4096
+    cpu: 2
     box: ubuntu1604
     forwarded_port:
       guest: 8080

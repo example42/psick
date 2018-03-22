@@ -25,7 +25,6 @@ test -f /etc/puppetlabs/ci.conf && . /etc/puppetlabs/ci.conf
 # run_action function runs different commands according to the provided task
 run_action () {
   a=$1
-  n=$2
   case "$a" in
     resources)
       $ssh_command
@@ -60,9 +59,7 @@ fi
 ssh_command=''
 ssh_command_post=''
 sudo_command=''
-env='production'
 action='showhelp'
-description='[CI]'
 while [ $# -gt 0 ]; do
   case "$1" in
     resources)
