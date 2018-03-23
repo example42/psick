@@ -1,2 +1,5 @@
 {
+  "comment": "Sample settings for Visual Studio Code",
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true
 }

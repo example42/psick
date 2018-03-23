@@ -11,21 +11,21 @@ else
 fi
 
 PATH=$PATH:/opt/puppetlabs/puppet/bin
-echo_title "Running tp::install { ${app}: }. Puppet version $(puppet --version)" 
+echo_title "Running tp::install { ${app}: }. Puppet version $(puppet --version)"
 
 # Run puppet apply with correct configs
 puppet apply --verbose --report --show_diff --summarize \
 	--modulepath "${repo_dir}/site:${repo_dir}/modules:/etc/puppetlabs/code/modules" \
 	--environmentpath "${repo_dir}" \
 	--hiera_config="${repo_dir}/hiera.yaml" \
-	--detailed-exitcodes -e "tp::install { $app: auto_prerequisites => true }" 
+	--detailed-exitcodes -e "tp::install { $app: auto_prereq => true }"
 
 
 result=$?
 # Puppet exit codes 0 and 2 both imply an error less run
 if [ "x$result" == "x0" ] || [ "x$result" == "x2" ]; then
   echo_success "Puppet run without errors"
-  exit 0 
+  exit 0
 else
   echo_failure "There were errors in the Puppet run"
   exit 1
