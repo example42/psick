@@ -114,7 +114,7 @@ PSICK has the common set of files and directories of a Puppet control-repo:
 - ```Puppetfile``` - File that defines the external modules to add via r10k
 - ```modules/``` - Directory where modules defined in Puppetfile are placed (it's .gitignored)
 - ```hiera.yaml``` - Hiera 5 environment configuration file. An equivalent Hiera 3 file is ```hiera3.yaml``` (was linked to ```/etc/puppetlabs/puppet/hiera.yaml```)
-- ```hieradata/``` - Directory where Hiera data is stored, in Yaml files. This can be used when Hiera data is kept inside the control-repo. Since version 0.9.3 PSICK's default data is uses datadir is  loaded from a module in ```modules/hieradata/data```.
+- ```hieradata/``` - This directory (or one called ```data```) is usually used to store Hiera data, when is decided to keep Hiera data inside the control-repo. Since version 0.9.3 PSICK's default datadir is loaded from a module in ```modules/hieradata/data```.
 
 Some extra directories are added in PSICK for integrations and tools:
 
@@ -158,7 +158,7 @@ About this control-repo:
 - [Control-repo structure](docs/structure.md) - A description of the control-repo structure and most important paths
 - [Control-repo logic](docs/use.md) - An overview of the design choices and the logic of this control repo.
 - [Prerequisites](docs/prerequisites.md) - A more detailed view of the prerequisites needed to fully use the control-repo
-- [Noop Mode](docs/noop_mode.md) - An overview on how to enforce noop mode server side with this repo
+- [Noop Mode](docs/noop_mode.md) - An overview on how to manage noop and no-noop with PSICK
 - [Vagrant Integration](docs/vagrant.md) - How to use Vagrant to test the control-repo during development
 - [Docker Integration](docs/docker.md) - How to use Docker to test Puppet code and to build images based on the existing Puppet code
 - [Fabric](docs/fabric.md) - A review of Puppet tasks available with Fabric

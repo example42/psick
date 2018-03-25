@@ -67,7 +67,11 @@ Final result is the same (no resources are really applied) but they are shown di
 
 In some cases we might need to enforce the applications of the resources of some classes in every case, whatever is the noop mode.
 
-Some of the profiles used in this control-repo have the no_noop parameter: if set to true all the resources of the class are enforced and are applied whatever are the noop settings (either client or server side). By default no_noop is set to false and nothing changes in terms of noop management.
+Most of the profiles present in the psicjk module have the no_noop parameter: if set to true all the resources of the class are enforced and are applied even if noop is set client side.
+
+Note that this no_noop parameter, starting form version 0.6.0 of psick module, does NOT override any more the server side noop_mode setting (in this way when you set noop server side you are sure that noop is always enforced).
+
+By default no_noop is set to false and nothing changes in terms of noop management.
 
 This allows us to have some server where Puppet runs in noop mode but have still some resources always applied.
 
@@ -86,7 +90,7 @@ In case the no_noop parameter is not present in a profile, it's quite easy to ad
       Boolean $no_noop            = false,
     ) {
 
-      if $no_noop {
+      if !$::psick::noop_mode and $no_noop {
         info('Forced no-noop mode.')
         noop(false)
       }
@@ -99,11 +103,10 @@ Enabling noop mode on some clients, the most important ones, or the whole produc
 
 Some basic principles have to be considered in order to design them in the most effective way:
 
-  - Server side noop mode if set to true, overrides any client setting
-  - Setting a class no_noop parameter to true overrides any noop setting either client or server side
+  - Server side noop mode if set to true, overrides any client or no_noop setting
+  - Setting a class no_noop parameter to true overrides any client setting
   - We can manage via Hiera both server and client settings, giving us full flexibility on where to set it, still we should limit as much as possible the places where we configure it, and possibly, to avoid unnecessary confusion, not use, on regular basis, both server and client settings at the same time (exceptions below).
   - Client settings are effective after the Puppet run that sets them. Server side settings are immediately effective.
-  - Always consider that classes with no_noop set to true are always applied, if you make changes to them consider the possibility to set no_noop temporarily to false, before propagating such changes everywhere.
 
 The following approach is recommended when noop mode is used or desired:
 
@@ -121,3 +124,4 @@ To trigger real no-noop Puppet runs and apply changes on nodes normally running 
 
 Remember that in both these last two cases, if noop is set server side Puppet keeps on skipping changes on the managed node, that's why we suggest to use server side noop mode only to add a safe net when deploying massive, critical or potentially dangerous code and data changes.
 In normal operations is probably better to use client side noop mode that can be more easily overridden.
+
