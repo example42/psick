@@ -1,6 +1,8 @@
 #!/bin/bash
 repo_dir="$(dirname $0)/.."
 script_dir="$(dirname $0)"
+bucket_key="gw-keys-sandbox"
+
 # repo_dir=$(git rev-parse --show-toplevel)
 . "${script_dir}/functions"
 
@@ -53,9 +55,15 @@ install_modules() {
   echo
 }
 
+copy_keys() {
+	echo "Copying eyaml keys from S3..."
+	aws s3 cp s3://gw-keys-sandbox/puppet/ /etc/puppetlabs/puppet --recursive 
+}
+
 install_gems
 install_rsync
 install_modules
+copy_keys
 
 progs="puppet vagrant docker fab"
 for prog in $progs; do
