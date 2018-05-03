@@ -13,6 +13,9 @@ boxes:
   centos6_puppet:
     box: puppetlabs/centos-6.6-64-nocm
     breed: puppetlabs
+  ubuntu1804:
+    box: ubuntu/bionic64
+    breed: puppetlabs
   ubuntu1604:
     box: ubuntu/xenial64
     breed: puppetlabs

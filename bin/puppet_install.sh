@@ -94,6 +94,7 @@ setup_apt() {
     12.04) codename=precise ;;
     14.04) codename=trusty  ;;
     16.04) codename=xenial ;;
+    18.04) codename=stretch ;; # Temporary fix, waiting for official repos
     *) echo "Release not supported" ;;
   esac
 

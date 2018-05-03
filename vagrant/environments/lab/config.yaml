@@ -138,15 +138,12 @@ nodes:
     box: centos7
   - role: vpn
     count: 1
-  - role: graphite
+  - role: grafana
     count: 1
     box: centos7
     forwarded_port:
-      guest: 80
+      guest: 3000
       host: 1442
-    forwarded_port2:
-      guest: 10000
-      host: 14421
   - role: lamp
     count: 1
     memory: 1024
@@ -170,12 +167,14 @@ nodes:
     hostname_base: ostest-suse11
     box: suse11
   - role: ostest
-    hostname_base: ostest-ubuntu1604
-    memory: 4096
-    box: ubuntu1604
+    hostname_base: ostest-ubuntu1804
+    box: ubuntu1804
   - role: ostest
     hostname_base: ostest-ubuntu1604
     box: ubuntu1604
+  - role: ostest
+    hostname_base: ostest-ubuntu1404
+    box: ubuntu1404
   - role: ostest
     hostname_base: ostest-debian9
     box: debian9
