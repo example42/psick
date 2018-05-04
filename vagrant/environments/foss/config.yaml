@@ -3,7 +3,7 @@
 vm:
   memory: 1024                # MB or RAM to assign
   cpu: 1                      # Number of vCPU to assign to the VM
-  box: ubuntu1604             # Box used for the VM, from the box list in vagrant/boxes.yaml
+  box: centos7             # Box used for the VM, from the box list in vagrant/boxes.yaml
   puppet_apply: false         # Run puppet apply on the local control-repo during provisioning
   puppet_agent: true          # Run puppet agent during provisioning
   facter_external_facts: true # Create external facts in facts.d/$fact.txt. Note 1
