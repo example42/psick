@@ -55,7 +55,7 @@ nodes:
     forwarded_port:
       guest: 443
       host: 1943
-  - role: gitlab
+  - role: git
     application: puppetinfra
     puppet_apply: true
     puppet_agent: 0
