@@ -21,9 +21,9 @@ To work in this Vagrant environment:
     vi config.yaml
 
     # Start the puppet. It will download PE tarball, install it and run puppet agent 
-    vagrant up puppet.lan
-    vagrant reload puppet.lan   # In case of errors. See Note 1
-    vagrant provison puppet.lan # See Note 1
+    vagrant up puppet.pe.psick.io
+    vagrant reload puppet.pe.psick.io   # In case of errors. See Note 1
+    vagrant provison puppet.pe.psick.io # See Note 1
 
     # Then start the other VM you want to test.
     # They will run puppet agent pointing to the puppet vm
@@ -38,9 +38,9 @@ It looks like the newly downloaded PE tarball, placed in the ```.pe_build``` dir
 
 If the PE installation files are already in place when you vagrant up the puppet VM, you won't have this error, so the quick solution is (the very first time you use a new PE version):
 
-    vagrant up puppet.lan # It fails if ```.pe_build``` doesn't contain the installation files for your PE version
-    vagrant reload puppet.lan # Machines reloads and this times mounts ```/vagrant``` with all the expected files
-    vagrant provision puppet.lan # Do the real provisioning: it should install PE and run puppet agent with no errors
+    vagrant up puppet.pe.psick.io # It fails if ```.pe_build``` doesn't contain the installation files for your PE version
+    vagrant reload puppet.pe.psick.io # Machines reloads and this times mounts ```/vagrant``` with all the expected files
+    vagrant provision puppet.pe.psick.io # Do the real provisioning: it should install PE and run puppet agent with no errors
 
 
 Note 2: It's recommended to run this Vagrant environment on hosts that have at least 8 Gb of RAM. Edit ```config.yaml``` to tune the memory to allocate to the VM.

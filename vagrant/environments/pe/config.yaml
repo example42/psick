@@ -55,7 +55,7 @@ nodes:
   - role: puppet
     application: puppetinfra  
     pe_role: master
-    memory: 6192
+    memory: 4096
     cpu: 2
     aliases:
       - puppet
