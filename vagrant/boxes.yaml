@@ -76,7 +76,6 @@ boxes:
     box: mwrock/Windows2016
     breed: win2016
   solaris10:
-  solaris10:
     box: tnarik/solaris10-minimal
     breed: solaris10
   solaris11:
