@@ -8,6 +8,7 @@ vm:
   puppet_agent: false
   facter_external_facts: false
   facter_trusted_facts: false
+  synced_folder_type: vboxfs    # Sync folders types: nfs, vboxfs
 
 network:
   range: 10.42.40.0/24

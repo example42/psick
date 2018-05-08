@@ -9,6 +9,7 @@ vm:
   puppet_agent: false          # Run puppet agent during provisioning
   facter_external_facts: true  # Create external facts in facts.d/$fact.txt. Note 1
   facter_trusted_facts: false  # Create csr_attributes.yaml. Note 1
+  synced_folder_type: vboxfs   # Sync folders types: nfs, vboxfs
 
 # A local network is created among the VM. Here is configured.
 network:
