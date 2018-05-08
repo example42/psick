@@ -8,6 +8,7 @@ vm:
   puppet_agent: true           # Run puppet agent during provisioning
   facter_external_facts: true # Create external facts in facts.d/$fact.txt. Note 1
   facter_trusted_facts: true   # Create csr_attributes.yaml. Note 1
+  synced_folder_type: vboxfs   # Sync folders types: nfs, vboxfs
 
 # Note 1: Some facts are used in default hiera.yaml and needed for
 # nodes classification. So it's better to set them, once.

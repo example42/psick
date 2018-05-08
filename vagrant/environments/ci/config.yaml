@@ -6,6 +6,7 @@ vm:
   box: centos7                 # Box used for the VM, from the box list in vagrant/boxes.yaml
   puppet_apply: false          # Run puppet apply on the local control-repo during provisioning
   puppet_agent: true           # Run puppet agent during provisioning
+  synced_folder_type: vboxfs   # Sync folders types: nfs, vboxfs
 
 network:
   range: 10.42.41.0/24

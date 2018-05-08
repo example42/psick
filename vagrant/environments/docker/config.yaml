@@ -6,6 +6,7 @@ vm:
   box: centos7 # From boxes list below
   puppet_apply: true
   puppet_agent: false
+  synced_folder_type: vboxfs   # Sync folders types: nfs, vboxfs
 
 network:
   range: 10.42.42.0/24
