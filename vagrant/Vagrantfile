@@ -165,14 +165,22 @@ Vagrant.configure('2') do |config|
 
       if node['puppet_apply'] == true
         node_config.vm.provision 'shell', path: '../../../bin/puppet_deploy_controlrepo.sh', args: puppet_controlrepo.to_s if r10k_install
-        node_config.vm.synced_folder '../../../', puppet_code_dir, mount_options: ['ro'], type: node['synced_folder_type']
+        if node['synced_folder_type'] == 'vboxfs'
+          node_config.vm.synced_folder '../../../', puppet_code_dir, mount_options: ['ro']
+        else
+          node_config.vm.synced_folder '../../../', puppet_code_dir, mount_options: ['ro'], type: node['synced_folder_type']
+        end
         node_config.vm.provision 'shell', path: '../../bin/vagrant-linkcontrolrepo.sh', args: "#{puppet_environment} #{puppet_code_dir}" if link_controlrepo
         node_config.vm.provision 'shell', path: '../../bin/vagrant-setup_papply.sh', args: puppet_environment.to_s
         node_config.vm.provision 'shell', path: '../../bin/papply.sh', args: puppet_environment.to_s
       end
 
       if node['pe_role'] == 'master'
-        node_config.vm.synced_folder '../../../', puppet_code_dir, mount_options: ['ro'], type: node['synced_folder_type']
+        if node['synced_folder_type'] == 'vboxfs'
+          node_config.vm.synced_folder '../../../', puppet_code_dir, mount_options: ['ro']
+        else
+          node_config.vm.synced_folder '../../../', puppet_code_dir, mount_options: ['ro'], type: node['synced_folder_type']
+        end
         node_config.vm.provision 'shell', path: '../../bin/vagrant-linkcontrolrepo.sh', args: "#{puppet_environment} #{puppet_code_dir}" if link_controlrepo
         node_config.vm.provision 'shell', path: '../../bin/vagrant-setup_papply.sh', args: puppet_environment.to_s
       end
