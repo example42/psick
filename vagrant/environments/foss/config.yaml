@@ -72,6 +72,11 @@ nodes:
     count: 1
   - role: grafana
     count: 1
+    forwarded_port:
+      guest: 3000
+      host: 13000
+  - role: influxdb
+    count: 1
   - role: build
     count: 1
   - role: docker
