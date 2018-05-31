@@ -50,6 +50,7 @@ nodes:
     puppet_apply: true
     memory: 6192
     cpu: 2
+    box: centos7
     aliases:
       - puppet
     forwarded_port:
