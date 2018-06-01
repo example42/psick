@@ -69,11 +69,18 @@ nodes:
       host: 1944
   - role: icinga
     count: 1
+  - role: foreman
+    count: 1
+    memory: 2048
+    cpu: 2
+    forwarded_port:
+      guest: 3000
+      host: 19482
   - role: grafana
     count: 1
     forwarded_port:
       guest: 3000
-      host: 13000
+      host: 19483
   - role: influxdb
     count: 1
   - role: build
