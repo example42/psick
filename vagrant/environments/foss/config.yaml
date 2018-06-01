@@ -55,7 +55,7 @@ nodes:
       - puppet
     forwarded_port:
       guest: 443
-      host: 1943
+      host: 19480
   - role: git
     application: puppetinfra
     puppet_apply: true
@@ -66,9 +66,12 @@ nodes:
       - git
     forwarded_port:
       guest:     443
-      host: 1944
+      host: 19485
   - role: icinga
     count: 1
+    forwarded_port:
+      guest: 80
+      host: 19484
   - role: foreman
     count: 1
     memory: 2048
