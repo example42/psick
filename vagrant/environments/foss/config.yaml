@@ -75,7 +75,7 @@ nodes:
       host: 19484
   - role: foreman
     count: 1
-    memory: 2048
+    memory: 4096
     cpu: 2
     forwarded_port:
       guest: 3000
