@@ -31,6 +31,7 @@ puppet:
   application: default                # Setting for the application fact (may be used in hiera.yaml)
   master_vm: puppet.foss.psick.io     # Name of the VM which play as Puppet server for the others
   master_fqdn: 'puppet.foss.psick.io' # FQDN of the Puppet server to use with puppet agent
+  master_ip: '10.42.49.101'           # IP of the Puppet server. If set, relevant line with master_fqdn is         provisioned in /etc/hosts
   link_controlrepo: true              # Link the Puppet environment below # Set to false if r10k_install is true
   environment: host                   # Puppet environment to link to local control-repo and to use when Vagrant provisioning
   r10k_install: false                 # If to run r10k on Puppet server to deploy controlrepo

@@ -21,6 +21,7 @@ network_obj = IPAddr.new settings['network']['range']
 network_ip_range = network_obj.to_range.to_a
 range_start_offset = settings['network']['ip_start_offset'] ? settings['network']['ip_start_offset'] : 101
 puppet_master_hostname = settings['puppet']['master_fqdn'] ? settings['puppet']['master_fqdn'] : 'puppet'
+puppet_master_ip = settings['puppet']['master_ip'] ? settings['puppet']['master_ip'] : false
 puppet_environment = settings['puppet']['environment']
 puppet_controlrepo = settings['puppet']['controlrepo'] ? settings['puppet']['controlrepo'] : false
 r10k_install = settings['puppet']['r10k_install'] ? settings['puppet']['r10k_install'] : false
@@ -124,6 +125,7 @@ Vagrant.configure('2') do |config|
       node_config.vm.network :private_network, ip: node['ipv6'] if node['ipv6']
 
       node_config.vm.provision 'shell', path: '../../bin/vagrant-sethostname.sh', args: fqdn.to_s
+      node_config.vm.provision 'shell', path: '../../bin/vagrant-sethosts.sh', args: "#{puppet_master_hostname} #{puppet_master_ip}" if puppet_master_ip
       node_config.vm.provision 'shell', path: '../../../bin/puppet_set_external_facts.sh', args: "--role #{role} --env #{env} --zone #{zone} --datacenter #{datacenter} --application #{application}" if node['facter_external_facts']
       node_config.vm.provision 'shell', path: '../../../bin/puppet_set_trusted_facts.sh', args: "--role #{role} --env #{env} --zone #{zone} --datacenter #{datacenter} --application #{application}" if node['facter_trusted_facts']
       node_config.vm.provision 'shell', path: '../../../bin/puppet_install.sh' if install_oss
