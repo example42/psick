@@ -45,6 +45,7 @@ end
 namespace :beaker_roles do
   Dir.glob("spec/acceptance/*_spec.rb") do |acceptance_test|
     test_name = acceptance_test.split('/').last.split('_spec').first
+    desc "Run acceptance test for #{test_name} role"
     RSpec::Core::RakeTask.new(test_name) do |t|
       t.rspec_opts = ['--color']
       t.pattern = acceptance_test
@@ -59,7 +60,14 @@ Rake.application.in_namespace(:beaker_roles) do |beaker_roles_namespace|
     all_roles << beaker_roles_tasks
   end
 end
+desc 'Run all acceptance role tests in parallel'
 multitask :all_roles => all_roles
+
+# execute given roles in parallel
+desc 'Run given role acceptance tests in parallel'
+multitask :multiple_roles, [:list] do |args|
+  multitask args
+end
 
 PuppetSyntax.exclude_paths = exclude_paths
 
