@@ -52,7 +52,7 @@ To clone via SSH:
 Our local repository consists of three "trees" maintained by `git`:
 
   - The **Working Directory** holds the actual files we are working on
-  - The **Index** acts as a `staging area` containing files ready to be committed
+  - The **Index** also known as `staging area` containing files ready to be committed
   - The **HEAD** which points to the last commit on the `git repository`
 
 Once we start to `modify`, `add` or `delete` files on our `git repo`, we have to add them to the `Index` before being able to commit them.
