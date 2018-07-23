@@ -24,7 +24,7 @@
 
   - [Prerequisites](prerequisites.md) - A more detailed view of the prerequisites needed to fully use the `control-repo`
 
-  - [Noop Mode](noop_mode.md) - An overview on how to enforce `noop mode server side` with this repo
+  - [Noop Mode](noop_mode.md) - An overview on how to enforce `server side` `noop mode` with this `control-repo`
 
   - [Vagrant Integration](vagrant.md) - How to use `Vagrant` to test the `control-repo` during development
 
