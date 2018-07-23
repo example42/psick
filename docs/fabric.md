@@ -30,11 +30,13 @@ Show the current version of deployed `Puppet code` on all nodes:
 Setup on the remote node all the prerequisites to run this `control-repo` in `apply mode`:
 
     fab puppet.remote_setup
+    # or
     bin/puppet_setup.sh  #is executed on the remote node
 
 Deploy this `control-repo` from `upstream source`:
 
     fab puppet.deploy_controlrepo
+    # or
     bin/puppet_deploy_controlrepo.sh  #is executed on the remote node
 
 Run ```puppet apply``` with or without noop on all the known hosts (expected `control-repo` in ```production environment```):
