@@ -23,36 +23,36 @@ Some references and basic information on `Puppet` are provided later, here we st
 
 ### General Puppet documentation:
 
-  - [Introduction to Puppet](#label-Introduction+to+Puppet) - A very basic introduction to `Puppet`
+  - [Introduction to Puppet](puppet.md) - A very basic introduction to `Puppet`
 
-  - [Hiera essentials](#label-hiera) - Basic `Hiera` concepts
+  - [Hiera essentials](hiera.md) - Basic `Hiera` concepts
 
-  - [Hiera eyaml](#label-hiera+eyaml) - An overview on how to use `hiera-eyaml`
+  - [Hiera eyaml](hiera_eyaml.md) - An overview on how to use `hiera-eyaml` backend
 
-  - [Trusted Facts](#label-Trusted+facts) - How to set and use `trusted facts`
+  - [Trusted Facts](trusted_facts.md) - How to set and use `trusted facts`
 
-  - [External Facts](#label-External+facts) - How to set and use `external facts`
+  - [External Facts](external_facts.md) - How to set and use `external facts`
 
-  - [Puppet Enterprise Console](#label-Puppet+Enterprise+Console) - An overview on the `Puppet Enterprise console`
+  - [Puppet Enterprise Console](pe_console.md) - An overview on the `Puppet Enterprise console`
 
 
 ### About this control-repo:
 
-  - [Control-repo logic](#label-Using+and+understanding+this+control-repo) - An overview of the design choices and the logic of this `control-repo`.
+  - [Control-repo logic](use.md) - An overview of the design choices and the logic of this `control-repo`
 
-  - [Prerequisites](#label-Prerequisites) - A more detailed view of the prerequisites needed to fully use the `control-repo`
+  - [Prerequisites](prerequisites.md) - A more detailed view of the prerequisites needed to fully use the `control-repo`
 
-  - [Noop Mode](#label-Puppet+noop+mode) - An overview on how to enforce `noop mode server side` with this repo
+  - [Noop Mode](noop_mode.md) - An overview on how to enforce `server side`  `noop mode` with this repo
 
-  - [Vagrant Integration](#label-Vagrant+integration) - How to use `Vagrant` to test the `control-repo` during development
+  - [Vagrant Integration](vagrant.md) - How to use `Vagrant` to test the `control-repo` during development
 
-  - [Docker Integration](#label-Docker+integration) - How to use `Docker` to test `Puppet code` and to build images based on the existing `Puppet code`
+  - [Docker Integration](docker.md) - How to use `Docker` to test `Puppet code` and to build images based on the existing `Puppet code`
 
-  - [Fabric](#label-Fabric) - A review of `Puppet tasks` available with `Fabric`
+  - [Fabric](fabric.md) - A review of `Puppet tasks` available with `Fabric`
 
 
 ### Managing changes:
 
-  - [Git tasks](#label-Git) - An overview on how to use `Git`
+  - [Git tasks](git.md) - An overview on how to use `Git`
 
-  - [Change Process](#label-Puppet+change+process) - A `step-by-step` guide on how to manage changes in `Puppet code`
+  - [Change Process](change_process_integration.md) - A `step-by-step` guide on how to manage changes in `Puppet code`
