@@ -14,13 +14,13 @@
 
 `Hiera` is important because it allows to assign values to the parameters of `Puppet` classes.
 
-A parameter called `server` of a class called `ntp`, for example, can be evaluated via a lookup of the `Hiera` key ```ntp::server```:
+A parameter called ```server``` of a class called ```ntp```, for example, can be evaluated via a lookup of the `Hiera` key ```ntp::server```:
 
     class ntp (
       String $server = 'ntp.pool.org'
     ) { ... }
 
-Given the above class we can override the default value for the `server` parameter of the class `ntp` with a similar entry in one of the ```.yaml``` files used in `Hiera's` hierarchies:
+Given the above class we can override the default value for the ```server``` parameter of the class ```ntp``` with a similar entry in one of the ```.yaml``` files used in `Hiera's` hierarchies:
 
     ---
     ntp::server: 'time.nist.gov'
@@ -67,9 +67,9 @@ The key infos we can get from it are:
 
   - The `eyaml-backend` is used (```lookup_key: eyaml_lookup_key```)
 
-  - It's public and private keys are stored in the directory ```/etc/puppetlabs/puppet/keys/```. They have to be copied there wherever we run `Puppet` to compile a catalog which uses encrypted data: typically on the `Puppet Server`, on the `Vagrant VMs` where we use `Puppet` for local testing during development, and eventually also on the `Vagrant VMs` used in `CI`. These keys are not present in this `control-repo` (otherwise it would defy the whole concept of using encryption to protect sensitive data).
+  - It's `public` and `private keys` are stored in the directory ```/etc/puppetlabs/puppet/keys/```. They have to be copied there wherever we run `Puppet` to compile a catalog which uses encrypted data: typically on the `Puppet Server`, on the `Vagrant VMs` where we use `Puppet` for local testing during development, and eventually also on the `Vagrant VMs` used in `CI`. These keys are not present in this `control-repo` (otherwise it would defy the whole concept of using encryption to protect sensitive data).
 
-  - The `Yaml` files containing our `Hiera` data are placed in the directory data (```datadir: data```) in our ```control-repo/Puppet environment```. So, for example, for production `Puppet` environment, all the `YAML` files are under ```/etc/puppetlabs/code/environments/production/data```
+  - The `Yaml` files containing our `Hiera` data are placed in the directory data (```datadir: data```) in our `control-repo`/`Puppet environment` directory. So, for example, for production `Puppet` environment, all the `YAML` files are under ```/etc/puppetlabs/code/environments/production/data```
 
   - The hierarchy is based on several `paths` under the ```datadir```. Variables are used there (```%{varname}```). Hierarchy goes from the most specific path: ```nodes/%{::trusted.certname}.yaml``` which refers to a specific node to the most generic (```common.yaml```) which is used as default value for keys which are not set at higher levels.
 
@@ -79,7 +79,7 @@ For full reference on the format of `Hiera 5` configuration file, check the [Off
 
 `Hiera 4`, used from `Puppet` versions 4.3 to 4.8, introduced the possibility of defining, inside a module, the default values of each class parameter using `Hiera`.
 
-The actual user data, outside modules, was configured by a global ```/etc/puppetlabs/puppet/hiera.yaml``` file, which defines `Hiera` configurations for every `Puppet` environment.
+The actual user data, outside modules, was configured by a global ```/etc/puppetlabs/puppet/hiera.yaml``` file, which defines `Hiera` configurations for every `Puppet environment`.
 
 With `Hiera 5` is possible to have environment specific configurations, so we can have a ```hiera.yaml``` inside a environment directory which may be different for each environment:
 
@@ -89,9 +89,9 @@ So, for the ```production environment```:
 
     /etc/puppetlabs/code/environments/production/hiera.yaml
 
-This is useful to test hierarchies or backend changes before committing them to the `production environment`.
+This is useful to test hierarchies or backend changes before committing them to the ```production environment```.
 
-We can have also per module configurations, so in a `NTP module`, for example, we can have a:
+We can have also per module configurations, so in a ```NTP module```, for example, we can have a:
 
     $module_path/users/hiera.yaml
 
@@ -116,7 +116,7 @@ with the, now familiar, version 5 syntax:
 
 this refers ```.yaml``` files under the ```data``` directory of the module.
 
-The interesting thing in this is that we have a uniform and common way to lookup for data, across the [three layers](https://docs.puppet.com/puppet/latest/hiera_layers.html): `global`, `environment` and `module:` each hierarchy of each layer is used to compose a "super hierarchy" which is traversed seamlessly.
+The interesting thing in this is that we have a uniform and common way to lookup for data, across the [three layers](https://docs.puppet.com/puppet/latest/hiera_layers.html): `global`, `environment` and `module`: each hierarchy of each layer is used to compose a "super hierarchy" which is traversed seamlessly.
 
 In the module data is also possible to define the kind of lookup to perform for each class parameter.
 

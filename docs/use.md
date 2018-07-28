@@ -2,23 +2,23 @@
 
 The default design of this `control-repo` is based on a nodeless classification, driven by `top scope` variables like these:
 
-  - ```$::role``` - Defines the nodes' role
-  - ```$::env```  - Defines the nodes' operational environment
-  - ```$::zone``` - Defines the datacenter or region or segment of an infrastructure (optional)
+  - ```$::role``` - Defines the nodes' `role`
+  - ```$::env```  - Defines the nodes' operational `environment`
+  - ```$::zone``` - Defines the `datacenter` or `region`, or `segment` of an infrastructure **(optional)**
 
-Variable names and area of interest can be adapted, according to our hierarchy in ```hiera.yaml``` but in any case such variables have to be set in some ways.
+Variable names and area of interest can be adapted, according to our hierarchy in ```hiera.yaml``` but in any case such variables **have to be set** in some ways.
 
-There are different ways to set top scope variables:
+There are different ways to set `top scope` variables:
 
-  - As **[trusted facts](trusted_facts.md)**, set on the client before `Puppet` installation
+  - As **[trusted facts](trusted_facts.md)**, set on the client **before** `Puppet` installation
 
   - As **[external facts](external_facts.md)**, writing the relevant files on the client under ```/etc/puppetlabs/facter/facts.d```
 
   - As global parameters set in a [**ENC**](https://puppet.com/docs/puppet/latest/nodes_external.html) (such as [Puppet Enterprise](https://puppet.com/products/puppet-enterprise) or [The Foreman](https://www.theforeman.org/)).
 
-  - On `Puppet Server` in **manifests/site.pp** as result of the parsing of the hostname or other facts.
+  - On `Puppet Server` in ```manifests/site.pp``` as result of the parsing of the hostname or other facts.
 
-The latter case is possible when we have hostnames with a fixed pattern which contains information about the `role`, `env`, `zone` or whatever needed grouping.
+The latter case is possible when we have hostnames with a fixed pattern which contains information about the `role`, `env`, `zone` or whatever needed for grouping.
 
 For example if we have nodes with a naming pattern like: ```$role-$id-$env.$::domain``` (ie: ```fe-01-test.example42.com```) we can have set `top scope` variables in ```manifests/site.pp``` (outside any class or node statement):
 

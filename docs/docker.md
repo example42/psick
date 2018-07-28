@@ -45,7 +45,7 @@ Available images are: `ubuntu-12.04`, `ubuntu-14.04`, `ubuntu-16.04`, `centos-7`
 
 It's possible to use custom ones by:
 
- - Setting on `Hiera` in the role ```.yaml``` files the parameter ```docker::username``` (example42 by default)
+ - Setting on `Hiera` in the ```"role".yaml``` files the parameter ```docker::username``` (example42 by default)
 
  - Build custom (with ```fab docker.tp_build_role:puppet-agent```) ```puppet-agent``` images
 
@@ -130,5 +130,4 @@ To install `docker` we can run one of these commands:
     # or
     bin/docker_setup.sh
 
-You'll need to run `docker login` before trying any operation that involves pushing our images to `Docker registry`.
-
+You'll need to run ```docker login``` before trying any operation that involves pushing our images to `Docker registry`.

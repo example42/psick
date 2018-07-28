@@ -8,9 +8,9 @@
 
 This `control-repo` is stored in a [Git](https://git-scm.com) repository.
 
-Whoever has to work on it should have basic `git` knowledge.
+Whoever has to work on it should have basic `Git` knowledge.
 
-Here we are going to review `git essentials` and outline possible `workflows` for `Puppet code` `development`, `testing` and `deployment` process.
+Here we are going to review `Git essentials` and outline possible `workflows` for `Puppet code` `development`, `testing` and `deployment` process.
 
 
 
@@ -53,9 +53,9 @@ Our local repository consists of three "trees" maintained by `git`:
 
   - The **Working Directory** holds the actual files we are working on
   - The **Index** also known as `staging area` containing files ready to be committed
-  - The **HEAD** which points to the last commit on the `git repository`
+  - The **HEAD** which points to the last commit on the `Git repository`
 
-Once we start to `modify`, `add` or `delete` files on our `git repo`, we have to add them to the `Index` before being able to commit them.
+Once we start to `modify`, `add` or `delete` files in our `Git repository`, we have to add them to the `Index` before being able to commit them.
 
 To add a specific file to the `Index`:
 
@@ -89,7 +89,7 @@ To send those changes to our remote repository, we can run:
 
     git push origin <branch>
 
-**NOTE:** Usually the main branch of a `git` repository is called **master**, but in `Puppet` `control-repos` this is instead called,  **production** to make it match `Puppet's` `default environment`.
+**NOTE:** Usually the main branch of a `Git repository` is called **master**, but in `Puppet` `control-repos` this is instead called,  **production** to make it match `Puppet's` `default environment`.
 
 Worth noting is that we might not be able to push directly to the ```production branch```: it's relatively common to work on a ```development branch``` and then, after a proper `CI pipeline` where relevant tests are done, promote the change to the ```production branch```.
 
@@ -105,7 +105,7 @@ To switch back to production branch:
 
     git checkout production
 
-To merge another branch into our `active branch` (e.g. to realign our `development branch` to the content of the ```production branch```), first we move into our ```development branch```:
+To merge another branch into our `active branch` (e.g. to realign our ```development branch``` to the content of the ```production branch```), first we move into our ```development branch```:
 
     git checkout development
 
@@ -162,8 +162,8 @@ Other useful commands often used when working with `Git`:
 
     git pull # Update the local repository with the newest commit from remote origin
 
-    git diff                        # Show the differences between Working Area and Index
-    git diff HEAD                   # Show the differences between Working Area and HEAD
+    git diff                        # Show the differences between Working Directory and Index
+    git diff HEAD                   # Show the differences between Working Directory and HEAD
     git diff production development # Show the differences between production and development branches
 
 `Git` can be configured using the ```git config``` command or by editing the ```~/.gitconfig``` file.
@@ -184,7 +184,7 @@ We can follow [different workflows](https://www.atlassian.com/git/tutorials/comp
 
 These are some popular workflows, with a brief comment, we should follow one that better fits our needs (and skills):
 
--  [Gitflow](http://nvie.com/posts/a-successful-git-branching-model/) A very popular, but somehow complex, workflow, involving `different branches` for `features`, `releases` and `hotfixes`.
+-  [GitFlow](http://nvie.com/posts/a-successful-git-branching-model/) A very popular, but somehow complex, workflow, involving `different branches` for `features`, `releases` and `hotfixes`.
 
 - [GitHub Flow](https://guides.github.com/introduction/flow/) - A much simpler workflow based on master to which `Pull Requests` are made from ```feature branches```
 
@@ -201,7 +201,7 @@ To install useful `git hooks` for `Puppet files` checking (by default downloaded
     # or
     bin/git_install_hooks.sh # Direct bash command
 
-It's possible to specify the `git repo` url to use (hooks are looked in the ```commit_hooks``` directory, so that directory should exist in our repo):
+It's possible to specify the `git repo` URL to use (hooks are looked in the ```commit_hooks``` directory, so that directory should exist in our repo):
 
     fab git.install_hooks:url=https://github.com/my/puppet-git-hooks
     # or
@@ -215,6 +215,6 @@ in particular we might prefer to set ```CHECK_PUPPET_LINT='permissive'``` to avo
 
 **NOTE:** that existing `git hooks` are **not** overwritten by this task.
 
-When working on our `control-repo`, besides it's own `git repository`, we may have, in the ```modules/``` directory external modules with their own `git repositories`. To quickly check the ```git status``` of the main `control-repo` and of the other eventual modules, run:
+When working on our `control-repo`, besides it's own `Git repository`, we may have, in the ```modules/``` directory external modules with their own `Git repositories`. To quickly check the ```git status``` of the main `control-repo` and of the other eventual modules, run:
 
     fab git.status

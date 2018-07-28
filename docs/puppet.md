@@ -44,7 +44,7 @@ A typical `Puppet` run is composed of different phases. It's important to know t
 
         [client] Info: Loading facts in /var/lib/puppet/lib/facter/... [...]
 
-  - The `Puppet Server` looks for the client's certname (by default the fqdn) in its nodes' list.
+  - The `Puppet Server` looks for the client's certname (by default the [FQDN](https://en.wikipedia.org/wiki/Fully_qualified_domain_name)) in its nodes' list.
 
   - The `Puppet Server` compiles the catalog for the client using its facts and the `Puppet code` and `data` it. On `Puppet Server` logs an entry like this will be added:
 

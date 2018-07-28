@@ -10,7 +10,7 @@
 
 ## Vagrant integration
 
-This `control-repo` contains different customisable `Vagrant` environments that can be used for different purposes at different stages of our `Puppet workflow`: `local` testing during development, `continuous integration` testings, `semi-permanent` test environments...
+This `control-repo` contains different customisable `Vagrant` environments that can be used for different purposes at different stages of our `Puppet workflow`: `local` testing during development, `continuous integration` testing, `semi-permanent` test environments...
 
 This `control-repo` is by default shipped as **self contained**:
 
@@ -29,7 +29,7 @@ We can work with them directly issuing `vagrant` commands in ```vagrant/environm
 
 ### Vagrant commands
 
-We can use normal ```vagrant``` commands by moving in the relevant environment (where a `Vagrantfile` is placed) under the ```vagrant/environments/``` directory.
+We can use normal ```vagrant commands``` by moving in the relevant environment (where a `Vagrantfile` is placed) under the ```vagrant/environments/``` directory.
 
 Here we can see a multi VM `Vagrantfile` and its ```config.yaml``` file.
 
@@ -64,7 +64,7 @@ Note that by default a ```puppet apply``` is used and so it can work on the loca
 
 `Vagrant` commands can be invoked by `Fabric` too.
 
-Generally it's handier to use direct ```vagrant``` commands from the relevant `Vagrant` environment directories, but we may prefer in some cases where automation is involved to use `Fabric`.
+Generally it's handier to use direct ```vagrant commands``` from the relevant `Vagrant` environment directories, but we may prefer in some cases where automation is involved to use `Fabric`.
 
 Run ```vagrant status``` on all the available `Vagrant` environments
 
@@ -94,7 +94,7 @@ Run, respectively, ```vagrant provision```, ```reload```, ```halt```, ```suspend
 
 ### Customisations
 
-We can customise the `vagrant` environments in various ways:
+We can customise the `Vagrant` environments in various ways:
 
   - Remove the ```vagrant/environments/``` directories we don't use or need.
 

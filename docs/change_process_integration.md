@@ -14,7 +14,7 @@
 
 In this document we will review a possible process to follow to manage `Puppet` changes based on an `integration branch`, used as `origin` and controlled promotion to `production branch`.
 
-It's based on `Gitlab CI pipelines` defined in the  [gitlab/.gitlab-ci.yml-integration](gitlab/.gitlab-ci.yml-integration) file.
+It's based on `Gitlab CI pipelines` defined in the [gitlab/.gitlab-ci.yml-integration](gitlab/.gitlab-ci.yml-integration) file.
 
 It can be used as main ```.gitlab-ci.yml``` file on a setup where code stays in a (local) `GitLab` instance and the `Puppet server` is based on `Puppet Enterprise`, with automatic code deployment whenever a change is pushed to `GitLab server`.
 
@@ -40,7 +40,7 @@ Normally every change should be tracked by a relevant ticket on the `Ticketing S
 
 #### 2 - PUPPET TEAM: Prioritize and assign tickets [trivial skip] [express skip]
 
-Ideally is not the user who decides who has to fix his problem, but the team of `Puppet admins`. Prioritization and assignment should be handled directly on the `Ticketing System`. Decisions on them can be done by the `team leader`, by the whole team in regular meetings (ie: stand-ups) or autonomously by each member (a `Puppet operator` self assigns an open ticket and starts to work on it).
+Ideally is not the user who decides who has to fix his problem, but the team of `Puppet admins`. Prioritization and assignment should be handled directly on the `Ticketing System`. Decisions on them can be done by the `team leader`, by the whole team in regular meetings (e.g: stand-ups) or autonomously by each member (a `Puppet operator` self assigns an open ticket and starts to work on it).
 
 Using `Kanban boards` to map tickets to cards can help the process.
 

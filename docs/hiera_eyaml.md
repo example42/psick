@@ -50,7 +50,7 @@ Before starting to encrypt data a pair of `public and private keys` has to be cr
 
     eyaml createkeys
 
-This creates in the `keys` directory (relative to the current working directory) the ```private_key.pkcs7.pem``` and ```public_key.pkcs7.pem``` files. The first one should never be shared and must be managed in a safe way, for this reason the keys (at least the private one) should not be added to the `control-repo` `git repository` and must be readable by the user running the `Puppet Server` (```/etc/puppetlabs/puppet/keys``` is a sane path, but could be anything).
+This creates in the `keys` directory (relative to the current working directory) the ```private_key.pkcs7.pem``` and ```public_key.pkcs7.pem``` files. The first one should never be shared and must be managed in a safe way, for this reason the keys (at least the private one) should not be added to the `control-repo` `Git repository` and must be readable by the user running the `Puppet Server` (```/etc/puppetlabs/puppet/keys``` is a sane path, but could be anything).
 
 Both of these files must be placed wherever `Hiera files` are evaluated: that means basically all the `Puppet Servers` but also, eventually, on `developers workstations`, if `Puppet code` is tested locally via `Vagrant`.
 

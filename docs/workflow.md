@@ -89,7 +89,7 @@ Initial setup to ensure the needed `Puppet` related software is installed locall
 
     fab puppet.setup
 
-Install useful `git hooks` for `Puppet` development. By default downloaded from [https://github.com/drwahl/puppet-git-hooks](https://github.com/drwahl/puppet-git-hooks):
+Install useful `Git hooks` for `Puppet` development. By default downloaded from [https://github.com/drwahl/puppet-git-hooks](https://github.com/drwahl/puppet-git-hooks):
 
     fab git.install_hooks
 
