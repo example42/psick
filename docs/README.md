@@ -42,7 +42,7 @@ Some references and basic information on `Puppet` are provided later, here we st
 
   - [Prerequisites](prerequisites.md) - A more detailed view of the prerequisites needed to fully use the `control-repo`
 
-  - [Noop Mode](noop_mode.md) - An overview on how to enforce `server side`  `noop mode` with this repo
+  - [Noop Mode](noop_mode.md) - An overview on how to enforce `server side` `noop mode` with this `control-repo`
 
   - [Vagrant Integration](vagrant.md) - How to use `Vagrant` to test the `control-repo` during development
 
@@ -55,4 +55,4 @@ Some references and basic information on `Puppet` are provided later, here we st
 
   - [Git tasks](git.md) - An overview on how to use `Git`
 
-  - [Change Process](change_process_integration.md) - A `step-by-step` guide on how to manage changes in `Puppet code`
+  - [Change Process](change_process.md) - A `step-by-step` guide on how to manage changes in `Puppet code`
