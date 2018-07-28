@@ -11,7 +11,7 @@ This `control-repo` provides several tools that help Puppeteers in their daily w
 
 Various `Fabric tasks` are available to executing on remote hosts. We will need access to them, possibly via `ssh keys`.
 
-Install `Puppet 4` on the remote host(s). Use any `Fabric` method to define hosts to work on.
+Install `Puppet 5` on the remote host(s). Use any `Fabric` method to define hosts to work on.
 
     fab puppet.install -H host1,host2
 
@@ -66,7 +66,7 @@ Publish the local version of a module in ```modules/``` dir to `Puppet Forge` an
 
 ### Facter tasks (WIP)
 
-Set external facts
+Set `external facts`
 
     fab facter.set_external_facts
 

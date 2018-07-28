@@ -7,7 +7,7 @@
 
 ## example42 control-repo and Tiny Puppet
 
-This `Puppet` `contro-repo` has various interesting integrations with [Tiny Puppet](http://tiny-puppet.com), even if they are totally optional, we strongly reccommend to give ```tp``` a try: it can save you a lot of time.
+This `Puppet` `contro-repo` has various interesting integrations with [Tiny Puppet](http://tiny-puppet.com), even if they are totally optional, we strongly recommend to give ```tp``` a try: it can save you a lot of time.
 
 Integration with `Tiny Puppet` ([tp](https://github.com/example42/puppet-tp)) and [tinydata](https://github.com/example42/tinydata) modules (they are both present in the ```Puppetfile```) is at different levels:
 
@@ -39,7 +39,7 @@ Imagine a simple command, it expects as input the name of an application or a so
 
   - use the right package name for the underlying operating systems
 
-  - if it depends on other softwares or packages, install them as prerequisites
+  - if it depends on other software or packages, install them as prerequisites
 
 A command like ```install <software>``` that works everywhere, with any software that can be installed via a package.
 
@@ -53,7 +53,7 @@ Or if you prefer to run it via `Fabric:`
 
     fab tp.install:<app_name>
 
-Prerequesities for the magic to happen:
+Prerequisites for the magic to happen:
 
   - `Puppet 4` or later must be installed locally. To do it from the `control-repo:`
 

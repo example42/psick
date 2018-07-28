@@ -8,7 +8,7 @@
 
 This [Puppet](https://www.puppet.com/) `control-repo` contains all the `Puppet code` and `data` needed to manage an IT infrastructure in an automated, centralized, way.
 
-It's based on [PSICK control-repo](https://github.com/example42/psick), Example42's Puppet Systems Infrastructure Construction Kit and the companion [PSICK module](https://github.com/example42/puppet-psick)
+It's based on [PSICK control-repo](https://github.com/example42/psick), Example42's `Puppet Systems Infrastructure Construction Kit` and the companion [PSICK module](https://github.com/example42/puppet-psick)
 
 It's a [Git](https://git-scm.com) repository where changes have to be committed and updated code deployed on the `Puppet Servers` in order to actually deliver modifications to our systems via `Puppet`.
 

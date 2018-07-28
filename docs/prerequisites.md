@@ -37,7 +37,7 @@ The `hiera-eyaml`, `r10k` and `deep_merge` gems can be installed by the setup sc
     /opt/puppetlabs/bin/puppetserver gem install r10k
     /opt/puppetlabs/bin/puppetserver gem install deep_merge
 
-Population of the `modules` directory via ```r10k``` based on ```Puppetfile```:
+Population of the ```modules``` directory via ```r10k``` based on ```Puppetfile```:
 
     r10k puppetfile install -v
 

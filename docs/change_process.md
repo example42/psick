@@ -4,7 +4,7 @@ Delivery of `Puppet code` and `data`, from `Puppet Server` and users to producti
 
 They ultimately depend on each site policies and procedures, but it's still possible to summarise the needed steps and procedures.
 
-From `Puppet` developer workstation to real `puppet run` on managed nodes we can identify at least these steps, more or less mandatory, applicable, desided or needed:
+From `Puppet` developer workstation to real `puppet run` on managed nodes we can identify at least these steps, more or less mandatory, applicable, desired or needed:
 
   - [DevStation] Work on `control-repo:` data, local site profile or managed external modules.
   - [DevStation] [GitServer] [WebGUI] Manage `Puppet` [hiera] data

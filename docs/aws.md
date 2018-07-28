@@ -8,7 +8,7 @@
 
 This `control-repo` has some resources and tools to work with `AWS`.
 
-In order to have eveyrthing in place for working with `AWS` you need:
+In order to have everything in place for working with `AWS` you need:
 
   - An account on [AWS](https://aws.amazon.com)
   - Generate a `user` under IAM and create an `ACCESS_KEY_ID` and its `SECRET_ACCESS_KEY`
@@ -42,12 +42,12 @@ For the complete initial setup of an `AWS` environment, some operations must be 
 
           psick::aws::puppet::ec2::default_key_name: 'puppet'
 
-  - Acceptance of the `Marketplace user agreement` via the `AWS console` (just create a disposable instance on the `Console`, using an image from the `Marketplace` (ie: the official ```Centos 7``` one).
+  - Acceptance of the `Marketplace user agreement` via the `AWS console` (just create a disposable instance on the `Console`, using an image from the `Marketplace` (i.e: the official ```Centos 7``` one).
 
 
 ## Installation of Puppet on a remote node
 
-To install `Puppet` on the specified `<node>`. It might be necesssary to specify the `breed` (TODO: Automate os detection)
+To install `Puppet` on the specified `<node>`. It might be necessary to specify the `breed` (TODO: Automate OS detection)
 
     fab -H <node> puppet.install:[os_breed]
 

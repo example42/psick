@@ -75,7 +75,7 @@ In some cases we might need to enforce the applications of the resources of some
 
 Most of the profiles present in the `psick module` have the ```no_noop``` parameter: if set to true all the resources of the class are enforced and are applied even if `noop` is set client side.
 
-Note that this ```no_noop``` parameter, starting form version 0.6.0 of `psick module`, does **NOT** override any more the server side ```noop_mode``` setting (in this way when you set `noop server side` you are sure that `noop` is always enforced).
+Note that this ```no_noop``` parameter, starting form version 0.6.0 of `psick module`, does **NOT** override any more the `server side` ```noop_mode``` setting (in this way when you set `noop server side` you are sure that `noop` is always enforced).
 
 By default ```no_noop``` is set to false and nothing changes in terms of `noop` management.
 
@@ -109,15 +109,15 @@ Enabling `noop mode` on some clients, the most important ones, or the whole prod
 
 Some basic principles have to be considered in order to design them in the most effective way:
 
-  - Server side `noop mode` if set to true, overrides any client or ```no_noop``` setting
+  - `Server side` `noop mode` if set to true, overrides any client or ```no_noop``` setting
   - Setting a class ```no_noop``` parameter to true overrides any client setting
   - We can manage via `Hiera` both server and client settings, giving us full flexibility on where to set it, still we should limit as much as possible the places where we configure it, and possibly, to avoid unnecessary confusion, not use, on regular basis, both server and client settings at the same time (exceptions below).
-  - Client settings are effective after the `Puppet run` that sets them. Server side settings are immediately effective.
+  - Client settings are effective after the `Puppet run` that sets them. `Server side` settings are immediately effective.
 
 The following approach is recommended when `noop mode` is used or desired:
 
   - Set `noop mode` client side on the nodes where we want it (all production nodes or particular critical ones)
-  - Use server side `noop mode` only when deploying big or potentially dangerous code/data changes, keep it undefined in normal conditions
+  - Use server side `noop mode` only when deploying big or potentially dangerous `code`/`data` changes, keep it undefined in normal conditions
   - Have a `CI pipeline` which triggers `Puppet runs` on canary nodes, also in production, enforcing one-shot ```no-noop mode```
   - In the `CI pipeline` trigger `noop Puppet runs` on the other production nodes and verify the result
   - Do not accumulate too many changes on `noop nodes`: run `Puppet` in ```no-noop mode``` on production servers as soon as possible (eventually do that in maintenance windows if you are particularly prudent).
@@ -128,5 +128,5 @@ To trigger real ```no-noop``` `Puppet runs` and apply changes on nodes normally 
   - Actual execution of a ```no-noop run``` can be done via a `Puppet task` like ```psick::puppet_agent``` (it has a parameter for forcing it) or any other tool that can remotely execute ```puppet agent -t --no-noop``` on a node.
   - Via `PE-Console`, in the Run Puppet section, manage manually the remote execution of a ```no-noop Puppet run``` by clicking on the "Override noop = true configuration".
 
-Remember that in both these last two cases, if `noop` is set server side `Puppet` keeps on skipping changes on the managed node, that's why we suggest to use server side `noop mode` only to add a safe net when deploying massive, critical or potentially dangerous code and data changes.
-In normal operations is probably better to use client side `noop mode` that can be more easily overridden.
+Remember that in both these last two cases, if `noop` is set `server side`, `Puppet` keeps on skipping changes on the managed node, that's why we suggest to use `server side` `noop mode` only to add a safe net when deploying massive, critical or potentially dangerous `code` and `data` changes.
+In normal operations it is probably better to use `client side` `noop mode` that can be more easily overridden.

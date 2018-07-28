@@ -8,7 +8,7 @@
 
 `PSICK` is the result of years of work on `Puppet code` and modules.
 
-`Example42` started to release `Puppet` modules in 2009 having, since the very beginning,
+`Example42` started to release `Puppet modules` in 2009 having, since the very beginning,
 the vision to provide a reusable set of `Puppet code` able to manage in an integrated
 way a whole infrastructure automating backup and monitoring functionalities.
 
@@ -21,7 +21,7 @@ which was itself the evolution of `example42 Puppet modules` collection.
 `Example42` original idea of making reusable te design of a whole infrastructure with `Puppet`
 has evolved through various iterations:
 
-* "OLD" `Example42 Puppet modules` (Version 1.x) are no more supported or recommended.
+* "OLD" `Example42` `Puppet modules` (Version 1.x) are no more supported or recommended.
   They are supposed to work also on `Puppet` versions 0.x.
   You can give them a look using the 1.0 branch of [this repo](https://github.com/example42/control-repo-original).
 
@@ -41,7 +41,7 @@ has evolved through various iterations:
   `control-repo` style has been introduced.
   With the release of 4.x this repo has been renamed: from **puppet-modules** to **control-repo**.
 
-* With the introduction os `PSICK` we started release numbering from scratch, even if the amount of code
+* With the introduction of `PSICK` we started release numbering from scratch, even if the amount of code
   inherited from the `control-repo` is quite relevant.
   We renamed the original `GitHub` repo from **control-repo** to **PSICK**
   and we zeroed the `git history`. You still can see it on the [archive repo](https://github.com/example42/control-repo-archive)
@@ -49,7 +49,7 @@ has evolved through various iterations:
 
 Why did we rename the `control-repo` to `PSICK` *and* zeroed the whole ancient history of that repo?
 
-  - We wanted to have a clean `git history` and a tinner `git` repo, without 8 years of code stratifications
+  - We wanted to have a clean `git history` and a tinier `git` repo, without 8 years of code stratifications
 
   - We wanted to start from scratch release `versioning`, `tags` and `branches`.
 
