@@ -7,20 +7,21 @@
 
 ### General Puppet documentation:
 
-  - [Introduction to Puppet](puppet_introduction.md) - A very basic introduction to `Puppet`
+  - [Introduction to Puppet](puppet.md) - A very basic introduction to `Puppet`
 
   - [Hiera essentials](hiera.md) - Basic `Hiera` concepts
 
-  - [Hiera eyaml](hiera_eyaml.md) - An overview on how to use `hiera-eyaml` plugin
+  - [Hiera eyaml](hiera_eyaml.md) - An overview on how to use `hiera-eyaml` backend
 
   - [Trusted Facts](trusted_facts.md) - How to set and use `trusted facts`
 
   - [External Facts](external_facts.md) - How to set and use `external facts`
+  - [Puppet Enterprise Console](pe_console.md) - An overview on the `Puppet Enterprise console`
 
 
 ### About this control-repo:
 
-  - [Control-repo logic](use.md) - An overview of the design choices and the logic of this `control-repo`.
+  - [Control-repo logic](use.md) - An overview of the design choices and the logic of this `control-repo`
 
   - [Prerequisites](prerequisites.md) - A more detailed view of the prerequisites needed to fully use the `control-repo`
 
@@ -37,4 +38,4 @@
 
   - [Git tasks](git.md) - An overview on how to use `Git`
 
-  - [Change Process](workflow.md) - A `step by step` guide on how to manage changes in `Puppet code`
+  - [Change Process](change_process.md) - A `step-by-step` guide on how to manage changes in `Puppet code`
