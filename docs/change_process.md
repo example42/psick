@@ -14,8 +14,8 @@ From `Puppet` developer workstation to real `puppet run` on managed nodes we can
   - [CI] [WebGUI] Trigger `Puppet runs` on selected nodes
   - [CIGUI] [GitServer] Review `CI` tests
   - [GitServer] Discuss and review code changes requests
-  - [WebGUI] Check `Puppet` infrastructure status and reports
-  - [CI] [GitServer] [WebGUI] Manage code promotion to production environment/branch
+  - [WebGUI] Check `Puppet infrastructure` status and reports
+  - [CI] [GitServer] [WebGUI] Manage code promotion to `production` `environment/branch`
   - [CI] [WebGUI] [GitServer] Manage `control-repo` deployment on `Puppet Servers`
 
 [TODO] Complete

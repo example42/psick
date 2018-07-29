@@ -20,7 +20,7 @@ It can be used as main ```.gitlab-ci.yml``` file on a setup where code stays in 
 
 This can be adapted to custom tools and needs, with variations in internal organisation and processes.
 
-By `Puppet changes` we mean, any modification, addition or deletion in this `Git repository` which may involve changes on real server, once the change has been deployed to the `Puppet Server`.
+By `Puppet changes` we mean, any modification, addition or deletion in this `control-repo` which may involve changes on real server, once the change has been deployed to the `Puppet Server`.
 
 ### Change process
 
@@ -40,7 +40,7 @@ Normally every change should be tracked by a relevant ticket on the `Ticketing S
 
 #### 2 - PUPPET TEAM: Prioritize and assign tickets [trivial skip] [express skip]
 
-Ideally is not the user who decides who has to fix his problem, but the team of `Puppet admins`. Prioritization and assignment should be handled directly on the `Ticketing System`. Decisions on them can be done by the `team leader`, by the whole team in regular meetings (e.g: stand-ups) or autonomously by each member (a `Puppet operator` self assigns an open ticket and starts to work on it).
+Ideally is not the user who decides who has to fix his problem, but the team of `Puppet admins`. Prioritization and assignment should be handled directly on the `Ticketing System`. Decisions on them can be done by the `team leader`, by the whole team in regular meetings (e.g. stand-ups) or autonomously by each member (a `Puppet operator` self assigns an open ticket and starts to work on it).
 
 Using `Kanban boards` to map tickets to cards can help the process.
 
@@ -83,7 +83,7 @@ Then, make a commit, in its description of our commit, always add the reference 
 
     git commit -m "Description #22"   
 
-Finally push our local changes to the central `git server`:
+Finally push our local changes to the central `Git server`:
 
     git push origin feature_22
 
@@ -183,7 +183,7 @@ It's important to be sure to always ensure we are working on our newly created `
 
 Once we have finished to edit our files (note that each time we change one file online, a new commit is created and a `CI pipeline` triggered), we can go back to the `Merge Request` page, here we can:
 
-  - Review the associated pipeline (**NOTE:** that the `Verify Deploy` step will always fail, see below for reasons, but the `Lint` and `Syntax checks` must be green)
+  - Review the associated pipeline (**NOTE:** that the `Verify Deploy` step will always fail, see below for reasons, but the [Lint](https://en.wikipedia.org/wiki/Lint_(software)) and `Syntax checks` must be green)
   - Review all our changes
   - List our commits
   - Click on **Edit** to remove the "WIP: " prefix from the `Merge Request` title, this allows us to actually accept the `Merge request` (to the ```integration branch```)

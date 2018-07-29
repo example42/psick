@@ -16,8 +16,8 @@
   - [Trusted Facts](trusted_facts.md) - How to set and use `trusted facts`
 
   - [External Facts](external_facts.md) - How to set and use `external facts`
-  - [Puppet Enterprise Console](pe_console.md) - An overview on the `Puppet Enterprise console`
 
+  - [Puppet Enterprise Console](pe_console.md) - An overview on the `Puppet Enterprise console`
 
 ### About this control-repo:
 
