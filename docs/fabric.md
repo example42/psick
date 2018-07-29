@@ -50,7 +50,7 @@ Run in `apply mode` the local code on a remote node (code is ```rsynced``` and t
 
 ### Local Puppet activities
 
-The following activities can be done locally during `development`, `publishing` and `deployment` of `Puppet code`.
+The following activities can be done locally on developers computer during `development`, `publishing` and `deployment` lifecycle of `Puppet code`.
 
 Check the syntax of all ```.pp``` ```.yaml``` ```.epp``` ```.erb``` files in our `control-repo`:
 
@@ -69,5 +69,5 @@ Publish the local version of a module in ```modules/``` dir to `Puppet Forge` an
 Set `external facts`
 
     fab facter.set_external_facts
-
+    #or/and
     fab facter.set_trusted_facts

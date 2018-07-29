@@ -42,7 +42,7 @@ For the complete initial setup of an `AWS` environment, some operations must be 
 
           psick::aws::puppet::ec2::default_key_name: 'puppet'
 
-  - Acceptance of the `Marketplace user agreement` via the `AWS console` (just create a disposable instance on the `Console`, using an image from the `Marketplace` (i.e: the official ```Centos 7``` one).
+  - Acceptance of the `Marketplace user agreement` via the `AWS console` (just create a disposable instance on the `Console`, using an image from the `Marketplace` (i.e. the official ```Centos 7``` one).
 
 
 ## Installation of Puppet on a remote node

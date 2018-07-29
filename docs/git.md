@@ -6,7 +6,7 @@
 
 ## Git
 
-This `control-repo` is stored in a [Git](https://git-scm.com) repository.
+This `control-repo` is stored in a [Git](https://git-scm.com) version control system.
 
 Whoever has to work on it should have basic `Git` knowledge.
 
@@ -49,7 +49,7 @@ To clone via SSH:
 
     git clone git@github.com:example42/control-repo.git
 
-Our local repository consists of three "trees" maintained by `git`:
+Any `Git repository` consists of three "trees":
 
   - The **Working Directory** holds the actual files we are working on
   - The **Index** also known as `staging area` containing files ready to be committed
@@ -93,7 +93,7 @@ To send those changes to our remote repository, we can run:
 
 Worth noting is that we might not be able to push directly to the ```production branch```: it's relatively common to work on a ```development branch``` and then, after a proper `CI pipeline` where relevant tests are done, promote the change to the ```production branch```.
 
-We will review better some sample development workflows.
+We will review some sample `development workflows`.
 
 Branches can be considered different versions of the repository, changes made in a branch can be merge into another. They are typically used to develop features isolated from each other which, once completed and tested, are merged back into the `master branch` (`production`, in case of a `Puppet` `control-repo`).
 
@@ -141,7 +141,7 @@ To review and commit our conflict resolution:
 
 In case we did something wrong that we want to revert, we can use the following commands, according to the circumstance (read [this tutorial](https://www.atlassian.com/git/tutorials/undoing-changes) for more details).
 
-To replaces the changes on the given file in our `working tree` with the last content in ```HEAD``` (Changes already added to the `Index`, as well as new files, will be kept):
+To replaces the changes on the given file in our `Working Tree` with the last content in ```HEAD``` (Changes already added to the `Index`, as well as new files, will be kept):
 
     git checkout -- <filename>
 

@@ -6,7 +6,7 @@
 
 # Puppet control-repo documentation
 
-This [Puppet](https://www.puppet.com/) `control-repo` contains all the `Puppet code` and `data` needed to manage an IT infrastructure in an automated, centralized, way.
+This [Puppet](https://www.puppet.com/) `control-repo` contains all the `Puppet code` and `data` needed to manage an IT infrastructure in an automated, centralized way.
 
 It's based on [PSICK control-repo](https://github.com/example42/psick), Example42's `Puppet Systems Infrastructure Construction Kit` and the companion [PSICK module](https://github.com/example42/puppet-psick)
 

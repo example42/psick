@@ -75,7 +75,7 @@ In some cases we might need to enforce the applications of the resources of some
 
 Most of the profiles present in the `psick module` have the ```no_noop``` parameter: if set to true all the resources of the class are enforced and are applied even if `noop` is set client side.
 
-Note that this ```no_noop``` parameter, starting form version 0.6.0 of `psick module`, does **NOT** override any more the `server side` ```noop_mode``` setting (in this way when you set `noop server side` you are sure that `noop` is always enforced).
+Note that this ```no_noop``` parameter, starting form version 0.6.0 of `psick module`, does **NOT** override any more the `server side` ```noop_mode``` setting (in this way when you set `server side` `noop` you are sure that `noop` is **always enforced**).
 
 By default ```no_noop``` is set to false and nothing changes in terms of `noop` management.
 
@@ -116,8 +116,8 @@ Some basic principles have to be considered in order to design them in the most 
 
 The following approach is recommended when `noop mode` is used or desired:
 
-  - Set `noop mode` client side on the nodes where we want it (all production nodes or particular critical ones)
-  - Use server side `noop mode` only when deploying big or potentially dangerous `code`/`data` changes, keep it undefined in normal conditions
+  - Set **`client side`** `noop mode` on the nodes where we want it (all production nodes or particular critical ones)
+  - Use **`server side`** `noop mode` only when deploying big or potentially dangerous `code`/`data` changes, keep it undefined in normal conditions
   - Have a `CI pipeline` which triggers `Puppet runs` on canary nodes, also in production, enforcing one-shot ```no-noop mode```
   - In the `CI pipeline` trigger `noop Puppet runs` on the other production nodes and verify the result
   - Do not accumulate too many changes on `noop nodes`: run `Puppet` in ```no-noop mode``` on production servers as soon as possible (eventually do that in maintenance windows if you are particularly prudent).

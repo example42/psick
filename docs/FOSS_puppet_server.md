@@ -13,7 +13,10 @@ First we need `puppet-agent` and `r10k` installed.
 
 ### 1. Vagrant installation
 
-For ```vagrant``` it is required to have a local `ruby` installation. Best option is to either use [rvm](https://rvm.io/) or [rbenv](https://github.com/rbenv/rbenv). Then run ```bundle install --path vendor/bundle```.
+For ```vagrant``` it is required to have a local `ruby` installation. Best option is to either use [rvm](https://rvm.io/) or [rbenv](https://github.com/rbenv/rbenv). Then run:
+```
+    bundle install --path vendor/bundle
+```
 
 Use ```bundle``` to install the modules via ```r10k``` from ```Puppetfile```:
 
