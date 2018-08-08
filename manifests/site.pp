@@ -18,11 +18,20 @@
 if $ec2_tag_role {
   $role = $ec2_tag_role
 }
+if $ec2_tag_vpn_octets {
+  $vpn_octets = $ec2_tag_vpn_octets
+}
 if $ec2_tag_env {
   $env = $ec2_tag_env
 }
 if $ec2_tag_name {
   $host_name = $ec2_tag_name
+}
+if $ec2_tag_region_env {
+  $region_env = $ec2_tag_region_env
+}
+if $ec2_tag_network {
+  $vpc_subnet = $ec2_tag_network
 }
 if defined('$facts') and defined('$trusted') {
   if $trusted['extensions']['pp_role'] and !has_key($facts,'role') {
