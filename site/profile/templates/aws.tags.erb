@@ -1,0 +1,13 @@
+#!/bin/sh -e
+# File Managed by Puppet
+#
+# This script is executed at the end of each multiuser runlevel.
+# Make sure that the script will "exit 0" on success or any other
+# value on error.
+#
+# With Puppet is managed the content of <%= scope.lookupvar('profile::params::configdir') %>
+
+export AWS_ENV=<%= @ec2_tag_env %>
+export AWS_DOMAIN=<%= @ec2_tag_domain %>
+export AWS_NAME=<%= @facts['ec2_tag_name'] %>
+export AWS_ROLE=<%= @facts['ec2_tag_role'] %>
