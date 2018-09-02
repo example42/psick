@@ -67,6 +67,15 @@ nodes:
     forwarded_port:
       guest: 443
       host: 1443
+    forwarded_port2:
+      guest: 8140
+      host: 58140
+  - role: puppetcd
+    memory: 4096
+    cpu: 2
+    forwarded_port:
+      guest: 8080
+      host: 1488
   - role: git
     memory: 3072
     forwarded_port:

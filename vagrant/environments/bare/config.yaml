@@ -37,12 +37,16 @@ nodes:
     box: centos7
   - hostname_base: centos6
     box: centos6
+  - hostname_base: ubuntu1804
+    box: ubuntu1804
   - hostname_base: ubuntu1604
     box: ubuntu1604 
   - hostname_base: ubuntu1404
     box: ubuntu1404 
   - hostname_base: ubuntu1204
     box: ubuntu1204 
+  - hostname_base: debian9
+    box: debian9
   - hostname_base: debian8
     box: debian8
   - hostname_base: debian7
