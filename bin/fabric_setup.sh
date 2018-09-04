@@ -6,5 +6,7 @@ puppet_options="--modulepath ${repo_dir}/site:${repo_dir}/modules:/etc/puppet/mo
 
 echo_title "Going to install Fabric"
 echo_subtitle "Once installed run fab -l"
-puppet apply $puppet_options -e 'include psick::python::fabric'
+echo_subtitle "You need sudo powers. Executing: sudo -E puppet apply -e 'include psick::python::fabric'"
+
+sudo -E puppet apply $puppet_options -e 'include psick ; include psick::python::fabric'
 

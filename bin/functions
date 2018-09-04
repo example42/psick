@@ -84,3 +84,8 @@ shell_filter_strict () {
 #     echo $1 | sed "s/[^a-Z0-9_\-]//Ig"
 }
 
+if [ $USER == 'root' ]; then
+  sudo_command=''
+else
+  sudo_command='sudo '
+fi
