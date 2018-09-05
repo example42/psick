@@ -1,17 +1,21 @@
 ---
 require: rubocop-rspec
 AllCops:
+  DisplayCopNames: true
   TargetRubyVersion: '2.1'
   Include:
   - "./**/*.rb"
   Exclude:
   - bin/*
   - ".vendor/**/*"
-  - Gemfile
-  - Rakefile
+  - "**/Gemfile"
+  - "**/Rakefile"
   - pkg/**/*
   - spec/fixtures/**/*
   - vendor/**/*
+  - "**/Puppetfile"
+  - "**/Vagrantfile"
+  - "**/Guardfile"
 Metrics/LineLength:
   Description: People have wide screens, use them.
   Max: 200
@@ -62,12 +66,24 @@ Style/TrailingCommaInLiteral:
 Style/SymbolArray:
   Description: Using percent style obscures symbolic intent of array's contents.
   EnforcedStyle: brackets
+RSpec/MessageSpies:
+  EnforcedStyle: receive
+Style/Documentation:
+  Exclude:
+  - lib/puppet/parser/functions/**/*
+  - spec/**/*
+Style/WordArray:
+  EnforcedStyle: brackets
 Style/CollectionMethods:
   Enabled: true
 Style/MethodCalledOnDoEndBlock:
   Enabled: true
 Style/StringMethods:
   Enabled: true
+Layout/EndOfLine:
+  Enabled: false
+Layout/IndentHeredoc:
+  Enabled: false
 Metrics/AbcSize:
   Enabled: false
 Metrics/BlockLength:
