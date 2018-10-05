@@ -15,8 +15,10 @@
 # More info: https://docs.puppet.com/puppet/latest/reference/ssl_attributes_extensions.html
 # You may need to change and adapt them according to your hiera.yaml
 # You can keep them also if you don't set extended trusted facts.
-if $ec2_tag_role {
-  $role = $ec2_tag_role
+if !defined('$role') {
+	if $ec2_tag_role {
+  		$role = $ec2_tag_role
+	}
 }
 if $ec2_tag_vpn_octets {
   $vpn_octets = $ec2_tag_vpn_octets
