@@ -5,8 +5,10 @@
 .yardwarns
 *.iml
 /.bundle/
-/.idea/
-/.vagrant/
+.idea/
+.vagrant/
+.onceover/
+.pe_build/
 /coverage/
 /bin/
 /doc/
@@ -23,3 +25,4 @@
 /update_report.txt
 .DS_Store
 /modules/
+ubuntu-xenial-16.04-cloudimg-console.log

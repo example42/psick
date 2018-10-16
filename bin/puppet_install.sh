@@ -20,9 +20,9 @@ echo_title () {
   echo "${SETCOLOR_BOLD}###${SETCOLOR_NORMAL} ${SETCOLOR_TITLE}${1}${SETCOLOR_NORMAL} ${SETCOLOR_BOLD}###${SETCOLOR_NORMAL}"
 }
 
-# Skip if Puppet 5 is already installed
+# Skip if Puppet 5 or higher is already installed
 if [ $(which puppet) ]; then
-  puppet --version | grep "^5"
+  puppet --version | grep "^[5|6|7]"
   if [ "x$?" == "x0" ]; then
     echo_title "Puppet version 5 or higher present. Skipping installation."
     exit 0
@@ -33,8 +33,8 @@ setup_redhat() {
   echo_title "Uninstalling existing Puppet"
   $sudo_command yum erase -y puppet-agent puppet puppetlabs-release puppetlabs-release-pc1 >/dev/null 2>&1
 
-  echo_title "Adding repo for Puppet 5"
-  $sudo_command rpm -ivh https://yum.puppetlabs.com/puppet5/puppet5-release-el-$1.noarch.rpm >/dev/null 2>&1
+  echo_title "Adding repo for Puppet"
+  $sudo_command rpm -ivh https://yum.puppetlabs.com/puppet/puppet-release-el-$1.noarch.rpm >/dev/null 2>&1
 
   sleep 2
   echo_title "Installing Puppet"
@@ -43,15 +43,11 @@ setup_redhat() {
 
 setup_fedora() {
   release=$1
-  if [[ $release == '27' ]]
-  then
-    release='26'
-  fi
   echo_title "Uninstalling existing Puppet"
   $sudo_command yum erase -y puppet-agent puppet puppetlabs-release puppetlabs-release-pc1 >/dev/null 2>&1
 
-  echo_title "Adding repo for Puppet 5"
-  $sudo_command rpm -ivh https://yum.puppetlabs.com/puppet5/puppet5-release-fedora-${release}.noarch.rpm
+  echo_title "Adding repo for Puppet"
+  $sudo_command rpm -ivh https://yum.puppetlabs.com/puppet/puppet-release-fedora-${release}.noarch.rpm
 
   sleep 2
   echo_title "Installing Puppet"
@@ -79,8 +75,8 @@ setup_suse() {
   $sudo_command zypper remove -y puppetlabs-release >/dev/null 2>&1
   $sudo_command zypper remove -y puppetlabs-release-pc1 >/dev/null 2>&1
 
-  echo_title "Adding repo for Puppet 5"
-  $sudo_command wget https://yum.puppetlabs.com/puppet5/puppet5-release-sles-$1.noarch.rpm 2>&1
+  echo_title "Adding repo for Puppet"
+  $sudo_command wget https://yum.puppetlabs.com/puppet/puppet-release-sles-$1.noarch.rpm 2>&1
   $sudo_command rpm -ivh puppet5-release-sles-$1.noarch.rpm 2>&1
 
   sleep 2
@@ -101,8 +97,8 @@ setup_apt() {
     *) echo "Release not supported" ;;
   esac
 
-  echo_title "Adding repo for Puppet 5"
-  $sudo_command wget -q "http://apt.puppetlabs.com/puppet5-release-${codename}.deb" >/dev/null
+  echo_title "Adding repo for Puppet"
+  $sudo_command wget -q "http://apt.puppetlabs.com/puppet-release-${codename}.deb" >/dev/null
   $sudo_command dpkg -i "puppet5-release-${codename}.deb" >/dev/null
 
   echo_title "Running apt-get update"
@@ -128,7 +124,7 @@ setup_solaris() {
 setup_darwin() {
   majver=$(sw_vers -productVersion | cut -d '.' -f 1-2)
   echo_title "Downloading package for MacOS version ${majver}"
-  curl -s -o puppet-agent.dmg "https://downloads.puppetlabs.com/mac/puppet5/${majver}/x86_64/puppet-agent-latest.dmg"
+  curl -s -o puppet-agent.dmg "https://downloads.puppetlabs.com/mac/puppet/${majver}/x86_64/puppet-agent-latest.dmg"
 
   echo_title "Installing Puppet Agent"
   hdiutil mount puppet-agent.dmg
@@ -140,7 +136,7 @@ setup_bsd() {
   echo_title "Not yet supported"
 }
 setup_windows() {
-  curl -s -o puppet-agent.msi "https://downloads.puppetlabs.com/windows/puppet5/puppet-agent-x64-latest.msi"
+  curl -s -o puppet-agent.msi "https://downloads.puppetlabs.com/windows/puppet/puppet-agent-x64-latest.msi"
   msiexec /qn /norestart /i puppet-agent.msi
   # msiexec /qn /norestart /i puppet-agent.msi PUPPET_AGENT_CERTNAME=me.example.com PUPPET_MASTER_SERVER=puppet.example.com \
 }
