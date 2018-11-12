@@ -87,13 +87,11 @@ setup_suse() {
 setup_apt() {
   case $1 in
     3*) codename=cumulus ;;
-    6) codename=squeeze ;;
-    7) codename=wheezy ;;
     8) codename=jessie  ;;
     9) codename=stretch  ;;
-    12.04) codename=precise ;;
     14.04) codename=trusty  ;;
     16.04) codename=xenial ;;
+    18.04) codename=bionic ;;
     *) echo "Release not supported" ;;
   esac
 
