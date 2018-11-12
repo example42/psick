@@ -99,7 +99,7 @@ setup_apt() {
 
   echo_title "Adding repo for Puppet"
   $sudo_command wget -q "http://apt.puppetlabs.com/puppet-release-${codename}.deb" >/dev/null
-  $sudo_command dpkg -i "puppet5-release-${codename}.deb" >/dev/null
+  $sudo_command dpkg -i "puppet-release-${codename}.deb" >/dev/null
 
   echo_title "Running apt-get update"
   $sudo_command apt-get update >/dev/null 2>&1
