@@ -99,6 +99,14 @@ nodes:
     forwarded_port:
       guest: 8080
       host: 19481
+  - role: cirunner
+    cpu: 2
+    count: 1
+    memory: 4096
+    box: centos7
+    forwarded_port:
+      guest: 8080
+      host: 19486
   - role: ostest
     hostname_base: centos6
     count: 1
