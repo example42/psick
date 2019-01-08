@@ -1,6 +1,6 @@
 # External modules to installed by r10k in modules/ dir
 # Here mostly at latest version for sample purposes.
-# In working environments specific versions should be defined.
+# In working environments specific fixed versions should be defined.
 
 # Here we place hieradata in a separated module.
 # We use control-repo branch if exists, or production as default
@@ -81,6 +81,9 @@ mod 'puppet/staging', :latest
 # mod 'puppetlabs/wsus_client', :latest
 # mod 'counsyl/windows', :git => 'https://github.com/counsyl/puppet-windows'
 # mod 'trlinkin/domain_membership', :git => 'https://github.com/trlinkin/domain_membership'
+
+# Used by Mac profiles
+# mod 'thekevjames-homebrew', :latest
 
 # Used by psick::users when module=puppetlabs
 # mod 'puppetlabs/accounts', :latest
