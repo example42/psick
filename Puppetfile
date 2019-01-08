@@ -32,15 +32,11 @@ mod 'puppetlabs/inifile', :latest
 mod 'puppetlabs/postgresql', :latest
 mod 'puppetlabs/puppetdb', :latest
 mod 'puppet/puppetserver', ':latest'
-#mod 'puppet/puppetserver',
-#  :git => 'https://github.com/voxpupuli/puppet-puppetserver.git',
-#  :tag => '2.1.0'
 mod 'puppetlabs/puppetserver_gem', :latest
 mod 'puppet/r10k', :latest
 mod 'puppetlabs/hocon', :latest
 mod 'puppetlabs/apt', :latest
 mod 'puppet/puppetboard', :latest
-mod 'richardc/datacat', :latest
 
 # Used by psick::puppet::pe_code_manager
 mod 'pltraining/rbac', '0.0.5'
@@ -89,12 +85,13 @@ mod 'puppet/staging', :latest
 # mod 'puppetlabs/accounts', :latest
 
 # Choria
-mod 'choria/choria', :latest
-mod 'choria/mcollective_choria', :latest
-mod 'choria/mcollective_agent_filemgr', :latest
-mod 'choria/mcollective_agent_package', :latest
-mod 'choria/mcollective_agent_puppet', :latest
-mod 'choria/mcollective_agent_service', :latest
-mod 'choria/mcollective_agent_bolt_tasks', :latest
-mod 'choria/mcollective_agent_service', :latest
-mod 'choria/mcollective_util_actionpolicy', :latest
+# mod 'choria/choria', :latest
+# mod 'choria/mcollective_choria', :latest
+# mod 'choria/mcollective_agent_filemgr', :latest
+# mod 'choria/mcollective_agent_package', :latest
+# mod 'choria/mcollective_agent_puppet', :latest
+# mod 'choria/mcollective_agent_service', :latest
+# mod 'choria/mcollective_agent_bolt_tasks', :latest
+# mod 'choria/mcollective_agent_service', :latest
+# mod 'choria/mcollective_util_actionpolicy', :latest
+
