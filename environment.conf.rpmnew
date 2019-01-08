@@ -1,0 +1,18 @@
+# Each environment can have an environment.conf file. Its settings will only
+# affect its own environment. See docs for more info:
+# https://docs.puppetlabs.com/puppet/latest/reference/config_file_environment.html
+
+# Any unspecified settings use default values; some of those defaults are based
+# on puppet.conf settings.
+
+# If these settings include relative file paths, they'll be resolved relative to
+# this environment's directory.
+
+# Allowed settings and default values:
+
+# modulepath = ./modules:$basemodulepath
+# manifest = (default_manifest from puppet.conf, which defaults to ./manifests)
+# config_version = (no script; Puppet will use the time the catalog was compiled)
+# environment_timeout = (environment_timeout from puppet.conf, which defaults to 0)
+    # Note: unless you have a specific reason, we recommend only setting
+    # environment_timeout in puppet.conf.
