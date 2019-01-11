@@ -31,7 +31,7 @@ mod 'puppetlabs/inifile', :latest
 # Used by psick::puppet::foss_server
 mod 'puppetlabs/postgresql', :latest
 mod 'puppetlabs/puppetdb', :latest
-mod 'puppet/puppetserver', ':latest'
+mod 'puppet/puppetserver', :latest
 mod 'puppetlabs/puppetserver_gem', :latest
 mod 'puppet/r10k', :latest
 mod 'puppetlabs/hocon', :latest
