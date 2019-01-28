@@ -46,7 +46,7 @@ mod 'puppet/puppetserver', :latest
 mod 'puppetlabs/puppetserver_gem', :latest
 mod 'puppet/r10k', :latest
 mod 'puppetlabs/hocon', :latest
-mod 'puppetlabs/apt', :latest
+mod 'puppetlabs/apt', '6.2.1'
 mod 'puppet/puppetboard', :latest
 
 # Used by psick::puppet::pe_code_manager
