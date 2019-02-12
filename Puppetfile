@@ -24,6 +24,7 @@ mod 'example42/puppet',
   :branch => 'master'
 
 # Third Party modules
+mod 'puppetlabs-ntp', :latest
 mod 'puppetlabs/concat', '3.0.0' # postgresql requires concat < 3.0.0
 mod 'puppetlabs/stdlib', :latest
 mod 'puppet-extlib', '2.1.0'
