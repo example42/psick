@@ -36,6 +36,7 @@ mod 'trlinkin/noop', :latest
 mod 'puppetlabs/catalog_preview', :latest
 mod 'puppet/archive', :latest
 mod 'puppetlabs/inifile', :latest
+mod 'puppet/windows_env', :latest
 mod 'graduway/ec2tagfacts',
   :git => 'https://github.com/graduway/ec2tagfacts',
   :branch => 'master'
