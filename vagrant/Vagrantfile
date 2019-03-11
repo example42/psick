@@ -191,6 +191,7 @@ Vagrant.configure('2') do |config|
         if Vagrant.has_plugin?('vagrant-pe_build') && install_pe
           node_config.vm.provision :pe_agent do |p|
             p.master_vm = master_vm
+            p.version = pe_version
           end
         end
         node_config.vm.provision 'shell', path: '../../bin/pagent.sh', args: "--server #{puppet_master_hostname} --environment #{puppet_environment}"

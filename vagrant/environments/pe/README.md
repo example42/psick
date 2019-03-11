@@ -23,7 +23,7 @@ To work in this Vagrant environment:
     # Start the puppet. It will download PE tarball, install it and run puppet agent 
     vagrant up puppet.pe.psick.io
     vagrant reload puppet.pe.psick.io   # In case of errors. See Note 1
-    vagrant provison puppet.pe.psick.io # See Note 1
+    vagrant provision puppet.pe.psick.io # See Note 1
 
     # Then start the other VM you want to test.
     # They will run puppet agent pointing to the puppet vm
