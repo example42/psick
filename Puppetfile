@@ -102,7 +102,7 @@ mod 'puppetlabs-iis', :latest
 
 # Used by psick::users when module=puppetlabs
 mod 'puppetlabs/accounts', :latest
-mod 'oxc-postfix', '1.0.0'
+mod 'oxc-postfix', '1.0.2'
 ## mod 'puppet-fail2ban', '2.2.0'
 mod 'example42-profile', '2.0.4'
 
