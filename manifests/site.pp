@@ -29,8 +29,8 @@ if $ec2_tag_env {
 if $ec2_tag_name {
   $host_name = $ec2_tag_name
 }
-if $ec2_tag_env_region {
-  $env_region = $ec2_tag_env_region
+if $ec2_tag_env_prefix {
+  $env_prefix = $ec2_tag_env_prefix
 }
 if $ec2_tag_network {
   $vpc_subnet = $ec2_tag_network

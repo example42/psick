@@ -8,6 +8,6 @@
 # With Puppet is managed the content of <%= scope.lookupvar('profile::params::configdir') %>
 
 export AWS_ENV=<%= @ec2_tag_env %>
-export AWS_PREFIX=<%= @ec2_tag_env_region %>
+export AWS_PREFIX=<%= @ec2_tag_env_prefix %>
 export AWS_NAME=<%= @facts['ec2_tag_name'] %>
 export AWS_ROLE=<%= @facts['ec2_tag_role'] %>
