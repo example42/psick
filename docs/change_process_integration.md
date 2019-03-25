@@ -14,7 +14,7 @@
 
 In this document we will review a possible process to follow to manage `Puppet` changes based on an `integration branch`, used as `origin` and controlled promotion to `production branch`.
 
-It's based on `Gitlab CI pipelines` defined in the [gitlab/.gitlab-ci.yml-integration](gitlab/.gitlab-ci.yml-integration) file.
+It's based on `Gitlab CI pipelines` defined in the [gitlab/.gitlab-ci.yml-integration](../gitlab/.gitlab-ci.yml-integration) file.
 
 It can be used as main ```.gitlab-ci.yml``` file on a setup where code stays in a (local) `GitLab` instance and the `Puppet server` is based on `Puppet Enterprise`, with automatic code deployment whenever a change is pushed to `GitLab server`.
 
@@ -48,7 +48,7 @@ Using `Kanban boards` to map tickets to cards can help the process.
 
 The assigned team member starts to work on the ticket, he should have a ready to use workstation where he can develop and test his `Puppet code`. Any change should be pushed to ```integration branch``` **only**. The `CI` process [semi]automatically takes care to promote the change to ```production branch```.
 
-A good approach is to create a ```feature branch```, with the relevant `name` and relevant `ticket number`. Once the changes on the ```feature branch``` have been merged into ```integration```, and then up to ```production```, and the relevant `ticket` closed, the ```feature branch``` should be removed.
+A good approach is to create a ```feature branch```, with the relevant `name` and relevant `ticket number`. Once the changes on the ```feature branch``` have been merged into ```integration```, and then up to ```production``` branches, and the relevant `ticket` closed, the ```feature branch``` should be removed.
 
 Remember to always create a ```feature branch``` based on current status of ```integration branch```. First we have to checkout into ```integration branch```:
 
