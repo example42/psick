@@ -9,6 +9,22 @@ mod 'example42/hieradata',
   :branch => :control_branch,
   :default_branch => 'production'
 
+# Puppet 6 Core Modues
+mod 'puppetlabs/mount_core', :latest
+mod 'puppetlabs/augeas_core', :latest
+mod 'puppetlabs/zfs_core', :latest
+mod 'puppetlabs/yumrepo_core', :latest
+mod 'puppetlabs/host_core', :latest
+mod 'puppetlabs/selinux_core', :latest
+mod 'puppetlabs/zone_core', :latest
+mod 'puppetlabs/cron_core', :latest
+mod 'puppetlabs/sshkeys_core', :latest
+mod 'puppetlabs/nagios_core', :latest
+mod 'puppetlabs/mailalias_core', :latest
+mod 'puppetlabs/macdslocal_core', :latest
+mod 'puppetlabs/maillist_core', :latest
+mod 'puppetlabs/k5login_core', :latest
+
 # Example42 modules
 # From Forge
 mod 'example42/tp', :latest
@@ -17,7 +33,7 @@ mod 'example42/psick', :latest
 mod 'example42/network', :latest
 
 # Third Party modules
-mod 'puppetlabs/concat', '3.0.0' # postgresql requires concat < 3.0.0
+mod 'puppetlabs/concat', :latest
 mod 'puppetlabs/stdlib', :latest
 mod 'puppetlabs/vcsrepo', :latest
 mod 'puppetlabs/firewall', :latest
@@ -62,7 +78,7 @@ mod 'unibet/vagrant', :latest
 mod 'sensu/sensu', :latest
 mod 'yelp/uchiwa', :latest
 mod 'puppet/rabbitmq', :latest
-mod 'puppet/staging', :latest
+# deprecated: mod 'puppet/staging', :latest
 
 # Used by windows profiles
 # mod 'puppet/windowsfeature', :latest # :git => 'https://github.com/voxpupuli/puppet-windowsfeature'

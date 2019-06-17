@@ -1,0 +1,18 @@
+---
+version: 5
+
+defaults:
+  datadir: ../modules/hieradata/data # Data in separated module, defined in Puppetfile
+# datadir: hieradata              # Data in control-repo. Previous psick setting
+# datadir: data                   # Data in control-repo. Default for puppetlabs/control-repo
+  data_hash: yaml_data
+
+hierarchy:
+  - name: "Eyaml hierarchy"
+    paths:
+      - "nodes/%{trusted.certname}.yaml"
+      - "role/%{::role}-%{::env}.yaml"
+      - "role/%{::role}.yaml"
+      - "zone/%{::zone}.yaml"
+      - "common.yaml"
+
