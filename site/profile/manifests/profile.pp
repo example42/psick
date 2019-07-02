@@ -1,6 +1,6 @@
 class profile::profile (
-  	String $template  = '',
-  	Hash   $scripts = {},
+    String $template  = '',
+    Hash   $scripts = {},
 ){
 
       $scripts.each |$k,$v| {
