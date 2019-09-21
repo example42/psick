@@ -64,8 +64,6 @@ nodes:
     box: suse11
   - hostname_base: opensuse-tumbleweed
     box: opensuse_tumbleweed
-  - hostname_base: opensuse-42-1
-    box: opensuse_42_1
   - hostname_base: alpine3
     box: alpine3
   - hostname_base: fedora23

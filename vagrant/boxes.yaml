@@ -58,10 +58,7 @@ boxes:
     box: suse/sles11sp3
     breed: puppetlabs
   opensuse_tumbleweed:
-    box: opensuse/openSUSE-Tumbleweed-x86_64
-    breed: none
-  opensuse_42_1:
-    box: opensuse/openSUSE-42.1-x86_64
+    box: opensuse/openSUSE-Tumbleweed-Vagrant.x86_64
     breed: none
   manageiq_euwe:
     box: manageiq/euwe
