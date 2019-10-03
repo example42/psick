@@ -55,14 +55,14 @@ nodes:
     box: suse12
   - hostname_base: suse11
     box: suse11
-  - hostname_base: alpine3
-    box: alpine3
-  - hostname_base: fedora25
-    box: fedora25
-  - hostname_base: fedora24
-    box: fedora24
-  - hostname_base: fedora23
-    box: fedora23
+  - hostname_base: alpine310
+    box: alpine310
+  - hostname_base: fedora30
+    box: fedora30
+  - hostname_base: fedora29
+    box: fedora29
+  - hostname_base: fedora28
+    box: fedora28
   - hostname_base: windows2012
     fqdn: windows2012-bare
     box: windows2012

@@ -148,8 +148,9 @@ nodes:
     puppet_agent: false
     puppet_apply: false
   - role: log
+    memory: 4096
     count: 1
-    box: centos7
+    box: centos8
   - role: vpn
     count: 1
   - role: grafana
@@ -199,8 +200,8 @@ nodes:
     hostname_base: ostest-debian9
     box: debian9
   - role: ostest
-    hostname_base: ostest-alpine3
-    box: alpine3
+    hostname_base: ostest-alpine310
+    box: alpine310
   - role: ostest
     hostname_base: ostest-windows2012
     puppet_apply: true

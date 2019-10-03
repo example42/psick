@@ -10,22 +10,20 @@
 
 ## Vagrant integration
 
-This `control-repo` contains different customisable `Vagrant` environments that can be used for different purposes at different stages of our `Puppet workflow`: `local` testing during development, `continuous integration` testing, `semi-permanent` test environments...
+This `control-repo` contains different customisable `Vagrant` environments that can be used for different purposes:
+
+  - Virtual machines with different OS where to test our Puppet code before committing it
+  - VMs to use in automated CI pipelines
+  - VMS to use by application developers configured via Pupept and aligned to prod servers
 
 This `control-repo` is by default shipped as **self contained**:
 
   - It provides all the `Puppet code` and data needed to provision different roles.
-
   - It manages nodes classification with a nodeless, `Hiera driven`, approach based on the companion [psick module](https://github.com/example42/puppet-psick).
-
   - It doesn't use [exported resources](https://puppet.com/docs/puppet/latest/lang_exported.html) (at least in common roles) or any other data provided by `PuppetDB`
-
   - It doesn't rely on an `External Node Classifier` (ENC) for nodes classification
 
-Being self contained the catalog for each node can be compiled locally via ```Puppet apply```, and is the same method used, by default, in most of the provided `Vagrant` environments.
-
-We can work with them directly issuing `vagrant` commands in ```vagrant/environments/<env_name>``` or via `Fabric` from the main repo dir.
-
+Being self contained the catalog for each node can be compiled locally via ```Puppet apply```, and this is the same method used, by default, in most of the provided `Vagrant` environments.
 
 ### Vagrant commands
 
@@ -59,38 +57,35 @@ If we want to use a `Puppet Server` for `Puppet` provisioning on the VM:
 
 Note that by default a ```puppet apply``` is used and so it can work on the local `control-repo` files (mounted on the `Vagrant VM`). If we use a `Puppet Server` which is not in our `Vagrant` environment we will test the code present on the `Puppet Server` itself.
 
+### vagrant directory structure
 
-### Vagrant Fabric tasks
+All the vagrant integration is under the ```vagrant``` directory (*). Here we find the following files:
 
-`Vagrant` commands can be invoked by `Fabric` too.
+  - `Vagrantfile` a common Vagrantfile, shared by all the different vagrant environments, which parses the environments' `config.yaml` and creates a multivm Vagrant setup
+  - `bin/` a directory with various scripts used by provisioners in the Vagrantfile (referred via the relative path `../../bin/` as all the actual vagrant actions are run inside environments dirs)
+  - `boxes.yaml` a definition of each available boxes and the relevant source. Any of these can be used by nodes defined in the environments' `config.yaml`
+  - `environments` a directory containining different directories, one of each Vagrant environment which can be used.
 
-Generally it's handier to use direct ```vagrant commands``` from the relevant `Vagrant` environment directories, but we may prefer in some cases where automation is involved to use `Fabric`.
+(*) The following scripts are OUTSIDE the vagrant directory but might be used in the Vagrantfile (if relevant config options are used), they are referred with the relative path: `../../../bin`:
 
-Run ```vagrant status``` on all the available `Vagrant` environments
+  - `bin/puppet_install.sh` installs Puppet agent on different OS
+  - `bin/puppet_deploy_controlrepo.sh` runs `r10k deploy environment -v` inside the VM to deploy under /etc/puppetlabs/code/environments/ the control-repo and relevant modules
+  - `bin/puppet_set_trusted_facts.sh` configures trusted facts on the VM's `/etc/puppetlabs/puppet/csr_attributes.yaml` file
+  - `bin/puppet_set_external_facts.sh` configures external facts under the VM's `/etc/puppetlabs/facter/facts.d/` dir
 
-    fab vagrant.env_status
+The most interesting Vagrant environments are:
 
-Run ```vagrant status``` on a specific `Vagrant` environment
+  - `environments/lab`: This is the lab environment where example42 tests psick Puppet code. Relevant Hiera data is [here](https://github.com/example42/psick-hieradata/blob/production/data/zone/lab.yaml) and in node/role specific files. It's based on a Puppet Enterprise + GitLab setup, where both server and clients live withing the environment. You are not supposed to use it as is, but it's useful as reference.
+  - `environments/bare`: This is useful to test anything on vanilla boxes. No Puppet agent is automatically installed on these VMs. 
+  - `environments/ostest`: This is useful to test Puppet code on different Operating Systems. Puppet is run in apply mode. Quick test of classes for different OS can be done by changing the [osrole](https://github.com/example42/psick-hieradata/blob/production/data/role/ostest.yaml.sample) role data (you will probably work on your own copy of the hieradata module).
+  - `environments/foss`: A generic Puppet OSS setup with server and clients.
+  - `environments/pe`: A generic Puppet PE setup with server and clients.
+  
+In each environment directory (like `psick/vagrant/environments/lab`) there are at least the following files:
 
-    fab vagrant.env_status:ostest
-
-Run ```vagrant provision``` on all the running vm of a `Vagrant` environment:
-
-    fab vagrant.provision:env=lab
-
-Run ```vagrant up``` on the given vm (the following 2 commands are equivalent):
-
-    fab vagrant.up:vm=centos7.ostest.psick.io
-    fab vagrant.up:centos7.ostest.psick.io
-
-Run, respectively, ```vagrant provision```, ```reload```, ```halt```, ```suspend```, ```resume```, ```destroy``` on a given vm:
-
-    fab vagrant.provision:centos7.ostest.psick.io
-    fab vagrant.reload:centos7.ostest.psick.io
-    fab vagrant.halt:centos7.ostest.psick.io
-    fab vagrant.suspend:centos7.ostest.psick.io
-    fab vagrant.resume:centos7.ostest.psick.io
-    fab vagrant.destroy:centos7.ostest.psick.io
+  - `Vagrantfile` a symbolic link to the general shared Vagrantfile in `psick/vagrant/Vagrantfile`
+  - `config.yaml` the actual configuration file of the environment. Here is possible to define which nodes have to be visible when running `vagrant status` and how they are configured
+  - `README.md` an environment specific README file with specific notes about the relative Vagrant environment
 
 ### Customisations
 
@@ -102,7 +97,7 @@ We can customise the `Vagrant` environments in various ways:
 
   - Customise the ```config.yaml``` file to define size, OS, role, number of each vagrant vm.
 
-  - Customise eventually the same `Vagrantfile` for our own needs.
+  - Customise eventually the same `Vagrantfile` for our own needs (not recommended if local control-repo structure is supposed to be aligned to upstream psick).
 
 ### Editing config.yaml
 
@@ -111,28 +106,62 @@ The ```config.yaml``` file is used by the local `Vagrantfile` to customise easil
 Here we can set the general settings valid for all the VM:
 
     vm:
-      memory: 512            # Memory in MB of the VM
-      cpu: 1                 # vCPUs of the VM
-      role: ostest           # The default Puppet role (you may not want to set it here)
-      box: centos7           # The default Vagrant box to use (from the list under boxes)
+      memory: 512            # Default memory in MB to use for all the VMs (set here a sane common default and override on nodes where needed)
+      cpu: 1                 # Default number of vCPUs for the VMs
+      box: centos7           # The default Vagrant box to use (from the list under `vagrant/boxes.yaml`)
       puppet_apply: true     # If to provision with puppet apply executed on the local files
       puppet_agent: false    # If to provision with puppet agent (you have to take care of setting up your Puppet Master)
+      facter_external_facts: true # If to create external facts in facts.d/$fact.txt. Note 1
+      facter_trusted_facts: true  # If to create trusted facts in csr_attributes.yaml. Note 1
+      synced_folder_type: vboxfs  # Type of sync folders to use (default vboxfs): nfs, vboxfs
+
+Note 1: You may want to set facts on VMS an use them in your hiera.yaml. Psick by default can set and use the following facts: env, role, zone, datacenter, application.
+On the default psick's `manifests/site.pp` trusted facts like $trusted['extensions']['pp_role'] are assigned to top scope variables like $role which are then used in the default
+`hiera.yaml`. Check the notes in `manifests/site.pp` for more details and notes on cohexisted of trusted d and external facts.
 
 Manage general network settings:
 
     network:
-      range: 10.42.45.0/24   # The network to use for VMs internal lan
+      range: 10.42.45.0/24   # The network to use for VMs internal lan, shared by VMs of the same environment
       ip_start_offset: 101   # The starting IP in the above range (if an ip_address is not explicitly set for a VM)
       domain: ostest.psick.io  # The DNS domain of your VMs
 
 Manage `Puppet` related settings:
 
     puppet:
-      version: latest        # Which version of Puppet to use (WIP)
-      env: test              # Adds a fact called env to the VM with the given value
+      version: latest        # Which version of Puppet to use
+      env: test              # Adds a fact called env to the VM with the given value (if vm.facter_external_facts or vm.facter_trusted_facts are true)
       zone: local            # Adds a fact called zone to the VM with the given value
+      role: ostest           # Adds a fact called role to the VM. You will probably override this in each node
+      datacenter: london     # Adds a fact called datacenter to eventually use in hiera.yaml
+      application: website   # Adds a fact called application to eventually use in hiera.yaml 
+      install_oss: false     # If to install Puppet OSS agent on the VMS
+      install_pe: true       # If to install Puppet Enterprise agent on the VMS (vagrant-pe_build plugin needed)
+      master_vm:  puppet.example.com    # Name of the VM which play as Puppet server for the others
+      master_fqdn: 'puppet.example.com' # FQDN of the Puppet server to use with puppet agent
+      master_ip: '10.42.43.101'         # IP of the Puppet server to use with puppet agent
+      link_controlrepo: false     # Add a link for a Puppet environment to the development control-repo
+      environment: production     # Puppet environment to link to local control-repo
 
-Define the nodes list (as shown in ```vagrant status```):
+Some settings are specific for Puppet Enterprise (in PE based setup the vagrant-pe_build plugin is needed):
+
+      pe_version: '2019.1.0'         # Version of PE to install on the puppet server. See Note 2
+      pe_download_root: 'https://s3.amazonaws.com/pe-builds/released/2019.1.0' # Download base url. See Note 2
+      pe_verbose: true               # If to show PE installation output
+      pe_relocate_manifests: false   # If to relocate manifests and module dir. Probably needed when environment: production
+
+Note 2: when changing the version, change also the download_root unless you have a custom one. For locally downloaded files, for example, you can place something like: `pe_download_root: 'file:///Users/al/Downloads'` but when the upstream URL (on S3) is used then update pe_version and pe_download_root with the same version number.
+
+Some other settings about related to Vagrant behaviour:
+
+    vagrant:
+      hostmanager.enable: true # If to enable hostmanager plugin to automatically update /etc/hosts on VMs and eventually host
+      hostmanager.manage_host: false # If /etc/hosts is updated automatically also on the host
+      multi_user: false # If to enable the ability of having different users using psick vagrant environments on the same host (VMs names must be unique on the host, with this setting the user name is added to them)
+      vm_provider: virtualbox # (Default and only one actually tested). What vagrant provider to use for your VMs. Can be overridden for each node.
+      docker_image: puppet/puppet-agent-ubuntu # The docker image to use if vm_provider is set to docker. Can be overridden for each node.
+
+Define the nodes list (as shown in ```vagrant status```) for each node is possible to override general settings defined in the vm, puppet, vagrant and network sections:
 
     nodes:
       - role: log                    # Puppet role: log
@@ -153,64 +182,5 @@ Define the nodes list (as shown in ```vagrant status```):
         aliases:                     # Added aliases for Vagrant hostmanager plugin (if used)
           - puppet
 
-Finally it's possible to define the ```Vagrant boxes``` to use for the different VMs, the list of available boxes is defined under ```vagrant/boxes.yaml```:
+The box names which can be used are the ones defined in the common `vagrant/boxes.yaml` file.
 
-    boxes:
-      centos7:                                # Box name as referenced under vm or nodes
-        box: puppetlabs/centos-7.2-64-puppet  # Name of Vagrant box on Atlas
-      centos6:                                # Another box to select from...
-        box: puppetlabs/centos-6.6-64-puppet
-      ubuntu1604:                             # Another box
-        box: puppetlabs/ubuntu-16.04-64-puppet
-      ubuntu1404:                             # Another box
-        box: puppetlabs/ubuntu-14.04-64-puppet
-
-#### Environments
-
-In ```config.yaml``` there are some options involving which code will be run on host.
-
-* `puppet > environment`: The environment to apply to the virtual machine
-
-* `puppet > link_controlrepo`: Add a link for a `Puppet` environment to the development `control-repo`.  
-  Setting this to true will create an environment "`host`" with our current uncommitted code.
-
-* `puppet > controlrepo`: URL of the `control-repo` to deploy via `r10k` on `Puppet Server`.  
-  Can be both a local or our local `control repo:`
-    * `https://git.organization.tld/puppet.git`
-    * `/vagrant_puppet` to use the local dir.
-
-#### Agent or masterless?
-
-We can execute the code in masterless mode or connecting to a `Puppet Server` inside `vagrant` environment.
-
-* `vm > puppet_agent`: If set to true this will run ```puppet agent```, connecting to master configured in `puppet::master_fqdn`
-
-* `vm > puppet_apply`: If set to false this will apply catalog, in masterless mode. This is mandatory to bootstrap the puppet master.
-
-We can set both to true to run puppet twice, fist in masterless mode, then run the agent.
-
-#### Override options for each node
-
-The `node` key is an array of hosts to run. Here, we can override each option in `vm` and `pupet`.  
-For example:
-
-```yaml
-  vm:
-    memory: 1024
-
-  puppet:
-    environment: production
-
-  node:
-  - role: puppet
-    memory: 6192
-    puppet_apply: true
-  - role: application_server
-    environment: host
-```
-
-#### Customising the Vagrantfile and the relevant scripts
-
-Most of the existing `Vagrant` environments share the same ```Vagrantfile```, but we may need to create a custom one, even if just by editing the ```config.yaml``` file we should be able to manage most of the common use cases.
-
-Here we have full freedom, just notice that when changing the ```Vagrantfile``` we may break some of the ```config.yaml``` functionality, and that the scripts used during provisioning or in `Vagrant` related activities are under ```vagrant/bin/``` and we might need to edit them too.

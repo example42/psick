@@ -78,7 +78,6 @@ nodes:
     count: 1
   - role: build
     count: 1
-    box: centos7_puppet
   - role: docker
     count: 1
     box: ubuntu1404

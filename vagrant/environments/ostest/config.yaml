@@ -42,16 +42,22 @@ vagrant:
 
 # Nodes shown in vagrant status 
 nodes:
+  - hostname_base: centos8
+    box: centos8
   - hostname_base: centos7
     box: centos7
   - hostname_base: centos6
     box: centos6
+  - hostname_base: ubuntu1804
+    box: ubuntu1804
   - hostname_base: ubuntu1604
     box: ubuntu1604 
   - hostname_base: ubuntu1404
     box: ubuntu1404 
   - hostname_base: ubuntu1204
     box: ubuntu1204 
+  - hostname_base: debian10
+    box: debian10
   - hostname_base: debian9
     box: debian9
   - hostname_base: debian8
@@ -64,10 +70,10 @@ nodes:
     box: suse11
   - hostname_base: opensuse-tumbleweed
     box: opensuse_tumbleweed
-  - hostname_base: alpine3
-    box: alpine3
-  - hostname_base: fedora23
-    box: fedora23
+  - hostname_base: alpine310
+    box: alpine310
+  - hostname_base: fedora30
+    box: fedora30
   - hostname_base: cumulus
     box: cumulus
   - hostname_base: windows2012

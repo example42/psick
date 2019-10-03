@@ -13,6 +13,13 @@ network:
   ip_start_offset: 101
   domain: docker.psick.io
 
+vagrant:
+  hostmanager.enable: false # If to enable hostmanager plugin
+  hostmanager.manage_host: false # If to manage also the main host's hosts
+  multi_user: false
+  vm_provider: docker
+  docker_image: puppet/puppet-agent-ubuntu
+
 puppet:
   version: latest
   env: devel
