@@ -1,12 +1,8 @@
 - [Vagrant integration](#vagrant-integration)
   - [Vagrant commands](#vagrant-commands)
-  - [Vagrant Fabric tasks](#vagrant-fabric-tasks)
+  - [Vagrant directory structure](#vagrant-directory-structure)
   - [Customisations](#customisations)
   - [Editing config.yaml](#editing-configyaml)
-    - [Environments](#environments)
-    - [Agent or masterless?](#agent-or-masterless)
-    - [Override options for each node](#override-options-for-each-node)
-    - [Customising the Vagrantfile and the relevant scripts](#customising-the-vagrantfile-and-the-relevant-scripts)
 
 ## Vagrant integration
 
@@ -180,7 +176,6 @@ Define the nodes list (as shown in ```vagrant status```) for each node is possib
         ip_address: 10.42.42.10      # Fixed IP address
         puppet_apply: true           # Force provisioning via puppet apply
         aliases:                     # Added aliases for Vagrant hostmanager plugin (if used)
-          - puppet
 
 The box names which can be used are the ones defined in the common `vagrant/boxes.yaml` file.
 
