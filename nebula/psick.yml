@@ -1,0 +1,28 @@
+version: v0.0.1
+description: Psick control-repo workflow. Testing Slack integration
+
+parameters:
+  channel:
+    description: Slack channel (include preceding hashtag)
+  message:
+    description: Psick nebula workflow test
+
+steps:
+- name: init-workflow
+  image: alpine:latest
+  input:
+    - echo "Initializing workflow - Notify with Slack"
+- name: slack-notify
+  image: projectnebula/slack-notification:bf8ecb9
+  spec:
+    apitoken:
+       $type: Secret
+       name: slack-token
+    channel:
+       $type: Parameter
+       name: channel
+    message:
+       $type: Parameter
+       name: message
+  dependsOn:
+  - init-workflow
