@@ -11,18 +11,11 @@ steps:
 - name: init-workflow
   image: alpine:latest
   input:
-    - echo "Initializing workflow - Notify with Slack"
-- name: slack-notify
-  image: projectnebula/slack-notification:bf8ecb9
-  spec:
-    apitoken:
-       $type: Secret
-       name: slack-token
-    channel:
-       $type: Parameter
-       name: channel
-    message:
-       $type: Parameter
-       name: message
+    - echo "Initializing workflow"
+- name: pdk-test
+  image: puppet/pdk
+  command: pdk
+  args:
+  - "test"
   dependsOn:
   - init-workflow
