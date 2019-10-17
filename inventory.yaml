@@ -1,0 +1,21 @@
+---
+groups:
+  - name: linux
+    nodes:
+      - puppet.lab.psick.io
+      - git.lab.psick.io
+      - cirunner.lab.psick.io
+      - jenkins.lab.psick.io
+      - docker.lab.psick.io
+      - grafana.lab.psick.io
+      - icinga.lab.psick.io
+      - lamp.lab.psick.io
+      - sensu.lab.psick.io
+    config:
+      transport: ssh
+      ssh:
+        host-key-check: false
+        user: al
+        run-as: root
+        private-key: /home/al/.ssh/id_rsa
+
