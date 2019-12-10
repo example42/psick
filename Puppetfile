@@ -16,7 +16,7 @@ mod 'example42/tinydata', :latest
 mod 'example42/psick', :latest
 mod 'example42/network', :latest
 mod 'example42/tp_profile',
-  :git => 'https://github.com/example42/tp_profile',
+  :git => 'https://github.com/example42/puppet-tp_profile',
   :branch => :master
 
 # Third Party modules
