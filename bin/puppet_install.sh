@@ -89,6 +89,7 @@ setup_apt() {
     3*) codename=cumulus ;;
     8) codename=jessie  ;;
     9) codename=stretch  ;;
+    10) codename=buster ;;
     14.04) codename=trusty  ;;
     16.04) codename=xenial ;;
     18.04) codename=bionic ;;
