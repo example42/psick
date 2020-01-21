@@ -49,6 +49,8 @@ gems['puppet'] = location_for(puppet_version)
 
 gems['facter'] = location_for(facter_version) if facter_version
 gems['hiera'] = location_for(hiera_version) if hiera_version
+gems['r10k'] = [require: false, platforms: [:ruby]]
+gems['onceover'] = ['<= 3.12.3', require: false]
 
 if Gem.win_platform? && puppet_version =~ %r{^(file:///|git://)}
   # If we're using a Puppet gem on Windows which handles its own win32-xxx gem
