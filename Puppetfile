@@ -21,7 +21,6 @@ mod 'example42/tp_profile',
 
 # Third Party modules
 mod 'puppetlabs/concat', '3.0.0' # postgresql requires concat < 3.0.0
-mod 'puppetlabs/stdlib', :latest
 mod 'puppetlabs/vcsrepo', :latest
 mod 'puppetlabs/firewall', :latest
 # mod 'puppetlabs/aws', :latest
@@ -30,6 +29,15 @@ mod 'trlinkin/noop', :latest
 mod 'puppetlabs/catalog_preview', :latest
 mod 'puppet/archive', :latest
 mod 'puppetlabs/inifile', :latest
+mod 'puppetlabs/stdlib', :latest
+
+
+mod 'puppetlabs-cd4pe', :latest
+# Requirements for cd4pe
+mod 'puppetlabs-puppet_authorization', '0.5.0'
+mod 'puppetlabs-docker', '3.3.0'
+mod 'puppetlabs-translate', '1.1.0'
+
 
 # Used by psick::puppet::foss_server
 mod 'puppetlabs/postgresql', :latest
