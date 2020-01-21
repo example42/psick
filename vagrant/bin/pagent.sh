@@ -1,5 +1,6 @@
 #!/bin/bash
 options=$*
+PATH=$PATH:/opt/puppetlabs/puppet/bin
 
 echo "## Running puppet agent -t ${options} --detailed-exitcodes"
 puppet agent -t ${options} --detailed-exitcodes

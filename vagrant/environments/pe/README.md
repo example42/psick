@@ -10,7 +10,8 @@ To work in this Vagrant environment:
 
     # You need the pe_build plugin
     vagrant plugin install vagrant-pe_build
-
+    # You need the vagrant-vbguest plugin to inject the vbguest extension into the box at runtime
+    vagrant plugin install vagrant-vbguest
     cd <your-control-repo-dir>
     cd vagrant/environment/pe
 

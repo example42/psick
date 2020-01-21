@@ -1,11 +1,15 @@
 # This Vagrantfile is shared by different Vagrant environments.
 # Handle with care. For customisation remove the link to
 # the shared vagrant/Vagrantfile and create a new Vagrantfile
-# under vagran/environments/$your_environment/
+# under vagrant/environments/$your_environment/
+
+# Most of the scripts used by shell provisioners are under psick/vagrant/bin (../../bin/)
+# Some Puppet general setup scripts are under psick/bin (../../../bin/)
+
 require 'yaml'
 require 'ipaddr'
 
-# Nodes configuration is defined in config.yaml
+# Nodes configuration is defined in local Vagrant environment's config.yaml
 vagrantfile_dir = File.expand_path File.dirname(__FILE__)
 config_file = File.join(vagrantfile_dir, 'config.yaml')
 
@@ -14,6 +18,7 @@ unless File.exist?(config_file)
 end
 settings = YAML.load_file config_file
 
+# List of available boxes is in psick/vagrant/boxes.yaml
 boxes = YAML.load_file File.join(vagrantfile_dir, '../../boxes.yaml')
 
 # Network and Puppet basics
@@ -32,6 +37,8 @@ r10k_install = settings['puppet']['r10k_install'] ? settings['puppet']['r10k_ins
 puppet_code_dir = '/vagrant_puppet'
 
 # Define vms settings
+# Most settings can ge set globally (under the vm, network, puppet, vagrant sections in config.yaml)
+# and can be overridden for each node under the nodes hash
 vms = []
 if settings['nodes'].is_a?(Array)
   ip_index = range_start_offset
@@ -74,6 +81,8 @@ if settings['nodes'].is_a?(Array)
       vm['install_pe'] = node['install_pe'] ? node['install_pe'] : settings['puppet']['install_pe']
 
       vm['multi_user'] = vm['multi_user'] ? vm['multi_user'] : settings['vagrant']['multi_user']
+      vm['vm_provider'] = vm['vm_provider'] ? vm['vm_multi_user'] : settings['vagrant']['vm_provider']
+      vm['docker_image'] = vm['docker_image'] ? vm['docker_image'] : settings['vagrant']['docker_image']
       vms.push(vm)
     end
   end
@@ -118,8 +127,11 @@ Vagrant.configure('2') do |config|
     link_controlrepo = settings['puppet']['link_controlrepo'] ? settings['puppet']['link_controlrepo'] : false
     user = ENV['USER']
     vm_name = node['multi_user'] ? "#{user}-#{fqdn}" : fqdn
+    vm_provider = node['vm_provider'] ? node['vm_provider'] : 'virtualbox'
+    docker_image = node['docker_image'] ? node['docker_image'] : 'puppet/puppet-agent'
+
     config.vm.define vm_name do |node_config|
-      node_config.vm.box = vm_box
+      node_config.vm.box = vm_box if vm_provider != 'docker'
       node_config.vm.hostname = fqdn
       node_config.vm.network :private_network, ip: node['ip']
       node_config.vm.network :private_network, ip: node['ipv6'] if node['ipv6']
@@ -153,10 +165,8 @@ Vagrant.configure('2') do |config|
           # register destroy trigger to remove the node from puppet master
           node_config.trigger.after :destroy do
             node_name = @machine.name.to_s
-            puts "Cleaning #{node_name} certificate from puppet"
-            `vagrant ssh #{master_vm} -- -t 'sudo puppet cert clean #{hostname}'`
-            puts "Deactivating #{node_name} from puppet"
-            `vagrant ssh #{master_vm} -- -t 'sudo puppet node deactivate #{hostname}'`
+            puts "Purging #{hostname} from #{master_vm}"
+            `vagrant ssh #{master_vm} -- -t 'sudo puppet node purge clean #{hostname}'`
           end
         end
       end
@@ -204,10 +214,16 @@ Vagrant.configure('2') do |config|
         node_config.vm.network 'forwarded_port', guest: node['forwarded_port2']['guest'], host: node['forwarded_port2']['host']
       end
 
-      node_config.vm.provider 'virtualbox' do |v|
-        v.customize ['modifyvm', :id, '--name', fqdn]
-        v.customize ['modifyvm', :id, '--cpus', node['cpu'].to_s]
-        v.customize ['modifyvm', :id, '--memory', node['memory'].to_s]
+      if vm_provider == 'docker'
+        node_config.vm.provider "docker" do |d|
+          d.image = docker_image
+        end
+      else
+        node_config.vm.provider vm_provider do |v|
+          v.customize ['modifyvm', :id, '--name', fqdn] if vm_provider == 'virtualbox'
+          v.customize ['modifyvm', :id, '--cpus', node['cpu'].to_s]
+          v.customize ['modifyvm', :id, '--memory', node['memory'].to_s]
+        end
       end
     end
   end

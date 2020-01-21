@@ -32,12 +32,13 @@ puppet:
   application: puppet         # Setting for the application fact (may be used in hiera.yaml)
   master_vm:  puppet.lab.psick.io    # Name of the VM which play as Puppet server for the others
   master_fqdn: 'puppet.lab.psick.io' # FQDN of the Puppet server to use with puppet agent
+  master_ip: '10.42.43.101'          # IP of the Puppet server to use with puppet agent
   link_controlrepo: false     # Add a link for a Puppet environment to the development control-repo
   environment: host           # Puppet environment to link to local control-repo
 
 # Puppet Enterprise settings
-  pe_version: '2018.1.0'         # Version of PE to install on the puppet server. See Note 2
-  pe_download_root: 'https://s3.amazonaws.com/pe-builds/released/2018.1.0' # Download base url. See Note 2
+  pe_version: '2019.1.0'         # Version of PE to install on the puppet server. See Note 2
+  pe_download_root: 'https://s3.amazonaws.com/pe-builds/released/2019.1.0' # Download base url. See Note 2
   pe_verbose: true               # If to show PE installation output
   pe_relocate_manifests: false   # If to relocate manifests and module dir. Not needed in this setup.
 
@@ -76,6 +77,9 @@ nodes:
     forwarded_port:
       guest: 8080
       host: 1488
+    forwarded_port2:
+      guest: 8443
+      host: 1490
   - role: git
     memory: 3072
     forwarded_port:
@@ -144,8 +148,9 @@ nodes:
     puppet_agent: false
     puppet_apply: false
   - role: log
+    memory: 4096
     count: 1
-    box: centos7
+    box: centos8
   - role: vpn
     count: 1
   - role: grafana
@@ -171,8 +176,14 @@ nodes:
       host: 14481
   - role: ostest
     hostname_base: ostest-suse12
+    fqdn: ostest-suse12.lab.psick.io
     count: 1
     box: suse12
+  - role: ostest
+    hostname_base: ostest-opensuse
+    fqdn: ostest-opensuse.lab.psick.io
+    count: 1
+    box: opensuse_tumbleweed
   - role: ostest
     hostname_base: ostest-suse11
     box: suse11
@@ -189,8 +200,8 @@ nodes:
     hostname_base: ostest-debian9
     box: debian9
   - role: ostest
-    hostname_base: ostest-alpine3
-    box: alpine3
+    hostname_base: ostest-alpine310
+    box: alpine310
   - role: ostest
     hostname_base: ostest-windows2012
     puppet_apply: true
