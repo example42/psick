@@ -161,13 +161,11 @@ Vagrant.configure('2') do |config|
       end
 
       if role != 'puppet'
-        if Vagrant.has_plugin?('vagrant-hostmanager') && Vagrant.has_plugin?('vagrant-triggers')
-          # register destroy trigger to remove the node from puppet master
-          node_config.trigger.after :destroy do
-            node_name = @machine.name.to_s
-            puts "Purging #{hostname} from #{master_vm}"
-            `vagrant ssh #{master_vm} -- -t 'sudo puppet node purge clean #{hostname}'`
-          end
+        node_config.trigger.after :destroy do |trigger|
+        # register destroy trigger to remove the node from puppet master
+          node_name = fqdn
+          trigger.warn = "Purging #{node_name} from #{master_vm}"
+          trigger.run = {inline: "vagrant ssh #{master_vm} -- -t 'sudo /opt/puppetlabs/bin/puppet node purge #{node_name}'" }
         end
       end
 
