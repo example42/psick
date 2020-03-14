@@ -33,7 +33,7 @@ mod 'example42/psick', :latest
 mod 'example42/network', :latest
 mod 'example42/tp_profile',
   :git => 'https://github.com/example42/puppet-tp_profile',
-  :branch => :master
+  :branch => 'master'
 
 # Third Party modules
 mod 'puppetlabs/concat', :latest
