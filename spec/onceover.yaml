@@ -1,0 +1,53 @@
+# Classes to be tested
+classes:
+  - /^psick/
+
+# Nodes to tests classes on, this refers to a 'factset' or 'nodeset'
+# depending on whether you are running 'spec' or 'acceptance' tests
+nodes:
+  - solaris-10_u9-sparc-64
+  - Ubuntu-12.04-32
+  - CentOS-6.6-32
+  - Debian-6.0.10-64
+  - AIX-6.1-powerpc
+  - Debian-7.8-64
+  - CentOS-5.11-64
+  - Ubuntu-12.04-64
+  - Windows_Server-2008r2-64
+  - Ubuntu-14.04-32
+  - SLES-11.3-64
+  - SLES-12.1-64
+  - Debian-7.8-32
+  - CentOS-7.0-64
+  - solaris-11.2-sparc-64
+  - windows-10-64
+  - CentOS-6.6-64
+  - AIX-7.1-powerpc
+  - Debian-6.0.10-32
+  - Ubuntu-14.04-64
+  - Windows_Server-2012r2-64
+  - CentOS-5.11-32
+
+# You can group classes here to save typing
+class_groups:
+
+# You can group nodes here to save typing
+# We have created a 'non_windows_nodes' group because we can't
+# give you Windows vagrant boxes to test with because licensing,
+# we can give you fact sets though so go crazy with spec testing!
+node_groups:
+  windows_nodes:
+    - Windows_Server-2008r2-64
+    - windows-10-64
+    - Windows_Server-2012r2-64
+  non_windows_nodes:
+    include: 'all_nodes'
+    exclude: 'windows_nodes'
+
+test_matrix:
+  - all_nodes:
+      classes: 'all_classes'
+      tests: 'spec'
+  - non_windows_nodes: 
+      classes: 'all_classes'
+      tests: 'acceptance'
