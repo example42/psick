@@ -11,4 +11,4 @@ if [ -x /usr/bin/git ]; then
 else
   echo "no git - environment $1"
 fi
-
+exit 0

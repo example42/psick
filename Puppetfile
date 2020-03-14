@@ -32,6 +32,7 @@ mod 'puppet/archive', :latest
 mod 'puppetlabs/inifile', :latest
 
 # Used by psick::puppet::foss_server
+mod 'puppetlabs-bolt_shim', '0.3.0'
 mod 'puppetlabs/postgresql', :latest
 mod 'puppetlabs/puppetdb', :latest
 mod 'puppet/puppetserver', :latest

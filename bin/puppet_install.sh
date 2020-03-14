@@ -92,6 +92,9 @@ setup_apt() {
     14.04) codename=trusty  ;;
     16.04) codename=xenial ;;
     18.04) codename=bionic ;;
+    18.10) codename=bionic ;;
+    19.04) codename=bionic ;;
+    19.10) codename=bionic ;;
     *) echo "Release not supported" ;;
   esac
 

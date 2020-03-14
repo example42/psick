@@ -24,6 +24,7 @@
 /convert_report.txt
 /update_report.txt
 .DS_Store
+/keys/
 /modules/
-ubuntu-xenial-16.04-cloudimg-console.log
-*/*/ubuntu-xenial-16.04-cloudimg-console.log
+/vagrant/environments/*/*-console.log
+
