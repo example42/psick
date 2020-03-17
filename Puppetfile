@@ -47,6 +47,17 @@ mod 'puppetlabs/catalog_preview', :latest
 mod 'puppet/archive', :latest
 mod 'puppetlabs/inifile', :latest
 
+# Requirements for cd4pe
+mod 'puppetlabs-cd4pe', '1.4.1'
+#mod 'puppetlabs-concat', '4.2.1'
+#mod 'puppetlabs-hocon', '1.1.0'
+mod 'puppetlabs-puppet_authorization', '0.5.0'
+#mod 'puppetlabs-stdlib', '6.2.0'
+mod 'puppetlabs-docker', '3.9.1'
+#mod 'puppetlabs-apt', '7.3.0'
+mod 'puppetlabs-translate', '2.1.0'
+mod 'puppetlabs-pipelines', '1.0.1'
+
 # Used by psick::puppet::foss_server
 mod 'puppetlabs-bolt_shim', '0.3.0'
 mod 'puppetlabs/postgresql', :latest
