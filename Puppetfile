@@ -89,6 +89,9 @@ mod 'puppetlabs/dummy_service', :latest
 # Used by psick::vagrant
 mod 'unibet/vagrant', :latest
 
+# Used by psick::icinga
+mod 'icinga/iginga2', :latest
+
 # Used by psick::sensu
 mod 'sensu/sensu', :latest
 mod 'yelp/uchiwa', :latest
