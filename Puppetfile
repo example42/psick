@@ -90,7 +90,7 @@ mod 'puppetlabs/dummy_service', :latest
 mod 'unibet/vagrant', :latest
 
 # Used by psick::icinga
-mod 'icinga/iginga2', :latest
+mod 'icinga/icinga2', :latest
 
 # Used by psick::sensu
 mod 'sensu/sensu', :latest
