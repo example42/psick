@@ -57,6 +57,7 @@ mod 'puppetlabs-docker', '3.9.1'
 #mod 'puppetlabs-apt', '7.3.0'
 mod 'puppetlabs-translate', '2.1.0'
 mod 'puppetlabs-pipelines', '1.0.1'
+mod 'puppetlabs-cd4pe_jobs', :latest
 
 # Used by psick::puppet::foss_server
 mod 'puppetlabs-bolt_shim', '0.3.0'
