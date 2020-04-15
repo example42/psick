@@ -90,4 +90,5 @@ if defined('$facts') and defined('$trusted') {
 
   # We just do everything in psick module
   include '::psick'
+
 }
