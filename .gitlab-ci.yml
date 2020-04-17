@@ -25,8 +25,11 @@ Create WIP MR:
   tags:
     - deploy_puppet
   except:
-    - production
-    - schedules
+    refs:
+      - production
+      - schedules
+    variables:
+      - $SKIP_MR == "yes"
   allow_failure: true
 
 # Run Syntax Checks on Feature/Personal Branch
@@ -267,6 +270,11 @@ Accept MR:
     - deploy_puppet
   when: manual
   except:
+    refs:
+      - production
+    variables:
+      - $SKIP_MR == "yes"
+  allow_failure: true
     - production
   only:
     - branches_disabled
