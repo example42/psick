@@ -275,7 +275,6 @@ Accept MR:
     variables:
       - $SKIP_MR == "yes"
   allow_failure: true
-    - production
   only:
     - branches_disabled
 
