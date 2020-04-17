@@ -33,7 +33,7 @@ puppet:
   master_vm:  puppet.lab.psick.io    # Name of the VM which play as Puppet server for the others
   master_fqdn: 'puppet.lab.psick.io' # FQDN of the Puppet server to use with puppet agent
   master_ip: '10.42.43.101'          # IP of the Puppet server to use with puppet agent
-  link_controlrepo: true      # Add a link for a Puppet environment to the development control-repo
+  link_controlrepo: false     # Add a link for a Puppet environment to the development control-repo
   environment: host           # Puppet environment to link to local control-repo
 
 # Puppet Enterprise settings
@@ -72,6 +72,7 @@ nodes:
       guest: 8140
       host: 58140
   - role: puppet
+    pe_role: master
     hostname_base: puppetre
     memory: 6192
     cpu: 2
@@ -86,6 +87,15 @@ nodes:
     forwarded_port2:
       guest: 8443
       host: 1490
+  - role: puppetcdre
+    memory: 4096
+    cpu: 2
+    forwarded_port:
+      guest: 8080
+      host: 1688
+    forwarded_port2:
+      guest: 8443
+      host: 1690
   - role: git
     memory: 3072
     forwarded_port:
