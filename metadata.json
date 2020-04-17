@@ -2,14 +2,14 @@
   "name": "example42-psick",
   "version": "0.9.4",
   "author": "Example42",
-  "summary": "PSICK module. Manage common OS resources.",
+  "summary": "PSICK Control repo.",
   "license": "Apache-2.0",
   "source": "https://github.com/example42/psick",
   "project_page": "https://github.com/example42/psick",
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",
-      "version_requirement": ">= 4.0.0 < 5.0.0"
+      "version_requirement": ">= 4.0.0 < 7.0.0"
     }
   ],
   "operatingsystem_support": [
@@ -70,10 +70,10 @@
   "requirements": [
     {
       "name": "puppet",
-      "version_requirement": ">= 4.5.0 < 6.0.0"
+      "version_requirement": ">= 4.5.0 < 8.0.0"
     }
   ],
-  "description": "Puppet Systems Infrastructure Construction Kit module. Reusable profiles to manage common system elements.",
+  "description": "Puppet Systems Infrastructure Construction Kit control repo.",
   "pdk-version": "1.7.0",
   "template-url": "file:///opt/puppetlabs/pdk/share/cache/pdk-templates.git",
   "template-ref": "1.7.0-0-g57412ed"
