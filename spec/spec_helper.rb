@@ -9,6 +9,10 @@ end
 
 include RspecPuppetFacts
 
+# Custom support path
+support_path = File.expand_path(File.join(File.dirname(__FILE__), '..', 'spec/support/*.rb'))
+Dir[support_path].each {|f| require f}
+
 default_facts = {
   puppetversion: Puppet.version,
   facterversion: Facter.version,
