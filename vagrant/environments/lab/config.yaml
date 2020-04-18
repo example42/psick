@@ -18,7 +18,7 @@ vm:
 # A local network is created among the VM. Here is configured.
 network:
   range: 10.42.43.0/24   # Network address and mask to use
-  ip_start_offset: 101   # Starting ip in the network for automatic assignement
+  ip_start_offset: 201   # Starting ip in the network for automatic assignement
   domain: lab.psick.io   # Name of DNS domain for the created machines
 
 # Puppet related settings
@@ -37,8 +37,8 @@ puppet:
   environment: host           # Puppet environment to link to local control-repo
 
 # Puppet Enterprise settings
-  pe_version: '2019.2.0'         # Version of PE to install on the puppet server. See Note 2
-  pe_download_root: 'https://s3.amazonaws.com/pe-builds/released/2019.2.0' # Download base url. See Note 2
+  pe_version: '2019.5.0'         # Version of PE to install on the puppet server. See Note 2
+  pe_download_root: 'https://s3.amazonaws.com/pe-builds/released/2019.5.0' # Download base url. See Note 2
   pe_verbose: true               # If to show PE installation output
   pe_relocate_manifests: false   # If to relocate manifests and module dir. Not needed in this setup.
 
@@ -71,6 +71,13 @@ nodes:
     forwarded_port2:
       guest: 8140
       host: 58140
+  - role: puppet
+    pe_role: master
+    hostname_base: puppetre
+    memory: 6192
+    cpu: 2
+    aliases:
+      - puppetre
   - role: puppetcd
     memory: 4096
     cpu: 2
@@ -80,6 +87,15 @@ nodes:
     forwarded_port2:
       guest: 8443
       host: 1490
+  - role: puppetcdre
+    memory: 4096
+    cpu: 2
+    forwarded_port:
+      guest: 8080
+      host: 1688
+    forwarded_port2:
+      guest: 8443
+      host: 1690
   - role: git
     memory: 3072
     forwarded_port:

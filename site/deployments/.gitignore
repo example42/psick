@@ -5,10 +5,8 @@
 .yardwarns
 *.iml
 /.bundle/
-.idea/
-.vagrant/
-.onceover/
-.pe_build/
+/.idea/
+/.vagrant/
 /coverage/
 /bin/
 /doc/
@@ -24,6 +22,6 @@
 /convert_report.txt
 /update_report.txt
 .DS_Store
-/keys/
-/modules/
-/vagrant/environments/*/*-console.log
+.project
+.envrc
+/inventory.yaml

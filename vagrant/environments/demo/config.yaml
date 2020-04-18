@@ -32,14 +32,14 @@ puppet:
   application: default        # Setting for the application fact (may be used in hiera.yaml)
   master_vm:  puppet.demo     # Name of the VM which play as Puppet server for the others
   master_fqdn: 'puppet.demo'  # FQDN of the Puppet server to use with puppet agent
-  link_controlrepo: true      # Add a link for a Puppet environment to the development control-repo
+  link_controlrepo: false     # Add a link for a Puppet environment to the development control-repo
   environment: production           # Puppet environment to link to local control-repo and to use when Vagrant provisioning
   r10k_install: true                # If to run r10k on Puppet server to deploy controlrepo
   controlrepo: https://github.com/example42/psick.git  # URL of the controlrepo to deploy via r10k on Puppet Server
 
 # Puppet Enterprise settings
-  pe_version: '2019.2.0'         # Version of PE to install on the puppet server. See Note 2
-  pe_download_root: 'https://s3.amazonaws.com/pe-builds/released/2019.2.0' # Download base url. See Note 2
+  pe_version: '2019.5.0'         # Version of PE to install on the puppet server. See Note 2
+  pe_download_root: 'https://s3.amazonaws.com/pe-builds/released/2019.5.0' # Download base url. See Note 2
   pe_verbose: true               # If to show PE installation output
   pe_relocate_manifests: false   # If to relocate manifests and module dir. Not needed in this setup.
 
