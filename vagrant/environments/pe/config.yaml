@@ -65,7 +65,7 @@ nodes:
       host: 1643
   - role: cd4pe
     count: 2
-    memory: 2048
+    memory: 4096
   - role: build
     count: 1
     box: centos7
