@@ -23,7 +23,7 @@ check_manifests () {
   if [ ! -z ${PUPPET} ]; then
     echo_title "Validating Manifests in site directory"
   
-    for i in $(find site -name '*.pp')
+    for i in $(find site -name '*.pp' | grep -v plans)
     do
       manifests="$manifests $i"
     done

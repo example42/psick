@@ -63,7 +63,7 @@ plan deployments::feature_test (
 
   # Run Puppet agent using the feature branch environment
   if ($all_nodes != []) {
-    $msg = "No nodes found in target node group ${get_node_group_result['result']['name']} or from puppetdb query or set via nodes parameter"
+    $msg = "No nodes found in node group ${get_node_group_result['result']['name']} or in pdbquery"
     if ($fail_if_no_nodes) {
       fail_plan("${msg}. Set fail_if_no_nodes parameter to false to prevent this deployment failure in the future")
     } else {
@@ -85,6 +85,6 @@ plan deployments::feature_test (
         fail_plan("Max node failure reached. ${node_failure_count} nodes failed.")
       }
     }
-  }  
+  }
 }
 
