@@ -31,9 +31,7 @@ mod 'example42/tp', :latest
 mod 'example42/tinydata', :latest
 mod 'example42/psick', :latest
 mod 'example42/network', :latest
-mod 'example42/tp_profile',
-  :git => 'https://github.com/example42/puppet-tp_profile',
-  :branch => 'master'
+mod 'example42/tp_profile', :latest
 
 # Third Party modules
 mod 'puppetlabs/concat', :latest
@@ -47,34 +45,28 @@ mod 'trlinkin/noop', :latest
 mod 'puppet/archive', :latest
 # mod 'puppetlabs/aws', :latest
 
-# cd4pe and dependencies
-mod 'puppetlabs-cd4pe', :latest
-mod 'puppetlabs-puppet_authorization', '0.5.0'
-mod 'puppetlabs-docker', '3.3.0'
-mod 'puppetlabs-translate', '1.1.0'
-
 # Requirements for cd4pe
-mod 'puppetlabs-cd4pe', '1.4.1'
-#mod 'puppetlabs-concat', '4.2.1'
-#mod 'puppetlabs-hocon', '1.1.0'
-mod 'puppetlabs-puppet_authorization', '0.5.0'
-#mod 'puppetlabs-stdlib', '6.2.0'
-mod 'puppetlabs-docker', '3.9.1'
-#mod 'puppetlabs-apt', '7.3.0'
-mod 'puppetlabs-translate', '2.1.0'
-mod 'puppetlabs-pipelines', '1.0.1'
-mod 'puppetlabs-cd4pe_jobs', :latest
+# mod 'puppetlabs-cd4pe', '1.4.1'
+# #mod 'puppetlabs-concat', '4.2.1'
+# #mod 'puppetlabs-hocon', '1.1.0'
+# mod 'puppetlabs-puppet_authorization', '0.5.0'
+# #mod 'puppetlabs-stdlib', '6.2.0'
+# mod 'puppetlabs-docker', '3.9.1'
+# #mod 'puppetlabs-apt', '7.3.0'
+# mod 'puppetlabs-translate', '2.1.0'
+# mod 'puppetlabs-pipelines', '1.0.1'
+# mod 'puppetlabs-cd4pe_jobs', :latest
 
 # Used by psick::puppet::foss_server
-mod 'puppetlabs-bolt_shim', '0.3.0'
-mod 'puppetlabs/postgresql', :latest
-mod 'puppetlabs/puppetdb', :latest
-mod 'puppet/puppetserver', :latest
-mod 'puppetlabs/puppetserver_gem', :latest
-mod 'puppet/r10k', :latest
-mod 'puppetlabs/hocon', :latest
-mod 'puppetlabs/apt', :latest
-mod 'puppet/puppetboard', :latest
+# mod 'puppetlabs-bolt_shim', '0.3.0'
+# mod 'puppetlabs/postgresql', :latest
+# mod 'puppetlabs/puppetdb', :latest
+# mod 'puppet/puppetserver', :latest
+# mod 'puppetlabs/puppetserver_gem', :latest
+# mod 'puppet/r10k', :latest
+# mod 'puppetlabs/hocon', :latest
+# mod 'puppetlabs/apt', :latest
+# mod 'puppet/puppetboard', :latest
 
 # Used by psick::puppet::pe_code_manager
 mod 'pltraining/rbac', '0.0.5'

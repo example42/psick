@@ -68,6 +68,10 @@ nodes:
       guest: 443
       host: 1743
     puppet_apply: false
+  - role: puppetre
+    memory: 4096
+    cpu: 2
+    puppet_apply: true
   - role: git
     memory: 2048
     forwarded_port:
