@@ -33,6 +33,9 @@ mod 'example42/psick', :latest
 mod 'example42/network', :latest
 mod 'example42/tp_profile', :latest
 
+mod 'example42/deployments',
+  :git => 'https://github.com/example42/puppet-deployments'
+
 # Third Party modules
 mod 'puppetlabs/concat', :latest
 mod 'puppetlabs/stdlib', :latest
