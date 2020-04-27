@@ -3,7 +3,7 @@ require 'spec_helper'
 @os_facts
 # Jenkins role tested only on an os subset
 describe 'jenkins.lab.psick.io' do
-  on_supported_os.select { |k, _v| k == 'redhat-7-x86_64' || k == 'ubuntu-16.04-x86_64' }.each do |os, facts|
+  on_supported_os.select { |k, _v| k == 'redhat-7-x86_64' || k == 'ubuntu-18.04-x86_64' }.each do |os, facts|
     context "on #{os}" do
       let(:facts) do
         OS_FACTS.merge(facts)
