@@ -175,8 +175,6 @@ From here we can:
   - Make the desired changes from the web interface
   - Click on **Commit changes** to commit your changes (a commit title and description can be added)
 
-A screen like this appears during online file editing:
-
 We can do the same online editing operation for all the files we have to change.
 
 It's important to be sure to always ensure we are working on our newly created ```feature branch```, its name is always visible while browsing files:
