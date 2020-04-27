@@ -19,13 +19,13 @@ stages:
 # so that Puppet has time to get the new version of the repository
 verify_code_deploy:
   stage: deploy_check
-  script: "bin/codemanager_check_deploy.sh ${CI_BUILD_REF_NAME}"
+  script: "bin/codemanager_check_deploy.sh ${CI_COMMIT_REF_NAME}"
   tags:
     - deploy_puppet
   when: on_success
   allow_failure: true
   environment:
-    name: ${CI_BUILD_REF_NAME}
+    name: ${CI_COMMIT_REF_NAME}
     url: https://puppet.lab.psick.io/
 
 # Run Syntax Checks on Feature/Personal Branch
@@ -34,7 +34,7 @@ verify_code_deploy:
 syntax:
   stage: checks
   before_script:
-    - "bin/gitlab_before.sh ${CI_BUILD_REF_NAME}"
+    - "bin/gitlab_before.sh ${CI_COMMIT_REF_NAME}"
   script: "bin/puppet_check_syntax_fast.sh all_but_chars"
   cache:
     untracked: true
@@ -50,7 +50,7 @@ syntax:
 lint:
   stage: checks
   before_script:
-    - "bin/gitlab_before.sh ${CI_BUILD_REF_NAME}"
+    - "bin/gitlab_before.sh ${CI_COMMIT_REF_NAME}"
   script: "bin/puppet_lint.sh"
   cache:
     untracked: true
@@ -67,7 +67,7 @@ lint:
 chars:
   stage: checks
   before_script:
-    - "bin/gitlab_before.sh ${CI_BUILD_REF_NAME}"
+    - "bin/gitlab_before.sh ${CI_COMMIT_REF_NAME}"
   script: "bin/puppet_check_syntax_fast.sh chars"
   cache:
     untracked: true
@@ -84,7 +84,7 @@ chars:
 rake_controlrepo:
   stage: unit
   before_script:
-    - "bin/gitlab_before.sh ${CI_BUILD_REF_NAME}"
+    - "bin/gitlab_before.sh ${CI_COMMIT_REF_NAME}"
   script:
     - "bin/puppet_check_rake.sh site bundle"
     - "bin/puppet_check_rake.sh controlrepo"
@@ -104,7 +104,7 @@ rake_controlrepo:
 catalog_preview:
   stage: diff
   before_script:
-    - "bin/gitlab_before.sh ${CI_BUILD_REF_NAME}"
+    - "bin/gitlab_before.sh ${CI_COMMIT_REF_NAME}"
   script: "bin/gitlab_catalog_preview.sh integration"
   cache:
     untracked: true
@@ -121,7 +121,7 @@ catalog_preview:
 docker_test:
   stage: integration
   before_script:
-    - "bin/gitlab_before.sh ${CI_BUILD_REF_NAME}"
+    - "bin/gitlab_before.sh ${CI_COMMIT_REF_NAME}"
   script: "bin/docker_run.sh --image centos-7"
   cache:
     untracked: true
@@ -136,7 +136,7 @@ docker_test:
 beaker:
   stage: integration
   before_script:
-    - "bin/gitlab_before.sh ${CI_BUILD_REF_NAME}"
+    - "bin/gitlab_before.sh ${CI_COMMIT_REF_NAME}"
     - "/opt/puppetlabs/puppet/bin/bundle install --with=integration --path=vendor"
   script: "/opt/puppetlabs/puppet/bin/rake beaker_roles:psick"
   cache:
@@ -168,7 +168,7 @@ run_puppet_on_integration:
 merge_request_feature:
   stage: promote
   script:
-    - "bin/gitlab_create_merge_request.rb ${CI_BUILD_REF_NAME} integration"
+    - "bin/gitlab_create_merge_request.rb ${CI_COMMIT_REF_NAME} integration"
   when: on_success
   tags:
     - deploy_puppet
@@ -180,7 +180,7 @@ merge_request_feature:
 
 merge_accept_feature:
   stage: promote
-  script: "bin/gitlab_accept_merge_request.rb ${CI_BUILD_REF_NAME} integration"
+  script: "bin/gitlab_accept_merge_request.rb ${CI_COMMIT_REF_NAME} integration"
   tags:
     - deploy_puppet
   when: manual

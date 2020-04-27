@@ -40,13 +40,13 @@ run_danger:
 # so that Puppet has time to get the new version of the repository
 verify_code_deploy:
   stage: version_check
-  script: "bin/codemanager_check_deploy.sh ${CI_BUILD_REF_NAME}"
+  script: "bin/codemanager_check_deploy.sh ${CI_COMMIT_REF_NAME}"
   tags:
     - deploy_puppet
   when: on_success
   allow_failure: true
   environment:
-    name: ${CI_BUILD_REF_NAME}
+    name: ${CI_COMMIT_REF_NAME}
     url: https://puppet.lab.psick.io/
 
 # Run Syntax Checks on Feature/Personal Branch
@@ -219,7 +219,7 @@ run_puppet_on_integration:
 merge_request_feature:
   stage: promote
   script:
-    - "bin/gitlab_create_merge_request.rb ${CI_BUILD_REF_NAME} integration"
+    - "bin/gitlab_create_merge_request.rb ${CI_COMMIT_REF_NAME} integration"
   when: on_success
   tags:
     - deploy_puppet
@@ -231,7 +231,7 @@ merge_request_feature:
 
 merge_accept_feature:
   stage: promote
-  script: "bin/gitlab_accept_merge_request.rb ${CI_BUILD_REF_NAME} integration"
+  script: "bin/gitlab_accept_merge_request.rb ${CI_COMMIT_REF_NAME} integration"
   tags:
     - deploy_puppet
   when: manual
