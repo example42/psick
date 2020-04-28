@@ -7,7 +7,7 @@ maxrun=${2:-6}
 sleeptime=${3:-10}
 numrun=1
 echo_title "Display of /etc/puppetlabs/code/environments/$env/.r10k-deploy.json"
-sudo cat /etc/puppetlabs/code/environments/$env/.r10k-deploy.json
+sudo cat /etc/puppetlabs/code/environments/$env/.r10k-deploy.json 2>/dev/null
 echo_title "Deployment status on ${env} - doing maximum ${maxrun} try every ${sleeptime} sec."
 while [ $numrun -le $maxrun ]; 
 do
