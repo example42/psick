@@ -62,7 +62,7 @@ nodes:
   - role: puppet
     pe_role: master
     memory: 6192
-    cpu: 2
+    cpu: 4
     aliases:
       - puppet
     forwarded_port:
@@ -71,6 +71,7 @@ nodes:
     forwarded_port2:
       guest: 8140
       host: 58140
+    ip_address: 10.42.43.101
   - role: puppet
     pe_role: master
     hostname_base: puppetre
@@ -97,6 +98,7 @@ nodes:
       guest: 8443
       host: 1690
   - role: git
+    cpu: 2
     memory: 3072
     forwarded_port:
       guest: 443
@@ -105,18 +107,9 @@ nodes:
       guest: 80
       host: 1480
     puppet_agent: false
+    ip_address: 10.42.43.102
   - role: cirunner
     count: 1
-  - role: razor
-    count: 1
-  - role: manageiq
-    count: 1
-    memory: 6192
-    cpu: 2
-    box: manageiq_euwe
-    forwarded_port:
-      guest: 443
-      host: 1445
   - role: rundeck
     count: 1
     memory: 2048
@@ -154,15 +147,6 @@ nodes:
     forwarded_port:
       guest: 15672
       host: 1441
-  - role: foreman
-    memory: 4096
-    count: 1
-    box: centos7
-    forwarded_port:
-      guest: 443
-      host: 1448
-    puppet_agent: false
-    puppet_apply: false
   - role: log
     memory: 4096
     count: 1
@@ -203,6 +187,9 @@ nodes:
   - role: ostest
     hostname_base: ostest-suse11
     box: suse11
+  - role: ostest
+    hostname_base: ostest-ubuntu2004
+    box: ubuntu2004
   - role: ostest
     hostname_base: ostest-ubuntu1804
     box: ubuntu1804

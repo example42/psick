@@ -17,6 +17,8 @@ boxes:
     box: generic/oracle8
   oracle7:
     box: generic/oracle7
+  ubuntu2004:
+    box: ubuntu/focal64
   ubuntu1910:
     box: ubuntu/eoan64
   ubuntu1804:
