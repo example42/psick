@@ -1,6 +1,7 @@
 # External modules to installed by r10k in modules/ dir
-# Here mostly at latest version for sample purposes.
+# IMPORTANT: Here most modules are at latest version for sample purposes.
 # In working environments specific fixed versions should be defined.
+# Some modules might need to be uncommented to make specific profiles work
 
 # Here we place hieradata in a separated module.
 # We use control-repo branch if exists, or production as default
