@@ -80,6 +80,7 @@ nodes:
     aliases:
       - puppetre
   - role: puppetcd
+    ip_address: 10.42.43.110
     memory: 4096
     cpu: 2
     forwarded_port:
@@ -89,6 +90,7 @@ nodes:
       guest: 8443
       host: 1490
   - role: puppetcdre
+    ip_address: 10.42.43.109
     memory: 4096
     cpu: 2
     forwarded_port:
