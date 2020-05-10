@@ -119,6 +119,7 @@ Vagrant.configure('2') do |config|
     pe_role = node['pe_role'] if node['pe_role']
     pe_verbose = settings['puppet']['pe_verbose'] ? settings['puppet']['pe_verbose'] : true
     pe_version = settings['puppet']['pe_version']
+    version = settings['puppet']['version']
     pe_relocate_manifests = settings['puppet']['pe_relocate_manifests']
     pe_download_root = settings['puppet']['pe_download_root'] if settings['puppet']['pe_download_root']
     master_vm = settings['puppet']['master_vm'] if settings['puppet']['master_vm']
@@ -140,7 +141,7 @@ Vagrant.configure('2') do |config|
       node_config.vm.provision 'shell', path: '../../bin/vagrant-sethosts.sh', args: "#{puppet_master_hostname} #{puppet_master_ip}" if puppet_master_ip
       node_config.vm.provision 'shell', path: '../../../bin/puppet_set_external_facts.sh', args: "--role #{role} --env #{env} --zone #{zone} --datacenter #{datacenter} --application #{application}" if node['facter_external_facts']
       node_config.vm.provision 'shell', path: '../../../bin/puppet_set_trusted_facts.sh', args: "--role #{role} --env #{env} --zone #{zone} --datacenter #{datacenter} --application #{application}" if node['facter_trusted_facts']
-      node_config.vm.provision 'shell', path: '../../../bin/puppet_install.sh' if install_oss
+      node_config.vm.provision 'shell', path: '../../../bin/puppet_install.sh', args: "#{version}" if install_oss
 
       if Vagrant.has_plugin?('vagrant-hostmanager')
         node_config.hostmanager.aliases = aliases
