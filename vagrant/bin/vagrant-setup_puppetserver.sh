@@ -5,6 +5,7 @@ puppetserver_lock_file='/var/tmp/vagrant-setup_puppetserver.lock'
 setup_puppetserver() {
   echo "### Installing git"
   puppet resource package git ensure=present
+  puppet resource package puppetserver ensure=present
   which puppetserver 2>/dev/null
   if [ "x$?" == "x0" ]; then
     echo "### Installing gems for puppetserver"

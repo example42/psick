@@ -10,7 +10,6 @@
 .onceover/
 .pe_build/
 /coverage/
-/bin/
 /doc/
 /Gemfile.local
 /Gemfile.lock

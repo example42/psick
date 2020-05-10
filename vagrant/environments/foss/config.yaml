@@ -22,7 +22,7 @@ network:
 
 # Puppet related settings
 puppet:
-  version: latest                     # Version to use for OSS
+  version: '5'                     # Version to use for OSS
   install_oss: true                   # If to install Puppet OSS agent on the VMS
   install_pe: false                   # If to install Puppet Enterprise agent on the VMS
   env: devel                          # Setting for the env fact (may be used in hiera.yaml)
