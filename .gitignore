@@ -27,8 +27,11 @@
 /modules/
 /vagrant/environments/*/*-console.log
 ##terraform
-#Secrets go here
-**/secrets.tfvars
+#Secrets and vars go here
+**/*.auto.tfvars
+**/*.auto.tfvars.json
+**/terraform.tfvars
+**/terraform.tfvars.json
 # Local .terraform directories
 **/.terraform/*
 # .tfstate files
