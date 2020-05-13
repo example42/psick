@@ -26,6 +26,17 @@ resource "hcloud_server" "puppet" {
   ssh_keys    = data.hcloud_ssh_keys.all_keys.ssh_keys.*.name
   location    = "fsn1"
   labels      = { "use" = "schulung" }
+  provisioner "file" {
+    source      = "../bin/bootstrap/cloud_master_init.sh"
+    destination = "/tmp/cloud_master_init.sh"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "chmod +x /tmp/cloud_master_init.sh",
+      "/tmp/cloud_master_init.sh",
+    ]
+  }
 }
 
 resource "hcloud_server" "gitlab" {
