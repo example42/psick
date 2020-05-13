@@ -75,19 +75,6 @@ resource "hcloud_server" "puppet" {
 #  labels      = { "use" = "schulung" }
 #}
 
-#add this to hcloud_server definitions to provision them:
-#  provisioner "file" {
-#    source      = "script.sh"
-#    destination = "/tmp/script.sh"
-#  }
-
-#  provisioner "remote-exec" {
-#    inline = [
-#      "chmod +x /tmp/script.sh",
-#      "/tmp/script.sh args",
-#    ]
-#  }
-
 # lets get a list of all running servers, a summary would be nice...
 #data "hcloud_server" "all_running_servers" {
 #  with_selector = "use=schulung"
