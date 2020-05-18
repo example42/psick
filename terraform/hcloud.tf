@@ -31,39 +31,48 @@ resource "hcloud_server" "puppet" {
   ssh_keys    = data.hcloud_ssh_keys.all_keys.ssh_keys.*.name
   location    = "fsn1"
   labels      = { "use" = "schulung" }
+  connection {
+    type     = "ssh"
+    user     = "root"
+    private_key = file(var.sshkey)
+    host     = self.ipv4_address
+  }
   provisioner "file" {
     source      = "../bin/bootstrap/cloud_master_init.sh"
     destination = "/tmp/cloud_master_init.sh"
-    connection {
-      type     = "ssh"
-      user     = "root"
-      private_key = file(var.sshkey)
-      host     = self.ipv4_address
-    }
   }
-
   provisioner "remote-exec" {
     inline = [
       "chmod +x /tmp/cloud_master_init.sh",
       "/tmp/cloud_master_init.sh",
     ]
-    connection {
-      type     = "ssh"
-      user     = "root"
-      private_key = file(var.sshkey)
-      host     = self.ipv4_address
-    }
   }
 }
 
-#resource "hcloud_server" "gitlab" {
-#  name        = "gitlab"
-#  image       = "centos-7"
-#  server_type = "cx21"
-#  ssh_keys    = data.hcloud_ssh_keys.all_keys.ssh_keys.*.name
-#  location    = "fsn1"
-#  labels      = { "use" = "schulung" }
-#}
+resource "hcloud_server" "gitlab" {
+  name        = "gitlab"
+  image       = "centos-7"
+  server_type = "cx21"
+  ssh_keys    = data.hcloud_ssh_keys.all_keys.ssh_keys.*.name
+  location    = "fsn1"
+  labels      = { "use" = "schulung" }
+  connection {
+    type     = "ssh"
+    user     = "root"
+    private_key = file(var.sshkey)
+    host     = self.ipv4_address
+  }
+  provisioner "file" {
+    source      = "../bin/bootstrap/cloud_gitlab_init.sh"
+    destination = "/tmp/cloud_gitlab_init.sh"
+  }
+  provisioner "remote-exec" {
+    inline = [
+      "chmod +x /tmp/cloud_gitlab_init.sh",
+      "/tmp/cloud_gitlab_init.sh",
+    ]
+  }
+}
 
 #resource "hcloud_server" "client_nodes" {
 #  for_each    = toset(var.client_nodes)
