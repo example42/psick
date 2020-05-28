@@ -84,8 +84,6 @@ resource "hcloud_server" "gitlab" {
 #  labels      = { "use" = "schulung" }
 #}
 
-# lets get a list of all running servers, a summary would be nice...
-#data "hcloud_server" "all_running_servers" {
-#  with_selector = "use=schulung"
-#  with_status   = ["running"]
-#}
+output "ips" {
+  value = ["${hcloud_server.*.ipv4_address}"]
+}
