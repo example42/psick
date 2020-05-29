@@ -82,6 +82,22 @@ resource "hcloud_server" "client_nodes" {
   ssh_keys    = data.hcloud_ssh_keys.all_keys.ssh_keys.*.name
   location    = "fsn1"
   labels      = { "use" = "schulung" }
+  connection {
+    type     = "ssh"
+    user     = "root"
+    private_key = file(var.sshkey)
+    host     = self.ipv4_address
+  }
+  provisioner "file" {
+    source      = "../bin/bootstrap/cloud_student_init.sh"
+    destination = "/tmp/cloud_student_init.sh"
+  }
+  provisioner "remote-exec" {
+    inline = [
+      "chmod +x /tmp/cloud_student_init.sh",
+      "/tmp/cloud_student_init.sh",
+    ]
+  }
 }
 
 output "server_ip_puppet" {
