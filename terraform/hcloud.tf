@@ -74,16 +74,25 @@ resource "hcloud_server" "gitlab" {
   }
 }
 
-#resource "hcloud_server" "client_nodes" {
-#  for_each    = toset(var.client_nodes)
-#  name        = each.value
-#  image       = "centos-7"
-#  server_type = "cx11"
-#  ssh_keys    = data.hcloud_ssh_keys.all_keys.ssh_keys.*.name
-#  location    = "fsn1"
-#  labels      = { "use" = "schulung" }
-#}
+resource "hcloud_server" "client_nodes" {
+  for_each    = toset(var.client_nodes)
+  name        = each.value
+  image       = "centos-7"
+  server_type = "cx11"
+  ssh_keys    = data.hcloud_ssh_keys.all_keys.ssh_keys.*.name
+  location    = "fsn1"
+  labels      = { "use" = "schulung" }
+}
 
-output "ips" {
-  value = ["${hcloud_server.*.ipv4_address}"]
+output "server_ip_puppet" {
+  value = ["${hcloud_server.puppet.ipv4_address}"]
+}
+output "server_ip_gitlab" {
+  value = ["${hcloud_server.gitlab.ipv4_address}"]
+}
+output "server_ip_clients" {
+  value = {
+    for instance,data in hcloud_server.client_nodes:
+      instance => data.ipv4_address
+  }
 }
