@@ -1,18 +1,33 @@
 # Set the variable value in *.tfvars file
 # or using the -var="hcloud_token=..." CLI option
+
+terraform {
+  experiments = [variable_validation]
+}
+
 variable "hcloud_token" {
   type        = string
   description = "The 64 digit API token"
 }
 
 variable "client_nodes" {
-  type        = list
+  type        = list(string)
   description = "A list of client nodes to generate the workstations from"
 }
 
 variable "sshkey" {
   type = string
   description = "The full path to ssh key file for provisioning. May not have a passphrase and must be added to cloud provider prior usage, e.g. /home/user/.ssh/hetzner_private"
+}
+
+variable "puppet_version" {
+  type = number
+  description = "The Puppet version to use. Specify 5 or 6"
+  default = 6
+  validation {
+    condition = var.puppet_version == 5 || var.puppet_version == 6
+    error_message = "The puppet_version variable only accepts value 5 or 6."
+  }
 }
 
 # Configure the Hetzner Cloud Provider
@@ -44,7 +59,7 @@ resource "hcloud_server" "puppet" {
   provisioner "remote-exec" {
     inline = [
       "chmod +x /tmp/cloud_master_init.sh",
-      "/tmp/cloud_master_init.sh",
+      "/tmp/cloud_master_init.sh ${var.puppet_version}",
     ]
   }
 }
@@ -69,7 +84,7 @@ resource "hcloud_server" "gitlab" {
   provisioner "remote-exec" {
     inline = [
       "chmod +x /tmp/cloud_gitlab_init.sh",
-      "/tmp/cloud_gitlab_init.sh",
+      "/tmp/cloud_gitlab_init.sh ${var.puppet_version}",
     ]
   }
 }
@@ -95,7 +110,7 @@ resource "hcloud_server" "client_nodes" {
   provisioner "remote-exec" {
     inline = [
       "chmod +x /tmp/cloud_student_init.sh",
-      "/tmp/cloud_student_init.sh",
+      "/tmp/cloud_student_init.sh ${var.puppet_version}",
     ]
   }
 }
