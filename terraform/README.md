@@ -26,10 +26,13 @@ Content:
     hcloud_token = "your_api_token"
     client_nodes = ["stud1", "stud2", "stud3"]
     sshkey = "/home/example42/.ssh/hetzner_key"
+    puppet_version = 5
 
 Within `client_nodes` you can specify a list of additional nodes as a comma separated list.
 
 The `sshkey` setting tells terraform where to find the private ssh key without passphrase used for provisioning.
+
+The `puppet_version` variable lets you choose which major Puppet version to install. Here we only accept `5` or `6` as valid values.
 
 
 ## Finishing
