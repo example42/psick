@@ -20,6 +20,12 @@ variable "sshkey" {
   description = "The full path to ssh key file for provisioning. May not have a passphrase and must be added to cloud provider prior usage, e.g. /home/user/.ssh/hetzner_private"
 }
 
+variable "control_repo" {
+  type = string
+  description = "The control-repo you want to use. Defaults to example42/psick."
+  default = "https://github.com/example42/psick.git"
+}
+
 variable "puppet_version" {
   type = number
   description = "The Puppet version to use. Specify 5 or 6"
@@ -59,7 +65,7 @@ resource "hcloud_server" "puppet" {
   provisioner "remote-exec" {
     inline = [
       "chmod +x /tmp/cloud_master_init.sh",
-      "/tmp/cloud_master_init.sh ${var.puppet_version}",
+      "/tmp/cloud_master_init.sh ${var.puppet_version} ${var.control_repo}",
     ]
   }
 }
@@ -84,7 +90,7 @@ resource "hcloud_server" "gitlab" {
   provisioner "remote-exec" {
     inline = [
       "chmod +x /tmp/cloud_gitlab_init.sh",
-      "/tmp/cloud_gitlab_init.sh ${var.puppet_version}",
+      "/tmp/cloud_gitlab_init.sh ${var.puppet_version} ${var.control_repo}",
     ]
   }
 }
@@ -110,7 +116,7 @@ resource "hcloud_server" "client_nodes" {
   provisioner "remote-exec" {
     inline = [
       "chmod +x /tmp/cloud_student_init.sh",
-      "/tmp/cloud_student_init.sh ${var.puppet_version}",
+      "/tmp/cloud_student_init.sh ${var.puppet_version} ${var.control_repo}",
     ]
   }
 }
