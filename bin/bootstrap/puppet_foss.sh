@@ -1,5 +1,6 @@
 #!/bin/bash
 puppet_version=$1
+control_repo=$2
 echo "Set external facts"
 bin/puppet_set_external_facts.sh --role='puppet' --env 'host' --zone 'foss' --datacenter 'vagrant' --application 'puppetinfra'
 echo "Set trusted facts"
@@ -9,7 +10,7 @@ bin/puppet_install.sh $puppet_version
 echo "Deploy Puppet Master"
 vagrant/bin/vagrant-setup_puppetserver.sh 'host'
 echo "Deploy control-repository"
-bin/puppet_deploy_controlrepo.sh
+bin/puppet_deploy_controlrepo.sh $control_repo
 echo "Starting Puppet Server"
 /opt/puppetlabs/bin/puppet resource service puppetserver ensure=running enable=true
 
