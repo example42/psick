@@ -45,6 +45,37 @@ provider "hcloud" {
 data "hcloud_ssh_keys" "all_keys" {
 }
 
+resource "hcloud_network" "workshop" {
+  name = "workshop"
+  ip_range = "10.0.0.0/8"
+}
+
+resource "hcloud_network_subnet" "workshop_subnet" {
+  network_id = hcloud_network.workshop.id
+  type = "server"
+  network_zone = "eu-central"
+  ip_range   = "10.0.1.0/24"
+}
+
+resource "hcloud_server_network" "puppet" {
+  server_id = hcloud_server.puppet.id
+  network_id = hcloud_network.workshop.id
+  ip = "10.0.1.1"
+}
+
+resource "hcloud_server_network" "gitlab" {
+  server_id = hcloud_server.gitlab.id
+  network_id = hcloud_network.workshop.id
+  ip = "10.0.1.2"
+}
+
+resource "hcloud_server_network" "client_nodes" {
+  for_each   = hcloud_server.client_nodes
+  server_id  = hcloud_server.client_nodes[each.key].id
+  network_id = hcloud_network.workshop.id
+  ip = "10.0.1.1[hcloud_server.client_nodes.each.id]"
+}
+
 resource "hcloud_server" "puppet" {
   name        = "puppet"
   image       = "centos-7"
