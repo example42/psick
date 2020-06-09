@@ -67,6 +67,9 @@ provider "hcloud" {
 data "hcloud_ssh_keys" "all_keys" {
 }
 
+data "hcloud_ssh_keys" "admin_keys" {
+  with_selector = "role=admin"
+}
 
 resource "hcloud_network" "workshop" {
   name = "workshop"
@@ -103,7 +106,7 @@ resource "hcloud_server" "puppet" {
   name        = "puppet"
   image       = "centos-7"
   server_type = "cx41"
-  ssh_keys    = data.hcloud_ssh_keys.all_keys.ssh_keys.*.name
+  ssh_keys    = data.hcloud_ssh_keys.admin_keys.ssh_keys.*.name
   location    = "fsn1"
   labels      = { "use" = "schulung" }
   connection {
@@ -128,7 +131,7 @@ resource "hcloud_server" "gitlab" {
   name        = "gitlab"
   image       = "centos-7"
   server_type = "cx21"
-  ssh_keys    = data.hcloud_ssh_keys.all_keys.ssh_keys.*.name
+  ssh_keys    = data.hcloud_ssh_keys.admin_keys.ssh_keys.*.name
   location    = "fsn1"
   labels      = { "use" = "schulung" }
   connection {
