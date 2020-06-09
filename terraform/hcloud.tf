@@ -36,6 +36,28 @@ variable "puppet_version" {
   }
 }
 
+variable "hcloud_students" {
+  type = map
+  description = "Hash of IPs to use for student maschines."
+  default = {
+    "stud1" = "10.0.1.11",
+    "stud2" = "10.0.1.12",
+    "stud3" = "10.0.1.13",
+    "stud4" = "10.0.1.14",
+    "stud5" = "10.0.1.15",
+    "stud6" = "10.0.1.16",
+    "stud7" = "10.0.1.17",
+    "stud8" = "10.0.1.18",
+    "stud9" = "10.0.1.19",
+    "stud10" = "10.0.1.20",
+    "stud11" = "10.0.1.21",
+    "stud12" = "10.0.1.22",
+    "stud13" = "10.0.1.23",
+    "stud14" = "10.0.1.24",
+    "stud15" = "10.0.1.25",
+  }
+}
+
 # Configure the Hetzner Cloud Provider
 provider "hcloud" {
   token   = var.hcloud_token
@@ -44,6 +66,7 @@ provider "hcloud" {
 
 data "hcloud_ssh_keys" "all_keys" {
 }
+
 
 resource "hcloud_network" "workshop" {
   name = "workshop"
@@ -73,7 +96,7 @@ resource "hcloud_server_network" "client_nodes" {
   for_each   = hcloud_server.client_nodes
   server_id  = hcloud_server.client_nodes[each.key].id
   network_id = hcloud_network.workshop.id
-  ip = "10.0.1.1[hcloud_server.client_nodes.each.id]"
+  ip = var.hcloud_students[hcloud_server.client_nodes[each.key].name]
 }
 
 resource "hcloud_server" "puppet" {
