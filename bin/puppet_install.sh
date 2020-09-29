@@ -85,8 +85,8 @@ setup_suse() {
   $sudo_command zypper remove -y puppetlabs-release-pc1 >/dev/null 2>&1
 
   echo_title "Adding repo for Puppet"
-  $sudo_command wget https://yum.puppetlabs.com/puppet$puppet_version-release-sles-$1.noarch.rpm 2>&1
-  $sudo_command rpm -ivh puppet5-release-sles-$1.noarch.rpm 2>&1
+  $sudo_command wget https://yum.puppetlabs.com/puppet/puppet-release-sles-$1.noarch.rpm 2>&1
+  $sudo_command rpm -ivh puppet-release-sles-$1.noarch.rpm 2>&1
 
   sleep 2
   echo_title "Installing Puppet"
