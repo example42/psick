@@ -10,10 +10,6 @@
 .onceover/
 .pe_build/
 /coverage/
-<<<<<<< HEAD
-=======
-# /bin/
->>>>>>> Added puppet_migrate script
 /doc/
 /Gemfile.local
 /Gemfile.lock
