@@ -124,10 +124,12 @@ Available actions:
   show_diff_concat      Show diffs in concat resources (changes from OLD to NEW)
   run_new_puppet        Run puppet agent on NEW server
   show_diff             Show diffs in all files managed by Puppet (changes from OLD to NEW)
+  show_diff_resources   Show diffs in resources.txt file (changes from OLD to NEW)
 
   all      Do all the above steps in sequence (RECOMMENDED action)
   express  Perform the whole migration unattended, without asking questions (do only if confident)
   rollback Reinstall OLD Puppet and rollback to previous configs (do only if strictly necessary)
+  rollforward Reinstall NEW Puppet after a rollback to OLD. Previous NEW configs and new agent are reinstalled)
 
 Example: $0 all
 
@@ -200,10 +202,66 @@ remove_old_puppet_packages() {
 }
 
 backup_old_puppet_configs() {
-  echo_title "Moving old Puppet certs and configs under ${backup_dir}/backup"
-  mkdir -p "${backup_dir}/backup"
-  [ -d /etc/puppetlabs/puppet ] && cp -a  /etc/puppetlabs/puppet "${backup_dir}/backup"
-  [ -d /etc/puppetlabs/mcollective ] && cp -a /etc/puppetlabs/mcollective "${backup_dir}/backup"
+  echo_title "Moving old Puppet certs and configs under ${backup_dir}/backup_old"
+  mkdir -p "${backup_dir}/backup_old"
+  [ -d /etc/puppetlabs/puppet ] && cp -a  /etc/puppetlabs/puppet "${backup_dir}/backup_old"
+  [ -d /etc/puppetlabs/mcollective ] && cp -a /etc/puppetlabs/mcollective "${backup_dir}/backup_old"
+}
+
+backup_new_puppet_configs() {
+  echo_title "Moving new Puppet certs (post-migration) and configs under ${backup_dir}/backup_new"
+  mkdir -p "${backup_dir}/backup_new"
+  [ -d /etc/puppetlabs/puppet ] && cp -a  /etc/puppetlabs/puppet "${backup_dir}/backup_new"
+  [ -d /etc/puppetlabs/pxp-agent ] && cp -a /etc/puppetlabs/pxp-agent "${backup_dir}/backup_new"
+}
+
+copy_old_puppet_resources_txt() {
+  [ -d "${backup_dir}" ] || mkdir -p "${backup_dir}"
+  echo_title "Copying /opt/puppetlabs/puppet/cache/state/resources.txt to ${backup_dir}/resources.txt-old"
+  [ -f /opt/puppetlabs/puppet/cache/state/resources.txt ] && cp /opt/puppetlabs/puppet/cache/state/resources.txt "${backup_dir}/resources.txt-old"
+
+  echo_title "Creating a clean and sorted ${backup_dir}/resources.txt-old-clean"
+  cat "${backup_dir}/resources.txt-old" | sort | tr '[:upper:]' '[:lower:]' | grep -v "ssh_authorized_key" > "${backup_dir}/resources.txt-old-sorted"
+  cat > "${backup_dir}/resources.txt-old-known" << OLD_KNOWN
+package[puppet-agent]
+OLD_KNOWN
+
+  comm -2 -3 "${backup_dir}/resources.txt-old-sorted" "${backup_dir}/resources.txt-old-known" > "${backup_dir}/resources.txt-old-clean"
+}
+
+copy_new_puppet_resources_txt() {
+  echo_title "Copying /opt/puppetlabs/puppet/cache/state/resources.txt to ${backup_dir}/resources.txt-new"
+  [ -f /opt/puppetlabs/puppet/cache/state/resources.txt ] && cp /opt/puppetlabs/puppet/cache/state/resources.txt "${backup_dir}/resources.txt-new"
+
+  echo_title "Creating a clean and sorted ${backup_dir}/resources.txt-new-clean"
+  cat "${backup_dir}/resources.txt-new" | sort | tr '[:upper:]' '[:lower:]' | grep -v "ssh_authorized_key" > "${backup_dir}/resources.txt-new-sorted"
+  cat > "${backup_dir}/resources.txt-new-known" << NEW_KNOWN
+exec[pe_patch::exec::fact]
+exec[pe_patch::exec::fact_upload]
+file[/etc/puppetlabs/puppet/puppet-agent.conf]
+file[/etc/puppetlabs/pxp-agent/pxp-agent.conf]
+file[/opt/puppetlabs/bin/puppet-enterprise-uninstaller]
+file[/opt/puppetlabs/puppet/cache/state/package_inventory_enabled]
+file[/usr/local]
+file[/usr/local/bin]
+file[/usr/local/bin/facter]
+file[/usr/local/bin/hiera]
+file[/usr/local/bin/os_patching_fact_generation.sh]
+file[/usr/local/bin/pe_patch_fact_generation.sh]
+file[/usr/local/bin/puppet]
+file[/var/cache/os_patching]
+file[/var/cache/pe_patch]
+file[/var/cache/pe_patch/blackout_windows]
+file[/var/cache/pe_patch/block_patching_on_warnings]
+file[/var/cache/pe_patch/patch_group]
+file[/var/cache/pe_patch/pre_patching_command]
+file[/var/cache/pe_patch/reboot_override]
+file[/var/puppet/var/state]
+pe_ini_setting[agent conf file server_list]
+service[pxp-agent]
+NEW_KNOWN
+
+  comm -2 -3 "${backup_dir}/resources.txt-new-sorted" "${backup_dir}/resources.txt-new-known" > "${backup_dir}/resources.txt-new-clean"
 }
 
 remove_old_puppet() {
@@ -274,14 +332,23 @@ FINITA
 
 rollback_old_puppet_configs() {
   echo_title "Copying back old configs"
-  yes | cp -far "${backup_dir}"/backup/puppet/* /etc/puppetlabs/puppet/
-  yes | cp -far "${backup_dir}"/backup/mcollective/* /etc/puppetlabs/mcollective/
+  rsync -av $backup_dir/backup_old/puppet /etc/puppetlabs/
+  rsync -av $backup_dir/backup_old/mcollective /etc/puppetlabs/
 
   echo_warning "Old Puppet reinstalled. Please do check if everything to back to normal"
+}
+rollback_new_puppet_configs() {
+  echo_title "Copying back new configs"
+  mkdir -p /etc/puppetlabs
+  rsync -av $backup_dir/backup_new/puppet /etc/puppetlabs/
+  rsync -av $backup_dir/backup_new/pxp-agent /etc/puppetlabs/
+
+  echo_warning "New Puppet configs reinstalled."
 }
 
 remove_new_puppet() {
   echo_title "Removing new Puppet installation :-I"
+  backup_new_puppet_configs
   yum remove -y -q puppet-agent
 }
 
@@ -449,6 +516,18 @@ show_diff() {
   done
 }
 
+show_diff_resources_txt() {
+  echo_title "Showing if there are differences in Puppet managed resources."
+  echo "This should be empty or contain known diffs"
+  diff "${backup_dir}/resources.txt-old-clean" "${backup_dir}/resources.txt-new-clean"
+
+  echo_title "Showing total counts of resources with changing titles"
+  echo "Exec resources on OLD: $(grep '^exec' $backup_dir/resources.txt-old-clean | wc -l)"
+  echo "Exec resources on NEW: $(grep '^exec' $backup_dir/resources.txt-new-clean | wc -l)"
+  echo
+  echo "Cron resources on OLD $(grep '^cron' $backup_dir/resources.txt-old-clean | wc -l)"
+  echo "Cron resources on NEW $(grep '^cron' $backup_dir/resources.txt-new-clean | wc -l)"
+}
 
 case $action in
   run_old_puppet)
@@ -479,13 +558,31 @@ case $action in
   show_diff)
     show_diff
   ;;
+  show_diff_resources)
+    show_diff_resources_txt
+  ;;
   rollback)
     rollback
+  ;;
+  rollforward)
+    run_old_puppet
+    copy_old_puppet_resources_txt
+    backup_concats
+    backup_files
+    remove_old_puppet
+    rollback_new_puppet_configs
+    install_new_puppet
+    run_new_puppet
+    copy_new_puppet_resources_txt
+    show_diff
+    show_diff_resources_txt
+    run_puppet_agent
   ;;
   all)
     intro
     check_server
     run_old_puppet
+    copy_old_puppet_resources_txt
     backup_concats
     backup_files
     remove_old_puppet
@@ -493,17 +590,25 @@ case $action in
     run_new_puppet_concat
     show_diff_concat
     run_new_puppet
+    copy_new_puppet_resources_txt
     show_diff
+    show_diff_resources_txt
+    run_puppet_agent
   ;;
   express)
     check_server
+    copy_old_puppet_resources_txt
     backup_concats
     backup_files
     remove_old_puppet unattended
     install_new_puppet unattended
     run_puppet_agent
+    copy_new_puppet_resources_txt
     show_diff_concat
     show_diff
+    show_diff_resources_txt
+    run_puppet_agent
+
   ;;
   *)
     usage
