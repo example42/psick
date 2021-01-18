@@ -161,7 +161,7 @@ Vagrant.configure('2') do |config|
         end
       end
 
-      if role != 'puppet'
+      if role != 'puppet' and master_vm != ''
         node_config.trigger.after :destroy do |trigger|
         # register destroy trigger to remove the node from puppet master
           node_name = fqdn
