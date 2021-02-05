@@ -150,6 +150,7 @@ Vagrant.configure('2') do |config|
 
       if Vagrant.has_plugin?('vagrant-vbguest')
         node_config.vbguest.installer_options = { allow_kernel_upgrade: true } if vm_box.start_with?('centos')
+        node_config.vm.synced_folder "./", "/vagrant", type: "virtualbox"
       end  
 
       if Vagrant.has_plugin?('vagrant-pe_build') && pe_role == 'master'
