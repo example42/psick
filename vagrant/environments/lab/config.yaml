@@ -81,8 +81,8 @@ nodes:
       - puppetre
   - role: puppetcd
     ip_address: 10.42.43.110
-    memory: 4096
-    cpu: 2
+    memory: 16384
+    cpu: 4
     forwarded_port:
       guest: 8080
       host: 1488
