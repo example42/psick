@@ -7,15 +7,9 @@ control_repo=${1:-"https://github.com/example42/psick.git"}
 echo "Installing prerequisite packages and gems"
 puppet resource package git ensure=present
 
-if [ $(facter osfamily) == 'Debian' ]; then
-  puppet resource package ruby ensure=present
-else
-  puppet resource package rubygems ensure=present
-fi
-
-puppet resource package deep_merge ensure=present provider=gem
-puppet resource package hiera-eyaml ensure=present provider=gem
-puppet resource package r10k ensure=present provider=gem
+puppet resource package deep_merge ensure=present provider=puppet_gem
+puppet resource package hiera-eyaml ensure=present provider=puppet_gem
+puppet resource package r10k ensure=present provider=puppet_gem
 
 mkdir -p /etc/puppetlabs/code/environments/
 mkdir -p /etc/puppetlabs/r10k/
@@ -30,5 +24,5 @@ cat > /etc/puppetlabs/r10k/r10k.yaml << EOF
 EOF
 
 echo "Running r10k deploy environment -v"
-r10k deploy environment -v
+/opt/puppetlabs/puppet/bin/r10k deploy environment -v
 

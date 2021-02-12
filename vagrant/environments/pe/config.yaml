@@ -63,6 +63,9 @@ nodes:
     forwarded_port:
       guest: 443
       host: 1643
+    forwarded_port2:
+      guest: 3000
+      host: 3000
   - role: cd4pe
     count: 2
     memory: 4096

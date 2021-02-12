@@ -1,5 +1,14 @@
 #!/usr/bin/env bash
-breed=$1
+breed=$2
+if [ -z "$1" ]; then
+  puppet_version='6'
+else
+  if [ $1 == 'latest' ]; then
+    puppet_version='6'
+  else
+    puppet_version=$1
+  fi
+fi
 if [ $USER == 'root' ]; then
   sudo_command=''
 else
@@ -34,7 +43,7 @@ setup_redhat() {
   $sudo_command yum erase -y puppet-agent puppet puppetlabs-release puppetlabs-release-pc1 >/dev/null 2>&1
 
   echo_title "Adding repo for Puppet"
-  $sudo_command rpm -ivh https://yum.puppetlabs.com/puppet/puppet-release-el-$1.noarch.rpm >/dev/null 2>&1
+  $sudo_command rpm -ivh https://yum.puppetlabs.com/puppet$puppet_version-release-el-$1.noarch.rpm >/dev/null 2>&1
 
   sleep 2
   echo_title "Installing Puppet"
@@ -47,7 +56,7 @@ setup_fedora() {
   $sudo_command yum erase -y puppet-agent puppet puppetlabs-release puppetlabs-release-pc1 >/dev/null 2>&1
 
   echo_title "Adding repo for Puppet"
-  $sudo_command rpm -ivh https://yum.puppetlabs.com/puppet/puppet-release-fedora-${release}.noarch.rpm
+  $sudo_command rpm -ivh https://yum.puppetlabs.com/puppet$puppet_version-release-fedora-${release}.noarch.rpm
 
   sleep 2
   echo_title "Installing Puppet"
@@ -77,7 +86,7 @@ setup_suse() {
 
   echo_title "Adding repo for Puppet"
   $sudo_command wget https://yum.puppetlabs.com/puppet/puppet-release-sles-$1.noarch.rpm 2>&1
-  $sudo_command rpm -ivh puppet5-release-sles-$1.noarch.rpm 2>&1
+  $sudo_command rpm -ivh puppet-release-sles-$1.noarch.rpm 2>&1
 
   sleep 2
   echo_title "Installing Puppet"
@@ -100,8 +109,8 @@ setup_apt() {
   esac
 
   echo_title "Adding repo for Puppet"
-  $sudo_command wget -q "http://apt.puppetlabs.com/puppet-release-${codename}.deb" >/dev/null
-  $sudo_command dpkg -i "puppet-release-${codename}.deb" >/dev/null
+  $sudo_command wget -q "http://apt.puppetlabs.com/puppet${puppet_version}-release-${codename}.deb" >/dev/null
+  $sudo_command dpkg -i "puppet${puppet_version}-release-${codename}.deb" >/dev/null
 
   echo_title "Running apt-get update"
   $sudo_command apt-get update >/dev/null 2>&1
