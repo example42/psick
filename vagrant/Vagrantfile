@@ -148,6 +148,11 @@ Vagrant.configure('2') do |config|
         node_config.hostmanager.manage_host = settings['vagrant']['hostmanager.manage_host']
       end
 
+      if Vagrant.has_plugin?('vagrant-vbguest')
+        node_config.vbguest.installer_options = { allow_kernel_upgrade: true } if vm_box.start_with?('centos')
+        node_config.vm.synced_folder "./", "/vagrant", type: "virtualbox"
+      end  
+
       if Vagrant.has_plugin?('vagrant-pe_build') && pe_role == 'master'
         node_config.pe_build.version = pe_version if pe_version
         node_config.pe_build.download_root = pe_download_root if pe_download_root
@@ -161,7 +166,7 @@ Vagrant.configure('2') do |config|
         end
       end
 
-      if role != 'puppet'
+      if role != 'puppet' and master_vm != ''
         node_config.trigger.after :destroy do |trigger|
         # register destroy trigger to remove the node from puppet master
           node_name = fqdn
