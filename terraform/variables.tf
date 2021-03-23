@@ -1,10 +1,16 @@
 # Set the variable value in *.tfvars file
 # or using the -var="hcloud_token=..." CLI option
-
 terraform {
-  experiments = [variable_validation]
+  required_providers {
+    hetznerdns = {
+      source = "timohirt/hetznerdns"
+    }
+    hcloud = {
+      source = "hetznercloud/hcloud"
+    }
+  }
+  required_version = ">= 0.13"
 }
-
 variable "hcloud_token" {
   type        = string
   description = "The 64 digit API token"

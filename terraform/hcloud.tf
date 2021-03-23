@@ -4,7 +4,10 @@
 # Configure the Hetzner Cloud Provider
 provider "hcloud" {
   token   = var.hcloud_token
-  version = "~> 1.16"
+}
+# Configure Hetzner DNS Provider
+provider "hetznerdns" {
+  apitoken = var.hdns_token
 }
 
 data "hcloud_ssh_keys" "all_keys" {
