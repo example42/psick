@@ -17,6 +17,10 @@ data "hcloud_ssh_keys" "admin_keys" {
   with_selector = "role=admin"
 }
 
+data "hetznerdns_zone" "dns_zone" {
+    name = "example42.cloud"
+}
+
 resource "hcloud_network" "workshop" {
   name     = "workshop"
   ip_range = "10.0.0.0/8"
@@ -45,21 +49,37 @@ resource "hcloud_server" "client_nodes" {
   #ssh_keys    = format("data.hcloud_ssh_keys.%s.ssh_keys.*.name", each.value.access_level)
   location    = "fsn1"
   labels      = { "use" = "schulung" }
-  connection {
-    type        = "ssh"
-    user        = "root"
-    private_key = file(var.sshkey)
-    host        = self.ipv4_address
-  }
-  provisioner "file" {
-    source      = "../bin/bootstrap/cloud_init.sh"
-    destination = "/tmp/cloud_init.sh"
-  }
-  provisioner "remote-exec" {
-    inline = [
-      "chmod +x /tmp/cloud_init.sh",
-      "/tmp/cloud_init.sh ${var.puppet_version} ${each.value.role} ${var.control_repo}",
-    ]
-  }
+  # connection {
+  #   type        = "ssh"
+  #   user        = "root"
+  #   private_key = file(var.sshkey)
+  #   host        = self.ipv4_address
+  # }
+  # provisioner "file" {
+  #   source      = "../bin/bootstrap/cloud_init.sh"
+  #   destination = "/tmp/cloud_init.sh"
+  # }
+  # provisioner "remote-exec" {
+  #   inline = [
+  #     "chmod +x /tmp/cloud_init.sh",
+  #     "/tmp/cloud_init.sh ${var.puppet_version} ${each.value.role} ${var.control_repo}",
+  #   ]
+  # }
 }
 
+resource "hetznerdns_record" "private_addresses" {
+    for_each = var.machines
+    zone_id = data.hetznerdns_zone.dns_zone.id
+    name = "${each.key}.private"
+    value = each.value.ip
+    type = "A"
+    ttl= 60
+}
+resource "hetznerdns_record" "public_addresses" {
+    for_each = var.machines
+    zone_id = data.hetznerdns_zone.dns_zone.id
+    name = "${each.key}.public"
+    value = hcloud_server.client_nodes[each.key].ipv4_address
+    type = "A"
+    ttl= 60
+}

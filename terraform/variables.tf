@@ -1,19 +1,13 @@
 # Set the variable value in *.tfvars file
 # or using the -var="hcloud_token=..." CLI option
-terraform {
-  required_providers {
-    hetznerdns = {
-      source = "timohirt/hetznerdns"
-    }
-    hcloud = {
-      source = "hetznercloud/hcloud"
-    }
-  }
-  required_version = ">= 0.13"
-}
+
 variable "hcloud_token" {
   type        = string
   description = "The 64 digit API token"
+}
+variable "hdns_token" {
+  type        = string
+  description = "The DNS API token"
 }
 
 variable "sshkey" {
@@ -44,20 +38,19 @@ variable "machines" {
     "puppet"    = { ip = "10.0.1.1",  role = "puppet",  server_type = "cx41", access_level = "admin_keys" }
     "gitlab"    = { ip = "10.0.1.2",  role = "gitlab",  server_type = "cx21", access_level = "admin_keys" }
     "student1"  = { ip = "10.0.1.11", role = "student", server_type = "cx11", access_level = "all_keys" }
-    "student2"  = { ip = "10.0.1.12", role = "student", server_type = "cx11", access_level = "all_keys" }
-    "student3"  = { ip = "10.0.1.13", role = "student", server_type = "cx11", access_level = "all_keys" }
-    "student4"  = { ip = "10.0.1.14", role = "student", server_type = "cx11", access_level = "all_keys" }
-    "student5"  = { ip = "10.0.1.15", role = "student", server_type = "cx11", access_level = "all_keys" }
-    "student6"  = { ip = "10.0.1.16", role = "student", server_type = "cx11", access_level = "all_keys" }
-    "student7"  = { ip = "10.0.1.17", role = "student", server_type = "cx11", access_level = "all_keys" }
-    "student8"  = { ip = "10.0.1.18", role = "student", server_type = "cx11", access_level = "all_keys" }
-    "student9"  = { ip = "10.0.1.19", role = "student", server_type = "cx11", access_level = "all_keys" }
-    "student10" = { ip = "10.0.1.20", role = "student", server_type = "cx11", access_level = "all_keys" }
-    "student11" = { ip = "10.0.1.21", role = "student", server_type = "cx11", access_level = "all_keys" }
-    "student12" = { ip = "10.0.1.22", role = "student", server_type = "cx11", access_level = "all_keys" }
-    "student13" = { ip = "10.0.1.23", role = "student", server_type = "cx11", access_level = "all_keys" }
-    "student14" = { ip = "10.0.1.24", role = "student", server_type = "cx11", access_level = "all_keys" }
-    "student15" = { ip = "10.0.1.25", role = "student", server_type = "cx11", access_level = "all_keys" }
+    # "student2"  = { ip = "10.0.1.12", role = "student", server_type = "cx11", access_level = "all_keys" }
+    # "student3"  = { ip = "10.0.1.13", role = "student", server_type = "cx11", access_level = "all_keys" }
+    # "student4"  = { ip = "10.0.1.14", role = "student", server_type = "cx11", access_level = "all_keys" }
+    # "student5"  = { ip = "10.0.1.15", role = "student", server_type = "cx11", access_level = "all_keys" }
+    # "student6"  = { ip = "10.0.1.16", role = "student", server_type = "cx11", access_level = "all_keys" }
+    # "student7"  = { ip = "10.0.1.17", role = "student", server_type = "cx11", access_level = "all_keys" }
+    # "student8"  = { ip = "10.0.1.18", role = "student", server_type = "cx11", access_level = "all_keys" }
+    # "student9"  = { ip = "10.0.1.19", role = "student", server_type = "cx11", access_level = "all_keys" }
+    # "student10" = { ip = "10.0.1.20", role = "student", server_type = "cx11", access_level = "all_keys" }
+    # "student11" = { ip = "10.0.1.21", role = "student", server_type = "cx11", access_level = "all_keys" }
+    # "student12" = { ip = "10.0.1.22", role = "student", server_type = "cx11", access_level = "all_keys" }
+    # "student13" = { ip = "10.0.1.23", role = "student", server_type = "cx11", access_level = "all_keys" }
+    # "student14" = { ip = "10.0.1.24", role = "student", server_type = "cx11", access_level = "all_keys" }
+    # "student15" = { ip = "10.0.1.25", role = "student", server_type = "cx11", access_level = "all_keys" }
   }
 }
-
