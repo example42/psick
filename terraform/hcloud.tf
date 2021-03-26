@@ -60,8 +60,10 @@ resource "hcloud_server" "client_nodes" {
     source      = "../bin/bootstrap/cloud_init.sh"
     destination = "/tmp/cloud_init.sh"
   }
+
   provisioner "remote-exec" {
     inline = [
+      "sudo hostnamectl set-hostname ${each.key}.private.${data.hetznerdns_zone.dns_zone.name}",
       "chmod +x /tmp/cloud_init.sh",
       "/tmp/cloud_init.sh ${var.puppet_version} ${each.value.role} ${var.control_repo}",
     ]
