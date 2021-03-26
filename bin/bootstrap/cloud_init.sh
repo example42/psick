@@ -1,4 +1,5 @@
 #!/bin/bash
+
 echo -e "10.0.1.1 puppet\n10.0.1.2 gitlab\n" >> /etc/hosts
 puppet_version=$1
 puppet_role=$2
@@ -13,12 +14,18 @@ fi
 if [ -f /etc/redhat-release ]; then
   yum install -y git &>/dev/null
 fi
+
+echo "### Cloning PSICK"
+git clone $control_repo /tmp/psick &>/dev/null
 pushd /tmp/psick
-echo "Set external facts"
+
+echo "### Set external facts"
 bin/puppet_set_external_facts.sh --role $puppet_role --env 'host' --zone 'foss' --datacenter 'vagrant' --application 'puppetinfra'
-echo "Set trusted facts"
+
+echo "### Set trusted facts"
 bin/puppet_set_trusted_facts.sh --role $puppet_role --env 'host' --zone 'foss' --datacenter 'vagrant' --application 'puppetinfra'
-echo "Installing Puppet"
+
+echo "### Installing Puppet"
 bin/puppet_install.sh $puppet_version
 popd
 
@@ -26,19 +33,12 @@ if [ $puppet_role == 'puppet' ]; then
   pushd /tmp/psick
 
   echo "### Installing puppetserver"
-  puppet resource package puppetserver ensure=present
+  puppet resource package puppetserver ensure=present &>/dev/null
 
-  echo "### Installing puppetserver gems"
-  /opt/puppetlabs/server/bin/puppetserver gem install hiera-eyaml
-  /opt/puppetlabs/server/bin/puppetserver gem install deep_merge
+  echo "### Installing puppet agent gems"
+  puppet resource package r10k ensure=present provider=puppet_gem &>/dev/null
 
-  echo "Installing puppet agent gems"
-
-  puppet resource package deep_merge ensure=present provider=puppet_gem
-  puppet resource package hiera-eyaml ensure=present provider=puppet_gem
-  puppet resource package r10k ensure=present provider=puppet_gem
-
-  echo "Deploy control-repository"
+  echo "### Deploy control-repository"
   mkdir -p /etc/puppetlabs/code/environments/
   mkdir -p /etc/puppetlabs/r10k/
   cat > /etc/puppetlabs/r10k/r10k.yaml << EOF
@@ -51,13 +51,12 @@ if [ $puppet_role == 'puppet' ]; then
     remote: $control_repo
 EOF
 
-  echo "Running r10k deploy environment -v"
-  /opt/puppetlabs/puppet/bin/r10k deploy environment -pv
+  echo "### Running r10k deploy environment -v"
+  /opt/puppetlabs/puppet/bin/r10k deploy environment -p &>/dev/null
 
-  echo "Starting Puppet Server"
-  /opt/puppetlabs/bin/puppet resource service puppetserver ensure=running enable=true
+  echo "### Starting Puppet Server"
+  /opt/puppetlabs/bin/puppet resource service puppetserver ensure=running enable=true &>/dev/null
   popd
 fi
 
 rm -fr /tmp/psick
-
