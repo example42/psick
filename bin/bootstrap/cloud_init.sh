@@ -1,6 +1,5 @@
 #!/bin/bash
 
-echo -e "10.0.1.1 puppet\n10.0.1.2 gitlab\n" >> /etc/hosts
 puppet_version=$1
 puppet_role=$2
 control_repo=$3
