@@ -4,7 +4,7 @@ if [ -z "$1" ]; then
   puppet_version='6'
 else
   if [ $1 == 'latest' ]; then
-    puppet_version='6'
+    puppet_version='7'
   else
     puppet_version=$1
   fi
