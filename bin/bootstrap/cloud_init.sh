@@ -4,8 +4,15 @@ puppet_version=$1
 puppet_role=$2
 control_repo=$3
 
-yum install -y git
-git clone $control_repo /tmp/psick
+echo "### Installing git"
+if [ -f /etc/debian_version ]; then
+  apt update  &>/dev/null
+  apt install -y git &>/dev/null
+fi
+
+if [ -f /etc/redhat-release ]; then
+  yum install -y git &>/dev/null
+fi
 pushd /tmp/psick
 echo "Set external facts"
 bin/puppet_set_external_facts.sh --role $puppet_role --env 'host' --zone 'foss' --datacenter 'vagrant' --application 'puppetinfra'
