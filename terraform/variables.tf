@@ -25,7 +25,7 @@ variable "control_repo" {
 variable "puppet_version" {
   type = number
   description = "The Puppet version to use. Specify 5, 6 or 7"
-  default = 6
+  default = 7
   validation {
     condition = var.puppet_version == 5 || var.puppet_version == 6 || var.puppet_version == 7
     error_message = "The puppet_version variable only accepts value 5, 6 or 7."
