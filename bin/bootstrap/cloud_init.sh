@@ -5,13 +5,18 @@ puppet_role=$2
 control_repo=$3
 
 echo "### Installing git"
-if [ -f /etc/debian_version ]; then
-  apt update  &>/dev/null
-  apt install -y git &>/dev/null
-fi
+git --version &>/dev/null
+GIT_IS_AVAILABLE=$?
 
-if [ -f /etc/redhat-release ]; then
-  yum install -y git &>/dev/null
+if [[ ! $GIT_IS_AVAILABLE -eq 0 ]]; then
+  if [ -f /etc/debian_version ]; then
+    apt update  &>/dev/null
+    apt install -y git &>/dev/null
+  fi
+
+  if [ -f /etc/redhat-release ]; then
+    yum install -y git &>/dev/null
+  fi
 fi
 
 echo "### Cloning PSICK"
