@@ -207,7 +207,7 @@ pull_modules () {
     if [ -d $project_name ]; then
       cd $project_name
       git config pull.ff only
-      initial_branch=$(git branch --show-current)
+      initial_branch=$(git rev-parse --abbrev-ref HEAD)
       git fetch
 
       for remote in $(git branch --all | grep '^\s*remotes/origin' | grep -v 'HEAD' | grep -v "$initial_branch$" ); do
@@ -227,7 +227,7 @@ pull_modules () {
     else
       git clone "${source_giturl}${project_path}"
       cd $project_name
-      initial_branch=$(git branch --show-current)
+      initial_branch=$(git rev-parse --abbrev-ref HEAD)
       git remote add destination "${destination_giturl}${project_path}"
       for remote in $(git branch --all | grep '^\s*remotes/origin' | grep -v 'HEAD' | grep -v "$initial_branch$" ); do
         branch=$(echo $remote | cut -d '/' -f 3) &>/dev/null
@@ -279,7 +279,7 @@ pull_controlrepo() {
   if [ -d $project_name ]; then
     cd $project_name
 
-    initial_branch=$(git branch --show-current)
+    initial_branch=$(git rev-parse --abbrev-ref HEAD)
     git config pull.ff only
     git fetch
     for remote in $(git branch --all | grep '^\s*remotes/origin' | grep -v 'HEAD' | grep -v "$initial_branch$" ); do
@@ -299,7 +299,7 @@ pull_controlrepo() {
   else
     git clone "${source_giturl}${project_path}"
     cd $project_name
-    initial_branch=$(git branch --show-current)
+    initial_branch=$(git rev-parse --abbrev-ref HEAD)
     git remote add destination "${destination_giturl}${project_path}"
     for remote in $(git branch --all | grep '^\s*remotes/origin' | grep -v 'HEAD' | grep -v "$initial_branch$" ); do
       branch=$(echo $remote | cut -d '/' -f 3) &>/dev/null
