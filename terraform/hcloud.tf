@@ -4,7 +4,11 @@
 # Configure the Hetzner Cloud Provider
 provider "hcloud" {
   token   = var.hcloud_token
-  version = "~> 1.16"
+}
+
+# Configure Hetzner DNS Provider
+provider "hetznerdns" {
+  apitoken = var.hdns_token
 }
 
 data "hcloud_ssh_keys" "all_keys" {
@@ -12,6 +16,10 @@ data "hcloud_ssh_keys" "all_keys" {
 
 data "hcloud_ssh_keys" "admin_keys" {
   with_selector = "role=admin"
+}
+
+data "hetznerdns_zone" "dns_zone" {
+    name = "example42.cloud"
 }
 
 resource "hcloud_network" "workshop" {
@@ -36,7 +44,7 @@ resource "hcloud_server_network" "nodes" {
 resource "hcloud_server" "client_nodes" {
   for_each    = var.machines
   name        = each.key
-  image       = "centos-7"
+  image       = each.value.image
   server_type = each.value.server_type
   ssh_keys    = data.hcloud_ssh_keys.all_keys.ssh_keys.*.name
   #ssh_keys    = format("data.hcloud_ssh_keys.%s.ssh_keys.*.name", each.value.access_level)
@@ -52,11 +60,30 @@ resource "hcloud_server" "client_nodes" {
     source      = "../bin/bootstrap/cloud_init.sh"
     destination = "/tmp/cloud_init.sh"
   }
+
   provisioner "remote-exec" {
     inline = [
+      "sudo hostnamectl set-hostname ${each.key}.private.${data.hetznerdns_zone.dns_zone.name}",
       "chmod +x /tmp/cloud_init.sh",
       "/tmp/cloud_init.sh ${var.puppet_version} ${each.value.role} ${var.control_repo}",
     ]
   }
 }
 
+resource "hetznerdns_record" "private_addresses" {
+    for_each = var.machines
+    zone_id = data.hetznerdns_zone.dns_zone.id
+    name = "${each.key}.private"
+    value = each.value.ip
+    type = "A"
+    ttl= 60
+}
+
+resource "hetznerdns_record" "public_addresses" {
+    for_each = var.machines
+    zone_id = data.hetznerdns_zone.dns_zone.id
+    name = "${each.key}.public"
+    value = hcloud_server.client_nodes[each.key].ipv4_address
+    type = "A"
+    ttl= 60
+}
