@@ -25,14 +25,17 @@ Generate file `secrets.auto.tfvars` right next to `hcloud.tf` file.
 Content:
 
     hcloud_token = "your_api_token"
+    hdns_token = "your_dns_token"
+    internal_subdomain = "internal"
+    public_subdomain = "public"
     sshkey = "/home/example42/.ssh/hetzner_key"
     puppet_version = 6
     control_repo = "https://github.com/example42/psick.git"
     machines = {
-      "puppet"    = { ip = "10.0.1.1",  role = 'puppet',    server_type = 'cx41', access_level = 'admin_keys' }
-      "gitlab"    = { ip = "10.0.1.2",  role = 'gitlab',    server_type = 'cx21', access_level = 'admin_keys' }
-      "student1"  = { ip = "10.0.1.11", role = 'webserver', server_type = 'cx11', access_level = 'all_keys' }
-      "<hostname>"  = { ip = "10.0.1.0/24", role = '<puppet role>', server_type = 'hetzner server type', access_level = '[all_keys, admin_keys]' }
+      "puppet"    = { ip = "10.0.1.1",  role = 'puppet',    server_type = 'cx41', access_level = 'admin_keys', image = "centos-7" }
+      "gitlab"    = { ip = "10.0.1.2",  role = 'gitlab',    server_type = 'cx21', access_level = 'admin_keys', image = "centos-7" }
+      "student1"  = { ip = "10.0.1.11", role = 'webserver', server_type = 'cx11', access_level = 'all_keys', image = "centos-7" }
+      "<hostname>"  = { ip = "10.0.1.0/24", role = '<puppet role>', server_type = 'hetzner server type', access_level = '[all_keys, admin_keys]', image = "hetzner image" }
     }
 
 Within `control_repo` you can specify a differente control repository which should be used for any further deployment.

@@ -11,6 +11,18 @@ variable "hdns_token" {
   description = "The DNS API token"
 }
 
+variable "public_subdomain" {
+  type        = string
+  description = "The public subdomain to use"
+  default     = "public"
+}
+
+variable "internal_subdomain" {
+  type        = string
+  description = "The internal  subdomain to use"
+  default     = "internal"
+}
+
 variable "sshkey" {
   type = string
   description = "The full path to ssh key file for provisioning. May not have a passphrase and must be added to cloud provider prior usage, e.g. /home/user/.ssh/hetzner_private"
