@@ -101,6 +101,7 @@ setup_apt() {
     16.04) codename=xenial ;;
     18.04) codename=bionic ;;
     19.04) codename=bionic ;;
+    19.10) codename=bionic ;;
     20.04) codename=focal ;;
     20.10) codename=focal ;;
     *) echo "Release not supported" ;;
