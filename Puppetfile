@@ -47,6 +47,11 @@ mod 'puppetlabs/catalog_preview', :latest
 mod 'jdowning/rbenv', :latest
 mod 'trlinkin/noop', :latest
 mod 'puppet/archive', :latest
+
+# Optionally used by psick::openvpn
+# mod 'puppet/openvpn', :latest
+
+# Optionally used by psick::aws
 # mod 'puppetlabs/aws', :latest
 
 # Requirements for cd4pe
