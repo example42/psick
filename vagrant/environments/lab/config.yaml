@@ -61,7 +61,7 @@ vagrant:
 nodes:
   - role: puppet
     pe_role: master
-    memory: 6192
+    memory: 8192
     cpu: 4
     aliases:
       - puppet

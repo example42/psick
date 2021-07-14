@@ -3,90 +3,91 @@
 vm:
   memory: 1024                 # MB or RAM to assign
   cpu: 1                       # Number of vCPU to assign to the VM
-  role: ostest                 # Default role
   box: centos7                 # Box used for the VM, from the box list in vagrant/boxes.yaml
-  puppet_apply: true           # Run puppet apply on the local control-repo during provisioning
-  puppet_agent: false          # Run puppet agent during provisioning
-  facter_external_facts: true  # Create external facts in facts.d/$fact.txt. Note 1
-  facter_trusted_facts: false  # Create csr_attributes.yaml. Note 1
+  puppet_apply: false          # Run puppet apply on the local control-repo during provisioning
+  puppet_agent: true           # Run puppet agent during provisioning
+  facter_external_facts: false # Create external facts in facts.d/$fact.txt. Note 1
+  facter_trusted_facts: true   # Create csr_attributes.yaml. Note 1
   synced_folder_type: vboxfs   # Sync folders types: nfs, vboxfs
+
+# Note 1: Some facts are used in default hiera.yaml and needed for
+# nodes classification. So it's better to set them, once.
+# If you enable both external and trusted facts and keep the
+# default manifests/site.pp you'll have a variable declaration error 
 
 # A local network is created among the VM. Here is configured.
 network:
-  range: 10.42.45.0/24        # Network address and mask to use
-  ip_start_offset: 101        # Starting ip in the network for automatic assignement
-  domain: ostest.psick.io     # Name of DNS domain for the created machines
+  range: 10.42.46.0/24   # Network address and mask to use 
+  ip_start_offset: 101   # Starting ip in the network for automatic assignement
+  domain: pe.psick.io    # Name of DNS domain for the created machines
+  ports_offset_map:      # A map of users and relevant host port forwarding offset 
+    al: 10000
+    lab: 20000
 
 # Puppet related settings
 puppet:
   version: latest             # Version to use for OSS
-  install_oss: true           # If to install Puppet OSS agent on the VMS
-  install_pe: false           # If to install Puppet Enterprise agent on the VMS
+  install_oss: false          # If to install Puppet OSS agent on the VMS
+  install_pe: true            # If to install Puppet Enterprise agent on the VMS
   env: devel                  # Setting for the env fact (may be used in hiera.yaml)
-  zone: ostest                # Setting for the zone fact (may be used in hiera.yaml)
+  zone: pe                    # Setting for the zone fact (may be used in hiera.yaml)
   datacenter: vagrant         # Setting for the datacenter fact (may be used in hiera.yaml)
-  application: puppet         # Setting for the application fact (may be used in hiera.yaml)
-  master_vm:  foreman.fab.psick.io    # Name of the VM which play as Puppet server for the others
-  master_fqdn: 'foreman.fab.psick.io' # FQDN of the Puppet server to use with puppet agent
-  link_controlrepo: true      # Add a link for a Puppet environment to the development control-repo
-  environment: host           # Puppet environment to link to local control-repo
+  application: default        # Setting for the application fact (may be used in hiera.yaml)
+  master_vm: ''               # Name of the VM which play as Puppet server for the others.
+                              # If empty an external servers, defined in master_fqdn, is used
+  master_fqdn: 'puppet.lab.psick.io'   # FQDN of the Puppet server to use with puppet agent
+  purge_via_ssh: false        # Use ssh when purging puppet nodes from master_fqdn Puppet server
+  link_controlrepo: true      # Add a link for a Puppet environment to the development control-repo 
+  environment: production     # Puppet environment to link to local control-repo
 
 # Puppet Enterprise settings
-#  pe_version: '2021.1.0'         # Version of PE to install on the puppet server. See Note 2
-#  pe_download_root: 'https://s3.amazonaws.com/pe-builds/released/2021.1.0' # Download base url. See Note 2
-#  pe_verbose: true               # If to show PE installation output
-#  pe_relocate_manifests: false   # If to relocate manifests and module dir. Not needed in this setup.
+  pe_version: '2021.2.0'         # Version of PE to install on the puppet server. See Note 2
+  pe_download_root: 'https://s3.amazonaws.com/pe-builds/released/2021.2.0' # Download base url. See Note 2
+  pe_verbose: true               # If to show PE installation output 
+  pe_relocate_manifests: false   # If to relocate manifests and module dir. Not needed in this setup.
 
+#  Note 2: when changing the version, change also the download_root unless you have a
+#  custom one. For locally downloaded files, for example, you can place something like:
+#  pe_download_root: 'file:///Users/al/Downloads'
+
+# Vagrant settings
 vagrant:
-  hostmanager.manage_host: false
+  hostmanager.manage_host: false # If true and you have the hostmanager plugin
   multi_user: true
 
-# Nodes shown in vagrant status 
+
+# List of nodes shown in vagrant status
+# Node names are based on the defined role. Here can be overridden vm defaults,
+# it can be enforced a defined host name, added alieses, port forwarding and pe_role
 nodes:
-  - hostname_base: centos8
-    box: centos8
-  - hostname_base: centos7
+  - role: build
+    count: 1
     box: centos7
-  - hostname_base: centos6
+    forwarded_port:
+      guest: 443
+      host: 443
+    forwarded_port2:
+      guest: 8140
+      host: 8140
+  - role: docker
+    count: 1
+  - role: mon
+    count: 1
+    box: centos7
+  - role: ostest
+    hostname_base: pe-centos6
+    count: 1
     box: centos6
-  - hostname_base: ubuntu1804
-    box: ubuntu1804
-  - hostname_base: ubuntu1604
-    box: ubuntu1604 
-  - hostname_base: ubuntu1404
-    box: ubuntu1404 
-  - hostname_base: ubuntu1204
-    box: ubuntu1204 
-  - hostname_base: debian10
-    box: debian10
-  - hostname_base: debian9
-    box: debian9
-  - hostname_base: debian8
-    box: debian8
-  - hostname_base: debian7
-    box: debian7
-  - hostname_base: suse12
+  - role: ostest
+    hostname_base: pe-ubuntu1604
+    count: 1
+    box: ubuntu1604
+  - role: ostest
+    hostname_base: pe-suse12
+    count: 1
     box: suse12
-  - hostname_base: suse11
+  - role: ostest
+    hostname_base: pe-suse11
+    count: 1
     box: suse11
-  - hostname_base: opensuse-tumbleweed
-    box: opensuse_tumbleweed
-  - hostname_base: alpine310
-    box: alpine310
-  - hostname_base: fedora30
-    box: fedora30
-  - hostname_base: cumulus
-    box: cumulus
-  - hostname_base: windows2012
-    fqdn: windows2012-ostest
-    box: windows2012
-    forwarded_port:
-      guest: 3389
-      host: 33893
-  - hostname_base: windows2008
-    fqdn: windows2008-ostest
-    box: windows2008
-    forwarded_port:
-      guest: 3389
-      host: 33894
 
