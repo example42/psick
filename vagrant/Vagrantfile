@@ -137,7 +137,7 @@ Vagrant.configure('2') do |config|
       node_config.vm.network :private_network, ip: node['ip']
       node_config.vm.network :private_network, ip: node['ipv6'] if node['ipv6']
 
-      node_config.vm.provision 'shell', path: '../../bin/vagrant-sethostname.sh', args: fqdn.to_s
+      node_config.vm.provision 'shell', path: '../../bin/vagrant-sethostname.sh', args: vm_name.to_s
       node_config.vm.provision 'shell', path: '../../bin/vagrant-sethosts.sh', args: "#{puppet_master_hostname} #{puppet_master_ip}" if puppet_master_ip
       node_config.vm.provision 'shell', path: '../../../bin/puppet_set_external_facts.sh', args: "--role #{role} --env #{env} --zone #{zone} --datacenter #{datacenter} --application #{application}" if node['facter_external_facts']
       node_config.vm.provision 'shell', path: '../../../bin/puppet_set_trusted_facts.sh', args: "--role #{role} --env #{env} --zone #{zone} --datacenter #{datacenter} --application #{application}" if node['facter_trusted_facts']
@@ -166,12 +166,22 @@ Vagrant.configure('2') do |config|
         end
       end
 
-      if role != 'puppet' and master_vm != ''
+      if role != 'puppet'
         node_config.trigger.after :destroy do |trigger|
         # register destroy trigger to remove the node from puppet master
           node_name = fqdn
-          trigger.warn = "Purging #{node_name} from #{master_vm}"
-          trigger.run = {inline: "vagrant ssh #{master_vm} -- -t 'sudo /opt/puppetlabs/bin/puppet node purge #{node_name}'" }
+          if master_vm != ''
+            trigger.warn = "Purging #{node_name} from #{master_vm} vm"
+            trigger.run = {inline: "vagrant ssh #{master_vm} -- -t 'sudo /opt/puppetlabs/bin/puppet node purge #{node_name}'" }
+          else
+            if settings['puppet']['purge_via_ssh']
+              trigger.warn = "Purging #{node_name} from #{puppet_master_hostname} host via ssh"
+              trigger.run = {inline: "ssh #{puppet_master_hostname} 'sudo /opt/puppetlabs/bin/puppet node purge #{node_name}'" }
+            else
+              trigger.warn = "Purging #{node_name} from #{puppet_master_hostname} host via local command"
+              trigger.run = {inline: "sudo /opt/puppetlabs/bin/puppet node purge #{node_name}" }
+            end
+          end
         end
       end
 
@@ -204,7 +214,8 @@ Vagrant.configure('2') do |config|
       if node['puppet_agent'] == true
         if Vagrant.has_plugin?('vagrant-pe_build') && install_pe
           node_config.vm.provision :pe_agent do |p|
-            p.master_vm = master_vm
+            p.master_vm = master_vm if master_vm != ''
+            p.master =  puppet_master_hostname if master_vm == ''
             p.version = pe_version
           end
         end
@@ -212,10 +223,21 @@ Vagrant.configure('2') do |config|
       end
 
       if node['forwarded_port']
-        node_config.vm.network 'forwarded_port', guest: node['forwarded_port']['guest'], host: node['forwarded_port']['host']
+        if settings['vagrant']['multi_user']
+          port_offset = settings['network']['ports_offset_map'][user] ? settings['network']['ports_offset_map'][user] : 0 
+          node_config.vm.network 'forwarded_port', guest: node['forwarded_port']['guest'], host: node['forwarded_port']['host'].to_i + port_offset
+        else
+          node_config.vm.network 'forwarded_port', guest: node['forwarded_port']['guest'], host: node['forwarded_port']['host']
+        end
       end
+
       if node['forwarded_port2']
-        node_config.vm.network 'forwarded_port', guest: node['forwarded_port2']['guest'], host: node['forwarded_port2']['host']
+        if settings['vagrant']['multi_user']
+          port_offset = settings['network']['ports_offset_map'][user] ? settings['network']['ports_offset_map'][user] : 0 
+          node_config.vm.network 'forwarded_port', guest: node['forwarded_port2']['guest'], host: node['forwarded_port2']['host'].to_i + port_offset
+        else
+          node_config.vm.network 'forwarded_port', guest: node['forwarded_port2']['guest'], host: node['forwarded_port2']['host']
+        end
       end
 
       if vm_provider == 'docker'
