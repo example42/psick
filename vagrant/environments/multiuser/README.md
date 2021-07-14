@@ -35,4 +35,3 @@ To work in this Vagrant environment:
     # Set hiera data to test directly onm your own vm yaml file
     cd <your-control-repo-dir>
     vi hieradata/host/<user>-<hostname>.yaml
-
