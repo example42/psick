@@ -126,6 +126,20 @@ nodes:
     forwarded_port:
       guest: 4440
       host: 1446
+  - role: wp
+    memory: 2048
+    count: 2
+    box: centos8
+    forwarded_port:
+      guest: 443
+      host: 1445
+  - role: slides
+    memory: 2048
+    count: 1
+    box: ubuntu2004
+    forwarded_port:
+      guest: 80
+      host: 1450
   - role: build
     count: 1
     puppet_apply: true
