@@ -1,22 +1,134 @@
 ---
 # List of available Vagrant boxes with different OS to test on
 boxes:
+  almalinux9:
+    box: almalinux/centos-stream98
+  almalinux8:
+    box: almalinux/8
+
+  alpine315:
+    box: generic/alpine315
+  alpine310:
+    box: generic/alpine310
+  alpine39:
+    box: generic/alpine39
+  alpine38:
+    box: generic/alpine38
+  alpine37:
+    box: generic/alpine37
+  alpine36:
+    box: generic/alpine36
+  alpine35:
+    box: generic/alpine3
+
+  amazon201703:
+    box: mvbcoding/awslinux
+
+  centos9stream:
+    box: centos/stream9
+  centos8stream:
+    box: centos/stream8
+  centos8:
+    box: generic/centos8
   centos8:
     box: generic/centos8
   centos7:
     box: centos/7
   centos6:
     box: centos/6
+
+  cumulus:
+    box: CumulusCommunity/cumulus-vx
+
+  debian11:
+    box: debian/bullseye64
+  debian10:
+    box: debian/buster64
+  debian9:
+    box: debian/stretch64
+  debian8:
+    box: debian/jessie64
+  debian7:
+    box: debian/wheezy64
+  devuan4:
+    box: generic/devuan4
+
+  fedora34:
+    box: generic/fedora34
+  fedora33:
+    box: generic/fedora33
+  fedora32:
+    box: generic/fedora32
+  fedora31:
+    box: generic/fedora31
+  fedora30:
+    box: generic/fedora30
+  fedora29:
+    box: generic/fedora29
+  fedora28:
+    box: generic/fedora28
+  fedora27:
+    box: generic/fedora27
+  fedora26:
+    box: generic/fedora26
+
+  freebsd13:
+    box: generic/freebsd13
+  freebsd12:
+    box: freebsd/FreeBSD-12.0-CURRENT
+  freebsd11:
+    box: freebsd/FreeBSD-11.1-STABLE
+  freebsd10:
+    box: freebsd/FreeBSD-10.4-STABLE
+
+
+
+
+  opensuse_tumbleweed:
+    box: opensuse/openSUSE-Tumbleweed-Vagrant.x86_64
+  opensuse15:
+    box: generic/opensuse15
+
+  osx1010:
+    box: dhoer/macosx-10.10
+  osx1011:
+    box: carbon/osx-elcapitan-10.11
+
+  oracle8:
+    box: generic/oracle8
+  oracle7:
+    box: generic/oracle7
+
   rhel8:
     box: generic/rhel8
   rhel7:
     box: generic/rhel7
   rhel6:
     box: generic/rhel6
-  oracle8:
-    box: generic/oracle8
-  oracle7:
-    box: generic/oracle7
+
+  rocky8:
+    box: generic/rocky8
+
+  solaris10:
+    box: tnarik/solaris10-minimal
+  solaris11:
+    box: ruby-concurrency/oracle-solaris-11
+    breed: solaris11
+
+# Image available for suse12 has issues. To setup correctly:
+# vagrant up suse12
+# vagrant provision suse12
+# vagrant reload suse12
+# vagrant provision suse12
+  suse12:
+    box: suse/sles12sp1
+  suse11:
+    box: suse/sles11sp3
+
+  ubuntu2204:
+    box: ubuntu/jammy64
+  ubuntu2110:
+    box: ubuntu/impish64
   ubuntu2004:
     box: ubuntu/focal64
   ubuntu1910:
@@ -29,51 +141,7 @@ boxes:
     box: ubuntu/trusty64
   ubuntu1204:
     box: ubuntu/precise64
-  debian10:
-    box: debian/buster64
-  debian9:
-    box: debian/stretch64
-  debian8:
-    box: debian/jessie64
-  debian7:
-    box: debian/wheezy64
-  alpine310:
-    box: generic/alpine310
-  alpine39:
-    box: generic/alpine39
-  alpine38:
-    box: generic/alpine38
-  alpine37:
-    box: generic/alpine37
-  alpine36:
-    box: generic/alpine36
-  alpine35:
-    box: generic/alpine35
-  fedora30:
-    box: generic/fedora30
-  fedora29:
-    box: generic/fedora29
-  fedora28:
-    box: generic/fedora28
-  fedora27:
-    box: generic/fedora27
-  fedora26:
-    box: generic/fedora26
-# Image available for suse12 has issues. To setup correctly:
-# vagrant up suse12
-# vagrant provision suse12
-# vagrant reload suse12
-# vagrant provision suse12
-  suse12:
-    box: suse/sles12sp1
-  suse11:
-    box: suse/sles11sp3
-  opensuse_tumbleweed:
-    box: opensuse/openSUSE-Tumbleweed-Vagrant.x86_64
-  opensuse15:
-    box: generic/opensuse15
-  manageiq_euwe:
-    box: manageiq/euwe
+
   windows2008:
     box: opentable/win-2008r2-standard-amd64-nocm
   windows2012:
@@ -81,22 +149,4 @@ boxes:
   windows2016:
     box: mwrock/Windows2016
     breed: win2016
-  solaris10:
-    box: tnarik/solaris10-minimal
-  solaris11:
-    box: ruby-concurrency/oracle-solaris-11
-    breed: solaris11
-  freebsd10:
-    box: freebsd/FreeBSD-10.4-STABLE
-  freebsd11:
-    box: freebsd/FreeBSD-11.1-STABLE
-  freebsd12:
-    box: freebsd/FreeBSD-12.0-CURRENT
-  osx1010:
-    box: dhoer/macosx-10.10
-  osx1011:
-    box: carbon/osx-elcapitan-10.11
-  cumulus:
-    box: CumulusCommunity/cumulus-vx
-  amazon201703:
-    box: mvbcoding/awslinux
+
