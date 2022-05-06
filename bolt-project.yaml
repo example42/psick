@@ -33,9 +33,8 @@ tasks:
 - tp::test
 - psick::puppet_*
 
-
 puppetdb:
   server_urls: ["https://puppet.lab.psick.io:8081"]
   cacert: /etc/puppetlabs/puppet/ssl/certs/ca.pem
-  cert: /etc/puppetlabs/puppet/ssl/certs/lab.psick.io.pem
-  key:  /home/lab/.puppetlabs/lab.psick.io.pem
+  token: ~/.puppetlabs/token
+
