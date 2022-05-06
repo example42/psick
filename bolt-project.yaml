@@ -1,3 +1,41 @@
 ---
 name: psick
-modules: []
+analytics: true
+apply-settings:
+  evaltrace: true
+  log_level: debug
+  show_diff: true
+  trace: true
+modules:
+- git: https://github.com/example42/psick-hieradata
+  ref: production
+- 'example42/tp'
+- 'example42/tinydata'
+- 'example42/psick'
+- 'example42/tp_profile'
+- 'puppetlabs/concat'
+- 'puppetlabs/stdlib'
+- 'puppetlabs/vcsrepo'
+- 'puppetlabs/firewall'
+- 'puppetlabs/inifile'
+- 'puppetlabs/catalog_preview'
+- 'jdowning/rbenv'
+- 'trlinkin/noop'
+- 'puppet/archive'
+
+format: human
+hiera-config: "hiera.yaml"
+modulepath:
+- "site"
+- "modules"
+
+tasks:
+- tp::test
+- psick::puppet_*
+
+
+puppetdb:
+  server_urls: ["https://puppet.lab.psick.io:8081"]
+  cacert: /etc/puppetlabs/puppet/ssl/certs/ca.pem
+  cert: /etc/puppetlabs/puppet/ssl/certs/lab.psick.io.pem
+  key:  /home/lab/.puppetlabs/lab.psick.io.pem

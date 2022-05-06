@@ -1,27 +1,39 @@
-# This is an example inventory.yaml
-# To read more about inventory files, see https://pup.pt/bolt-inventory
-#
-# groups:
-#   - name: linux
-#     targets:
-#       - target1.example.com
-#       - target2.example.com
-#     config:
-#       transport: ssh
-#       ssh:
-#         private-key: /path/to/private_key.pem
-#   - name: windows
-#     targets:
-#       - name: win1
-#         uri: target3.example.com
-#       - name: win2
-#         uri: target4.example.com
-#     config:
-#       transport: winrm
-# config:
-#   ssh:
-#     host-key-check: false
-#   winrm:
-#     user: Administrator
-#     password: Bolt!
-#     ssl: false
+groups:
+  - name: db-linux
+    targets:
+      - _plugin: puppetdb
+        query: "inventory[certname] { facts.kernel = 'Linux' }"
+  - name: db-windows
+    targets:
+      - _plugin: puppetdb
+        query: "inventory[certname] { facts.kernel = 'windows' }"
+  - name: linux
+    targets:
+      - puppet
+      - target2.example.com
+    config:
+      transport: ssh
+  - name: windows
+    targets:
+      - name: win1
+        uri: target3.example.com
+      - name: win2
+        uri: target4.example.com
+    config:
+      transport: winrm
+config:
+  ssh:
+    host-key-check: false
+  winrm:
+    user: Administrator
+    ssl: false
+  transport:
+    _plugin: env_var
+    var: BOLT_TRANSPORT
+    default: ssh
+  pcp:
+    cacert: ~/.puppetlabs/puppet/cert.pem
+    service-url: https://api.example.org:8143
+    task-environment: host
+    token-file: ~/.puppetlabs/puppet/token.pem
+
