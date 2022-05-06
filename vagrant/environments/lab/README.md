@@ -47,14 +47,19 @@ Customise them, eventually updating the PE version to use
 Start the PE all in one server. The first time, take a coffe, it. It will download PE tarball, install it and run puppet agent 
 
     vagrant up puppet.lab.psick.io
-    vagrant reload puppet.lab.psick.io    # See Note 1
-    vagrant provision puppet.lab.psick.io
+    
+    # See Note 1 to see if the following are needed:
+    # vagrant reload puppet.lab.psick.io
+    # vagrant provision puppet.lab.psick.io
 
-Now you should be able to access the PE console from your host.
+Vagrant should create the VM download PE installer, run the PE
+installation script and setup a PE console you can access from your host:
 
 Browse to **https://127.0.0.1:1443**
 Login: **admin**
 Password: **puppetlabs**
+
+#### Deployer user creation
 
 Now you can create a user dedicated to Puppet deployments:
 

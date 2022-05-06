@@ -85,6 +85,7 @@ nodes:
     ip_address: 10.42.43.110
     memory: 16384
     cpu: 8
+    box: rhel8
     forwarded_port:
       guest: 8080
       host: 1488
@@ -120,7 +121,7 @@ nodes:
     box: rocky8
   - role: cirunner
     count: 1
-    box: almalinux8
+    box: ubuntu2204
   - role: wp
     memory: 2048
     count: 2
