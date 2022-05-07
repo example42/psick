@@ -121,7 +121,7 @@ nodes:
     box: rocky8
   - role: cirunner
     count: 1
-    box: ubuntu2204
+    box: ubuntu2004
   - role: wp
     memory: 2048
     count: 2
