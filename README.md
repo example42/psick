@@ -90,9 +90,9 @@ If you have already r10k and the prerequisite gems, just run:
 
     r10k puppetfile install -v
 
-If you also want to install the recommended (Fabric, Vagrant, Docker) tools that can be used with the repo, run:
+If you also want to install the recommended (Vagrant, Docker) tools that can be used with the repo, run:
 
-    bin/setup.sh               # Only if you want to install Fabric, Vagrant and Docker
+    bin/setup.sh               # Only if you want to install Vagrant and Docker
 
 The script, installs and runs r10k and then uses Puppet to install the other software.
 
@@ -125,7 +125,6 @@ Some extra directories are added in PSICK for integrations and tools:
 - ```site/``` - An additional modules directory, with local profiles and tools.
 - ```docker/``` - Files used for building Docker images for multiple OS
 - ```vagrant/``` - Various Vagrant environments where is possible to test local Puppet code
-- ```fabfile/``` - Fabric integration and scripts
 - ```.gitlab-ci.yaml``` - (Sample) GitLab Continuous Integration pipeline for code testing and deployment
 
 ### Compatibility
@@ -163,7 +162,6 @@ About this control-repo:
 - [Noop Mode](docs/noop_mode.md) - An overview on how to manage noop and no-noop with PSICK
 - [Vagrant Integration](docs/vagrant.md) - How to use Vagrant to test the control-repo during development
 - [Docker Integration](docs/docker.md) - How to use Docker to test Puppet code and to build images based on the existing Puppet code
-- [Fabric](docs/fabric.md) - A review of Puppet tasks available with Fabric
 
 Managing changes:
 

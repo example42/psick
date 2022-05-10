@@ -19,8 +19,6 @@ Besides these common locations, in our `control-repo` we have also:
 
 - Files for building `Docker images` locally are under the ```docker``` directory.
 
-- [Fabric](http://www.fabfile.org) tasks are defined in the ```fabric``` directory.
-
 - Documentation is stored under ```docs```
 
-- The ```bin``` directory contains several scripts for various purposes. Most of them can be invoked via `Fabric`.
+- The ```bin``` directory contains several scripts for various purposes.

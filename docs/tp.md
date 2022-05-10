@@ -49,9 +49,6 @@ To install locally (you might need ```root``` privileges ) *any application on a
 
     bin/tp_install.sh <app_name>
 
-Or if you prefer to run it via `Fabric:`
-
-    fab tp.install:<app_name>
 
 Prerequisites for the magic to happen:
 
@@ -99,15 +96,6 @@ If some of these or other commands don't work for the selected app on your local
 Current support for most of the applications in `tinydata` is for `Linux` (mostly `RedHat` and `Debian` derivatives). `MacOS` and `Windows` support is technically present, but data is missing for most of the cases. Support is possible for any OS for which there's a Puppet package provider.
 
 
-### Create tiny data for a new application
-
-To replicate the structure of the ```tinydata``` directory of an existing application and create data for a **new** app:
-
-    fab tp.clone_data:redis
-
-`redis`, or whatever you specify as data to be cloned, must exist on `tinydata`. You will be asked the name of the new app for which you want to create data files based on the ```redis``` structure. Names are automatically converted.
-
-
 ### Local or remote integration tests (WIP)
 
 Since ```tp``` knows everything (well, enough) about the applications it installs, it knows how to check if they are working correctly.
@@ -119,8 +107,4 @@ In this `control-repo` `tp` testing is enabled by default on all `tp` installed 
     ---
       tp::test_enable: true
 
-The following `Fabric task` (will) allow to test on a remote server if applications installed by `tp` are working correctly. Can be used in `CI pipelines`, for quick tests or monitoring.
-
-    fab tp.remote_test -H <hostname>
-
-You can test if `tp` installed applications are correctly running just by executing the scripts under ```/etc/tp/test``` on your servers.
+TYou can test if `tp` installed applications are correctly running just by executing the scripts under ```/etc/tp/test``` on your servers.

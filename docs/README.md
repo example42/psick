@@ -45,8 +45,6 @@ Some references and basic information on `Puppet` are provided later, here we st
 
   - [Noop Mode](noop_mode.md) - An overview on how to enforce `server side` `noop mode` with this `control-repo`
 
-  - [Fabric](fabric.md) - A review of `Puppet tasks` available with `Fabric`
-
   - Integrations:
 
     - [Vagrant Integration](vagrant.md) - How to use `Vagrant` to test the `control-repo` during development

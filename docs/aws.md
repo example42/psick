@@ -18,18 +18,11 @@ In order to have everything in place for working with `AWS` you need:
 
 Install locally this `control-repo` and all its dependencies:
 
-    fab puppet.setup
+    bin/puppet_setup.sh
 
 If you want to manage `AWS resources` from your local computer, install the necessary packages:
 
     bin/aws_setup.sh
-    # or
-    fab aws.setup
-
-Alternatively you can use the VM ```dev-local-aws-01``` under ```vagrant/environments/puppetinfra``` which is preconfigured to use the `aws role`:
-
-    fab vagrant.up:dev-local-aws-01
-    fab vagrant.provision:dev-local-aws-01
 
 **NOTE:** Be very careful when *"playing"* with `AWS`. Always try in `noop mode` if you are not sure of what may happen. Remember that most of what is done in the `aws role` is managed in ```hieradata/role/aws.yaml```.
 
@@ -46,6 +39,8 @@ For the complete initial setup of an `AWS` environment, some operations must be 
 
 
 ## Installation of Puppet on a remote node
+
+TODO: Update these docs without using fabric
 
 To install `Puppet` on the specified `<node>`. It might be necessary to specify the `breed` (TODO: Automate OS detection)
 

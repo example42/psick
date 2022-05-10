@@ -32,7 +32,7 @@ mod 'example42/tp', :latest
 mod 'example42/tinydata', :latest
 mod 'example42/psick', :latest
 mod 'example42/network', :latest
-mod 'example42/tp_profile', :latest
+mod 'example42/psick_profile', :latest
 
 mod 'example42/deployments',
   :git => 'https://github.com/example42/puppet-deployments'
@@ -48,7 +48,7 @@ mod 'jdowning/rbenv', :latest
 mod 'trlinkin/noop', :latest
 mod 'puppet/archive', :latest
 
-# Optionally used by psick::openvpn
+# Optionally used by psick_profile::openvpn
 # mod 'puppet/openvpn', :latest
 
 # Optionally used by psick::aws
@@ -94,13 +94,13 @@ mod 'puppetlabs/dummy_service', :latest
 # mod 'herculesteam-augeasproviders_sysctl', '2.2.0'
 # mod 'puppetlabs/firewall', :latest
 
-# Used by psick::vagrant
+# Used by psick_profile::vagrant
 mod 'unibet/vagrant', :latest
 
 # Used by psick::icinga
 mod 'icinga/icinga2', :latest
 
-# Used by psick::sensu
+# Used by psick_profile::sensu
 mod 'sensu/sensu', :latest
 mod 'yelp/uchiwa', :latest
 mod 'puppet/rabbitmq', :latest
@@ -122,6 +122,7 @@ mod 'puppet/rabbitmq', :latest
 
 # Used by Mac profiles
 # mod 'thekevjames-homebrew', :latest
+# mod 'michaelw-homebrew', :git => 'https://github.com/michaelw/puppet-homebrew' # M1 Support
 
 # Used by psick::users when module=puppetlabs
 # mod 'puppetlabs/accounts', :latest

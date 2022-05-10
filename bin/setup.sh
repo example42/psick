@@ -17,12 +17,6 @@ setup_puppet() {
   fi
 }
 
-install_fabric() {
-  [ "$auto" == "true" ] || ask_interactive "Going to install Fabric via Puppet"
-  [ "$?" = 0 ] || return
-  "${script_dir}/fabric_setup.sh"
-}
-
 install_vagrant() {  
   [ "$auto" = "true" ] || ask_interactive "Going to install Vagrant via Puppet"
   [ "$?" = 0 ] || return
@@ -36,7 +30,5 @@ install_docker() {
 }
 
 setup_puppet
-install_fabric
 install_vagrant
 install_docker
-
