@@ -197,14 +197,10 @@ This `control-repo` provides some commands related to `Git`.
 
 To install useful `git hooks` for `Puppet files` checking (by default downloaded from [https://github.com/drwahl/puppet-git-hooks](https://github.com/drwahl/puppet-git-hooks)) use one of these, alternative, commands:
 
-    fab git.install_hooks    # If using Fabric
-    # or
     bin/git_install_hooks.sh # Direct bash command
 
 It's possible to specify the `git repo` URL to use (hooks are looked in the ```commit_hooks``` directory, so that directory should exist in our repo):
 
-    fab git.install_hooks:url=https://github.com/my/puppet-git-hooks
-    # or
     bin/git_install_hooks https://github.com/my/puppet-git-hooks
 
 We can customize the kind of checks to do by editing the file:
@@ -217,4 +213,4 @@ in particular we might prefer to set ```CHECK_PUPPET_LINT='permissive'``` to avo
 
 When working on our `control-repo`, besides it's own `Git repository`, we may have, in the ```modules/``` directory external modules with their own `Git repositories`. To quickly check the ```git status``` of the main `control-repo` and of the other eventual modules, run:
 
-    fab git.status
+    bin/git_status.sh

@@ -23,7 +23,7 @@ Let's have a quick overview of the risk level related to different kind of files
 
   - [warning] ```Puppetfile``` contains the list of the modules to add to the `control-repo`. If we add a new module we won't have any effect on nodes until we actually start to use its classes or defines. If we remove a module we'll break `Puppet runs` in all the nodes that eventually use it. When we add or remove modules, we may see on our nodes files changing at the first `Puppet run:` these are due the contents of module's plugins being synced to the clients (```pluginsync``` feature) they are normal and won't affect our servers operations.
 
-  - [warning] ```bin/```, ```docker/```, ```vagrant/```, ```fabfile```, ```.gitlab-ci.yml``` contain scripts, configurations and settings which won't affect directly our servers but may break our `CI pipelines` or `testing environments`. Handle with relative care.
+  - [warning] ```bin/```, ```docker/```, ```vagrant/```, ```.gitlab-ci.yml``` contain scripts, configurations and settings which won't affect directly our servers but may break our `CI pipelines` or `testing environments`. Handle with relative care.
 
   - [warning] ```site/profiles/*``` here stay local `profiles`, `templates`, `files`, `facts`, `resource types`, `data types`.
 

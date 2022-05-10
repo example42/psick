@@ -83,7 +83,7 @@ After that, install `r10k` (and other recommended gems) and populate the `module
     bin/puppet_setup.sh auto
 ```
 
-**NOTE:** Ignore **warnings** about missing ```docker```, ```vagrant``` and ```fab``` commands.
+**NOTE:** Ignore **warnings** about missing ```docker``` and ```vagrant``` commands.
 
 Next, assign the **```puppet_foss_master```** `role` to the node, by setting the `role` as [external fact](external_facts.md):
 

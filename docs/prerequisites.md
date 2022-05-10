@@ -56,7 +56,7 @@ These plugins, as `Vagrant` itself, can be installed by the ```bin/setup.sh``` s
 
 ### Docker
 
-`Docker` operations via `Fabric` or the command line require `Docker` to be locally installed.
+`Docker` operations via the command line require `Docker` to be locally installed.
 
 If we use `Mac` or `Windows` we need the newer native client, things won't work when using `Docker` running inside a `Virtualbox VM`.
 

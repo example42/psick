@@ -45,7 +45,7 @@ echo_title "Installing external modules via r10k"
 r10k puppetfile install -v
 echo
 
-progs="puppet vagrant docker fab"
+progs="puppet vagrant docker"
 for prog in $progs; do
   echo_subtitle "Checking ${prog} availability"
   which $prog || echo_failure "${prog} not found. Installation is recommended."

@@ -57,7 +57,7 @@ install_gems
 install_rsync
 install_modules
 
-progs="puppet vagrant docker fab"
+progs="puppet vagrant docker"
 for prog in $progs; do
   echo_subtitle "Checking ${prog} availability"
   which $prog && echo_success "${prog} found. Good!" || echo_failure "${prog} not found. Installation is recommended."

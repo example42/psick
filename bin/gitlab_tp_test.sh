@@ -40,5 +40,4 @@ for node in $always_nodes; do
   echo
   echo "Tp test on ${node} - Check always done"
   vagrant ssh $node -c 'tp test ; exit $?'
-  # fab tp.remote_test -H $node
 done

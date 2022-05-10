@@ -12,7 +12,7 @@ modules:
 - 'example42/tp'
 - 'example42/tinydata'
 - 'example42/psick'
-- 'example42/tp_profile'
+- 'example42/psick_profile'
 - 'puppetlabs/concat'
 - 'puppetlabs/stdlib'
 - 'puppetlabs/vcsrepo'
