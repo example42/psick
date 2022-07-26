@@ -14,17 +14,17 @@ From this repository you can build your IT infrastructure and manage it via Pupp
 
 PSICK is a **Puppet control-repo** with support for different tools to manage systems provisioning:
 
-- A modern, opinionated, general purpose, full featured, reusable, **customisable** control-repo
-- Support for multiple ways to **test** local Puppet code (unit, integration, acceptance tests on multiple targets)
-- Support for different CI solutions (Gitlab, GitHub, CD4PE...)
-- Usable in **every Puppet** setup, based on Puppet Enterprise, Open Source, with or without Foreman
+  - A modern, opinionated, general purpose, full featured, reusable, **customisable** control-repo
+  - Support for multiple ways to **test** local Puppet code (unit, integration, acceptance tests on multiple targets)
+  - Support for different CI solutions (Gitlab, GitHub, CD4PE...)
+  - Usable in **every Puppet** setup, based on Puppet Enterprise, Open Source, with or without Foreman
 
 This control repo, among the other third party modules, uses the companion [psick](https://github.com/example42/puppet-psick) module which provides:
 
-- A robust interface for Hiera driven **nodes classification**
-- Ready to use profiles for common system **baselines**
-- Support for application specific **psick profiles**, via the [psick_profile](https://github.com/example42/puppet-psick_profile)
-- Easy integration with common **third party component** modules
+  - A robust interface for Hiera driven **nodes classification**
+  - Ready to use profiles for common system **baselines**
+  - Support for application specific **psick profiles**, via the [psick_profile](https://github.com/example42/puppet-psick_profile)
+  - Easy integration with common **third party component** modules
 
 Sample Hiera data for the PSICK control-repo is available via the [psick-hieradata](https://github.com/example42/psick-hieradata) module.
 
@@ -83,28 +83,28 @@ Notes:
 
 PSICK has the common set of files and directories of a Puppet control-repo:
 
-- ```environment.conf``` - The Puppet environment configuration file
-- ```manifests/``` - Directory with the main manifests. Here we have just ```site.pp```
-- ```Puppetfile``` - File that defines the external modules to add via r10k
-- ```modules/``` - Directory where modules defined in Puppetfile are placed (it's .gitignored)
-- ```hiera.yaml``` - Hiera 5 environment configuration file. An equivalent Hiera 3 file is ```hiera3.yaml``` (was linked to ```/etc/puppetlabs/puppet/hiera.yaml```)
-- ```hieradata/``` - This directory (or one called ```data```) is usually used to store Hiera data, when is decided to keep Hiera data inside the control-repo. Since version 0.9.3 PSICK's default datadir is loaded from a module in ```modules/hieradata/data```.
+  - ```environment.conf``` - The Puppet environment configuration file
+  - ```manifests/``` - Directory with the main manifests. Here we have just ```site.pp```
+  - ```Puppetfile``` - File that defines the external modules to add via r10k
+  - ```modules/``` - Directory where modules defined in Puppetfile are placed (it's .gitignored)
+  - ```hiera.yaml``` - Hiera 5 environment configuration file. An equivalent Hiera 3 file is ```hiera3.yaml``` (was linked to ```/etc/puppetlabs/puppet/hiera.yaml```)
+  - ```hieradata/``` - This directory (or one called ```data```) is usually used to store Hiera data, when is decided to keep Hiera data inside the control-repo. Since version 0.9.3 PSICK's default datadir is loaded from a module in ```modules/hieradata/data```.
 
 Some extra directories are added in PSICK for integrations and tools:
 
-- ```bin/``` - Directory containing tools and scripts for various Puppet related operations
-- ```docs/``` - Directory with extra docs
-- ```site/``` - An additional modules directory, with local profiles and tools.
-- ```docker/``` - Files used for building Docker images for multiple OS
-- ```vagrant/``` - Various Vagrant environments where is possible to test local Puppet code
-- ```.gitlab-ci.yaml``` - (Sample) GitLab Continuous Integration pipeline for code testing and deployment
+  - ```bin/``` - Directory containing tools and scripts for various Puppet related operations
+  - ```docs/``` - Directory with extra docs
+  - ```site/``` - An additional modules directory, with local profiles and tools.
+  - ```docker/``` - Files used for building Docker images for multiple OS
+  - ```vagrant/``` - Various Vagrant environments where is possible to test local Puppet code
+  - ```.gitlab-ci.yaml``` - (Sample) GitLab Continuous Integration pipeline for code testing and deployment
 
 ### Compatibility
 
 PSICK compatible with every modern enough Puppet setup:
 
-- Puppet OSS 4.9 or later.
-- Puppet Enterprise 2017.1.0 or later
+  - Puppet OSS 4.9 or later.
+  - Puppet Enterprise 2017.1.0 or later
 
 ### Documentation
 
@@ -112,23 +112,23 @@ PSICK is full of more or less hidden stuff, which ease a lot Puppet code develop
 
 General Puppet documentation:
 
-- [Introduction to Puppet](docs/puppet.md) - A very basic introduction to Puppet
-- [Hiera essentials](docs/hiera.md) - Basic Hiera concepts
-- [Hiera eyaml](docs/hiera_eyaml.md) - An overview on how to use hiera-eyaml
-- [Trusted Facts](docs/trusted_facts.md) - How to set and use trusted facts
-- [External Facts](docs/external_facts.md) - How to set and use external facts
-- [Puppet Enterprise Console](docs/pe_console.md) - An overview on the Puppet Enterprise console
+  - [Introduction to Puppet](docs/puppet.md) - A very basic introduction to Puppet
+  - [Hiera essentials](docs/hiera.md) - Basic Hiera concepts
+  - [Hiera eyaml](docs/hiera_eyaml.md) - An overview on how to use hiera-eyaml
+  - [Trusted Facts](docs/trusted_facts.md) - How to set and use trusted facts
+  - [External Facts](docs/external_facts.md) - How to set and use external facts
+  - [Puppet Enterprise Console](docs/pe_console.md) - An overview on the Puppet Enterprise console
 
 About this control-repo:
 
-- [Control-repo structure](docs/structure.md) - A description of the control-repo structure and most important paths
-- [Control-repo logic](docs/use.md) - An overview of the design choices and the logic of this control repo.
-- [Prerequisites](docs/prerequisites.md) - A more detailed view of the prerequisites needed to fully use the control-repo
-- [Noop Mode](docs/noop_mode.md) - An overview on how to manage noop and no-noop with PSICK
-- [Vagrant Integration](docs/vagrant.md) - How to use Vagrant to test the control-repo during development
-- [Docker Integration](docs/docker.md) - How to use Docker to test Puppet code and to build images based on the existing Puppet code
+  - [Control-repo structure](docs/structure.md) - A description of the control-repo structure and most important paths
+  - [Control-repo logic](docs/use.md) - An overview of the design choices and the logic of this control repo.
+  - [Prerequisites](docs/prerequisites.md) - A more detailed view of the prerequisites needed to fully use the control-repo
+  - [Noop Mode](docs/noop_mode.md) - An overview on how to manage noop and no-noop with PSICK
+  - [Vagrant Integration](docs/vagrant.md) - How to use Vagrant to test the control-repo during development
+  - [Docker Integration](docs/docker.md) - How to use Docker to test Puppet code and to build images based on the existing Puppet code
 
 Managing changes:
 
-- [Git tasks](docs/git.md) - An overview on how to use Git
-- [Change Process](docs/change_process.md) - A step by step guide on how to manage changes in Puppet code
+  - [Git tasks](docs/git.md) - An overview on how to use Git
+  - [Change Process](docs/change_process.md) - A step by step guide on how to manage changes in Puppet code
