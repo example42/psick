@@ -8,53 +8,25 @@
 [![Build Status](https://travis-ci.org/example42/psick.png?branch=production)](https://travis-ci.org/example42/psick)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/36799fd4775a4bfb87fb4f5266aeb60f)](https://www.codacy.com/app/example42/psick?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=example42/psick&amp;utm_campaign=Badge_Grade)
 
-A **Puppet control-repo** [generator] on steroids, featuring:
+Your infrastructure control repository.
 
-- A modern, opinionated, general purpose, full featured, **reusable** control-repo
-- Multiple ways to **test** local Puppet code (on Docker, Vagrant or directly remote hosts)
-- Gitlab **CI** pipeline to control Puppet code deployment
-- Usable in **any Puppet** setup, based on Puppet OSS, PE, Foreman...
-- **Toolset** to create and maintain a new control-repo based on PSICK (WIP)
+From this repository you can build your IT infrastructure and manage it via Puppet.
+
+PSICK is a **Puppet control-repo** with support for different tools to manage systems provisioning:
+
+- A modern, opinionated, general purpose, full featured, reusable, **customisable** control-repo
+- Support for multiple ways to **test** local Puppet code (unit, integration, acceptance tests on multiple targets)
+- Support for different CI solutions (Gitlab, GitHub, CD4PE...)
+- Usable in **every Puppet** setup, based on Puppet Enterprise, Open Source, with or without Foreman
 
 This control repo, among the other third party modules, uses the companion [psick](https://github.com/example42/puppet-psick) module which provides:
 
 - A robust interface for Hiera driven **nodes classification**
 - Ready to use profiles for common system **baselines**
-- Standardised **tp profiles** to manage applications
-- Support and integration with common **third party** modules
-- Automatic firewalling and monitoring management
+- Support for application specific **psick profiles**, via the [psick_profile](https://github.com/example42/puppet-psick_profile)
+- Easy integration with common **third party component** modules
 
 Sample Hiera data for the PSICK control-repo is available via the [psick-hieradata](https://github.com/example42/psick-hieradata) module.
-
-PSICK is a Puppet control-repo itself, you can use this repository directly in a Puppet environment,
-and basically have a full PSICK setup, or run the ```psick``` command to generate a new Puppet
-control-repo based on the components you need.
-
-For more details check the [automatically generated Control repo documentation](http://puppet.pages.lab.psick.io/psick/).
-
-### See PSICK in action
-
-You can see a sample PSICK based setup by accessing to Psick Lab servers.
-
-They are configured using this same repository. All the lab servers are Vagrant virtual machines running on a single physical server, where an NGINX proxies requests to the internal VMs.
-
-You can reproduce the same by running ```vagrant up``` under ```vagrant/environments/lab``` (some integrations between Puppet Enterprise and GitLab have been done manually):
-
-Note that this is a non High Available testing and development infrastructure, some of these services might not always be available (an NGINX bad gateway error implies that the backend server is down):
-
-- [Puppet Enterprise](https://puppet.lab.psick.io/) Login: guest:puppet. Is the Puppet Master of the lab environment nodes. There it runs directly our development code.
-- [GitLab](https://git.lab.psick.io/puppet/psick/). A GitLab instance, integrated with Code Mabaner to automatically deploy code PE and run our CI pipelines
-- [Sensu](https://sensu.lab.psick.io/). Login: sensu:sensu. An Uchiwa installation as frontend for the Sensu installation.
-- [Icinga](https://icinga.lab.psick.io/icingaweb2/). Login: guest:guest. An Icinga installation, with Icinga Web 2 interface.
-- [Graphite](https://graphite.lab.psick.io/). Graphite and grafana frontends (not active by default).
-- [ManageIQ](https://manageiq.lab.psick.io/). A ManageIQ installation (not active by default).
-- [RabbitMQ](https://rabbitmq.lab.psick.io/). RabbitMQ installation (not active by default).
-- [Rundeck](https://rundeck.lab.psick.io/). Rundeck installation (not active by default).
-- [Foreman](https://foreman.lab.psick.io/). Foreman installation (not active by default).
-- [Jenkins](https://jenkins.lab.psick.io/). Jenkins instance using PSICK Jenkinsfile.
-
-Note: While the setup of the whole PSICK lab infrastructure is automated and may be restored from scratch, that's not something we would like to do frequently.
-We give you credentials and access to these services, please behave.
 
 ### Setup of a new control-repo
 
@@ -129,17 +101,10 @@ Some extra directories are added in PSICK for integrations and tools:
 
 ### Compatibility
 
-PSICK uses cutting edge Puppet technology and all its components are expected to work on these versions:
+PSICK compatible with every modern enough Puppet setup:
 
 - Puppet OSS 4.9 or later.
 - Puppet Enterprise 2017.1.0 or later
-
-In particular the ```psick``` separated module uses data in modules and requires a relatively modern Puppet.
-
-For most of the other parts of the control repo you can use, compatibility is enlarged to:
-
-- Puppet OSS >= 4.4 or later
-- Puppet Enterprise >= 2016.1.1 or later
 
 ### Documentation
 

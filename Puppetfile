@@ -1,7 +1,6 @@
-# External modules to installed by r10k in modules/ dir
-# IMPORTANT: Here most modules are at latest version for sample purposes.
-# In working environments specific fixed versions should be defined.
-# Some modules might need to be uncommented to make specific profiles work
+# External modules installed by r10k or Code Manager under modules/ dir
+# IMPORTANT: In working environments change version from latest to specific, tested, modules versions
+# NOTE: Some profiles require additional componnent modules to uncomment
 
 # Here we place hieradata in a separated module.
 # We use control-repo branch if exists, or production as default
@@ -31,11 +30,7 @@ mod 'puppetlabs/k5login_core', :latest
 mod 'example42/tp', :latest
 mod 'example42/tinydata', :latest
 mod 'example42/psick', :latest
-mod 'example42/network', :latest
 mod 'example42/psick_profile', :latest
-
-mod 'example42/deployments',
-  :git => 'https://github.com/example42/puppet-deployments'
 
 # Third Party modules
 mod 'puppetlabs/concat', :latest
@@ -47,6 +42,8 @@ mod 'puppetlabs/catalog_preview', :latest
 mod 'jdowning/rbenv', :latest
 mod 'trlinkin/noop', :latest
 mod 'puppet/archive', :latest
+mod 'puppetlabs-dropsonde', :latest
+
 
 # Optionally used by psick_profile::openvpn
 # mod 'puppet/openvpn', :latest
@@ -78,7 +75,7 @@ mod 'puppetlabs-cd4pe_jobs', :latest
 # mod 'puppet/puppetboard', :latest
 
 # Used by psick::puppet::pe_code_manager
-mod 'pltraining/rbac', '0.0.5'
+# mod 'pltraining/rbac', '0.0.5'
 
 # Used by grafanadash server (puppet metrics)
 #mod 'grafanadash',
@@ -106,10 +103,9 @@ mod 'yelp/uchiwa', :latest
 mod 'puppet/rabbitmq', :latest
 # deprecated: mod 'puppet/staging', :latest
 
-# Used by windows profiles
+# Used by Windows profiles
 # mod 'puppet/windowsfeature', :latest # :git => 'https://github.com/voxpupuli/puppet-windowsfeature'
-# mod 'thoward-windows_firewall', '0.3.4'
-## mod 'puppet/windows_firewall', :latest # :git => 'https://github.com/voxpupuli/puppet-windows_firewall'
+# mod 'puppet/windows_firewall', :latest # :git => 'https://github.com/voxpupuli/puppet-windows_firewall'
 # mod 'puppetlabs/registry', :latest
 # mod 'puppetlabs/chocolatey', :latest
 # mod 'puppetlabs/acl', :latest
@@ -118,22 +114,11 @@ mod 'puppet/rabbitmq', :latest
 # mod 'puppetlabs/reboot', :latest
 # mod 'puppetlabs/wsus_client', :latest
 # mod 'counsyl/windows', :git => 'https://github.com/counsyl/puppet-windows'
-# mod 'trlinkin/domain_membership', :git => 'https://github.com/trlinkin/domain_membership'
+# mod 'trlinkin/domain_membership', :git => 'https://github.com/trlinkin/puppet-domain_membership'
 
-# Used by Mac profiles
+# Used by Darwin profiles
 # mod 'thekevjames-homebrew', :latest
 # mod 'michaelw-homebrew', :git => 'https://github.com/michaelw/puppet-homebrew' # M1 Support
 
 # Used by psick::users when module=puppetlabs
 # mod 'puppetlabs/accounts', :latest
-
-# Choria
-# mod 'choria/choria', :latest
-# mod 'choria/mcollective_choria', :latest
-# mod 'choria/mcollective_agent_filemgr', :latest
-# mod 'choria/mcollective_agent_package', :latest
-# mod 'choria/mcollective_agent_puppet', :latest
-# mod 'choria/mcollective_agent_service', :latest
-# mod 'choria/mcollective_agent_bolt_tasks', :latest
-# mod 'choria/mcollective_agent_service', :latest
-# mod 'choria/mcollective_util_actionpolicy', :latest
