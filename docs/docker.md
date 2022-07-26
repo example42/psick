@@ -39,11 +39,9 @@ Available images are: `ubuntu-12.04`, `ubuntu-14.04`, `ubuntu-16.04`, `centos-7`
 
 It's possible to use custom ones by:
 
- - Setting on `Hiera` in the ```"role".yaml``` files the parameter ```docker::username``` (example42 by default)
-
- - Build custom  ```puppet-agent``` images
-
- - Push them to our registry for use outside our local machine
+  - Setting on `Hiera` in the ```"role".yaml``` files the parameter ```docker::username``` (example42 by default)
+  - Build custom  ```puppet-agent``` images
+  - Push them to our registry for use outside our local machine
 
 
 ### Building Docker images
