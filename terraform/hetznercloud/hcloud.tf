@@ -57,7 +57,7 @@ resource "hcloud_server" "client_nodes" {
     host        = self.ipv4_address
   }
   provisioner "file" {
-    source      = "../bin/bootstrap/cloud_init.sh"
+    source      = "../../bin/bootstrap/cloud_init.sh"
     destination = "/tmp/cloud_init.sh"
   }
 
