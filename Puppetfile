@@ -122,3 +122,7 @@ mod 'puppet/rabbitmq', :latest
 
 # Used by psick::users when module=puppetlabs
 # mod 'puppetlabs/accounts', :latest
+
+# Service Now integration
+mod 'puppetlabs-servicenow_cmdb_integration', '0.2.0'
+
