@@ -2,7 +2,7 @@
 breed=$2
 
 if [ -z "$1" ]; then
-  puppet_version='6'
+  puppet_version='7'
 else
   if [ $1 == 'latest' ]; then
     puppet_version='7'
@@ -11,14 +11,16 @@ else
   fi
 fi
 
-if [ $USER == 'root' ]; then
+if [ "$USER" == 'root' ]; then
+  sudo_command=''
+elif [ -f /.dockerenv ]; then
   sudo_command=''
 else
   sudo_command='sudo '
 fi
 
 which tput &>/dev/null
-if [ "x${?}" == "x0" ]; then
+if [ "${?}" == "0" ]; then
   SETCOLOR_NORMAL=$(tput sgr0)
   SETCOLOR_TITLE=$(tput setaf 6)
   SETCOLOR_BOLD=$(tput setaf 15)
@@ -34,9 +36,9 @@ echo_title () {
 }
 
 # Skip if Puppet 5 or higher is already installed
-if [ $(which puppet) ]; then
+if [ "$(which puppet)" ]; then
   puppet --version | grep "^[5|6|7]"
-  if [ "x$?" == "x0" ]; then
+  if [ "$?" == "0" ]; then
     echo_title "Puppet version 5 or higher present. Skipping installation."
     exit 0
   fi
@@ -97,6 +99,7 @@ setup_apt() {
     8) codename=jessie   ;;
     9) codename=stretch  ;;
     10) codename=buster  ;;
+    11) codename=bullseye  ;;
     14.04) codename=trusty ;;
     16.04) codename=xenial ;;
     18.04) codename=bionic ;;
@@ -104,6 +107,10 @@ setup_apt() {
     19.10) codename=bionic ;;
     20.04) codename=focal ;;
     20.10) codename=focal ;;
+    21.04) codename=focal ;;
+    21.10) codename=focal ;;
+    22.04) codename=jammy ;;
+    22.10) codename=jammy ;;
     *) echo "Release not supported" ;;
   esac
 
