@@ -7,6 +7,10 @@ defaults:
 # datadir: data                   # Data in control-repo. Default for puppetlabs/control-repo
 
 hierarchy:
+#  - name: "ServiceNow Hiera data"
+#    data_hash: servicenow_cmdb_integration::getvar
+#    options:
+#      var: trusted.external.servicenow.hiera_data
   - name: "Eyaml hierarchy"
     lookup_key: eyaml_lookup_key # eyaml backend
     paths:

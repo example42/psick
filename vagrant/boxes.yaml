@@ -2,7 +2,7 @@
 # List of available Vagrant boxes with different OS to test on
 boxes:
   almalinux9:
-    box: almalinux/centos-stream98
+    box: almalinux/9
   almalinux8:
     box: almalinux/8
 
@@ -21,6 +21,11 @@ boxes:
   alpine35:
     box: generic/alpine3
 
+  archlinux:
+    box: generic/arch
+
+  amazon2:
+    box: gbailey/amzn2
   amazon201703:
     box: mvbcoding/awslinux
 
@@ -28,8 +33,6 @@ boxes:
     box: centos/stream9
   centos8stream:
     box: centos/stream8
-  centos8:
-    box: generic/centos8
   centos8:
     box: generic/centos8
   centos7:
@@ -53,6 +56,12 @@ boxes:
   devuan4:
     box: generic/devuan4
 
+  fedora37:
+    box: generic/fedora37
+  fedora36:
+    box: generic/fedora36
+  fedora35:
+    box: generic/fedora35
   fedora34:
     box: generic/fedora34
   fedora33:
@@ -81,24 +90,34 @@ boxes:
   freebsd10:
     box: freebsd/FreeBSD-10.4-STABLE
 
-
-
+  netbsd9:
+    box: generic/netbsd9
+  netbsd8:
+    box: generic/netbsd8
 
   opensuse_tumbleweed:
     box: opensuse/openSUSE-Tumbleweed-Vagrant.x86_64
+  opensuse42:
+    box: generic/opensuse42
   opensuse15:
     box: generic/opensuse15
+
+  oracle9:
+    box: generic/oracle9
+  oracle8:
+    box: generic/oracle8
+  oracle7:
+    box: generic/oracle7
+  oracle6:
+    box: generic/oracle6
 
   osx1010:
     box: dhoer/macosx-10.10
   osx1011:
     box: carbon/osx-elcapitan-10.11
 
-  oracle8:
-    box: generic/oracle8
-  oracle7:
-    box: generic/oracle7
-
+  rhel9:
+    box: generic/rhel9
   rhel8:
     box: generic/rhel8
   rhel7:
@@ -106,6 +125,8 @@ boxes:
   rhel6:
     box: generic/rhel6
 
+  rocky9:
+    box: generic/rocky9
   rocky8:
     box: generic/rocky8
 
@@ -120,11 +141,15 @@ boxes:
 # vagrant provision suse12
 # vagrant reload suse12
 # vagrant provision suse12
+  suse15:
+    box: normation/sles-15-sp4-64
   suse12:
-    box: suse/sles12sp1
+    box: normation/sles-12-04-64
   suse11:
-    box: suse/sles11sp3
+    box: normation/sles-11-03-64
 
+  ubuntu2210:
+    box: ubuntu/kinetic64
   ubuntu2204:
     box: ubuntu/jammy64
   ubuntu2110:
@@ -142,11 +167,18 @@ boxes:
   ubuntu1204:
     box: ubuntu/precise64
 
-  windows2008:
-    box: opentable/win-2008r2-standard-amd64-nocm
-  windows2012:
-    box: opentable/win-2012r2-standard-amd64-nocm
+  windows2022:
+    box: gusztavvargadr/windows-server-2022-standard 
+  windows2019:
+    box: gusztavvargadr/windows-server-2019-standard
   windows2016:
     box: mwrock/Windows2016
+  windows2012:
+    box: opentable/win-2012r2-standard-amd64-nocm
+  windows2008:
+    box: opentable/win-2008r2-standard-amd64-nocm
     breed: win2016
-
+  windows11:
+    box: gusztavvargadr/windows-11
+  windows10:
+    box: gusztavvargadr/windows-10
