@@ -3,12 +3,10 @@ breed=$2
 
 if [ -z "$1" ]; then
   puppet_version='7'
+elif [ "$1" == 'latest' ]; then
+  puppet_version='7'
 else
-  if [ $1 == 'latest' ]; then
-    puppet_version='7'
-  else
-    puppet_version=$1
-  fi
+  puppet_version="$1"
 fi
 
 if [ "$USER" == 'root' ]; then
