@@ -124,5 +124,4 @@ mod 'puppet/rabbitmq', :latest
 # mod 'puppetlabs/accounts', :latest
 
 # Service Now integration
-mod 'puppetlabs-servicenow_cmdb_integration', '0.2.0'
-
+# mod 'puppetlabs-servicenow_cmdb_integration', '0.2.0'
