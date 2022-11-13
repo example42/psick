@@ -57,10 +57,10 @@ setup_redhat() {
 setup_fedora() {
   release=$1
   echo_title "Uninstalling existing Puppet"
-  $sudo_command yum erase -y puppet-agent puppet puppetlabs-release puppetlabs-release-pc1 &>/dev/null
+  $sudo_command yum erase -y puppet-agent puppet puppet-release puppet-release-pc1 &>/dev/null
 
   echo_title "Adding repo for Puppet"
-  $sudo_command yum install -y https://yum.puppetlabs.com/puppet$puppet_version-release-fedora-${release}.noarch.rpm &>/dev/null
+  $sudo_command yum install -y https://yum.puppet.com/puppet$puppet_version-release-fedora-${release}.noarch.rpm &>/dev/null
 
   sleep 2
   echo_title "Installing Puppet"
@@ -72,7 +72,7 @@ setup_amazon() {
   $sudo_command yum erase -y puppet-agent puppet puppetlabs-release puppetlabs-release-pc1 &>/dev/null
 
   echo_title "Adding repo for Puppet"
-  $sudo_command yum install -y https://yum.puppetlabs.com/puppet$puppet_version-release-el-${release}.noarch.rpm &>/dev/null
+  $sudo_command yum install -y https://yum.puppet.com/puppet$puppet_version-release-el-${release}.noarch.rpm &>/dev/null
 
   sleep 2
   echo_title "Installing Puppet"
@@ -84,7 +84,7 @@ setup_suse() {
   $sudo_command zypper remove -y puppet puppet-agent puppetlabs-release puppetlabs-release-pc1 &>/dev/null
 
   echo_title "Adding repo for Puppet"
-  $sudo_command zypper --no-gpg-checks --non-interactive install https://yum.puppetlabs.com/puppet$puppet_version-release-sles-${release}.noarch.rpm &>/dev/null
+  $sudo_command zypper --no-gpg-checks --non-interactive install https://yum.puppet.com/puppet$puppet_version-release-sles-${release}.noarch.rpm &>/dev/null
 
   sleep 2
   echo_title "Installing Puppet"
@@ -94,7 +94,7 @@ setup_suse() {
 setup_apt() {
   case $1 in
     3*) codename=cumulus ;;
-    8) codename=jessie   ;;
+    8) codename=jessie ; puppet_version='6'  ;;
     9) codename=stretch  ;;
     10) codename=buster  ;;
     11) codename=bullseye  ;;
@@ -113,15 +113,16 @@ setup_apt() {
   esac
 
   echo_title "Adding repo for Puppet"
-  $sudo_command wget -q "http://apt.puppetlabs.com/puppet${puppet_version}-release-${codename}.deb" &>/dev/null
-  $sudo_command dpkg -i "puppet${puppet_version}-release-${codename}.deb" &>/dev/null
+  $sudo_command wget -q "http://apt.puppet.com/puppet${puppet_version}-release-${codename}.deb" -O "/tmp/puppet${puppet_version}-release-${codename}.deb" &>/dev/null
+  $sudo_command dpkg -i "/tmp/puppet${puppet_version}-release-${codename}.deb" &>/dev/null
 
   echo_title "Running apt update"
   $sudo_command apt update -qq &>/dev/null
 
   echo_title "Installing Puppet and its dependencies"
   $sudo_command apt-get install -qq -y apt-transport-https &>/dev/null
-  $sudo_command apt-get install -qq -y puppet-agent &>/dev/null
+  $sudo_command apt-get install -y puppet-agent
+#  $sudo_command apt-get install -qq -y puppet-agent &>/dev/null
 }
 
 setup_alpine() {
@@ -142,7 +143,7 @@ setup_solaris() {
 setup_darwin() {
   majver=$(sw_vers -productVersion | cut -d '.' -f 1-2)
   echo_title "Downloading package for MacOS version ${majver}"
-  curl -s -o puppet-agent.dmg "https://downloads.puppetlabs.com/mac/puppet/${majver}/x86_64/puppet-agent-latest.dmg"
+  curl -s -o puppet-agent.dmg "https://downloads.puppet.com/mac/puppet/${majver}/x86_64/puppet-agent-latest.dmg"
 
   echo_title "Installing Puppet Agent"
   hdiutil mount puppet-agent.dmg
@@ -156,7 +157,7 @@ setup_bsd() {
 }
 
 setup_windows() {
-  curl -s -o puppet-agent.msi "https://downloads.puppetlabs.com/windows/puppet/puppet-agent-x64-latest.msi"
+  curl -s -o puppet-agent.msi "https://downloads.puppet.com/windows/puppet/puppet-agent-x64-latest.msi"
   msiexec /qn /norestart /i puppet-agent.msi
   # msiexec /qn /norestart /i puppet-agent.msi PUPPET_AGENT_CERTNAME=me.example.com PUPPET_MASTER_SERVER=puppet.example.com \
 }
@@ -204,6 +205,9 @@ setup_linux() {
     fedorarelease) setup_fedora $majver ;;
     centos) setup_redhat $majver ;;
     scientific) setup_redhat $majver ;;
+    rockylinux) setup_redhat $majver ;;
+    almalinux) setup_redhat $majver ;;
+    almalinuxrelease) setup_redhat $majver ;;
     amzn) setup_amazon ;;
     sles) setup_suse $majver ;;
     cumulus-linux) setup_apt $majver ;;
