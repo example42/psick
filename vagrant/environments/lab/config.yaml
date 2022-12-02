@@ -169,9 +169,12 @@ nodes:
       guest: 8080
       host: 14481
   - role: ostest
+    hostname_base: ostest-suse15
+    fqdn: ostest-suse15.lab.psick.io
+    box: suse15
+  - role: ostest
     hostname_base: ostest-suse12
     fqdn: ostest-suse12.lab.psick.io
-    count: 1
     box: suse12
   - role: ostest
     hostname_base: ostest-opensuse
@@ -182,6 +185,9 @@ nodes:
     hostname_base: ostest-suse11
     box: suse11
   - role: ostest
+    hostname_base: ostest-ubuntu2204
+    box: ubuntu2204
+  - role: ostest
     hostname_base: ostest-ubuntu2004
     box: ubuntu2004
   - role: ostest
@@ -191,14 +197,32 @@ nodes:
     hostname_base: ostest-ubuntu1604
     box: ubuntu1604
   - role: ostest
-    hostname_base: ostest-ubuntu1404
-    box: ubuntu1404
+    hostname_base: ostest-debian11
+    box: debian11
+  - role: ostest
+    hostname_base: ostest-debian10
+    box: debian10
   - role: ostest
     hostname_base: ostest-debian9
     box: debian9
   - role: ostest
-    hostname_base: ostest-alpine310
-    box: alpine310
+    hostname_base: ostest-centos8
+    box: centos8
+  - role: ostest
+    hostname_base: ostest-centos7
+    box: centos7
+  - role: ostest
+    hostname_base: ostest-rhel9
+    box: rhel9
+  - role: ostest
+    hostname_base: ostest-rhel8
+    box: rhel8
+  - role: ostest
+    hostname_base: ostest-amazon2
+    box: amazon2
+  - role: ostest
+    hostname_base: ostest-alpine315
+    box: alpine315
   - role: ostest
     hostname_base: ostest-windows2012
     puppet_apply: true
