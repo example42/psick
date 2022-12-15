@@ -180,7 +180,7 @@ nodes:
     hostname_base: ostest-opensuse
     fqdn: ostest-opensuse.lab.psick.io
     count: 1
-    box: opensuse_tumbleweed
+    box: opensuse42
   - role: ostest
     hostname_base: ostest-suse11
     box: suse11
@@ -206,8 +206,11 @@ nodes:
     hostname_base: ostest-debian9
     box: debian9
   - role: ostest
-    hostname_base: ostest-centos8
-    box: centos8
+    hostname_base: ostest-rocky9
+    box: rocky9
+  - role: ostest
+    hostname_base: ostest-rocky8
+    box: rocky8
   - role: ostest
     hostname_base: ostest-centos7
     box: centos7

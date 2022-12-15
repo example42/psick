@@ -72,7 +72,7 @@ setup_amazon() {
   $sudo_command yum erase -y puppet-agent puppet puppetlabs-release puppetlabs-release-pc1 &>/dev/null
 
   echo_title "Adding repo for Puppet"
-  $sudo_command yum install -y https://yum.puppet.com/puppet$puppet_version-release-el-${release}.noarch.rpm &>/dev/null
+  $sudo_command yum install -y https://yum.puppet.com/puppet$puppet_version-release-el-7.noarch.rpm &>/dev/null
 
   sleep 2
   echo_title "Installing Puppet"
@@ -80,6 +80,7 @@ setup_amazon() {
 }
 
 setup_suse() {
+  release=$1
   echo_title "Uninstalling existing Puppet"
   $sudo_command zypper remove -y puppet puppet-agent puppetlabs-release puppetlabs-release-pc1 &>/dev/null
 
@@ -173,6 +174,9 @@ setup_linux() {
   elif [ -f /etc/SuSE-release ]; then
       OS=sles
       majver=$(cat /etc/SuSE-release | grep VERSION | cut -d '=' -f 2 | tr -d '[:space:]')
+  elif [ -f /etc/SUSE-brand ]; then
+      OS=sles
+      majver=$(cat /etc/SUSE-brand | grep VERSION | cut -d '=' -f 2 | tr -d '[:space:]')
   elif [ -f /etc/alpine-release ]; then
       OS=alpine
       majver=$(cat /etc/alpine-release | cut -d '.' -f 1)
@@ -190,7 +194,7 @@ setup_linux() {
   elif [ -f /etc/os-release ]; then
       . /etc/os-release
       OS=$ID
-      majver=$VERSION_ID
+      majver=$(echo $VERSION_ID | cut -d '.' -f 1)
   else
       OS=$(uname -s)
       majver=$(uname -r)
