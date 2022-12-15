@@ -33,6 +33,8 @@ vbguest:
 
 # Nodes shown in vagrant status 
 nodes:
+  - hostname_base: redhat9
+    box: rhel9
   - hostname_base: redhat8
     box: rhel8
   - hostname_base: redhat7
@@ -43,12 +45,14 @@ nodes:
     box: centos7
   - hostname_base: centos6
     box: centos6
+  - hostname_base: oracle9
+    box: oracle9
   - hostname_base: oracle8
     box: oracle8
-  - hostname_base: oracle8
-    box: oracle8
-  - hostname_base: ubuntu1910
-    box: ubuntu1910
+  - hostname_base: ubuntu2204
+    box: ubuntu2204
+  - hostname_base: ubuntu2004
+    box: ubuntu2004
   - hostname_base: ubuntu1804
     box: ubuntu1804
   - hostname_base: ubuntu1604
@@ -59,24 +63,30 @@ nodes:
     box: ubuntu1204 
   - hostname_base: debian10
     box: debian10
+  - hostname_base: debian11
+    box: debian11
+  - hostname_base: debian10
+    box: debian10
   - hostname_base: debian9
     box: debian9
   - hostname_base: debian8
     box: debian8
   - hostname_base: debian7
     box: debian7
+  - hostname_base: suse15
+    box: suse15
   - hostname_base: suse12
     box: suse12
   - hostname_base: suse11
     box: suse11
   - hostname_base: opensuse15
     box: opensuse15
-  - hostname_base: alpine310
-    box: alpine310
-  - hostname_base: fedora30
-    box: fedora30
-  - hostname_base: fedora29
-    box: fedora29
+  - hostname_base: alpine315
+    box: alpine315
+  - hostname_base: fedora37
+    box: fedora37
+  - hostname_base: fedora36
+    box: fedora36
   - hostname_base: windows2012
     fqdn: windows2012-bare
     box: windows2012
@@ -105,4 +115,7 @@ nodes:
   - hostname_base: osx1010
     box: osx1010
     vagrant_mount: false
-
+  - hostname_base: rocky9
+    box: rocky9
+  - hostname_base: rocky8
+    box: rocky8
