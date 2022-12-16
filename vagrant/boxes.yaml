@@ -142,11 +142,11 @@ boxes:
 # vagrant reload suse12
 # vagrant provision suse12
   suse15:
-    box: normation/sles-15-sp4-64
+    box: wandisco/sles15.3-64
   suse12:
-    box: normation/sles-12-04-64
+    box: wandisco/sles-12.5-64
   suse11:
-    box: normation/sles-11-03-64
+    box: wandisco/sles-11.4-64
 
   ubuntu2210:
     box: ubuntu/kinetic64

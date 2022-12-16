@@ -206,11 +206,23 @@ nodes:
     hostname_base: ostest-debian9
     box: debian9
   - role: ostest
+    hostname_base: ostest-debian8
+    box: debian8
+  - role: ostest
     hostname_base: ostest-rocky9
     box: rocky9
   - role: ostest
     hostname_base: ostest-rocky8
     box: rocky8
+  - role: ostest
+    hostname_base: ostest-almalinux9
+    box: almalinux9
+  - role: ostest
+    hostname_base: ostest-almalinux8
+    box: almalinux8
+  - role: ostest
+    hostname_base: ostest-centos8
+    box: centos8
   - role: ostest
     hostname_base: ostest-centos7
     box: centos7
@@ -248,6 +260,9 @@ nodes:
   - role: ostest
     hostname_base: ostest-freebsd12
     box: freebsd12
+  - role: ostest
+    hostname_base: ostest-devuan4
+    box: devuan4  
   - role: ostest
     hostname_base: ostest-amazon201703
     box: amazon201703
