@@ -1,26 +1,21 @@
+---
+# Groups based on OS. Queries PuppetDB for nodes with the specified OS.
 groups:
-  - name: db-linux
+  - name: linux
     targets:
       - _plugin: puppetdb
         query: "inventory[certname] { facts.kernel = 'Linux' }"
-  - name: db-windows
+  - name: windows
     targets:
       - _plugin: puppetdb
         query: "inventory[certname] { facts.kernel = 'windows' }"
-  - name: linux
+    transport: winrm
+  - name: mac
     targets:
-      - puppet
-      - target2.example.com
-    config:
-      transport: ssh
-  - name: windows
-    targets:
-      - name: win1
-        uri: target3.example.com
-      - name: win2
-        uri: target4.example.com
-    config:
-      transport: winrm
+      - _plugin: puppetdb
+        query: "inventory[certname] { facts.kernel = 'Darwin' }"
+
+# General configuration for all targets
 config:
   ssh:
     host-key-check: false
@@ -33,7 +28,7 @@ config:
     default: ssh
   pcp:
     cacert: ~/.puppetlabs/puppet/cert.pem
-    service-url: https://api.example.org:8143
+    service-url: https://puppet:8143
     task-environment: host
     token-file: ~/.puppetlabs/puppet/token.pem
 
