@@ -177,13 +177,13 @@ nodes:
     fqdn: ostest-suse12.lab.psick.io
     box: suse12
   - role: ostest
+    hostname_base: ostest-suse11
+    box: suse11
+  - role: ostest
     hostname_base: ostest-opensuse
     fqdn: ostest-opensuse.lab.psick.io
     count: 1
     box: opensuse42
-  - role: ostest
-    hostname_base: ostest-suse11
-    box: suse11
   - role: ostest
     hostname_base: ostest-ubuntu2204
     box: ubuntu2204
@@ -227,6 +227,9 @@ nodes:
     hostname_base: ostest-centos7
     box: centos7
   - role: ostest
+    hostname_base: ostest-centos6
+    box: centos6
+  - role: ostest
     hostname_base: ostest-rhel9
     box: rhel9
   - role: ostest
@@ -255,17 +258,5 @@ nodes:
       guest: 3389
       host: 33896
   - role: ostest
-    hostname_base: ostest-solaris11
-    box: solaris11
-  - role: ostest
-    hostname_base: ostest-freebsd12
-    box: freebsd12
-  - role: ostest
     hostname_base: ostest-devuan4
     box: devuan4  
-  - role: ostest
-    hostname_base: ostest-amazon201703
-    box: amazon201703
-    puppet_apply: true
-    install_oss: true
-    install_pe: false
