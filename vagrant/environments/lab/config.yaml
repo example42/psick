@@ -61,9 +61,9 @@ vagrant:
 nodes:
   - role: puppet
     pe_role: master
-    memory: 8192
+    memory: 12288
     box: rhel8
-    cpu: 4
+    cpu: 8
     aliases:
       - puppet
     forwarded_port:
