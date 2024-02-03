@@ -20,9 +20,9 @@ There are different ways to set `top scope` variables:
 
 The latter case is possible when we have hostnames with a fixed pattern which contains information about the `role`, `env`, `zone` or whatever needed for grouping.
 
-For example if we have nodes with a naming pattern like: ```$role-$id-$env.$::domain``` (ie: ```fe-01-test.example42.com```) we can have set `top scope` variables in ```manifests/site.pp``` (outside any class or node statement):
+For example if we have nodes with a naming pattern like: ```$role-$id-$env.$::networking['domain']``` (ie: ```fe-01-test.example42.com```) we can have set `top scope` variables in ```manifests/site.pp``` (outside any class or node statement):
 
-    $node_array = split($::hostname,'-')
+    $node_array = split($::networking['hostname'],'-')
     $role = $node_array[0]
     $id = $node_array[1]
     $env = $node_array[2]
