@@ -16,19 +16,19 @@
 # You may need to change and adapt them according to your hiera.yaml
 # You can keep them also if you don't set extended trusted facts.
 if defined('$facts') and defined('$trusted') {
-  if $trusted['extensions']['pp_role'] and !has_key($facts,'role') {
+  if $trusted['extensions']['pp_role'] and ! getvar('facts.role') {
     $role = $trusted['extensions']['pp_role']
   }
-  if $trusted['extensions']['pp_environment'] and !has_key($facts,'env') {
+  if $trusted['extensions']['pp_environment'] and ! getvar('facts.env') {
     $env = $trusted['extensions']['pp_environment']
   }
-  if $trusted['extensions']['pp_datacenter'] and !has_key($facts,'datacenter') {
+  if $trusted['extensions']['pp_datacenter'] and ! getvar('facts.datacenter') {
     $datacenter = $trusted['extensions']['pp_datacenter']
   }
-  if $trusted['extensions']['pp_zone'] and !has_key($facts,'zone') {
+  if $trusted['extensions']['pp_zone'] and ! getvar('facts.zone') {
     $zone = $trusted['extensions']['pp_zone']
   }
-  if $trusted['extensions']['pp_application'] and !has_key($facts,'application') {
+  if $trusted['extensions']['pp_application'] and ! getvar('facts.application') {
     $application = $trusted['extensions']['pp_application']
   }
   # Note: with the above settings we allow overriding of our trusted facts by normal facts.
@@ -41,7 +41,7 @@ if defined('$facts') and defined('$trusted') {
 
   ### RESOURCE DEFAULTS
   # Some resource defaults for Files, Execs and Tiny Puppet
-  case $::kernel {
+  case $facts['kernel'] {
     'Darwin': {
       File {
         owner => 'root',
@@ -49,7 +49,7 @@ if defined('$facts') and defined('$trusted') {
         mode  => '0644',
       }
       Exec {
-        path => $::path,
+        path => $facts['path'],
       }
     }
     'Windows': {
@@ -59,7 +59,7 @@ if defined('$facts') and defined('$trusted') {
         mode  => '0644',
       }
       Exec {
-        path => $::path,
+        path => $facts['path'],
       }
     }
     default: {

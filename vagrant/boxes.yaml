@@ -43,6 +43,8 @@ boxes:
   cumulus:
     box: CumulusCommunity/cumulus-vx
 
+  debian12:
+    box: debian/bookworm64
   debian11:
     box: debian/bullseye64
   debian10:
@@ -56,6 +58,10 @@ boxes:
   devuan4:
     box: generic/devuan4
 
+  fedora39:
+    box: generic/fedora39
+  fedora38:
+    box: generic/fedora38
   fedora37:
     box: generic/fedora37
   fedora36:
@@ -148,6 +154,12 @@ boxes:
   suse11:
     box: wandisco/sles-11.4-64
 
+  ubuntu2404:
+    box: ubuntu/noble64
+  ubuntu2310:
+    box: ubuntu/mantic64
+  ubuntu2304:
+    box: ubuntu/lunar64
   ubuntu2210:
     box: ubuntu/kinetic64
   ubuntu2204:

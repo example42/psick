@@ -38,7 +38,6 @@ mod 'puppetlabs/stdlib', :latest
 mod 'puppetlabs/vcsrepo', :latest
 mod 'puppetlabs/firewall', :latest
 mod 'puppetlabs/inifile', :latest
-mod 'puppetlabs/catalog_preview', :latest
 mod 'jdowning/rbenv', :latest
 mod 'trlinkin/noop', :latest
 mod 'puppet/archive', :latest
@@ -50,18 +49,6 @@ mod 'puppetlabs-dropsonde', :latest
 
 # Optionally used by psick::aws
 # mod 'puppetlabs/aws', :latest
-
-# Requirements for cd4pe
-mod 'puppetlabs-cd4pe', :latest
-# #mod 'puppetlabs-concat', '4.2.1'
-# #mod 'puppetlabs-hocon', '1.1.0'
-mod 'puppetlabs-puppet_authorization', :latest
-# #mod 'puppetlabs-stdlib', '6.2.0'
-mod 'puppetlabs-docker', :latest
-# #mod 'puppetlabs-apt', '7.3.0'
-mod 'puppetlabs-translate', :latest
-mod 'puppetlabs-pipelines', :latest
-mod 'puppetlabs-cd4pe_jobs', :latest
 
 # Used by psick::puppet::foss_server
 # mod 'puppetlabs-bolt_shim', '0.3.0'
@@ -109,7 +96,7 @@ mod 'puppet/rabbitmq', :latest
 # mod 'puppetlabs/registry', :latest
 # mod 'puppetlabs/chocolatey', :latest
 # mod 'puppetlabs/acl', :latest
-# mod 'puppetlabs/dsc', :latest
+# mod 'puppetlabs/dsc_light', :latest
 # mod 'puppetlabs/powershell', :latest
 # mod 'puppetlabs/reboot', :latest
 # mod 'puppetlabs/wsus_client', :latest

@@ -9,7 +9,7 @@ fi
 
 $sudo_command puppet module install example42-tp
 
-os=$(facter operatingsystem)
+os=$(facter os.name)
 local_user=$(whoami)
 case $os in
   Darwin*)

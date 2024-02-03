@@ -286,19 +286,19 @@ Normal lookup. Same of ```hiera('ntp::user')```:
 
 Normal lookup with default. Same of ```hiera('ntp::user','root')```:
 
-    lookup('ntp::user','root')
+    lookup('ntp::user',String,'first','root')
 
 Array lookup, same of ```hiera_array('ntp_servers')```:
 
-    lookup('ntp_servers', Array, 'unique')
+    lookup('ntp_servers', Array, 'unique', [])
 
 Deep merge lookup, same of ```hiera_hash('users')``` with deep_merge set to true:
 
-    lookup('users', Hash, 'deep')
+    lookup('users', Hash, 'deep', {})
 
 Include classes found on Hiera, same of ```hiera_include('classes')```
 
-    lookup('classes', Array[String], 'unique').include
+    lookup('classes', Array[String], 'unique', []).include
 
 All the above examples can be written in an expanded way. In the following example an array is merged across the hierarchies with the option to use the ```--``` prefix to **exclude** specific entries:
 

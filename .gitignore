@@ -60,3 +60,5 @@ override.tf.json
 terraform.rc
 .terraform.lock.hcl
 bolt-debug.log
+.resource_types/
+*VBoxHeadless*.log
