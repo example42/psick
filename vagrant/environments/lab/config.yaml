@@ -102,11 +102,22 @@ nodes:
     forwarded_port2:
       guest: 8443
       host: 1690
-  - role: comply
+  - role: foremanbare
     ip_address: 10.42.43.108
     memory: 16384
     cpu: 12
+    box: almalinux8
+    forwarded_port:
+      guest: 443
+      host: 2443
+  - role: foremanbare2
+    ip_address: 10.42.43.109
+    memory: 16384
+    cpu: 12
     box: rhel8
+    forwarded_port:
+      guest: 443
+      host: 2444
   - role: git
     cpu: 2
     memory: 4096
@@ -156,7 +167,7 @@ nodes:
       host: 1442
   - role: lamp
     count: 1
-    memory: 1024
+    memory: 2048
     cpu: 1
     box: centos7
     forwarded_port:
