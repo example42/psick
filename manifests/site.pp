@@ -11,32 +11,51 @@
 
 ### SETTING TOP SCOPE VARIABLES USED IN HIERA.YAML
 # The following lines are used to assign to top-scope variables (used in
-# hiera.yaml) the values of eventual trusted facts.
-# More info: https://docs.puppet.com/puppet/latest/reference/ssl_attributes_extensions.html
+# hiera.yaml) the values of eventual trusted facts or relevant Hiera keys
+# if a fact for them is not already set.
 # You may need to change and adapt them according to your hiera.yaml
 # You can keep them also if you don't set extended trusted facts.
+
 if defined('$facts') and defined('$trusted') {
-  if $trusted['extensions']['pp_role'] and ! getvar('facts.role') {
-    $role = $trusted['extensions']['pp_role']
+  if ! getvar('facts.role') {
+    $role = pick_default(getvar('trusted.extensions.pp_role'), lookup('role', Optional[String], 'first', undef))
   }
-  if $trusted['extensions']['pp_environment'] and ! getvar('facts.env') {
-    $env = $trusted['extensions']['pp_environment']
+  if ! getvar('facts.env') {
+    $env = pick_default(getvar('trusted.extensions.pp_environment'), lookup('env', Optional[String], 'first', undef))
   }
-  if $trusted['extensions']['pp_datacenter'] and ! getvar('facts.datacenter') {
-    $datacenter = $trusted['extensions']['pp_datacenter']
+  if ! getvar('facts.datacenter') {
+    $datacenter =  pick_default(getvar('trusted.extensions.pp_datacenter'), lookup('datacenter', Optional[String], 'first', undef))
   }
-  if $trusted['extensions']['pp_zone'] and ! getvar('facts.zone') {
-    $zone = $trusted['extensions']['pp_zone']
+  if ! getvar('facts.zone') {
+    $zone = pick_default(getvar('trusted.extensions.pp_zone'), lookup('zone', Optional[String], 'first', undef))
   }
-  if $trusted['extensions']['pp_application'] and ! getvar('facts.application') {
-    $application = $trusted['extensions']['pp_application']
+  if ! getvar('facts.application') {
+    $application = pick_default(getvar('trusted.extensions.pp_application'), lookup('application', Optional[String], 'first', undef))
   }
   # Note: with the above settings we allow overriding of our trusted facts by normal facts.
   # This is done here to adapt to different approaches, if you use trusted facts
   # you will probably want to change the above into something like:
-  # if $trusted['extensions']['pp_role'] {
+  # if getvar('trusted.extensions.pp_role') {
   #   $role = $trusted['extensions']['pp_role']
   # }
+
+  # Creation of external facts with the values of the TopScope variables set here and used in hiera.yaml
+  # Useful for custom hiera_pabawi.yaml file to allow Hiera resolution without catalog compilation (in Pabawi or HDM)
+  psick::puppet::set_external_fact { 'fact_role':
+    value => $role,
+  }
+  psick::puppet::set_external_fact { 'fact_env':
+    value => $env,
+  }
+  psick::puppet::set_external_fact { 'fact_datacenter':
+    value => $datacenter,
+  }
+  psick::puppet::set_external_fact { 'fact_zone':
+    value => $zone,
+  }
+  psick::puppet::set_external_fact { 'fact_application':
+    value => $application,
+  }
 
 
   ### RESOURCE DEFAULTS
@@ -77,6 +96,7 @@ if defined('$facts') and defined('$trusted') {
   ### ADDITIONS FOR RUNS INSIDE DOCKER IMAGES AND NOOP MODE
   # Building Docker container support
   # This has a fix for service provider on docker
+  # Uncomment mod 'puppetlabs/dummy_service', :latest in Puppetfile to make it working
   if $virtual == 'docker' {
     include ::dummy_service
   }
@@ -89,5 +109,5 @@ if defined('$facts') and defined('$trusted') {
   }
 
   # We just do everything in psick module
-  include '::psick'
+  include 'psick'
 }

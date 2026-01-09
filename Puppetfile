@@ -9,21 +9,22 @@ mod 'example42/hieradata',
   :branch => :control_branch,
   :default_branch => 'production'
 
-# Puppet 6 Core Modues
-mod 'puppetlabs/mount_core', :latest
-mod 'puppetlabs/augeas_core', :latest
-mod 'puppetlabs/zfs_core', :latest
-mod 'puppetlabs/yumrepo_core', :latest
+# Puppet 6 Core Modules
+# They are included in official puppet/openvox agent packages
+# mod 'puppetlabs/mount_core', :latest
+# mod 'puppetlabs/augeas_core', :latest
+# mod 'puppetlabs/zfs_core', :latest
+# mod 'puppetlabs/yumrepo_core', :latest
 mod 'puppetlabs/host_core', :latest
-mod 'puppetlabs/selinux_core', :latest
-mod 'puppetlabs/zone_core', :latest
-mod 'puppetlabs/cron_core', :latest
-mod 'puppetlabs/sshkeys_core', :latest
-mod 'puppetlabs/nagios_core', :latest
-mod 'puppetlabs/mailalias_core', :latest
-mod 'puppetlabs/macdslocal_core', :latest
-mod 'puppetlabs/maillist_core', :latest
-mod 'puppetlabs/k5login_core', :latest
+# mod 'puppetlabs/selinux_core', :latest
+# mod 'puppetlabs/zone_core', :latest
+# mod 'puppetlabs/cron_core', :latest
+# mod 'puppetlabs/sshkeys_core', :latest
+# mod 'puppetlabs/nagios_core', :latest
+# mod 'puppetlabs/mailalias_core', :latest
+# mod 'puppetlabs/macdslocal_core', :latest
+# mod 'puppetlabs/maillist_core', :latest
+# mod 'puppetlabs/k5login_core', :latest
 
 # Example42 modules
 # From Forge
@@ -36,12 +37,12 @@ mod 'example42/psick_profile', :latest
 mod 'puppetlabs/concat', :latest
 mod 'puppetlabs/stdlib', :latest
 mod 'puppetlabs/vcsrepo', :latest
-mod 'puppetlabs/firewall', :latest
+# mod 'puppetlabs/firewall', :latest
 mod 'puppetlabs/inifile', :latest
-mod 'jdowning/rbenv', :latest
+# mod 'jdowning/rbenv', :latest
 mod 'trlinkin/noop', :latest
 mod 'puppet/archive', :latest
-mod 'puppetlabs-dropsonde', :latest
+# mod 'puppetlabs-dropsonde', :latest
 
 
 # Optionally used by psick_profile::openvpn
@@ -51,6 +52,7 @@ mod 'puppetlabs-dropsonde', :latest
 # mod 'puppetlabs/aws', :latest
 
 # Used by psick::puppet::foss_server
+
 # mod 'puppetlabs-bolt_shim', '0.3.0'
 # mod 'puppetlabs/postgresql', :latest
 # mod 'puppetlabs/puppetdb', :latest
@@ -71,7 +73,7 @@ mod 'puppetlabs-dropsonde', :latest
 #mod 'dwerder/graphite', :latest
 
 # Docker and Containers
-mod 'puppetlabs/dummy_service', :latest
+# mod 'puppetlabs/dummy_service', :latest
 #mod 'puppetlabs/image_build', :latest
 #mod 'puppetlabs/rkt', :latest
 
@@ -79,15 +81,15 @@ mod 'puppetlabs/dummy_service', :latest
 # mod 'puppetlabs/firewall', :latest
 
 # Used by psick_profile::vagrant
-mod 'unibet/vagrant', :latest
+# mod 'unibet/vagrant', :latest
 
 # Used by psick::icinga
-mod 'icinga/icinga2', :latest
+# mod 'icinga/icinga2', :latest
 
 # Used by psick_profile::sensu
-mod 'sensu/sensu', :latest
-mod 'yelp/uchiwa', :latest
-mod 'puppet/rabbitmq', :latest
+# mod 'sensu/sensu', :latest
+# mod 'yelp/uchiwa', :latest
+# mod 'puppet/rabbitmq', :latest
 # deprecated: mod 'puppet/staging', :latest
 
 # Used by Windows profiles
