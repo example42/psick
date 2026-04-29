@@ -6,9 +6,9 @@ hierarchy:
     lookup_key: eyaml_lookup_key
     paths:
       - "nodes/%{trusted.certname}.yaml"
-      - "role/%{fact_role}-%{fact_env}.yaml"
-      - "role/%{fact_role}.yaml"
-      - "zone/%{fact_zone}.yaml"
+      - "role/%{facts.fact_role}-%{facts.fact_env}.yaml"
+      - "role/%{facts.fact_role}.yaml"
+      - "zone/%{facts.fact_zone}.yaml"
       - common.yaml
     options:
       pkcs7_private_key: /etc/puppetlabs/puppet/keys/private_key.pkcs7.pem
