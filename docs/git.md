@@ -26,9 +26,9 @@ Here is a very brief overview of `Git essentials`. There are many online resourc
 
   - [GitHub Help](https://help.github.com) - Useful info about `Git` and `GitHub`
 
-  - [Try Git](https://try.github.io) - A site where is possible to practice with `Git`
+  - [Coddy Git Playground](https://coddy.tech/playground/git) - A site where is possible to practice with `Git`
 
-  - [Git Reference](http://gitref.org) - An online reference
+  - [Git Reference](https://git-scm.com/docs) - An online reference
 
 
 ### Git minimal guide
